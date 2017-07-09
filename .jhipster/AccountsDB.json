@@ -1,0 +1,24 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "accountsDB"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "database",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170709202432",
+    "dto": "mapstruct",
+    "service": "serviceClass",
+    "entityTableName": "accountsdb",
+    "pagination": "no"
+}
