@@ -43,7 +43,7 @@ node {
     }
 
     stage('package for prod and archive') {
-        sh "./mvnw -Pprod -Dmaven.test.skip=true"
+        sh "./mvnw -Pprod package"
         archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
     }
 }
