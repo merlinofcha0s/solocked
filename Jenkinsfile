@@ -42,9 +42,8 @@ node {
         }
     }
 
-    stage('package and deploy') {
-        sh "./mvnw com.heroku.sdk:heroku-maven-plugin:1.1.1:deploy -DskipTests -Pprod -Dheroku.appName="
+    stage('package for prod and archive') {
+        sh "./mvnw -Pprod"
         archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
     }
-
 }
