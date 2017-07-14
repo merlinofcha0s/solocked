@@ -775,6 +775,7 @@
                         <artifactId>spring-boot-maven-plugin</artifactId>
                         <configuration>
                             <executable>true</executable>
+                            <finalName>ninjaccount</finalName>
                         </configuration>
                         <executions>
                             <execution>
