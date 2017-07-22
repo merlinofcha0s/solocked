@@ -15,9 +15,9 @@ export class Register {
 
     save(account: any): Observable<any> {
         return Observable.fromPromise(this.crypto.hashingWithIteration(account.password))
-            .flatMap((hash) => {
-                account.passwordForAccountDB = hash;
-                return this.crypto.cryptingDB(this.accountService.init());
+            .flatMap((hashBuffer) => {
+                // account.passwordForAccountDB = hash;
+                return Observable.fromPromise(this.crypto.cryptingDB(this.accountService.init(), hashBuffer));
             })
             /*.flatMap((accountDB) => {
                 account.db = accountDB;

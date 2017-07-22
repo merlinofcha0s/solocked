@@ -3,7 +3,7 @@ import { Router, ActivatedRouteSnapshot, NavigationEnd, RoutesRecognized } from 
 
 import { JhiLanguageHelper, StateStorageService } from '../../shared';
 
-//import * as openpgp from 'openpgp';
+// import * as openpgp from 'openpgp';
 
 @Component({
     selector: 'jhi-main',
@@ -26,8 +26,8 @@ export class JhiMainComponent implements OnInit {
     }
 
     ngOnInit() {
-        //Init OpenPGP
-        //openpgp.initWorker({ path: 'content/openpgp.worker.js' });
+        // Init OpenPGP
+        // openpgp.initWorker({ path: 'content/openpgp.worker.js' });
 
         this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
