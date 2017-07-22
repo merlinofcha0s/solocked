@@ -1,5 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { AccountsService } from './account/accounts.service';
 
 import {
     NinjaccountSharedLibsModule,
@@ -17,6 +18,7 @@ import {
     SocialService,
     JhiLoginModalComponent
 } from './';
+import { CryptoService } from './crypto/crypto.service';
 
 @NgModule({
     imports: [
@@ -38,7 +40,9 @@ import {
         AuthServerProvider,
         SocialService,
         UserService,
-        DatePipe
+        DatePipe,
+        AccountsService,
+        CryptoService
     ],
     entryComponents: [JhiLoginModalComponent],
     exports: [

@@ -7,7 +7,8 @@ import { LoginModalService } from '../../shared';
 
 @Component({
     selector: 'jhi-register',
-    templateUrl: './register.component.html'
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit, AfterViewInit {
 
@@ -19,6 +20,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     registerAccount: any;
     success: boolean;
     modalRef: NgbModalRef;
+    loading: boolean;
 
     constructor(
         private languageService: JhiLanguageService,
@@ -31,6 +33,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.success = false;
+        this.loading = false;
         this.registerAccount = {};
     }
 
@@ -46,9 +49,11 @@ export class RegisterComponent implements OnInit, AfterViewInit {
             this.error = null;
             this.errorUserExists = null;
             this.errorEmailExists = null;
+            this.loading = true;
             this.languageService.getCurrent().then((key) => {
                 this.registerAccount.langKey = key;
                 this.registerService.save(this.registerAccount).subscribe(() => {
+                    this.loading = true;
                     this.success = true;
                 }, (response) => this.processError(response));
             });
@@ -63,10 +68,13 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         this.success = null;
         if (response.status === 400 && response._body === 'login already in use') {
             this.errorUserExists = 'ERROR';
+            this.loading = false;
         } else if (response.status === 400 && response._body === 'email address already in use') {
             this.errorEmailExists = 'ERROR';
+            this.loading = false;
         } else {
             this.error = 'ERROR';
+            this.loading = false;
         }
     }
 }

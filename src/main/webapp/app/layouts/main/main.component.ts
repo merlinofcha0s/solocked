@@ -3,6 +3,8 @@ import { Router, ActivatedRouteSnapshot, NavigationEnd, RoutesRecognized } from 
 
 import { JhiLanguageHelper, StateStorageService } from '../../shared';
 
+//import * as openpgp from 'openpgp';
+
 @Component({
     selector: 'jhi-main',
     templateUrl: './main.component.html'
@@ -24,6 +26,9 @@ export class JhiMainComponent implements OnInit {
     }
 
     ngOnInit() {
+        //Init OpenPGP
+        //openpgp.initWorker({ path: 'content/openpgp.worker.js' });
+
         this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
                 this.jhiLanguageHelper.updateTitle(this.getPageTitle(this.router.routerState.snapshot.root));
