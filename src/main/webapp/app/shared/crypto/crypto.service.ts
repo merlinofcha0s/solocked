@@ -9,7 +9,7 @@ export class CryptoService {
 
     // Number of iterations
     private cryptingAlgorithm = 'AES-GCM';
-    private initializationVector: ArrayBufferView;
+    initializationVector: ArrayBufferView;
 
     constructor(private accountService: AccountsService, private alertService: JhiAlertService) { }
 
