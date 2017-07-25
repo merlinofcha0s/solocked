@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, Renderer, ElementRef } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiLanguageService } from 'ng-jhipster';
+import { JhiLanguageService, JhiAlertService } from 'ng-jhipster';
 
 import { Register } from './register.service';
 import { LoginModalService } from '../../shared';
@@ -27,7 +27,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         private loginModalService: LoginModalService,
         private registerService: Register,
         private elementRef: ElementRef,
-        private renderer: Renderer
+        private renderer: Renderer,
+        private alertService: JhiAlertService
     ) {
     }
 
