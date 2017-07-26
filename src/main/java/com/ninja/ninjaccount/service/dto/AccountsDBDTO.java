@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
+import javax.persistence.Lob;
 
 /**
  * A DTO for the AccountsDB entity.
@@ -13,7 +14,11 @@ public class AccountsDBDTO implements Serializable {
 
     private Long id;
 
-    private String database;
+    private String initializationVector;
+
+    @Lob
+    private byte[] database;
+    private String databaseContentType;
 
     private Long userId;
 
@@ -27,12 +32,28 @@ public class AccountsDBDTO implements Serializable {
         this.id = id;
     }
 
-    public String getDatabase() {
+    public String getInitializationVector() {
+        return initializationVector;
+    }
+
+    public void setInitializationVector(String initializationVector) {
+        this.initializationVector = initializationVector;
+    }
+
+    public byte[] getDatabase() {
         return database;
     }
 
-    public void setDatabase(String database) {
+    public void setDatabase(byte[] database) {
         this.database = database;
+    }
+
+    public String getDatabaseContentType() {
+        return databaseContentType;
+    }
+
+    public void setDatabaseContentType(String databaseContentType) {
+        this.databaseContentType = databaseContentType;
     }
 
     public Long getUserId() {
@@ -76,6 +97,7 @@ public class AccountsDBDTO implements Serializable {
     public String toString() {
         return "AccountsDBDTO{" +
             "id=" + getId() +
+            ", initializationVector='" + getInitializationVector() + "'" +
             ", database='" + getDatabase() + "'" +
             "}";
     }

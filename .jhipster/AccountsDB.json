@@ -12,8 +12,13 @@
     ],
     "fields": [
         {
-            "fieldName": "database",
+            "fieldName": "initializationVector",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "database",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "any"
         }
     ],
     "changelogDate": "20170709202432",

@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -49,7 +50,7 @@ public class AccountResource {
     }
 
     /**
-     * POST  /register : register the user.
+     * POST  /register_default : register the user.
      *
      * @param managedUserVM the managed user View Model
      * @return the ResponseEntity with status 201 (Created) if the user is registered or 400 (Bad Request) if the login or email is already in use
@@ -198,14 +199,20 @@ public class AccountResource {
             .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
+    /**
+     * POST  /register : register the user.
+     *
+     * @param managedUserVM the managed user View Model
+     * @return the ResponseEntity with status 201 (Created) if the user is registered or 400 (Bad Request) if the login or email is already in use
+     */
     @PostMapping(path = "/register",
         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE},
-        consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.TEXT_XML_VALUE})
+        consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @Timed
-    public ResponseEntity registerAccount(@RequestPart("encryptedAccountDB") byte[] encryptedAccountDB,
+    public ResponseEntity registerAccount(@RequestPart("encryptedAccountDB") MultipartFile encryptedAccountDB,
                                           @Valid @RequestPart("account") ManagedUserVM managedUserVM) {
 
-        log.debug("Text [Byte Format] : " + encryptedAccountDB);
+        // log.debug("Text [Byte Format] : " + encryptedAccountDB.getContentType());
 
         HttpHeaders textPlainHeaders = new HttpHeaders();
         textPlainHeaders.setContentType(MediaType.TEXT_PLAIN);

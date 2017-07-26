@@ -3,7 +3,9 @@ import { BaseEntity } from './../../shared';
 export class AccountsDB implements BaseEntity {
     constructor(
         public id?: number,
-        public database?: string,
+        public initializationVector?: string,
+        public databaseContentType?: string,
+        public database?: any,
         public userId?: number,
     ) {
     }

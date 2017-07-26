@@ -22,8 +22,15 @@ public class AccountsDB implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
+    @Column(name = "initialization_vector")
+    private String initializationVector;
+
+    @Lob
     @Column(name = "jhi_database")
-    private String database;
+    private byte[] database;
+
+    @Column(name = "jhi_database_content_type")
+    private String databaseContentType;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -37,17 +44,43 @@ public class AccountsDB implements Serializable {
         this.id = id;
     }
 
-    public String getDatabase() {
+    public String getInitializationVector() {
+        return initializationVector;
+    }
+
+    public AccountsDB initializationVector(String initializationVector) {
+        this.initializationVector = initializationVector;
+        return this;
+    }
+
+    public void setInitializationVector(String initializationVector) {
+        this.initializationVector = initializationVector;
+    }
+
+    public byte[] getDatabase() {
         return database;
     }
 
-    public AccountsDB database(String database) {
+    public AccountsDB database(byte[] database) {
         this.database = database;
         return this;
     }
 
-    public void setDatabase(String database) {
+    public void setDatabase(byte[] database) {
         this.database = database;
+    }
+
+    public String getDatabaseContentType() {
+        return databaseContentType;
+    }
+
+    public AccountsDB databaseContentType(String databaseContentType) {
+        this.databaseContentType = databaseContentType;
+        return this;
+    }
+
+    public void setDatabaseContentType(String databaseContentType) {
+        this.databaseContentType = databaseContentType;
     }
 
     public User getUser() {
@@ -87,7 +120,9 @@ public class AccountsDB implements Serializable {
     public String toString() {
         return "AccountsDB{" +
             "id=" + getId() +
+            ", initializationVector='" + getInitializationVector() + "'" +
             ", database='" + getDatabase() + "'" +
+            ", databaseContentType='" + databaseContentType + "'" +
             "}";
     }
 }

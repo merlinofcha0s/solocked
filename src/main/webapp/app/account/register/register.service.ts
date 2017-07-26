@@ -18,18 +18,16 @@ export class Register {
                 return Observable.fromPromise(this.crypto.cryptingDB(this.accountService.init(), derivedCryptoKey));
             })
             .flatMap((accountDB) => {
-                const formData = new FormData();
-                const content = '<a id="a"><b id="b">hey!</b></a>'; // le corps du nouveau fichier...
-                const blob = new Blob([content], { type: 'text/xml' });
-                // formData.append('encryptedAccountDB', new Blob([new Uint8Array(accountDB)], { type: 'octet/stream' }));
-                formData.append('encryptedAccountDB', blob);
-                formData.append('account', JSON.stringify(account));
-
-                // account.encryptedAccountDB = new Uint8Array(accountDB);
                 account.initializationVector = this.crypto.decodeArrayToString(this.crypto.initializationVector);
-                const headersCustom = new Headers();
-                headersCustom.append('Content-Type', 'multipart/form-data;application/octet-stream,application/json;text/xml')
-                return this.http.post('api/register', formData, { headers: headersCustom });
+
+                const formData = new FormData();
+                const accountDBBlob = new Blob([accountDB], { type: 'application/octet-stream' });
+                const accountDataBlob = new Blob([JSON.stringify(account)], { type: 'application/json' });
+
+                formData.append('encryptedAccountDB', accountDBBlob, 'encryptedAccountDB');
+                formData.append('account', accountDataBlob, 'account');
+
+                return this.http.post('api/register', formData);
             });
     }
 }

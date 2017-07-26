@@ -13,9 +13,27 @@
                    [(ngModel)]="accountsDB.id" readonly />
         </div>
         <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ninjaccountApp.accountsDB.initializationVector" for="field_initializationVector">Initialization Vector</label>
+            <input type="text" class="form-control" name="initializationVector" id="field_initializationVector"
+                [(ngModel)]="accountsDB.initializationVector"  />
+        </div>
+        <div class="form-group">
             <label class="form-control-label" jhiTranslate="ninjaccountApp.accountsDB.database" for="field_database">Database</label>
-            <input type="text" class="form-control" name="database" id="field_database"
+            <div>
+                <div *ngIf="accountsDB.database" class="form-text text-danger clearfix">
+                    <a class="pull-left" (click)="openFile(accountsDB.databaseContentType, accountsDB.database)" jhiTranslate="entity.action.open">open</a><br>
+                    <span class="pull-left">{{accountsDB.databaseContentType}}, {{byteSize(accountsDB.database)}}</span>
+                    <button type="button" (click)="accountsDB.database=null;accountsDB.databaseContentType=null;"
+                            class="btn btn-default btn-xs pull-right">
+                        <span class="fa fa-times"></span>
+                    </button>
+                </div>
+                <input type="file" (change)="setFileData($event, accountsDB, 'database', false)" jhiTranslate="entity.action.addblob"/>
+            </div>
+            <input type="hidden" class="form-control" name="database" id="field_database"
                 [(ngModel)]="accountsDB.database"  />
+            <input type="hidden" class="form-control" name="databaseContentType" id="field_databaseContentType"
+                [(ngModel)]="accountsDB.databaseContentType" />
         </div>
 
         <div class="form-group">

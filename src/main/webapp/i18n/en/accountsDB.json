@@ -15,6 +15,7 @@
             "detail": {
                 "title": "Accounts DB"
             },
+            "initializationVector": "Initialization Vector",
             "database": "Database",
             "user": "User"
         }

@@ -17,6 +17,7 @@
             <thead>
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="ninjaccountApp.accountsDB.initializationVector">Initialization Vector</span></th>
             <th><span jhiTranslate="ninjaccountApp.accountsDB.database">Database</span></th>
             <th><span jhiTranslate="ninjaccountApp.accountsDB.user">User</span></th>
             <th></th>
@@ -25,7 +26,11 @@
             <tbody>
             <tr *ngFor="let accountsDB of accountsDBS ;trackBy: trackId">
                 <td><a [routerLink]="['../accounts-db', accountsDB.id ]">{{accountsDB.id}}</a></td>
-                <td>{{accountsDB.database}}</td>
+                <td>{{accountsDB.initializationVector}}</td>
+                <td>
+                    <a *ngIf="accountsDB.database" (click)="openFile(accountsDB.databaseContentType, accountsDB.database)" jhiTranslate="entity.action.open">open</a>
+                    <span *ngIf="accountsDB.database">{{accountsDB.databaseContentType}}, {{byteSize(accountsDB.database)}}</span>
+                </td>
                 <td>
                     {{accountsDB.userLogin}}
                 </td>

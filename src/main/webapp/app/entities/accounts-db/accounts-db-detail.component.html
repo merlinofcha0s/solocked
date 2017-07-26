@@ -4,9 +4,16 @@
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="ninjaccountApp.accountsDB.initializationVector">Initialization Vector</span></dt>
+        <dd>
+            <span>{{accountsDB.initializationVector}}</span>
+        </dd>
         <dt><span jhiTranslate="ninjaccountApp.accountsDB.database">Database</span></dt>
         <dd>
-            <span>{{accountsDB.database}}</span>
+            <div *ngIf="accountsDB.database">
+                <a (click)="openFile(accountsDB.databaseContentType, accountsDB.database)" jhiTranslate="entity.action.open">open</a>
+                {{accountsDB.databaseContentType}}, {{byteSize(accountsDB.database)}}
+            </div>
         </dd>
         <dt><span jhiTranslate="ninjaccountApp.accountsDB.user">User</span></dt>
         <dd>

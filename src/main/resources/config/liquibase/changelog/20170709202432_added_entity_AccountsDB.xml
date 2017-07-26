@@ -21,7 +21,14 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="jhi_database" type="varchar(255)">
+            <column name="initialization_vector" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="jhi_database" type="longblob">
+                <constraints nullable="true" />
+            </column>
+            <column name="jhi_database_content_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="user_id" type="bigint">

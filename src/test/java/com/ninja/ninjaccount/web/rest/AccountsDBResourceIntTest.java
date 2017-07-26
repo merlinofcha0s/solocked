@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -40,8 +41,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = NinjaccountApp.class)
 public class AccountsDBResourceIntTest {
 
-    private static final String DEFAULT_DATABASE = "AAAAAAAAAA";
-    private static final String UPDATED_DATABASE = "BBBBBBBBBB";
+    private static final String DEFAULT_INITIALIZATION_VECTOR = "AAAAAAAAAA";
+    private static final String UPDATED_INITIALIZATION_VECTOR = "BBBBBBBBBB";
+
+    private static final byte[] DEFAULT_DATABASE = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_DATABASE = TestUtil.createByteArray(2, "1");
+    private static final String DEFAULT_DATABASE_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_DATABASE_CONTENT_TYPE = "image/png";
 
     @Autowired
     private AccountsDBRepository accountsDBRepository;
@@ -86,7 +92,9 @@ public class AccountsDBResourceIntTest {
      */
     public static AccountsDB createEntity(EntityManager em) {
         AccountsDB accountsDB = new AccountsDB()
-            .database(DEFAULT_DATABASE);
+            .initializationVector(DEFAULT_INITIALIZATION_VECTOR)
+            .database(DEFAULT_DATABASE)
+            .databaseContentType(DEFAULT_DATABASE_CONTENT_TYPE);
         return accountsDB;
     }
 
@@ -111,7 +119,9 @@ public class AccountsDBResourceIntTest {
         List<AccountsDB> accountsDBList = accountsDBRepository.findAll();
         assertThat(accountsDBList).hasSize(databaseSizeBeforeCreate + 1);
         AccountsDB testAccountsDB = accountsDBList.get(accountsDBList.size() - 1);
+        assertThat(testAccountsDB.getInitializationVector()).isEqualTo(DEFAULT_INITIALIZATION_VECTOR);
         assertThat(testAccountsDB.getDatabase()).isEqualTo(DEFAULT_DATABASE);
+        assertThat(testAccountsDB.getDatabaseContentType()).isEqualTo(DEFAULT_DATABASE_CONTENT_TYPE);
     }
 
     @Test
@@ -145,7 +155,9 @@ public class AccountsDBResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(accountsDB.getId().intValue())))
-            .andExpect(jsonPath("$.[*].database").value(hasItem(DEFAULT_DATABASE.toString())));
+            .andExpect(jsonPath("$.[*].initializationVector").value(hasItem(DEFAULT_INITIALIZATION_VECTOR.toString())))
+            .andExpect(jsonPath("$.[*].databaseContentType").value(hasItem(DEFAULT_DATABASE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].database").value(hasItem(Base64Utils.encodeToString(DEFAULT_DATABASE))));
     }
 
     @Test
@@ -159,7 +171,9 @@ public class AccountsDBResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(accountsDB.getId().intValue()))
-            .andExpect(jsonPath("$.database").value(DEFAULT_DATABASE.toString()));
+            .andExpect(jsonPath("$.initializationVector").value(DEFAULT_INITIALIZATION_VECTOR.toString()))
+            .andExpect(jsonPath("$.databaseContentType").value(DEFAULT_DATABASE_CONTENT_TYPE))
+            .andExpect(jsonPath("$.database").value(Base64Utils.encodeToString(DEFAULT_DATABASE)));
     }
 
     @Test
@@ -180,7 +194,9 @@ public class AccountsDBResourceIntTest {
         // Update the accountsDB
         AccountsDB updatedAccountsDB = accountsDBRepository.findOne(accountsDB.getId());
         updatedAccountsDB
-            .database(UPDATED_DATABASE);
+            .initializationVector(UPDATED_INITIALIZATION_VECTOR)
+            .database(UPDATED_DATABASE)
+            .databaseContentType(UPDATED_DATABASE_CONTENT_TYPE);
         AccountsDBDTO accountsDBDTO = accountsDBMapper.toDto(updatedAccountsDB);
 
         restAccountsDBMockMvc.perform(put("/api/accounts-dbs")
@@ -192,7 +208,9 @@ public class AccountsDBResourceIntTest {
         List<AccountsDB> accountsDBList = accountsDBRepository.findAll();
         assertThat(accountsDBList).hasSize(databaseSizeBeforeUpdate);
         AccountsDB testAccountsDB = accountsDBList.get(accountsDBList.size() - 1);
+        assertThat(testAccountsDB.getInitializationVector()).isEqualTo(UPDATED_INITIALIZATION_VECTOR);
         assertThat(testAccountsDB.getDatabase()).isEqualTo(UPDATED_DATABASE);
+        assertThat(testAccountsDB.getDatabaseContentType()).isEqualTo(UPDATED_DATABASE_CONTENT_TYPE);
     }
 
     @Test
