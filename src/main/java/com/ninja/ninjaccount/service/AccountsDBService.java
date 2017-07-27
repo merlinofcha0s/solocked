@@ -1,11 +1,13 @@
 package com.ninja.ninjaccount.service;
 
 import com.ninja.ninjaccount.domain.AccountsDB;
+import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.mapper.AccountsDBMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,5 +80,16 @@ public class AccountsDBService {
     public void delete(Long id) {
         log.debug("Request to delete AccountsDB : {}", id);
         accountsDBRepository.delete(id);
+    }
+
+    public AccountsDBDTO createNewAccountDB(byte[] encryptedDB, String initVector, User newUser){
+        AccountsDBDTO newAccountsDBDTO = new AccountsDBDTO();
+        newAccountsDBDTO.setDatabase(encryptedDB);
+        newAccountsDBDTO.setDatabaseContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        newAccountsDBDTO.setInitializationVector(initVector);
+        newAccountsDBDTO.setUserId(newUser.getId());
+        newAccountsDBDTO.setUserLogin(newUser.getLogin());
+
+       return save(newAccountsDBDTO);
     }
 }

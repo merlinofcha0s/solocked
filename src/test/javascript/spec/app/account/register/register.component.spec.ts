@@ -1,12 +1,14 @@
 import { ComponentFixture, TestBed, async, inject, tick, fakeAsync } from '@angular/core/testing';
 import { Renderer, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { JhiLanguageService } from 'ng-jhipster';
+import { JhiLanguageService, JhiAlertService } from 'ng-jhipster';
 import { MockLanguageService } from '../../../helpers/mock-language.service';
 import { NinjaccountTestModule } from '../../../test.module';
 import { LoginModalService } from '../../../../../../main/webapp/app/shared';
 import { Register } from '../../../../../../main/webapp/app/account/register/register.service';
 import { RegisterComponent } from '../../../../../../main/webapp/app/account/register/register.component';
+import { AccountsService } from '../../../../../../main/webapp/app/shared/account/accounts.service';
+import { CryptoService } from '../../../../../../main/webapp/app/shared/crypto/crypto.service';
 
 describe('Component Tests', () => {
 
@@ -20,6 +22,12 @@ describe('Component Tests', () => {
                 declarations: [RegisterComponent],
                 providers: [
                     Register,
+                    AccountsService,
+                    CryptoService,
+                    {
+                        provide: JhiAlertService,
+                        useValue: null
+                    },
                     {
                         provide: LoginModalService,
                         useValue: null

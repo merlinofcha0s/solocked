@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.SecurityUtils;
+import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.MailService;
 import com.ninja.ninjaccount.service.UserService;
 import com.ninja.ninjaccount.service.dto.UserDTO;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -39,14 +41,18 @@ public class AccountResource {
 
     private final MailService mailService;
 
+    private final AccountsDBService accountsDBService;
+
     private static final String CHECK_ERROR_MESSAGE = "Incorrect password";
 
     public AccountResource(UserRepository userRepository, UserService userService,
-                           MailService mailService) {
+                           MailService mailService, AccountsDBService accountsDBService) {
 
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
+        this.accountsDBService = accountsDBService;
+
     }
 
     /**
@@ -212,10 +218,13 @@ public class AccountResource {
     public ResponseEntity registerAccount(@RequestPart("encryptedAccountDB") MultipartFile encryptedAccountDB,
                                           @Valid @RequestPart("account") ManagedUserVM managedUserVM) {
 
-        // log.debug("Text [Byte Format] : " + encryptedAccountDB.getContentType());
-
         HttpHeaders textPlainHeaders = new HttpHeaders();
         textPlainHeaders.setContentType(MediaType.TEXT_PLAIN);
+
+        if(encryptedAccountDB == null){
+            return new ResponseEntity<>("problem with the init of the DB", HttpStatus.BAD_REQUEST);
+        }
+
         if (!checkPasswordLength(managedUserVM.getPassword())) {
             return new ResponseEntity<>(CHECK_ERROR_MESSAGE, HttpStatus.BAD_REQUEST);
         }
@@ -229,6 +238,13 @@ public class AccountResource {
                             managedUserVM.getFirstName(), managedUserVM.getLastName(),
                             managedUserVM.getEmail().toLowerCase(), managedUserVM.getImageUrl(),
                             managedUserVM.getLangKey());
+
+                    try {
+                        accountsDBService.createNewAccountDB(encryptedAccountDB.getBytes(),
+                            managedUserVM.getInitializationVector(), user);
+                    } catch (IOException e) {
+                        log.error("Error when getting the content of the encrypted DB {} - {}", user.getLogin(), user.getEmail());
+                    }
 
                     mailService.sendActivationEmail(user);
                     return new ResponseEntity<>(HttpStatus.CREATED);

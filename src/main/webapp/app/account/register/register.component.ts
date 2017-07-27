@@ -27,8 +27,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         private loginModalService: LoginModalService,
         private registerService: Register,
         private elementRef: ElementRef,
-        private renderer: Renderer,
-        private alertService: JhiAlertService
+        private renderer: Renderer
     ) {
     }
 
