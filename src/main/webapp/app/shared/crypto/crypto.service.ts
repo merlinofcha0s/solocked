@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Rx';
 import { Accounts } from './../account/accounts.model';
 import { AccountsService } from './../account/accounts.service';
 import { Injectable } from '@angular/core';
+import { TextEncoder } from 'text-encoding';
 
 @Injectable()
 export class CryptoService {
@@ -36,7 +37,7 @@ export class CryptoService {
      }*/
 
     async importKeyString(password: Uint8Array): Promise<CryptoKey> {
-        // this.alertService.success('looooooooooooooooooooooooooooooooooooool');
+
         try {
             return await crypto.subtle.importKey('raw', password, { name: 'PBKDF2' }, false, ['deriveBits', 'deriveKey']);
         } catch (e) {
