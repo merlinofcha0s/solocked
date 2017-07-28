@@ -45,10 +45,10 @@ spring:
             hibernate.cache.use_minimal_puts: true
             hibernate.cache.hazelcast.use_lite_member: true
     mail:
-        host: localhost
-        port: 25
-        username:
-        password:
+        host: smtp.mailgun.org
+        port: 587
+        username: postmaster@sandboxb41d864ae2174e1295f38c1b5c007c83.mailgun.org
+        password: 09c10ad987305ae62bc15ae481018fe8
     thymeleaf:
         cache: true
     zipkin: # Use the "zipkin" Maven profile to have the Spring Cloud Zipkin dependencies
