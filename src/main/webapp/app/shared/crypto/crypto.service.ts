@@ -37,7 +37,6 @@ export class CryptoService {
      }*/
 
     async importKeyString(password: Uint8Array): Promise<CryptoKey> {
-
         try {
             return await crypto.subtle.importKey('raw', password, { name: 'PBKDF2' }, false, ['deriveBits', 'deriveKey']);
         } catch (e) {
