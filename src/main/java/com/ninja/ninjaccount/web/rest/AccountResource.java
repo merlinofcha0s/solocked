@@ -61,7 +61,7 @@ public class AccountResource {
      * @param managedUserVM the managed user View Model
      * @return the ResponseEntity with status 201 (Created) if the user is registered or 400 (Bad Request) if the login or email is already in use
      */
-    @PostMapping(path = "/register_default",
+    /*@PostMapping(path = "/register_default",
         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
     @Timed
     public ResponseEntity registerAccountDefault(@Valid @RequestBody ManagedUserVM managedUserVM) {
@@ -86,7 +86,7 @@ public class AccountResource {
                     return new ResponseEntity<>(HttpStatus.CREATED);
                 })
             );
-    }
+    }*/
 
     /**
      * GET  /activate : activate the registered user.

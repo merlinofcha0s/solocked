@@ -17,4 +17,6 @@ public interface AccountsDBRepository extends JpaRepository<AccountsDB,Long> {
 
     Optional<AccountsDB> findOneByUser(User user);
 
+    Optional<AccountsDB> findOneByUserLogin(String login);
+
 }

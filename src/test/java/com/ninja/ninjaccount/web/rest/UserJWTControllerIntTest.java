@@ -2,21 +2,29 @@ package com.ninja.ninjaccount.web.rest;
 
 import com.ninja.ninjaccount.NinjaccountApp;
 import com.ninja.ninjaccount.domain.User;
+import com.ninja.ninjaccount.repository.AccountsDBRepository;
 import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.jwt.TokenProvider;
+import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.web.rest.vm.LoginVM;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -42,11 +50,17 @@ public class UserJWTControllerIntTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private AccountsDBService accountsDBService;
+
+    @Autowired
+    private AccountsDBRepository accountsDBRepository;
+
     private MockMvc mockMvc;
 
     @Before
     public void setup() {
-        UserJWTController userJWTController = new UserJWTController(tokenProvider, authenticationManager);
+        UserJWTController userJWTController = new UserJWTController(tokenProvider, authenticationManager, accountsDBService);
         this.mockMvc = MockMvcBuilders.standaloneSetup(userJWTController)
             .build();
     }
@@ -107,5 +121,48 @@ public class UserJWTControllerIntTest {
             .content(TestUtil.convertObjectToJsonBytes(login)))
             .andExpect(status().isUnauthorized())
             .andExpect(jsonPath("$.id_token").doesNotExist());
+    }
+
+    @Test
+    @Transactional
+    public void testPreAuthenticateSucceed() throws Exception {
+        User user = new User();
+        user.setLogin("user-jwt-controller-remember-me");
+        user.setEmail("user-jwt-controller-remember-me@example.com");
+        user.setActivated(true);
+        user.setPassword(passwordEncoder.encode("test"));
+
+        userRepository.saveAndFlush(user);
+
+        String example = "This is an example";
+        byte[] bytes = example.getBytes();
+        String uuid = UUID.randomUUID().toString();
+
+        accountsDBService.createNewAccountDB(bytes, uuid, user);
+        accountsDBRepository.flush();
+
+        LoginVM login = new LoginVM();
+        login.setUsername("user-jwt-controller-remember-me");
+        login.setPassword("test");
+        MockHttpServletResponse mockResponse = mockMvc.perform(post("/api/preauthenticate")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content("user-jwt-controller-remember-me"))
+            .andExpect(status().isOk()).andReturn().getResponse();
+
+        assertThat(mockResponse.getContentType()).isEqualTo(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        assertThat(mockResponse.getHeader("ninja-iv")).isEqualTo(uuid);
+        assertThat(mockResponse.getContentAsByteArray()).isNotNull();
+    }
+
+    @Test
+    @Transactional
+    public void testPreAuthenticateFailedUsernameNotFound() throws Exception {
+        LoginVM login = new LoginVM();
+        login.setUsername("usernotfound");
+        login.setPassword("test");
+        ResultActions actions = mockMvc.perform(post("/api/preauthenticate")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content("usernotfound"))
+            .andExpect(status().isNotFound());
     }
 }

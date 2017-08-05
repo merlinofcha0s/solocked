@@ -3,7 +3,6 @@ package com.ninja.ninjaccount.web.rest.vm;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.Set;
 
@@ -16,7 +15,9 @@ public class ManagedUserVM extends UserDTO {
 
     public static final int PASSWORD_MAX_LENGTH = 100;
 
-    @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
+    public static final String PASSWORD_DEFAULT = "SNaly4LGBicqXY8c";
+
+    //@Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
     private String password;
 
     @NotNull
@@ -39,7 +40,7 @@ public class ManagedUserVM extends UserDTO {
     }
 
     public String getPassword() {
-        return password;
+        return PASSWORD_DEFAULT;
     }
 
     public String getInitializationVector() {

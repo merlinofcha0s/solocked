@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -47,9 +48,9 @@ public class AccountsDBService {
     }
 
     /**
-     *  Get all the accountsDBS.
+     * Get all the accountsDBS.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     @Transactional(readOnly = true)
     public List<AccountsDBDTO> findAll() {
@@ -60,10 +61,10 @@ public class AccountsDBService {
     }
 
     /**
-     *  Get one accountsDB by id.
+     * Get one accountsDB by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Transactional(readOnly = true)
     public AccountsDBDTO findOne(Long id) {
@@ -73,16 +74,33 @@ public class AccountsDBService {
     }
 
     /**
-     *  Delete the  accountsDB by id.
+     * Get one accountsDB by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
+     * @return the entity
+     */
+    @Transactional(readOnly = true)
+    public AccountsDBDTO findByUsernameLogin(String login) {
+        log.debug("Request to get AccountsDB by username : {}", login);
+        Optional<AccountsDB> accountsDB = accountsDBRepository.findOneByUserLogin(login);
+        if (accountsDB.isPresent()) {
+            return accountsDBMapper.toDto(accountsDB.get());
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Delete the  accountsDB by id.
+     *
+     * @param id the id of the entity
      */
     public void delete(Long id) {
         log.debug("Request to delete AccountsDB : {}", id);
         accountsDBRepository.delete(id);
     }
 
-    public AccountsDBDTO createNewAccountDB(byte[] encryptedDB, String initVector, User newUser){
+    public AccountsDBDTO createNewAccountDB(byte[] encryptedDB, String initVector, User newUser) {
         AccountsDBDTO newAccountsDBDTO = new AccountsDBDTO();
         newAccountsDBDTO.setDatabase(encryptedDB);
         newAccountsDBDTO.setDatabaseContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
@@ -90,6 +108,6 @@ public class AccountsDBService {
         newAccountsDBDTO.setUserId(newUser.getId());
         newAccountsDBDTO.setUserLogin(newUser.getLogin());
 
-       return save(newAccountsDBDTO);
+        return save(newAccountsDBDTO);
     }
 }

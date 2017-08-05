@@ -1,22 +1,27 @@
 package com.ninja.ninjaccount.web.rest;
 
-import com.ninja.ninjaccount.security.jwt.JWTConfigurer;
-import com.ninja.ninjaccount.security.jwt.TokenProvider;
-import com.ninja.ninjaccount.web.rest.vm.LoginVM;
-
 import com.codahale.metrics.annotation.Timed;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import com.ninja.ninjaccount.security.jwt.JWTConfigurer;
+import com.ninja.ninjaccount.security.jwt.TokenProvider;
+import com.ninja.ninjaccount.service.AccountsDBService;
+import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
+import com.ninja.ninjaccount.web.rest.vm.LoginVM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -35,9 +40,27 @@ public class UserJWTController {
 
     private final AuthenticationManager authenticationManager;
 
-    public UserJWTController(TokenProvider tokenProvider, AuthenticationManager authenticationManager) {
+    private final AccountsDBService accountsDBService;
+
+    public UserJWTController(TokenProvider tokenProvider, AuthenticationManager authenticationManager, AccountsDBService accountsDBService) {
         this.tokenProvider = tokenProvider;
         this.authenticationManager = authenticationManager;
+        this.accountsDBService = accountsDBService;
+    }
+
+    @PostMapping("/preauthenticate")
+    @Timed
+    public ResponseEntity preAuthorize(@RequestBody String login) {
+        AccountsDBDTO accountsDBDTO  = accountsDBService.findByUsernameLogin(login);
+        if(accountsDBDTO == null){
+           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.add("ninja-iv", accountsDBDTO.getInitializationVector());
+
+        return ResponseEntity.ok().headers(headers).body(accountsDBDTO.getDatabase());
     }
 
     @PostMapping("/authenticate")

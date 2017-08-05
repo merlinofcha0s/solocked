@@ -1,6 +1,7 @@
 package com.ninja.ninjaccount.service;
 
 import com.ninja.ninjaccount.NinjaccountApp;
+import com.ninja.ninjaccount.domain.AccountsDB;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
@@ -12,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,6 +48,20 @@ public class AccountDBServiceTest {
         assertThat(accountsDBDTO.getDatabaseContentType()).isNotNull();
         assertThat(accountsDBDTO.getDatabaseContentType()).isEqualToIgnoringCase(MediaType.APPLICATION_OCTET_STREAM_VALUE);
         assertThat(accountsDBDTO.getUserId()).isEqualTo(user.getId());
+    }
+
+    @Test
+    public void testGetAccountsByUsernameLogin() {
+        String example = "This is an example";
+        byte[] bytes = example.getBytes();
+        String uuid = UUID.randomUUID().toString();
+
+        User user = userService.createUser("johndoe", "johndoe", "John", "Doe", "john.doe@localhost", "http://placehold.it/50x50", "en-US");
+        accountsDBService.createNewAccountDB(bytes, uuid, user);
+        Optional<AccountsDB> accountsDB = accountsDBRepository.findOneByUserLogin("johndoe");
+        assertThat(accountsDB.isPresent()).isTrue();
+        assertThat(accountsDB.get().getInitializationVector()).isNotNull();
+        assertThat(accountsDB.get().getDatabase()).isNotNull();
     }
 
 }

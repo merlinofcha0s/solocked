@@ -10,7 +10,7 @@ export class CryptoService {
 
     // Number of iterations
     private cryptingAlgorithm = 'AES-GCM';
-    initializationVector: ArrayBufferView;
+    initializationVector: Uint16Array;
 
     constructor(private accountService: AccountsService, private alertService: JhiAlertService) { }
 
@@ -64,7 +64,8 @@ export class CryptoService {
     }
 
     async cryptingDB(accounts: Accounts, key: CryptoKey): Promise<ArrayBuffer> {
-        this.initializationVector = this.getInitializationVector();
+        this.initializationVector = new Uint16Array(10);
+        window.crypto.getRandomValues(this.initializationVector);
 
         const accountsJSON = JSON.stringify(accounts);
         const accountsJSONArrayBuffer = new TextEncoder('UTF-8').encode(accountsJSON);
@@ -72,10 +73,6 @@ export class CryptoService {
         const encryptedData = await this.encrypt(this.initializationVector, key, accountsJSONArrayBuffer);
 
         return encryptedData;
-    }
-
-    getInitializationVector(): ArrayBufferView {
-        return window.crypto.getRandomValues(new Uint8Array(12));
     }
 
     async encrypt(initializationVector: ArrayBufferView, key: CryptoKey, dataToEncrypt: Uint8Array): Promise<ArrayBuffer> {
@@ -116,6 +113,14 @@ export class CryptoService {
     decodeArrayToString(buffer): string {
         // Careful : Don't work on hex like hash
         return new TextDecoder().decode(buffer);
+    }
+
+    decodeInitVector(initializationVector: Uint16Array): string {
+        let initializationVectorValue = '';
+        for (let i = 0; i < initializationVector.length; i++) {
+            initializationVectorValue += initializationVector[i];
+        }
+        return initializationVectorValue;
     }
 
     /**
