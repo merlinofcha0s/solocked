@@ -56,6 +56,7 @@ export class AccountsDBDialogComponent implements OnInit {
                 return;
             }
             this.dataUtils.toBase64(file, (base64Data) => {
+                console.log('base64: ' + base64Data);
                 accountsDB[field] = base64Data;
                 accountsDB[`${field}ContentType`] = file.type;
             });

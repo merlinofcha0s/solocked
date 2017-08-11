@@ -10,7 +10,7 @@ export class CryptoService {
 
     // Number of iterations
     private cryptingAlgorithm = 'AES-GCM';
-    initializationVector: Uint16Array;
+    // initializationVector: Uint16Array;
 
     constructor(private accountService: AccountsService, private alertService: JhiAlertService) { }
 
@@ -20,6 +20,7 @@ export class CryptoService {
      * @param input The raw password
      */
     async creatingKey(input: string): Promise<CryptoKey> {
+        console.log('Creating the key');
         const passwordArrayBuffer = new TextEncoder('utf-8').encode(input);
         // Importing the raw input from the password field to a Cryptokey
         const passwordKey = await this.importKeyString(passwordArrayBuffer);
@@ -64,22 +65,25 @@ export class CryptoService {
     }
 
     async cryptingDB(accounts: Accounts, key: CryptoKey): Promise<ArrayBuffer> {
-        this.initializationVector = new Uint16Array(10);
-        window.crypto.getRandomValues(this.initializationVector);
+        // this.initializationVector = new Uint16Array(10);
+        // window.crypto.getRandomValues(this.initializationVector);
+
+        const initVectorEncoded = new TextEncoder('UTF-8').encode(this.getInitVector());
 
         const accountsJSON = JSON.stringify(accounts);
         const accountsJSONArrayBuffer = new TextEncoder('UTF-8').encode(accountsJSON);
 
-        const encryptedData = await this.encrypt(this.initializationVector, key, accountsJSONArrayBuffer);
+        const encryptedData = await this.encrypt(initVectorEncoded, key, accountsJSONArrayBuffer.buffer);
 
         return encryptedData;
     }
 
-    async encrypt(initializationVector: ArrayBufferView, key: CryptoKey, dataToEncrypt: Uint8Array): Promise<ArrayBuffer> {
+    async encrypt(initializationVector: ArrayBufferView, key: CryptoKey, dataToEncrypt: ArrayBuffer): Promise<ArrayBuffer> {
         try {
+            const initVectorEncoded = new TextEncoder('UTF-8').encode(this.getInitVector());
             return await window.crypto.subtle.encrypt({
                 name: this.cryptingAlgorithm,
-                iv: this.initializationVector,
+                iv: initVectorEncoded,
                 tagLength: 128,
             }, key, dataToEncrypt);
         } catch (e) {
@@ -89,22 +93,24 @@ export class CryptoService {
 
     async decrypt(initializationVector: ArrayBufferView, key: CryptoKey, encryptedData: ArrayBuffer): Promise<ArrayBuffer> {
         try {
-            return await crypto.subtle.decrypt({ name: this.cryptingAlgorithm, iv: this.initializationVector }, key, encryptedData);
+            const initVectorEncoded = new TextEncoder('UTF-8').encode(this.getInitVector());
+            console.log('Decrypting.....');
+            return await crypto.subtle.decrypt({ name: this.cryptingAlgorithm, iv: initVectorEncoded }, key, encryptedData);
         } catch (e) {
             console.log('error : ' + e);
         }
     }
 
-    /* async testDecrypt() {
-         try {
-             const key = await this.creatingKey(this.input);
-             const dataBuffer = await this.decrypt(null, key, this.encryptedData);
-             const plaintext = this.decodeArrayToString(dataBuffer);
-             console.log('Plain text : ' + plaintext);
-         } catch (e) {
-             console.log(e);
-         }
-     }*/
+    async testDecrypt(encryptedData: ArrayBuffer, password: string) {
+        try {
+            const key = await this.creatingKey(password);
+            const dataBuffer = await this.decrypt(null, key, encryptedData);
+            const plaintext = this.decodeArrayToString(dataBuffer);
+            console.log('Plain text : ' + plaintext);
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     /**
      * Use here for get the account db in JS bean
@@ -112,6 +118,7 @@ export class CryptoService {
      */
     decodeArrayToString(buffer): string {
         // Careful : Don't work on hex like hash
+        console.log('Decoding BD......');
         return new TextDecoder().decode(buffer);
     }
 
@@ -142,6 +149,10 @@ export class CryptoService {
         }
 
         return view.buffer
+    }
+
+    getInitVector(): string {
+        return '47316260812946514972050119485971719500607118611';
     }
 
 }

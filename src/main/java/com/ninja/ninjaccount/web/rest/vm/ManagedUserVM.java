@@ -1,8 +1,9 @@
 package com.ninja.ninjaccount.web.rest.vm;
 
+import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.Set;
 
@@ -15,13 +16,10 @@ public class ManagedUserVM extends UserDTO {
 
     public static final int PASSWORD_MAX_LENGTH = 100;
 
-    public static final String PASSWORD_DEFAULT = "SNaly4LGBicqXY8c";
-
-    //@Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
+    @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
     private String password;
 
-    @NotNull
-    private String initializationVector;
+    private AccountsDBDTO accountsDB;
 
     public ManagedUserVM() {
         // Empty constructor needed for Jackson.
@@ -30,21 +28,21 @@ public class ManagedUserVM extends UserDTO {
     public ManagedUserVM(Long id, String login, String password, String firstName, String lastName,
                          String email, boolean activated, String imageUrl, String langKey,
                          String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate,
-                        Set<String> authorities, String initializationVector) {
+                         Set<String> authorities) {
 
         super(id, login, firstName, lastName, email, activated, imageUrl, langKey,
             createdBy, createdDate, lastModifiedBy, lastModifiedDate,  authorities);
 
         this.password = password;
-        this.initializationVector = initializationVector;
     }
 
     public String getPassword() {
-        return PASSWORD_DEFAULT;
+        return password;
     }
 
-    public String getInitializationVector() {
-        return initializationVector;
+
+    public AccountsDBDTO getAccountsDB() {
+        return accountsDB;
     }
 
     @Override

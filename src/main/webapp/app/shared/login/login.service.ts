@@ -1,4 +1,4 @@
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { JhiLanguageService } from 'ng-jhipster';
@@ -13,15 +13,15 @@ export class LoginService {
         private languageService: JhiLanguageService,
         private principal: Principal,
         private authServerProvider: AuthServerProvider,
-         private http: Http
+        private http: Http
     ) { }
 
-  /*  prelogin(): Observable<Void> {
-        return this.http.get('management/logs').map();
-    }*/
+    prelogin(login): Observable<any> {
+        return this.http.post('api/preauthenticate', login);
+    }
 
     login(credentials, callback?) {
-        const cb = callback || function () { };
+        const cb = callback || function() { };
 
         return new Promise((resolve, reject) => {
             this.authServerProvider.login(credentials).subscribe((data) => {

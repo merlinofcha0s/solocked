@@ -175,8 +175,8 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
-            UUID.randomUUID().toString());
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER))
+        );
 
         MockMultipartFile encryptedDB = new MockMultipartFile("encryptedAccountDB", "encryptedAccountDB",
             MediaType.APPLICATION_OCTET_STREAM_VALUE, "some xml".getBytes());
@@ -216,8 +216,8 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
-            UUID.randomUUID().toString());
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER))
+        );
 
 
         MockMultipartFile encryptedDB = new MockMultipartFile("encryptedAccountDB", "encryptedAccountDB",
@@ -254,8 +254,8 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
-            UUID.randomUUID().toString());
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER))
+        );
 
         MockMultipartFile encryptedDB = new MockMultipartFile("encryptedAccountDB", "encryptedAccountDB",
             MediaType.APPLICATION_OCTET_STREAM_VALUE, "some xml".getBytes());
@@ -291,8 +291,8 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
-            UUID.randomUUID().toString());
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER))
+        );
 
         MockMultipartFile encryptedDB = new MockMultipartFile("encryptedAccountDB", "encryptedAccountDB",
             MediaType.APPLICATION_OCTET_STREAM_VALUE, "some xml".getBytes());
@@ -328,8 +328,8 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
-            UUID.randomUUID().toString());
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER))
+        );
 
 
         MockMultipartFile encryptedDB = new MockMultipartFile("encryptedAccountDB", "encryptedAccountDB",
@@ -367,8 +367,8 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
-            UUID.randomUUID().toString());
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER))
+        );
 
         MockMultipartFile encryptedDB = new MockMultipartFile("encryptedAccountDB", "encryptedAccountDB",
             MediaType.APPLICATION_OCTET_STREAM_VALUE, "some xml".getBytes());
@@ -378,8 +378,8 @@ public class AccountResourceIntTest {
 
         // Duplicate login, different email
         ManagedUserVM duplicatedUser = new ManagedUserVM(validUser.getId(), validUser.getLogin(), validUser.getPassword(), validUser.getFirstName(), validUser.getLastName(),
-            "alicejr@example.com", true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getAuthorities(),
-            UUID.randomUUID().toString());
+            "alicejr@example.com", true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getAuthorities()
+        );
 
         MockMultipartFile accountDuplicatedUser = new MockMultipartFile("account", "account",
             MediaType.APPLICATION_JSON_UTF8_VALUE, TestUtil.convertObjectToJsonBytes(validUser));
@@ -422,8 +422,8 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
-            UUID.randomUUID().toString());
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER))
+        );
 
         MockMultipartFile encryptedDB = new MockMultipartFile("encryptedAccountDB", "encryptedAccountDB",
             MediaType.APPLICATION_OCTET_STREAM_VALUE, "some xml".getBytes());
@@ -435,8 +435,8 @@ public class AccountResourceIntTest {
 
         // Duplicate email, different login
         ManagedUserVM duplicatedUser = new ManagedUserVM(validUser.getId(), "johnjr", validUser.getPassword(), validUser.getLogin(), validUser.getLastName(),
-            validUser.getEmail(), true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getAuthorities(),
-            UUID.randomUUID().toString());
+            validUser.getEmail(), true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getAuthorities()
+        );
 
         MockMultipartFile accountDuplicatedUser = new MockMultipartFile("account", "account",
             MediaType.APPLICATION_JSON_UTF8_VALUE, TestUtil.convertObjectToJsonBytes(validUser));
@@ -478,8 +478,8 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)),
-            UUID.randomUUID().toString());
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN))
+        );
 
         MockMultipartFile encryptedDB = new MockMultipartFile("encryptedAccountDB", "encryptedAccountDB",
             MediaType.APPLICATION_OCTET_STREAM_VALUE, "some xml".getBytes());

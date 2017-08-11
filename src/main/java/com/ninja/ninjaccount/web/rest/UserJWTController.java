@@ -9,9 +9,7 @@ import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.web.rest.vm.LoginVM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -48,19 +46,15 @@ public class UserJWTController {
         this.accountsDBService = accountsDBService;
     }
 
-    @PostMapping("/preauthenticate")
+    @PostMapping(path = "/preauthenticate")
     @Timed
-    public ResponseEntity preAuthorize(@RequestBody String login) {
-        AccountsDBDTO accountsDBDTO  = accountsDBService.findByUsernameLogin(login);
-        if(accountsDBDTO == null){
-           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<AccountsDBDTO> preAuthorize(@RequestBody String login) {
+        AccountsDBDTO accountsDBDTO = accountsDBService.findByUsernameLogin(login);
+        if (accountsDBDTO == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.add("ninja-iv", accountsDBDTO.getInitializationVector());
-
-        return ResponseEntity.ok().headers(headers).body(accountsDBDTO.getDatabase());
+        return new ResponseEntity<> (accountsDBDTO, HttpStatus.OK);
     }
 
     @PostMapping("/authenticate")

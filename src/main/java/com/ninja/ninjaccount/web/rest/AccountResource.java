@@ -19,11 +19,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -205,23 +203,14 @@ public class AccountResource {
             .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
-    /**
-     * POST  /register : register the user.
-     *
-     * @param managedUserVM the managed user View Model
-     * @return the ResponseEntity with status 201 (Created) if the user is registered or 400 (Bad Request) if the login or email is already in use
-     */
-    @PostMapping(path = "/register",
-        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE},
-        consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(path = "/register")
     @Timed
-    public ResponseEntity registerAccount(@RequestPart("encryptedAccountDB") MultipartFile encryptedAccountDB,
-                                          @Valid @RequestPart("account") ManagedUserVM managedUserVM) {
+    public ResponseEntity register(@Valid @RequestBody ManagedUserVM managedUserVM) {
 
         HttpHeaders textPlainHeaders = new HttpHeaders();
         textPlainHeaders.setContentType(MediaType.TEXT_PLAIN);
 
-        if(encryptedAccountDB == null){
+        if (managedUserVM.getAccountsDB() == null) {
             return new ResponseEntity<>("problem with the init of the DB", HttpStatus.BAD_REQUEST);
         }
 
@@ -239,12 +228,9 @@ public class AccountResource {
                             managedUserVM.getEmail().toLowerCase(), managedUserVM.getImageUrl(),
                             managedUserVM.getLangKey());
 
-                    try {
-                        accountsDBService.createNewAccountDB(encryptedAccountDB.getBytes(),
-                            managedUserVM.getInitializationVector(), user);
-                    } catch (IOException e) {
-                        log.error("Error when getting the content of the encrypted DB {} - {}", user.getLogin(), user.getEmail());
-                    }
+                    managedUserVM.getAccountsDB().setUserLogin(user.getLogin());
+                    managedUserVM.getAccountsDB().setUserId(user.getId());
+                    accountsDBService.save(managedUserVM.getAccountsDB());
 
                     mailService.sendActivationEmail(user);
                     return new ResponseEntity<>(HttpStatus.CREATED);
