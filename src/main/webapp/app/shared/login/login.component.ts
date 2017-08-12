@@ -52,49 +52,24 @@ export class JhiLoginModalComponent implements AfterViewInit {
     }
 
     login() {
-        // let initVector = null;
+        let accountDBJSONOut = null;
+        let accountDBArrayBufferOut = null;
         this.loginService.prelogin(this.username)
             .map((res: Response) => res.json())
-            .subscribe((accountDB: AccountsDB) => {
-                console.log('account : ' + accountDB.database);
-                const accountDBBlob = this.b64toBlob(accountDB.database, 'application/octet-stream', 512);
-
-                console.log(accountDBBlob);
-                /*const account2 = new Blob([accountDBBlob], { type: accountDB.databaseContentType });
-                console.log('account: ' + account2);*/
-
-                const reader = new FileReader();
-
-                // This fires after the blob has been read/loaded.
-                reader.addEventListener('loadend', (e) => {
-                    const text = reader.result;
-                    console.log(text);
-                    Observable.fromPromise(this.cryptoService.creatingKey(this.password))
-                        .subscribe((derivedCryptoKey) => {
-                            Observable.fromPromise(this.cryptoService.decrypt(null, derivedCryptoKey, text))
-                                .subscribe((decryptedDB) => {
-                                    console.log('Decrypting');
-                                    console.log('Decrypted :' + decryptedDB);
-                                    const decoder = new TextDecoder();
-                                    const db = decoder.decode(decryptedDB);
-                                    console.log('db : ' + db);
-                                });
-                        });
-                });
-
-                // Start reading the blob as text.
-                reader.readAsArrayBuffer(accountDBBlob);
-
-                /* Observable.fromPromise(this.cryptoService.creatingKey(this.password))
-                     .subscribe((derivedCryptoKey) => {
-                         Observable.fromPromise(this.blobToArrayBuffer(account2))
-                             .flatMap((arrayBuffer) => {
-                                 return this.cryptoService.decrypt(null, derivedCryptoKey, arrayBuffer);
-                             }).subscribe((decryptedDB) => {
-                                 console.log('Decrypting');
-                                 console.log('Decrypted :' + decryptedDB);
-                             });
-                     });*/
+            .flatMap((accountDBJSON: AccountsDB) => {
+                accountDBJSONOut = accountDBJSON;
+                return Observable.of(this.cryptoService.b64toBlob(accountDBJSONOut.database, 'application/octet-stream', 2048));
+            })
+            .flatMap((accountDBBlob: Blob) => this.cryptoService.blobToArrayBuffer(accountDBBlob))
+            .flatMap((accountDBArrayBuffer) => {
+                accountDBArrayBufferOut = accountDBArrayBuffer;
+                return this.cryptoService.creatingKey(this.password)
+            })
+            .flatMap((derivedCryptoKey: CryptoKey) => this.cryptoService.decrypt(accountDBJSONOut.initializationVector, derivedCryptoKey, accountDBArrayBufferOut))
+            .subscribe((decryptedDB: ArrayBuffer) => {
+                const decoder = new TextDecoder();
+                const db = decoder.decode(decryptedDB);
+                console.log('decryted OK : ' + db);
             });
 
         /*this.loginService.login({
@@ -133,39 +108,5 @@ export class JhiLoginModalComponent implements AfterViewInit {
     requestResetPassword() {
         this.activeModal.dismiss('to state requestReset');
         this.router.navigate(['/reset', 'request']);
-    }
-
-    blobToArrayBuffer(blobToConvert: Blob): Promise<ArrayBuffer> {
-        return new Promise((resolve, reject) => {
-            const fileReader = new FileReader();
-            fileReader.onload = function () {
-                resolve(this.result);
-            };
-            fileReader.readAsArrayBuffer(blobToConvert);
-        });
-    }
-
-    b64toBlob(b64Data, contentType, sliceSize) {
-        contentType = contentType || '';
-        sliceSize = sliceSize || 512;
-
-        const byteCharacters = atob(b64Data);
-        const byteArrays = [];
-
-        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-            const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-            const byteNumbers = new Array(slice.length);
-            for (let i = 0; i < slice.length; i++) {
-                byteNumbers[i] = slice.charCodeAt(i);
-            }
-
-            const byteArray = new Uint8Array(byteNumbers);
-
-            byteArrays.push(byteArray);
-        }
-
-        const blob = new Blob(byteArrays, { type: contentType });
-        return blob;
     }
 }
