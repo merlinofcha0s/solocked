@@ -1,3 +1,5 @@
+import { CryptoUtilsService } from './crypto-utils.service';
+import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { Observable } from 'rxjs/Rx';
 import { Accounts } from './../account/accounts.model';
@@ -10,7 +12,10 @@ export class CryptoService {
 
     private cryptingAlgorithm = 'AES-GCM';
 
-    constructor(private accountService: AccountsService, private dataUtils: JhiDataUtils) { }
+    constructor(private accountService: AccountsService
+        , private dataUtils: JhiDataUtils
+        , private sessionStorage: SessionStorageService
+        , private cryptoUtils: CryptoUtilsService) { }
 
     /**
      * Create the key from the password
@@ -23,10 +28,9 @@ export class CryptoService {
         // Importing the raw input from the password field to a Cryptokey
         const passwordKey = await this.importKeyString(passwordArrayBuffer);
         // Key derivation from the password to a CryptoKey for securing the password
-        const derivedKey = await this.deriveKeyFromPassword(passwordKey, this.hexToArrayBuffer('e85c53e7f119d41fd7895cdc9d7bb9dd'));
+        const derivedKey = await this.deriveKeyFromPassword(passwordKey, this.cryptoUtils.hexToArrayBuffer('e85c53e7f119d41fd7895cdc9d7bb9dd'));
         return derivedKey;
     }
-
 
     async importKeyString(password: Uint8Array): Promise<CryptoKey> {
         try {
@@ -47,7 +51,7 @@ export class CryptoService {
                 { 'name': this.cryptingAlgorithm, 'length': 256 },
                 // Whether or not the key is extractable (less secure) or not (more secure)
                 // when false, the key can only be passed as a web crypto object, not inspected
-                false,
+                true,
                 ['encrypt', 'decrypt']
             )
         } catch (e) {
@@ -101,72 +105,13 @@ export class CryptoService {
         }
     }*/
 
-    /**
-     * Can be use to translate a hash(always in hex) in a buffer
-     */
-    hexToArrayBuffer(hex): ArrayBuffer {
-        if (typeof hex !== 'string') {
-            throw new TypeError('Expected input to be a string')
-        }
-
-        if ((hex.length % 2) !== 0) {
-            throw new RangeError('Expected string to be an even number of characters')
-        }
-
-        const view = new Uint8Array(hex.length / 2)
-
-        for (let i = 0; i < hex.length; i += 2) {
-            view[i / 2] = parseInt(hex.substring(i, i + 2), 16)
-        }
-
-        return view.buffer
-    }
-
-    getRandomNumber(): string {
-        return Math.floor((Math.random() * 10000000000000000000000) + 1).toString();
-    }
-
-    b64toBlob(b64Data, contentType, sliceSize) {
-        contentType = contentType || '';
-        sliceSize = sliceSize || 512;
-
-        const byteCharacters = atob(b64Data);
-        const byteArrays = [];
-
-        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-            const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-            const byteNumbers = new Array(slice.length);
-            for (let i = 0; i < slice.length; i++) {
-                byteNumbers[i] = slice.charCodeAt(i);
-            }
-
-            const byteArray = new Uint8Array(byteNumbers);
-
-            byteArrays.push(byteArray);
-        }
-
-        return new Blob(byteArrays, { type: contentType });
-    }
-
-    blobToArrayBuffer(blob: Blob): Promise<string> {
-        const reader = new FileReader();
-        return new Promise((resolve, reject) => {
-            reader.addEventListener('loadend', (e) => {
-                resolve(reader.result);
+    putCryptoKeyInLocalStorage(key: CryptoKey) {
+        Observable
+            .fromPromise(crypto.subtle.exportKey('raw', key))
+            .flatMap((rawKey) => this.cryptoUtils.toBase64Promise(new Blob([new Uint8Array(rawKey)], { type: 'application/octet-stream' })))
+            .subscribe((base64Key) => {
+                console.log('raw key : ' + base64Key);
+                this.sessionStorage.store('key', base64Key);
             });
-
-            // Start reading the blob as text.
-            reader.readAsArrayBuffer(blob);
-        });
     }
-
-    toBase64Promise(blob: Blob): Promise<string> {
-        return new Promise((resolve, reject) => {
-            this.dataUtils.toBase64(new File([blob], 'accountDB'), (base64Data) => {
-                resolve(base64Data);
-            });
-        });
-    }
-
 }

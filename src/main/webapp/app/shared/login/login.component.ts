@@ -1,3 +1,5 @@
+import { LocalStorageService } from 'ng2-webstorage';
+import { Accounts } from './../account/accounts.model';
 import { AccountsDB } from './../../entities/accounts-db/accounts-db.model';
 import { TextEncoder } from 'text-encoding';
 import { Observable } from 'rxjs/Rx';
@@ -11,10 +13,12 @@ import { JhiEventManager } from 'ng-jhipster';
 import { LoginService } from './login.service';
 import { StateStorageService } from '../auth/state-storage.service';
 import { SocialService } from '../social/social.service';
+import { CryptoUtilsService } from '../crypto/crypto-utils.service';
 
 @Component({
     selector: 'jhi-login-modal',
-    templateUrl: './login.component.html'
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss']
 })
 export class JhiLoginModalComponent implements AfterViewInit {
     authenticationError: boolean;
@@ -22,6 +26,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
     rememberMe: boolean;
     username: string;
     credentials: any;
+    loading: boolean;
 
     constructor(
         private eventManager: JhiEventManager,
@@ -32,7 +37,9 @@ export class JhiLoginModalComponent implements AfterViewInit {
         private socialService: SocialService,
         private router: Router,
         public activeModal: NgbActiveModal,
-        public cryptoService: CryptoService
+        private cryptoService: CryptoService,
+        private cryptoUtils: CryptoUtilsService,
+        private localStorageService: LocalStorageService
     ) {
         this.credentials = {};
     }
@@ -52,31 +59,36 @@ export class JhiLoginModalComponent implements AfterViewInit {
     }
 
     login() {
-        let accountDBJSONOut = null;
-        let accountDBArrayBufferOut = null;
-        this.loginService.prelogin(this.username)
-            .map((res: Response) => res.json())
-            .flatMap((accountDBJSON: AccountsDB) => {
-                accountDBJSONOut = accountDBJSON;
-                return Observable.of(this.cryptoService.b64toBlob(accountDBJSONOut.database, 'application/octet-stream', 2048));
-            })
-            .flatMap((accountDBBlob: Blob) => this.cryptoService.blobToArrayBuffer(accountDBBlob))
-            .flatMap((accountDBArrayBuffer) => {
-                accountDBArrayBufferOut = accountDBArrayBuffer;
-                return this.cryptoService.creatingKey(this.password)
-            })
-            .flatMap((derivedCryptoKey: CryptoKey) => this.cryptoService.decrypt(accountDBJSONOut.initializationVector, derivedCryptoKey, accountDBArrayBufferOut))
-            .subscribe((decryptedDB: ArrayBuffer) => {
-                const decoder = new TextDecoder();
-                const db = decoder.decode(decryptedDB);
-                console.log('decryted OK : ' + db);
-            });
+        this.loading = true;
+        if (this.username === 'admin') {
+            this.loginJHI();
+        } else {
+            this.loginService.prelogin(this.username, this.password)
+                .subscribe((decryptedDB: ArrayBuffer) => {
+                    const accounts = this.cryptoUtils.arrayBufferToAccounts(decryptedDB);
+                    if (accounts === null) {
+                        this.loading = false;
+                        this.authenticationError = true;
+                    } else {
+                        this.password = accounts.authenticationKey;
+                        this.authenticationError = false;
+                        this.localStorageService.store('accountsdb', JSON.stringify(accounts.accounts));
+                        this.loginJHI();
+                    }
+                }, (error) => {
+                    this.authenticationError = true;
+                    this.loading = false;
+                });
+        }
+    }
 
-        /*this.loginService.login({
+    loginJHI() {
+        this.loginService.login({
             username: this.username,
             password: this.password,
             rememberMe: this.rememberMe
         }).then(() => {
+            this.loading = false;
             this.authenticationError = false;
             this.activeModal.dismiss('login success');
             if (this.router.url === '/register' || (/activate/.test(this.router.url)) ||
@@ -97,7 +109,8 @@ export class JhiLoginModalComponent implements AfterViewInit {
             }
         }).catch(() => {
             this.authenticationError = true;
-        });*/
+            this.loading = false;
+        });
     }
 
     register() {

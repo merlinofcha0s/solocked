@@ -1,3 +1,4 @@
+import { CryptoUtilsService } from './crypto/crypto-utils.service';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { AccountsService } from './account/accounts.service';
@@ -42,7 +43,8 @@ import { CryptoService } from './crypto/crypto.service';
         UserService,
         DatePipe,
         AccountsService,
-        CryptoService
+        CryptoService,
+        CryptoUtilsService
     ],
     entryComponents: [JhiLoginModalComponent],
     exports: [

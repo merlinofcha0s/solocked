@@ -1,3 +1,4 @@
+import { CryptoUtilsService } from './../../shared/crypto/crypto-utils.service';
 import { TextEncoder } from 'text-encoding';
 import { JhiDataUtils } from 'ng-jhipster';
 import { AccountsDBService } from './../../entities/accounts-db/accounts-db.service';
@@ -13,17 +14,19 @@ import { Accounts } from '../../shared/account/accounts.model';
 export class Register {
 
     constructor(private http: Http, private accountService: AccountsService
-        , private crypto: CryptoService, private accountDBService: AccountsDBService) { }
+        , private crypto: CryptoService, private accountDBService: AccountsDBService
+        , private cryptoUtils: CryptoUtilsService) { }
 
     save(account: any): Observable<any> {
         // Generate the new DB
         const newAccountsDB = this.accountService.init();
         const passwordStorage = account.password;
-        const initVector = this.crypto.getRandomNumber();
+        const initVector = this.cryptoUtils.getRandomNumber();
 
-        return Observable.fromPromise(this.crypto.creatingKey(account.password))
+        return Observable
+            .fromPromise(this.crypto.creatingKey(account.password))
             .flatMap((derivedCryptoKey) => this.crypto.cryptingDB(initVector, newAccountsDB, derivedCryptoKey))
-            .flatMap((accountDB: ArrayBuffer) => this.crypto.toBase64Promise(new Blob([new Uint8Array(accountDB)], { type: 'application/octet-stream' })))
+            .flatMap((accountDB: ArrayBuffer) => this.cryptoUtils.toBase64Promise(new Blob([new Uint8Array(accountDB)], { type: 'application/octet-stream' })))
             .flatMap((accountDBbase64: string) => {
                 const accountDBDTO = new AccountsDB();
                 accountDBDTO.database = accountDBbase64;

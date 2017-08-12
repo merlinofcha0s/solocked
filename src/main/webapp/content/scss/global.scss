@@ -260,3 +260,12 @@ Social button
   0%    { transform: rotate(0deg); }
   100%  { transform: rotate(360deg); }
 }
+
+.loadingContainer{
+    display: flex;
+    align-items: center;
+}
+
+.loadingMessage{
+    margin-left: 10px;
+}

@@ -15,12 +15,12 @@
                 <div class="form-group">
                     <label for="username" jhiTranslate="global.form.username">Login</label>
                     <input type="text" class="form-control" name="username" id="username" placeholder="{{'global.form.username.placeholder' | translate}}"
-                    [(ngModel)]="username">
+                        [(ngModel)]="username">
                 </div>
                 <div class="form-group">
                     <label for="password" jhiTranslate="login.form.password">Password</label>
                     <input type="password" class="form-control" name="password" id="password" placeholder="{{'login.form.password.placeholder' | translate}}"
-                           [(ngModel)]="password">
+                        [(ngModel)]="password">
                 </div>
                 <div class="form-check">
                     <label class="form-check-label" for="rememberMe">
@@ -28,7 +28,14 @@
                         <span jhiTranslate="login.form.rememberme">Remember me</span>
                     </label>
                 </div>
-                <button type="submit" class="btn btn-primary" jhiTranslate="login.form.button">Sign in</button>
+
+                <div style="display: flex;">
+                    <button type="submit" class="btn btn-primary" jhiTranslate="login.form.button">Sign in</button>
+                    <div *ngIf="loading" class="loadingContainer loadingContainerCustom">
+                        <div class="spinner" *ngIf="loading"></div>
+                        <div class="loadingMessage" jhiTranslate="login.form.loading">Please wait</div>
+                    </div>
+                </div>
             </form>
             <p></p>
             <div class="alert alert-warning">
@@ -39,12 +46,12 @@
                 <a class="alert-link" (click)="register()" jhiTranslate="global.messages.info.register.link">Register a new account</a>
             </div>
         </div>
-      <!--    <div class="col-md-6">
+        <!--    <div class="col-md-6">
             <br/>
           <jhi-social provider="google"></jhi-social>
             <jhi-social provider="facebook"></jhi-social>
             <jhi-social provider="twitter"></jhi-social> 
             <!-- jhipster-needle-add-social-button -->
-       <!-- </div> -->
+        <!-- </div> -->
     </div>
 </div>

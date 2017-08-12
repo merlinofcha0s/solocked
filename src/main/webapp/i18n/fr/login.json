@@ -5,7 +5,8 @@
             "password": "Mot de passe",
             "password.placeholder": "Votre mot de passe",
             "rememberme": "Garder la session ouverte",
-            "button": "Connexion"
+            "button": "Connexion",
+            "loading": "Veuillez patienter"
         },
         "messages": {
             "error": {
