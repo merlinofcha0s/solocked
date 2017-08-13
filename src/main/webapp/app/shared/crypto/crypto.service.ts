@@ -31,6 +31,10 @@ export class CryptoService {
         return derivedKey;
     }
 
+    /**
+     * Create the key with the raw password inside
+     * @param password raw password
+     */
     async importKeyString(password: Uint8Array): Promise<CryptoKey> {
         try {
             return await crypto.subtle.importKey('raw', password, { name: 'PBKDF2' }, false, ['deriveBits', 'deriveKey']);
@@ -39,6 +43,12 @@ export class CryptoService {
         }
     }
 
+    /**
+     * Derive the password to securing it and transform to a crypto key
+     * Allow us to encrypt data : in our case the accont DB
+     * @param passwordKeyToDerived The raw password key
+     * @param saltBuffer The salt for the key
+     */
     async deriveKeyFromPassword(passwordKeyToDerived: CryptoKey, saltBuffer: ArrayBuffer): Promise<CryptoKey> {
         try {
             return await crypto.subtle.deriveKey({
@@ -58,10 +68,18 @@ export class CryptoService {
         }
     }
 
+    /**
+     * Crypting the DB
+     * @param initializationVector IV for securing when exchanging the DB through internet
+     * @param accounts the accountDB in clear text
+     * @param key The key used for the encryption
+     */
     async cryptingDB(initializationVector: string, accounts: Accounts, key: CryptoKey): Promise<ArrayBuffer> {
+        // Encode the IV to arraybuffer
         const initVectorArrayBuffer = new TextEncoder('UTF-8').encode(initializationVector);
 
         const accountsJSON = JSON.stringify(accounts);
+        // Encode the account JSON to array buffer
         const accountsJSONArrayBuffer = new TextEncoder('UTF-8').encode(accountsJSON);
 
         const encryptedData = await this.encrypt(initVectorArrayBuffer, key, accountsJSONArrayBuffer.buffer);
@@ -71,7 +89,6 @@ export class CryptoService {
 
     async encrypt(initializationVector: ArrayBufferView, key: CryptoKey, dataToEncrypt: ArrayBuffer): Promise<ArrayBuffer> {
         try {
-            // const initVectorEncoded = new TextEncoder('UTF-8').encode(this.getInitVector());
             return await window.crypto.subtle.encrypt({
                 name: this.cryptingAlgorithm,
                 iv: initializationVector,
@@ -91,7 +108,7 @@ export class CryptoService {
         }
     }
 
-    putCryptoKeyInLocalStorage(key: CryptoKey) {
+    putCryptoKeyInStorage(key: CryptoKey) {
         Observable
             .fromPromise(crypto.subtle.exportKey('raw', key))
             .flatMap((rawKey) => this.cryptoUtils.toBase64Promise(new Blob([new Uint8Array(rawKey)], { type: 'application/octet-stream' })))

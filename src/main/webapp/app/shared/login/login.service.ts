@@ -37,7 +37,7 @@ export class LoginService {
                 return this.cryptoService.creatingKey(password)
             })
             .flatMap((derivedCryptoKey: CryptoKey) => {
-                this.cryptoService.putCryptoKeyInLocalStorage(derivedCryptoKey);
+                this.cryptoService.putCryptoKeyInStorage(derivedCryptoKey);
                 return this.cryptoService.decrypt(accountDBJSONOut.initializationVector, derivedCryptoKey, accountDBArrayBufferOut)
             });
     }
