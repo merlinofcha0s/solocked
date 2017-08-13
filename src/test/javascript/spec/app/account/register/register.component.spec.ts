@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, async, inject, tick, fakeAsync } from '@angular/core/testing';
 import { Renderer, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { JhiLanguageService, JhiAlertService } from 'ng-jhipster';
+import { JhiLanguageService, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { MockLanguageService } from '../../../helpers/mock-language.service';
 import { NinjaccountTestModule } from '../../../test.module';
 import { LoginModalService } from '../../../../../../main/webapp/app/shared';
@@ -9,6 +9,9 @@ import { Register } from '../../../../../../main/webapp/app/account/register/reg
 import { RegisterComponent } from '../../../../../../main/webapp/app/account/register/register.component';
 import { AccountsService } from '../../../../../../main/webapp/app/shared/account/accounts.service';
 import { CryptoService } from '../../../../../../main/webapp/app/shared/crypto/crypto.service';
+import { SessionStorageService } from 'ng2-webstorage/dist/services';
+import { CryptoUtilsService } from '../../../../../../main/webapp/app/shared/crypto/crypto-utils.service';
+import { AccountsDBService } from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db.service';
 
 describe('Component Tests', () => {
 
@@ -24,6 +27,10 @@ describe('Component Tests', () => {
                     Register,
                     AccountsService,
                     CryptoService,
+                    CryptoUtilsService,
+                    JhiDataUtils,
+                    SessionStorageService,
+                    AccountsDBService,
                     {
                         provide: JhiAlertService,
                         useValue: null

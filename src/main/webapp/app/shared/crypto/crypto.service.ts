@@ -23,7 +23,6 @@ export class CryptoService {
      * @param input The raw password
      */
     async creatingKey(input: string): Promise<CryptoKey> {
-        console.log('Creating the key');
         const passwordArrayBuffer = new TextEncoder('utf-8').encode(input);
         // Importing the raw input from the password field to a Cryptokey
         const passwordKey = await this.importKeyString(passwordArrayBuffer);
@@ -86,31 +85,17 @@ export class CryptoService {
     async decrypt(initializationVector: string, key: CryptoKey, encryptedData: ArrayBuffer): Promise<ArrayBuffer> {
         const initVectorArrayBuffer = new TextEncoder('UTF-8').encode(initializationVector);
         try {
-            // const initVectorEncoded = new TextEncoder('UTF-8').encode(this.getInitVector());
-            console.log('Decrypting.....');
             return await crypto.subtle.decrypt({ name: this.cryptingAlgorithm, iv: initVectorArrayBuffer }, key, encryptedData);
         } catch (e) {
             console.log('error : ' + e);
         }
     }
 
-    /*async testDecrypt(encryptedData: ArrayBuffer, password: string) {
-        try {
-            const key = await this.creatingKey(password);
-            const dataBuffer = await this.decrypt(null, key, encryptedData);
-            const plaintext = this.decodeArrayToString(dataBuffer);
-            console.log('Plain text : ' + plaintext);
-        } catch (e) {
-            console.log(e);
-        }
-    }*/
-
     putCryptoKeyInLocalStorage(key: CryptoKey) {
         Observable
             .fromPromise(crypto.subtle.exportKey('raw', key))
             .flatMap((rawKey) => this.cryptoUtils.toBase64Promise(new Blob([new Uint8Array(rawKey)], { type: 'application/octet-stream' })))
             .subscribe((base64Key) => {
-                console.log('raw key : ' + base64Key);
                 this.sessionStorage.store('key', base64Key);
             });
     }
