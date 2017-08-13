@@ -14,11 +14,11 @@ import {
 const ACCOUNT_ROUTES = [
     activateRoute,
     passwordRoute,
-    passwordResetFinishRoute,
-    passwordResetInitRoute,
+    // passwordResetFinishRoute,
+    // passwordResetInitRoute,
     registerRoute,
-    socialAuthRoute,
-    socialRegisterRoute,
+    // socialAuthRoute,
+    // socialRegisterRoute,
     settingsRoute
 ];
 

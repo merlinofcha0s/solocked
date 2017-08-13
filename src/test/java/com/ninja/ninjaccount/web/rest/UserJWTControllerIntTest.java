@@ -147,10 +147,15 @@ public class UserJWTControllerIntTest {
         MockHttpServletResponse mockResponse = mockMvc.perform(post("/api/preauthenticate")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content("user-jwt-controller-remember-me"))
-            .andExpect(status().isOk()).andReturn().getResponse();
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.initializationVector").isString())
+            .andExpect(jsonPath("$.databaseContentType").isString())
+            .andExpect(jsonPath("$.userId").isNotEmpty())
+            .andReturn()
+            .getResponse();
 
-        assertThat(mockResponse.getContentType()).isEqualTo(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-        assertThat(mockResponse.getHeader("ninja-iv")).isEqualTo(uuid);
+        assertThat(mockResponse.getContentType()).isEqualTo(MediaType.APPLICATION_JSON_UTF8_VALUE);
+        //assertThat(mockResponse.getHeader("ninja-iv")).isEqualTo(uuid);
         assertThat(mockResponse.getContentAsByteArray()).isNotNull();
     }
 

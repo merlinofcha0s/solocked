@@ -1,4 +1,4 @@
-import { LocalStorageService } from 'ng2-webstorage';
+import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 import { Accounts } from './../account/accounts.model';
 import { AccountsDB } from './../../entities/accounts-db/accounts-db.model';
 import { TextEncoder } from 'text-encoding';
@@ -39,7 +39,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
         public activeModal: NgbActiveModal,
         private cryptoService: CryptoService,
         private cryptoUtils: CryptoUtilsService,
-        private localStorageService: LocalStorageService
+        private sessionStorageService: SessionStorageService
     ) {
         this.credentials = {};
     }
@@ -72,7 +72,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
                     } else {
                         this.password = accounts.authenticationKey;
                         this.authenticationError = false;
-                        this.localStorageService.store('accountsdb', JSON.stringify(accounts.accounts));
+                        this.sessionStorageService.store('accountsdb', JSON.stringify(accounts.accounts));
                         this.loginJHI();
                     }
                 }, (error) => {
