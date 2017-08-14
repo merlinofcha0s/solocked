@@ -74,12 +74,18 @@ liquibase:
 #    port: 443
 #    ssl:
 #        key-store: keystore.p12
-#        key-store-password: <your-password>
+#        key-store-password: 123456
 #        keyStoreType: PKCS12
 #        keyAlias: ninjaccount
 # ===================================================================
 server:
-    port: 80
+    port: 443
+    ssl:
+        enabled: true
+        key-store: classpath:keystore-test.p12
+        key-store-password: 123456
+        keyStoreType: PKCS12
+        keyAlias: ninjaccount
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
@@ -93,7 +99,7 @@ server:
 
 jhipster:
     http:
-        version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
+        version: V_2_0 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
         cache: # Used by the CachingHttpHeadersFilter
             timeToLiveInDays: 1461
     cache: # Cache configuration
@@ -109,7 +115,7 @@ jhipster:
                 token-validity-in-seconds-for-remember-me: 2592000
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: ninja.notif.test
-        base-url: http://ninjaccount-test-raiden0610.boxfuse.io # Modify according to your server's URL
+        base-url: https://ninjaccount-test-raiden0610.boxfuse.io # Modify according to your server's URL
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         graphite:

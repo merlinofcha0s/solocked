@@ -79,7 +79,13 @@ liquibase:
 #        keyAlias: ninjaccount
 # ===================================================================
 server:
-    port: 80
+    port: 443
+    ssl:
+        key-store: classpath:keystore-prod.p12
+        key-store-password: 123456
+        keyStoreType: PKCS12
+        keyAlias: ninjaccount
+        enabled: true
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
@@ -93,7 +99,7 @@ server:
 
 jhipster:
     http:
-        version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
+        version: V_2_0 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
         cache: # Used by the CachingHttpHeadersFilter
             timeToLiveInDays: 1461
     cache: # Cache configuration
