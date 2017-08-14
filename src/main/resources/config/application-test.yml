@@ -49,6 +49,11 @@ spring:
         port: 587
         username: postmaster@sandboxb41d864ae2174e1295f38c1b5c007c83.mailgun.org
         password: 09c10ad987305ae62bc15ae481018fe8
+        tls: true
+        properties.mail.smtp:
+              auth: true
+              starttls.enable: true
+              ssl.trust: smtp.mailgun.org
     thymeleaf:
         cache: true
     zipkin: # Use the "zipkin" Maven profile to have the Spring Cloud Zipkin dependencies
@@ -114,7 +119,7 @@ jhipster:
                 token-validity-in-seconds: 86400
                 token-validity-in-seconds-for-remember-me: 2592000
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: ninja.notif.test
+        from: notification-test@solocked.com
         base-url: https://ninjaccount-test-raiden0610.boxfuse.io # Modify according to your server's URL
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
