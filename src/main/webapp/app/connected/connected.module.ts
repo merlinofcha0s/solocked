@@ -4,6 +4,7 @@ import { AccountsdbAddComponent } from './accountsdb-add/accountsdb-add.componen
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccountsdbHomeComponent } from './accountsdb-home/accountsdb-home.component';
+import { AccountsdbPopupAddComponent } from './accountsdb-popup-add/accountsdb-popup-add.component';
 
 @NgModule({
   imports: [
@@ -12,7 +13,9 @@ import { AccountsdbHomeComponent } from './accountsdb-home/accountsdb-home.compo
   ],
   declarations: [
     AccountsdbAddComponent,
-    AccountsdbHomeComponent
-  ]
+    AccountsdbHomeComponent,
+    AccountsdbPopupAddComponent
+  ],
+  entryComponents: [AccountsdbPopupAddComponent]
 })
 export class NinjaccountConnectedModule { }

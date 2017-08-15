@@ -1,15 +1,24 @@
+import { AccountsdbPopupAddComponent } from './../accountsdb-popup-add/accountsdb-popup-add.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'jhi-accountdb-home',
   templateUrl: './accountsdb-home.component.html',
-  styles: []
+  styles: ['./accountsdb-home.component.scss']
 })
 export class AccountsdbHomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private modalService: NgbModal) {
+
+  }
 
   ngOnInit() {
+
+  }
+
+  openAddAccountModal() {
+    this.modalService.open(AccountsdbPopupAddComponent);
   }
 
 }
