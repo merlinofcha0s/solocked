@@ -1,18 +1,10 @@
-import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
-import { Accounts } from './../account/accounts.model';
-import { AccountsDB } from './../../entities/accounts-db/accounts-db.model';
-import { TextEncoder } from 'text-encoding';
-import { Observable } from 'rxjs/Rx';
-import { CryptoService } from './../crypto/crypto.service';
+import { SessionStorageService } from 'ng2-webstorage';
 import { Component, AfterViewInit, Renderer, ElementRef } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { Http, Response } from '@angular/http';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { LoginService } from './login.service';
-import { StateStorageService } from '../auth/state-storage.service';
-import { SocialService } from '../social/social.service';
 import { CryptoUtilsService } from '../crypto/crypto-utils.service';
 
 @Component({
@@ -31,13 +23,10 @@ export class JhiLoginModalComponent implements AfterViewInit {
     constructor(
         private eventManager: JhiEventManager,
         private loginService: LoginService,
-        private stateStorageService: StateStorageService,
         private elementRef: ElementRef,
         private renderer: Renderer,
-        private socialService: SocialService,
         private router: Router,
         public activeModal: NgbActiveModal,
-        private cryptoService: CryptoService,
         private cryptoUtils: CryptoUtilsService,
         private sessionStorageService: SessionStorageService
     ) {
@@ -93,7 +82,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
             this.activeModal.dismiss('login success');
             if (this.router.url === '/register' || (/activate/.test(this.router.url)) ||
                 this.router.url === '/finishReset' || this.router.url === '/requestReset') {
-                this.router.navigate(['']);
+                this.router.navigate(['accounts']);
             }
 
             this.eventManager.broadcast({
@@ -101,12 +90,14 @@ export class JhiLoginModalComponent implements AfterViewInit {
                 content: 'Sending Authentication Success'
             });
 
+            this.router.navigate(['accounts']);
+
             // // previousState was set in the authExpiredInterceptor before being redirected to login modal.
             // // since login is succesful, go to stored previousState and clear previousState
-            const redirect = this.stateStorageService.getUrl();
+            /*const redirect = this.stateStorageService.getUrl();
             if (redirect) {
                 this.router.navigate([redirect]);
-            }
+            }*/
         }).catch(() => {
             this.authenticationError = true;
             this.loading = false;

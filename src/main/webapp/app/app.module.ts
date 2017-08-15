@@ -25,6 +25,7 @@ import {
     ActiveMenuDirective,
     ErrorComponent
 } from './layouts';
+import { NinjaccountConnectedModule } from './connected/connected.module';
 
 @NgModule({
     imports: [
@@ -36,6 +37,7 @@ import {
         NinjaccountAdminModule,
         NinjaccountAccountModule,
         NinjaccountEntityModule,
+        NinjaccountConnectedModule
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [
