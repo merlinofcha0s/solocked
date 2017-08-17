@@ -11,7 +11,7 @@ export class AccountsService {
     init(): Accounts {
         const accountsInitialized = new Accounts();
         accountsInitialized.authenticationKey = this.getRandomString(22);
-        const sampleAccount = new Account('username', 'password', 'title', AccountType.ACCOUNT);
+        const sampleAccount = new Account('username', 'password', 'title', AccountType.Default);
         accountsInitialized.accounts.push(sampleAccount);
 
         return accountsInitialized;

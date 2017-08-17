@@ -5,8 +5,10 @@
   </button>
 </div>
 <div class="modal-body">
-  <p>Choose the type of accounts</p>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-outline-dark">Close</button>
+  <p>Which type of account ?</p>
+  <div class="d-flex justify-content-around">
+    <div *ngFor="let accountType of getAllAccountType()">
+      <button type="button" class="btn btn-outline-info" (click)="goNewAccount(accountType)">{{ accountType }}</button>
+    </div>
+  </div>
 </div>

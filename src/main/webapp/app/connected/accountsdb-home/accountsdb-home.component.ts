@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'jhi-accountdb-home',
   templateUrl: './accountsdb-home.component.html',
-  styles: ['./accountsdb-home.component.scss']
+  styles: ['./accountsdb-home.compon.scss']
 })
 export class AccountsdbHomeComponent implements OnInit {
 
