@@ -42,6 +42,12 @@ export class AccountsDBService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
+    getDbUserConnected(): Observable<AccountsDB> {
+        return this.http.get(`${this.resourceUrl}/getDbUserConnected`).map((res: Response) => {
+            return res.json();
+        });
+    }
+
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         return new ResponseWrapper(res.headers, jsonResponse, res.status);

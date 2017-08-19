@@ -12,8 +12,7 @@ export class CryptoService {
 
     private cryptingAlgorithm = 'AES-GCM';
 
-    constructor(private accountService: AccountsService
-        , private dataUtils: JhiDataUtils
+    constructor(private dataUtils: JhiDataUtils
         , private sessionStorage: SessionStorageService
         , private cryptoUtils: CryptoUtilsService) { }
 
@@ -25,7 +24,7 @@ export class CryptoService {
     async creatingKey(input: string): Promise<CryptoKey> {
         const passwordArrayBuffer = new TextEncoder('utf-8').encode(input);
         // Importing the raw input from the password field to a Cryptokey
-        const passwordKey = await this.importKeyString(passwordArrayBuffer);
+        const passwordKey = await this.importKeyString(passwordArrayBuffer, 'PBKDF2');
         // Key derivation from the password to a CryptoKey for securing the password
         const derivedKey = await this.deriveKeyFromPassword(passwordKey, this.cryptoUtils.hexToArrayBuffer('12af0251ae3c818e446f503de25b6e2f'));
         return derivedKey;
@@ -35,7 +34,7 @@ export class CryptoService {
      * Create the key with the raw password inside
      * @param password raw password
      */
-    async importKeyString(password: Uint8Array): Promise<CryptoKey> {
+    async importKeyString(password: Uint8Array, algo: string): Promise<CryptoKey> {
         try {
             return await crypto.subtle.importKey('raw', password, { name: 'PBKDF2' }, false, ['deriveBits', 'deriveKey']);
         } catch (e) {
@@ -115,5 +114,13 @@ export class CryptoService {
             .subscribe((base64Key) => {
                 this.sessionStorage.store('key', base64Key);
             });
+    }
+
+    getCryptoKeyInStorage(): Observable<CryptoKey> {
+        const keyB64 = this.sessionStorage.retrieve('key');
+        const keyBlob = this.cryptoUtils.b64toBlob(keyB64, 'application/octet-stream', 2048);
+        return Observable
+            .fromPromise(this.cryptoUtils.blobToArrayBuffer(keyBlob))
+            .flatMap((keyArrayBuffer) => this.importKeyString(new Uint8Array(keyArrayBuffer), this.cryptingAlgorithm));
     }
 }

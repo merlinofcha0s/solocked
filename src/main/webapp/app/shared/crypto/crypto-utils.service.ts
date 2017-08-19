@@ -55,7 +55,7 @@ export class CryptoUtilsService {
         return new Blob(byteArrays, { type: contentType });
     }
 
-    blobToArrayBuffer(blob: Blob): Promise<string> {
+    blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
         const reader = new FileReader();
         return new Promise((resolve, reject) => {
             reader.addEventListener('loadend', (e) => {

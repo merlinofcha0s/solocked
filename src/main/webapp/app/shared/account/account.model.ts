@@ -7,15 +7,18 @@ export class Account {
     public password: string;
     public loginURL?: string;
     public notes?: string;
-    public contactURL: string;
+    public contactURL?: string;
     public type: AccountType;
 
     constructor(
-        username: any,
+        username: string,
         password: string,
         name: string,
         type: AccountType
     ) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
         this.type = type ? type : AccountType.Default;
     }
 }

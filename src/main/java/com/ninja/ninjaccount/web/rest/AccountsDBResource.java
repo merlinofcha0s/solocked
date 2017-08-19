@@ -1,6 +1,7 @@
 package com.ninja.ninjaccount.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
@@ -113,5 +114,18 @@ public class AccountsDBResource {
         log.debug("REST request to delete AccountsDB : {}", id);
         accountsDBService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    /**
+     * GET  /accounts-dbs/getDBuserConnected : get the account db of the connected user
+     *
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @GetMapping("/accounts-dbs/getDbUserConnected")
+    @Timed
+    public ResponseEntity<AccountsDBDTO> getAccountDBUserConnected(){
+        final String userLogin = SecurityUtils.getCurrentUserLogin();
+        AccountsDBDTO accountsDBDTO = accountsDBService.findByUsernameLogin(userLogin);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(accountsDBDTO));
     }
 }

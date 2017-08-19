@@ -1,8 +1,8 @@
+import { AccountsService } from './../../shared/account/accounts.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Account } from '../../shared/account/account.model';
-import { AccountType } from "../../shared/account/account-type.model";
-
+import { AccountType } from '../../shared/account/account-type.model';
 
 @Component({
   selector: 'jhi-accountsdb-add',
@@ -20,7 +20,7 @@ export class AccountsdbAddComponent implements OnInit {
   notes: FormControl;
   contactURL: FormControl;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private accountsService: AccountsService) { }
 
   ngOnInit() {
     this.initForm();
@@ -61,6 +61,7 @@ export class AccountsdbAddComponent implements OnInit {
     newAccount.loginURL = this.loginURL.value;
     newAccount.number = this.accountNumber.value;
     newAccount.notes = this.notes.value;
+    this.accountsService.saveNewAccount(newAccount);
   }
 
 }

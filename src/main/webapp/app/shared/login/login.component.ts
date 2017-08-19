@@ -61,7 +61,8 @@ export class JhiLoginModalComponent implements AfterViewInit {
                     } else {
                         this.password = accounts.authenticationKey;
                         this.authenticationError = false;
-                        this.sessionStorageService.store('accountsdb', JSON.stringify(accounts.accounts));
+                        accounts.authenticationKey = '';
+                        this.sessionStorageService.store('accountsdb', JSON.stringify(accounts));
                         this.loginJHI();
                     }
                 }, (error) => {
