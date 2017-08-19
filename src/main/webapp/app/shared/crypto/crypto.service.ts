@@ -24,7 +24,7 @@ export class CryptoService {
     async creatingKey(input: string): Promise<CryptoKey> {
         const passwordArrayBuffer = new TextEncoder('utf-8').encode(input);
         // Importing the raw input from the password field to a Cryptokey
-        const passwordKey = await this.importKeyString(passwordArrayBuffer, 'PBKDF2');
+        const passwordKey = await this.importKey(passwordArrayBuffer, ['deriveBits', 'deriveKey'], false, 'PBKDF2');
         // Key derivation from the password to a CryptoKey for securing the password
         const derivedKey = await this.deriveKeyFromPassword(passwordKey, this.cryptoUtils.hexToArrayBuffer('12af0251ae3c818e446f503de25b6e2f'));
         return derivedKey;
@@ -32,11 +32,14 @@ export class CryptoService {
 
     /**
      * Create the key with the raw password inside
-     * @param password raw password
+     * @param password password or key
+     * @param right what we can do with the key : ['deriveBits', 'deriveKey']
+     * @param exportable extractable or not
+     * @param cryptingAlgorithm PBKDF2 or AES-GCM in our case (see the crypto subtle docs for more details)
      */
-    async importKeyString(password: Uint8Array, algo: string): Promise<CryptoKey> {
+    async importKey(password: Uint8Array, right: Array<string>, exportable: boolean, cryptingAlgorithm: string): Promise<CryptoKey> {
         try {
-            return await crypto.subtle.importKey('raw', password, { name: 'PBKDF2' }, false, ['deriveBits', 'deriveKey']);
+            return await crypto.subtle.importKey('raw', password, { name: cryptingAlgorithm }, exportable, right);
         } catch (e) {
             console.log(e);
         }
@@ -121,6 +124,6 @@ export class CryptoService {
         const keyBlob = this.cryptoUtils.b64toBlob(keyB64, 'application/octet-stream', 2048);
         return Observable
             .fromPromise(this.cryptoUtils.blobToArrayBuffer(keyBlob))
-            .flatMap((keyArrayBuffer) => this.importKeyString(new Uint8Array(keyArrayBuffer), this.cryptingAlgorithm));
+            .flatMap((keyArrayBuffer) => this.importKey(new Uint8Array(keyArrayBuffer), ['encrypt', 'decrypt'], true, this.cryptingAlgorithm));
     }
 }

@@ -1,7 +1,7 @@
+import { Observable } from 'rxjs/Observable';
 import { SessionStorageService } from 'ng2-webstorage';
 import { CryptoService } from '../crypto/crypto.service';
 import { CryptoUtilsService } from '../crypto/crypto-utils.service';
-import { Observable } from 'rxjs/Rx';
 import { AccountsDB } from '../../entities/accounts-db/accounts-db.model';
 import { AccountsDBService } from '../../entities/accounts-db/accounts-db.service';
 import { Account } from './account.model';
@@ -13,9 +13,9 @@ import { AccountType } from './account-type.model';
 export class AccountsService {
 
     constructor(private accountsDBService: AccountsDBService,
-        private cryptoUtilsService: CryptoUtilsService,
+        private cryptoUtils: CryptoUtilsService,
         private sessionStorage: SessionStorageService,
-        private cryptoService: CryptoService) { }
+        private crypto: CryptoService) { }
 
     init(): Accounts {
         const accountsInitialized = new Accounts();
@@ -38,34 +38,57 @@ export class AccountsService {
     }
 
     saveNewAccount(account: Account) {
+        let accountDbDtoOut = null;
+        const initVector = this.cryptoUtils.getRandomNumber();
         this.accountsDBService.getDbUserConnected()
-            .flatMap((accountDbDto: AccountsDB) => this.decryptWithKeyInStorage(accountDbDto))
-            .subscribe((accounts: Accounts) => {
+            .flatMap((accountDbDto: AccountsDB) => {
+                accountDbDtoOut = accountDbDto;
+                return this.decryptWithKeyInStorage(accountDbDto)
+            })
+            .flatMap((accounts: Accounts) => {
                 accounts.authenticationKey = '';
                 accounts.accounts.push(account);
                 this.sessionStorage.store('accountsdb', accounts);
+                return this.encryptWithKeyInStorage(accounts, initVector);
+            })
+            .flatMap((accountDB: ArrayBuffer) => this.saveEncryptedDB(accountDB, initVector, accountDbDtoOut.id))
+            .subscribe((accountsUpdated: AccountsDB) => {
+                console.log('Succeed !!');
+            });
+    }
+
+    saveEncryptedDB(accountDB: ArrayBuffer, initVector: string, idAccount: number): Observable<AccountsDB> {
+        return Observable.fromPromise(this.cryptoUtils.toBase64Promise(new Blob([new Uint8Array(accountDB)], { type: 'application/octet-stream' })))
+            .flatMap((accountDBbase64: string) => {
+                const accountDBDTO = new AccountsDB();
+                accountDBDTO.database = accountDBbase64;
+                accountDBDTO.databaseContentType = 'application/octet-stream';
+                accountDBDTO.initializationVector = initVector;
+                return this.accountsDBService.update(accountDBDTO);
             });
 
-        // TODO: Decrypt
-        // TODO: Rajouter l'account
-        // TODO : MAJ du localstorage
-        // TODO : Rechiffrer
-        // TODO : Renvoyer dans le WS 
     }
 
     decryptWithKeyInStorage(accountDbDto: AccountsDB): Observable<Accounts> {
         let accountDBArrayBufferOut = null;
-        return Observable.of(this.cryptoUtilsService.b64toBlob(accountDbDto.database, 'application/octet-stream', 2048))
-            .flatMap((accountDBBlob: Blob) => this.cryptoUtilsService.blobToArrayBuffer(accountDBBlob))
+        return Observable
+            .of(this.cryptoUtils.b64toBlob(accountDbDto.database, 'application/octet-stream', 2048))
+            .flatMap((accountDBBlob: Blob) => this.cryptoUtils.blobToArrayBuffer(accountDBBlob))
             .flatMap((accountDBArrayBuffer) => {
                 accountDBArrayBufferOut = accountDBArrayBuffer;
-                return this.cryptoService.getCryptoKeyInStorage()
+                return this.crypto.getCryptoKeyInStorage()
             })
             .flatMap((cryptoKey: CryptoKey) => {
-                return this.cryptoService.decrypt(accountDbDto.initializationVector, cryptoKey, accountDBArrayBufferOut)
-            }).flatMap((decryptedDB: ArrayBuffer) => {
-                return Observable.of(this.cryptoUtilsService.arrayBufferToAccounts(decryptedDB));
+                return this.crypto.decrypt(accountDbDto.initializationVector, cryptoKey, accountDBArrayBufferOut)
+            })
+            .flatMap((decryptedDB: ArrayBuffer) => {
+                return Observable.of(this.cryptoUtils.arrayBufferToAccounts(decryptedDB));
             });
+    }
+
+    encryptWithKeyInStorage(accounts: Accounts, initVector: string): Observable<ArrayBuffer> {
+        return this.crypto.getCryptoKeyInStorage()
+            .flatMap((cryptoKey: CryptoKey) => this.crypto.cryptingDB(initVector, accounts, cryptoKey));
     }
 
 }
