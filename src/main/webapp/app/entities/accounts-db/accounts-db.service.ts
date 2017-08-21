@@ -48,6 +48,13 @@ export class AccountsDBService {
         });
     }
 
+    updateDBUserConnected(accountsDB: AccountsDB): Observable<AccountsDB> {
+        const copy = this.convert(accountsDB);
+        return this.http.put(`${this.resourceUrl}/updateDbUserConnected`, copy).map((res: Response) => {
+            return res.json();
+        });
+    }
+
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         return new ResponseWrapper(res.headers, jsonResponse, res.status);

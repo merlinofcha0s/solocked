@@ -128,4 +128,22 @@ public class AccountsDBResource {
         AccountsDBDTO accountsDBDTO = accountsDBService.findByUsernameLogin(userLogin);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(accountsDBDTO));
     }
+
+    /**
+     * PUT  /accounts-dbs : Updates an existing accountsDB.
+     *
+     * @param accountsDBDTO the accountsDBDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated accountsDBDTO,
+     * or with status 400 (Bad Request) if the accountsDBDTO is not valid,
+     * or with status 500 (Internal Server Error) if the accountsDBDTO couldn't be updated
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @PutMapping("/accounts-dbs/updateDbUserConnected")
+    @Timed
+    public ResponseEntity<AccountsDBDTO> updateAccountsDBForUserConnected(@RequestBody AccountsDBDTO accountsDBDTO) throws URISyntaxException {
+        AccountsDBDTO result = accountsDBService.updateAccountDBForUserConnected(accountsDBDTO);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
 }

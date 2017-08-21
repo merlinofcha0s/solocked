@@ -1,13 +1,14 @@
+import { Router } from '@angular/router';
+import { AccountsDB } from './../../entities/accounts-db/accounts-db.model';
 import { AccountsService } from './../../shared/account/accounts.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Account } from '../../shared/account/account.model';
-import { AccountType } from '../../shared/account/account-type.model';
 
 @Component({
   selector: 'jhi-accountsdb-add',
   templateUrl: './accountsdb-add.component.html',
-  styles: ['./accountsdb-add.component.scss']
+  styleUrls: ['./accountsdb-add.component.scss']
 })
 export class AccountsdbAddComponent implements OnInit {
 
@@ -16,52 +17,50 @@ export class AccountsdbAddComponent implements OnInit {
   accountNumber: FormControl;
   username: FormControl;
   password: FormControl;
-  loginURL: FormControl;
   notes: FormControl;
-  contactURL: FormControl;
+  tags: FormControl;
 
-  constructor(private fb: FormBuilder, private accountsService: AccountsService) { }
+  loading: boolean;
+
+  constructor(private fb: FormBuilder,
+     private accountsService: AccountsService,
+     private router: Router) { }
 
   ngOnInit() {
     this.initForm();
   }
 
   initForm() {
-    this.accountName = this.fb.control('', Validators.compose(
-      [Validators.required]));
-
+    this.accountName = this.fb.control('', Validators.compose([Validators.required]));
     this.accountNumber = this.fb.control('');
-
-    this.username = this.fb.control('', Validators.compose(
-      [Validators.required]));
-
-    this.password = this.fb.control('', Validators.compose(
-      [Validators.required]));
-
-    this.loginURL = this.fb.control('');
-
+    this.username = this.fb.control('', Validators.compose([Validators.required]));
+    this.password = this.fb.control('', Validators.compose([Validators.required]));
     this.notes = this.fb.control('');
-
-    this.contactURL = this.fb.control('');
+    this.tags = this.fb.control('');
 
     this.accountForm = this.fb.group({
       accountName: this.accountName,
       accountNumber: this.accountNumber,
       username: this.username,
       password: this.password,
-      loginURL: this.loginURL,
       notes: this.notes,
-      contactURL: this.contactURL
+      tags: this.tags
     });
   }
 
   onSubmitNewAccount() {
-    const newAccount = new Account(this.username.value, this.password.value, this.accountName.value, AccountType.Default);
-    newAccount.contactURL = this.contactURL.value;
-    newAccount.loginURL = this.loginURL.value;
+    const newAccount = new Account(this.username.value, this.password.value, this.accountName.value);
     newAccount.number = this.accountNumber.value;
     newAccount.notes = this.notes.value;
-    this.accountsService.saveNewAccount(newAccount);
+    newAccount.tags = this.tags.value.split(' ');
+
+    this.loading = true;
+    this.accountsService.saveNewAccount(newAccount)
+      .subscribe((accountsUpdated: AccountsDB) => {
+        this.loading = false;
+        this.router.navigate(['accounts']);
+      },
+      (error) => this.loading = false);
   }
 
 }

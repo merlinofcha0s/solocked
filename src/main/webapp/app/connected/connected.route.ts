@@ -13,7 +13,7 @@ export const ACCOUNTSDB_ROUTES: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'accounts/add-default',
+        path: 'accounts/add',
         data: {
             authorities: ['ROLE_USER']
         },

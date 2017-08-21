@@ -3,6 +3,7 @@ package com.ninja.ninjaccount.service;
 import com.ninja.ninjaccount.domain.AccountsDB;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
+import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.mapper.AccountsDBMapper;
 import org.slf4j.Logger;
@@ -109,5 +110,24 @@ public class AccountsDBService {
         newAccountsDBDTO.setUserLogin(newUser.getLogin());
 
         return save(newAccountsDBDTO);
+    }
+
+    /**
+     * Update the accountDB for the connected user
+     *
+     * @param accountsDBDTO The new accountDB
+     * @return the account db updated
+     */
+    public AccountsDBDTO updateAccountDBForUserConnected(AccountsDBDTO accountsDBDTO){
+        final String userLogin = SecurityUtils.getCurrentUserLogin();
+        AccountsDBDTO accountsDBDTOToUpdate = findByUsernameLogin(userLogin);
+
+        accountsDBDTOToUpdate.setDatabase(accountsDBDTO.getDatabase());
+        accountsDBDTOToUpdate.setInitializationVector(accountsDBDTO.getInitializationVector());
+        accountsDBDTOToUpdate.setDatabaseContentType(accountsDBDTO.getDatabaseContentType());
+
+        save(accountsDBDTOToUpdate);
+
+        return accountsDBDTOToUpdate;
     }
 }

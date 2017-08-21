@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,4 +65,27 @@ public class AccountDBServiceTest {
         assertThat(accountsDB.get().getDatabase()).isNotNull();
     }
 
+    @Test
+    @WithMockUser("user-update-db")
+    public void testUpdateAccountsByUserconnected() {
+        String example = "This is an example";
+        byte[] bytes = example.getBytes();
+        String uuid = UUID.randomUUID().toString();
+
+        User user = userService.createUser("user-update-db", "johndoe", "John", "Doe", "john.doe@localhost", "http://placehold.it/50x50", "en-US");
+        accountsDBService.createNewAccountDB(bytes, uuid, user);
+
+        String updatedExample = "This is an updated example";
+        byte[] updatedBytes = updatedExample.getBytes();
+        String updatedUuid = UUID.randomUUID().toString();
+
+        AccountsDBDTO newAccountsDBDTO = new AccountsDBDTO();
+        newAccountsDBDTO.setDatabase(updatedBytes);
+        newAccountsDBDTO.setInitializationVector(updatedUuid);
+
+        AccountsDBDTO updatedAccountDB = accountsDBService.updateAccountDBForUserConnected(newAccountsDBDTO);
+        assertThat(updatedAccountDB).isNotNull();
+        assertThat(updatedAccountDB.getInitializationVector()).isNotEqualTo(uuid);
+        assertThat(updatedAccountDB.getDatabase()).isNotEqualTo(bytes);
+    }
 }

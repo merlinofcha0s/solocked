@@ -5,6 +5,12 @@
   <div class="card-block">
     <h4 class="card-title">Accounts Database</h4>
     <p class="card-text">Search, display</p>
-    <button type="button" class="btn btn-outline-primary" (click)="openAddAccountModal()">Add a new account</button>
+    <button type="button" class="btn btn-outline-primary" [routerLink]="['/accounts/add']">Add a new account</button>
+
+    <p>
+      <div> Content of your DB: </div>
+      <div> {{ accountDBJSON }} </div>
+    </p>
+
   </div>
 </div>

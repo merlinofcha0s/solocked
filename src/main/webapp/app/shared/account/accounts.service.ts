@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import { SessionStorageService } from 'ng2-webstorage';
 import { CryptoService } from '../crypto/crypto.service';
 import { CryptoUtilsService } from '../crypto/crypto-utils.service';
@@ -7,7 +7,6 @@ import { AccountsDBService } from '../../entities/accounts-db/accounts-db.servic
 import { Account } from './account.model';
 import { Accounts } from './accounts.model';
 import { Injectable } from '@angular/core';
-import { AccountType } from './account-type.model';
 
 @Injectable()
 export class AccountsService {
@@ -20,7 +19,7 @@ export class AccountsService {
     init(): Accounts {
         const accountsInitialized = new Accounts();
         accountsInitialized.authenticationKey = this.getRandomString(22);
-        const sampleAccount = new Account('username', 'password', 'title', AccountType.Default);
+        const sampleAccount = new Account('username', 'password', 'title');
         accountsInitialized.accounts.push(sampleAccount);
 
         return accountsInitialized;
@@ -37,24 +36,20 @@ export class AccountsService {
         return text;
     }
 
-    saveNewAccount(account: Account) {
+    saveNewAccount(account: Account): Observable<AccountsDB> {
         let accountDbDtoOut = null;
         const initVector = this.cryptoUtils.getRandomNumber();
-        this.accountsDBService.getDbUserConnected()
+        return this.accountsDBService.getDbUserConnected()
             .flatMap((accountDbDto: AccountsDB) => {
                 accountDbDtoOut = accountDbDto;
                 return this.decryptWithKeyInStorage(accountDbDto)
             })
             .flatMap((accounts: Accounts) => {
-                accounts.authenticationKey = '';
                 accounts.accounts.push(account);
-                this.sessionStorage.store('accountsdb', accounts);
+                this.sessionStorage.store('accountsdb', JSON.stringify(accounts));
                 return this.encryptWithKeyInStorage(accounts, initVector);
             })
-            .flatMap((accountDB: ArrayBuffer) => this.saveEncryptedDB(accountDB, initVector, accountDbDtoOut.id))
-            .subscribe((accountsUpdated: AccountsDB) => {
-                console.log('Succeed !!');
-            });
+            .flatMap((accountDB: ArrayBuffer) => this.saveEncryptedDB(accountDB, initVector, accountDbDtoOut.id));
     }
 
     saveEncryptedDB(accountDB: ArrayBuffer, initVector: string, idAccount: number): Observable<AccountsDB> {
@@ -64,9 +59,8 @@ export class AccountsService {
                 accountDBDTO.database = accountDBbase64;
                 accountDBDTO.databaseContentType = 'application/octet-stream';
                 accountDBDTO.initializationVector = initVector;
-                return this.accountsDBService.update(accountDBDTO);
+                return this.accountsDBService.updateDBUserConnected(accountDBDTO);
             });
-
     }
 
     decryptWithKeyInStorage(accountDbDto: AccountsDB): Observable<Accounts> {

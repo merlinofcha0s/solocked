@@ -8,11 +8,11 @@
         <div class="card-text">
           <form [formGroup]="accountForm" (ngSubmit)="onSubmitNewAccount()">
             <div class="form-group">
-              <label for="accountName">Account name</label>
+              <label for="accountName">Name</label>
               <input type="text" class="form-control" id="accountName" placeholder="Enter your account name" [formControl]="accountName">
             </div>
             <div class="form-group">
-              <label for="accountNumber">Account number</label>
+              <label for="accountNumber">Number</label>
               <input type="number" class="form-control" id="accountNumber" placeholder="Enter your account number" [formControl]="accountNumber">
             </div>
             <div class="form-group">
@@ -24,18 +24,20 @@
               <input type="password" class="form-control" id="password" placeholder="Enter your password" [formControl]="password">
             </div>
             <div class="form-group">
-              <label for="loginURL">Login URL</label>
-              <input type="url" class="form-control" id="loginURL" placeholder="Enter your login url" [formControl]="loginURL">
-            </div>
-            <div class="form-group">
               <label for="notes">Notes</label>
               <textarea class="form-control" id="notes" rows="3" [formControl]="notes"></textarea>
             </div>
             <div class="form-group">
-              <label for="contactURL">Contact URL</label>
-              <input type="url" class="form-control" id="contactURL" placeholder="Enter your contact url" [formControl]="contactURL">
+              <label for="tags">Tags (separated with space)</label>
+              <input class="form-control" id="tags" [formControl]="tags" data-role="tagsinput" class="form-control">
             </div>
-            <button type="submit" class="btn btn-outline-primary" [disabled]="!accountForm.valid">Add new account</button>
+            <div class="d-flex">
+              <button type="submit" class="btn btn-outline-primary" [disabled]="!accountForm.valid">Add new account</button>
+              <div *ngIf="loading" class="loadingContainer loadingCustom">
+                <div class="spinner" *ngIf="loading"></div>
+                <div class="loadingMessage" jhiTranslate="ninjaccountApp.accountsDB.add.loading">Please wait....</div>
+              </div>
+            </div>
           </form>
         </div>
 
