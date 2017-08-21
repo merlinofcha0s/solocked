@@ -1,4 +1,4 @@
-import { SessionStorageService, SessionStorage} from 'ng2-webstorage';
+import { SessionStorageService } from 'ng2-webstorage';
 
 import { Component, OnInit } from '@angular/core';
 
@@ -9,7 +9,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountsdbHomeComponent implements OnInit {
 
-  @SessionStorage('accountsdb')
   accountDBJSON: string;
 
   constructor(private sessionStorage: SessionStorageService) {
@@ -17,5 +16,10 @@ export class AccountsdbHomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.displayAccountDBJSON();
+  }
+
+  displayAccountDBJSON() {
+    this.accountDBJSON = this.sessionStorage.retrieve('accountsdb');
   }
 }
