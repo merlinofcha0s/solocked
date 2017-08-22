@@ -10,6 +10,11 @@
             <div class="form-group">
               <label for="accountName">Name</label>
               <input type="text" class="form-control" id="accountName" placeholder="Enter your account name" [formControl]="accountName">
+              <div *ngIf="accountName.dirty && accountName.invalid">
+                <small class="form-text text-danger" *ngIf="accountName.errors.required" jhiTranslate="ninjaccountApp.accountsDB.validate.accountName.required">
+                    A name is required
+                </small>
+              </div>
             </div>
             <div class="form-group">
               <label for="accountNumber">Number</label>
@@ -18,10 +23,20 @@
             <div class="form-group">
               <label for="username">Username</label>
               <input type="text" class="form-control" id="username" placeholder="Enter your username" [formControl]="username">
+              <div *ngIf="username.dirty && username.invalid">
+                <small class="form-text text-danger" *ngIf="username.errors.required" jhiTranslate="ninjaccountApp.accountsDB.validate.username.required">
+                    A username is required
+                </small>
+              </div>
             </div>
             <div class="form-group">
               <label for="password">Password</label>
               <input type="password" class="form-control" id="password" placeholder="Enter your password" [formControl]="password">
+              <div *ngIf="password.dirty && password.invalid">
+                <small class="form-text text-danger" *ngIf="password.errors.required" jhiTranslate="ninjaccountApp.accountsDB.validate.password.required">
+                    A password is required
+                </small>
+              </div>
             </div>
             <div class="form-group">
               <label for="notes">Notes</label>
