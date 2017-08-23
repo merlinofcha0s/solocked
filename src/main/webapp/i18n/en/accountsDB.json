@@ -18,7 +18,9 @@
             "initializationVector": "Initialization Vector",
             "database": "Database",
             "user": "User",
+            "title": "Accounts",
             "add" : {
+                "title": "Add new account",
                 "loading": "Please wait..."
             },
             "validate": {

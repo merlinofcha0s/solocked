@@ -7,7 +7,8 @@ export const ACCOUNTSDB_ROUTES: Routes = [
     {
         path: 'accounts',
         data: {
-            authorities: ['ROLE_USER']
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ninjaccountApp.accountsDB.title'
         },
         component: AccountsdbHomeComponent,
         canActivate: [UserRouteAccessService]
@@ -15,7 +16,8 @@ export const ACCOUNTSDB_ROUTES: Routes = [
     {
         path: 'accounts/add',
         data: {
-            authorities: ['ROLE_USER']
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ninjaccountApp.accountsDB.add.title'
         },
         component: AccountsdbAddComponent,
         canActivate: [UserRouteAccessService],
