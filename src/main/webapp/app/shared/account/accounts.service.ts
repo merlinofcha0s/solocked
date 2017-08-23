@@ -7,14 +7,33 @@ import { AccountsDBService } from '../../entities/accounts-db/accounts-db.servic
 import { Account } from './account.model';
 import { Accounts } from './accounts.model';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class AccountsService {
 
+    accounts$: BehaviorSubject<Array<Account>>;
+
+    private _dataStore: {
+        accounts: Accounts
+    };
+
     constructor(private accountsDBService: AccountsDBService,
         private cryptoUtils: CryptoUtilsService,
         private sessionStorage: SessionStorageService,
-        private crypto: CryptoService) { }
+        private crypto: CryptoService) {
+
+        this._dataStore = { accounts: new Accounts() };
+
+        this.accounts$ = new BehaviorSubject<Array<Account>>(this._dataStore.accounts.accounts);
+    }
+
+    getAccountsList() {
+        if (this._dataStore.accounts.accounts.length === 0) {
+            this._dataStore.accounts = JSON.parse(this.sessionStorage.retrieve('accountsdb'));
+        }
+        this.accounts$.next(this._dataStore.accounts.accounts);
+    }
 
     init(): Accounts {
         const accountsInitialized = new Accounts();
@@ -36,6 +55,12 @@ export class AccountsService {
         return text;
     }
 
+    saveOnBrowser(accounts: Accounts) {
+        this.sessionStorage.store('accountsdb', JSON.stringify(accounts));
+        this._dataStore.accounts = accounts;
+        this.accounts$.next(this._dataStore.accounts.accounts);
+    }
+
     saveNewAccount(account: Account): Observable<AccountsDB> {
         let accountDbDtoOut = null;
         const initVector = this.cryptoUtils.getRandomNumber();
@@ -46,7 +71,7 @@ export class AccountsService {
             })
             .flatMap((accounts: Accounts) => {
                 accounts.accounts.push(account);
-                this.sessionStorage.store('accountsdb', JSON.stringify(accounts));
+                this.saveOnBrowser(accounts);
                 return this.encryptWithKeyInStorage(accounts, initVector);
             })
             .flatMap((accountDB: ArrayBuffer) => this.saveEncryptedDB(accountDB, initVector, accountDbDtoOut.id));

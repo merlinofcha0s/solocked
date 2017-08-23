@@ -1,3 +1,4 @@
+import { AccountsService } from './../account/accounts.service';
 import { SessionStorageService } from 'ng2-webstorage';
 import { Component, AfterViewInit, Renderer, ElementRef } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -28,7 +29,8 @@ export class JhiLoginModalComponent implements AfterViewInit {
         private router: Router,
         public activeModal: NgbActiveModal,
         private cryptoUtils: CryptoUtilsService,
-        private sessionStorageService: SessionStorageService
+        private sessionStorage: SessionStorageService,
+        private accountService: AccountsService
     ) {
         this.credentials = {};
     }
@@ -62,7 +64,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
                         this.password = accounts.authenticationKey;
                         this.authenticationError = false;
                         accounts.authenticationKey = '';
-                        this.sessionStorageService.store('accountsdb', JSON.stringify(accounts));
+                        this.accountService.saveOnBrowser(accounts);
                         this.loginJHI();
                     }
                 }, (error) => {

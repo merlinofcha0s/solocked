@@ -4,13 +4,41 @@
   </div>
   <div class="card-block">
     <h4 class="card-title">Accounts Database</h4>
-    <p class="card-text">Search, display</p>
-    <button type="button" class="btn btn-outline-primary" [routerLink]="['/accounts/add']">Add a new account</button>
-
-    <p>
-      <div> Content of your DB (for test purpose): </div>
-      <div> {{ accountDBJSON }} </div>
-    </p>
+    <p class="card-text">Welcome to your database</p>
+    <div class="row">
+      <div class="col-4 col-md-4"></div>
+      <div class="col-4 col-md-4">
+        <input type="text" [(ngModel)]="filter" class="form-control">
+      </div>
+      <div class="col-4 col-md-4" style="text-align: left;">
+        <button type="button" class="btn btn-outline-primary" [routerLink]="['/accounts/add']">Add a new account</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4 col-md-4"></div>
+      <div class="col-4 col-md-4">
+        <div>
+          <table class="table table-hover table-striped" style="text-align: left;">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Username</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let account of accounts$ | async">
+                <td>{{ account.name }}</td>
+                <td>{{ account.username }}</td>
+                <td style="width: 10%;"><i class="fa fa-eye" aria-hidden="true"></i></td>
+                <td style="width: 10%;"><i class="fa fa-trash-o" aria-hidden="true"></i></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-4 col-md-4" style="text-align: left;">
+      </div>
+    </div>
 
   </div>
 </div>

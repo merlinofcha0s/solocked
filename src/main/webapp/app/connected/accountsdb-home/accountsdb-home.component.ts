@@ -1,6 +1,8 @@
+import { AccountsService } from './../../shared/account/accounts.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { SessionStorageService } from 'ng2-webstorage';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'jhi-accountdb-home',
@@ -9,17 +11,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountsdbHomeComponent implements OnInit {
 
-  accountDBJSON: string;
+  accounts$: BehaviorSubject<Array<Account>>;
+  filter: string;
 
-  constructor(private sessionStorage: SessionStorageService) {
+  constructor(private accountsService: AccountsService) {
 
   }
 
   ngOnInit() {
-    this.displayAccountDBJSON();
+    this.initAccountsList();
   }
 
-  displayAccountDBJSON() {
-    this.accountDBJSON = this.sessionStorage.retrieve('accountsdb');
+  initAccountsList() {
+    this.accounts$ = this.accountsService.accounts$;
+    this.accountsService.getAccountsList();
   }
+
 }
