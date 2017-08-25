@@ -14,5 +14,6 @@ export class Account {
         this.username = username;
         this.password = password;
         this.name = name;
+        this.tags = new Array<string>();
     }
 }

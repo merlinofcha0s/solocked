@@ -39,6 +39,7 @@ export class AccountsService {
         const accountsInitialized = new Accounts();
         accountsInitialized.authenticationKey = this.getRandomString(22);
         const sampleAccount = new Account('username', 'password', 'title');
+        sampleAccount.tags.push('title');
         accountsInitialized.accounts.push(sampleAccount);
 
         return accountsInitialized;

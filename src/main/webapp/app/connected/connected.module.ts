@@ -1,3 +1,5 @@
+import { TagsPipe } from './accountsdb-home/tags.pipe';
+import { NinjaccountSharedModule } from './../shared/shared.module';
 import { ACCOUNTSDB_ROUTES } from './connected.route';
 import { RouterModule } from '@angular/router';
 import { AccountsdbAddComponent } from './accountsdb-add/accountsdb-add.component';
@@ -11,11 +13,13 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     CommonModule,
     RouterModule.forRoot(ACCOUNTSDB_ROUTES, { useHash: true }),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NinjaccountSharedModule
   ],
   declarations: [
     AccountsdbAddComponent,
-    AccountsdbHomeComponent
+    AccountsdbHomeComponent,
+    TagsPipe
   ]
 })
 export class NinjaccountConnectedModule { }

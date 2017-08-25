@@ -53,6 +53,7 @@ export class AccountsdbAddComponent implements OnInit {
     newAccount.number = this.accountNumber.value;
     newAccount.notes = this.notes.value;
     newAccount.tags = this.tags.value.split(' ');
+    newAccount.tags.push(this.accountName.value);
 
     this.loading = true;
     this.accountsService.saveNewAccount(newAccount)
