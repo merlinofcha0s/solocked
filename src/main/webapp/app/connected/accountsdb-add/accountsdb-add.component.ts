@@ -52,8 +52,9 @@ export class AccountsdbAddComponent implements OnInit {
     const newAccount = new Account(this.username.value, this.password.value, this.accountName.value);
     newAccount.number = this.accountNumber.value;
     newAccount.notes = this.notes.value;
-    newAccount.tags = this.tags.value.split(' ');
+    newAccount.tags = this.tags.value.trim().split(',');
     newAccount.tags.push(this.accountName.value);
+    newAccount.tags.forEach((tag, index) => newAccount.tags[index] = tag.replace(/\s/g, ''));
 
     this.loading = true;
     this.accountsService.saveNewAccount(newAccount)

@@ -38,11 +38,15 @@ export class AccountsService {
     init(): Accounts {
         const accountsInitialized = new Accounts();
         accountsInitialized.authenticationKey = this.getRandomString(22);
-        const sampleAccount = new Account('username', 'password', 'title');
+        const sampleAccount = new Account('username', 'password', 'title', this.seqNextVal(accountsInitialized));
         sampleAccount.tags.push('title');
         accountsInitialized.accounts.push(sampleAccount);
 
         return accountsInitialized;
+    }
+
+    seqNextVal(accounts: Accounts): number {
+        return accounts.accounts.length + 1;
     }
 
     getRandomString(length: number) {
@@ -63,6 +67,7 @@ export class AccountsService {
     }
 
     saveNewAccount(account: Account): Observable<AccountsDB> {
+        account.id = this.seqNextVal(this._dataStore.accounts);
         let accountDbDtoOut = null;
         const initVector = this.cryptoUtils.getRandomNumber();
         return this.accountsDBService.getDbUserConnected()

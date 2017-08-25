@@ -1,6 +1,7 @@
 import { AccountsService } from './../../shared/account/accounts.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { SessionStorageService } from 'ng2-webstorage';
+import { Account } from '../../shared/account/account.model';
 
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 
