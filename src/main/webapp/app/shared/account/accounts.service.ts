@@ -46,7 +46,8 @@ export class AccountsService {
     }
 
     seqNextVal(accounts: Accounts): number {
-        return accounts.accounts.length + 1;
+        accounts.seq += 1;
+        return accounts.seq;
     }
 
     getRandomString(length: number) {
@@ -67,6 +68,7 @@ export class AccountsService {
     }
 
     saveNewAccount(account: Account): Observable<AccountsDB> {
+        // Gestion de la sequence
         account.id = this.seqNextVal(this._dataStore.accounts);
         let accountDbDtoOut = null;
         const initVector = this.cryptoUtils.getRandomNumber();
@@ -77,6 +79,8 @@ export class AccountsService {
             })
             .flatMap((accounts: Accounts) => {
                 accounts.accounts.push(account);
+                // Gestion de la sequence
+                accounts.seq = this._dataStore.accounts.seq;
                 this.saveOnBrowser(accounts);
                 return this.encryptWithKeyInStorage(accounts, initVector);
             })
@@ -114,6 +118,11 @@ export class AccountsService {
     encryptWithKeyInStorage(accounts: Accounts, initVector: string): Observable<ArrayBuffer> {
         return this.crypto.getCryptoKeyInStorage()
             .flatMap((cryptoKey: CryptoKey) => this.crypto.cryptingDB(initVector, accounts, cryptoKey));
+    }
+
+    clean(): void {
+        this._dataStore.accounts = new Accounts();
+        this.accounts$.next(this._dataStore.accounts.accounts);
     }
 
 }

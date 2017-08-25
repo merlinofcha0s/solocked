@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
+import { AccountsService } from '../account/accounts.service';
 
 @Injectable()
 export class AuthServerProvider {
     constructor(
         private http: Http,
         private $localStorage: LocalStorageService,
-        private $sessionStorage: SessionStorageService
+        private $sessionStorage: SessionStorageService,
+        private $accountService: AccountsService
     ) {}
 
     getToken() {
@@ -57,6 +59,7 @@ export class AuthServerProvider {
             this.$sessionStorage.clear('authenticationToken');
             this.$sessionStorage.clear('key');
             this.$sessionStorage.clear('accountsdb');
+            this.$accountService.clean();
             observer.complete();
         });
     }
