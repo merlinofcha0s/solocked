@@ -68,27 +68,29 @@ export class AccountsService {
     }
 
     saveNewAccount(account: Account): Observable<AccountsDB> {
-        // Gestion de la sequence
+        // Sequence management
         account.id = this.seqNextVal(this._dataStore.accounts);
-        let accountDbDtoOut = null;
         const initVector = this.cryptoUtils.getRandomNumber();
-        return this.accountsDBService.getDbUserConnected()
-            .flatMap((accountDbDto: AccountsDB) => {
-                accountDbDtoOut = accountDbDto;
-                return this.decryptWithKeyInStorage(accountDbDto)
-            })
+        return this.synchroDB()
             .flatMap((accounts: Accounts) => {
+                // Adding nen account
                 accounts.accounts.push(account);
-                // Gestion de la sequence
+                // Sequence management
                 accounts.seq = this._dataStore.accounts.seq;
-                this.saveOnBrowser(accounts);
-                return this.encryptWithKeyInStorage(accounts, initVector);
-            })
-            .flatMap((accountDB: ArrayBuffer) => this.saveEncryptedDB(accountDB, initVector, accountDbDtoOut.id));
+                return this.saveEncryptedDB(accounts, initVector);
+            });
     }
 
-    saveEncryptedDB(accountDB: ArrayBuffer, initVector: string, idAccount: number): Observable<AccountsDB> {
-        return Observable.fromPromise(this.cryptoUtils.toBase64Promise(new Blob([new Uint8Array(accountDB)], { type: 'application/octet-stream' })))
+    synchroDB(): Observable<Accounts> {
+        return this.accountsDBService.getDbUserConnected()
+            .flatMap((accountDbDto: AccountsDB) => this.decryptWithKeyInStorage(accountDbDto))
+            .flatMap((accounts: Accounts) => Observable.of(accounts));
+    }
+
+    saveEncryptedDB(accounts: Accounts, initVector: string): Observable<AccountsDB> {
+        this.saveOnBrowser(accounts);
+        return this.encryptWithKeyInStorage(accounts, initVector)
+            .flatMap((accountDB: ArrayBuffer) => this.cryptoUtils.toBase64Promise(new Blob([new Uint8Array(accountDB)], { type: 'application/octet-stream' })))
             .flatMap((accountDBbase64: string) => {
                 const accountDBDTO = new AccountsDB();
                 accountDBDTO.database = accountDBbase64;
@@ -125,4 +127,12 @@ export class AccountsService {
         this.accounts$.next(this._dataStore.accounts.accounts);
     }
 
+    deleteAccount(accountId: number) {
+        const initVector = this.cryptoUtils.getRandomNumber();
+        this.synchroDB()
+            .flatMap((accounts: Accounts) => {
+                this._dataStore.accounts.accounts = this._dataStore.accounts.accounts.filter((account) => account.id !== accountId);
+                return this.saveEncryptedDB(this._dataStore.accounts, initVector);
+            }).subscribe((accountDB: AccountsDB) => this.accounts$.next(this._dataStore.accounts.accounts));
+    }
 }

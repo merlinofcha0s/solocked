@@ -28,4 +28,8 @@ export class AccountsdbHomeComponent implements OnInit {
     this.accountsService.getAccountsList();
   }
 
+  onDelete(id: number) {
+    this.accountsService.deleteAccount(id);
+  }
+
 }
