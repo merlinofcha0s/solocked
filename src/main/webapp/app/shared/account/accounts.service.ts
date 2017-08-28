@@ -13,6 +13,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 export class AccountsService {
 
     accounts$: BehaviorSubject<Array<Account>>;
+    account$: BehaviorSubject<Account>;
 
     private _dataStore: {
         accounts: Accounts
@@ -26,6 +27,15 @@ export class AccountsService {
         this._dataStore = { accounts: new Accounts() };
 
         this.accounts$ = new BehaviorSubject<Array<Account>>(this._dataStore.accounts.accounts);
+        this.account$ = new BehaviorSubject<Account>(null);
+    }
+
+    getAccount(id: number) {
+        if (this._dataStore.accounts.accounts.length === 0) {
+            this._dataStore.accounts = JSON.parse(this.sessionStorage.retrieve('accountsdb'));
+        }
+        const accounts = this._dataStore.accounts.accounts.filter((account) => account.id === id);
+        this.account$.next(accounts[0]);
     }
 
     getAccountsList() {
@@ -38,7 +48,7 @@ export class AccountsService {
     init(): Accounts {
         const accountsInitialized = new Accounts();
         accountsInitialized.authenticationKey = this.getRandomString(22);
-        const sampleAccount = new Account('username', 'password', 'title', this.seqNextVal(accountsInitialized));
+        const sampleAccount = new Account('dupont', 'password', 'example', this.seqNextVal(accountsInitialized));
         sampleAccount.tags.push('title');
         accountsInitialized.accounts.push(sampleAccount);
 

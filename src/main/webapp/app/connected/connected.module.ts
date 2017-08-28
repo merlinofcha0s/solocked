@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccountsdbHomeComponent } from './accountsdb-home/accountsdb-home.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { AccountsdbDetailsComponent } from './accountsdb-details/accountsdb-details.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
   declarations: [
     AccountsdbAddComponent,
     AccountsdbHomeComponent,
-    TagsPipe
+    TagsPipe,
+    AccountsdbDetailsComponent
   ]
 })
 export class NinjaccountConnectedModule { }

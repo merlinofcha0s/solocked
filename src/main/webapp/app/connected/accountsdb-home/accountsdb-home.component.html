@@ -30,7 +30,7 @@
               <tr *ngFor="let account of (accounts$ | async | tagsFilter:filter:'tags')">
                 <td>{{ account.name }}</td>
                 <td>{{ account.username }}</td>
-                <td style="width: 10%;"><i class="fa fa-eye" style="font-size: 23px; color: #0275d8; cursor: pointer;" aria-hidden="true"></i></td>
+                <td style="width: 10%;"><i class="fa fa-eye" [routerLink]="['/accounts/details', account.id]" style="font-size: 23px; color: #0275d8; cursor: pointer;" aria-hidden="true"></i></td>
                 <td style="width: 10%;"><i class="fa fa-trash-o" (click)="onDelete(account.id)" style="font-size: 23px; color: #0275d8; cursor: pointer;" aria-hidden="true"></i></td>
               </tr>
             </tbody>

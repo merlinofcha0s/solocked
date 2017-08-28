@@ -1,6 +1,6 @@
 {
     "ninjaccountApp": {
-        "accountsDB" : {
+        "accountsDB": {
             "home": {
                 "title": "Accounts DBS",
                 "createLabel": "Create a new Accounts DB",
@@ -19,18 +19,21 @@
             "database": "Database",
             "user": "User",
             "title": "Accounts",
-            "add" : {
+            "add": {
                 "title": "Add new account",
                 "loading": "Please wait..."
             },
+            "details": {
+                "title": "Details"
+            },
             "validate": {
-                "accountName":{
+                "accountName": {
                     "required": "A name is required"
                 },
-                "username":{
+                "username": {
                     "required": "A username is required"
                 },
-                "password":{
+                "password": {
                     "required": "A password is required"
                 }
             }
