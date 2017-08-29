@@ -22,6 +22,15 @@ export const ACCOUNTSDB_ROUTES: Routes = [
         },
         component: AccountsdbAddComponent,
         canActivate: [UserRouteAccessService],
+    },
+    {
+        path: 'accounts/edit/:id',
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ninjaccountApp.accountsDB.add.title'
+        },
+        component: AccountsdbAddComponent,
+        canActivate: [UserRouteAccessService],
     }
     ,
     {

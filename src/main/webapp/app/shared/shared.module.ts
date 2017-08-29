@@ -1,3 +1,4 @@
+import { AccountsTechService } from './account/accounts-tech.service';
 import { CryptoUtilsService } from './crypto/crypto-utils.service';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DatePipe } from '@angular/common';
@@ -35,6 +36,7 @@ import { CryptoService } from './crypto/crypto.service';
         LoginService,
         LoginModalService,
         AccountService,
+        AccountsTechService,
         StateStorageService,
         Principal,
         CSRFService,

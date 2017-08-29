@@ -11,7 +11,7 @@ export class TagsPipe implements PipeTransform {
                 return account;
             } else {
                 const joined = account.tags.join(' ');
-                return joined.toLowerCase().indexOf(filter) !== -1;
+                return joined.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
             }
         });
     }
