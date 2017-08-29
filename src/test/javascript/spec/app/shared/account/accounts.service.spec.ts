@@ -9,6 +9,7 @@ import { AccountsService } from '../../../../../../main/webapp/app/shared/accoun
 import { AccountsDBService } from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db.service';
 import { CryptoUtilsService } from '../../../../../../main/webapp/app/shared/crypto/crypto-utils.service';
 import { CryptoService } from '../../../../../../main/webapp/app/shared/crypto/crypto.service';
+import { AccountsTechService } from '../../../../../../main/webapp/app/shared/account/accounts-tech.service';
 
 describe('Services Tests', () => {
 
@@ -23,7 +24,8 @@ describe('Services Tests', () => {
                     CryptoUtilsService,
                     JhiDataUtils,
                     SessionStorageService,
-                    CryptoService
+                    CryptoService,
+                    AccountsTechService
                 ]
             }).compileComponents();
         }));

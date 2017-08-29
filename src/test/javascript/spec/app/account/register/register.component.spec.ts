@@ -12,6 +12,7 @@ import { CryptoService } from '../../../../../../main/webapp/app/shared/crypto/c
 import { SessionStorageService } from 'ng2-webstorage/dist/services';
 import { CryptoUtilsService } from '../../../../../../main/webapp/app/shared/crypto/crypto-utils.service';
 import { AccountsDBService } from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db.service';
+import { AccountsTechService } from '../../../../../../main/webapp/app/shared/account/accounts-tech.service';
 
 describe('Component Tests', () => {
 
@@ -31,6 +32,7 @@ describe('Component Tests', () => {
                     JhiDataUtils,
                     SessionStorageService,
                     AccountsDBService,
+                    AccountsTechService,
                     {
                         provide: JhiAlertService,
                         useValue: null
