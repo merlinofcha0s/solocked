@@ -1,7 +1,7 @@
 export class Account {
     public id: number;
     public name: string;
-    public number: number;
+    public number: string;
     public username: string;
     public password: string;
     public notes?: string;

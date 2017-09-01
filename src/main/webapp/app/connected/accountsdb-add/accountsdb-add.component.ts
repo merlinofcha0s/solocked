@@ -66,7 +66,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     this.header = 'Add an account'
     this.button = 'Add new account';
     this.accountName = this.fb.control('', Validators.compose([Validators.required]));
-    this.accountNumber = this.fb.control('');
+    this.accountNumber = this.fb.control('', Validators.pattern('^[0-9]+$'));
     this.username = this.fb.control('', Validators.compose([Validators.required]));
     this.password = this.fb.control('', Validators.compose([Validators.required]));
     this.notes = this.fb.control('');

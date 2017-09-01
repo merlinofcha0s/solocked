@@ -18,7 +18,12 @@
             </div>
             <div class="form-group">
               <label for="accountNumber">Number</label>
-              <input type="number" class="form-control" id="accountNumber" placeholder="Enter your account number" [formControl]="accountNumber">
+              <input type="text" class="form-control" id="accountNumber" placeholder="Enter your account number" [formControl]="accountNumber">
+              <div *ngIf="accountNumber.dirty && accountNumber.invalid">
+                <small class="form-text text-danger" *ngIf="accountNumber.errors.pattern" jhiTranslate="ninjaccountApp.accountsDB.validate.accountNumber.pattern">
+                   Enter a number
+                </small>
+              </div>
             </div>
             <div class="form-group">
               <label for="username">Username</label>

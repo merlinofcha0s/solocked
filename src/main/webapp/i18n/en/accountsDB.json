@@ -30,6 +30,9 @@
                 "accountName": {
                     "required": "A name is required"
                 },
+                "accountNumber": {
+                    "pattern": "Enter a number"
+                },
                 "username": {
                     "required": "A username is required"
                 },
