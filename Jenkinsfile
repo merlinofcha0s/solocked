@@ -2,6 +2,7 @@
 
 node {
     stage('checkout') {
+        deleteDir()
         checkout scm
     }
 
@@ -12,7 +13,6 @@ node {
     stage('clean') {
         sh "chmod +x mvnw"
         sh "./mvnw clean"
-        deleteDir "node_modules"
     }
 
     stage('install tools') {
