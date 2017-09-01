@@ -77,7 +77,7 @@ public class AccountsDBResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        AccountsDBResource accountsDBResource = new AccountsDBResource(accountsDBService);
+        final AccountsDBResource accountsDBResource = new AccountsDBResource(accountsDBService);
         this.restAccountsDBMockMvc = MockMvcBuilders.standaloneSetup(accountsDBResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

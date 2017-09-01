@@ -1,6 +1,6 @@
 <div class="card" *ngIf="account$ | async as account">
   <h3 class="card-header">{{ account.name }}</h3>
-  <div class="card-block">
+  <div class="card-body">
     <div class="card-text" style="margin-bottom: 10px;">
       <ul class="list-group">
         <li class="list-group-item">Number : {{ account.number }}</li>
@@ -8,13 +8,14 @@
         <li class="list-group-item">Password : {{ account.password }}</li>
         <li class="list-group-item">Notes : {{ account.notes }}</li>
         <li class="list-group-item"> <span style="margin-right: 5px;">Tags :</span>
-          <span *ngFor="let tag of account.tags" class="badge badge-primary" style="margin-right: 5px;"> {{ tag }} </span>
+          <span *ngFor="let tag of account.tags" class="badge badge-primary"
+                style="margin-right: 5px;"> {{ tag }} </span>
         </li>
       </ul>
     </div>
-    <div class="">
-      <button class="btn btn-danger" (click)="onDelete(account.id)">Delete</button>
-      <button class="btn btn-primary" [routerLink]="['/accounts']">Return home</button>
-    </div>
+    <div>
+         <button class="btn btn-danger" (click)="onDelete(account.id)">Delete</button>
+         <button class="btn btn-primary" [routerLink]="['/accounts']">Return home</button>
+      </div>
   </div>
 </div>

@@ -19,7 +19,6 @@ import { ResponseWrapper } from '../../shared';
 export class AccountsDBDialogComponent implements OnInit {
 
     accountsDB: AccountsDB;
-    authorities: any[];
     isSaving: boolean;
 
     users: User[];
@@ -36,7 +35,6 @@ export class AccountsDBDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.userService.query()
             .subscribe((res: ResponseWrapper) => { this.users = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
@@ -49,17 +47,8 @@ export class AccountsDBDialogComponent implements OnInit {
         return this.dataUtils.openFile(contentType, field);
     }
 
-    setFileData(event, accountsDB, field, isImage) {
-        if (event && event.target.files && event.target.files[0]) {
-            const file = event.target.files[0];
-            if (isImage && !/^image\//.test(file.type)) {
-                return;
-            }
-            this.dataUtils.toBase64(file, (base64Data) => {
-                accountsDB[field] = base64Data;
-                accountsDB[`${field}ContentType`] = file.type;
-            });
-        }
+    setFileData(event, entity, field, isImage) {
+        this.dataUtils.setFileData(event, entity, field, isImage);
     }
 
     clear() {
@@ -113,7 +102,6 @@ export class AccountsDBDialogComponent implements OnInit {
 })
 export class AccountsDBPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -124,11 +112,11 @@ export class AccountsDBPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.accountsDBPopupService
-                    .open(AccountsDBDialogComponent, params['id']);
+                this.accountsDBPopupService
+                    .open(AccountsDBDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.accountsDBPopupService
-                    .open(AccountsDBDialogComponent);
+                this.accountsDBPopupService
+                    .open(AccountsDBDialogComponent as Component);
             }
         });
     }

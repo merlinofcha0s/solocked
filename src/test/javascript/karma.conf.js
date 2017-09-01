@@ -69,7 +69,7 @@ module.exports = (config) => {
         // Chrome_without_security
         browsers: ['PhantomJS'],
 
-        // you can define custom flags 
+        // you can define custom flags
         /*customLaunchers: {
             Chrome_without_security: {
                 base: 'Chrome',
@@ -79,7 +79,7 @@ module.exports = (config) => {
 
         // Ensure all browsers can run tests written in .ts files
         mime: {
-            'text/x-typescript': ['ts', 'tsx']
+            'text/x-typescript': ['ts','tsx']
         },
 
         // Continuous Integration mode

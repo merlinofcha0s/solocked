@@ -1,11 +1,9 @@
 package com.ninja.ninjaccount.service.dto;
 
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Objects;
 import javax.persistence.Lob;
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A DTO for the AccountsDB entity.

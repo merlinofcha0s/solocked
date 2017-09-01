@@ -1,10 +1,8 @@
 import { AccountsTechService } from './accounts-tech.service';
 import { Observable } from 'rxjs/Rx';
 import { SessionStorageService } from 'ng2-webstorage';
-import { CryptoService } from '../crypto/crypto.service';
 import { CryptoUtilsService } from '../crypto/crypto-utils.service';
 import { AccountsDB } from '../../entities/accounts-db/accounts-db.model';
-import { AccountsDBService } from '../../entities/accounts-db/accounts-db.service';
 import { Account } from './account.model';
 import { Accounts } from './accounts.model';
 import { Injectable } from '@angular/core';
@@ -20,10 +18,8 @@ export class AccountsService {
         accounts: Accounts
     };
 
-    constructor(private accountsDBService: AccountsDBService,
-        private cryptoUtils: CryptoUtilsService,
+    constructor(private cryptoUtils: CryptoUtilsService,
         private sessionStorage: SessionStorageService,
-        private crypto: CryptoService,
         private accountTech: AccountsTechService) {
 
         this._dataStore = { accounts: new Accounts() };

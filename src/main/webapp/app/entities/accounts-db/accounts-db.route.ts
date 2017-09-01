@@ -9,8 +9,6 @@ import { AccountsDBDetailComponent } from './accounts-db-detail.component';
 import { AccountsDBPopupComponent } from './accounts-db-dialog.component';
 import { AccountsDBDeletePopupComponent } from './accounts-db-delete-dialog.component';
 
-import { Principal } from '../../shared';
-
 export const accountsDBRoute: Routes = [
     {
         path: 'accounts-db',

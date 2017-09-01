@@ -44,7 +44,6 @@ export class AccountsDBDeleteDialogComponent {
 })
 export class AccountsDBDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -54,8 +53,8 @@ export class AccountsDBDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.accountsDBPopupService
-                .open(AccountsDBDeleteDialogComponent, params['id']);
+            this.accountsDBPopupService
+                .open(AccountsDBDeleteDialogComponent as Component, params['id']);
         });
     }
 
