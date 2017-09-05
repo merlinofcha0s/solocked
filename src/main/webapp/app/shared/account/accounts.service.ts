@@ -94,14 +94,15 @@ export class AccountsService {
         const initVector = this.cryptoUtils.getRandomNumber();
         return this.accountTech.synchroDB()
             .flatMap((accounts: Accounts) => {
-                for (let _i = 0; _i < this._dataStore.accounts.accounts.length; _i++) {
-                    const account = this._dataStore.accounts.accounts[_i];
+                for (let _i = 0; _i < accounts.accounts.length; _i++) {
+                    const account = accounts.accounts[_i];
                     if (account.id === accountUpdated.id) {
+                        this.copyAccount(accounts.accounts[_i], accountUpdated);
                         this.copyAccount(this._dataStore.accounts.accounts[_i], accountUpdated);
                     }
                 }
-                this.saveOnBrowser(this._dataStore.accounts);
-                return this.accountTech.saveEncryptedDB(this._dataStore.accounts, initVector);
+                this.saveOnBrowser(accounts);
+                return this.accountTech.saveEncryptedDB(accounts, initVector);
             }).subscribe((accountDB: AccountsDB) => {
                 this.accounts$.next(this._dataStore.accounts.accounts);
             });
@@ -117,9 +118,10 @@ export class AccountsService {
         const initVector = this.cryptoUtils.getRandomNumber();
         this.accountTech.synchroDB()
             .flatMap((accounts: Accounts) => {
+                accounts.accounts = accounts.accounts.filter((account) => account.id !== accountId);
                 this._dataStore.accounts.accounts = this._dataStore.accounts.accounts.filter((account) => account.id !== accountId);
                 this.saveOnBrowser(this._dataStore.accounts);
-                return this.accountTech.saveEncryptedDB(this._dataStore.accounts, initVector);
+                return this.accountTech.saveEncryptedDB(accounts, initVector);
             }).subscribe((accountDB: AccountsDB) => this.accounts$.next(this._dataStore.accounts.accounts));
     }
 
