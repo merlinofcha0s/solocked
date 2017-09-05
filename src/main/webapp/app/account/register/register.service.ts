@@ -1,14 +1,12 @@
 import { CryptoUtilsService } from './../../shared/crypto/crypto-utils.service';
 import { TextEncoder } from 'text-encoding';
-import { JhiDataUtils } from 'ng-jhipster';
 import { AccountsDBService } from './../../entities/accounts-db/accounts-db.service';
 import { AccountsDB } from './../../entities/accounts-db/accounts-db.model';
 import { CryptoService } from './../../shared/crypto/crypto.service';
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { AccountsService } from '../../shared/account/accounts.service';
-import { Accounts } from '../../shared/account/accounts.model';
 
 @Injectable()
 export class Register {
