@@ -7,6 +7,7 @@ import { Account } from './account.model';
 import { Accounts } from './accounts.model';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {Version} from './version.enum';
 
 @Injectable()
 export class AccountsService {
@@ -45,6 +46,7 @@ export class AccountsService {
 
     init(): Accounts {
         const accountsInitialized = new Accounts();
+        accountsInitialized.version = Version.V1_0;
         accountsInitialized.authenticationKey = this.getRandomString(22);
         const sampleAccount = new Account('dupont', 'password', 'example', this.seqNextVal(accountsInitialized));
         sampleAccount.tags.push('title');
