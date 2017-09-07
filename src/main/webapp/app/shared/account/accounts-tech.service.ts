@@ -1,6 +1,4 @@
-import { AccountsService } from './accounts.service';
 import { CryptoService } from './../crypto/crypto.service';
-import { SessionStorageService } from 'ng2-webstorage';
 import { CryptoUtilsService } from './../crypto/crypto-utils.service';
 import { AccountsDBService } from './../../entities/accounts-db/accounts-db.service';
 import { AccountsDB } from './../../entities/accounts-db/accounts-db.model';
@@ -13,7 +11,6 @@ export class AccountsTechService {
 
     constructor(private accountsDBService: AccountsDBService,
         private cryptoUtils: CryptoUtilsService,
-        private sessionStorage: SessionStorageService,
         private crypto: CryptoService) {
 
     }

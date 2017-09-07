@@ -25,6 +25,7 @@ export class LoginService {
     prelogin(username, password): Observable<any> {
         let accountDBJSONOut = null;
         let accountDBArrayBufferOut = null;
+        let derivedCryptoKeyOut = null;
         return this.http.post('api/preauthenticate', username)
             .map((res: Response) => res.json())
             .flatMap((accountDBJSON: AccountsDB) => {
@@ -37,9 +38,9 @@ export class LoginService {
                 return this.cryptoService.creatingKey(password)
             })
             .flatMap((derivedCryptoKey: CryptoKey) => {
-                this.cryptoService.putCryptoKeyInStorage(derivedCryptoKey);
-                return this.cryptoService.decrypt(accountDBJSONOut.initializationVector, derivedCryptoKey, accountDBArrayBufferOut)
-            });
+                derivedCryptoKeyOut = derivedCryptoKey;
+                return this.cryptoService.putCryptoKeyInStorage(derivedCryptoKeyOut)
+            }).flatMap((success: boolean) =>  this.cryptoService.decrypt(accountDBJSONOut.initializationVector, derivedCryptoKeyOut, accountDBArrayBufferOut));
     }
 
     login(credentials, callback?) {

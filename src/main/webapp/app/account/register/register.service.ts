@@ -1,6 +1,4 @@
 import { CryptoUtilsService } from './../../shared/crypto/crypto-utils.service';
-import { TextEncoder } from 'text-encoding';
-import { AccountsDBService } from './../../entities/accounts-db/accounts-db.service';
 import { AccountsDB } from './../../entities/accounts-db/accounts-db.model';
 import { CryptoService } from './../../shared/crypto/crypto.service';
 import { Injectable } from '@angular/core';
@@ -11,14 +9,13 @@ import { AccountsService } from '../../shared/account/accounts.service';
 @Injectable()
 export class Register {
 
-    constructor(private http: Http, private accountService: AccountsService
-        , private crypto: CryptoService, private accountDBService: AccountsDBService
-        , private cryptoUtils: CryptoUtilsService) { }
+    constructor(private http: Http, private accountService: AccountsService,
+                private crypto: CryptoService,
+                private cryptoUtils: CryptoUtilsService) { }
 
     save(account: any): Observable<any> {
         // Generate the new DB
         const newAccountsDB = this.accountService.init();
-        const passwordStorage = account.password;
         const initVector = this.cryptoUtils.getRandomNumber();
 
         return Observable

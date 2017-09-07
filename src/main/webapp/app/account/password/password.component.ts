@@ -2,10 +2,13 @@ import { Component, OnInit } from '@angular/core';
 
 import { Principal } from '../../shared';
 import { PasswordService } from './password.service';
+import {LoginService} from '../../shared/login/login.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'jhi-password',
-    templateUrl: './password.component.html'
+    templateUrl: './password.component.html',
+    styleUrls: ['./password.component.scss']
 })
 export class PasswordComponent implements OnInit {
     doNotMatch: string;
@@ -14,11 +17,15 @@ export class PasswordComponent implements OnInit {
     account: any;
     password: string;
     confirmPassword: string;
+    loading: boolean;
 
     constructor(
         private passwordService: PasswordService,
-        private principal: Principal
+        private principal: Principal,
+        private loginService: LoginService,
+        private router: Router
     ) {
+        this.loading = false;
     }
 
     ngOnInit() {
@@ -34,9 +41,13 @@ export class PasswordComponent implements OnInit {
             this.doNotMatch = 'ERROR';
         } else {
             this.doNotMatch = null;
+            this.loading = true;
             this.passwordService.save(this.password).subscribe(() => {
                 this.error = null;
                 this.success = 'OK';
+                this.loading = false;
+                this.loginService.logout();
+                this.router.navigate(['']);
             }, () => {
                 this.success = null;
                 this.error = 'ERROR';

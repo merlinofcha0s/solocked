@@ -110,12 +110,13 @@ export class CryptoService {
         }
     }
 
-    putCryptoKeyInStorage(key: CryptoKey) {
-        Observable
+    putCryptoKeyInStorage(key: CryptoKey): Observable<Boolean> {
+       return Observable
             .fromPromise(crypto.subtle.exportKey('raw', key))
             .flatMap((rawKey) => this.cryptoUtils.toBase64Promise(new Blob([new Uint8Array(rawKey)], { type: 'application/octet-stream' })))
-            .subscribe((base64Key) => {
+            .flatMap((base64Key) => {
                 this.sessionStorage.store('key', base64Key);
+                return Observable.of(true);
             });
     }
 

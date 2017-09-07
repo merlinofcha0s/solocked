@@ -1,13 +1,28 @@
-import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Rx';
+import {AccountsTechService} from '../../shared/account/accounts-tech.service';
+import {Accounts} from '../../shared/account/accounts.model';
+import {CryptoService} from '../../shared/crypto/crypto.service';
+import {CryptoUtilsService} from '../../shared/crypto/crypto-utils.service';
 
 @Injectable()
 export class PasswordService {
 
-    constructor(private http: Http) {}
+    constructor(private accountTech: AccountsTechService,
+                private crypto: CryptoService,
+                private cryptoUtils: CryptoUtilsService) {
+    }
 
     save(newPassword: string): Observable<any> {
-        return this.http.post('api/account/change_password', newPassword);
+        let accountsSynchro = null;
+        return this.accountTech.synchroDB()
+            .flatMap((accounts: Accounts) => {
+                accountsSynchro = accounts;
+                return this.crypto.creatingKey(newPassword);
+            }).flatMap((newCryptoKey: CryptoKey) => this.crypto.putCryptoKeyInStorage(newCryptoKey))
+            .flatMap((success: boolean) => {
+                const initVector = this.cryptoUtils.getRandomNumber();
+                return this.accountTech.saveEncryptedDB(accountsSynchro, initVector);
+            });
     }
 }
