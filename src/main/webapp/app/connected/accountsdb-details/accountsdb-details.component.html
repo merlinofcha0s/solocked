@@ -7,10 +7,15 @@
         <li class="list-group-item">Username : {{ account.username }}</li>
         <li class="list-group-item">Password : {{ account.password }}</li>
         <li class="list-group-item">Notes : {{ account.notes }}</li>
+        <li class="list-group-item" *ngFor="let custom of account.customs; let i=index">
+            <span style="margin-right: 5px;">Custom Fields {{ i + 1 }} : </span>
+            <span style="margin-right: 5px;"> {{ custom.key }} - {{ custom.value }} </span>
+        </li>
         <li class="list-group-item"> <span style="margin-right: 5px;">Tags :</span>
           <span *ngFor="let tag of account.tags" class="badge badge-primary"
                 style="margin-right: 5px;"> {{ tag }} </span>
         </li>
+
       </ul>
     </div>
     <div>
