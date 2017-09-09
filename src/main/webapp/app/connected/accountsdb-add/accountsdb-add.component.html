@@ -61,12 +61,25 @@
               <label for="tags">Tags (separated with comma)</label>
               <input class="form-control" id="tags" [formControl]="tags" data-role="tagsinput" class="form-control">
             </div>
+              <div formArrayName="customs">
+                  <div class="form-group" *ngFor="let cu of customs.controls; let i=index" [formGroup]="cu">
+                      <label for="{{ i }}-key">Custom key / value ({{ i + 1 }})</label>
+                      <div class="d-flex justify-content-around align-items-center">
+                          <input type="text" class="form-control" id="{{ i }}-key" formControlName="key" data-role="customInputKey" class="form-control customInput">
+                          <input class="form-control" id="{{ i }}-value" data-role="customInputValue" formControlName="value" class="form-control">
+                          <i class="fa fa-trash" (click)="onDeleteCustomField(i)" aria-hidden="true" style="font-size: 26px; margin-left: 15px; cursor: pointer;"></i>
+                      </div>
+                  </div>
+              </div>
+
             <div class="d-flex">
-              <button type="submit" class="btn btn-outline-primary"
-                      [disabled]="!accountForm.valid" id="addEditAccount">{{ button }}</button>
-              <div *ngIf="loading" class="loadingContainer loadingCustom">
-                <div class="spinner" *ngIf="loading"></div>
-                <div class="loadingMessage" jhiTranslate="ninjaccountApp.accountsDB.add.loading">Please wait....</div>
+                <button type="button" class="btn btn-outline-secondary" id="addCustomField" (click)="addCustomField()">Add custom field</button>
+                <button type="submit" class="btn btn-outline-primary"
+                        [disabled]="!accountForm.valid" id="addEditAccount">{{ button }}</button>
+                <div *ngIf="loading" class="loadingContainer loadingCustom">
+                    <div class="spinner" *ngIf="loading"></div>
+                    <div class="loadingMessage"
+                         jhiTranslate="ninjaccountApp.accountsDB.add.loading">Please wait....</div>
               </div>
             </div>
           </form>

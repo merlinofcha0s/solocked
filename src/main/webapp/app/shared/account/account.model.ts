@@ -1,3 +1,5 @@
+import {Custom} from './custom-account.model';
+
 export class Account {
     public id: number;
     public name: string;
@@ -6,6 +8,7 @@ export class Account {
     public password: string;
     public notes?: string;
     public tags: Array<string>;
+    public customs: Array<Custom>;
 
     constructor(
         username: string,
@@ -17,6 +20,7 @@ export class Account {
         this.password = password;
         this.name = name;
         this.tags = new Array<string>();
+        this.customs = new Array<Custom>();
         this.id = id ? id : 0;
     }
 }
