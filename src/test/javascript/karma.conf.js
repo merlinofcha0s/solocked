@@ -67,15 +67,16 @@ module.exports = (config) => {
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
         // Chrome_without_security
-        browsers: ['PhantomJS'],
+        browsers: ['Chrome_without_security'],
+        //browsers: ['PhantomJS'],
 
         // you can define custom flags
-        /*customLaunchers: {
+        customLaunchers: {
             Chrome_without_security: {
                 base: 'Chrome',
                 flags: ['--headless', '--disable-gpu', '--remote-debugging-port=9222']
             }
-        },*/
+        },
 
         // Ensure all browsers can run tests written in .ts files
         mime: {

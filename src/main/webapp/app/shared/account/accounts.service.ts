@@ -94,7 +94,7 @@ export class AccountsService {
 
     updateAccount(accountUpdated: Account) {
         const initVector = this.cryptoUtils.getRandomNumber();
-        return this.accountTech.synchroDB()
+        this.accountTech.synchroDB()
             .flatMap((accounts: Accounts) => {
                 for (let _i = 0; _i < accounts.accounts.length; _i++) {
                     const account = accounts.accounts[_i];

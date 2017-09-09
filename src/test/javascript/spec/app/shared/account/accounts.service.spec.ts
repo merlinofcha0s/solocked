@@ -1,10 +1,7 @@
 import { SessionStorageService } from 'ng2-webstorage/dist/services';
 import { JhiDataUtils } from 'ng-jhipster';
-import { MockActivatedRoute } from './../../../helpers/mock-route.service';
 import { NinjaccountTestModule } from './../../../test.module';
-import { TestBed, async, tick, fakeAsync, inject } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { TestBed, async, fakeAsync, inject } from '@angular/core/testing';
 import { AccountsService } from '../../../../../../main/webapp/app/shared/account/accounts.service';
 import { AccountsDBService } from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db.service';
 import { CryptoUtilsService } from '../../../../../../main/webapp/app/shared/crypto/crypto-utils.service';
