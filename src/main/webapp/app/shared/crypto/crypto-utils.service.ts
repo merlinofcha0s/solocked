@@ -1,11 +1,13 @@
-import { JhiDataUtils } from 'ng-jhipster';
-import { Accounts } from './../account/accounts.model';
-import { Injectable } from '@angular/core';
+import {JhiDataUtils} from 'ng-jhipster';
+import {Accounts} from './../account/accounts.model';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class CryptoUtilsService {
 
-    constructor(private dataUtils: JhiDataUtils) { }
+    constructor(private dataUtils: JhiDataUtils) {
+    }
 
     /**
      * Can be use to translate a hash(always in hex) in a buffer
@@ -32,7 +34,7 @@ export class CryptoUtilsService {
         return Math.floor((Math.random() * 10000000000000000000000) + 1).toString();
     }
 
-    b64toBlob(b64Data, contentType, sliceSize) {
+    b64toBlob(b64Data, contentType, sliceSize): Blob {
         contentType = contentType || '';
         sliceSize = sliceSize || 512;
 
@@ -52,17 +54,15 @@ export class CryptoUtilsService {
             byteArrays.push(byteArray);
         }
 
-        return new Blob(byteArrays, { type: contentType });
+        return new Blob(byteArrays, {type: contentType});
     }
 
-    blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
-        const reader = new FileReader();
-        return new Promise((resolve, reject) => {
-            reader.addEventListener('loadend', (e) => {
-                resolve(reader.result);
-            });
-
-            // Start reading the blob as text.
+    blobToArrayBuffer(blob: Blob): Observable<ArrayBuffer> {
+      return Observable.create((observer) => {
+          const reader = new FileReader();
+              reader.onloadend = (e) => {
+                  observer.next(reader.result);
+              };
             reader.readAsArrayBuffer(blob);
         });
     }

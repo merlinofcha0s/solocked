@@ -1,11 +1,10 @@
-import { CryptoUtilsService } from './crypto-utils.service';
-import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
-import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
-import { Observable } from 'rxjs/Rx';
-import { Accounts } from './../account/accounts.model';
-import { AccountsService } from './../account/accounts.service';
-import { Injectable } from '@angular/core';
-import { TextEncoder } from 'text-encoding';
+import {CryptoUtilsService} from './crypto-utils.service';
+import {SessionStorageService} from 'ng2-webstorage';
+import {JhiDataUtils} from 'ng-jhipster';
+import {Observable} from 'rxjs/Rx';
+import {Accounts} from './../account/accounts.model';
+import {Injectable} from '@angular/core';
+import {TextEncoder} from 'text-encoding';
 
 @Injectable()
 export class CryptoService {
@@ -14,7 +13,8 @@ export class CryptoService {
 
     constructor(private dataUtils: JhiDataUtils
         , private sessionStorage: SessionStorageService
-        , private cryptoUtils: CryptoUtilsService) { }
+        , private cryptoUtils: CryptoUtilsService) {
+    }
 
     /**
      * Create the key from the password
@@ -39,7 +39,7 @@ export class CryptoService {
      */
     async importKey(password: Uint8Array, right: Array<string>, exportable: boolean, cryptingAlgorithm: string): Promise<CryptoKey> {
         try {
-            return await crypto.subtle.importKey('raw', password, { name: cryptingAlgorithm }, exportable, right);
+            return await crypto.subtle.importKey('raw', password, {name: cryptingAlgorithm}, exportable, right);
         } catch (e) {
             console.log(e);
         }
@@ -54,12 +54,12 @@ export class CryptoService {
     async deriveKeyFromPassword(passwordKeyToDerived: CryptoKey, saltBuffer: ArrayBuffer): Promise<CryptoKey> {
         try {
             return await crypto.subtle.deriveKey({
-                'name': 'PBKDF2',
-                'salt': saltBuffer,
-                'iterations': 500000,
-                'hash': 'SHA-512'
-            }, passwordKeyToDerived,
-                { 'name': this.cryptingAlgorithm, 'length': 256 },
+                    'name': 'PBKDF2',
+                    'salt': saltBuffer,
+                    'iterations': 500000,
+                    'hash': 'SHA-512'
+                }, passwordKeyToDerived,
+                {'name': this.cryptingAlgorithm, 'length': 256},
                 // Whether or not the key is extractable (less secure) or not (more secure)
                 // when false, the key can only be passed as a web crypto object, not inspected
                 true,
@@ -104,16 +104,19 @@ export class CryptoService {
     async decrypt(initializationVector: string, key: CryptoKey, encryptedData: ArrayBuffer): Promise<ArrayBuffer> {
         const initVectorArrayBuffer = new TextEncoder('UTF-8').encode(initializationVector);
         try {
-            return await crypto.subtle.decrypt({ name: this.cryptingAlgorithm, iv: initVectorArrayBuffer }, key, encryptedData);
+            return await crypto.subtle.decrypt({
+                name: this.cryptingAlgorithm,
+                iv: initVectorArrayBuffer
+            }, key, encryptedData);
         } catch (e) {
             console.log('error : ' + e);
         }
     }
 
     putCryptoKeyInStorage(key: CryptoKey): Observable<Boolean> {
-       return Observable
+        return Observable
             .fromPromise(crypto.subtle.exportKey('raw', key))
-            .flatMap((rawKey) => this.cryptoUtils.toBase64Promise(new Blob([new Uint8Array(rawKey)], { type: 'application/octet-stream' })))
+            .flatMap((rawKey) => this.cryptoUtils.toBase64Promise(new Blob([new Uint8Array(rawKey)], {type: 'application/octet-stream'})))
             .flatMap((base64Key) => {
                 this.sessionStorage.store('key', base64Key);
                 return Observable.of(true);
@@ -123,8 +126,7 @@ export class CryptoService {
     getCryptoKeyInStorage(): Observable<CryptoKey> {
         const keyB64 = this.sessionStorage.retrieve('key');
         const keyBlob = this.cryptoUtils.b64toBlob(keyB64, 'application/octet-stream', 2048);
-        return Observable
-            .fromPromise(this.cryptoUtils.blobToArrayBuffer(keyBlob))
+        return this.cryptoUtils.blobToArrayBuffer(keyBlob)
             .flatMap((keyArrayBuffer) => this.importKey(new Uint8Array(keyArrayBuffer), ['encrypt', 'decrypt'], true, this.cryptingAlgorithm));
     }
 }
