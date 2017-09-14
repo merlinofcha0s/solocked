@@ -134,5 +134,6 @@ export class AccountsService {
         target.password = source.password;
         target.notes = source.notes;
         target.tags = source.tags;
+        target.customs = source.customs;
     }
 }

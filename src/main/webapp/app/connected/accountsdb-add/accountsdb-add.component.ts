@@ -97,6 +97,9 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 this.password.setValue(account.password);
                 this.notes.setValue(account.notes);
 
+                this.customs.controls.splice(0, this.customs.controls.length);
+                account.customs.forEach((custom) => this.addCustomField(custom.key, custom.value));
+
                 let tagsValue = '';
                 const accountTagsWithoutName = account.tags.filter((tag) => tag !== account.name);
                 accountTagsWithoutName.forEach((tag: string) => {
@@ -148,10 +151,10 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         }
     }
 
-    addCustomField() {
+    addCustomField(key: string, value: string) {
         const custom = this.fb.group({
-            key: new FormControl('', Validators.maxLength(20)),
-            value: new FormControl('', Validators.maxLength(100))
+            key: new FormControl(key, Validators.maxLength(20)),
+            value: new FormControl(value, Validators.maxLength(100))
         });
 
         this.customs.push(custom);
