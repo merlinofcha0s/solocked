@@ -18,6 +18,7 @@
             "subscriptionDate": "Subscription Date",
             "price": "Price",
             "planType": "Plan Type",
+            "paid": "Paid",
             "user": "User"
         }
     }

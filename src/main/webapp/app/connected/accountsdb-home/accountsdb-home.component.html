@@ -1,6 +1,9 @@
 <div class="card text-center">
   <div class="card-header">
-    Home
+      <span>Home</span>
+      <span *ngIf="payment$ | async as payment">
+          {{ payment.paid }}
+      </span>
   </div>
   <div class="card-body">
     <h4 class="card-title">Accounts Database</h4>

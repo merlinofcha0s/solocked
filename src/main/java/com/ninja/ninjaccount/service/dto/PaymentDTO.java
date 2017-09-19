@@ -1,13 +1,12 @@
 package com.ninja.ninjaccount.service.dto;
 
 
-import java.time.LocalDate;
-import javax.validation.constraints.*;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Objects;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * A DTO for the Payment entity.
@@ -24,6 +23,9 @@ public class PaymentDTO implements Serializable {
 
     @NotNull
     private PlanType planType;
+
+    @NotNull
+    private Boolean paid;
 
     private Long userId;
 
@@ -59,6 +61,14 @@ public class PaymentDTO implements Serializable {
 
     public void setPlanType(PlanType planType) {
         this.planType = planType;
+    }
+
+    public Boolean isPaid() {
+        return paid;
+    }
+
+    public void setPaid(Boolean paid) {
+        this.paid = paid;
     }
 
     public Long getUserId() {
@@ -105,6 +115,7 @@ public class PaymentDTO implements Serializable {
             ", subscriptionDate='" + getSubscriptionDate() + "'" +
             ", price='" + getPrice() + "'" +
             ", planType='" + getPlanType() + "'" +
+            ", paid='" + isPaid() + "'" +
             "}";
     }
 }

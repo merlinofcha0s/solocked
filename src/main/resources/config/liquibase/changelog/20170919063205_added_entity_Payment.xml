@@ -32,6 +32,10 @@
             <column name="plan_type" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+
+            <column name="paid" type="boolean">
+                <constraints nullable="false" />
+            </column>
             <column name="user_id" type="bigint">
                 <constraints unique="true" nullable="true" />
             </column>

@@ -1,35 +1,41 @@
-import { AccountsService } from './../../shared/account/accounts.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { SessionStorageService } from 'ng2-webstorage';
-import { Account } from '../../shared/account/account.model';
-
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import {AccountsService} from './../../shared/account/accounts.service';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Account} from '../../shared/account/account.model';
+import {Component, OnInit} from '@angular/core';
+import {PaymentService} from '../../entities/payment/payment.service';
+import {Payment} from '../../entities/payment/payment.model';
 
 @Component({
-  selector: 'jhi-accountdb-home',
-  templateUrl: './accountsdb-home.component.html',
-  // styleUrls: ['./accountsdb-home.component.scss']
+    selector: 'jhi-accountdb-home',
+    templateUrl: './accountsdb-home.component.html',
+    // styleUrls: ['./accountsdb-home.component.scss']
 })
 export class AccountsdbHomeComponent implements OnInit {
 
-  accounts$: BehaviorSubject<Array<Account>>;
-  filter: string;
+    accounts$: BehaviorSubject<Array<Account>>;
+    payment$: BehaviorSubject<Payment>;
+    filter: string;
 
-  constructor(private accountsService: AccountsService) {
+    constructor(private accountsService: AccountsService, private paymentService: PaymentService) {
+    }
 
-  }
+    ngOnInit() {
+        this.initAccountsList();
+        this.initPaymentService();
+    }
 
-  ngOnInit() {
-    this.initAccountsList();
-  }
+    initAccountsList() {
+        this.accounts$ = this.accountsService.accounts$;
+        this.accountsService.getAccountsList();
+    }
 
-  initAccountsList() {
-    this.accounts$ = this.accountsService.accounts$;
-    this.accountsService.getAccountsList();
-  }
+    initPaymentService() {
+        this.payment$ = this.paymentService.payment$;
+        this.paymentService.getPaymentByLogin();
+    }
 
-  onDelete(id: number) {
-    this.accountsService.deleteAccount(id);
-  }
+    onDelete(id: number) {
+        this.accountsService.deleteAccount(id);
+    }
 
 }

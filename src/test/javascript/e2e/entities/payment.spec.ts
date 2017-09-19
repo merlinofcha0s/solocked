@@ -40,6 +40,15 @@ describe('Payment e2e test', () => {
         paymentDialogPage.setPriceInput('5');
         expect(paymentDialogPage.getPriceInput()).toMatch('5');
         paymentDialogPage.planTypeSelectLastOption();
+        paymentDialogPage.getPaidInput().isSelected().then(function (selected) {
+            if (selected) {
+                paymentDialogPage.getPaidInput().click();
+                expect(paymentDialogPage.getPaidInput().isSelected()).toBeFalsy();
+            } else {
+                paymentDialogPage.getPaidInput().click();
+                expect(paymentDialogPage.getPaidInput().isSelected()).toBeTruthy();
+            }
+        });
         paymentDialogPage.userSelectLastOption();
         paymentDialogPage.save();
         expect(paymentDialogPage.getSaveButton().isPresent()).toBeFalsy();
@@ -70,6 +79,7 @@ export class PaymentDialogPage {
     subscriptionDateInput = element(by.css('input#field_subscriptionDate'));
     priceInput = element(by.css('input#field_price'));
     planTypeSelect = element(by.css('select#field_planType'));
+    paidInput = element(by.css('input#field_paid'));
     userSelect = element(by.css('select#field_user'));
 
     getModalTitle() {
@@ -102,6 +112,9 @@ export class PaymentDialogPage {
 
     planTypeSelectLastOption = function () {
         this.planTypeSelect.all(by.tagName('option')).last().click();
+    }
+    getPaidInput = function () {
+        return this.paidInput;
     }
     userSelectLastOption = function () {
         this.userSelect.all(by.tagName('option')).last().click();

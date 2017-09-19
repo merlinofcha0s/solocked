@@ -56,6 +56,17 @@
                 </small>
             </div>
         </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.paid" for="field_paid">Paid</label>
+            <input type="checkbox" class="form-control" name="paid" id="field_paid"
+                [(ngModel)]="payment.paid"  />
+            <div [hidden]="!(editForm.controls.paid?.dirty && editForm.controls.paid?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.paid?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.user" for="field_user">User</label>

@@ -38,6 +38,10 @@ public class Payment implements Serializable {
     @Column(name = "plan_type", nullable = false)
     private PlanType planType;
 
+    @NotNull
+    @Column(name = "paid", nullable = false)
+    private Boolean paid;
+
     @OneToOne
     @JoinColumn(unique = true)
     private User user;
@@ -90,6 +94,19 @@ public class Payment implements Serializable {
         this.planType = planType;
     }
 
+    public Boolean isPaid() {
+        return paid;
+    }
+
+    public Payment paid(Boolean paid) {
+        this.paid = paid;
+        return this;
+    }
+
+    public void setPaid(Boolean paid) {
+        this.paid = paid;
+    }
+
     public User getUser() {
         return user;
     }
@@ -131,6 +148,7 @@ public class Payment implements Serializable {
             ", subscriptionDate='" + getSubscriptionDate() + "'" +
             ", price='" + getPrice() + "'" +
             ", planType='" + getPlanType() + "'" +
+            ", paid='" + isPaid() + "'" +
             "}";
     }
 }

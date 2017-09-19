@@ -11,7 +11,9 @@ export class Payment implements BaseEntity {
         public subscriptionDate?: any,
         public price?: number,
         public planType?: PlanType,
+        public paid?: boolean,
         public userId?: number,
     ) {
+        this.paid = false;
     }
 }

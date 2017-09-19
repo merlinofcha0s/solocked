@@ -5,13 +5,23 @@ import { JhiDateUtils } from 'ng-jhipster';
 
 import { Payment } from './payment.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Injectable()
 export class PaymentService {
 
     private resourceUrl = 'api/payments';
 
-    constructor(private http: Http, private dateUtils: JhiDateUtils) { }
+    payment$: BehaviorSubject<Payment>;
+
+    private _dataStore: {
+        payment: Payment
+    };
+
+    constructor(private http: Http, private dateUtils: JhiDateUtils) {
+        this._dataStore = {payment: new Payment()};
+        this.payment$ = new BehaviorSubject<Payment>(this._dataStore.payment);
+    }
 
     create(payment: Payment): Observable<Payment> {
         const copy = this.convert(payment);
@@ -47,6 +57,15 @@ export class PaymentService {
 
     delete(id: number): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${id}`);
+    }
+
+    getPaymentByLogin() {
+        this.http.get(this.resourceUrl + '-by-login')
+            .map((res: Response) => this.convertResponse(res))
+            .subscribe((resWrap: ResponseWrapper) => {
+                this._dataStore.payment = resWrap.json;
+                this.payment$.next(this._dataStore.payment);
+            });
     }
 
     private convertResponse(res: Response): ResponseWrapper {

@@ -86,7 +86,7 @@ public class PaymentResource {
     public List<PaymentDTO> getAllPayments() {
         log.debug("REST request to get all Payments");
         return paymentService.findAll();
-    }
+        }
 
     /**
      * GET  /payments/:id : get the "id" payment.

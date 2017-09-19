@@ -55,6 +55,9 @@ public class PaymentResourceIntTest {
     private static final PlanType DEFAULT_PLAN_TYPE = PlanType.FREE;
     private static final PlanType UPDATED_PLAN_TYPE = PlanType.PREMIUM;
 
+    private static final Boolean DEFAULT_PAID = false;
+    private static final Boolean UPDATED_PAID = true;
+
     @Autowired
     private PaymentRepository paymentRepository;
 
@@ -103,7 +106,8 @@ public class PaymentResourceIntTest {
         Payment payment = new Payment()
             .subscriptionDate(DEFAULT_SUBSCRIPTION_DATE)
             .price(DEFAULT_PRICE)
-            .planType(DEFAULT_PLAN_TYPE);
+            .planType(DEFAULT_PLAN_TYPE)
+            .paid(DEFAULT_PAID);
         return payment;
     }
 
@@ -131,6 +135,7 @@ public class PaymentResourceIntTest {
         assertThat(testPayment.getSubscriptionDate()).isEqualTo(DEFAULT_SUBSCRIPTION_DATE);
         assertThat(testPayment.getPrice()).isEqualTo(DEFAULT_PRICE);
         assertThat(testPayment.getPlanType()).isEqualTo(DEFAULT_PLAN_TYPE);
+        assertThat(testPayment.isPaid()).isEqualTo(DEFAULT_PAID);
     }
 
     @Test
@@ -212,6 +217,25 @@ public class PaymentResourceIntTest {
 
     @Test
     @Transactional
+    public void checkPaidIsRequired() throws Exception {
+        int databaseSizeBeforeTest = paymentRepository.findAll().size();
+        // set the field null
+        payment.setPaid(null);
+
+        // Create the Payment, which fails.
+        PaymentDTO paymentDTO = paymentMapper.toDto(payment);
+
+        restPaymentMockMvc.perform(post("/api/payments")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(paymentDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Payment> paymentList = paymentRepository.findAll();
+        assertThat(paymentList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllPayments() throws Exception {
         // Initialize the database
         paymentRepository.saveAndFlush(payment);
@@ -223,7 +247,8 @@ public class PaymentResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(payment.getId().intValue())))
             .andExpect(jsonPath("$.[*].subscriptionDate").value(hasItem(DEFAULT_SUBSCRIPTION_DATE.toString())))
             .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE)))
-            .andExpect(jsonPath("$.[*].planType").value(hasItem(DEFAULT_PLAN_TYPE.toString())));
+            .andExpect(jsonPath("$.[*].planType").value(hasItem(DEFAULT_PLAN_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.booleanValue())));
     }
 
     @Test
@@ -239,7 +264,8 @@ public class PaymentResourceIntTest {
             .andExpect(jsonPath("$.id").value(payment.getId().intValue()))
             .andExpect(jsonPath("$.subscriptionDate").value(DEFAULT_SUBSCRIPTION_DATE.toString()))
             .andExpect(jsonPath("$.price").value(DEFAULT_PRICE))
-            .andExpect(jsonPath("$.planType").value(DEFAULT_PLAN_TYPE.toString()));
+            .andExpect(jsonPath("$.planType").value(DEFAULT_PLAN_TYPE.toString()))
+            .andExpect(jsonPath("$.paid").value(DEFAULT_PAID.booleanValue()));
     }
 
     @Test
@@ -262,7 +288,8 @@ public class PaymentResourceIntTest {
         updatedPayment
             .subscriptionDate(UPDATED_SUBSCRIPTION_DATE)
             .price(UPDATED_PRICE)
-            .planType(UPDATED_PLAN_TYPE);
+            .planType(UPDATED_PLAN_TYPE)
+            .paid(UPDATED_PAID);
         PaymentDTO paymentDTO = paymentMapper.toDto(updatedPayment);
 
         restPaymentMockMvc.perform(put("/api/payments")
@@ -277,6 +304,7 @@ public class PaymentResourceIntTest {
         assertThat(testPayment.getSubscriptionDate()).isEqualTo(UPDATED_SUBSCRIPTION_DATE);
         assertThat(testPayment.getPrice()).isEqualTo(UPDATED_PRICE);
         assertThat(testPayment.getPlanType()).isEqualTo(UPDATED_PLAN_TYPE);
+        assertThat(testPayment.isPaid()).isEqualTo(UPDATED_PAID);
     }
 
     @Test
