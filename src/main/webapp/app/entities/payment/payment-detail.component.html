@@ -1,0 +1,37 @@
+
+<div *ngIf="payment">
+    <h2><span jhiTranslate="ninjaccountApp.payment.detail.title">Payment</span> {{payment.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="ninjaccountApp.payment.subscriptionDate">Subscription Date</span></dt>
+        <dd>
+            <span>{{payment.subscriptionDate | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="ninjaccountApp.payment.price">Price</span></dt>
+        <dd>
+            <span>{{payment.price}}</span>
+        </dd>
+        <dt><span jhiTranslate="ninjaccountApp.payment.planType">Plan Type</span></dt>
+        <dd>
+            <span jhiTranslate="{{'ninjaccountApp.PlanType.' + payment.planType}}">{{payment.planType}}</span>
+        </dd>
+        <dt><span jhiTranslate="ninjaccountApp.payment.user">User</span></dt>
+        <dd>
+            {{payment.userLogin}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'payment/'+ payment.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

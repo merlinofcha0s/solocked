@@ -8,6 +8,7 @@
             "entities": {
                 "main": "Entités",
                 "accountsDb": "Accounts DB",
+                "payment": "Payment",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
