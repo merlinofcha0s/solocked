@@ -1,14 +1,16 @@
 package com.ninja.ninjaccount.web.rest;
 
 import com.ninja.ninjaccount.NinjaccountApp;
-
 import com.ninja.ninjaccount.domain.Payment;
+import com.ninja.ninjaccount.domain.User;
+import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import com.ninja.ninjaccount.repository.PaymentRepository;
 import com.ninja.ninjaccount.service.PaymentService;
+import com.ninja.ninjaccount.service.UserService;
 import com.ninja.ninjaccount.service.dto.PaymentDTO;
+import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.mapper.PaymentMapper;
 import com.ninja.ninjaccount.web.rest.errors.ExceptionTranslator;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +20,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -32,8 +37,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import com.ninja.ninjaccount.domain.enumeration.PlanType;
 /**
  * Test class for the PaymentResource REST controller.
  *
@@ -60,6 +63,9 @@ public class PaymentResourceIntTest {
 
     @Autowired
     private PaymentService paymentService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -345,5 +351,54 @@ public class PaymentResourceIntTest {
     public void testEntityFromId() {
         assertThat(paymentMapper.fromId(42L).getId()).isEqualTo(42);
         assertThat(paymentMapper.fromId(null)).isNull();
+    }
+
+    @Test
+    @Transactional
+    public void getPaymentByLogin() throws Exception {
+        User user = new User();
+        user.setLogin("lol");
+        user.setEmail("lol@lol.com");
+        user.setPassword("looooool");
+        user.setActivated(true);
+        User userSaved = userService.createUser(new UserDTO(user));
+        // Initialize the database
+        paymentRepository.saveAndFlush(payment);
+        payment.setUser(userSaved);
+
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("lol", "looooool"));
+        SecurityContextHolder.setContext(securityContext);
+
+        // Get the payment
+        restPaymentMockMvc.perform(get("/api/payments/bylogin/"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.id").value(payment.getId().intValue()))
+            .andExpect(jsonPath("$.subscriptionDate").value(DEFAULT_SUBSCRIPTION_DATE.toString()))
+            .andExpect(jsonPath("$.price").value(DEFAULT_PRICE))
+            .andExpect(jsonPath("$.planType").value(DEFAULT_PLAN_TYPE.toString()));
+    }
+
+    @Test
+    @Transactional
+    public void getPaymentByLoginNotFound() throws Exception {
+        User user = new User();
+        user.setLogin("lol");
+        user.setEmail("lol@lol.com");
+        user.setPassword("looooool");
+        user.setActivated(true);
+        User userSaved = userService.createUser(new UserDTO(user));
+        // Initialize the database
+        //paymentRepository.saveAndFlush(payment);
+        //payment.setUser(userSaved);
+
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("lol", "looooool"));
+        SecurityContextHolder.setContext(securityContext);
+
+        // Get the payment
+        restPaymentMockMvc.perform(get("/api/payments/bylogin/"))
+            .andExpect(status().isNotFound());
     }
 }

@@ -153,7 +153,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
     addCustomField(key: string, value: string) {
         const custom = this.fb.group({
-            key: new FormControl(key, Validators.maxLength(20)),
+            key: new FormControl(key, Validators.maxLength(60)),
             value: new FormControl(value, Validators.maxLength(100))
         });
 

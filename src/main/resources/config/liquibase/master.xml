@@ -7,7 +7,7 @@
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170709202432_added_entity_AccountsDB.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170709202432_added_entity_constraints_AccountsDB.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170919063205_added_entity_constraints_Payment.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170919063205_added_entity_Payment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170919063205_added_entity_constraints_Payment.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
