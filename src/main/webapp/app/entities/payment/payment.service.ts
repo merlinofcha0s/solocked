@@ -5,7 +5,7 @@ import { JhiDateUtils } from 'ng-jhipster';
 
 import { Payment } from './payment.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class PaymentService {

@@ -1,5 +1,6 @@
 package com.ninja.ninjaccount.web.rest;
 
+import com.netflix.discovery.converters.Auto;
 import com.ninja.ninjaccount.NinjaccountApp;
 import com.ninja.ninjaccount.domain.AccountsDB;
 import com.ninja.ninjaccount.domain.Authority;
@@ -10,6 +11,7 @@ import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.MailService;
+import com.ninja.ninjaccount.service.PaymentService;
 import com.ninja.ninjaccount.service.UserService;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.UserDTO;
@@ -76,6 +78,9 @@ public class AccountResourceIntTest {
     @Autowired
     private HttpMessageConverter[] httpMessageConverters;
 
+    @Autowired
+    private PaymentService paymentService;
+
     @Mock
     private UserService mockUserService;
 
@@ -92,10 +97,10 @@ public class AccountResourceIntTest {
         doNothing().when(mockMailService).sendActivationEmail(anyObject());
 
         AccountResource accountResource =
-            new AccountResource(userRepository, userService, mockMailService, accountsDBService);
+            new AccountResource(userRepository, userService, mockMailService, accountsDBService, paymentService);
 
         AccountResource accountUserMockResource =
-            new AccountResource(userRepository, mockUserService, mockMailService, accountsDBService);
+            new AccountResource(userRepository, mockUserService, mockMailService, accountsDBService, paymentService);
 
         this.restMvc = MockMvcBuilders.standaloneSetup(accountResource)
             .setMessageConverters(httpMessageConverters)

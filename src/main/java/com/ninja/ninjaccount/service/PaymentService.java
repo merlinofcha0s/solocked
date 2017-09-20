@@ -1,6 +1,8 @@
 package com.ninja.ninjaccount.service;
 
 import com.ninja.ninjaccount.domain.Payment;
+import com.ninja.ninjaccount.domain.User;
+import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import com.ninja.ninjaccount.repository.PaymentRepository;
 import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.service.mapper.PaymentMapper;
@@ -9,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -80,13 +83,36 @@ public class PaymentService {
         paymentRepository.delete(id);
     }
 
-    public PaymentDTO findSubscriptionByLogin(String login) {
+    /**
+     * Get payment information for one user by login
+     *
+     * @param login The login of the user
+     * @return The payment information
+     */
+    public PaymentDTO findPaymentByLogin(String login) {
         Optional<Payment> payment = paymentRepository.findOneByUserLogin(login);
         if(payment.isPresent()){
             return paymentMapper.toDto(payment.get());
         }else{
             return null;
         }
+    }
+
+    /**
+     * Create a payment for user when first register
+     * With one month free
+     *
+     * @param user the user
+     */
+    public void createRegistrationPaymentForUser(User user){
+        PaymentDTO paymentDTO = new PaymentDTO();
+        paymentDTO.setPaid(false);
+        paymentDTO.setPlanType(PlanType.FREE);
+        paymentDTO.setSubscriptionDate(LocalDate.now().plusMonths(1));
+        paymentDTO.setPrice(10);
+        paymentDTO.setUserId(user.getId());
+        paymentDTO.setUserLogin(user.getLogin());
+        save(paymentDTO);
     }
 
 }

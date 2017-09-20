@@ -6,6 +6,7 @@ import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.MailService;
+import com.ninja.ninjaccount.service.PaymentService;
 import com.ninja.ninjaccount.service.UserService;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
@@ -41,15 +42,19 @@ public class AccountResource {
 
     private final AccountsDBService accountsDBService;
 
+    private final PaymentService paymentService;
+
     private static final String CHECK_ERROR_MESSAGE = "Incorrect password";
 
     public AccountResource(UserRepository userRepository, UserService userService,
-                           MailService mailService, AccountsDBService accountsDBService) {
+                           MailService mailService, AccountsDBService accountsDBService,
+                           PaymentService paymentService) {
 
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
         this.accountsDBService = accountsDBService;
+        this.paymentService = paymentService;
 
     }
 
@@ -231,6 +236,7 @@ public class AccountResource {
                     managedUserVM.getAccountsDB().setUserLogin(user.getLogin());
                     managedUserVM.getAccountsDB().setUserId(user.getId());
                     accountsDBService.save(managedUserVM.getAccountsDB());
+                    paymentService.createRegistrationPaymentForUser(user);
 
                     mailService.sendActivationEmail(user);
                     return new ResponseEntity<>(HttpStatus.CREATED);
