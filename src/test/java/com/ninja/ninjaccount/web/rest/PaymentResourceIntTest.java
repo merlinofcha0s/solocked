@@ -399,7 +399,7 @@ public class PaymentResourceIntTest {
         SecurityContextHolder.setContext(securityContext);
 
         // Get the payment
-        restPaymentMockMvc.perform(get("/api/payments/bylogin/"))
+        restPaymentMockMvc.perform(get("/api/payments-by-login/"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(payment.getId().intValue()))
@@ -416,17 +416,13 @@ public class PaymentResourceIntTest {
         user.setEmail("lol@lol.com");
         user.setPassword("looooool");
         user.setActivated(true);
-        User userSaved = userService.createUser(new UserDTO(user));
-        // Initialize the database
-        //paymentRepository.saveAndFlush(payment);
-        //payment.setUser(userSaved);
 
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("lol", "looooool"));
         SecurityContextHolder.setContext(securityContext);
 
         // Get the payment
-        restPaymentMockMvc.perform(get("/api/payments/bylogin/"))
+        restPaymentMockMvc.perform(get("/api/payments-by-login/"))
             .andExpect(status().isNotFound());
     }
 }
