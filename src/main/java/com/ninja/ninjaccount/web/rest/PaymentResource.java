@@ -117,11 +117,11 @@ public class PaymentResource {
     }
 
     /**
-     * GET  /payments/bylogin/
+     * GET  /payments-by-login/
      *
      * @return the ResponseEntity with status 200 (OK) and with body the paymentDTO, or with status 404 (Not Found)
      */
-    @GetMapping("/payments/bylogin/")
+    @GetMapping("/payments-by-login")
     @Timed
     public ResponseEntity<PaymentDTO> getPaymentByLogin() {
         log.debug("REST request to get payment method by login : {}", SecurityUtils.getCurrentUserLogin());

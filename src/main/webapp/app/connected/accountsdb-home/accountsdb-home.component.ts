@@ -3,7 +3,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Account} from '../../shared/account/account.model';
 import {Component, OnInit} from '@angular/core';
 import {PaymentService} from '../../entities/payment/payment.service';
-import {Payment} from '../../entities/payment/payment.model';
+import {Payment, PlanType} from '../../entities/payment/payment.model';
 
 @Component({
     selector: 'jhi-accountdb-home',
@@ -15,6 +15,7 @@ export class AccountsdbHomeComponent implements OnInit {
     accounts$: BehaviorSubject<Array<Account>>;
     payment$: BehaviorSubject<Payment>;
     filter: string;
+    paymentType = PlanType;
 
     constructor(private accountsService: AccountsService, private paymentService: PaymentService) {
     }

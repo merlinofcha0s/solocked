@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-import { JhiDateUtils } from 'ng-jhipster';
+import {Injectable} from '@angular/core';
+import {Http, Response} from '@angular/http';
+import {Observable} from 'rxjs/Rx';
+import {JhiDateUtils} from 'ng-jhipster';
 
-import { Payment } from './payment.model';
-import { ResponseWrapper, createRequestOption } from '../../shared';
+import {Payment} from './payment.model';
+import {createRequestOption, ResponseWrapper} from '../../shared';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
@@ -61,9 +61,9 @@ export class PaymentService {
 
     getPaymentByLogin() {
         this.http.get(this.resourceUrl + '-by-login')
-            .map((res: Response) => this.convertResponse(res))
-            .subscribe((resWrap: ResponseWrapper) => {
-                this._dataStore.payment = resWrap.json;
+            .map((res: Response) => res.json())
+            .subscribe((payment: Payment) => {
+                this._dataStore.payment = payment;
                 this.payment$.next(this._dataStore.payment);
             });
     }

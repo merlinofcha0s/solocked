@@ -1,9 +1,6 @@
 <div class="card text-center">
   <div class="card-header">
       <span>Home</span>
-      <span *ngIf="payment$ | async as payment">
-          {{ payment.paid }}
-      </span>
   </div>
   <div class="card-body">
     <h4 class="card-title">Accounts Database</h4>
@@ -35,9 +32,16 @@
               <tr *ngFor="let account of (accounts$ | async | tagsFilter:filter:'tags')">
                 <td>{{ account.name }}</td>
                 <td>{{ account.username }}</td>
-                <td style="width: 10%; text-align:center;"><i class="fa fa-eye" [routerLink]="['/accounts/details', account.id]" style="font-size: 23px; color: #0275d8; cursor: pointer;" aria-hidden="true"></i></td>
-                <td style="width: 10%;"><i class="fa fa-pencil" [routerLink]="['/accounts/edit', account.id]" style="font-size: 23px; color: #0275d8; cursor: pointer;" aria-hidden="true"></i></td>
-                <td style="width: 10%;"><i class="fa fa-trash-o" (click)="onDelete(account.id)" style="font-size: 23px; color: #0275d8; cursor: pointer;" aria-hidden="true"></i></td>
+                <td style="width: 10%; text-align:center;"><i class="fa fa-eye"
+                                                              [routerLink]="['/accounts/details', account.id]"
+                                                              style="font-size: 23px; color: #0275d8; cursor: pointer;"
+                                                              aria-hidden="true"></i></td>
+                <td style="width: 10%;"><i class="fa fa-pencil" [routerLink]="['/accounts/edit', account.id]"
+                                           style="font-size: 23px; color: #0275d8; cursor: pointer;"
+                                           aria-hidden="true"></i></td>
+                <td style="width: 10%;"><i class="fa fa-trash-o" (click)="onDelete(account.id)"
+                                           style="font-size: 23px; color: #0275d8; cursor: pointer;"
+                                           aria-hidden="true"></i></td>
               </tr>
             </tbody>
           </table>
@@ -46,6 +50,8 @@
       <div class="col-4 col-md-4" style="text-align: left;">
       </div>
     </div>
-
+ <span *ngIf="payment$ | async as payment">
+      <button type="button" class="btn btn-outline-primary" *ngIf="!payment.paid || payment.planType === paymentType[paymentType.FREE]">Upgrade now</button>
+    </span>
   </div>
 </div>
