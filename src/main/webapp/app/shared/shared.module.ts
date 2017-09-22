@@ -21,11 +21,18 @@ import {
     JhiLoginModalComponent
 } from './';
 import { CryptoService } from './crypto/crypto.service';
+import {MdButtonModule, MdCheckboxModule, MdFormFieldModule, MdInputModule} from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
     imports: [
         NinjaccountSharedLibsModule,
-        NinjaccountSharedCommonModule
+        NinjaccountSharedCommonModule,
+        BrowserAnimationsModule,
+        MdButtonModule,
+        MdCheckboxModule,
+        MdFormFieldModule,
+        MdInputModule
     ],
     declarations: [
         JhiSocialComponent,
@@ -54,7 +61,12 @@ import { CryptoService } from './crypto/crypto.service';
         JhiSocialComponent,
         JhiLoginModalComponent,
         HasAnyAuthorityDirective,
-        DatePipe
+        DatePipe,
+        BrowserAnimationsModule,
+        MdButtonModule,
+        MdCheckboxModule,
+        MdFormFieldModule,
+        MdInputModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

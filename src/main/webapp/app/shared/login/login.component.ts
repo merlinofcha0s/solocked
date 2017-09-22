@@ -1,12 +1,12 @@
-import { AccountsService } from './../account/accounts.service';
-import { SessionStorageService } from 'ng2-webstorage';
-import { Component, AfterViewInit, Renderer, ElementRef } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
-import { JhiEventManager } from 'ng-jhipster';
+import {AccountsService} from './../account/accounts.service';
+import {AfterViewInit, Component, ElementRef, Renderer} from '@angular/core';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {Router} from '@angular/router';
+import {JhiEventManager} from 'ng-jhipster';
 
-import { LoginService } from './login.service';
-import { CryptoUtilsService } from '../crypto/crypto-utils.service';
+import {LoginService} from './login.service';
+import {CryptoUtilsService} from '../crypto/crypto-utils.service';
+import {Principal} from '../auth/principal.service';
 
 @Component({
     selector: 'jhi-login-modal',
@@ -21,17 +21,15 @@ export class JhiLoginModalComponent implements AfterViewInit {
     credentials: any;
     loading: boolean;
 
-    constructor(
-        private eventManager: JhiEventManager,
-        private loginService: LoginService,
-        private elementRef: ElementRef,
-        private renderer: Renderer,
-        private router: Router,
-        public activeModal: NgbActiveModal,
-        private cryptoUtils: CryptoUtilsService,
-        private sessionStorage: SessionStorageService,
-        private accountService: AccountsService
-    ) {
+    constructor(private eventManager: JhiEventManager,
+                private loginService: LoginService,
+                private elementRef: ElementRef,
+                private renderer: Renderer,
+                private router: Router,
+                public activeModal: NgbActiveModal,
+                private cryptoUtils: CryptoUtilsService,
+                private accountService: AccountsService,
+                private principal: Principal) {
         this.credentials = {};
     }
 
@@ -51,6 +49,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
 
     login() {
         this.loading = true;
+        this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN']);
         if (this.username === 'admin') {
             this.loginJHI();
         } else {
@@ -85,7 +84,11 @@ export class JhiLoginModalComponent implements AfterViewInit {
             this.activeModal.dismiss('login success');
             if (this.router.url === '/register' || (/activate/.test(this.router.url)) ||
                 this.router.url === '/finishReset' || this.router.url === '/requestReset') {
-                this.router.navigate(['/accounts']);
+                if (this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
+                    this.router.navigate(['']);
+                } else {
+                    this.router.navigate(['/accounts']);
+                }
             }
 
             this.eventManager.broadcast({
@@ -93,8 +96,11 @@ export class JhiLoginModalComponent implements AfterViewInit {
                 content: 'Sending Authentication Success'
             });
 
-            this.router.navigate(['/accounts']);
-
+            if (this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
+                this.router.navigate(['']);
+            } else {
+                this.router.navigate(['/accounts']);
+            }
             // // previousState was set in the authExpiredInterceptor before being redirected to login modal.
             // // since login is succesful, go to stored previousState and clear previousState
             /*const redirect = this.stateStorageService.getUrl();

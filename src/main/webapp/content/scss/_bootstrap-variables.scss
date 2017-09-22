@@ -17,7 +17,7 @@ $brand-danger:              #dc3545;
 // Options:
 // Quickly modify global styling by enabling or disabling optional features.
 $enable-rounded:            true;
-$enable-shadows:            false;
+$enable-shadows:            true;
 $enable-gradients:          false;
 $enable-transitions:        true;
 $enable-hover-media-query:  false;
@@ -40,3 +40,4 @@ $body-bg:                   #e4e5e6;
 // Font, line-height, and color for body text, headings, and more.
 
 $font-size-base:            1rem;
+$font-family-sans-serif: Roboto, sans-serif;

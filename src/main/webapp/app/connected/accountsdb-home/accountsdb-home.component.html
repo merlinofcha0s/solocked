@@ -8,10 +8,12 @@
     <div class="row">
       <div class="col-4 col-md-4"></div>
       <div class="col-4 col-md-4">
-        <input type="text" [(ngModel)]="filter" class="form-control" placeholder="Search...">
+          <md-form-field style="width: 100%;">
+            <input mdInput type="text" [(ngModel)]="filter" placeholder="Search...">
+          </md-form-field>
       </div>
       <div class="col-4 col-md-4" style="text-align: left;">
-        <button type="button" class="btn btn-outline-primary" id="addAccount" [routerLink]="['/accounts/add']">Add a new account</button>
+        <button type="button" md-raised-button color="primary" id="addAccount" [routerLink]="['/accounts/add']">Add a new account</button>
       </div>
     </div>
     <div class="row">
@@ -51,7 +53,8 @@
       </div>
     </div>
  <span *ngIf="payment$ | async as payment">
-      <button type="button" class="btn btn-outline-primary" *ngIf="!payment.paid || payment.planType === paymentType[paymentType.FREE]">Upgrade now</button>
+      <button md-raised-button color="primary"
+              *ngIf="!payment.paid || payment.planType === paymentType[paymentType.FREE]">Upgrade now</button>
     </span>
   </div>
 </div>
