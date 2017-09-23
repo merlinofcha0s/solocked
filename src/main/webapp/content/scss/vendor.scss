@@ -6,6 +6,7 @@ put Sass variables here:
 eg $input-color: red;
 ****************************/
 //Tools for theming material design
+@import 'fonts';
 @import '~@angular/material/theming';
 @import "angular-variables";
 // Override Boostrap variables
