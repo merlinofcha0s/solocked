@@ -1,6 +1,5 @@
 import {AccountsService} from './../account/accounts.service';
 import {AfterViewInit, Component, ElementRef, Renderer} from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {Router} from '@angular/router';
 import {JhiEventManager} from 'ng-jhipster';
 
@@ -26,7 +25,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
                 private elementRef: ElementRef,
                 private renderer: Renderer,
                 private router: Router,
-                public activeModal: NgbActiveModal,
+                // public activeModal: NgbActiveModal,
                 private cryptoUtils: CryptoUtilsService,
                 private accountService: AccountsService,
                 private principal: Principal) {
@@ -44,7 +43,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
             rememberMe: true
         };
         this.authenticationError = false;
-        this.activeModal.dismiss('cancel');
+        // this.activeModal.dismiss('cancel');
     }
 
     login() {
@@ -81,7 +80,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
         }).then(() => {
             this.loading = false;
             this.authenticationError = false;
-            this.activeModal.dismiss('login success');
+            // this.activeModal.dismiss('login success');
             if (this.router.url === '/register' || (/activate/.test(this.router.url)) ||
                 this.router.url === '/finishReset' || this.router.url === '/requestReset') {
                 if (this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
@@ -114,12 +113,12 @@ export class JhiLoginModalComponent implements AfterViewInit {
     }
 
     register() {
-        this.activeModal.dismiss('to state register');
+        // this.activeModal.dismiss('to state register');
         this.router.navigate(['/register']);
     }
 
     requestResetPassword() {
-        this.activeModal.dismiss('to state requestReset');
+        // this.activeModal.dismiss('to state requestReset');
         this.router.navigate(['/reset', 'request']);
     }
 }

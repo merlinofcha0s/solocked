@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {JhiEventManager} from 'ng-jhipster';
 
-import { Account, LoginModalService, Principal } from '../shared';
+import {Account, LoginModalService, Principal} from '../shared';
 
 @Component({
     selector: 'jhi-home',
@@ -10,17 +10,15 @@ import { Account, LoginModalService, Principal } from '../shared';
     styleUrls: [
         'home.scss'
     ]
-
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
+
     account: Account;
     modalRef: NgbModalRef;
 
-    constructor(
-        private principal: Principal,
-        private loginModalService: LoginModalService,
-        private eventManager: JhiEventManager
-    ) {
+    constructor(private principal: Principal,
+                private loginModalService: LoginModalService,
+                private eventManager: JhiEventManager) {
     }
 
     ngOnInit() {
@@ -28,6 +26,22 @@ export class HomeComponent implements OnInit {
             this.account = account;
         });
         this.registerAuthenticationSuccess();
+
+        this.addRemoveBackground(true);
+    }
+
+    ngOnDestroy(): void {
+        this.addRemoveBackground(false);
+    }
+
+    addRemoveBackground(addRemove: boolean) {
+        const body = document.getElementsByTagName('body')[0];
+        if (addRemove) {
+            body.classList.add('background-offline');
+        } else {
+            body.classList.remove('background-offline');
+        }
+
     }
 
     registerAuthenticationSuccess() {

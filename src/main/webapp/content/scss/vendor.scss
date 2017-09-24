@@ -8,10 +8,9 @@ eg $input-color: red;
 //Tools for theming material design
 @import 'fonts';
 @import '~@angular/material/theming';
-@import "angular-variables";
+@import 'angular-variables';
 // Override Boostrap variables
-@import "bootstrap-variables";
+@import 'bootstrap-variables';
 // Import Bootstrap source files from node_modules
-// @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import 'node_modules/bootstrap/scss/bootstrap';
 @import 'node_modules/font-awesome/scss/font-awesome';

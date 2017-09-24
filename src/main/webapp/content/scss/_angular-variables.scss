@@ -1,11 +1,11 @@
 @include mat-core();
 
-$candy-app-primary: mat-palette($mat-indigo);
-$candy-app-accent:  mat-palette($mat-pink, A200, A100, A400);
+$solock-primary: linear-gradient(to bottom right, #F8BE47, #F47E74);
 
+$candy-app-primary: mat-palette($mat-amber);
+$candy-app-accent:  mat-palette($mat-pink, A200, A100, A400);
 // The warn palette is optional (defaults to red).
 $candy-app-warn:    mat-palette($mat-red);
-
 // Create the theme object (a Sass map containing all of the palettes).
 $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
 
@@ -23,9 +23,20 @@ $custom-typography: mat-typography-config(
 );
 // Override typography CSS classes (e.g., mat-h1, mat-display-1, mat-typography, etc.).
 @include mat-base-typography($custom-typography);
-
-// Override typography for a specific Angular Material components.
-@include mat-checkbox-typography($custom-typography);
-
 // Override typography for all Angular Material, including mat-base-typography and all components.
 @include angular-material-typography($custom-typography);
+
+//Override button theme
+@import "mat-button-theme";
+@include mat-button-theme($candy-app-theme);
+
+@mixin mat-input-theme($candy-app-theme) {
+    .mat-input-element {
+        color: white!important;
+    }
+}
+
+@include mat-input-theme($candy-app-theme);
+
+
+

@@ -5,7 +5,7 @@
             "password": "Password",
             "password.placeholder": "Your password",
             "rememberme": "Remember me",
-            "button": "Sign in",
+            "button": "LOG IN",
             "loading": "Please wait"
         },
         "messages": {

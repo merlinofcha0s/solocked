@@ -1,0 +1,8 @@
+@mixin mat-button-theme($candy-app-theme){
+    button[md-raised-button], a[md-raised-button]{
+        border-radius: 50px;
+        padding: 3px 30px;
+        color: white;
+        background-image: linear-gradient(to bottom right, #F8BE47, #F47E74);
+    }
+}

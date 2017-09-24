@@ -8,6 +8,16 @@ body, h1, h2, h3, h4 {
     font-weight: 300;
 }
 
+body{
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+html{
+    height: 100%;
+}
+
 
 /* ==========================================================================
 Browser Upgrade Prompt
@@ -268,4 +278,9 @@ Social button
 
 .loadingMessage{
     margin-left: 10px;
+}
+
+.background-offline{
+    background: linear-gradient(#F8C046, #F36983);
+    background-size: cover;
 }

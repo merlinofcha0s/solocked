@@ -1,3 +1,50 @@
-.loadingContainerCustom{
+$primary-color: white;
+
+.loadingContainerCustom {
     margin-left: 10px;
+}
+
+.registerContainer {
+    margin-top: 30px;
+    .registerButton {
+        border-radius: 50px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        width: 300px;
+        font-size: 20px;
+        border: 1px $primary-color solid;
+        background-color: white;
+        color: #f69a60;
+    }
+    .registerButton:hover {
+        text-decoration: none;
+    }
+}
+
+.loginInput {
+    width: 100%;
+    /deep/ .mat-form-field-placeholder {
+        color: $primary-color;
+    }
+
+    /deep/ .mat-focused .mat-form-field-placeholder {
+        color: $primary-color;
+    }
+
+    /deep/ .mat-form-field-underline {
+        background-color: $primary-color;
+    }
+}
+
+.buttonLogin{
+    border-radius: 50px;
+    border: 1px $primary-color solid;
+    color: $primary-color;
+    width: 150px;
+    height: 50px;
+}
+
+.understand {
+    color: $primary-color;
+    text-decoration: underline;
 }
