@@ -1,7 +1,9 @@
 {
     "home": {
-        "title": "Bienvenue, Java Hipster !",
-        "subtitle": "Ceci est votre page d'accueil",
+        "title": "Accueil | Solocked",
+        "subtitle": "Tous vos comptes au meme endroit",
+        "text": "Lorem ipsum",
+        "more": "Comprendre",
         "logged": {
             "message": "Vous êtes connecté en tant que \"{{username}}\"."
         },

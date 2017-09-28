@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 
-import { UserRouteAccessService } from '../shared';
 import { HomeComponent } from './';
+import {UserRouteAccessIsConnectedService} from '../shared/auth/user-route-is-connected';
 
 export const HOME_ROUTE: Route = {
     path: '',
@@ -9,5 +9,6 @@ export const HOME_ROUTE: Route = {
     data: {
         authorities: [],
         pageTitle: 'home.title'
-    }
+    },
+    canActivate: [UserRouteAccessIsConnectedService]
 };

@@ -1,7 +1,9 @@
 {
     "home": {
-        "title": "Solocked | Homepage",
-        "subtitle": "This is your homepage",
+        "title": "Homepage | Solocked",
+        "subtitle": "All your accounts in one place.",
+        "text": "Lorem ipsum",
+        "more": "Understanding",
         "logged": {
             "message": "You are logged in as user \"{{username}}\"."
         },

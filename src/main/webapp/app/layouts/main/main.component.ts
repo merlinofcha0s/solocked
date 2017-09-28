@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRouteSnapshot, NavigationEnd, RoutesRecognized } from '@angular/router';
+import {Component, OnInit, Renderer2} from '@angular/core';
+import {ActivatedRouteSnapshot, NavigationCancel, NavigationEnd, NavigationStart, Router} from '@angular/router';
 
-import { JhiLanguageHelper, StateStorageService } from '../../shared';
+import {JhiLanguageHelper, StateStorageService} from '../../shared';
 
 @Component({
     selector: 'jhi-main',
@@ -9,11 +9,13 @@ import { JhiLanguageHelper, StateStorageService } from '../../shared';
 })
 export class JhiMainComponent implements OnInit {
 
-    constructor(
-        private jhiLanguageHelper: JhiLanguageHelper,
-        private router: Router,
-        private $storageService: StateStorageService,
-    ) {}
+    loginPage: boolean;
+
+    constructor(private jhiLanguageHelper: JhiLanguageHelper,
+                private router: Router,
+                private $storageService: StateStorageService,
+                private renderer: Renderer2) {
+    }
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
         let title: string = (routeSnapshot.data && routeSnapshot.data['pageTitle']) ? routeSnapshot.data['pageTitle'] : 'ninjaccountApp';
@@ -27,6 +29,17 @@ export class JhiMainComponent implements OnInit {
         this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
                 this.jhiLanguageHelper.updateTitle(this.getPageTitle(this.router.routerState.snapshot.root));
+            }
+            if (event instanceof NavigationEnd) {
+                if (event.url === '/') {
+                    // const body = document.getElementsByTagName('body')[0];
+                    // body.classList.add('background-offline');
+                    this.loginPage = true;
+                } else {
+                    // const body = document.getElementsByTagName('body')[0];
+                    // body.classList.remove("background-offline");
+                    this.loginPage = false;
+                }
             }
         });
     }

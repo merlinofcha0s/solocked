@@ -53,8 +53,7 @@
                 },
                 "register": {
                     "noaccount": "Don't have an account yet ?",
-                    "link": "Create account",
-                    "more": "Understanding"
+                    "link": "Create account"
                 }
             },
             "error": {

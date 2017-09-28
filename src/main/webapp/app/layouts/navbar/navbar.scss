@@ -1,14 +1,16 @@
+$defaultColor: black;
+$loginColor: white;
 
 /* ==========================================================================
 Navbar
 ========================================================================== */
 .navbar-version {
     font-size: 10px;
-    color: #ccc
+    color: $loginColor
 }
 
 .jh-navbar {
-    background-color: #353d47;
+    //background-color: #353d47;
     padding: .2em 1em;
     .profile-image {
         margin: -10px 0px;
@@ -41,7 +43,7 @@ Navbar
     }
 }
 
-@media screen and (min-width: 768px) { 
+@media screen and (min-width: 768px) {
     .jh-navbar-toggler {
         display: none;
     }
@@ -56,11 +58,25 @@ Navbar
 .navbar-title {
     display: inline-block;
     vertical-align: middle;
-    color: #fff;
+    color: $loginColor;
 }
 
 .nav-link {
-    color: #fff;
+    color: $loginColor;
+}
+
+.defaultColor{
+    .nav-link {
+        color: $defaultColor;
+    }
+
+    .navbar-title {
+        color: $defaultColor;
+    }
+
+    .navbar-version {
+        color: $defaultColor;
+    }
 }
 
 /* ==========================================================================

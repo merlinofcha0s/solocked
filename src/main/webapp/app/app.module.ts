@@ -26,6 +26,7 @@ import {
     ErrorComponent
 } from './layouts';
 import { NinjaccountConnectedModule } from './connected/connected.module';
+import {NavbarService} from './layouts/navbar/navbar.service';
 
 @NgModule({
     imports: [
@@ -50,6 +51,7 @@ import { NinjaccountConnectedModule } from './connected/connected.module';
     ],
     providers: [
         ProfileService,
+        NavbarService,
         customHttpProvider(),
         PaginationConfig,
         UserRouteAccessService

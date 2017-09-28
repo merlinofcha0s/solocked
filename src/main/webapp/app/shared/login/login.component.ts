@@ -1,5 +1,5 @@
 import {AccountsService} from './../account/accounts.service';
-import {AfterViewInit, Component, ElementRef, Renderer} from '@angular/core';
+import {AfterViewInit, Component, Renderer2} from '@angular/core';
 import {Router} from '@angular/router';
 import {JhiEventManager} from 'ng-jhipster';
 
@@ -13,6 +13,7 @@ import {Principal} from '../auth/principal.service';
     styleUrls: ['./login.component.scss']
 })
 export class JhiLoginModalComponent implements AfterViewInit {
+
     authenticationError: boolean;
     password: string;
     rememberMe: boolean;
@@ -22,18 +23,18 @@ export class JhiLoginModalComponent implements AfterViewInit {
 
     constructor(private eventManager: JhiEventManager,
                 private loginService: LoginService,
-                private elementRef: ElementRef,
-                private renderer: Renderer,
                 private router: Router,
                 // public activeModal: NgbActiveModal,
                 private cryptoUtils: CryptoUtilsService,
                 private accountService: AccountsService,
-                private principal: Principal) {
+                private principal: Principal,
+                private renderer: Renderer2) {
         this.credentials = {};
     }
 
     ngAfterViewInit() {
-        this.renderer.invokeElementMethod(this.elementRef.nativeElement.querySelector('#username'), 'focus', []);
+        // this.renderer.selectRootElement('#username').focus();
+        // this.renderer.invokeElementMethod(this.elementRef.nativeElement.querySelector('#username'), 'focus', []);
     }
 
     cancel() {
@@ -84,7 +85,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
             if (this.router.url === '/register' || (/activate/.test(this.router.url)) ||
                 this.router.url === '/finishReset' || this.router.url === '/requestReset') {
                 if (this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
-                    this.router.navigate(['']);
+                    this.router.navigate(['/user-management']);
                 } else {
                     this.router.navigate(['/accounts']);
                 }
@@ -96,7 +97,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
             });
 
             if (this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
-                this.router.navigate(['']);
+                this.router.navigate(['/user-management']);
             } else {
                 this.router.navigate(['/accounts']);
             }

@@ -21,8 +21,12 @@ import {
     JhiLoginModalComponent
 } from './';
 import { CryptoService } from './crypto/crypto.service';
-import {MdButtonModule, MdCheckboxModule, MdFormFieldModule, MdInputModule} from '@angular/material';
+import {
+    MdButtonModule, MdCheckboxModule, MdFormFieldModule, MdInputModule,
+    MdProgressSpinnerModule
+} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {UserRouteAccessIsConnectedService} from './auth/user-route-is-connected';
 
 @NgModule({
     imports: [
@@ -32,7 +36,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         MdButtonModule,
         MdCheckboxModule,
         MdFormFieldModule,
-        MdInputModule
+        MdInputModule,
+        MdProgressSpinnerModule
     ],
     declarations: [
         JhiSocialComponent,
@@ -53,7 +58,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         DatePipe,
         AccountsService,
         CryptoService,
-        CryptoUtilsService
+        CryptoUtilsService,
+        UserRouteAccessIsConnectedService
     ],
     entryComponents: [JhiLoginModalComponent],
     exports: [
@@ -66,7 +72,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         MdButtonModule,
         MdCheckboxModule,
         MdFormFieldModule,
-        MdInputModule
+        MdInputModule,
+        MdProgressSpinnerModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

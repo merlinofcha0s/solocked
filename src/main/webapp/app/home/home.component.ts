@@ -11,7 +11,7 @@ import {Account, LoginModalService, Principal} from '../shared';
         'home.scss'
     ]
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
 
     account: Account;
     modalRef: NgbModalRef;
@@ -26,22 +26,6 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.account = account;
         });
         this.registerAuthenticationSuccess();
-
-        this.addRemoveBackground(true);
-    }
-
-    ngOnDestroy(): void {
-        this.addRemoveBackground(false);
-    }
-
-    addRemoveBackground(addRemove: boolean) {
-        const body = document.getElementsByTagName('body')[0];
-        if (addRemove) {
-            body.classList.add('background-offline');
-        } else {
-            body.classList.remove('background-offline');
-        }
-
     }
 
     registerAuthenticationSuccess() {
@@ -50,10 +34,6 @@ export class HomeComponent implements OnInit, OnDestroy {
                 this.account = account;
             });
         });
-    }
-
-    isAuthenticated() {
-        return this.principal.isAuthenticated();
     }
 
     login() {
