@@ -1,11 +1,11 @@
-import {AccountsService} from './../account/accounts.service';
-import {AfterViewInit, Component, Renderer2} from '@angular/core';
-import {Router} from '@angular/router';
-import {JhiEventManager} from 'ng-jhipster';
+import {Component, AfterViewInit, Renderer2} from '@angular/core';
+import { Router } from '@angular/router';
+import { JhiEventManager } from 'ng-jhipster';
 
-import {LoginService} from './login.service';
+import { LoginService } from './login.service';
 import {CryptoUtilsService} from '../crypto/crypto-utils.service';
-import {Principal} from '../auth/principal.service';
+import {Principal} from '../index';
+import {AccountsService} from '../account/accounts.service';
 
 @Component({
     selector: 'jhi-login-modal',
@@ -13,7 +13,6 @@ import {Principal} from '../auth/principal.service';
     styleUrls: ['./login.component.scss']
 })
 export class JhiLoginModalComponent implements AfterViewInit {
-
     authenticationError: boolean;
     password: string;
     rememberMe: boolean;
@@ -24,7 +23,6 @@ export class JhiLoginModalComponent implements AfterViewInit {
     constructor(private eventManager: JhiEventManager,
                 private loginService: LoginService,
                 private router: Router,
-                // public activeModal: NgbActiveModal,
                 private cryptoUtils: CryptoUtilsService,
                 private accountService: AccountsService,
                 private principal: Principal,

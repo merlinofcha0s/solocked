@@ -2,8 +2,8 @@ package com.ninja.ninjaccount.web.rest.vm;
 
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.UserDTO;
-
 import javax.validation.constraints.Size;
+
 import java.time.Instant;
 import java.util.Set;
 

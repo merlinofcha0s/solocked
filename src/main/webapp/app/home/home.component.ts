@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {JhiEventManager} from 'ng-jhipster';
+import { Component, OnInit } from '@angular/core';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { JhiEventManager } from 'ng-jhipster';
 
-import {Account, LoginModalService, Principal} from '../shared';
+import { Account, LoginModalService, Principal } from '../shared';
 
 @Component({
     selector: 'jhi-home',
@@ -10,15 +10,17 @@ import {Account, LoginModalService, Principal} from '../shared';
     styleUrls: [
         'home.scss'
     ]
+
 })
 export class HomeComponent implements OnInit {
-
     account: Account;
     modalRef: NgbModalRef;
 
-    constructor(private principal: Principal,
-                private loginModalService: LoginModalService,
-                private eventManager: JhiEventManager) {
+    constructor(
+        private principal: Principal,
+        private loginModalService: LoginModalService,
+        private eventManager: JhiEventManager
+    ) {
     }
 
     ngOnInit() {
@@ -34,6 +36,10 @@ export class HomeComponent implements OnInit {
                 this.account = account;
             });
         });
+    }
+
+    isAuthenticated() {
+        return this.principal.isAuthenticated();
     }
 
     login() {

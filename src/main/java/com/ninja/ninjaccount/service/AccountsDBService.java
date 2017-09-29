@@ -49,9 +49,9 @@ public class AccountsDBService {
     }
 
     /**
-     * Get all the accountsDBS.
+     *  Get all the accountsDBS.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     @Transactional(readOnly = true)
     public List<AccountsDBDTO> findAll() {
@@ -62,10 +62,10 @@ public class AccountsDBService {
     }
 
     /**
-     * Get one accountsDB by id.
+     *  Get one accountsDB by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     @Transactional(readOnly = true)
     public AccountsDBDTO findOne(Long id) {
@@ -92,9 +92,9 @@ public class AccountsDBService {
     }
 
     /**
-     * Delete the  accountsDB by id.
+     *  Delete the  accountsDB by id.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     public void delete(Long id) {
         log.debug("Request to delete AccountsDB : {}", id);

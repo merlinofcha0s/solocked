@@ -15,7 +15,7 @@ export class AccountsdbHomeComponent implements OnInit {
     accounts$: BehaviorSubject<Array<Account>>;
     payment$: BehaviorSubject<Payment>;
     filter: string;
-    paymentType = PlanType;
+    paymentType = PlanType.FREE;
 
     constructor(private accountsService: AccountsService, private paymentService: PaymentService) {
     }

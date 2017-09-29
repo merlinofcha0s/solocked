@@ -1,6 +1,7 @@
 package com.ninja.ninjaccount.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.SecurityUtils;
@@ -9,9 +10,10 @@ import com.ninja.ninjaccount.service.MailService;
 import com.ninja.ninjaccount.service.PaymentService;
 import com.ninja.ninjaccount.service.UserService;
 import com.ninja.ninjaccount.service.dto.UserDTO;
-import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
 import com.ninja.ninjaccount.web.rest.vm.KeyAndPasswordVM;
 import com.ninja.ninjaccount.web.rest.vm.ManagedUserVM;
+import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * REST controller for managing the current user's account.
@@ -141,7 +143,7 @@ public class AccountResource {
     @Timed
     public ResponseEntity saveAccount(@Valid @RequestBody UserDTO userDTO) {
         final String userLogin = SecurityUtils.getCurrentUserLogin();
-        Optional<User> existingUser = userRepository.findOneByEmail(userDTO.getEmail());
+        Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
         if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(userLogin))) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("user-management", "emailexists", "Email already in use")).body(null);
         }
@@ -156,12 +158,12 @@ public class AccountResource {
     }
 
     /**
-     * POST  /account/change_password : changes the current user's password
+     * POST  /account/change-password : changes the current user's password
      *
      * @param password the new password
      * @return the ResponseEntity with status 200 (OK), or status 400 (Bad Request) if the new password is not strong enough
      */
-    @PostMapping(path = "/account/change_password",
+    @PostMapping(path = "/account/change-password",
         produces = MediaType.TEXT_PLAIN_VALUE)
     @Timed
     public ResponseEntity changePassword(@RequestBody String password) {
@@ -173,7 +175,7 @@ public class AccountResource {
     }
 
     /**
-     * POST   /account/reset_password/init : Send an email to reset the password of the user
+     * POST   /account/reset-password/init : Send an email to reset the password of the user
      *
      * @param mail the mail of the user
      * @return the ResponseEntity with status 200 (OK) if the email was sent, or status 400 (Bad Request) if the email address is not registered
@@ -190,7 +192,7 @@ public class AccountResource {
     }
 
     /**
-     * POST   /account/reset_password/finish : Finish to reset the password of the user
+     * POST   /account/reset-password/finish : Finish to reset the password of the user
      *
      * @param keyAndPassword the generated key and the new password
      * @return the ResponseEntity with status 200 (OK) if the password has been reset,
@@ -204,8 +206,8 @@ public class AccountResource {
             return new ResponseEntity<>(CHECK_ERROR_MESSAGE, HttpStatus.BAD_REQUEST);
         }
         return userService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey())
-            .map(user -> new ResponseEntity<String>(HttpStatus.OK))
-            .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+              .map(user -> new ResponseEntity<String>(HttpStatus.OK))
+              .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     @PostMapping(path = "/register")
@@ -224,7 +226,7 @@ public class AccountResource {
         }
         return userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase())
             .map(user -> new ResponseEntity<>("login already in use", textPlainHeaders, HttpStatus.BAD_REQUEST))
-            .orElseGet(() -> userRepository.findOneByEmail(managedUserVM.getEmail())
+            .orElseGet(() -> userRepository.findOneByEmailIgnoreCase(managedUserVM.getEmail())
                 .map(user -> new ResponseEntity<>("email address already in use", textPlainHeaders, HttpStatus.BAD_REQUEST))
                 .orElseGet(() -> {
                     User user = userService

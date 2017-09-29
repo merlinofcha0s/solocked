@@ -19,7 +19,7 @@ accountsDBS: AccountsDB[];
 
     constructor(
         private accountsDBService: AccountsDBService,
-        private alertService: JhiAlertService,
+        private jhiAlertService: JhiAlertService,
         private dataUtils: JhiDataUtils,
         private eventManager: JhiEventManager,
         private principal: Principal
@@ -62,6 +62,6 @@ accountsDBS: AccountsDB[];
     }
 
     private onError(error) {
-        this.alertService.error(error.message, null, null);
+        this.jhiAlertService.error(error.message, null, null);
     }
 }

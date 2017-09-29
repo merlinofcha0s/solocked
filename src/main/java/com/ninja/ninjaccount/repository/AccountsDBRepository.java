@@ -13,7 +13,7 @@ import java.util.Optional;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface AccountsDBRepository extends JpaRepository<AccountsDB,Long> {
+public interface AccountsDBRepository extends JpaRepository<AccountsDB, Long> {
 
     Optional<AccountsDB> findOneByUser(User user);
 

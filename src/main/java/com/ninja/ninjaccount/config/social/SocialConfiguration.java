@@ -1,10 +1,12 @@
 package com.ninja.ninjaccount.config.social;
 
-import com.ninja.ninjaccount.repository.CustomSocialUsersConnectionRepository;
 import com.ninja.ninjaccount.repository.SocialUserConnectionRepository;
+import com.ninja.ninjaccount.repository.CustomSocialUsersConnectionRepository;
 import com.ninja.ninjaccount.security.jwt.TokenProvider;
 import com.ninja.ninjaccount.security.social.CustomSignInAdapter;
+
 import io.github.jhipster.config.JHipsterProperties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;

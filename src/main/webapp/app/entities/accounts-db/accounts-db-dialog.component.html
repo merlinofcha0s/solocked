@@ -24,7 +24,7 @@
                     <a class="pull-left" (click)="openFile(accountsDB.databaseContentType, accountsDB.database)" jhiTranslate="entity.action.open">open</a><br>
                     <span class="pull-left">{{accountsDB.databaseContentType}}, {{byteSize(accountsDB.database)}}</span>
                     <button type="button" (click)="accountsDB.database=null;accountsDB.databaseContentType=null;"
-                            class="btn btn-default btn-xs pull-right">
+                            class="btn btn-secondary btn-xs pull-right">
                         <span class="fa fa-times"></span>
                     </button>
                 </div>
@@ -45,7 +45,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
             <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>
         <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">

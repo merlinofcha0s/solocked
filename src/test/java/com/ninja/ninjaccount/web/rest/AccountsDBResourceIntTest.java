@@ -139,7 +139,7 @@ public class AccountsDBResourceIntTest {
             .content(TestUtil.convertObjectToJsonBytes(accountsDBDTO)))
             .andExpect(status().isBadRequest());
 
-        // Validate the Alice in the database
+        // Validate the AccountsDB in the database
         List<AccountsDB> accountsDBList = accountsDBRepository.findAll();
         assertThat(accountsDBList).hasSize(databaseSizeBeforeCreate);
     }

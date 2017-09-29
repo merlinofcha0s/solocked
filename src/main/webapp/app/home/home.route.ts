@@ -1,5 +1,6 @@
 import { Route } from '@angular/router';
 
+import { UserRouteAccessService } from '../shared';
 import { HomeComponent } from './';
 import {UserRouteAccessIsConnectedService} from '../shared/auth/user-route-is-connected';
 

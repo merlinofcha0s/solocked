@@ -1,12 +1,14 @@
 package com.ninja.ninjaccount.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ninja.ninjaccount.security.jwt.JWTConfigurer;
 import com.ninja.ninjaccount.security.jwt.TokenProvider;
 import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.web.rest.vm.LoginVM;
+
+import com.codahale.metrics.annotation.Timed;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

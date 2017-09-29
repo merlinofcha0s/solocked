@@ -42,8 +42,8 @@ describe('account', () => {
 
         browser.waitForAngular();
 
-        const expect2 = /Home/;
-        element.all(by.className('card-header')).getText().then((value) => {
+        const expect2 = /home.logged.message/;
+        element.all(by.css('.alert-success span')).getAttribute('jhiTranslate').then((value) => {
             expect(value).toMatch(expect2);
         });
     });

@@ -1,5 +1,4 @@
 import { CryptoUtilsService } from './../crypto/crypto-utils.service';
-import { LocalStorageService } from 'ng2-webstorage';
 import { CryptoService } from './../crypto/crypto.service';
 import { AccountsDB } from './../../entities/accounts-db/accounts-db.model';
 import { Http, Response } from '@angular/http';
