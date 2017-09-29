@@ -1,9 +1,10 @@
 {
     "register": {
-        "title": "Registration",
+        "title": "Create a new account.",
         "form": {
-            "button": "Register",
-            "loading": "Generating your key, please wait "
+            "button": "Confirmation",
+            "loading": "Generating your key, please wait ",
+            "cancel": "Cancel"
         },
         "messages": {
             "validate": {

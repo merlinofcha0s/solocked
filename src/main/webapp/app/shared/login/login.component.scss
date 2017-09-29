@@ -23,6 +23,10 @@ $primary-color: white;
 
 .loginInput {
     width: 100%;
+    /deep/ .mat-input-element {
+        color: $primary-color;
+    }
+
     /deep/ .mat-form-field-placeholder {
         color: $primary-color;
     }

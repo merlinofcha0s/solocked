@@ -12,9 +12,7 @@ export class JhiMainComponent implements OnInit {
     loginPage: boolean;
 
     constructor(private jhiLanguageHelper: JhiLanguageHelper,
-                private router: Router,
-                private $storageService: StateStorageService,
-                private renderer: Renderer2) {
+                private router: Router) {
     }
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
@@ -32,12 +30,8 @@ export class JhiMainComponent implements OnInit {
             }
             if (event instanceof NavigationEnd) {
                 if (event.url === '/') {
-                    // const body = document.getElementsByTagName('body')[0];
-                    // body.classList.add('background-offline');
                     this.loginPage = true;
                 } else {
-                    // const body = document.getElementsByTagName('body')[0];
-                    // body.classList.remove("background-offline");
                     this.loginPage = false;
                 }
             }

@@ -30,13 +30,5 @@ $custom-typography: mat-typography-config(
 @import "mat-button-theme";
 @include mat-button-theme($candy-app-theme);
 
-@mixin mat-input-theme($candy-app-theme) {
-    .mat-input-element {
-        color: white!important;
-    }
-}
-
-@include mat-input-theme($candy-app-theme);
-
 
 

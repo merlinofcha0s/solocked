@@ -1,8 +1,11 @@
-.registerContainer{
-    display: flex;
-    align-items: center;
+.buttonRegistration {
+    margin-right: 10px;
 }
 
-.buttonRegistration{
-    margin-right: 10px;
+.registerInput {
+    width: 100%;
+}
+
+.cancel {
+    text-decoration: underline;
 }
