@@ -125,7 +125,9 @@
                 <div class="d-flex align-items-center justify-content-center m-3">
                     <button md-raised-button type="submit" [disabled]="registerForm.form.invalid"
                             class="buttonRegistration default-validation-button">{{'register.form.button' | translate}}</button>
-                    <div *ngIf="loading" class="loadingContainer">
+                </div>
+                <div class="d-flex align-items-center justify-content-center m-3">
+                <div *ngIf="loading" class="loadingContainer">
                        <md-spinner class="spinner" strokeWidth="15" color="primary"
                                    *ngIf="loading"></md-spinner>
                     <div class="loadingMessage" jhiTranslate="register.form.loading">Generating your key</div>

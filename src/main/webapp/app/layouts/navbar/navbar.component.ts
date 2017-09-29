@@ -54,9 +54,7 @@ export class NavbarComponent implements OnInit {
             if (event instanceof NavigationEnd) {
                 if (event.url !== '/') {
                     this.defaultColor = true;
-                    console.log('not homepage');
                 } else {
-                    console.log('homepage');
                     this.defaultColor = false;
                 }
             }

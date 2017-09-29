@@ -1,12 +1,11 @@
-$defaultColor: black;
-$loginColor: white;
+@import './../../../content/scss/custom-variables';
 
 /* ==========================================================================
 Navbar
 ========================================================================== */
 .navbar-version {
     font-size: 10px;
-    color: $loginColor
+    color: $loginColor;
 }
 
 .jh-navbar {
@@ -67,15 +66,15 @@ Navbar
 
 .defaultColor{
     .nav-link {
-        color: $defaultColor;
+        color: $font-color-primary;
     }
 
     .navbar-title {
-        color: $defaultColor;
+        color: $font-color-primary;
     }
 
     .navbar-version {
-        color: $defaultColor;
+        color: $font-color-primary;
     }
 }
 
