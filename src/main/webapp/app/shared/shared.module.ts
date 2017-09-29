@@ -1,30 +1,34 @@
-import { AccountsTechService } from './account/accounts-tech.service';
-import { CryptoUtilsService } from './crypto/crypto-utils.service';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { DatePipe } from '@angular/common';
-import { AccountsService } from './account/accounts.service';
+import {AccountsTechService} from './account/accounts-tech.service';
+import {CryptoUtilsService} from './crypto/crypto-utils.service';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {DatePipe} from '@angular/common';
+import {AccountsService} from './account/accounts.service';
 
 import {
-    NinjaccountSharedLibsModule,
-    NinjaccountSharedCommonModule,
-    CSRFService,
-    AuthServerProvider,
     AccountService,
-    UserService,
-    StateStorageService,
-    LoginService,
-    LoginModalService,
-    Principal,
+    AuthServerProvider,
+    CSRFService,
     HasAnyAuthorityDirective,
+    JhiLoginModalComponent,
     JhiSocialComponent,
+    LoginModalService,
+    LoginService,
+    NinjaccountSharedCommonModule,
+    NinjaccountSharedLibsModule,
+    Principal,
     SocialService,
-    JhiLoginModalComponent
+    StateStorageService,
+    UserService
 } from './';
-import { CryptoService } from './crypto/crypto.service';
+import {CryptoService} from './crypto/crypto.service';
 import {
-    MdButtonModule, MdCheckboxModule, MdFormFieldModule, MdInputModule,
-    MdProgressSpinnerModule
+    MatButtonModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressSpinnerModule
 } from '@angular/material';
+
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {UserRouteAccessIsConnectedService} from './auth/user-route-is-connected';
 
@@ -33,11 +37,11 @@ import {UserRouteAccessIsConnectedService} from './auth/user-route-is-connected'
         NinjaccountSharedLibsModule,
         NinjaccountSharedCommonModule,
         BrowserAnimationsModule,
-        MdButtonModule,
-        MdCheckboxModule,
-        MdFormFieldModule,
-        MdInputModule,
-        MdProgressSpinnerModule
+        MatButtonModule,
+        MatCheckboxModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatProgressSpinnerModule
     ],
     declarations: [
         JhiSocialComponent,
@@ -69,13 +73,14 @@ import {UserRouteAccessIsConnectedService} from './auth/user-route-is-connected'
         HasAnyAuthorityDirective,
         DatePipe,
         BrowserAnimationsModule,
-        MdButtonModule,
-        MdCheckboxModule,
-        MdFormFieldModule,
-        MdInputModule,
-        MdProgressSpinnerModule
+        MatButtonModule,
+        MatCheckboxModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatProgressSpinnerModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })
-export class NinjaccountSharedModule {}
+export class NinjaccountSharedModule {
+}
