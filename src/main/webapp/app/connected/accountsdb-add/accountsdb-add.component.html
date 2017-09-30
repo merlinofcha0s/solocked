@@ -2,91 +2,102 @@
   <div class="col-12 col-md-3">
   </div>
   <div class="col-12 col-md-6">
-    <div class="card">
-        <div class="card-header">
-            {{ header }}
-          </div>
-      <div class="card-body">
-        <div class="card-text">
+          <div *ngIf="updateMode;then update else create"></div>
+          <ng-template #create><h1 jhiTranslate="ninjaccountApp.accountsDB.add.title">Create a new account.</h1></ng-template>
+          <ng-template #update><h1 jhiTranslate="ninjaccountApp.accountsDB.update.title">Update an account.</h1></ng-template>
           <form [formGroup]="accountForm" (ngSubmit)="onSubmitNewAccount()">
-            <div class="form-group">
-              <label for="accountName">Name</label>
-              <input type="text" class="form-control" id="accountName" placeholder="Enter your account name"
-                     [formControl]="accountName">
-              <div *ngIf="accountName.dirty && accountName.invalid">
-                <small class="form-text text-danger" *ngIf="accountName.errors.required"
-                       jhiTranslate="ninjaccountApp.accountsDB.validate.accountName.required">
+            <md-form-field class="addAccountInput">
+              <input mdInput type="text" id="accountName" placeholder="{{'ninjaccountApp.accountsDB.add.name' | translate}}"
+                     [formControl]="accountName" required>
+                <md-error class="text-danger"
+                          *ngIf="accountName.dirty && accountName.invalid && accountName.errors.required"
+                          jhiTranslate="ninjaccountApp.accountsDB.validate.accountName.required">
                     A name is required
-                </small>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="accountNumber">Number</label>
-              <input type="text" class="form-control" id="accountNumber" placeholder="Enter your account number"
+                </md-error>
+                <md-error class="text-danger"
+                          *ngIf="accountName.dirty && accountName.invalid && accountName.errors.maxlength"
+                          jhiTranslate="ninjaccountApp.accountsDB.validate.accountName.max">
+                    Too many characters
+                </md-error>
+            </md-form-field>
+            <md-form-field class="addAccountInput">
+              <input type="text" mdInput id="accountNumber" placeholder="{{'ninjaccountApp.accountsDB.add.number' | translate}}"
                      [formControl]="accountNumber">
-              <div *ngIf="accountNumber.dirty && accountNumber.invalid">
-                <small class="form-text text-danger" *ngIf="accountNumber.errors.pattern"
-                       jhiTranslate="ninjaccountApp.accountsDB.validate.accountNumber.pattern">
-                   Enter a number
-                </small>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="username">Username</label>
-              <input type="text" class="form-control" id="username" placeholder="Enter your username"
-                     [formControl]="username">
-              <div *ngIf="username.dirty && username.invalid">
-                <small class="form-text text-danger" *ngIf="username.errors.required"
-                       jhiTranslate="ninjaccountApp.accountsDB.validate.username.required">
+                <md-error class="text-danger"
+                          *ngIf="accountNumber.dirty && accountNumber.invalid && accountNumber.errors.maxlength"
+                          jhiTranslate="ninjaccountApp.accountsDB.validate.accountNumber.max">
+                    Too many characters
+                </md-error>
+            </md-form-field>
+            <md-form-field class="addAccountInput">
+              <input mdInput type="text" id="username" placeholder="{{'ninjaccountApp.accountsDB.add.username' | translate}}"
+                     [formControl]="username" required>
+                <md-error class="form-text text-danger"
+                          *ngIf="username.dirty && username.invalid && username.errors.required"
+                          jhiTranslate="ninjaccountApp.accountsDB.validate.username.required">
                     A username is required
-                </small>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" placeholder="Enter your password"
-                     [formControl]="password">
-              <div *ngIf="password.dirty && password.invalid">
-                <small class="form-text text-danger" *ngIf="password.errors.required"
-                       jhiTranslate="ninjaccountApp.accountsDB.validate.password.required">
+                </md-error>
+                <md-error class="text-danger"
+                          *ngIf="username.dirty && username.invalid && username.errors.maxlength"
+                          jhiTranslate="ninjaccountApp.accountsDB.validate.username.max">
+                    Too many characters
+                </md-error>
+            </md-form-field>
+            <md-form-field class="addAccountInput">
+              <input mdInput type="password" id="password" placeholder="{{'ninjaccountApp.accountsDB.add.password' | translate}}"
+                     [formControl]="password" required>
+                <md-error class="text-danger"
+                          *ngIf="password.dirty && password.invalid && password.errors.required"
+                          jhiTranslate="ninjaccountApp.accountsDB.validate.password.required">
                     A password is required
-                </small>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="notes">Notes</label>
-              <textarea class="form-control" id="notes" rows="3" [formControl]="notes"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="tags">Tags (separated with comma)</label>
-              <input class="form-control" id="tags" [formControl]="tags" data-role="tagsinput" class="form-control">
-            </div>
+                </md-error>
+                <md-error class="text-danger"
+                          *ngIf="password.dirty && password.invalid && password.errors.maxlength"
+                          jhiTranslate="ninjaccountApp.accountsDB.validate.password.max">
+                    Too many characters
+                </md-error>
+            </md-form-field>
+            <md-form-field class="addAccountInput">
+              <textarea mdInput placeholder="{{'ninjaccountApp.accountsDB.add.notes' | translate}}" id="notes" rows="3" [formControl]="notes"></textarea>
+            </md-form-field>
+            <md-form-field class="addAccountInput">
+              <input mdInput placeholder="{{'ninjaccountApp.accountsDB.add.tags' | translate}}" id="tags" [formControl]="tags"
+                     data-role="tagsinput">
+            </md-form-field>
               <div formArrayName="customs">
                   <div class="form-group" *ngFor="let cu of customs.controls; let i=index" [formGroup]="cu">
-                      <label for="{{ i }}-key">Custom key / value ({{ i + 1 }})</label>
                       <div class="d-flex justify-content-around align-items-center">
-                          <input type="text" class="form-control" id="{{ i }}-key" formControlName="key" data-role="customInputKey" class="form-control customInput">
-                          <input class="form-control" id="{{ i }}-value" data-role="customInputValue" formControlName="value" class="form-control">
-                          <i class="fa fa-trash" (click)="onDeleteCustomField(i)" aria-hidden="true" style="font-size: 26px; margin-left: 15px; cursor: pointer;"></i>
+                          <md-form-field class="customLabel">
+                                <input placeholder="{{'ninjaccountApp.accountsDB.add.custom.label' | translate}} ({{ i + 1 }})" mdInput type="text" id="{{ i }}-key" formControlName="key"
+                                    data-role="customInputKey" class="customInput">
+                          </md-form-field>
+                          <md-form-field class="customValue">
+                                <input placeholder="{{'ninjaccountApp.accountsDB.add.custom.value' | translate}} ({{ i + 1 }})" mdInput id="{{ i }}-value" data-role="customInputValue"
+                                         formControlName="value">
+                          </md-form-field>
+                          <i class="fa fa-trash customFieldDelete" (click)="onDeleteCustomField(i)" aria-hidden="true"></i>
                       </div>
                   </div>
               </div>
 
-            <div class="d-flex">
-                <button type="button" class="btn btn-outline-secondary" id="addCustomField" (click)="addCustomField('', '')">Add custom field</button>
-                <button type="submit" class="btn btn-outline-primary"
-                        [disabled]="!accountForm.valid" id="addEditAccount">{{ button }}</button>
+            <div class="d-flex flex-column align-items-center justify-content-center">
+                <button md-button type="button" id="addCustomField"
+                        (click)="addCustomField('', '')">{{'ninjaccountApp.accountsDB.add.custom.button' | translate}}</button>
+                <button md-raised-button type="submit" class="default-validation-button" [disabled]="!accountForm.valid" id="addEditAccount">
+                     <div *ngIf="updateMode;then updateBtn else createBtn"></div>
+                     <ng-template #createBtn>{{'ninjaccountApp.accountsDB.add.button' | translate}}</ng-template>
+                     <ng-template #updateBtn>{{'ninjaccountApp.accountsDB.update.button' | translate}}</ng-template>
+                </button>
                 <div *ngIf="loading" class="loadingContainer loadingCustom">
-                    <div class="spinner" *ngIf="loading"></div>
+                    <md-spinner class="spinner" strokeWidth="15" color="primary" *ngIf="loading"></md-spinner>
                     <div class="loadingMessage"
                          jhiTranslate="ninjaccountApp.accountsDB.add.loading">Please wait....</div>
               </div>
+                <div class="d-flex align-items-center justify-content-center">
+                    <a [routerLink]="['/accounts']" md-button class="m-4 text-center cancel">{{'register.form.cancel' | translate}}</a>
+                </div>
             </div>
           </form>
-        </div>
-
-      </div>
     </div>
-  </div>
   <div class="col-12 col-md-3"></div>
 </div>

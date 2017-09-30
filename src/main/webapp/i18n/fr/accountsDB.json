@@ -1,6 +1,6 @@
 {
     "ninjaccountApp": {
-        "accountsDB" : {
+        "accountsDB": {
             "home": {
                 "title": "AccountsDBS",
                 "createLabel": "Créer un nouveau Accounts DB",
@@ -17,7 +17,47 @@
             },
             "initializationVector": "Initialization Vector",
             "database": "Database",
-            "user": "User"
+            "user": "User",
+            "title": "Accounts",
+            "add": {
+                "header": "Ajout d'un compte | Solocked",
+                "title": "Ajout d'un nouveau compte.",
+                "loading": "Création du nouveau compte...",
+                "name": "Nom",
+                "number": "Numéro",
+                "username": "Utilisateur",
+                "password": "Mot de passe",
+                "notes": "Notes",
+                "tags": "Tags (séparé par des virgules)",
+                "custom": {
+                    "label": "Nom",
+                    "value": "Valeur",
+                    "button": "Ajout d'un champs personnalisé"
+                },
+                "button": "Ajouter un compte"
+            },
+            "update": {
+                "header": "Mise à jour d'un compte | Solocked",
+                "title": "Mise à jour d'un compte.",
+                "button": "Mise à jour du compte"
+            },
+            "details": {
+                "title": "Détails"
+            },
+            "validate": {
+                "accountName": {
+                    "required": "le nom est obligatoire"
+                },
+                "accountNumber": {
+                    "pattern": "Entrer un numéro"
+                },
+                "username": {
+                    "required": "Un nom d'utilisateur est obligatoire"
+                },
+                "password": {
+                    "required": "Un mot de passe est obligatoire"
+                }
+            }
         }
     }
 }

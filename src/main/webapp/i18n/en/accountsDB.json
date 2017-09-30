@@ -20,24 +20,46 @@
             "user": "User",
             "title": "Accounts",
             "add": {
-                "title": "Add new account",
-                "loading": "Please wait..."
+                "header": "Add a new account | Solocked",
+                "title": "Add a new account.",
+                "loading": "Creating new account...",
+                "name": "Name",
+                "number": "Number",
+                "username": "Username",
+                "password": "Password",
+                "notes": "Notes",
+                "tags": "Tags (separated with comma)",
+                "custom":{
+                    "label": "Label",
+                    "value": "Value",
+                    "button": "Add custom field"
+                },
+                "button": "Add new account"
+            },
+            "update":{
+                "header": "Update account | Solocked",
+                "title": "Update an account.",
+                "button": "Update account"
             },
             "details": {
                 "title": "Details"
             },
             "validate": {
                 "accountName": {
-                    "required": "A name is required"
+                    "required": "A name is required",
+                    "max": "Too many character"
                 },
                 "accountNumber": {
-                    "pattern": "Enter a number"
+                    "pattern": "Enter a number",
+                    "max": "Too many character"
                 },
                 "username": {
-                    "required": "A username is required"
+                    "required": "A username is required",
+                    "max": "Too many character"
                 },
                 "password": {
-                    "required": "A password is required"
+                    "required": "A password is required",
+                    "max": "Too many character"
                 }
             }
         }

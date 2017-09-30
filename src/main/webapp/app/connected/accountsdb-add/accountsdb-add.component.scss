@@ -1,11 +1,42 @@
-.loadingCustom{
-    margin-left: 15px;
+@import './../../../content/scss/custom-variables';
+
+.loadingCustom {
+    margin-top: 15px;
 }
 
-#addEditAccount{
+#addEditAccount {
     margin-left: 10px;
 }
 
-.customInput{
+.customInput {
     margin-right: 20px;
 }
+
+.addAccountInput {
+    width: 100%;
+}
+
+#addCustomField {
+    width: 100%;
+    border: 1px $font-color-primary solid;
+    font-size: 19px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.customLabel {
+    margin-right: 10px;
+    flex-grow: 1;
+}
+
+.customValue {
+    flex-grow: 2;
+}
+.customFieldDelete{
+    font-size: 26px;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+

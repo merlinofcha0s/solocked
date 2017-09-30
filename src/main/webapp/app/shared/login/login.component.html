@@ -1,10 +1,7 @@
 <div class="row justify-content-center ">
-            <md-card *ngIf="authenticationError" class="card-warning" jhiTranslate="login.messages.error.authentication">
-                <strong>Failed to sign in!</strong> <span>Please check your credentials and try again.</span>
-            </md-card>
-            <!-- <div class="alert alert-danger"
-                 jhiTranslate="login.messages.error.authentication">
-            </div> -->
+        <md-card *ngIf="authenticationError" class="card-warning" jhiTranslate="login.messages.error.authentication">
+            <strong>Failed to sign in!</strong> <span>Please check your credentials and try again.</span>
+        </md-card>
         <div class="col-md-12">
             <form class="form" role="form" (ngSubmit)="login()">
                 <md-form-field class="loginInput">

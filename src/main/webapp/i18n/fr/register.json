@@ -2,7 +2,8 @@
     "register": {
         "title": "Création de compte utilisateur",
         "form": {
-            "button": "Enregistrement"
+            "button": "Enregistrement",
+            "cancel": "Annuler"
         },
         "messages": {
             "validate": {

@@ -16,8 +16,6 @@ import {Custom} from '../../shared/account/custom-account.model';
 })
 export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
-    header: string;
-
     accountForm: FormGroup;
     accountName: FormControl;
     accountNumber: FormControl;
@@ -26,7 +24,6 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     notes: FormControl;
     tags: FormControl;
     customs: FormArray;
-    button: string;
 
     loading: boolean;
 
@@ -41,7 +38,6 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 private accountsService: AccountsService,
                 private router: Router,
                 private route: ActivatedRoute) {
-
     }
 
     ngOnInit() {
@@ -64,14 +60,12 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     }
 
     initForm() {
-        this.header = 'Add an account'
-        this.button = 'Add new account';
-        this.accountName = this.fb.control('', Validators.compose([Validators.required]));
-        this.accountNumber = this.fb.control('', Validators.pattern('^[0-9]+$'));
-        this.username = this.fb.control('', Validators.compose([Validators.required]));
-        this.password = this.fb.control('', Validators.compose([Validators.required]));
-        this.notes = this.fb.control('');
-        this.tags = this.fb.control('');
+        this.accountName = this.fb.control('', Validators.compose([Validators.required, Validators.maxLength(40)]));
+        this.accountNumber = this.fb.control('', Validators.max(50));
+        this.username = this.fb.control('', Validators.compose([Validators.required, Validators.maxLength(50)]));
+        this.password = this.fb.control('', Validators.compose([Validators.required, Validators.maxLength(50)]));
+        this.notes = this.fb.control('', Validators.maxLength(1000));
+        this.tags = this.fb.control('', Validators.maxLength(100));
         this.customs = this.fb.array([]);
 
         this.accountForm = this.fb.group({
@@ -86,8 +80,6 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     }
 
     initUpdateMode(idAccount: number) {
-        this.header = 'Update an account'
-        this.button = 'Update account';
         this.account$ = this.accountsService.account$;
         this.accountSubscription = this.account$.subscribe((account: Account) => {
             if (account !== null) {
