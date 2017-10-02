@@ -12,7 +12,7 @@ import { LoginModalService } from '../../shared';
 })
 export class RegisterComponent implements OnInit, AfterViewInit {
 
-    confirmPassword: string;
+    confirmPasswordValue: string;
     doNotMatch: string;
     error: string;
     errorEmailExists: string;
@@ -21,6 +21,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     success: boolean;
     modalRef: NgbModalRef;
     loading: boolean;
+    passwordMatch: boolean;
 
     constructor(
         private languageService: JhiLanguageService,
@@ -42,7 +43,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     }
 
     register() {
-        if (this.registerAccount.password !== this.confirmPassword) {
+        if (this.registerAccount.password !== this.confirmPasswordValue) {
             this.doNotMatch = 'ERROR';
         } else {
             this.doNotMatch = null;

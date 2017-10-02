@@ -31,6 +31,7 @@ import {
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {UserRouteAccessIsConnectedService} from './auth/user-route-is-connected';
+import {PasswordMatchValidatorDirective} from './auth/password-match.directive';
 
 @NgModule({
     imports: [
@@ -46,7 +47,8 @@ import {UserRouteAccessIsConnectedService} from './auth/user-route-is-connected'
     declarations: [
         JhiSocialComponent,
         JhiLoginModalComponent,
-        HasAnyAuthorityDirective
+        HasAnyAuthorityDirective,
+        PasswordMatchValidatorDirective
     ],
     providers: [
         LoginService,
@@ -71,6 +73,7 @@ import {UserRouteAccessIsConnectedService} from './auth/user-route-is-connected'
         JhiSocialComponent,
         JhiLoginModalComponent,
         HasAnyAuthorityDirective,
+        PasswordMatchValidatorDirective,
         DatePipe,
         BrowserAnimationsModule,
         MatButtonModule,

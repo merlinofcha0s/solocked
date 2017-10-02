@@ -79,7 +79,7 @@
                 </md-form-field>
                 <md-form-field class="registerInput">
                     <input mdInput type="password" id="password" name="password"
-                           #password="ngModel"
+                           #password="ngModel" jhiPasswordMatch="confirmPassword" reverse="true"
                            placeholder="{{'global.form.newpassword' | translate}}"
                            [(ngModel)]="registerAccount.password" minlength=4 maxlength=50 required>
                         <md-error class="text-danger"
@@ -101,26 +101,33 @@
                 <jhi-password-strength-bar [passwordToCheck]="registerAccount.password"></jhi-password-strength-bar>
                 <md-form-field class="registerInput">
                     <input mdInput type="password" id="confirmPassword" name="confirmPassword"
-                           #confirmPasswordInput="ngModel"
+                           #confirmPassword="ngModel"
                            placeholder="{{'global.form.confirmpassword' | translate}}"
-                           [(ngModel)]="confirmPassword" minlength=4 maxlength=50 required>
+                           [(ngModel)]="confirmPasswordValue" minlength=4 maxlength=50 required
+                           jhiPasswordMatch="password" reverse="false">
 
                         <md-error class="text-danger"
-                                  *ngIf="confirmPasswordInput.dirty && confirmPasswordInput.invalid && confirmPasswordInput.errors.required"
+                                  *ngIf="confirmPassword.dirty && confirmPassword.invalid && confirmPassword.errors.required"
                                   jhiTranslate="global.messages.validate.confirmpassword.required">
                             Your confirmation password is required.
                         </md-error>
                         <md-error class="text-danger"
-                                  *ngIf="confirmPasswordInput.dirty && confirmPasswordInput.invalid && confirmPasswordInput.errors.minlength"
+                                  *ngIf="confirmPassword.dirty && confirmPassword.invalid && confirmPassword.errors.minlength"
                                   jhiTranslate="global.messages.validate.confirmpassword.minlength">
                             Your confirmation password is required to be at least 4 characters.
                         </md-error>
                         <md-error class="text-danger"
-                                  *ngIf="confirmPasswordInput.dirty && confirmPasswordInput.invalid && confirmPasswordInput.errors.maxlength"
+                                  *ngIf="confirmPassword.dirty && confirmPassword.invalid && confirmPassword.errors.maxlength"
                                   jhiTranslate="global.messages.validate.confirmpassword.maxlength">
                             Your confirmation password cannot be longer than 50 characters.
                         </md-error>
+                        <md-error class="text-danger"
+                              *ngIf="password.dirty && confirmPassword.dirty && !confirmPassword.valid"
+                                  jhiTranslate="global.messages.validate.confirmpassword.passwordmatch">
+                                Your passwords don't match
+                        </md-error>
                 </md-form-field>
+
 
                 <div class="d-flex align-items-center justify-content-center m-3">
                     <button md-raised-button type="submit" [disabled]="registerForm.form.invalid"
