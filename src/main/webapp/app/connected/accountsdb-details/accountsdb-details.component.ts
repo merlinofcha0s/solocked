@@ -8,7 +8,7 @@ import { Account } from '../../shared/account/account.model';
 @Component({
   selector: 'jhi-accountsdb-details',
   templateUrl: './accountsdb-details.component.html',
-  styles: []
+    styleUrls: ['./accountsdb-details.component.scss']
 })
 export class AccountsdbDetailsComponent implements OnInit, OnDestroy {
 

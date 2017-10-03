@@ -1,0 +1,19 @@
+@import './../../../content/scss/custom-variables';
+
+.tag {
+    margin-right: 5px;
+    color: white !important;
+    font-size: 75%;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 25px;
+}
+
+.delete {
+    width: 150px;
+    background-image: linear-gradient($font-color-warning, $font-color-warning);
+}
+
+.btnDetail {
+    margin-top: 10px;
+}

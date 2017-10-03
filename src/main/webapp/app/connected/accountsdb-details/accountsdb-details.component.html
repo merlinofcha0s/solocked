@@ -1,26 +1,25 @@
-<div class="card" *ngIf="account$ | async as account">
-  <h3 class="card-header">{{ account.name }}</h3>
-  <div class="card-body">
-    <div class="card-text" style="margin-bottom: 10px;">
-      <ul class="list-group">
-        <li class="list-group-item">Number : {{ account.number }}</li>
-        <li class="list-group-item">Username : {{ account.username }}</li>
-        <li class="list-group-item">Password : {{ account.password }}</li>
-        <li class="list-group-item">Notes : {{ account.notes }}</li>
-        <li class="list-group-item" *ngFor="let custom of account.customs; let i=index">
-            <span style="margin-right: 5px;">Custom Fields {{ i + 1 }} : </span>
-            <span style="margin-right: 5px;"> {{ custom.key }} - {{ custom.value }} </span>
-        </li>
-        <li class="list-group-item"> <span style="margin-right: 5px;">Tags :</span>
-          <span *ngFor="let tag of account.tags" class="badge badge-primary"
-                style="margin-right: 5px;"> {{ tag }} </span>
-        </li>
-
-      </ul>
-    </div>
-    <div>
-         <button class="btn btn-danger" (click)="onDelete(account.id)">Delete</button>
-         <button class="btn btn-primary" [routerLink]="['/accounts']">Return home</button>
+<div class="row" *ngIf="account$ | async as account">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <h1 class="m-3">{{ account.name }}.</h1>
+      <div class="d-flex flex-column">
+          <div class="m-3"><span class="font-weight-bold" jhiTranslate="ninjaccountApp.accountsDB.details.username">Username:</span> {{ account.username }}</div>
+          <div class="m-3"><span class="font-weight-bold" jhiTranslate="ninjaccountApp.accountsDB.details.number">Number: </span> {{ account.number }}</div>
+          <div class="m-3"><span class="font-weight-bold" jhiTranslate="ninjaccountApp.accountsDB.details.password">Password: </span> {{ account.password }}</div>
+          <div class="m-3"><span class="font-weight-bold" jhiTranslate="ninjaccountApp.accountsDB.details.notes">Notes :</span> {{ account.notes }}</div>
+          <div class="m-3" *ngFor="let custom of account.customs; let i=index">
+            <span class="font-weight-bold"> {{ "ninjaccountApp.accountsDB.details.customField" | translate }} {{ i + 1 }} : </span>
+            <span> {{ custom.key }} - {{ custom.value }} </span>
+          </div>
+          <div class="m-3">
+            <span class="font-weight-bold" jhiTranslate="ninjaccountApp.accountsDB.details.tags">Tags :</span>
+              <button md-raised-button disabled *ngFor="let tag of account.tags" class="tag"> {{ tag }} </button>
+          </div>
+          <div class="d-flex flex-column justify-content-center align-items-center">
+            <button md-raised-button class="delete btnDetail" (click)="onDelete(account.id)">{{ "ninjaccountApp.accountsDB.details.delete" | translate }}</button>
+            <button class="cancel btnDetail" md-button [routerLink]="['/accounts']">{{ "ninjaccountApp.accountsDB.details.cancel" | translate }}</button>
+          </div>
       </div>
   </div>
+    <div class="col-md-3"></div>
 </div>

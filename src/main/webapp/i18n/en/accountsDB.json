@@ -42,7 +42,15 @@
                 "button": "Update account"
             },
             "details": {
-                "title": "Details"
+                "title": "Details",
+                "username": "Username:",
+                "number": "Number:",
+                "password": "Password:",
+                "notes": "Notes:",
+                "tags": "Tags:",
+                "customField": "Custom Field",
+                "delete": "Delete",
+                "cancel": "Cancel"
             },
             "validate": {
                 "accountName": {

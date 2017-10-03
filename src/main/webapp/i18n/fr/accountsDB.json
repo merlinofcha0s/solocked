@@ -42,7 +42,15 @@
                 "button": "Mise à jour du compte"
             },
             "details": {
-                "title": "Détails"
+                "title": "Détails",
+                "username": "Nom d'utilisateur:",
+                "number": "Nombre:",
+                "password": "Mot de passe:",
+                "notes": "Notes:",
+                "tags": "Tags:",
+                "customField": "Champs personalisé",
+                "delete": "Supprimer",
+                "cancel": "Annuler"
             },
             "validate": {
                 "accountName": {
