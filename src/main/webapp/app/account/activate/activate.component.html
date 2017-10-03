@@ -1,17 +1,32 @@
 <div>
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
             <h1 jhiTranslate="activate.title">Activation</h1>
 
-            <div class="alert alert-success" *ngIf="success">
-                <span jhiTranslate="activate.messages.success"><strong>Your user account has been activated.</strong> Please </span>
-                <a class="alert-link" (click)="login()" jhiTranslate="global.messages.info.authenticated.link">sign in</a>.
+            <div *ngIf="success">
+                <div>
+                    <span jhiTranslate="activate.messages.success"><strong>Your user account has been activated.</strong> Please </span>
+                    <span jhiTranslate="global.messages.info.authenticated.signin">sign in</span>
+                </div>
+                <div class="d-flex m-4 justify-content-center align-items-center">
+                     <button md-raised-button class="default-validation-button"
+                        [routerLink]="['/']"
+                        id="signin">{{ 'global.messages.info.authenticated.link' | translate}}
+                    </button>
+                </div>
             </div>
 
             <div class="alert alert-danger" *ngIf="error" jhiTranslate="activate.messages.error">
                 <strong>Your user could not be activated.</strong> Please use the registration form to sign up.
             </div>
-
+            <div class="d-flex m-4 justify-content-center align-items-center">
+                     <button md-raised-button class="default-validation-button"
+                             [routerLink]="['/register']"
+                             id="signup">{{ 'global.messages.info.authenticated.signup' | translate}}
+                    </button>
+                </div>
         </div>
+        <div class="col-md-3"></div>
     </div>
 </div>
