@@ -5304,6 +5304,12 @@ ngc-webpack@3.2.2:
     source-map "^0.5.6"
     ts-node "^3.2.0"
 
+ngx-clipboard@^8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/ngx-clipboard/-/ngx-clipboard-8.1.0.tgz#9b931dd7b4f0cad85bdf971978ddc60f9efb877d"
+  dependencies:
+    ngx-window-token "0.0.3"
+
 ngx-cookie@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/ngx-cookie/-/ngx-cookie-1.0.0.tgz#004fc653febd849b4dd3ee2c63c4cf171f464da9"
@@ -5311,6 +5317,10 @@ ngx-cookie@1.0.0:
 ngx-infinite-scroll@0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/ngx-infinite-scroll/-/ngx-infinite-scroll-0.5.1.tgz#dd9452c602ff7c3222f0ca168481aa14140286b7"
+
+ngx-window-token@0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/ngx-window-token/-/ngx-window-token-0.0.3.tgz#43c67f04d387b6dc9fd41b2d2366779e5915b979"
 
 no-case@^2.2.0:
   version "2.3.1"

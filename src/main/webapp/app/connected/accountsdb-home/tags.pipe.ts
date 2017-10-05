@@ -1,7 +1,5 @@
-import { accountsDBPopupRoute } from './../../entities/accounts-db/accounts-db.route';
 import { Account } from './../../shared/account/account.model';
 import { Pipe, PipeTransform } from '@angular/core';
-import { JhiFilterPipe } from 'ng-jhipster';
 
 @Pipe({ name: 'tagsFilter' })
 export class TagsPipe implements PipeTransform {

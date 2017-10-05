@@ -17,3 +17,21 @@
 .btnDetail {
     margin-top: 10px;
 }
+
+.displayPassword {
+    margin-left: 8px;
+    font-size: 22px;
+    cursor: pointer;
+    transform: translate(-40px);
+}
+
+.passwordContainer {
+    transform: translate(-29px);
+    span {
+        margin-right: 5px;
+    }
+}
+
+.pointer{
+    cursor: pointer;
+}

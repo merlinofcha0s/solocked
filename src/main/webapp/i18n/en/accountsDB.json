@@ -43,14 +43,17 @@
             },
             "details": {
                 "title": "Details",
-                "username": "Username:",
-                "number": "Number:",
-                "password": "Password:",
-                "notes": "Notes:",
-                "tags": "Tags:",
+                "username": "Username",
+                "number": "Number",
+                "password": "Password",
+                "notes": "Notes",
+                "tags": "Tags",
                 "customField": "Custom Field",
+                "value": "Value",
                 "delete": "Delete",
-                "cancel": "Cancel"
+                "cancel": "Cancel",
+                "tooltip": "Click to copy",
+                "toastMessage": "copied to clipboard !"
             },
             "validate": {
                 "accountName": {

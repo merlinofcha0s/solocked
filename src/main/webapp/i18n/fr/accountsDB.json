@@ -43,14 +43,17 @@
             },
             "details": {
                 "title": "Détails",
-                "username": "Nom d'utilisateur:",
-                "number": "Nombre:",
-                "password": "Mot de passe:",
-                "notes": "Notes:",
-                "tags": "Tags:",
+                "username": "Nom d'utilisateur",
+                "number": "Nombre",
+                "password": "Mot de passe",
+                "notes": "Notes",
+                "tags": "Tags",
+                "value": "Valeur",
                 "customField": "Champs personalisé",
                 "delete": "Supprimer",
-                "cancel": "Annuler"
+                "cancel": "Annuler",
+                "tooltip": "Cliquer pour copier",
+                "toastMessage": "copier dans le presse papier"
             },
             "validate": {
                 "accountName": {

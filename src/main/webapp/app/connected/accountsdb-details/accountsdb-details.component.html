@@ -3,16 +3,66 @@
     <div class="col-md-6">
       <h1 class="m-3">{{ account.name }}.</h1>
       <div class="d-flex flex-column">
-          <div class="m-3"><span class="font-weight-bold" jhiTranslate="ninjaccountApp.accountsDB.details.username">Username:</span> {{ account.username }}</div>
-          <div class="m-3"><span class="font-weight-bold" jhiTranslate="ninjaccountApp.accountsDB.details.number">Number: </span> {{ account.number }}</div>
-          <div class="m-3"><span class="font-weight-bold" jhiTranslate="ninjaccountApp.accountsDB.details.password">Password: </span> {{ account.password }}</div>
-          <div class="m-3"><span class="font-weight-bold" jhiTranslate="ninjaccountApp.accountsDB.details.notes">Notes :</span> {{ account.notes }}</div>
-          <div class="m-3" *ngFor="let custom of account.customs; let i=index">
-            <span class="font-weight-bold"> {{ "ninjaccountApp.accountsDB.details.customField" | translate }} {{ i + 1 }} : </span>
-            <span> {{ custom.key }} - {{ custom.value }} </span>
+          <div class="m-3">
+              <div>
+                  <span class="font-weight-bold">{{ "ninjaccountApp.accountsDB.details.username" | translate }}:</span>
+                  <span mdTooltip="{{ 'ninjaccountApp.accountsDB.details.tooltip' | translate }}"
+                        [mdTooltipPosition]="tooltipPosition"
+                        ngxClipboard [cbContent]="account.username"
+                        (click)="notifyCopyToClipboard('ninjaccountApp.accountsDB.details.username')"
+                        class="pointer">
+                      {{ account.username }}
+                  </span>
+              </div>
           </div>
           <div class="m-3">
-            <span class="font-weight-bold" jhiTranslate="ninjaccountApp.accountsDB.details.tags">Tags :</span>
+              <span class="font-weight-bold">{{ "ninjaccountApp.accountsDB.details.number" | translate }}: </span>
+              <span mdTooltip="{{ 'ninjaccountApp.accountsDB.details.tooltip' | translate }}"
+                    [mdTooltipPosition]="tooltipPosition"
+                    ngxClipboard [cbContent]="account.number"
+                    (click)="notifyCopyToClipboard('ninjaccountApp.accountsDB.details.number')"
+                    class="pointer">
+                  {{ account.number }}
+              </span>
+          </div>
+          <div class="m-3 d-flex">
+              <i class="fa fa-eye displayPassword" (mousedown)="showHidePassword(true)"
+                 (mouseup)="showHidePassword(false)"></i>
+              <div class="d-flex align-items-center passwordContainer">
+                  <span class="font-weight-bold">{{ "ninjaccountApp.accountsDB.details.password" | translate }}: </span>
+                  <span ngxClipboard [cbContent]="account.password"
+                        (click)="notifyCopyToClipboard('ninjaccountApp.accountsDB.details.password')"
+                        mdTooltip="{{ 'ninjaccountApp.accountsDB.details.tooltip' | translate }}"
+                        [mdTooltipPosition]="tooltipPosition"
+                        class="pointer">
+                      <span *ngIf="showPassword"> {{ account.password }} </span>
+                      <span *ngIf="!showPassword"> {{ account.password | passwordhide }} </span>
+                  </span>
+              </div>
+          </div>
+          <div class="m-3" *ngIf="account.notes">
+              <span class="font-weight-bold">
+                  {{ "ninjaccountApp.accountsDB.details.notes" | translate }}:
+              </span>
+              {{ account.notes }}
+          </div>
+          <div class="m-3" *ngFor="let custom of account.customs; let i=index">
+            <span class="font-weight-bold"> {{ "ninjaccountApp.accountsDB.details.customField" | translate }} {{ i + 1 }}: </span>
+              <span>
+                  <span>
+                      {{ custom.key }}
+                  </span> -
+                  <span ngxClipboard [cbContent]="custom.value"
+                        (click)="notifyCopyToClipboard('ninjaccountApp.accountsDB.details.value')"
+                        mdTooltip="{{ 'ninjaccountApp.accountsDB.details.tooltip' | translate }}"
+                        [mdTooltipPosition]="tooltipPosition"
+                        class="pointer">
+                  {{ custom.value }}
+              </span>
+              </span>
+          </div>
+          <div class="m-3">
+            <span class="font-weight-bold">{{ "ninjaccountApp.accountsDB.details.tags" | translate }}:</span>
               <button md-raised-button disabled *ngFor="let tag of account.tags" class="tag"> {{ tag }} </button>
           </div>
           <div class="d-flex flex-column justify-content-center align-items-center">
