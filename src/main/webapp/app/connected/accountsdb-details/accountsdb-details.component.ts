@@ -2,11 +2,10 @@ import {Subscription} from 'rxjs/Rx';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {AccountsService} from './../../shared/account/accounts.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Component, ElementRef, OnDestroy, OnInit, Renderer, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Account} from '../../shared/account/account.model';
 import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
-import {ClipboardService} from "ngx-clipboard/dist";
 
 @Component({
     selector: 'jhi-accountsdb-details',
@@ -21,15 +20,10 @@ export class AccountsdbDetailsComponent implements OnInit, OnDestroy {
     showPassword: boolean;
     tooltipPosition = 'above';
 
-    @ViewChild('clearClipboardElement')
-    private clearClipboardElement: ElementRef;
-
     constructor(private route: ActivatedRoute, private router: Router,
                 private accountsService: AccountsService,
                 private snackBar: MdSnackBar,
-                private translateService: TranslateService,
-                private clipboard: ClipboardService,
-                private renderer: Renderer) {
+                private translateService: TranslateService) {
     }
 
     ngOnInit() {
@@ -67,7 +61,7 @@ export class AccountsdbDetailsComponent implements OnInit, OnDestroy {
         config.duration = 3000;
         this.snackBar.open(nameFieldTrans + ' ' + textToast, '', config);
 
-        //this.startTimeout();
+        // this.startTimeout();
     }
 
     startTimeout() {
