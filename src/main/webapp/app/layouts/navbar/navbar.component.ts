@@ -50,7 +50,6 @@ export class NavbarComponent implements OnInit {
 
     initListenerRouterEvent() {
         this.router.events.subscribe((event: Event) => {
-            console.log('event');
             if (event instanceof NavigationEnd) {
                 if (event.url !== '/') {
                     this.defaultColor = true;

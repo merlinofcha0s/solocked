@@ -68,6 +68,9 @@
                 },
                 "password": {
                     "required": "Un mot de passe est obligatoire"
+                },
+                "notes": {
+                    "max": "Trop de caractères"
                 }
             }
         }

@@ -72,6 +72,9 @@
                 "password": {
                     "required": "A password is required",
                     "max": "Too many character"
+                },
+                "notes": {
+                    "max": "Too many characters"
                 }
             }
         }

@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.success = false;
-        this.loading = true;
+        this.loading = false;
         this.registerAccount = {};
     }
 

@@ -25,6 +25,15 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     tags: FormControl;
     customs: FormArray;
 
+    maxName = 40;
+    maxNumber = 50;
+    maxLogin = 50;
+    maxPassword = 50;
+    maxNotes = 1000;
+    maxTags = 100;
+    maxKey = 60;
+    maxValue = 100;
+
     loading: boolean;
 
     private routeSubscription: Subscription;
@@ -60,12 +69,12 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     }
 
     initForm() {
-        this.accountName = this.fb.control('', Validators.compose([Validators.required, Validators.maxLength(40)]));
-        this.accountNumber = this.fb.control('', Validators.max(50));
-        this.username = this.fb.control('', Validators.compose([Validators.required, Validators.maxLength(50)]));
-        this.password = this.fb.control('', Validators.compose([Validators.required, Validators.maxLength(50)]));
-        this.notes = this.fb.control('', Validators.maxLength(1000));
-        this.tags = this.fb.control('', Validators.maxLength(100));
+        this.accountName = this.fb.control('', Validators.compose([Validators.required, Validators.maxLength(this.maxName)]));
+        this.accountNumber = this.fb.control('', Validators.maxLength(this.maxNumber));
+        this.username = this.fb.control('', Validators.compose([Validators.required, Validators.maxLength(this.maxLogin)]));
+        this.password = this.fb.control('', Validators.compose([Validators.required, Validators.maxLength(this.maxPassword)]));
+        this.notes = this.fb.control('', Validators.maxLength(this.maxNotes));
+        this.tags = this.fb.control('', Validators.maxLength(this.maxTags));
         this.customs = this.fb.array([]);
 
         this.accountForm = this.fb.group({
@@ -145,8 +154,8 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
     addCustomField(key: string, value: string) {
         const custom = this.fb.group({
-            key: new FormControl(key, Validators.maxLength(60)),
-            value: new FormControl(value, Validators.maxLength(100))
+            keyField: new FormControl(key, Validators.maxLength(this.maxKey)),
+            valueField: new FormControl(value, Validators.maxLength(this.maxValue))
         });
 
         this.customs.push(custom);

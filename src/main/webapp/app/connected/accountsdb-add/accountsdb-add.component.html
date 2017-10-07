@@ -9,6 +9,7 @@
             <md-form-field class="addAccountInput">
               <input mdInput type="text" id="accountName" placeholder="{{'ninjaccountApp.accountsDB.add.name' | translate}}"
                      [formControl]="accountName" required>
+                <md-hint align="end">{{accountName.value?.length || 0}} / {{ maxName }}</md-hint>
                 <md-error class="text-danger"
                           *ngIf="accountName.dirty && accountName.invalid && accountName.errors.required"
                           jhiTranslate="ninjaccountApp.accountsDB.validate.accountName.required">
@@ -23,6 +24,7 @@
             <md-form-field class="addAccountInput">
               <input type="text" mdInput id="accountNumber" placeholder="{{'ninjaccountApp.accountsDB.add.number' | translate}}"
                      [formControl]="accountNumber">
+                <md-hint align="end">{{accountNumber.value?.length || 0}} / {{ maxNumber }}</md-hint>
                 <md-error class="text-danger"
                           *ngIf="accountNumber.dirty && accountNumber.invalid && accountNumber.errors.maxlength"
                           jhiTranslate="ninjaccountApp.accountsDB.validate.accountNumber.max">
@@ -32,6 +34,7 @@
             <md-form-field class="addAccountInput">
               <input mdInput type="text" id="username" placeholder="{{'ninjaccountApp.accountsDB.add.username' | translate}}"
                      [formControl]="username" required>
+                <md-hint align="end">{{username.value?.length || 0}} / {{ maxLogin }}</md-hint>
                 <md-error class="form-text text-danger"
                           *ngIf="username.dirty && username.invalid && username.errors.required"
                           jhiTranslate="ninjaccountApp.accountsDB.validate.username.required">
@@ -46,6 +49,7 @@
             <md-form-field class="addAccountInput">
               <input mdInput type="password" id="password" placeholder="{{'ninjaccountApp.accountsDB.add.password' | translate}}"
                      [formControl]="password" required>
+                <md-hint align="end">{{password.value?.length || 0}} / {{ maxPassword }}</md-hint>
                 <md-error class="text-danger"
                           *ngIf="password.dirty && password.invalid && password.errors.required"
                           jhiTranslate="ninjaccountApp.accountsDB.validate.password.required">
@@ -59,28 +63,38 @@
             </md-form-field>
             <md-form-field class="addAccountInput">
               <textarea mdInput placeholder="{{'ninjaccountApp.accountsDB.add.notes' | translate}}" id="notes" rows="3" [formControl]="notes"></textarea>
+                <md-hint align="end">{{notes.value?.length || 0}} / {{ maxNotes }}</md-hint>
+             <md-error class="text-danger"
+                       *ngIf="notes.dirty && notes.invalid && notes.errors.maxlength"
+                       jhiTranslate="ninjaccountApp.accountsDB.validate.notes.max">
+                Too many characters
+            </md-error>
             </md-form-field>
             <md-form-field class="addAccountInput">
               <input mdInput placeholder="{{'ninjaccountApp.accountsDB.add.tags' | translate}}" id="tags" [formControl]="tags"
                      data-role="tagsinput">
+                <md-hint align="end">{{tags.value?.length || 0}} / {{ maxTags }}</md-hint>
             </md-form-field>
               <div formArrayName="customs">
                   <div class="form-group" *ngFor="let cu of customs.controls; let i=index" [formGroup]="cu">
                       <div class="d-flex justify-content-around align-items-center">
                           <md-form-field class="customLabel">
-                                <input placeholder="{{'ninjaccountApp.accountsDB.add.custom.label' | translate}} ({{ i + 1 }})" mdInput type="text" id="{{ i }}-key" formControlName="key"
+                                <input placeholder="{{'ninjaccountApp.accountsDB.add.custom.label' | translate}} ({{ i + 1 }})" mdInput type="text" id="{{ i }}-key" formControlName="keyField"
                                     data-role="customInputKey" class="customInput">
+
+                              <md-hint align="end">{{ cu.get('keyField').value?.length || 0 }} / {{ maxKey }}</md-hint>
                           </md-form-field>
                           <md-form-field class="customValue">
                                 <input placeholder="{{'ninjaccountApp.accountsDB.add.custom.value' | translate}} ({{ i + 1 }})" mdInput id="{{ i }}-value" data-role="customInputValue"
-                                         formControlName="value">
+                                         formControlName="valueField">
+                              <md-hint align="end">{{ cu.get('valueField').value?.length || 0 }} / {{ maxValue }}</md-hint>
                           </md-form-field>
                           <i class="fa fa-trash customFieldDelete" (click)="onDeleteCustomField(i)" aria-hidden="true"></i>
                       </div>
                   </div>
               </div>
 
-            <div class="d-flex flex-column align-items-center justify-content-center">
+            <div class="d-flex flex-column align-items-center justify-content-center buttonContainer">
                 <button md-button type="button" id="addCustomField"
                         (click)="addCustomField('', '')">{{'ninjaccountApp.accountsDB.add.custom.button' | translate}}</button>
                 <button md-raised-button type="submit" class="default-validation-button" [disabled]="!accountForm.valid" id="addEditAccount">

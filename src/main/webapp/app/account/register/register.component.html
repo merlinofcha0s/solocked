@@ -55,14 +55,16 @@
                 <md-form-field class="registerInput">
                     <input type="email" mdInput id="email" name="email" #email="ngModel"
                            placeholder="{{'global.form.email' | translate}}"
-                           [(ngModel)]="registerAccount.email" minlength=5 maxlength=100 email required>
+                           [(ngModel)]="registerAccount.email" minlength=5 maxlength=100
+                           pattern="^[a-zA-Z0-9_\-.]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+$"
+                           required>
                         <md-error class="text-danger"
                                   *ngIf="email.dirty && email.invalid && email.errors.required"
                                   jhiTranslate="global.messages.validate.email.required">
                             Your email is required.
                         </md-error>
                         <md-error class="text-danger"
-                                  *ngIf="email.dirty && email.invalid && email.errors.invalid"
+                                  *ngIf="email.dirty && email.invalid && email.errors.pattern"
                                   jhiTranslate="global.messages.validate.email.invalid">
                             Your email is invalid.
                         </md-error>
