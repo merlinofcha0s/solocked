@@ -58,6 +58,7 @@ export class AccountsdbDetailsComponent implements OnInit, OnDestroy {
 
         // Config and show toast message
         const config = new MdSnackBarConfig();
+        config.verticalPosition = 'top';
         config.duration = 3000;
         this.snackBar.open(nameFieldTrans + ' ' + textToast, '', config);
 

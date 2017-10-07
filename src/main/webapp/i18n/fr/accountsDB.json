@@ -50,6 +50,7 @@
                 "tags": "Tags",
                 "value": "Valeur",
                 "customField": "Champs personalisé",
+                "edit": "Editer",
                 "delete": "Supprimer",
                 "cancel": "Annuler",
                 "tooltip": "Cliquer pour copier",

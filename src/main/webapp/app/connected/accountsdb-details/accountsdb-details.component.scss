@@ -9,6 +9,10 @@
     line-height: 25px;
 }
 
+.edit {
+    width: 150px;
+}
+
 .delete {
     width: 150px;
     background-image: linear-gradient($font-color-warning, $font-color-warning);
@@ -32,6 +36,6 @@
     }
 }
 
-.pointer{
+.pointer {
     cursor: pointer;
 }

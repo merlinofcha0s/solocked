@@ -66,6 +66,7 @@
               <button md-raised-button disabled *ngFor="let tag of account.tags" class="tag"> {{ tag }} </button>
           </div>
           <div class="d-flex flex-column justify-content-center align-items-center">
+               <button md-raised-button class="edit btnDetail" [routerLink]="['/accounts/edit', account.id]">{{ "ninjaccountApp.accountsDB.details.edit" | translate }}</button>
             <button md-raised-button class="delete btnDetail" (click)="onDelete(account.id)">{{ "ninjaccountApp.accountsDB.details.delete" | translate }}</button>
             <button class="cancel btnDetail" md-button [routerLink]="['/accounts']">{{ "ninjaccountApp.accountsDB.details.cancel" | translate }}</button>
           </div>

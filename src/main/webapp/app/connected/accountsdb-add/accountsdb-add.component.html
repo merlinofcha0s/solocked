@@ -88,14 +88,14 @@
                      <ng-template #createBtn>{{'ninjaccountApp.accountsDB.add.button' | translate}}</ng-template>
                      <ng-template #updateBtn>{{'ninjaccountApp.accountsDB.update.button' | translate}}</ng-template>
                 </button>
-                <div *ngIf="loading" class="loadingContainer loadingCustom">
+                 <div class="d-flex align-items-center justify-content-center">
+                    <a [routerLink]="['/accounts']" md-button class="m-4 text-center cancel">{{'register.form.cancel' | translate}}</a>
+                </div>
+                <div *ngIf="loading" class="loadingContainer">
                     <md-spinner class="spinner" strokeWidth="15" color="primary" *ngIf="loading"></md-spinner>
                     <div class="loadingMessage"
                          jhiTranslate="ninjaccountApp.accountsDB.add.loading">Please wait....</div>
               </div>
-                <div class="d-flex align-items-center justify-content-center">
-                    <a [routerLink]="['/accounts']" md-button class="m-4 text-center cancel">{{'register.form.cancel' | translate}}</a>
-                </div>
             </div>
           </form>
     </div>

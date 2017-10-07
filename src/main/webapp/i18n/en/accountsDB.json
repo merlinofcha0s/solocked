@@ -50,6 +50,7 @@
                 "tags": "Tags",
                 "customField": "Custom Field",
                 "value": "Value",
+                "edit": "Edit",
                 "delete": "Delete",
                 "cancel": "Cancel",
                 "tooltip": "Click to copy",

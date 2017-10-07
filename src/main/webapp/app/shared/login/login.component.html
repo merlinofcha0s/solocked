@@ -17,11 +17,13 @@
 
                 <div class="d-flex flex-row-reverse">
                     <button type="submit" class="buttonLogin" md-button>
-                        {{'login.form.button' | translate}}
-                        <i class="fa fa-arrow-right loginArrow" aria-hidden="true"></i>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <span>{{'login.form.button' | translate}}</span>
+                            <i class="fa fa-arrow-right loginArrow" aria-hidden="true"></i>
+                        </div>
                     </button>
 
-                    <md-spinner class="spinner spinnerLogin" strokeWidth="15" color="primary" *ngIf="loading"></md-spinner>
+                    <md-spinner class="spinner spinnerLogin" strokeWidth="15" *ngIf="loading"></md-spinner>
                 </div>
             </form>
             <div class="d-flex justify-content-center align-items-center flex-column registerContainer m-5">

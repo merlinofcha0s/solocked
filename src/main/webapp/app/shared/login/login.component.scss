@@ -55,6 +55,9 @@ $primary-color: white;
 
 .spinnerLogin {
     margin-right: 10px;
+    /deep/ path {
+        stroke: $primary-color;
+    }
 }
 
 .loginArrow {
