@@ -1,60 +1,42 @@
-<div class="card text-center">
-  <div class="card-header">
-      <span>Home</span>
-  </div>
-  <div class="card-body">
-    <h4 class="card-title">Accounts Database</h4>
-    <p class="card-text">Welcome to your database</p>
-    <div class="row">
-      <div class="col-4 col-md-4"></div>
-      <div class="col-4 col-md-4">
-          <md-form-field style="width: 100%;">
-            <input mdInput type="text" [(ngModel)]="filter" placeholder="Search...">
-          </md-form-field>
-      </div>
-      <div class="col-4 col-md-4" style="text-align: left;">
-        <button type="button" md-raised-button id="addAccount" [routerLink]="['/accounts/add']">Add a new account</button>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-4 col-md-4"></div>
-      <div class="col-4 col-md-4">
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <h1>My Dashboard</h1>
         <div>
-          <table class="table table-hover table-striped" style="text-align: left;">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Username</th>
-                <th>Actions</th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let account of (accounts$ | async | tagsFilter:filter:'tags')">
-                <td>{{ account.name }}</td>
-                <td>{{ account.username }}</td>
-                <td style="width: 10%; text-align:center;"><i class="fa fa-eye"
-                                                              [routerLink]="['/accounts/details', account.id]"
-                                                              style="font-size: 23px; color: #0275d8; cursor: pointer;"
-                                                              aria-hidden="true"></i></td>
-                <td style="width: 10%;"><i class="fa fa-pencil" [routerLink]="['/accounts/edit', account.id]"
-                                           style="font-size: 23px; color: #0275d8; cursor: pointer;"
-                                           aria-hidden="true"></i></td>
-                <td style="width: 10%;"><i class="fa fa-trash-o" (click)="onDelete(account.id)"
-                                           style="font-size: 23px; color: #0275d8; cursor: pointer;"
-                                           aria-hidden="true"></i></td>
-              </tr>
-            </tbody>
-          </table>
+            <md-form-field style="width: 100%;">
+                <input mdInput type="text" [(ngModel)]="filter" placeholder="Search...">
+            </md-form-field>
         </div>
-      </div>
-      <div class="col-4 col-md-4" style="text-align: left;">
-      </div>
+        <md-tab-group>
+            <md-tab label="All">
+                <md-card *ngFor="let account of (accounts$ | async | tagsFilter:filter:'tags')">
+
+                </md-card>
+            </md-tab>
+            <md-tab label="Featured">Content 2</md-tab>
+        </md-tab-group>
     </div>
+    <!--<div class="col-4 col-md-4" style="text-align: left;">-->
+        <!--<button type="button" md-raised-button id="addAccount"-->
+                <!--[routerLink]="['/accounts/add']">Add a new account</button>-->
+    <!--</div>-->
+
+              <!--<tr *ngFor="let account of (accounts$ | async | tagsFilter:filter:'tags')">-->
+                <!--<td>{{ account.name }}</td>-->
+                <!--<td>{{ account.username }}</td>-->
+                <!--<td style="width: 10%; text-align:center;"><i class="fa fa-eye"-->
+                                                              <!--[routerLink]="['/accounts/details', account.id]"-->
+                                                              <!--style="font-size: 23px; color: #0275d8; cursor: pointer;"-->
+                                                              <!--aria-hidden="true"></i></td>-->
+                <!--<td style="width: 10%;"><i class="fa fa-pencil" [routerLink]="['/accounts/edit', account.id]"-->
+                                           <!--style="font-size: 23px; color: #0275d8; cursor: pointer;"-->
+                                           <!--aria-hidden="true"></i></td>-->
+                <!--<td style="width: 10%;"><i class="fa fa-trash-o" (click)="onDelete(account.id)"-->
+                                           <!--style="font-size: 23px; color: #0275d8; cursor: pointer;"-->
+                                           <!--aria-hidden="true"></i></td>-->
+              <!--</tr>-->
  <span *ngIf="payment$ | async as payment">
       <button md-raised-button
               *ngIf="!payment.paid || payment.planType === paymentType[paymentType.FREE]">Upgrade now</button>
-    </span>
-  </div>
+ </span>
 </div>
