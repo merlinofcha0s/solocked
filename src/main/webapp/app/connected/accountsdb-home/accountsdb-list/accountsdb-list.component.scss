@@ -2,8 +2,23 @@
 
 .card-account-content {
     background-image: $linear-gradient;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,0.24), 0 1px 3px 0 rgba(0,0,0,0.12);
+    width: 99%;
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.card-account {
+.name {
+    width: 200px;
+}
 
+.actions {
+    font-size: 24px;
+    width: 60px;
+    margin-left: auto;
+    i {
+        cursor: pointer;
+    }
 }

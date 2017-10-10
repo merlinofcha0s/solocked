@@ -8,7 +8,7 @@ import {Payment, PlanType} from '../../entities/payment/payment.model';
 @Component({
     selector: 'jhi-accountdb-home',
     templateUrl: './accountsdb-home.component.html',
-    // styleUrls: ['./accountsdb-home.component.scss']
+    styleUrls: ['./accountsdb-home.component.scss']
 })
 export class AccountsdbHomeComponent implements OnInit {
 

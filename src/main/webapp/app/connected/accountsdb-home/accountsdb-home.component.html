@@ -7,12 +7,16 @@
                 <input mdInput type="text" [(ngModel)]="filter" placeholder="Search...">
             </md-form-field>
         </div>
-        <md-tab-group>
-            <md-tab label="All">
-                    <jhi-accountsdb-list *ngFor="let account of (accounts$ | async | tagsFilter:filter:'tags')"
-                                         [account]="account"></jhi-accountsdb-list>
+        <md-tab-group *ngIf="accounts$ | async as accounts">
+            <md-tab>
+                <ng-template mat-tab-label>
+                    All <span class="font-weight-light header-bar">({{ accounts.length }})</span>
+                </ng-template>
+                <jhi-accountsdb-list *ngFor="let account of accounts | tagsFilter:filter:'tags'" [account]="account"></jhi-accountsdb-list>
             </md-tab>
-            <md-tab label="Featured">Content 2</md-tab>
+            <md-tab label="Featured">
+                Content 2
+            </md-tab>
         </md-tab-group>
     </div>
     <!--<div class="col-4 col-md-4" style="text-align: left;">-->
@@ -37,7 +41,9 @@
  <span *ngIf="payment$ | async as payment">
       <button md-raised-button
               *ngIf="!payment.paid || payment.planType === paymentType[paymentType.FREE]">Upgrade now</button>
-     <button type="button" md-raised-button id="addAccount" [routerLink]="['/accounts/add']">Add a new account</button>
  </span>
 
 </div>
+<a md-fab color="primary" class="fab-add-account" [routerLink]="['/accounts/add']">
+    <span class="plus">+</span>
+</a>

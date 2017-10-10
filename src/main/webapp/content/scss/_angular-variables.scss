@@ -32,5 +32,8 @@ $custom-typography: mat-typography-config(
 @import "mat-input-theme";
 @include mat-input-theme($candy-app-theme);
 
-
+@import "mat-tabs";
+@include mat-tabs-typography($candy-app-theme);
+@include _mat-ink-bar($candy-app-theme);
+@include mat-tabs-theme($candy-app-theme);
 

@@ -1,0 +1,29 @@
+@import 'custom-variables';
+
+@mixin mat-tabs-typography($config) {
+    .mat-tab-label, .mat-tab-link {
+        font: {
+            size: 25px;
+            weight: bold;
+        }
+    }
+}
+
+@mixin _mat-ink-bar($color, $hue: default) {
+    .mat-ink-bar {
+        background-color: $font-color-primary!important;
+        height: 4px !important;
+    }
+}
+
+@mixin mat-tabs-theme($theme) {
+    .mat-tab-nav-bar,
+    .mat-tab-header {
+        border-bottom: none;
+    }
+
+    .mat-tab-label, .mat-tab-link {
+        color: $font-color-primary;
+        opacity: 1!important;
+    }
+}
