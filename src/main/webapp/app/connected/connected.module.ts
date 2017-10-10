@@ -10,6 +10,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AccountsdbDetailsComponent} from './accountsdb-details/accountsdb-details.component';
 import {PasswordHidePipe} from './accountsdb-details/password-hide.pipe';
 import {ClipboardModule} from 'ngx-clipboard/dist';
+import {AccountsdbListComponent} from './accountsdb-home/accountsdb-list/accountsdb-list.component';
 
 @NgModule({
     imports: [
@@ -25,7 +26,8 @@ import {ClipboardModule} from 'ngx-clipboard/dist';
         AccountsdbHomeComponent,
         TagsPipe,
         PasswordHidePipe,
-        AccountsdbDetailsComponent
+        AccountsdbDetailsComponent,
+        AccountsdbListComponent
     ]
 })
 export class NinjaccountConnectedModule {
