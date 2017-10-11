@@ -1,7 +1,7 @@
 import { Account } from './../../shared/account/account.model';
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'tagsFilter' })
+@Pipe({ name: 'tagsFilter', pure: false })
 export class TagsPipe implements PipeTransform {
     transform(input: Array<Account>, filter: string, field: string): any {
         return input.filter((account: Account) => {

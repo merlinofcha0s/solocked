@@ -7,12 +7,16 @@
                 <input mdInput type="text" [(ngModel)]="filter" placeholder="Search...">
             </md-form-field>
         </div>
-        <md-tab-group *ngIf="accounts$ | async as accounts">
+        <md-tab-group>
             <md-tab>
                 <ng-template mat-tab-label>
                     All <span class="font-weight-light header-bar">({{ accounts.length }})</span>
                 </ng-template>
-                <jhi-accountsdb-list *ngFor="let account of accounts | tagsFilter:filter:'tags'" [account]="account"></jhi-accountsdb-list>
+                <jhi-accountsdb-list *ngFor="let account of allAccountsPaginated | tagsFilter:filter:'tags'"
+                                     [account]="account"></jhi-accountsdb-list>
+                <div class="d-flex justify-content-center align-items-center load-more">
+                    <button md-raised-button (click)="getNextPage()" [disabled]="counter >= accounts.length">Load more</button>
+                </div>
             </md-tab>
             <md-tab label="Featured">
                 Content 2
