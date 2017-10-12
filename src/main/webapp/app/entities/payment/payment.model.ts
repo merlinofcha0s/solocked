@@ -1,8 +1,8 @@
 import { BaseEntity } from './../../shared';
 
-export const enum PlanType {
+export enum PlanType {
     'FREE',
-    ' PREMIUM'
+    'PREMIUM'
 }
 
 export class Payment implements BaseEntity {

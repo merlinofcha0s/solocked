@@ -1,7 +1,7 @@
-import {Component, OnInit, Renderer2} from '@angular/core';
-import {ActivatedRouteSnapshot, NavigationCancel, NavigationEnd, NavigationStart, Router} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
 
-import {JhiLanguageHelper, StateStorageService} from '../../shared';
+import {JhiLanguageHelper} from '../../shared';
 import {PaymentService} from '../../entities/payment/payment.service';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Payment, PlanType} from '../../entities/payment/payment.model';
@@ -16,7 +16,6 @@ export class JhiMainComponent implements OnInit {
 
     loginPage: boolean;
     payment$: BehaviorSubject<Payment>;
-    paymentType = PlanType.FREE;
 
     constructor(private jhiLanguageHelper: JhiLanguageHelper,
                 private router: Router,
@@ -51,10 +50,18 @@ export class JhiMainComponent implements OnInit {
 
     initPaymentService() {
         this.payment$ = this.paymentService.payment$;
-        this.paymentService.getPaymentByLogin();
     }
 
     isAuthenticated() {
         return this.principal.isAuthenticated();
+    }
+
+    isInPaymentWarning(payment: Payment): boolean {
+        if (!this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])
+            && (!payment.paid || payment.planType.toString() === PlanType[PlanType.FREE])) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -21,13 +21,14 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
 
     filter: string;
 
-    constructor(private accountsService: AccountsService) {
+    constructor(private accountsService: AccountsService, private paymentService: PaymentService) {
         this.counter = 0;
         this.allAccountsPaginated = new Array<Account>();
     }
 
     ngOnInit() {
         this.initAccountsList();
+        this.paymentService.getPaymentByLogin();
     }
 
     ngOnDestroy(): void {
