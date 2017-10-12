@@ -12,10 +12,17 @@
                 <ng-template mat-tab-label>
                     All <span class="font-weight-light header-bar">({{ accounts.length }})</span>
                 </ng-template>
-                <jhi-accountsdb-list *ngFor="let account of allAccountsPaginated | tagsFilter:filter:'tags'"
-                                     [account]="account"></jhi-accountsdb-list>
-                <div class="d-flex justify-content-center align-items-center load-more">
-                    <button md-raised-button (click)="getNextPage()" [disabled]="counter >= accounts.length">Load more</button>
+                <div *ngIf="filter !== undefined && filter.length >= 2; else paginatedList">
+                    <jhi-accountsdb-list *ngFor="let account of accounts | tagsFilter:filter:'tags'"
+                                         [account]="account"></jhi-accountsdb-list>
+                </div>
+                <ng-template #paginatedList>
+                    <jhi-accountsdb-list *ngFor="let account of allAccountsPaginated"
+                                         [account]="account"></jhi-accountsdb-list>
+                </ng-template>
+                <div class="d-flex justify-content-center align-items-center load-more"
+                     [class.hide]="counter >= accounts.length || filter !== undefined && filter.length >= 2">
+                    <button md-raised-button (click)="getNextPage()">Load more</button>
                 </div>
             </md-tab>
             <md-tab label="Featured">

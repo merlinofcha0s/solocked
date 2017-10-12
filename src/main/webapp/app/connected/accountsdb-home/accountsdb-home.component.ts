@@ -54,7 +54,7 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
 
     getNextPage() {
         let offset = 0;
-        const pageSize = 3;
+        const pageSize = 2;
         for (let i = this.counter; i < this.accounts.length; i++) {
             this.allAccountsPaginated.push(this.accounts[i]);
             offset += 1;
