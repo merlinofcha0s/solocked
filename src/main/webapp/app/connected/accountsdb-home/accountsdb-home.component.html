@@ -49,10 +49,6 @@
     <!--style="font-size: 23px; color: #0275d8; cursor: pointer;"-->
     <!--aria-hidden="true"></i></td>-->
     <!--</tr>-->
- <span *ngIf="payment$ | async as payment">
-      <button md-raised-button
-              *ngIf="!payment.paid || payment.planType === paymentType[paymentType.FREE]">Upgrade now</button>
- </span>
 
 </div>
 <a md-fab color="primary" class="fab-add-account" [routerLink]="['/accounts/add']">

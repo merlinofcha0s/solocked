@@ -19,18 +19,15 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
     allAccountsPaginated: Array<Account>;
     counter: number;
 
-    payment$: BehaviorSubject<Payment>;
     filter: string;
-    paymentType = PlanType.FREE;
 
-    constructor(private accountsService: AccountsService, private paymentService: PaymentService) {
+    constructor(private accountsService: AccountsService) {
         this.counter = 0;
         this.allAccountsPaginated = new Array<Account>();
     }
 
     ngOnInit() {
         this.initAccountsList();
-        this.initPaymentService();
     }
 
     ngOnDestroy(): void {
@@ -45,11 +42,6 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
             this.accounts = accounts;
             this.getNextPage();
         });
-    }
-
-    initPaymentService() {
-        this.payment$ = this.paymentService.payment$;
-        this.paymentService.getPaymentByLogin();
     }
 
     getNextPage() {

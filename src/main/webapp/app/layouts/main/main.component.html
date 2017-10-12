@@ -10,5 +10,14 @@
         </div>
       <!--  <jhi-footer></jhi-footer> -->
     </div>
-     <div class="no-payment"></div>
+</div>
+<div class="no-payment" *ngIf="isAuthenticated()">
+    <div *ngIf="(payment$ | async) as payment" >
+        <div> payé ? {{ !payment.paid }} type :  {{ payment.planType }} type 2 {{ paymentType[paymentType] }} </div>
+        <div class=" d-flex justify-content-center align-items-center" *ngIf="!payment.paid || payment.planType === paymentType[paymentType]">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            <div class="warning" jhiTranslate="ninjaccountApp.payment.warning"></div>
+            <a [routerLink]="['/']" jhiTranslate="ninjaccountApp.payment.linkInvoice"></a>
+        </div>
+    </div>
 </div>

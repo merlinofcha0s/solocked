@@ -19,7 +19,9 @@
             "price": "Price",
             "planType": "Plan Type",
             "paid": "Paid",
-            "user": "User"
+            "user": "User",
+            "warning": "Your account is suspended, please check your invoice",
+            "linkInvoice": "here"
         }
     }
 }
