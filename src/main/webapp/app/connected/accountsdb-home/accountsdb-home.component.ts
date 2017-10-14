@@ -1,9 +1,7 @@
 import {AccountsService} from './../../shared/account/accounts.service';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Account} from '../../shared/account/account.model';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PaymentService} from '../../entities/payment/payment.service';
-import {Payment, PlanType} from '../../entities/payment/payment.model';
 import {Subscription} from 'rxjs/Subscription';
 
 @Component({
@@ -13,17 +11,20 @@ import {Subscription} from 'rxjs/Subscription';
 })
 export class AccountsdbHomeComponent implements OnInit, OnDestroy {
 
-    accounts$: BehaviorSubject<Array<Account>>;
+    featuredAccountsSub: Subscription;
     accountsSub: Subscription;
     accounts: Array<Account>;
     allAccountsPaginated: Array<Account>;
+    featuredAccounts: Array<Account>;
     counter: number;
+    pageSize = 2;
 
     filter: string;
 
     constructor(private accountsService: AccountsService, private paymentService: PaymentService) {
         this.counter = 0;
         this.allAccountsPaginated = new Array<Account>();
+        this.featuredAccounts = new Array<Account>()
     }
 
     ngOnInit() {
@@ -33,25 +34,38 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.accountsSub.unsubscribe();
+        this.featuredAccountsSub.unsubscribe();
     }
 
     initAccountsList() {
-        this.accounts$ = this.accountsService.accounts$;
-        this.accountsService.getAccountsList();
-
-        this.accountsSub = this.accounts$.subscribe((accounts) => {
+        this.accountsSub = this.accountsService.accounts$.subscribe((accounts) => {
             this.accounts = accounts;
+
+            // In case of the user has clicked on the featured :
+            // we have to update the list and set paginator at the exact same place as the user was
+            if (this.counter !== 0) {
+                this.allAccountsPaginated = new Array<Account>();
+                this.pageSize = this.counter;
+                this.counter = 0;
+            }
+
             this.getNextPage();
         });
+
+        this.featuredAccountsSub = this.accountsService.featuredAccounts$.subscribe((featuredAccounts) => {
+            this.featuredAccounts = featuredAccounts;
+        });
+
+        this.accountsService.getAccountsList();
+        this.accountsService.getFeaturedAccountsList();
     }
 
     getNextPage() {
         let offset = 0;
-        const pageSize = 2;
         for (let i = this.counter; i < this.accounts.length; i++) {
             this.allAccountsPaginated.push(this.accounts[i]);
             offset += 1;
-            if (offset === pageSize) {
+            if (offset === this.pageSize) {
                 break;
             }
         }

@@ -1,16 +1,16 @@
 <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-        <h1>My Dashboard</h1>
+        <h1 jhiTranslate="ninjaccountApp.accountsDB.home.online.title">My dashboard</h1>
         <div>
-            <md-form-field style="width: 100%;">
-                <input mdInput type="text" [(ngModel)]="filter" placeholder="Search...">
+            <md-form-field class="search">
+                <input mdInput type="text" [(ngModel)]="filter" placeholder="{{ 'ninjaccountApp.accountsDB.home.online.search' | translate }}">
             </md-form-field>
         </div>
         <md-tab-group>
             <md-tab>
                 <ng-template mat-tab-label>
-                    All <span class="font-weight-light header-bar">({{ accounts.length }})</span>
+                    {{ 'ninjaccountApp.accountsDB.home.online.all' | translate }} <span class="font-weight-light header-bar">({{ accounts.length }})</span>
                 </ng-template>
                 <div *ngIf="filter !== undefined && filter.length >= 2; else paginatedList">
                     <jhi-accountsdb-list *ngFor="let account of accounts | tagsFilter:filter:'tags'"
@@ -22,34 +22,18 @@
                 </ng-template>
                 <div class="d-flex justify-content-center align-items-center load-more"
                      [class.hide]="counter >= accounts.length || filter !== undefined && filter.length >= 2">
-                    <button md-raised-button (click)="getNextPage()">Load more</button>
+                    <button md-raised-button (click)="getNextPage()">{{ 'ninjaccountApp.accountsDB.home.online.loadMore' | translate }}</button>
                 </div>
             </md-tab>
-            <md-tab label="Featured">
-                Content 2
+            <md-tab>
+                <ng-template mat-tab-label>
+                    {{ 'ninjaccountApp.accountsDB.home.online.featured' | translate }} <span class="font-weight-light header-bar">({{ featuredAccounts.length }})</span>
+                </ng-template>
+                    <jhi-accountsdb-list *ngFor="let account of featuredAccounts | tagsFilter:filter:'tags'""
+                                         [account]="account"></jhi-accountsdb-list>
             </md-tab>
         </md-tab-group>
     </div>
-    <!--<div class="col-4 col-md-4" style="text-align: left;">-->
-    <!--<button type="button" md-raised-button id="addAccount"-->
-    <!--[routerLink]="['/accounts/add']">Add a new account</button>-->
-    <!--</div>-->
-
-    <!--<tr *ngFor="let account of (accounts$ | async | tagsFilter:filter:'tags')">-->
-    <!--<td>{{ account.name }}</td>-->
-    <!--<td>{{ account.username }}</td>-->
-    <!--<td style="width: 10%; text-align:center;"><i class="fa fa-eye"-->
-    <!--[routerLink]="['/accounts/details', account.id]"-->
-    <!--style="font-size: 23px; color: #0275d8; cursor: pointer;"-->
-    <!--aria-hidden="true"></i></td>-->
-    <!--<td style="width: 10%;"><i class="fa fa-pencil" [routerLink]="['/accounts/edit', account.id]"-->
-    <!--style="font-size: 23px; color: #0275d8; cursor: pointer;"-->
-    <!--aria-hidden="true"></i></td>-->
-    <!--<td style="width: 10%;"><i class="fa fa-trash-o" (click)="onDelete(account.id)"-->
-    <!--style="font-size: 23px; color: #0275d8; cursor: pointer;"-->
-    <!--aria-hidden="true"></i></td>-->
-    <!--</tr>-->
-
 </div>
 <a md-fab color="primary" class="fab-add-account" [routerLink]="['/accounts/add']">
     <span class="plus">+</span>

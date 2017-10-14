@@ -4,7 +4,19 @@
             "home": {
                 "title": "Accounts DBS",
                 "createLabel": "Create a new Accounts DB",
-                "createOrEditLabel": "Create or edit a Accounts DB"
+                "createOrEditLabel": "Create or edit a Accounts DB",
+                "online": {
+                    "toast": {
+                        "featured": "Featured",
+                        "notFeatured": "Remove from featured"
+                    },
+                    "title": "My dashboard",
+                    "search": "Search...",
+                    "all": "All",
+                    "featured": "Featured",
+                    "loadMore": "Load more"
+                }
+
             },
             "created": "A new Accounts DB is created with identifier {{ param }}",
             "updated": "A Accounts DB is updated with identifier {{ param }}",
@@ -18,7 +30,7 @@
             "initializationVector": "Initialization Vector",
             "database": "Database",
             "user": "User",
-            "title": "Accounts",
+            "title": "Dashboard | Solocked",
             "add": {
                 "header": "Add a new account | Solocked",
                 "title": "Add a new account.",

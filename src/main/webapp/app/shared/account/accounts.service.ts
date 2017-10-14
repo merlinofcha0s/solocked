@@ -1,12 +1,12 @@
-import { AccountsTechService } from './accounts-tech.service';
-import { Observable } from 'rxjs/Rx';
-import { SessionStorageService } from 'ng2-webstorage';
-import { CryptoUtilsService } from '../crypto/crypto-utils.service';
-import { AccountsDB } from '../../entities/accounts-db/accounts-db.model';
-import { Account } from './account.model';
-import { Accounts } from './accounts.model';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {AccountsTechService} from './accounts-tech.service';
+import {Observable} from 'rxjs/Rx';
+import {SessionStorageService} from 'ng2-webstorage';
+import {CryptoUtilsService} from '../crypto/crypto-utils.service';
+import {AccountsDB} from '../../entities/accounts-db/accounts-db.model';
+import {Account} from './account.model';
+import {Accounts} from './accounts.model';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Version} from './version.enum';
 
 @Injectable()
@@ -14,19 +14,21 @@ export class AccountsService {
 
     accounts$: BehaviorSubject<Array<Account>>;
     account$: BehaviorSubject<Account>;
+    featuredAccounts$: BehaviorSubject<Array<Account>>;
 
     private _dataStore: {
         accounts: Accounts
     };
 
     constructor(private cryptoUtils: CryptoUtilsService,
-        private sessionStorage: SessionStorageService,
-        private accountTech: AccountsTechService) {
+                private sessionStorage: SessionStorageService,
+                private accountTech: AccountsTechService) {
 
-        this._dataStore = { accounts: new Accounts() };
+        this._dataStore = {accounts: new Accounts()};
 
         this.accounts$ = new BehaviorSubject<Array<Account>>(this._dataStore.accounts.accounts);
         this.account$ = new BehaviorSubject<Account>(null);
+        this.featuredAccounts$ = new BehaviorSubject<Array<Account>>(new Array<Account>());
     }
 
     getAccount(id: number) {
@@ -44,12 +46,35 @@ export class AccountsService {
         this.accounts$.next(this._dataStore.accounts.accounts);
     }
 
+    getFeaturedAccountsList() {
+        if (this._dataStore.accounts.accounts.length === 0) {
+            this._dataStore.accounts = JSON.parse(this.sessionStorage.retrieve('accountsdb'));
+        }
+        this.featuredAccounts$.next(this._dataStore.accounts.accounts.filter((account) => account.featured));
+    }
+
+    addOrRemoveFeatured(accountToFeatured: Account, featuredOrNot: boolean) {
+        this._dataStore.accounts.accounts.forEach((account) => {
+            if (account.id === accountToFeatured.id) {
+                if (featuredOrNot) {
+                    account.featured = true;
+                } else {
+                    account.featured = false;
+                }
+                this.updateAccount(account);
+            }
+        });
+        this.featuredAccounts$.next(this._dataStore.accounts.accounts.filter((account) => account.featured));
+
+    }
+
     init(): Accounts {
         const accountsInitialized = new Accounts();
         accountsInitialized.version = Version.V1_0;
         accountsInitialized.authenticationKey = this.getRandomString(22);
         const sampleAccount = new Account('dupont', 'password', 'example', this.seqNextVal(accountsInitialized));
-        sampleAccount.tags.push('title');
+        sampleAccount.notes = 'a note !!';
+        sampleAccount.tags.push('title', 'example');
         accountsInitialized.accounts.push(sampleAccount);
 
         return accountsInitialized;
@@ -106,8 +131,8 @@ export class AccountsService {
                 this.saveOnBrowser(accounts);
                 return this.accountTech.saveEncryptedDB(accounts, initVector);
             }).subscribe((accountDB: AccountsDB) => {
-                this.accounts$.next(this._dataStore.accounts.accounts);
-            });
+            this.accounts$.next(this._dataStore.accounts.accounts);
+        });
 
     }
 
@@ -135,5 +160,6 @@ export class AccountsService {
         target.notes = source.notes;
         target.tags = source.tags;
         target.customs = source.customs;
+        target.featured = source.featured;
     }
 }

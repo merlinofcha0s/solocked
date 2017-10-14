@@ -325,5 +325,10 @@ Social button
     font-weight: lighter;
 }
 
+//Prevent chrome for highliting in blue when clicking
+:focus {
+    outline: none !important;
+}
+
 
 

@@ -4,7 +4,18 @@
             "home": {
                 "title": "AccountsDBS",
                 "createLabel": "Créer un nouveau Accounts DB",
-                "createOrEditLabel": "Créer ou éditer un Accounts DB"
+                "createOrEditLabel": "Créer ou éditer un Accounts DB",
+                "online": {
+                    "toast": {
+                        "featured": "Favoris",
+                        "notFeatured": "Suppression des favoris"
+                    },
+                    "title": "Mon tableau de bord",
+                    "search": "Recherche...",
+                    "all": "Tous",
+                    "featured": "Favoris",
+                    "loadMore": "Plus"
+                }
             },
             "created": "Un nouveau Accounts DB a été créé avec l'identifiant {{ param }}",
             "updated": "Le Accounts DB avec l'identifiant {{ param }} a été mis à jour",

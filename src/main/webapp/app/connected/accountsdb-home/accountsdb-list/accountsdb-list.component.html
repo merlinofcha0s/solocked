@@ -1,10 +1,12 @@
-<md-card class="card-account m-5" [routerLink]="['/accounts/details', account.id]">
-    <md-card-content class="d-flex card-account-content p-4">
+<md-card class="card-account-content d-flex">
+    <md-card-content class="d-flex p-4 content" [routerLink]="['/accounts/details', account.id]">
         <div class="name">{{ account.name }}</div>
         <div>{{ account.username }}</div>
-        <div class="d-flex actions justify-content-between">
-            <i class="fa fa-star-o" aria-hidden="true"></i>
-            <i class="fa fa-pencil" aria-hidden="true" [routerLink]="['/accounts/edit', account.id]"></i>
-        </div>
     </md-card-content>
+    <div class="d-flex actions justify-content-between">
+        <i class="fa" [class.fa-star-o]="!account.featured"
+           [class.fa-star]="account.featured"  aria-hidden="true"
+           (click)="makeFeatured(account)"></i>
+        <i class="fa fa-pencil" aria-hidden="true" [routerLink]="['/accounts/edit', account.id]"></i>
+    </div>
 </md-card>
