@@ -4,7 +4,7 @@
         <div class="col-md-6">
             <h1 jhiTranslate="register.title">Create a new account</h1>
 
-            <div class="alert alert-success" *ngIf="success" jhiTranslate="register.messages.success">
+            <div class="alert alert-success" id="success" *ngIf="success" jhiTranslate="register.messages.success">
                 <strong>Registration saved!</strong> Please check your email for confirmation.
             </div>
 
@@ -132,11 +132,11 @@
 
 
                 <div class="d-flex align-items-center justify-content-center m-3">
-                    <button md-raised-button type="submit" [disabled]="registerForm.form.invalid"
+                    <button md-raised-button type="submit" id="validate" [disabled]="registerForm.form.invalid"
                             class="buttonRegistration default-validation-button">{{'register.form.button' | translate}}</button>
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
-                    <a [routerLink]="['/']" md-button class="m-4 text-center cancel">{{'register.form.cancel' | translate}}</a>
+                    <a [routerLink]="['/']" md-button id="cancel" class="m-4 text-center cancel">{{'register.form.cancel' | translate}}</a>
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
                 <div *ngIf="loading" class="loadingContainer">

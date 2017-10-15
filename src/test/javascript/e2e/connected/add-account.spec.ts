@@ -13,7 +13,7 @@ describe('Adding account', function () {
         browser.waitForAngular();
     });
 
-    it('When adding account sucessfully', function () {
+    it('When adding account successfully', function () {
         element(by.css("*[id='signin']")).click();
         element(by.css("*[id='username']")).click();
         element(by.css("*[id='username']")).sendKeys('raiden');
