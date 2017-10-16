@@ -94,7 +94,7 @@ export class CryptoService {
             return await window.crypto.subtle.encrypt({
                 name: this.cryptingAlgorithm,
                 iv: initializationVector,
-                tagLength: 256,
+                tagLength: 128
             }, key, dataToEncrypt);
         } catch (e) {
             console.log(e);
