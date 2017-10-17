@@ -1,6 +1,10 @@
 #!/usr/bin/env groovy
 
 node {
+    environment {
+        DOCKER_HOST = 'unix:///var/run/docker.sock'
+    }
+
     stage('checkout') {
         deleteDir()
         checkout scm
@@ -19,8 +23,11 @@ node {
         sh "./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-yarn -DnodeVersion=v6.11.3 -DyarnVersion=v1.1.0"
     }
 
-    stage('building and start docker image'){
+    stage('building and unit test docker image'){
          sh "./mvnw package -Pprod dockerfile:build"
+    }
+
+    stage('starting docker image'){
          sh "docker-compose -f src/main/docker/app-integration-test.yml up -d"
     }
 
