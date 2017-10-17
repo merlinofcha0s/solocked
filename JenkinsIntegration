@@ -2,13 +2,13 @@
 
 node {
     stage('checkout') {
-       deleteDir()
-       checkout scm
-     }
+        deleteDir()
+        checkout scm
+    }
 
     stage('check java') {
         sh "java -version"
-     }
+    }
 
     stage('clean') {
         sh "chmod +x mvnw"
@@ -17,19 +17,24 @@ node {
 
     stage('install tools') {
         sh "./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-yarn -DnodeVersion=v6.11.3 -DyarnVersion=v1.1.0"
-      }
+    }
 
     stage('yarn install') {
         sh "./mvnw com.github.eirslett:frontend-maven-plugin:yarn"
     }
 
+    stage('Building and start docker image'){
+         sh "./mvnw package -Pprod dockerfile:build"
+         sh "docker-compose -f src/main/docker/app-integration-test.yml up -d"
+    }
+
     stage('integration test') {
         try {
-            sh "./mvnw"
             sh "./mvnw com.github.eirslett:frontend-maven-plugin:yarn e2e"
         } catch(err) {
             throw err
         } finally {
+            sh "docker-compose -f src/main/docker/app-integration-test.yml down"
             publishHTML (target: [
                 allowMissing: false,
                 alwaysLinkToLastBuild: false,

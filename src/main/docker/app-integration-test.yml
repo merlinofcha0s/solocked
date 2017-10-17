@@ -1,0 +1,9 @@
+version: '2'
+services:
+    ninjaccount-app:
+        image: ninjaccount
+        environment:
+            - SPRING_PROFILES_ACTIVE=dev,swagger
+            - JHIPSTER_SLEEP=1 # gives time for the JHipster Registry to boot before the application
+        ports:
+            - 8080:8080
