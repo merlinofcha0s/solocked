@@ -1,9 +1,7 @@
 #!/usr/bin/env groovy
 
 node {
-    environment {
-        DOCKER_HOST = 'unix:///var/run/docker.sock'
-    }
+    properties([parameters([string(defaultValue: 'unix:///var/run/docker.sock', description: '', name: 'DOCKER_HOST')]), pipelineTriggers([])])
 
     stage('checkout') {
         deleteDir()
