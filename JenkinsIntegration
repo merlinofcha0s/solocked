@@ -30,7 +30,7 @@ node {
 
     stage('integration test') {
         try {
-            sh "./mvnw com.github.eirslett:frontend-maven-plugin:yarn e2e"
+            sh "./mvnw com.github.eirslett:frontend-maven-plugin:yarn -Dfrontend.yarn.arguments=e2e"
         } catch(err) {
             throw err
         } finally {
