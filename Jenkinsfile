@@ -43,13 +43,28 @@ node {
         }
     }
 
+    stage('build and create docker image'){
+        sh "./mvnw package -Pprod dockerfile:build -Dmaven.test.skip=true"
+    }
+
+    stage('starting docker image'){
+        sh "docker-compose -f src/main/docker/app-integration-test.yml up -d"
+        timeout(time: 120, unit: 'SECONDS') {
+            echo('Waiting for the container to start');
+            waitUntil {
+                def r = sh script: 'wget -q --spider http://localhost:8080/#/', returnStatus: true
+                return (r == 0);
+            }
+        }
+    }
+
     stage('integration test') {
         try {
-            sh "./mvnw"
-            sh "./mvnw com.github.eirslett:frontend-maven-plugin:yarn e2e"
+            sh "./mvnw com.github.eirslett:frontend-maven-plugin:yarn -Dfrontend.yarn.arguments=e2e"
         } catch(err) {
             throw err
         } finally {
+            sh "docker-compose -f src/main/docker/app-integration-test.yml down"
             publishHTML (target: [
                 allowMissing: false,
                 alwaysLinkToLastBuild: false,

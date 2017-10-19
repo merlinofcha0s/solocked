@@ -20,7 +20,7 @@ node {
         sh "./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-yarn -DnodeVersion=v6.11.3 -DyarnVersion=v1.1.0"
     }
 
-    stage('building and unit test docker image'){
+    stage('building / unit test / create docker image'){
          sh "./mvnw package -Pprod dockerfile:build"
     }
 
