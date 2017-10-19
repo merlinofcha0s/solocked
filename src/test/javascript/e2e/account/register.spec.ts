@@ -26,7 +26,7 @@ describe('account', () => {
         element(by.css("*[id='confirmPassword']")).sendKeys('lolmdr');
         element(by.id("validate")).click();
 
-        browser.driver.sleep(500);
+        browser.driver.sleep(2000);
 
         element.all(by.id('success')).first().isPresent().then((value) => {
             expect(value).toEqual(true);
@@ -49,7 +49,7 @@ describe('account', () => {
         element(by.css("*[id='confirmPassword']")).sendKeys('lolmdr');
         element(by.id("validate")).click();
 
-        browser.driver.sleep(500);
+        browser.driver.sleep(2000);
 
         element.all(by.id('errorEmailExists')).first().isPresent().then((value) => {
             expect(value).toEqual(true);
@@ -72,7 +72,7 @@ describe('account', () => {
         element(by.css("*[id='confirmPassword']")).sendKeys('lolmdr');
         element(by.id("validate")).click();
 
-        browser.driver.sleep(500);
+        browser.driver.sleep(2000);
 
         element.all(by.id('errorUserExists')).first().isPresent().then((value) => {
             expect(value).toEqual(true);
