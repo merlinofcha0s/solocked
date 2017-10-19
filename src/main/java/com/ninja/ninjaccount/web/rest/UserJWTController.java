@@ -51,7 +51,7 @@ public class UserJWTController {
     @PostMapping(path = "/preauthenticate")
     @Timed
     public ResponseEntity<AccountsDBDTO> preAuthorize(@RequestBody String login) {
-        AccountsDBDTO accountsDBDTO = accountsDBService.findByUsernameLogin(login);
+        AccountsDBDTO accountsDBDTO = accountsDBService.findByUsernameLogin(login.toLowerCase());
         if (accountsDBDTO == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
