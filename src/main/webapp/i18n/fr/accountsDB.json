@@ -65,7 +65,13 @@
                 "delete": "Supprimer",
                 "cancel": "Annuler",
                 "tooltip": "Cliquer pour copier",
-                "toastMessage": "copier dans le presse papier"
+                "toastMessage": "copier dans le presse papier",
+                "deletePopup": {
+                    "title": "Supprimer ce compte",
+                    "text": "Êtes vous sûr ?",
+                    "yes": "oui",
+                    "no": "non"
+                }
             },
             "validate": {
                 "accountName": {

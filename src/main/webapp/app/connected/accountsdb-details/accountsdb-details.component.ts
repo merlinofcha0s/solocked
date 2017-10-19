@@ -4,8 +4,9 @@ import {AccountsService} from './../../shared/account/accounts.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Account} from '../../shared/account/account.model';
-import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
+import {MdSnackBar, MdSnackBarConfig, MatDialog} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
+import {AccountsdbDeleteComponent} from './accountsdb-delete/accountsdb-delete.component';
 
 @Component({
     selector: 'jhi-accountsdb-details',
@@ -23,7 +24,8 @@ export class AccountsdbDetailsComponent implements OnInit, OnDestroy {
     constructor(private route: ActivatedRoute, private router: Router,
                 private accountsService: AccountsService,
                 private snackBar: MdSnackBar,
-                private translateService: TranslateService) {
+                private translateService: TranslateService,
+                public dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -40,11 +42,6 @@ export class AccountsdbDetailsComponent implements OnInit, OnDestroy {
     initAccountDetail(id: number) {
         this.account$ = this.accountsService.account$;
         this.accountsService.getAccount(id);
-    }
-
-    onDelete(id: number) {
-        this.accountsService.deleteAccount(id);
-        this.router.navigate(['/accounts']);
     }
 
     showHidePassword(showOrHide: boolean) {
@@ -78,5 +75,13 @@ export class AccountsdbDetailsComponent implements OnInit, OnDestroy {
         //         config.duration = 3000;
         //         this.snackBar.open('Clipboard Cleared !', '', config);
         //     });
+    }
+
+    openConfirmationDeleteDialog(idAccounts: number) {
+        this.dialog.open(AccountsdbDeleteComponent, {
+            data: {
+                id: idAccounts
+            }
+        });
     }
 }

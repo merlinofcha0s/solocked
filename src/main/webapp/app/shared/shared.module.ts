@@ -29,7 +29,9 @@ import {
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatTooltipModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDialogModule,
+    MatChipsModule
 } from '@angular/material';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -48,7 +50,9 @@ import {PasswordMatchValidatorDirective} from './auth/password-match.directive';
         MatProgressSpinnerModule,
         MatSnackBarModule,
         MatTooltipModule,
-        MatTabsModule
+        MatTabsModule,
+        MatDialogModule,
+        MatChipsModule
     ],
     declarations: [
         JhiSocialComponent,
@@ -89,7 +93,9 @@ import {PasswordMatchValidatorDirective} from './auth/password-match.directive';
         MatProgressSpinnerModule,
         MatSnackBarModule,
         MatTooltipModule,
-        MatTabsModule
+        MatTabsModule,
+        MatDialogModule,
+        MatChipsModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

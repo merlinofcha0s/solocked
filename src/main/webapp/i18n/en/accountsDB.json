@@ -66,7 +66,13 @@
                 "delete": "Delete",
                 "cancel": "Cancel",
                 "tooltip": "Click to copy",
-                "toastMessage": "copied to clipboard !"
+                "toastMessage": "copied to clipboard !",
+                "deletePopup": {
+                    "title": "Delete this account",
+                    "text": "Are you sure ?",
+                    "yes": "yes",
+                    "no": "no"
+                }
             },
             "validate": {
                 "accountName": {

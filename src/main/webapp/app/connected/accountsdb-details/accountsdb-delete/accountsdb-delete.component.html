@@ -1,0 +1,6 @@
+<h2 md-dialog-title jhiTranslate="ninjaccountApp.accountsDB.details.deletePopup.title">Delete this account</h2>
+<md-dialog-content jhiTranslate="ninjaccountApp.accountsDB.details.deletePopup.text">Are you sure?</md-dialog-content>
+<md-dialog-actions>
+    <button md-button mat-dialog-close>{{ "ninjaccountApp.accountsDB.details.deletePopup.no" | translate }}</button>
+    <button md-button [mat-dialog-close]="true" (click)="onDelete()">{{ "ninjaccountApp.accountsDB.details.deletePopup.yes" | translate }}</button>
+</md-dialog-actions>
