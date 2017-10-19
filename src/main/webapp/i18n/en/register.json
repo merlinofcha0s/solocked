@@ -1,5 +1,6 @@
 {
     "register": {
+        "titleHeader": "Create a new account | Solocked",
         "title": "Create a new account.",
         "form": {
             "button": "Confirmation",

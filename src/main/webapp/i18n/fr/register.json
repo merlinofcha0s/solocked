@@ -1,5 +1,6 @@
 {
     "register": {
+        "titleHeader": "Création de compte utilisateur | Solocked",
         "title": "Création de compte utilisateur",
         "form": {
             "button": "Enregistrement",
