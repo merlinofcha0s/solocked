@@ -127,8 +127,8 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         newAccount.tags.forEach((tag, index) => newAccount.tags[index] = tag.replace(/^\s+|\s+$|\s+(?=\s)/g, ''));
 
         this.customs.controls.forEach((group: FormGroup) => {
-            const key = group.get('key').value;
-            const value = group.get('value').value;
+            const key = group.get('keyField').value;
+            const value = group.get('valueField').value;
 
             if (!isUndefined(key) && key !== '' && !isUndefined(value) && value !== '') {
                 const newCustom = new Custom(key, value);
