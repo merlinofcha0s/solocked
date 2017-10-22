@@ -149,7 +149,10 @@ export class AccountsService {
                 this._dataStore.accounts.accounts = this._dataStore.accounts.accounts.filter((account) => account.id !== accountId);
                 this.saveOnBrowser(this._dataStore.accounts);
                 return this.accountTech.saveEncryptedDB(accounts, initVector);
-            }).subscribe((accountDB: AccountsDB) => this.accounts$.next(this._dataStore.accounts.accounts));
+            }).subscribe((accountDB: AccountsDB) => {
+                 this.accounts$.next(this._dataStore.accounts.accounts);
+                 this.featuredAccounts$.next(this._dataStore.accounts.accounts.filter((account) => account.featured));
+            });
     }
 
     copyAccount(target: Account, source: Account) {

@@ -28,11 +28,11 @@ export class AccountsdbListComponent implements OnInit {
         config.duration = 3000;
 
         if (account.featured) {
-            const message = this.translateService.instant('ninjaccountApp.accountsDB.home.online.toast.notFeatured');
+            const message = this.translateService.instant('ninjaccountApp.accountsDB.home.online.toast.notPinned');
             this.accountService.addOrRemoveFeatured(account, false);
             this.snackBar.open(message, '', config);
         } else {
-            const message = this.translateService.instant('ninjaccountApp.accountsDB.home.online.toast.featured');
+            const message = this.translateService.instant('ninjaccountApp.accountsDB.home.online.toast.pinned');
             this.accountService.addOrRemoveFeatured(account, true);
             this.snackBar.open(message, '', config);
         }

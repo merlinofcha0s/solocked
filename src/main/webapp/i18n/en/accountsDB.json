@@ -7,13 +7,14 @@
                 "createOrEditLabel": "Create or edit a Accounts DB",
                 "online": {
                     "toast": {
-                        "featured": "Featured",
-                        "notFeatured": "Remove from featured"
+                        "pinned": "Pinned",
+                        "notPinned": "Remove from pinned"
                     },
                     "title": "My accounts",
                     "search": "Search...",
-                    "all": "All",
-                    "featured": "Featured",
+                    "searchList": "Results",
+                    "pinned": "Pinned",
+                    "noPinned": "No pinned account :(",
                     "loadMore": "Load more"
                 }
 
