@@ -71,4 +71,8 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
         }
         this.counter += offset;
     }
+
+    clearSearch() {
+        this.filter = '';
+    }
 }
