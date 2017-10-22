@@ -10,7 +10,7 @@
                         "featured": "Featured",
                         "notFeatured": "Remove from featured"
                     },
-                    "title": "My dashboard",
+                    "title": "My accounts",
                     "search": "Search...",
                     "all": "All",
                     "featured": "Featured",
@@ -30,7 +30,7 @@
             "initializationVector": "Initialization Vector",
             "database": "Database",
             "user": "User",
-            "title": "Dashboard | Solocked",
+            "title": "My accounts | Solocked",
             "add": {
                 "header": "Add a new account | Solocked",
                 "title": "Add a new account.",

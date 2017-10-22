@@ -24,7 +24,7 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
     constructor(private accountsService: AccountsService, private paymentService: PaymentService) {
         this.counter = 0;
         this.allAccountsPaginated = new Array<Account>();
-        this.featuredAccounts = new Array<Account>()
+        this.featuredAccounts = new Array<Account>();
     }
 
     ngOnInit() {
