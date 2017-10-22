@@ -7,7 +7,6 @@
                 <input mdInput type="text" [(ngModel)]="filter" placeholder="{{ 'ninjaccountApp.accountsDB.home.online.search' | translate }}">
                 <i class="fa fa-times clear" mdSuffix *ngIf="filter !== undefined && filter.length >= 1" (click)="clearSearch()" aria-hidden="true"></i>
             </md-form-field>
-
         </div>
         <md-tab-group>
             <md-tab>
