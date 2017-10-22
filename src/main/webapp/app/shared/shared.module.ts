@@ -25,6 +25,7 @@ import {
     MatButtonModule,
     MatCheckboxModule,
     MatFormFieldModule,
+    MatSelectModule,
     MatInputModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
@@ -52,7 +53,8 @@ import {PasswordMatchValidatorDirective} from './auth/password-match.directive';
         MatTooltipModule,
         MatTabsModule,
         MatDialogModule,
-        MatChipsModule
+        MatChipsModule,
+        MatSelectModule
     ],
     declarations: [
         JhiSocialComponent,
@@ -95,7 +97,8 @@ import {PasswordMatchValidatorDirective} from './auth/password-match.directive';
         MatTooltipModule,
         MatTabsModule,
         MatDialogModule,
-        MatChipsModule
+        MatChipsModule,
+        MatSelectModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

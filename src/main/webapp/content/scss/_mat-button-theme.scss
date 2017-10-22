@@ -1,14 +1,14 @@
 @import 'custom-variables';
 
 @mixin mat-button-theme($candy-app-theme){
-    button[md-raised-button]:not([disabled]), a[md-raised-button]:not([disabled]){
+    button[mat-raised-button]:not([disabled]), a[mat-raised-button]:not([disabled]){
         border-radius: 50px;
         padding: 3px 30px;
         color: white;
         background-image: $linear-gradient;
     }
 
-    button[md-raised-button]:disabled, a[md-raised-button]:disabled{
+    button[mat-raised-button]:disabled, a[mat-raised-button]:disabled{
         border-radius: 50px;
         padding: 3px 30px;
         cursor: not-allowed;

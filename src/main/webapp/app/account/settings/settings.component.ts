@@ -5,13 +5,15 @@ import { Principal, AccountService, JhiLanguageHelper } from '../../shared';
 
 @Component({
     selector: 'jhi-settings',
-    templateUrl: './settings.component.html'
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
     error: string;
     success: string;
     settingsAccount: any;
     languages: any[];
+    loading = false;
 
     constructor(
         private account: AccountService,
@@ -31,8 +33,10 @@ export class SettingsComponent implements OnInit {
     }
 
     save() {
+        this.loading = true;
         this.account.save(this.settingsAccount).subscribe(() => {
             this.error = null;
+            this.loading = false;
             this.success = 'OK';
             this.principal.identity(true).then((account) => {
                 this.settingsAccount = this.copyAccount(account);
@@ -45,6 +49,7 @@ export class SettingsComponent implements OnInit {
         }, () => {
             this.success = null;
             this.error = 'ERROR';
+            this.loading = false;
         });
     }
 

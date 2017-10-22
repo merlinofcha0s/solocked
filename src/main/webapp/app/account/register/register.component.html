@@ -30,119 +30,118 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
             <form name="form" role="form" (ngSubmit)="register()" #registerForm="ngForm" *ngIf="!success">
-                    <md-form-field class="registerInput">
-                        <input mdInput type="text" [(ngModel)]="registerAccount.login" id="login" name="login"
+                    <mat-form-field class="registerInput">
+                        <input matInput type="text" [(ngModel)]="registerAccount.login" id="login" name="login"
                                #login="ngModel" placeholder="{{'global.form.username' | translate}}"
                                required minlength="1" maxlength="50" pattern="^[_'.@A-Za-z0-9-]*$">
-                        <md-error class="text-danger" *ngIf="login.dirty && login.invalid && login.errors.required"
+                        <mat-error class="text-danger" *ngIf="login.dirty && login.invalid && login.errors.required"
                                   jhiTranslate="register.messages.validate.login.required">
                             Your username is required.
-                        </md-error>
-                        <md-error class="text-danger" *ngIf="login.dirty && login.invalid && login.errors.minlength"
+                        </mat-error>
+                        <mat-error class="text-danger" *ngIf="login.dirty && login.invalid && login.errors.minlength"
                                   jhiTranslate="register.messages.validate.login.minlength">
                             Your username is required to be at least 1 character.
-                        </md-error>
-                        <md-error class="text-danger" *ngIf="login.dirty && login.invalid && login.errors.maxlength"
+                        </mat-error>
+                        <mat-error class="text-danger" *ngIf="login.dirty && login.invalid && login.errors.maxlength"
                                   jhiTranslate="register.messages.validate.login.maxlength">
                             Your username cannot be longer than 50 characters.
-                        </md-error>
-                        <md-error class="text-danger" *ngIf="login.dirty && login.invalid && login.errors.pattern"
+                        </mat-error>
+                        <mat-error class="text-danger" *ngIf="login.dirty && login.invalid && login.errors.pattern"
                                   jhiTranslate="register.messages.validate.login.pattern">
                             Your username can only contain lower-case letters and digits.
-                        </md-error>
-                    </md-form-field>
+                        </mat-error>
+                    </mat-form-field>
 
-                <md-form-field class="registerInput">
-                    <input type="email" mdInput id="email" name="email" #email="ngModel"
+                <mat-form-field class="registerInput">
+                    <input type="email" matInput id="email" name="email" #email="ngModel"
                            placeholder="{{'global.form.email' | translate}}"
                            [(ngModel)]="registerAccount.email" minlength=5 maxlength=100
                            pattern="^[a-zA-Z0-9_\-.]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+$"
                            required>
-                        <md-error class="text-danger"
+                        <mat-error class="text-danger"
                                   *ngIf="email.dirty && email.invalid && email.errors.required"
                                   jhiTranslate="global.messages.validate.email.required">
                             Your email is required.
-                        </md-error>
-                        <md-error class="text-danger"
+                        </mat-error>
+                        <mat-error class="text-danger"
                                   *ngIf="email.dirty && email.invalid && email.errors.pattern"
                                   jhiTranslate="global.messages.validate.email.invalid">
                             Your email is invalid.
-                        </md-error>
-                        <md-error class="text-danger"
+                        </mat-error>
+                        <mat-error class="text-danger"
                                   *ngIf="email.dirty && email.invalid && email.errors.minlength"
                                   jhiTranslate="global.messages.validate.email.minlength">
                             Your email is required to be at least 5 characters.
-                        </md-error>
-                        <md-error class="text-danger"
+                        </mat-error>
+                        <mat-error class="text-danger"
                                   *ngIf="email.dirty && email.invalid && email.errors.maxlength"
                                   jhiTranslate="global.messages.validate.email.maxlength">
                             Your email cannot be longer than 100 characters.
-                        </md-error>
-                </md-form-field>
-                <md-form-field class="registerInput">
-                    <input mdInput type="password" id="password" name="password"
+                        </mat-error>
+                </mat-form-field>
+                <mat-form-field class="registerInput">
+                    <input matInput type="password" id="password" name="password"
                            #password="ngModel" jhiPasswordMatch="confirmPassword" reverse="true"
                            placeholder="{{'global.form.newpassword' | translate}}"
                            [(ngModel)]="registerAccount.password" minlength=4 maxlength=50 required>
-                        <md-error class="text-danger"
+                        <mat-error class="text-danger"
                                   *ngIf="password.dirty && password.invalid && password.errors.required"
                                   jhiTranslate="global.messages.validate.newpassword.required">
                             Your password is required.
-                        </md-error>
-                        <md-error class="text-danger"
+                        </mat-error>
+                        <mat-error class="text-danger"
                                   *ngIf="password.dirty && password.invalid && password.errors.minlength"
                                   jhiTranslate="global.messages.validate.newpassword.minlength">
                             Your password is required to be at least 4 characters.
-                        </md-error>
-                        <md-error class="text-danger"
+                        </mat-error>
+                        <mat-error class="text-danger"
                                   *ngIf="password.dirty && password.invalid && password.errors.maxlength"
                                   jhiTranslate="global.messages.validate.newpassword.maxlength">
                             Your password cannot be longer than 50 characters.
-                        </md-error>
-                </md-form-field>
+                        </mat-error>
+                </mat-form-field>
                 <jhi-password-strength-bar [passwordToCheck]="registerAccount.password"></jhi-password-strength-bar>
-                <md-form-field class="registerInput">
-                    <input mdInput type="password" id="confirmPassword" name="confirmPassword"
+                <mat-form-field class="registerInput">
+                    <input matInput type="password" id="confirmPassword" name="confirmPassword"
                            #confirmPassword="ngModel"
                            placeholder="{{'global.form.confirmpassword' | translate}}"
                            [(ngModel)]="confirmPasswordValue" minlength=4 maxlength=50 required
                            jhiPasswordMatch="password" reverse="false">
 
-                        <md-error class="text-danger"
+                        <mat-error class="text-danger"
                                   *ngIf="confirmPassword.dirty && confirmPassword.invalid && confirmPassword.errors.required"
                                   jhiTranslate="global.messages.validate.confirmpassword.required">
                             Your confirmation password is required.
-                        </md-error>
-                        <md-error class="text-danger"
+                        </mat-error>
+                        <mat-error class="text-danger"
                                   *ngIf="confirmPassword.dirty && confirmPassword.invalid && confirmPassword.errors.minlength"
                                   jhiTranslate="global.messages.validate.confirmpassword.minlength">
                             Your confirmation password is required to be at least 4 characters.
-                        </md-error>
-                        <md-error class="text-danger"
+                        </mat-error>
+                        <mat-error class="text-danger"
                                   *ngIf="confirmPassword.dirty && confirmPassword.invalid && confirmPassword.errors.maxlength"
                                   jhiTranslate="global.messages.validate.confirmpassword.maxlength">
                             Your confirmation password cannot be longer than 50 characters.
-                        </md-error>
-                        <md-error class="text-danger"
+                        </mat-error>
+                        <mat-error class="text-danger"
                               *ngIf="password.dirty && confirmPassword.dirty && !confirmPassword.valid"
                                   jhiTranslate="global.messages.validate.confirmpassword.passwordmatch">
                                 Your passwords don't match
-                        </md-error>
-                </md-form-field>
+                        </mat-error>
+                </mat-form-field>
 
 
                 <div class="d-flex align-items-center justify-content-center m-3">
-                    <button md-raised-button type="submit" id="validate" [disabled]="registerForm.form.invalid"
+                    <button mat-raised-button type="submit" id="validate" [disabled]="registerForm.form.invalid"
                             class="buttonRegistration default-validation-button">{{'register.form.button' | translate}}</button>
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
-                    <a [routerLink]="['/']" md-button id="cancel" class="m-4 text-center cancel">{{'register.form.cancel' | translate}}</a>
+                    <a [routerLink]="['/']" mat-button id="cancel" class="m-4 text-center cancel">{{'register.form.cancel' | translate}}</a>
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
-                <div *ngIf="loading" class="loadingContainer">
-                       <md-spinner class="spinner" strokeWidth="15" color="primary"
-                                   *ngIf="loading"></md-spinner>
-                    <div class="loadingMessage" jhiTranslate="register.form.loading">Generating your key</div>
+                    <div *ngIf="loading" class="loadingContainer">
+                        <mat-spinner class="spinner" diameter="50" mode="indeterminate"></mat-spinner>
+                        <div class="loadingMessage" jhiTranslate="register.form.loading">Generating your key</div>
                     </div>
                 </div>
             </form>

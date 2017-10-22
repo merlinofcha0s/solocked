@@ -4,7 +4,7 @@ import {AccountsService} from './../../shared/account/accounts.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Account} from '../../shared/account/account.model';
-import {MdSnackBar, MdSnackBarConfig, MatDialog} from '@angular/material';
+import {MatSnackBar, MatSnackBarConfig, MatDialog} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {AccountsdbDeleteComponent} from './accountsdb-delete/accountsdb-delete.component';
 
@@ -23,7 +23,7 @@ export class AccountsdbDetailsComponent implements OnInit, OnDestroy {
 
     constructor(private route: ActivatedRoute, private router: Router,
                 private accountsService: AccountsService,
-                private snackBar: MdSnackBar,
+                private snackBar: MatSnackBar,
                 private translateService: TranslateService,
                 public dialog: MatDialog) {
     }
@@ -54,7 +54,7 @@ export class AccountsdbDetailsComponent implements OnInit, OnDestroy {
         const textToast = this.translateService.instant('ninjaccountApp.accountsDB.details.toastMessage');
 
         // Config and show toast message
-        const config = new MdSnackBarConfig();
+        const config = new MatSnackBarConfig();
         config.verticalPosition = 'top';
         config.duration = 3000;
         this.snackBar.open(nameFieldTrans + ' ' + textToast, '', config);

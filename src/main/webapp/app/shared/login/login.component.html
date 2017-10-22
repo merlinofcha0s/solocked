@@ -1,35 +1,35 @@
 <div class="row justify-content-center ">
-        <md-card *ngIf="authenticationError" id="errorMessage" class="card-warning text-white" jhiTranslate="login.messages.error.authentication">
+        <mat-card *ngIf="authenticationError" id="errorMessage" class="card-warning text-white" jhiTranslate="login.messages.error.authentication">
             <strong>Failed to sign in!</strong> <span>Please check your credentials and try again.</span>
-        </md-card>
+        </mat-card>
         <div class="col-md-12">
             <form class="form" role="form" (ngSubmit)="login()">
-                <md-form-field class="loginInput">
-                    <input type="text" mdInput name="username" id="username"
+                <mat-form-field class="loginInput">
+                    <input type="text" matInput name="username" id="username"
                            placeholder="{{'global.form.username' | translate}}"
                            [(ngModel)]="username">
-                </md-form-field>
-                <md-form-field class="loginInput">
-                    <input mdInput type="password" name="password" id="password"
+                </mat-form-field>
+                <mat-form-field class="loginInput">
+                    <input matInput type="password" name="password" id="password"
                            placeholder="{{'login.form.password' | translate}}"
                            [(ngModel)]="password">
-                </md-form-field>
+                </mat-form-field>
 
                 <div class="d-flex flex-row-reverse">
-                    <button type="submit" id="login" class="buttonLogin" md-button>
+                    <button type="submit" id="login" class="buttonLogin" mat-button>
                         <div class="d-flex justify-content-center align-items-center">
                             <span>{{'login.form.button' | translate}}</span>
                             <i class="fa fa-key loginArrow" aria-hidden="true"></i>
                         </div>
                     </button>
 
-                    <md-spinner class="spinner spinnerLogin" strokeWidth="15" *ngIf="loading"></md-spinner>
+                    <mat-spinner class="spinner spinnerLogin" diameter="50" mode="indeterminate" *ngIf="loading"></mat-spinner>
                 </div>
             </form>
             <div class="d-flex justify-content-center align-items-center flex-column registerContainer m-5">
                 <div class="m-2 text-white" jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</div>
-                <a md-button class="m-4 registerButton" id="register" (click)="register()">{{'global.messages.info.register.link' | translate}}</a>
-                <a href="#" md-button class="m-4 understand">{{'home.more' | translate}}</a>
+                <a mat-button class="m-4 registerButton" id="register" (click)="register()">{{'global.messages.info.register.link' | translate}}</a>
+                <a href="#" mat-button class="m-4 understand">{{'home.more' | translate}}</a>
             </div>
         </div>
         <!--    <div class="col-md-6">

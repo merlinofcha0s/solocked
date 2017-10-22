@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
 import {Account} from '../../../shared/account/account.model';
 import {AccountsService} from '../../../shared/account/accounts.service';
-import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
+import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
@@ -14,7 +14,7 @@ export class AccountsdbListComponent implements OnInit {
     @Input() account: Account;
 
     constructor(private accountService: AccountsService,
-                private snackBar: MdSnackBar,
+                private snackBar: MatSnackBar,
                 private translateService: TranslateService) {
     }
 
@@ -23,7 +23,7 @@ export class AccountsdbListComponent implements OnInit {
 
     makeFeatured(account: Account) {
         // Config and show toast message
-        const config = new MdSnackBarConfig();
+        const config = new MatSnackBarConfig();
         config.verticalPosition = 'top';
         config.duration = 3000;
 

@@ -13,7 +13,7 @@
             },
             "account": {
                 "main": "Account",
-                "settings": "Settings",
+                "settings": "Settings | Solocked",
                 "password": "Password",
                 "sessions": "Sessions",
                 "login": "Sign in",
