@@ -3,7 +3,7 @@
         "titleHeader": "Create a new account | Solocked",
         "title": "Create a new account.",
         "form": {
-            "button": "Confirmation",
+            "button": "Register",
             "loading": "Generating your key, please wait ",
             "cancel": "Cancel"
         },

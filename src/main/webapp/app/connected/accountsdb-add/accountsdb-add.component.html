@@ -61,6 +61,16 @@
                     Too many characters
                 </mat-error>
             </mat-form-field>
+              <mat-form-field class="addAccountInput">
+                  <input matInput type="url" id="url" placeholder="{{'ninjaccountApp.accountsDB.add.url' | translate}}"
+                         [formControl]="url">
+                  <mat-hint align="end">{{url.value?.length || 0}} / {{ maxUrl }}</mat-hint>
+                  <mat-error class="text-danger"
+                             *ngIf="url.dirty && url.invalid && url.errors.pattern"
+                             jhiTranslate="ninjaccountApp.accountsDB.validate.url.pattern">
+                      Not a url
+                  </mat-error>
+              </mat-form-field>
             <mat-form-field class="addAccountInput">
               <textarea matInput placeholder="{{'ninjaccountApp.accountsDB.add.notes' | translate}}" id="notes" rows="3" [formControl]="notes"></textarea>
                 <mat-hint align="end">{{notes.value?.length || 0}} / {{ maxNotes }}</mat-hint>

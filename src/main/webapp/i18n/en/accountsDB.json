@@ -41,6 +41,7 @@
                 "username": "Username",
                 "password": "Password",
                 "notes": "Notes",
+                "url": "URL",
                 "tags": "Tags (separated with comma)",
                 "custom":{
                     "label": "Label",
@@ -62,6 +63,7 @@
                 "password": "Password",
                 "notes": "Notes",
                 "tags": "Tags",
+                "url": "URL",
                 "customField": "Custom Field",
                 "value": "Value",
                 "edit": "Edit",
@@ -70,10 +72,11 @@
                 "tooltip": "Click to copy",
                 "toastMessage": "copied to clipboard !",
                 "deletePopup": {
-                    "title": "Delete this account",
+                    "title": "Permanently delete this account",
                     "text": "Are you sure ?",
                     "yes": "yes",
-                    "no": "no"
+                    "no": "no",
+                    "snack": "Deleted succesfully"
                 }
             },
             "validate": {
@@ -95,6 +98,9 @@
                 },
                 "notes": {
                     "max": "Too many characters"
+                },
+                "url":{
+                    "pattern": "Not a URL"
                 }
             }
         }

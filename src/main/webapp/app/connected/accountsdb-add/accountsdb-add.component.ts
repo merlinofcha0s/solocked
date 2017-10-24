@@ -26,6 +26,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     password: FormControl;
     notes: FormControl;
     tags: FormControl;
+    url: FormControl;
     customs: FormArray;
 
     maxName = 40;
@@ -36,6 +37,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     maxTags = 100;
     maxKey = 60;
     maxValue = 100;
+    maxUrl = 100;
 
     loading: boolean;
 
@@ -80,6 +82,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         this.password = this.fb.control('', Validators.compose([Validators.required, Validators.maxLength(this.maxPassword)]));
         this.notes = this.fb.control('', Validators.maxLength(this.maxNotes));
         this.tags = this.fb.control('', Validators.maxLength(this.maxTags));
+        this.url = this.fb.control('', Validators.pattern('https?://.+'));
         this.customs = this.fb.array([]);
 
         this.accountForm = this.fb.group({
@@ -87,6 +90,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
             accountNumber: this.accountNumber,
             username: this.username,
             password: this.password,
+            url: this.url,
             notes: this.notes,
             tags: this.tags,
             customs: this.customs
@@ -102,6 +106,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 this.username.setValue(account.username);
                 this.password.setValue(account.password);
                 this.notes.setValue(account.notes);
+                this.url.setValue(account.url);
 
                 this.customs.controls.splice(0, this.customs.controls.length);
                 account.customs.forEach((custom) => this.addCustomField(custom.key, custom.value));
@@ -121,8 +126,10 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     onSubmitNewAccount() {
         // Creating new account
         const newAccount = new Account(this.username.value, this.password.value, this.accountName.value);
+        newAccount.url = this.url.value;
         newAccount.number = this.accountNumber.value;
         newAccount.notes = this.notes.value;
+
         // If no tag we don't split anything
         if (this.tags.value !== '') {
             newAccount.tags = this.tags.value.trim().split(',');

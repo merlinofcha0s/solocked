@@ -10,6 +10,7 @@ export class Account {
     public tags: Array<string>;
     public customs: Array<Custom>;
     public featured: boolean;
+    public url: string;
 
     constructor(
         username: string,

@@ -7,6 +7,7 @@ import {Account} from '../../shared/account/account.model';
 import {MatSnackBar, MatSnackBarConfig, MatDialog} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {AccountsdbDeleteComponent} from './accountsdb-delete/accountsdb-delete.component';
+import {SnackComponent} from "../../shared/snack/snack.component";
 
 @Component({
     selector: 'jhi-accountsdb-details',
@@ -57,7 +58,8 @@ export class AccountsdbDetailsComponent implements OnInit, OnDestroy {
         const config = new MatSnackBarConfig();
         config.verticalPosition = 'top';
         config.duration = 3000;
-        this.snackBar.open(nameFieldTrans + ' ' + textToast, '', config);
+        config.data = {icon: 'fa-check-circle-o', text: nameFieldTrans + ' ' + textToast}
+        this.snackBar.openFromComponent(SnackComponent, config);
 
         // this.startTimeout();
     }

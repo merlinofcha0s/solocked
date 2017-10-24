@@ -164,5 +164,6 @@ export class AccountsService {
         target.tags = source.tags;
         target.customs = source.customs;
         target.featured = source.featured;
+        target.url = source.url;
     }
 }

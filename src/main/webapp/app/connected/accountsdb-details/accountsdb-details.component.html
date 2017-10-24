@@ -46,6 +46,12 @@
               </span>
               {{ account.notes }}
           </div>
+          <div class="m-3" *ngIf="account.url">
+              <span class="font-weight-bold">
+                  {{ "ninjaccountApp.accountsDB.details.url" | translate }}:
+              </span>
+              <a href="{{ account.url }}" target="_blank">{{ account.url }}</a>
+          </div>
           <div class="m-3" *ngFor="let custom of account.customs; let i=index">
             <span class="font-weight-bold"> {{ "ninjaccountApp.accountsDB.details.customField" | translate }} {{ i + 1 }}: </span>
               <span>
