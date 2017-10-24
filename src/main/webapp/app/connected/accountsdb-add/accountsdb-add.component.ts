@@ -8,6 +8,9 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {Account} from '../../shared/account/account.model';
 import {isUndefined} from 'util';
 import {Custom} from '../../shared/account/custom-account.model';
+import {MatSnackBar, MatSnackBarConfig} from "@angular/material";
+import {TranslateService} from '@ngx-translate/core';
+import {SnackComponent} from '../../shared/snack/snack.component';
 
 @Component({
     selector: 'jhi-accountsdb-add',
@@ -46,7 +49,9 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     constructor(private fb: FormBuilder,
                 private accountsService: AccountsService,
                 private router: Router,
-                private route: ActivatedRoute) {
+                private route: ActivatedRoute,
+                private snackBar: MatSnackBar,
+                private translateService: TranslateService) {
     }
 
     ngOnInit() {
@@ -145,6 +150,14 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         } else {
             this.accountsService.saveNewAccount(newAccount)
                 .subscribe((accountsUpdated: AccountsDB) => {
+
+                        const message = this.translateService.instant('ninjaccountApp.accountsDB.add.successful');
+                        const config = new MatSnackBarConfig();
+                        config.verticalPosition = 'top';
+                        config.duration = 3000;
+                        config.data = {icon: 'fa-check-circle-o', text: message}
+                        this.snackBar.openFromComponent(SnackComponent, config);
+
                         this.loading = false;
                         this.router.navigate(['accounts']);
                     },

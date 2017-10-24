@@ -156,7 +156,12 @@ public class UserService {
      */
     public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
         userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(user -> {
-            user.setFirstName(firstName);
+            if(firstName != null){
+                user.setFirstName(firstName);
+            }
+            if(lastName != null){
+                user.setLastName(lastName);
+            }
             user.setLastName(lastName);
             user.setEmail(email);
             user.setLangKey(langKey);

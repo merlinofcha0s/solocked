@@ -47,7 +47,8 @@
                     "value": "Value",
                     "button": "Add custom field"
                 },
-                "button": "Add new account"
+                "button": "Add new account",
+                "successful": "Account added successfully"
             },
             "update":{
                 "header": "Update account | Solocked",

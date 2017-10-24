@@ -4,20 +4,16 @@
         <div class="col-md-6">
             <h1 jhiTranslate="settings.title" *ngIf="settingsAccount">User settings for [<b>{{settingsAccount.login}}</b>]</h1>
 
-            <div class="alert alert-success" *ngIf="success" jhiTranslate="settings.messages.success">
-                <strong>Settings saved!</strong>
-            </div>
-
             <jhi-alert-error></jhi-alert-error>
 
             <form name="form" role="form" (ngSubmit)="save()" #settingsForm="ngForm" *ngIf="settingsAccount" novalidate>
+                <mat-form-field class="settingsInput">
+                    <input matInput disabled type="text" id="login" name="login" placeholder="{{'settings.form.login' | translate}}"
+                           [(ngModel)]="settingsAccount.login" minlength=1 maxlength=50 #login="ngModel" required>
+                </mat-form-field>
                  <mat-form-field class="settingsInput">
                     <input matInput type="text" id="firstName" name="firstName" placeholder="{{'settings.form.firstname' | translate}}"
-                           [(ngModel)]="settingsAccount.firstName" minlength=1 maxlength=50 #firstNameInput="ngModel" required>
-                        <mat-error *ngIf="firstNameInput.dirty && firstNameInput.invalid && firstNameInput.errors.required" class="form-text text-danger"
-                            jhiTranslate="settings.messages.validate.firstname.required">
-                            Your first name is required.
-                        </mat-error>
+                           [(ngModel)]="settingsAccount.firstName" minlength=1 maxlength=50 #firstNameInput="ngModel">
                         <mat-error *ngIf="firstNameInput.dirty && firstNameInput.invalid && firstNameInput.errors.minlength" class="form-text text-danger"
                                   jhiTranslate="settings.messages.validate.firstname.minlength">
                             Your first name is required to be at least 1 character.
@@ -29,11 +25,7 @@
                  </mat-form-field>
                  <mat-form-field class="settingsInput">
                     <input type="text" matInput id="lastName" name="lastName" placeholder="{{'settings.form.lastname' | translate}}"
-                           [(ngModel)]="settingsAccount.lastName" minlength=1 maxlength=50 #lastNameInput="ngModel" required>
-                        <mat-error class="form-text text-danger"
-                           *ngIf="lastNameInput.dirty && lastNameInput.invalid && lastNameInput.errors.required" jhiTranslate="settings.messages.validate.lastname.required">
-                            Your last name is required.
-                        </mat-error>
+                           [(ngModel)]="settingsAccount.lastName" minlength=1 maxlength=50 #lastNameInput="ngModel">
                         <mat-error class="form-text text-danger"
                            *ngIf="lastNameInput.dirty && lastNameInput.invalid && lastNameInput.errors.minlength" jhiTranslate="settings.messages.validate.lastname.minlength">
                             Your last name is required to be at least 1 character.
@@ -70,13 +62,18 @@
                 </mat-form-field>
                 <div class="d-flex justify-content-center m-4">
                     <button mat-raised-button type="submit" class="default-validation-button" [disabled]="settingsForm.form.invalid">{{'settings.form.button' | translate}}</button>
-                     <div *ngIf="loading" class="loadingContainer m-3">
-                         <mat-progress-spinner class="spinner" diameter="50" mode="indeterminate"></mat-progress-spinner>
-                         <div class="loadingMessage"
-                              jhiTranslate="settings.form.loading">Please wait....</div>
-                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-center">
+                    <a [routerLink]="['/accounts']" mat-button class="m-4 text-center cancel">{{'register.form.cancel' | translate}}</a>
                 </div>
 
+                <div class="d-flex justify-content-center">
+                    <div *ngIf="loading" class="loadingContainer m-3">
+                        <mat-progress-spinner class="spinner" diameter="50" mode="indeterminate"></mat-progress-spinner>
+                        <div class="loadingMessage"
+                             jhiTranslate="settings.form.loading">Please wait....</div>
+                    </div>
+                </div>
             </form>
         </div>
         <div class="col-12 col-md-3"></div>

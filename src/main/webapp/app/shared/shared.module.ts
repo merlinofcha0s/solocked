@@ -38,6 +38,7 @@ import {
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {UserRouteAccessIsConnectedService} from './auth/user-route-is-connected';
 import {PasswordMatchValidatorDirective} from './auth/password-match.directive';
+import {SnackComponent} from './snack/snack.component';
 
 @NgModule({
     imports: [
@@ -59,6 +60,7 @@ import {PasswordMatchValidatorDirective} from './auth/password-match.directive';
     declarations: [
         JhiSocialComponent,
         JhiLoginModalComponent,
+        SnackComponent,
         HasAnyAuthorityDirective,
         PasswordMatchValidatorDirective
     ],
@@ -79,7 +81,7 @@ import {PasswordMatchValidatorDirective} from './auth/password-match.directive';
         CryptoUtilsService,
         UserRouteAccessIsConnectedService
     ],
-    entryComponents: [JhiLoginModalComponent],
+    entryComponents: [JhiLoginModalComponent, SnackComponent],
     exports: [
         NinjaccountSharedCommonModule,
         JhiSocialComponent,
@@ -98,7 +100,8 @@ import {PasswordMatchValidatorDirective} from './auth/password-match.directive';
         MatTabsModule,
         MatDialogModule,
         MatChipsModule,
-        MatSelectModule
+        MatSelectModule,
+        SnackComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

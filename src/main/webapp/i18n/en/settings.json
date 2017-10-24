@@ -2,6 +2,7 @@
     "settings": {
         "title": "Settings.",
         "form": {
+            "login": "Login",
             "firstname": "First Name",
             "firstname.placeholder": "Your first name",
             "lastname": "Last Name",
@@ -15,7 +16,7 @@
                 "fail": "<strong>An error has occurred!</strong> Settings could not be saved.",
                 "emailexists": "<strong>Email is already in use!</strong> Please choose another one."
             },
-            "success": "<strong>Settings saved!</strong>",
+            "success": "Settings saved!",
             "validate": {
                 "firstname": {
                     "required": "Your first name is required.",

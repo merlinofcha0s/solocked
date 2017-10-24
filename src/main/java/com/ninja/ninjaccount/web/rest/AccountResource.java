@@ -150,7 +150,10 @@ public class AccountResource {
         return userRepository
             .findOneByLogin(userLogin)
             .map(u -> {
-                userService.updateUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(),
+                String firstName = userDTO.getFirstName();
+                String lastName = userDTO.getLastName();
+
+                userService.updateUser(firstName, lastName, userDTO.getEmail(),
                     userDTO.getLangKey(), userDTO.getImageUrl());
                 return new ResponseEntity(HttpStatus.OK);
             })

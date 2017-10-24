@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { JhiLanguageService } from 'ng-jhipster';
+import {Component, OnInit} from '@angular/core';
+import {JhiLanguageService} from 'ng-jhipster';
 
-import { Principal, AccountService, JhiLanguageHelper } from '../../shared';
+import {Principal, AccountService, JhiLanguageHelper} from '../../shared';
+import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
+import {TranslateService} from '@ngx-translate/core';
+import {SnackComponent} from '../../shared/snack/snack.component';
 
 @Component({
     selector: 'jhi-settings',
@@ -15,12 +18,12 @@ export class SettingsComponent implements OnInit {
     languages: any[];
     loading = false;
 
-    constructor(
-        private account: AccountService,
-        private principal: Principal,
-        private languageService: JhiLanguageService,
-        private languageHelper: JhiLanguageHelper
-    ) {
+    constructor(private account: AccountService,
+                private principal: Principal,
+                private languageService: JhiLanguageService,
+                private languageHelper: JhiLanguageHelper,
+                private snackBar: MatSnackBar,
+                private translateService: TranslateService) {
     }
 
     ngOnInit() {
@@ -46,6 +49,16 @@ export class SettingsComponent implements OnInit {
                     this.languageService.changeLanguage(this.settingsAccount.langKey);
                 }
             });
+
+            // Config and show toast message
+            const config = new MatSnackBarConfig();
+            config.verticalPosition = 'top';
+            config.duration = 3000;
+
+            const message = this.translateService.instant('settings.messages.success');
+            config.data = {icon: 'fa-check-circle-o', text: message}
+            this.snackBar.openFromComponent(SnackComponent, config);
+
         }, () => {
             this.success = null;
             this.error = 'ERROR';

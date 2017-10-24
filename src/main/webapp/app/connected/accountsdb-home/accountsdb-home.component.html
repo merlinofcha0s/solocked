@@ -11,7 +11,7 @@
         <mat-tab-group>
             <mat-tab *ngIf="filter !== undefined && filter.length >= 2">
                 <ng-template mat-tab-label>
-                    {{ 'ninjaccountApp.accountsDB.home.online.searchList' | translate }} <span class="font-weight-light header-bar">({{(accounts | tagsFilter:filter:'tags').length }})</span></ng-template>
+                    {{ 'ninjaccountApp.accountsDB.home.online.searchList' | translate }} <span class="font-weight-light header-bar">( {{ (accounts | tagsFilter:filter:'tags').length }} )</span></ng-template>
                 <div>
                     <jhi-accountsdb-list *ngFor="let account of accounts | tagsFilter:filter:'tags'"
                                          [account]="account"></jhi-accountsdb-list>
