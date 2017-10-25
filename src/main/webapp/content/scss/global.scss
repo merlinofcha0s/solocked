@@ -87,8 +87,17 @@ Generic styles
     opacity: 1;
 }
 
+.main {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1 0 auto;
+}
+
 .footer {
-    border-top: 1px solid rgba(0, 0, 0, .125);
+
 }
 
 /* ==========================================================================
@@ -282,8 +291,8 @@ Social button
 }
 
 .spinner {
-    width: 55px!important;
-    height: 55px!important;
+    width: 55px !important;
+    height: 55px !important;
 }
 
 /* ==========================================================================
@@ -304,7 +313,7 @@ Social button
     margin-bottom: 10px;
 }
 
-.default-validation-button{
+.default-validation-button {
     width: 300px;
     padding-top: 30px;
     padding-bottom: 30px;
@@ -315,11 +324,11 @@ Social button
 }
 
 .cancel {
-    text-decoration: underline!important;
+    text-decoration: underline !important;
 }
 
 .header-bar {
-    font-size: 17px!important;
+    font-size: 17px !important;
     margin-left: 7px;
     margin-bottom: 7px;
     font-weight: lighter;

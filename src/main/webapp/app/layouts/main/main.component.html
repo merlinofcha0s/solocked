@@ -1,20 +1,13 @@
-<div [class.background-offline]="loginPage">
+<div [class.background-offline]="loginPage" class="main">
     <jhi-page-ribbon></jhi-page-ribbon>
     <div>
         <router-outlet name="navbar"></router-outlet>
     </div>
-    <div class="container-fluid">
+    <div class="container-fluid content">
         <div class="p-5">
             <router-outlet></router-outlet>
             <router-outlet name="popup"></router-outlet>
         </div>
-        <!--  <jhi-footer></jhi-footer> -->
     </div>
-</div>
-<div *ngIf="displayPaymentIssue">
-    <div class="d-flex justify-content-center align-items-center no-payment">
-        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-        <div class="warning" jhiTranslate="ninjaccountApp.payment.warning"></div>
-        <a [routerLink]="['/']" jhiTranslate="ninjaccountApp.payment.linkInvoice"></a>
-    </div>
+     <jhi-footer></jhi-footer>
 </div>
