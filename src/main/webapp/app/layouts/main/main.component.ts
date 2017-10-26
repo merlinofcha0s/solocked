@@ -1,11 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
 
 import {JhiLanguageHelper} from '../../shared';
-import {PaymentService} from '../../entities/payment/payment.service';
-import {Payment, PlanType} from '../../entities/payment/payment.model';
-import {Principal} from '../../shared/auth/principal.service';
-import {Subscription} from 'rxjs/Subscription';
 
 @Component({
     selector: 'body',

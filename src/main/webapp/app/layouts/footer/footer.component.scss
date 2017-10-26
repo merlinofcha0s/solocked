@@ -1,9 +1,14 @@
+.footer-with-payment {
+    height: 50px;
+}
+
 .no-payment {
     background-color: #D0021B;
     width: 100%;
     height: 100px;
     bottom: 0px;
     left: 0px;
+    position: fixed;
     z-index: 0;
     color: white;
     i {

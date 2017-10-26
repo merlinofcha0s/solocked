@@ -1,4 +1,4 @@
-<div class="footer">
+<div [class.footer-with-payment]="displayPaymentIssue">
     <div *ngIf="displayPaymentIssue">
         <div class="d-flex justify-content-center align-items-center no-payment">
             <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
