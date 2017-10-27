@@ -4,7 +4,7 @@ import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
 import {JhiLanguageHelper} from '../../shared';
 
 @Component({
-    selector: 'body',
+    selector: 'jhi-main',
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss']
 })

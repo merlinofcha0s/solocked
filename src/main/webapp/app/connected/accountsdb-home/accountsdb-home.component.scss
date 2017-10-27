@@ -10,12 +10,25 @@
     width: 100%;
 }
 
-.clear{
+.clear {
     font-size: 20px;
-    cursor:pointer;
+    cursor: pointer;
 }
 
-.emptyContainer{
+.emptyContainer {
     font-size: 18px;
     height: 200px;
+}
+
+.see-all {
+    position: inherit;
+    z-index: 2;
+    width: 0px;
+    float: right;
+    margin-top: 10px;
+}
+
+/deep/ .mat-input-placeholder{
+    color: grey;
+    font-size: 18px!important;
 }

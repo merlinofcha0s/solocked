@@ -20,6 +20,7 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
     pageSize = 2;
 
     filter: string;
+    seeAll = false;
 
     constructor(private accountsService: AccountsService, private paymentService: PaymentService) {
         this.counter = 0;
@@ -74,5 +75,17 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
 
     clearSearch() {
         this.filter = '';
+    }
+
+    showAll(){
+        this.seeAll = true;
+        this.clearSearch();
+    }
+
+    detectSearch(): boolean{
+        if((this.filter !== undefined && this.filter.length >= 2)){
+            this.seeAll = false;
+            return true;
+        }
     }
 }
