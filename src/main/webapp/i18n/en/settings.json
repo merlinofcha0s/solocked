@@ -29,6 +29,9 @@
                     "maxlength": "Your last name cannot be longer than 50 characters"
                 }
             }
+        },
+        "logbox":{
+            "title": "Your logbox"
         }
     }
 }

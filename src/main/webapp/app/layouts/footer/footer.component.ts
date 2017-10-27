@@ -3,7 +3,7 @@ import {Payment, PlanType} from '../../entities/payment/payment.model';
 import {PaymentService} from '../../entities/payment/payment.service';
 import {Principal} from '../../shared/auth/principal.service';
 import {Subscription} from 'rxjs/Subscription';
-import {NavigationEnd, Router} from "@angular/router";
+import {NavigationEnd, Router} from '@angular/router';
 
 @Component({
     selector: 'jhi-footer',

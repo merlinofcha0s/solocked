@@ -4,10 +4,10 @@ import {AccountsService} from './../../shared/account/accounts.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Account} from '../../shared/account/account.model';
-import {MatSnackBar, MatSnackBarConfig, MatDialog} from '@angular/material';
+import {MatDialog, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {AccountsdbDeleteComponent} from './accountsdb-delete/accountsdb-delete.component';
-import {SnackComponent} from "../../shared/snack/snack.component";
+import {SnackComponent} from '../../shared/snack/snack.component';
 
 @Component({
     selector: 'jhi-accountsdb-details',

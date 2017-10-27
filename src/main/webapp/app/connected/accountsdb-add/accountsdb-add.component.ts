@@ -8,7 +8,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {Account} from '../../shared/account/account.model';
 import {isUndefined} from 'util';
 import {Custom} from '../../shared/account/custom-account.model';
-import {MatSnackBar, MatSnackBarConfig} from "@angular/material";
+import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {SnackComponent} from '../../shared/snack/snack.component';
 
@@ -189,7 +189,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         this.customs.controls.splice(index, 1);
     }
 
-    initPasswordHideDisplay(){
+    initPasswordHideDisplay() {
         this.passwordType = 'password';
         this.iconPasswordType = 'fa-eye-slash'
     }

@@ -19,6 +19,7 @@
             <th><span jhiTranslate="global.field.id">ID</span></th>
             <th><span jhiTranslate="ninjaccountApp.accountsDB.initializationVector">Initialization Vector</span></th>
             <th><span jhiTranslate="ninjaccountApp.accountsDB.database">Database</span></th>
+            <th><span jhiTranslate="ninjaccountApp.accountsDB.nbAccounts">Nb Accounts</span></th>
             <th><span jhiTranslate="ninjaccountApp.accountsDB.user">User</span></th>
             <th></th>
             </tr>
@@ -31,6 +32,7 @@
                     <a *ngIf="accountsDB.database" (click)="openFile(accountsDB.databaseContentType, accountsDB.database)" jhiTranslate="entity.action.open">open</a>
                     <span *ngIf="accountsDB.database">{{accountsDB.databaseContentType}}, {{byteSize(accountsDB.database)}}</span>
                 </td>
+                <td>{{accountsDB.nbAccounts}}</td>
                 <td>
                     {{accountsDB.userLogin}}
                 </td>

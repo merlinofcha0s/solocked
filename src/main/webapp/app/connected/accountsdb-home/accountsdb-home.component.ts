@@ -77,13 +77,13 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
         this.filter = '';
     }
 
-    showAll(){
+    showAll() {
         this.seeAll = true;
         this.clearSearch();
     }
 
-    detectSearch(): boolean{
-        if((this.filter !== undefined && this.filter.length >= 2)){
+    detectSearch(): boolean {
+        if ((this.filter !== undefined && this.filter.length >= 2)) {
             this.seeAll = false;
             return true;
         }

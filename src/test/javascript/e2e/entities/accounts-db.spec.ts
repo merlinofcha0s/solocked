@@ -38,6 +38,8 @@ describe('AccountsDB e2e test', () => {
         accountsDBDialogPage.setInitializationVectorInput('initializationVector');
         expect(accountsDBDialogPage.getInitializationVectorInput()).toMatch('initializationVector');
         accountsDBDialogPage.setDatabaseInput(absolutePath);
+        accountsDBDialogPage.setNbAccountsInput('5');
+        expect(accountsDBDialogPage.getNbAccountsInput()).toMatch('5');
         accountsDBDialogPage.userSelectLastOption();
         accountsDBDialogPage.save();
         expect(accountsDBDialogPage.getSaveButton().isPresent()).toBeFalsy();
@@ -67,6 +69,7 @@ export class AccountsDBDialogPage {
     closeButton = element(by.css('button.close'));
     initializationVectorInput = element(by.css('input#field_initializationVector'));
     databaseInput = element(by.css('input#file_database'));
+    nbAccountsInput = element(by.css('input#field_nbAccounts'));
     userSelect = element(by.css('select#field_user'));
 
     getModalTitle() {
@@ -87,6 +90,14 @@ export class AccountsDBDialogPage {
 
     getDatabaseInput = function () {
         return this.databaseInput.getAttribute('value');
+    }
+
+    setNbAccountsInput = function (nbAccounts) {
+        this.nbAccountsInput.sendKeys(nbAccounts);
+    }
+
+    getNbAccountsInput = function () {
+        return this.nbAccountsInput.getAttribute('value');
     }
 
     userSelectLastOption = function () {
