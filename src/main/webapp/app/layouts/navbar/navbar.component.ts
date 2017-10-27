@@ -91,7 +91,6 @@ export class NavbarComponent implements OnInit {
     }
 
     hasAnyAuthorityDirect(authorities: string[]): boolean {
-        console.log("Authorities : " + authorities[0]);
         return this.principal.hasAnyAuthorityDirect(authorities);
     }
 }

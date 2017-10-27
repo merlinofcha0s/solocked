@@ -1,6 +1,6 @@
 {
     "settings": {
-        "title": "Settings.",
+        "title": "Settings",
         "form": {
             "login": "Login",
             "firstname": "First Name",

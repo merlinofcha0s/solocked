@@ -99,8 +99,16 @@ Logo styles
 Custom solocked
 ========================================================================== */
 .add-button {
-    color: $solocked-primary-color!important;
+    color: $solocked-primary-color !important;
     border: solid $solocked-primary-color 2px;
-    background-image: linear-gradient(to bottom right, #FFFFFF, #FFFFFF)!important;
-    box-shadow: 0 0px 0px 0 rgba(0,0,0,0.24), 0 0px 0px 0 rgba(0,0,0,0.12)!important;
+    background-image: linear-gradient(to bottom right, #FFFFFF, #FFFFFF) !important;
+    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.24), 0 0px 0px 0 rgba(0, 0, 0, 0.12) !important;
+}
+
+.home {
+    color: $loginColor;
+}
+
+.menu{
+    margin-top: 5px;
 }

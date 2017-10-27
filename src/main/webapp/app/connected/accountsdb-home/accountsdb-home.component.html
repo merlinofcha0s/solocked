@@ -6,13 +6,13 @@
             <input matInput type="text" [(ngModel)]="filter" placeholder="{{ 'ninjaccountApp.accountsDB.home.online.search' | translate }}">
             <i class="fa fa-times clear" matSuffix *ngIf="filter !== undefined && filter.length >= 1" (click)="clearSearch()" aria-hidden="true"></i>
         </mat-form-field>
-        <div class="d-flex justify-content-end see-all">
-            <button mat-button id="seeAll" (click)="showAll()">See all</button>
+        <div class="d-flex justify-content-end">
+            <button mat-button id="seeAll" class="see-all" (click)="showAll()">{{ 'ninjaccountApp.accountsDB.home.online.seeAll' | translate }}</button>
         </div>
-        <mat-tab-group style="">
+        <mat-tab-group class="tab">
             <mat-tab *ngIf="detectSearch() || seeAll">
                 <ng-template mat-tab-label>
-                    {{ 'ninjaccountApp.accountsDB.home.online.searchList' | translate }} <span class="font-weight-light header-bar">( {{ (accounts | tagsFilter:filter:'tags').length }} )</span></ng-template>
+                    {{ 'ninjaccountApp.accountsDB.home.online.searchList' | translate }} <span class="font-weight-light header-bar">({{ (accounts | tagsFilter:filter:'tags').length }})</span></ng-template>
                 <div>
                     <jhi-accountsdb-list *ngFor="let account of accounts | tagsFilter:filter:'tags'"
                                          [account]="account"></jhi-accountsdb-list>
