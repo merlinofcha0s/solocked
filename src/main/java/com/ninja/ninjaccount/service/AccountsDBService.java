@@ -5,7 +5,7 @@ import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
 import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
-import com.ninja.ninjaccount.service.dto.OperationAccountType;
+import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import com.ninja.ninjaccount.service.mapper.AccountsDBMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +31,12 @@ public class AccountsDBService {
 
     private final AccountsDBMapper accountsDBMapper;
 
-    public AccountsDBService(AccountsDBRepository accountsDBRepository, AccountsDBMapper accountsDBMapper) {
+    private final PaymentService paymentService;
+
+    public AccountsDBService(AccountsDBRepository accountsDBRepository, AccountsDBMapper accountsDBMapper, PaymentService paymentService) {
         this.accountsDBRepository = accountsDBRepository;
         this.accountsDBMapper = accountsDBMapper;
+        this.paymentService = paymentService;
     }
 
     /**
@@ -119,7 +122,7 @@ public class AccountsDBService {
      * @param accountsDBDTO The new accountDB
      * @return the account db updated
      */
-    public AccountsDBDTO updateAccountDBForUserConnected(AccountsDBDTO accountsDBDTO) {
+    public AccountsDBDTO updateAccountDBForUserConnected(AccountsDBDTO accountsDBDTO) throws MaxAccountsException {
         final String userLogin = SecurityUtils.getCurrentUserLogin();
         AccountsDBDTO accountsDBDTOToUpdate = findByUsernameLogin(userLogin);
 
@@ -127,11 +130,10 @@ public class AccountsDBService {
         accountsDBDTOToUpdate.setInitializationVector(accountsDBDTO.getInitializationVector());
         accountsDBDTOToUpdate.setDatabaseContentType(accountsDBDTO.getDatabaseContentType());
 
-        if (accountsDBDTO.getOperationAccountType().equals(OperationAccountType.CREATE)) {
-            accountsDBDTOToUpdate.setNbAccounts(accountsDBDTOToUpdate.getNbAccounts() + 1);
-        } else if (accountsDBDTO.getOperationAccountType().equals(OperationAccountType.DELETE)) {
-            accountsDBDTOToUpdate.setNbAccounts(accountsDBDTOToUpdate.getNbAccounts() - 1);
-        }
+        Integer nbAccounts = paymentService.checkReachLimitAccounts(userLogin
+            , accountsDBDTO.getOperationAccountType(), accountsDBDTOToUpdate.getNbAccounts());
+
+        accountsDBDTOToUpdate.setNbAccounts(nbAccounts);
 
         save(accountsDBDTOToUpdate);
 

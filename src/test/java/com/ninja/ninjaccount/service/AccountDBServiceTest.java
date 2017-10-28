@@ -5,6 +5,7 @@ import com.ninja.ninjaccount.domain.AccountsDB;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
+import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,7 @@ public class AccountDBServiceTest {
 
     @Test
     @WithMockUser("user-update-db")
-    public void testUpdateAccountsByUserconnected() {
+    public void testUpdateAccountsByUserconnected() throws MaxAccountsException {
         String example = "This is an example";
         byte[] bytes = example.getBytes();
         String uuid = UUID.randomUUID().toString();

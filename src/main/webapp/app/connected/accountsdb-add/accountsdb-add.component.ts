@@ -172,9 +172,14 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                         this.router.navigate(['accounts']);
                     },
                     (error) => {
+                        let message;
+                        if (!error.ok && error.status === 400) {
+                            message = this.translateService.instant('ninjaccountApp.accountsDB.add.toomanyAccount');
+                        } else {
+                            message = this.translateService.instant('ninjaccountApp.accountsDB.add.error');
+                        }
                         this.loading = false;
                         this.accountsService.rollingAddedAccount(newAccount);
-                        const message = this.translateService.instant('ninjaccountApp.accountsDB.add.error');
                         const config = new MatSnackBarConfig();
                         config.verticalPosition = 'top';
                         config.duration = 10000;

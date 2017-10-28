@@ -52,7 +52,8 @@
                 },
                 "button": "Add new account",
                 "successful": "Account added successfully",
-                "error": "Error during the add account, please retry"
+                "error": "Error during the add account, please retry",
+                "toomanyAccount": "Too many accounts, you reach the limit"
             },
             "update":{
                 "header": "Update account | Solocked",

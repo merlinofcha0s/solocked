@@ -4,7 +4,10 @@ import com.ninja.ninjaccount.domain.Payment;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import com.ninja.ninjaccount.repository.PaymentRepository;
+import com.ninja.ninjaccount.service.dto.OperationAccountType;
+import com.ninja.ninjaccount.service.dto.PaymentConstant;
 import com.ninja.ninjaccount.service.dto.PaymentDTO;
+import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import com.ninja.ninjaccount.service.mapper.PaymentMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,15 +108,44 @@ public class PaymentService {
      *
      * @param user the user
      */
-    public void createRegistrationPaymentForUser(User user){
+    public PaymentDTO createRegistrationPaymentForUser(User user){
         PaymentDTO paymentDTO = new PaymentDTO();
         paymentDTO.setPaid(false);
-        paymentDTO.setPlanType(PlanType.FREE);
+        paymentDTO.setPlanType(PlanType.BETA);
         paymentDTO.setSubscriptionDate(LocalDate.now().plusMonths(1));
         paymentDTO.setPrice(10);
         paymentDTO.setUserId(user.getId());
         paymentDTO.setUserLogin(user.getLogin());
-        save(paymentDTO);
+        return save(paymentDTO);
+    }
+
+    public Integer checkReachLimitAccounts(String userLogin, OperationAccountType operationAccountType, Integer actual) throws MaxAccountsException {
+        PaymentDTO paymentDTO = findPaymentByLogin(userLogin);
+
+        if (operationAccountType.equals(OperationAccountType.CREATE)) {
+            Integer maxAccounts = 0;
+            switch (paymentDTO.getPlanType()) {
+                case PREMIUM:
+                    maxAccounts = PaymentConstant.MAX_ACCOUNTS_PREMIUM;
+                    break;
+                case FREE:
+                    maxAccounts = PaymentConstant.MAX_ACCOUNTS_FREE;
+                    break;
+                case BETA:
+                    maxAccounts = PaymentConstant.MAX_ACCOUNTS_BETA;
+                    break;
+            }
+
+            if (actual < maxAccounts) {
+                return actual + 1;
+            } else {
+                throw new MaxAccountsException(actual, maxAccounts);
+            }
+        } else if (operationAccountType.equals(OperationAccountType.DELETE)) {
+            return actual - 1;
+        }else{
+            return actual;
+        }
     }
 
 }

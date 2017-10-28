@@ -5,6 +5,8 @@ import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
+import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
+import com.ninja.ninjaccount.web.rest.errors.CustomParameterizedException;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -150,7 +152,11 @@ public class AccountsDBResource {
             return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
+        } catch (MaxAccountsException e) {
+            log.error("Too many accounts on your database, userID : {}", accountsDBDTO.getUserId());
+            throw new CustomParameterizedException("Too many accounts", e.getActual().toString(), e.getMax().toString());
         } catch (Exception e) {
+            log.error("Error when updating db for userID : {}", accountsDBDTO.getUserId());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
