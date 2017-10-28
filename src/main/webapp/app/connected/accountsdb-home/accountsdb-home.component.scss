@@ -1,15 +1,3 @@
-.fab-add-account {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    z-index: 1;
-}
-
-.plus {
-    font-size: 40px;
-    color: white;
-}
-
 .load-more {
     margin-bottom: 10px;
 }
@@ -22,12 +10,25 @@
     width: 100%;
 }
 
-.clear{
+.clear {
     font-size: 20px;
-    cursor:pointer;
+    cursor: pointer;
 }
 
-.emptyContainer{
+.emptyContainer {
     font-size: 18px;
     height: 200px;
+}
+
+.see-all {
+    z-index: 3;
+}
+
+/deep/ .mat-input-placeholder {
+    color: grey;
+    font-size: 18px !important;
+}
+
+.tab {
+    transform: translate(0px, -40px);
 }

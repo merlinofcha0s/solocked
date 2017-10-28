@@ -2,6 +2,8 @@ package com.ninja.ninjaccount.service.dto;
 
 
 import javax.persistence.Lob;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -17,6 +19,10 @@ public class AccountsDBDTO implements Serializable {
     @Lob
     private byte[] database;
     private String databaseContentType;
+
+    @NotNull
+    @Min(value = 0)
+    private Integer nbAccounts;
 
     private Long userId;
 
@@ -52,6 +58,14 @@ public class AccountsDBDTO implements Serializable {
 
     public void setDatabaseContentType(String databaseContentType) {
         this.databaseContentType = databaseContentType;
+    }
+
+    public Integer getNbAccounts() {
+        return nbAccounts;
+    }
+
+    public void setNbAccounts(Integer nbAccounts) {
+        this.nbAccounts = nbAccounts;
     }
 
     public Long getUserId() {
@@ -97,6 +111,7 @@ public class AccountsDBDTO implements Serializable {
             "id=" + getId() +
             ", initializationVector='" + getInitializationVector() + "'" +
             ", database='" + getDatabase() + "'" +
+            ", nbAccounts='" + getNbAccounts() + "'" +
             "}";
     }
 }

@@ -4,6 +4,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -31,6 +32,11 @@ public class AccountsDB implements Serializable {
 
     @Column(name = "jhi_database_content_type")
     private String databaseContentType;
+
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "nb_accounts", nullable = false)
+    private Integer nbAccounts;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -84,6 +90,19 @@ public class AccountsDB implements Serializable {
         this.databaseContentType = databaseContentType;
     }
 
+    public Integer getNbAccounts() {
+        return nbAccounts;
+    }
+
+    public AccountsDB nbAccounts(Integer nbAccounts) {
+        this.nbAccounts = nbAccounts;
+        return this;
+    }
+
+    public void setNbAccounts(Integer nbAccounts) {
+        this.nbAccounts = nbAccounts;
+    }
+
     public User getUser() {
         return user;
     }
@@ -125,6 +144,7 @@ public class AccountsDB implements Serializable {
             ", initializationVector='" + getInitializationVector() + "'" +
             ", database='" + getDatabase() + "'" +
             ", databaseContentType='" + databaseContentType + "'" +
+            ", nbAccounts='" + getNbAccounts() + "'" +
             "}";
     }
 }

@@ -47,8 +47,9 @@
                 </mat-error>
             </mat-form-field>
             <mat-form-field class="addAccountInput">
-              <input matInput type="password" id="password" placeholder="{{'ninjaccountApp.accountsDB.add.password' | translate}}"
+              <input matInput type="{{ passwordType }}" id="password" placeholder="{{'ninjaccountApp.accountsDB.add.password' | translate}}"
                      [formControl]="password" required>
+                <i matSuffix class="fa {{ iconPasswordType }} suffixIcon" (click)="onHideDisplayPassword()" aria-hidden="true"></i>
                 <mat-hint align="end">{{password.value?.length || 0}} / {{ maxPassword }}</mat-hint>
                 <mat-error class="text-danger"
                           *ngIf="password.dirty && password.invalid && password.errors.required"
@@ -97,9 +98,10 @@
                           <mat-form-field class="customValue">
                                 <input placeholder="{{'ninjaccountApp.accountsDB.add.custom.value' | translate}} ({{ i + 1 }})" matInput id="{{ i }}-value" data-role="customInputValue"
                                          formControlName="valueField">
+                               <i matSuffix class="fa fa-trash suffixIcon" (click)="onDeleteCustomField(i)" aria-hidden="true"></i>
                               <mat-hint align="end">{{ cu.get('valueField').value?.length || 0 }} / {{ maxValue }}</mat-hint>
                           </mat-form-field>
-                          <i class="fa fa-trash customFieldDelete" (click)="onDeleteCustomField(i)" aria-hidden="true"></i>
+
                       </div>
                   </div>
               </div>

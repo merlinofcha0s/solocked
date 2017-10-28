@@ -32,7 +32,7 @@ import {
     MatTooltipModule,
     MatTabsModule,
     MatDialogModule,
-    MatChipsModule
+    MatChipsModule, MatMenuModule, MatProgressBarModule
 } from '@angular/material';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -55,7 +55,9 @@ import {SnackComponent} from './snack/snack.component';
         MatTabsModule,
         MatDialogModule,
         MatChipsModule,
-        MatSelectModule
+        MatSelectModule,
+        MatMenuModule,
+        MatProgressBarModule
     ],
     declarations: [
         JhiSocialComponent,
@@ -101,7 +103,9 @@ import {SnackComponent} from './snack/snack.component';
         MatDialogModule,
         MatChipsModule,
         MatSelectModule,
-        SnackComponent
+        MatMenuModule,
+        SnackComponent,
+        MatProgressBarModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

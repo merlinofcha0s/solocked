@@ -89,4 +89,8 @@ export class NavbarComponent implements OnInit {
     getImageUrl() {
         return this.isAuthenticated() ? this.principal.getImageUrl() : null;
     }
+
+    hasAnyAuthorityDirect(authorities: string[]): boolean {
+        return this.principal.hasAnyAuthorityDirect(authorities);
+    }
 }

@@ -49,6 +49,9 @@ public class AccountsDBResourceIntTest {
     private static final String DEFAULT_DATABASE_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_DATABASE_CONTENT_TYPE = "image/png";
 
+    private static final Integer DEFAULT_NB_ACCOUNTS = 0;
+    private static final Integer UPDATED_NB_ACCOUNTS = 1;
+
     @Autowired
     private AccountsDBRepository accountsDBRepository;
 
@@ -94,7 +97,8 @@ public class AccountsDBResourceIntTest {
         AccountsDB accountsDB = new AccountsDB()
             .initializationVector(DEFAULT_INITIALIZATION_VECTOR)
             .database(DEFAULT_DATABASE)
-            .databaseContentType(DEFAULT_DATABASE_CONTENT_TYPE);
+            .databaseContentType(DEFAULT_DATABASE_CONTENT_TYPE)
+            .nbAccounts(DEFAULT_NB_ACCOUNTS);
         return accountsDB;
     }
 
@@ -122,6 +126,7 @@ public class AccountsDBResourceIntTest {
         assertThat(testAccountsDB.getInitializationVector()).isEqualTo(DEFAULT_INITIALIZATION_VECTOR);
         assertThat(testAccountsDB.getDatabase()).isEqualTo(DEFAULT_DATABASE);
         assertThat(testAccountsDB.getDatabaseContentType()).isEqualTo(DEFAULT_DATABASE_CONTENT_TYPE);
+        assertThat(testAccountsDB.getNbAccounts()).isEqualTo(DEFAULT_NB_ACCOUNTS);
     }
 
     @Test
@@ -146,6 +151,25 @@ public class AccountsDBResourceIntTest {
 
     @Test
     @Transactional
+    public void checkNbAccountsIsRequired() throws Exception {
+        int databaseSizeBeforeTest = accountsDBRepository.findAll().size();
+        // set the field null
+        accountsDB.setNbAccounts(null);
+
+        // Create the AccountsDB, which fails.
+        AccountsDBDTO accountsDBDTO = accountsDBMapper.toDto(accountsDB);
+
+        restAccountsDBMockMvc.perform(post("/api/accounts-dbs")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(accountsDBDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<AccountsDB> accountsDBList = accountsDBRepository.findAll();
+        assertThat(accountsDBList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllAccountsDBS() throws Exception {
         // Initialize the database
         accountsDBRepository.saveAndFlush(accountsDB);
@@ -157,7 +181,8 @@ public class AccountsDBResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(accountsDB.getId().intValue())))
             .andExpect(jsonPath("$.[*].initializationVector").value(hasItem(DEFAULT_INITIALIZATION_VECTOR.toString())))
             .andExpect(jsonPath("$.[*].databaseContentType").value(hasItem(DEFAULT_DATABASE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].database").value(hasItem(Base64Utils.encodeToString(DEFAULT_DATABASE))));
+            .andExpect(jsonPath("$.[*].database").value(hasItem(Base64Utils.encodeToString(DEFAULT_DATABASE))))
+            .andExpect(jsonPath("$.[*].nbAccounts").value(hasItem(DEFAULT_NB_ACCOUNTS)));
     }
 
     @Test
@@ -173,7 +198,8 @@ public class AccountsDBResourceIntTest {
             .andExpect(jsonPath("$.id").value(accountsDB.getId().intValue()))
             .andExpect(jsonPath("$.initializationVector").value(DEFAULT_INITIALIZATION_VECTOR.toString()))
             .andExpect(jsonPath("$.databaseContentType").value(DEFAULT_DATABASE_CONTENT_TYPE))
-            .andExpect(jsonPath("$.database").value(Base64Utils.encodeToString(DEFAULT_DATABASE)));
+            .andExpect(jsonPath("$.database").value(Base64Utils.encodeToString(DEFAULT_DATABASE)))
+            .andExpect(jsonPath("$.nbAccounts").value(DEFAULT_NB_ACCOUNTS));
     }
 
     @Test
@@ -196,7 +222,8 @@ public class AccountsDBResourceIntTest {
         updatedAccountsDB
             .initializationVector(UPDATED_INITIALIZATION_VECTOR)
             .database(UPDATED_DATABASE)
-            .databaseContentType(UPDATED_DATABASE_CONTENT_TYPE);
+            .databaseContentType(UPDATED_DATABASE_CONTENT_TYPE)
+            .nbAccounts(UPDATED_NB_ACCOUNTS);
         AccountsDBDTO accountsDBDTO = accountsDBMapper.toDto(updatedAccountsDB);
 
         restAccountsDBMockMvc.perform(put("/api/accounts-dbs")
@@ -211,6 +238,7 @@ public class AccountsDBResourceIntTest {
         assertThat(testAccountsDB.getInitializationVector()).isEqualTo(UPDATED_INITIALIZATION_VECTOR);
         assertThat(testAccountsDB.getDatabase()).isEqualTo(UPDATED_DATABASE);
         assertThat(testAccountsDB.getDatabaseContentType()).isEqualTo(UPDATED_DATABASE_CONTENT_TYPE);
+        assertThat(testAccountsDB.getNbAccounts()).isEqualTo(UPDATED_NB_ACCOUNTS);
     }
 
     @Test

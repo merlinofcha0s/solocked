@@ -1,3 +1,9 @@
-<div class="footer">
-    <p jhiTranslate="footer">This is your footer</p>
+<div [class.footer-with-payment]="displayPaymentIssue">
+    <div *ngIf="displayPaymentIssue">
+        <div class="d-flex justify-content-center align-items-center no-payment">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            <div class="warning" jhiTranslate="ninjaccountApp.payment.warning"></div>
+            <a [routerLink]="['/']" jhiTranslate="ninjaccountApp.payment.linkInvoice"></a>
+        </div>
+    </div>
 </div>

@@ -8,7 +8,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {Account} from '../../shared/account/account.model';
 import {isUndefined} from 'util';
 import {Custom} from '../../shared/account/custom-account.model';
-import {MatSnackBar, MatSnackBarConfig} from "@angular/material";
+import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {SnackComponent} from '../../shared/snack/snack.component';
 
@@ -48,6 +48,9 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     account$: BehaviorSubject<Account>;
     updateMode: boolean;
 
+    passwordType: string;
+    iconPasswordType: string;
+
     constructor(private fb: FormBuilder,
                 private accountsService: AccountsService,
                 private router: Router,
@@ -58,6 +61,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.initForm();
+        this.initPasswordHideDisplay();
         this.routeSubscription = this.route.params.subscribe((params) => {
 
             if (params['id'] !== undefined) {
@@ -183,5 +187,20 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
     onDeleteCustomField(index: number) {
         this.customs.controls.splice(index, 1);
+    }
+
+    initPasswordHideDisplay() {
+        this.passwordType = 'password';
+        this.iconPasswordType = 'fa-eye-slash'
+    }
+
+    onHideDisplayPassword() {
+        if (this.passwordType === 'password') {
+            this.passwordType = 'text';
+            this.iconPasswordType = 'fa-eye'
+        } else {
+            this.passwordType = 'password';
+            this.iconPasswordType = 'fa-eye-slash'
+        }
     }
 }

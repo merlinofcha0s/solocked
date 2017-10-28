@@ -19,11 +19,21 @@
             "fieldName": "database",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "any"
+        },
+        {
+            "fieldName": "nbAccounts",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required",
+                "min"
+            ],
+            "fieldValidateRulesMin": "0"
         }
     ],
     "changelogDate": "20170709202432",
     "dto": "mapstruct",
     "service": "serviceClass",
     "entityTableName": "accountsdb",
+    "jpaMetamodelFiltering": false,
     "pagination": "no"
 }

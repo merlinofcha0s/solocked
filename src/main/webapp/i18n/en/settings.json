@@ -1,6 +1,6 @@
 {
     "settings": {
-        "title": "Settings.",
+        "title": "Settings",
         "form": {
             "login": "Login",
             "firstname": "First Name",
@@ -29,6 +29,9 @@
                     "maxlength": "Your last name cannot be longer than 50 characters"
                 }
             }
+        },
+        "logbox":{
+            "title": "Your logbox"
         }
     }
 }
