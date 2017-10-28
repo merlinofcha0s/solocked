@@ -5,6 +5,7 @@ import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
 import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
+import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.service.mapper.AccountsDBMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,9 +50,9 @@ public class AccountsDBService {
     }
 
     /**
-     *  Get all the accountsDBS.
+     * Get all the accountsDBS.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     @Transactional(readOnly = true)
     public List<AccountsDBDTO> findAll() {
@@ -62,10 +63,10 @@ public class AccountsDBService {
     }
 
     /**
-     *  Get one accountsDB by id.
+     * Get one accountsDB by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Transactional(readOnly = true)
     public AccountsDBDTO findOne(Long id) {
@@ -92,9 +93,9 @@ public class AccountsDBService {
     }
 
     /**
-     *  Delete the  accountsDB by id.
+     * Delete the  accountsDB by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     public void delete(Long id) {
         log.debug("Request to delete AccountsDB : {}", id);
@@ -118,13 +119,19 @@ public class AccountsDBService {
      * @param accountsDBDTO The new accountDB
      * @return the account db updated
      */
-    public AccountsDBDTO updateAccountDBForUserConnected(AccountsDBDTO accountsDBDTO){
+    public AccountsDBDTO updateAccountDBForUserConnected(AccountsDBDTO accountsDBDTO) {
         final String userLogin = SecurityUtils.getCurrentUserLogin();
         AccountsDBDTO accountsDBDTOToUpdate = findByUsernameLogin(userLogin);
 
         accountsDBDTOToUpdate.setDatabase(accountsDBDTO.getDatabase());
         accountsDBDTOToUpdate.setInitializationVector(accountsDBDTO.getInitializationVector());
         accountsDBDTOToUpdate.setDatabaseContentType(accountsDBDTO.getDatabaseContentType());
+
+        if (accountsDBDTO.getOperationAccountType().equals(OperationAccountType.CREATE)) {
+            accountsDBDTOToUpdate.setNbAccounts(accountsDBDTOToUpdate.getNbAccounts() + 1);
+        } else if (accountsDBDTO.getOperationAccountType().equals(OperationAccountType.DELETE)) {
+            accountsDBDTOToUpdate.setNbAccounts(accountsDBDTOToUpdate.getNbAccounts() - 1);
+        }
 
         save(accountsDBDTOToUpdate);
 

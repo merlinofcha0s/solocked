@@ -50,12 +50,14 @@
                     "button": "Add custom field"
                 },
                 "button": "Add new account",
-                "successful": "Account added successfully"
+                "successful": "Account added successfully",
+                "error": "Error during the add account, please retry"
             },
             "update":{
                 "header": "Update account | Solocked",
                 "title": "Update an account.",
-                "button": "Update account"
+                "button": "Update account",
+                "error": "Error during the account update"
             },
             "details": {
                 "title": "Details",

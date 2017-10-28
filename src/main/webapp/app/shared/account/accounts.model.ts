@@ -1,19 +1,20 @@
 import { Account } from './account.model';
 import {Version} from './version.enum';
+import {OperationAccountType} from './operation-account-type.enum';
 
 export class Accounts {
     public accounts: Array<Account>;
     public authenticationKey: string;
-    public seq: number;
     public version: Version;
+    public nbAccounts: number;
+    public operationAccountType: OperationAccountType;
 
     constructor(
         accounts?: Array<Account>,
-        authenticationKey?: string,
-        seq?: number
+        authenticationKey?: string
     ) {
         this.accounts = accounts ? accounts : new Array<Account>();
         this.authenticationKey = authenticationKey ? authenticationKey : '';
-        this.seq = seq ? seq : 0;
+        this.nbAccounts = 0;
     }
 }

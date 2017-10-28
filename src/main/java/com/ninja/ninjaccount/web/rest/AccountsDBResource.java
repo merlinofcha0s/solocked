@@ -4,14 +4,17 @@ import com.codahale.metrics.annotation.Timed;
 import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
+import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.xml.ws.Response;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -68,8 +71,9 @@ public class AccountsDBResource {
     public ResponseEntity<AccountsDBDTO> updateAccountsDB(@Valid @RequestBody AccountsDBDTO accountsDBDTO) throws URISyntaxException {
         log.debug("REST request to update AccountsDB : {}", accountsDBDTO);
         if (accountsDBDTO.getId() == null) {
-            return createAccountsDB(accountsDBDTO);
+            return ResponseEntity.notFound().build();
         }
+
         AccountsDBDTO result = accountsDBService.save(accountsDBDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, accountsDBDTO.getId().toString()))
@@ -86,7 +90,7 @@ public class AccountsDBResource {
     public List<AccountsDBDTO> getAllAccountsDBS() {
         log.debug("REST request to get all AccountsDBS");
         return accountsDBService.findAll();
-        }
+    }
 
     /**
      * GET  /accounts-dbs/:id : get the "id" accountsDB.
@@ -123,7 +127,7 @@ public class AccountsDBResource {
      */
     @GetMapping("/accounts-dbs/getDbUserConnected")
     @Timed
-    public ResponseEntity<AccountsDBDTO> getAccountDBUserConnected(){
+    public ResponseEntity<AccountsDBDTO> getAccountDBUserConnected() {
         final String userLogin = SecurityUtils.getCurrentUserLogin();
         AccountsDBDTO accountsDBDTO = accountsDBService.findByUsernameLogin(userLogin);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(accountsDBDTO));
@@ -141,9 +145,13 @@ public class AccountsDBResource {
     @PutMapping("/accounts-dbs/updateDbUserConnected")
     @Timed
     public ResponseEntity<AccountsDBDTO> updateAccountsDBForUserConnected(@RequestBody AccountsDBDTO accountsDBDTO) throws URISyntaxException {
-        AccountsDBDTO result = accountsDBService.updateAccountDBForUserConnected(accountsDBDTO);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        try {
+            AccountsDBDTO result = accountsDBService.updateAccountDBForUserConnected(accountsDBDTO);
+            return ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

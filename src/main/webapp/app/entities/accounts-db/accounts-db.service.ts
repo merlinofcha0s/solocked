@@ -1,17 +1,18 @@
-import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-import { SERVER_API_URL } from '../../app.constants';
+import {Injectable} from '@angular/core';
+import {Http, Response} from '@angular/http';
+import {Observable} from 'rxjs/Rx';
+import {SERVER_API_URL} from '../../app.constants';
 
-import { AccountsDB } from './accounts-db.model';
-import { ResponseWrapper, createRequestOption } from '../../shared';
+import {AccountsDB} from './accounts-db.model';
+import {ResponseWrapper, createRequestOption} from '../../shared';
 
 @Injectable()
 export class AccountsDBService {
 
     private resourceUrl = SERVER_API_URL + 'api/accounts-dbs';
 
-    constructor(private http: Http) { }
+    constructor(private http: Http) {
+    }
 
     create(accountsDB: AccountsDB): Observable<AccountsDB> {
         const copy = this.convert(accountsDB);
@@ -55,7 +56,12 @@ export class AccountsDBService {
     updateDBUserConnected(accountsDB: AccountsDB): Observable<AccountsDB> {
         const copy = this.convert(accountsDB);
         return this.http.put(`${this.resourceUrl}/updateDbUserConnected`, copy).map((res: Response) => {
-            return res.json();
+            if (res.ok) {
+                return res.json();
+            } else {
+                return Observable.throw(res.statusText);
+            }
+
         });
     }
 

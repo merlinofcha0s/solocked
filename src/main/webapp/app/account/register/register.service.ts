@@ -27,6 +27,7 @@ export class Register {
                 accountDBDTO.database = accountDBbase64;
                 accountDBDTO.databaseContentType = 'application/octet-stream';
                 accountDBDTO.initializationVector = initVector;
+                accountDBDTO.nbAccounts = 0;
                 account.password = newAccountsDB.authenticationKey;
 
                 account.accountsDB = accountDBDTO;

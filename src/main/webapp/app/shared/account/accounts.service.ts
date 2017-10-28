@@ -8,6 +8,10 @@ import {Accounts} from './accounts.model';
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Version} from './version.enum';
+import {OperationAccountType} from './operation-account-type.enum';
+import {MatSnackBar, MatSnackBarConfig} from "@angular/material";
+import {SnackComponent} from "../snack/snack.component";
+import {TranslateService} from '@ngx-translate/core';
 
 @Injectable()
 export class AccountsService {
@@ -22,7 +26,9 @@ export class AccountsService {
 
     constructor(private cryptoUtils: CryptoUtilsService,
                 private sessionStorage: SessionStorageService,
-                private accountTech: AccountsTechService) {
+                private accountTech: AccountsTechService,
+                private translateService: TranslateService,
+                private snackBar: MatSnackBar) {
 
         this._dataStore = {accounts: new Accounts()};
 
@@ -72,17 +78,17 @@ export class AccountsService {
         const accountsInitialized = new Accounts();
         accountsInitialized.version = Version.V1_0;
         accountsInitialized.authenticationKey = this.getRandomString(22);
-        const sampleAccount = new Account('dupont', 'password', 'example', this.seqNextVal(accountsInitialized));
-        sampleAccount.notes = 'a note !!';
-        sampleAccount.tags.push('title', 'example');
-        accountsInitialized.accounts.push(sampleAccount);
 
         return accountsInitialized;
     }
 
     seqNextVal(accounts: Accounts): number {
-        accounts.seq += 1;
-        return accounts.seq;
+        const accountsIds = accounts.accounts.map((account) => account.id);
+        if (accountsIds.length === 0) {
+            return 1;
+        } else {
+           return Math.max.apply(null, accountsIds) + 1;
+        }
     }
 
     getRandomString(length: number) {
@@ -97,6 +103,7 @@ export class AccountsService {
     }
 
     saveOnBrowser(accounts: Accounts) {
+        accounts.operationAccountType = null;
         this.sessionStorage.store('accountsdb', JSON.stringify(accounts));
         this._dataStore.accounts = accounts;
         this.accounts$.next(this._dataStore.accounts.accounts);
@@ -110,9 +117,8 @@ export class AccountsService {
             .flatMap((accounts: Accounts) => {
                 // Adding nen account
                 accounts.accounts.push(account);
-                // Sequence management
-                accounts.seq = this._dataStore.accounts.seq;
                 this.saveOnBrowser(accounts);
+                accounts.operationAccountType = OperationAccountType.CREATE;
                 return this.accountTech.saveEncryptedDB(accounts, initVector);
             });
     }
@@ -129,10 +135,14 @@ export class AccountsService {
                     }
                 }
                 this.saveOnBrowser(accounts);
+                accounts.operationAccountType = OperationAccountType.UPDATE;
                 return this.accountTech.saveEncryptedDB(accounts, initVector);
             }).subscribe((accountDB: AccountsDB) => {
-            this.accounts$.next(this._dataStore.accounts.accounts);
-        });
+                this.accounts$.next(this._dataStore.accounts.accounts);
+            },
+            (error) => {
+                this.errorSnack('ninjaccountApp.accountsDB.update.error');
+            });
 
     }
 
@@ -146,13 +156,21 @@ export class AccountsService {
         this.accountTech.synchroDB()
             .flatMap((accounts: Accounts) => {
                 accounts.accounts = accounts.accounts.filter((account) => account.id !== accountId);
-                this._dataStore.accounts.accounts = this._dataStore.accounts.accounts.filter((account) => account.id !== accountId);
-                this.saveOnBrowser(this._dataStore.accounts);
+                this.deleteLocalAccount(accountId);
+                accounts.operationAccountType = OperationAccountType.DELETE;
                 return this.accountTech.saveEncryptedDB(accounts, initVector);
             }).subscribe((accountDB: AccountsDB) => {
-                 this.accounts$.next(this._dataStore.accounts.accounts);
-                 this.featuredAccounts$.next(this._dataStore.accounts.accounts.filter((account) => account.featured));
+                this.accounts$.next(this._dataStore.accounts.accounts);
+                this.featuredAccounts$.next(this._dataStore.accounts.accounts.filter((account) => account.featured));
+            },
+            (error) => {
+                this.errorSnack('ninjaccountApp.accountsDB.delete.error');
             });
+    }
+
+    deleteLocalAccount(accountId: number) {
+        this._dataStore.accounts.accounts = this._dataStore.accounts.accounts.filter((account) => account.id !== accountId);
+        this.saveOnBrowser(this._dataStore.accounts);
     }
 
     copyAccount(target: Account, source: Account) {
@@ -165,5 +183,19 @@ export class AccountsService {
         target.customs = source.customs;
         target.featured = source.featured;
         target.url = source.url;
+    }
+
+    rollingAddedAccount(account: Account): void {
+        this.deleteLocalAccount(account.id);
+        this.accounts$.next(this._dataStore.accounts.accounts);
+    }
+
+    errorSnack(key: string) {
+        const message = this.translateService.instant(key);
+        const config = new MatSnackBarConfig();
+        config.verticalPosition = 'top';
+        config.duration = 10000;
+        config.data = {icon: 'fa-exclamation-triangle', text: message}
+        this.snackBar.openFromComponent(SnackComponent, config);
     }
 }

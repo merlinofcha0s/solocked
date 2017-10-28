@@ -28,6 +28,9 @@ public class AccountsDBDTO implements Serializable {
 
     private String userLogin;
 
+    @NotNull
+    private OperationAccountType operationAccountType;
+
     public Long getId() {
         return id;
     }
@@ -82,6 +85,14 @@ public class AccountsDBDTO implements Serializable {
 
     public void setUserLogin(String userLogin) {
         this.userLogin = userLogin;
+    }
+
+    public OperationAccountType getOperationAccountType() {
+        return operationAccountType;
+    }
+
+    public void setOperationAccountType(OperationAccountType operationAccountType) {
+        this.operationAccountType = operationAccountType;
     }
 
     @Override
