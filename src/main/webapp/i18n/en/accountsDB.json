@@ -24,7 +24,8 @@
             "updated": "A Accounts DB is updated with identifier {{ param }}",
             "deleted": "A Accounts DB is deleted with identifier {{ param }}",
             "delete": {
-                "question": "Are you sure you want to delete Accounts DB {{ id }}?"
+                "question": "Are you sure you want to delete Accounts DB {{ id }}?",
+                "error": "Error during the deletion of your account, please retry"
             },
             "detail": {
                 "title": "Accounts DB"
