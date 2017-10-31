@@ -5,10 +5,13 @@ import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
 import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
+import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import com.ninja.ninjaccount.service.mapper.AccountsDBMapper;
+import com.ninja.ninjaccount.service.util.PaymentUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.util.Pair;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -112,6 +115,7 @@ public class AccountsDBService {
         newAccountsDBDTO.setInitializationVector(initVector);
         newAccountsDBDTO.setUserId(newUser.getId());
         newAccountsDBDTO.setUserLogin(newUser.getLogin());
+        newAccountsDBDTO.setNbAccounts(0);
 
         return save(newAccountsDBDTO);
     }
@@ -138,5 +142,13 @@ public class AccountsDBService {
         save(accountsDBDTOToUpdate);
 
         return accountsDBDTOToUpdate;
+    }
+
+    public Pair<Integer, Integer> getActualAndMaxAccount(String userLogin) {
+        AccountsDBDTO accountsDBDTO = findByUsernameLogin(userLogin);
+        PaymentDTO paymentDTO = paymentService.findPaymentByLogin(userLogin);
+        Integer maxAccount = PaymentUtil.getMaxAccountByPlanType(paymentDTO.getPlanType());
+
+        return Pair.of(accountsDBDTO.getNbAccounts(), maxAccount);
     }
 }

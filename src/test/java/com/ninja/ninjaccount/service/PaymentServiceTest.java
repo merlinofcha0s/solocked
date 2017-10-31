@@ -118,5 +118,4 @@ public class PaymentServiceTest {
         assertThat(nbAccounts).isNotNull();
         assertThat(nbAccounts).isEqualTo(1);
     }
-
 }

@@ -4,19 +4,18 @@ import com.codahale.metrics.annotation.Timed;
 import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
-import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import com.ninja.ninjaccount.web.rest.errors.CustomParameterizedException;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.xml.ws.Response;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -159,5 +158,18 @@ public class AccountsDBResource {
             log.error("Error when updating db for userID : {}", accountsDBDTO.getUserId());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    /**
+     * GET  /accounts-dbs/get-actual-max-account : get the actual and max numbers of accounts
+     *
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @GetMapping("/accounts-dbs/get-actual-max-account")
+    @Timed
+    public ResponseEntity<Pair<Integer, Integer>> getActualAndMaxAccount() {
+        final String userLogin = SecurityUtils.getCurrentUserLogin();
+        Pair<Integer, Integer> actualAndMax = accountsDBService.getActualAndMaxAccount(userLogin);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(actualAndMax));
     }
 }

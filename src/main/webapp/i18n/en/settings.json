@@ -30,8 +30,9 @@
                 }
             }
         },
-        "logbox":{
-            "title": "Your logbox"
+        "accountdb":{
+            "title": "Your accounts database",
+            "text": "Number of accounts"
         }
     }
 }

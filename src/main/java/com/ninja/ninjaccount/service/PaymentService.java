@@ -5,10 +5,10 @@ import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import com.ninja.ninjaccount.repository.PaymentRepository;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
-import com.ninja.ninjaccount.service.dto.PaymentConstant;
 import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import com.ninja.ninjaccount.service.mapper.PaymentMapper;
+import com.ninja.ninjaccount.service.util.PaymentUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -52,9 +52,9 @@ public class PaymentService {
     }
 
     /**
-     *  Get all the payments.
+     * Get all the payments.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     @Transactional(readOnly = true)
     public List<PaymentDTO> findAll() {
@@ -65,10 +65,10 @@ public class PaymentService {
     }
 
     /**
-     *  Get one payment by id.
+     * Get one payment by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Transactional(readOnly = true)
     public PaymentDTO findOne(Long id) {
@@ -78,9 +78,9 @@ public class PaymentService {
     }
 
     /**
-     *  Delete the  payment by id.
+     * Delete the  payment by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     public void delete(Long id) {
         log.debug("Request to delete Payment : {}", id);
@@ -95,9 +95,9 @@ public class PaymentService {
      */
     public PaymentDTO findPaymentByLogin(String login) {
         Optional<Payment> payment = paymentRepository.findOneByUserLogin(login);
-        if(payment.isPresent()){
+        if (payment.isPresent()) {
             return paymentMapper.toDto(payment.get());
-        }else{
+        } else {
             return null;
         }
     }
@@ -108,7 +108,7 @@ public class PaymentService {
      *
      * @param user the user
      */
-    public PaymentDTO createRegistrationPaymentForUser(User user){
+    public PaymentDTO createRegistrationPaymentForUser(User user) {
         PaymentDTO paymentDTO = new PaymentDTO();
         paymentDTO.setPaid(false);
         paymentDTO.setPlanType(PlanType.BETA);
@@ -123,18 +123,7 @@ public class PaymentService {
         PaymentDTO paymentDTO = findPaymentByLogin(userLogin);
 
         if (operationAccountType.equals(OperationAccountType.CREATE)) {
-            Integer maxAccounts = 0;
-            switch (paymentDTO.getPlanType()) {
-                case PREMIUM:
-                    maxAccounts = PaymentConstant.MAX_ACCOUNTS_PREMIUM;
-                    break;
-                case FREE:
-                    maxAccounts = PaymentConstant.MAX_ACCOUNTS_FREE;
-                    break;
-                case BETA:
-                    maxAccounts = PaymentConstant.MAX_ACCOUNTS_BETA;
-                    break;
-            }
+            Integer maxAccounts = PaymentUtil.getMaxAccountByPlanType(paymentDTO.getPlanType());
 
             if (actual < maxAccounts) {
                 return actual + 1;
@@ -143,7 +132,7 @@ public class PaymentService {
             }
         } else if (operationAccountType.equals(OperationAccountType.DELETE)) {
             return actual - 1;
-        }else{
+        } else {
             return actual;
         }
     }

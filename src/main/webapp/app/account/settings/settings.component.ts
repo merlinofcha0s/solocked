@@ -1,29 +1,37 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {JhiLanguageService} from 'ng-jhipster';
 
-import {Principal, AccountService, JhiLanguageHelper} from '../../shared';
+import {AccountService, JhiLanguageHelper, Principal} from '../../shared';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {SnackComponent} from '../../shared/snack/snack.component';
+import {AccountsDBService} from '../../entities/accounts-db/accounts-db.service';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
     selector: 'jhi-settings',
     templateUrl: './settings.component.html',
     styleUrls: ['./settings.component.scss']
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, OnDestroy {
+
     error: string;
     success: string;
     settingsAccount: any;
     languages: any[];
     loading = false;
+    actual: number;
+    max: number;
+    actualPercentage: number;
+    private actualMaxSubscription: Subscription;
 
     constructor(private account: AccountService,
                 private principal: Principal,
                 private languageService: JhiLanguageService,
                 private languageHelper: JhiLanguageHelper,
                 private snackBar: MatSnackBar,
-                private translateService: TranslateService) {
+                private translateService: TranslateService,
+                private accountDbService: AccountsDBService) {
     }
 
     ngOnInit() {
@@ -33,6 +41,11 @@ export class SettingsComponent implements OnInit {
         this.languageHelper.getAll().then((languages) => {
             this.languages = languages;
         });
+        this.initActualAndMaxAccount();
+    }
+
+    ngOnDestroy(): void {
+        this.actualMaxSubscription.unsubscribe();
     }
 
     save() {
@@ -64,6 +77,17 @@ export class SettingsComponent implements OnInit {
             this.error = 'ERROR';
             this.loading = false;
         });
+    }
+
+    initActualAndMaxAccount() {
+        this.actualMaxSubscription = this.accountDbService.getActualMaxAccount().subscribe((actualAndMax) => {
+            console.log('actual and max: ' + actualAndMax);
+            this.actual = actualAndMax.first;
+            //this.max = actualAndMax.second;
+            this.max = 20;
+            this.actualPercentage = (this.actual / this.max) * 100;
+        });
+        this.accountDbService.getActualMaxAccount();
     }
 
     copyAccount(account) {

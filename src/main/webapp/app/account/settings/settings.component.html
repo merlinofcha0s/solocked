@@ -81,9 +81,9 @@
     <div class="row justify-content-center">
         <div class="col-12 col-md-3"></div>
             <div class="col-md-6">
-                <h2 *ngIf="settingsAccount">{{'settings.logbox.title' | translate}}.</h2>
-                <div style="margin-bottom: 10px;">Number of logboxes : 1 / 1000</div>
-                <mat-progress-bar [mode]="'determinate'" [color]="'primary'" [value]="30"></mat-progress-bar>
+                <h2>{{'settings.accountdb.title' | translate}}.</h2>
+                <div class="accountdb-text">{{'settings.accountdb.text' | translate}} : {{ actual }} / {{ max }}</div>
+                <mat-progress-bar [mode]="'determinate'" [color]="'primary'" [value]="actualPercentage"></mat-progress-bar>
             </div>
          <div class="col-12 col-md-3"></div>
     </div>

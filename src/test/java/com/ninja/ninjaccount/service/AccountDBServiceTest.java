@@ -5,11 +5,15 @@ import com.ninja.ninjaccount.domain.AccountsDB;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
+import com.ninja.ninjaccount.service.dto.OperationAccountType;
+import com.ninja.ninjaccount.service.dto.PaymentConstant;
+import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.util.Pair;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -30,6 +34,9 @@ public class AccountDBServiceTest {
 
     @Autowired
     private AccountsDBRepository accountsDBRepository;
+
+    @Autowired
+    private PaymentService paymentService;
 
     @Autowired
     private UserService userService;
@@ -88,5 +95,33 @@ public class AccountDBServiceTest {
         assertThat(updatedAccountDB).isNotNull();
         assertThat(updatedAccountDB.getInitializationVector()).isNotEqualTo(uuid);
         assertThat(updatedAccountDB.getDatabase()).isNotEqualTo(bytes);
+    }
+
+    @Test
+    public void testGetActualAndMaxAccount() throws MaxAccountsException {
+        String example = "This is an example";
+        byte[] bytes = example.getBytes();
+        String uuid = UUID.randomUUID().toString();
+
+        User user = new User();
+        user.setEmail("lol@lol.com");
+        user.setLogin("lol");
+        user.setActivated(true);
+        user.setPassword("loooool");
+        user = userService.createUser(new UserDTO(user));
+
+        AccountsDBDTO accountsDBDTO = accountsDBService.createNewAccountDB(bytes, uuid, user);
+        accountsDBDTO.setNbAccounts(1);
+        accountsDBService.save(accountsDBDTO);
+
+        paymentService.createRegistrationPaymentForUser(user);
+
+        Pair<Integer, Integer> actualAndMax = accountsDBService.getActualAndMaxAccount(user.getLogin());
+
+        assertThat(actualAndMax).isNotNull();
+        assertThat(actualAndMax.getFirst()).isNotNull();
+        assertThat(actualAndMax.getFirst()).isEqualTo(1);
+        assertThat(actualAndMax.getSecond()).isNotNull();
+        assertThat(actualAndMax.getSecond()).isEqualTo(PaymentConstant.MAX_ACCOUNTS_BETA);
     }
 }

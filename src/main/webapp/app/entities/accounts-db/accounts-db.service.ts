@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Rx';
 import {SERVER_API_URL} from '../../app.constants';
 
 import {AccountsDB} from './accounts-db.model';
-import {ResponseWrapper, createRequestOption} from '../../shared';
+import {createRequestOption, ResponseWrapper} from '../../shared';
 
 @Injectable()
 export class AccountsDBService {
@@ -63,6 +63,10 @@ export class AccountsDBService {
             }
 
         });
+    }
+
+    getActualMaxAccount(): Observable<any> {
+        return this.http.get(SERVER_API_URL + 'api/accounts-dbs/get-actual-max-account').map((res: Response) => res.json());
     }
 
     private convertResponse(res: Response): ResponseWrapper {
