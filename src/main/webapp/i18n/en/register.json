@@ -1,7 +1,7 @@
 {
     "register": {
-        "titleHeader": "Create a new account | Solocked",
-        "title": "Create a new account.",
+        "titleHeader": "Create a new accounts database | Solocked",
+        "title": "Create a new accounts database.",
         "form": {
             "button": "Register",
             "loading": "Generating your key, please wait ",
