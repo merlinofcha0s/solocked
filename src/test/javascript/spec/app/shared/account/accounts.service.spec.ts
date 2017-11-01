@@ -7,6 +7,8 @@ import { AccountsDBService } from '../../../../../../main/webapp/app/entities/ac
 import { CryptoUtilsService } from '../../../../../../main/webapp/app/shared/crypto/crypto-utils.service';
 import { CryptoService } from '../../../../../../main/webapp/app/shared/crypto/crypto.service';
 import { AccountsTechService } from '../../../../../../main/webapp/app/shared/account/accounts-tech.service';
+import {TranslateService} from '@ngx-translate/core';
+import {MatSnackBar} from '@angular/material';
 
 describe('Services Tests', () => {
 
@@ -22,7 +24,15 @@ describe('Services Tests', () => {
                     JhiDataUtils,
                     SessionStorageService,
                     CryptoService,
-                    AccountsTechService
+                    AccountsTechService,
+                    {
+                        provide: TranslateService,
+                        useValue: null
+                    },
+                    {
+                        provide: MatSnackBar,
+                        useValue: null
+                    }
                 ]
             }).compileComponents();
         }));
@@ -34,7 +44,7 @@ describe('Services Tests', () => {
                     const accountsDB = accounts.accounts;
 
                     expect(accounts.authenticationKey.length).toEqual(22);
-                    expect(accountsDB.length).toEqual(1);
+                    expect(accountsDB.length).toEqual(0);
                 })
             )
         );
