@@ -20,6 +20,7 @@ import {
     SocialAuthComponent,
     accountState
 } from './';
+import {ExportAllAccountsComponent} from './settings/export-all-accounts/export-all-accounts.component';
 
 @NgModule({
     imports: [
@@ -35,7 +36,8 @@ import {
         PasswordStrengthBarComponent,
         PasswordResetInitComponent,
         PasswordResetFinishComponent,
-        SettingsComponent
+        SettingsComponent,
+        ExportAllAccountsComponent
     ],
     providers: [
         Register,
@@ -44,6 +46,7 @@ import {
         PasswordResetInitService,
         PasswordResetFinishService
     ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    entryComponents: [ExportAllAccountsComponent]
 })
 export class NinjaccountAccountModule {}

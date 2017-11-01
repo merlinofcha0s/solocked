@@ -52,6 +52,14 @@ export class AccountsService {
         this.accounts$.next(this._dataStore.accounts.accounts);
     }
 
+    getAccountsListInstant(): Array<Account> {
+        if (this._dataStore.accounts.accounts.length === 0) {
+            this._dataStore.accounts = JSON.parse(this.sessionStorage.retrieve('accountsdb'));
+        }
+
+        return this._dataStore.accounts.accounts;
+    }
+
     getFeaturedAccountsList() {
         if (this._dataStore.accounts.accounts.length === 0) {
             this._dataStore.accounts = JSON.parse(this.sessionStorage.retrieve('accountsdb'));
@@ -87,7 +95,7 @@ export class AccountsService {
         if (accountsIds.length === 0) {
             return 1;
         } else {
-           return Math.max.apply(null, accountsIds) + 1;
+            return Math.max.apply(null, accountsIds) + 1;
         }
     }
 

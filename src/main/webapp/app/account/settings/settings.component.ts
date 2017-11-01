@@ -2,11 +2,12 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {JhiLanguageService} from 'ng-jhipster';
 
 import {AccountService, JhiLanguageHelper, Principal} from '../../shared';
-import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
+import {MatDialog, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {SnackComponent} from '../../shared/snack/snack.component';
 import {AccountsDBService} from '../../entities/accounts-db/accounts-db.service';
 import {Subscription} from 'rxjs/Subscription';
+import {ExportAllAccountsComponent} from './export-all-accounts/export-all-accounts.component';
 
 @Component({
     selector: 'jhi-settings',
@@ -37,7 +38,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
                 private languageHelper: JhiLanguageHelper,
                 private snackBar: MatSnackBar,
                 private translateService: TranslateService,
-                private accountDbService: AccountsDBService) {
+                private accountDbService: AccountsDBService,
+                public dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -110,5 +112,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
             login: account.login,
             imageUrl: account.imageUrl
         };
+    }
+
+    openExportAccountPopup(){
+        this.dialog.open(ExportAllAccountsComponent, {});
     }
 }

@@ -1,0 +1,12 @@
+<h2 mat-dialog-title class="text-center"><i class="fa fa-exclamation-triangle warning-export-icon" aria-hidden="true"></i> <span class="title">Export all accounts</span></h2>
+<mat-dialog-content class="d-flex justify-content-center align-content-center flex-column">
+    <div class="content">
+        All your data will be <strong class="font-weight-bold">transfered</strong> in
+        <strong class="font-weight-bold">clear text without any encryption</strong> on this device
+    </div>
+    <div class="text-center content">Are you sure ?</div>
+</mat-dialog-content>
+<mat-dialog-actions class="d-flex justify-content-center align-content-center">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button [mat-dialog-close]="true" class="default-mat-background-button" color="warn" (click)="onAllExport()">Export all my accounts</button>
+</mat-dialog-actions>
