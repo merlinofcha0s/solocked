@@ -5,6 +5,7 @@ import com.ninja.ninjaccount.domain.AccountsDB;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
+import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.service.util.PaymentConstant;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
@@ -81,6 +82,7 @@ public class AccountDBServiceTest {
 
         User user = userService.createUser("user-update-db", "johndoe", "John", "Doe", "john.doe@localhost", "http://placehold.it/50x50", "en-US");
         accountsDBService.createNewAccountDB(bytes, uuid, user);
+        paymentService.createRegistrationPaymentForUser(user);
 
         String updatedExample = "This is an updated example";
         byte[] updatedBytes = updatedExample.getBytes();
@@ -89,6 +91,7 @@ public class AccountDBServiceTest {
         AccountsDBDTO newAccountsDBDTO = new AccountsDBDTO();
         newAccountsDBDTO.setDatabase(updatedBytes);
         newAccountsDBDTO.setInitializationVector(updatedUuid);
+        newAccountsDBDTO.setOperationAccountType(OperationAccountType.CREATE);
 
         AccountsDBDTO updatedAccountDB = accountsDBService.updateAccountDBForUserConnected(newAccountsDBDTO);
         assertThat(updatedAccountDB).isNotNull();

@@ -174,6 +174,7 @@ public class AccountResourceIntTest {
         accountsDBDTO.setInitializationVector("87978687326873626");
         accountsDBDTO.setDatabase("some xml".getBytes());
         accountsDBDTO.setDatabaseContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+        accountsDBDTO.setNbAccounts(0);
         ManagedUserVM validUser = new ManagedUserVM(
             null,                   // id
             "joe",                  // login
@@ -340,6 +341,7 @@ public class AccountResourceIntTest {
         accountsDBDTO.setInitializationVector("87978687326873626");
         accountsDBDTO.setDatabase("some xml".getBytes());
         accountsDBDTO.setDatabaseContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+        accountsDBDTO.setNbAccounts(0);
         ManagedUserVM validUser = new ManagedUserVM(
             null,                   // id
             "alice",                // login
@@ -386,6 +388,7 @@ public class AccountResourceIntTest {
         accountsDBDTO.setInitializationVector("87978687326873626");
         accountsDBDTO.setDatabase("some xml".getBytes());
         accountsDBDTO.setDatabaseContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+        accountsDBDTO.setNbAccounts(0);
         ManagedUserVM validUser = new ManagedUserVM(
             null,                   // id
             "john",                 // login
@@ -442,6 +445,7 @@ public class AccountResourceIntTest {
         accountsDBDTO.setInitializationVector("87978687326873626");
         accountsDBDTO.setDatabase("some xml".getBytes());
         accountsDBDTO.setDatabaseContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+        accountsDBDTO.setNbAccounts(0);
 
         ManagedUserVM validUser = new ManagedUserVM(
             null,                   // id

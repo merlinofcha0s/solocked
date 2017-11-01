@@ -6,6 +6,7 @@ import com.ninja.ninjaccount.domain.AccountsDB;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
 import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
+import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.service.mapper.AccountsDBMapper;
 import com.ninja.ninjaccount.web.rest.errors.ExceptionTranslator;
 
@@ -114,6 +115,7 @@ public class AccountsDBResourceIntTest {
 
         // Create the AccountsDB
         AccountsDBDTO accountsDBDTO = accountsDBMapper.toDto(accountsDB);
+        accountsDBDTO.setOperationAccountType(OperationAccountType.CREATE);
         restAccountsDBMockMvc.perform(post("/api/accounts-dbs")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(accountsDBDTO)))
@@ -225,6 +227,7 @@ public class AccountsDBResourceIntTest {
             .databaseContentType(UPDATED_DATABASE_CONTENT_TYPE)
             .nbAccounts(UPDATED_NB_ACCOUNTS);
         AccountsDBDTO accountsDBDTO = accountsDBMapper.toDto(updatedAccountsDB);
+        accountsDBDTO.setOperationAccountType(OperationAccountType.CREATE);
 
         restAccountsDBMockMvc.perform(put("/api/accounts-dbs")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -248,16 +251,17 @@ public class AccountsDBResourceIntTest {
 
         // Create the AccountsDB
         AccountsDBDTO accountsDBDTO = accountsDBMapper.toDto(accountsDB);
+        accountsDBDTO.setOperationAccountType(OperationAccountType.CREATE);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restAccountsDBMockMvc.perform(put("/api/accounts-dbs")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(accountsDBDTO)))
-            .andExpect(status().isCreated());
+            .andExpect(status().isNotFound());
 
         // Validate the AccountsDB in the database
         List<AccountsDB> accountsDBList = accountsDBRepository.findAll();
-        assertThat(accountsDBList).hasSize(databaseSizeBeforeUpdate + 1);
+        assertThat(accountsDBList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
