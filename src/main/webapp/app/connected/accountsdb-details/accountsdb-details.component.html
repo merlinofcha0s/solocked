@@ -53,18 +53,15 @@
               <a href="{{ account.url }}" target="_blank">{{ account.url }}</a>
           </div>
           <div class="m-3" *ngFor="let custom of account.customs; let i=index">
-            <span class="font-weight-bold"> {{ "ninjaccountApp.accountsDB.details.customField" | translate }} {{ i + 1 }}: </span>
-              <span>
-                  <span>
-                      {{ custom.key }}
-                  </span> -
-                  <span ngxClipboard [cbContent]="custom.value"
-                        (click)="notifyCopyToClipboard('ninjaccountApp.accountsDB.details.value')"
-                        matTooltip="{{ 'ninjaccountApp.accountsDB.details.tooltip' | translate }}"
-                        [matTooltipPosition]="tooltipPosition"
-                        class="pointer">
-                  {{ custom.value }}
-              </span>
+              <span class="font-weight-bold">
+                  {{ custom.key }}
+              </span> :
+              <span ngxClipboard [cbContent]="custom.value"
+                    (click)="notifyCopyToClipboard('ninjaccountApp.accountsDB.details.value')"
+                    matTooltip="{{ 'ninjaccountApp.accountsDB.details.tooltip' | translate }}"
+                    [matTooltipPosition]="tooltipPosition"
+                    class="pointer">
+              {{ custom.value }}
               </span>
           </div>
           <div class="m-3 d-flex align-baseline">
