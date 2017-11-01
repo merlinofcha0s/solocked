@@ -2,14 +2,15 @@
     "settings": {
         "title": "Settings",
         "form": {
-            "login": "Login",
+            "username": "Username",
             "firstname": "First Name",
             "firstname.placeholder": "Your first name",
             "lastname": "Last Name",
             "lastname.placeholder": "Your last name",
             "language": "Language",
             "button": "Save",
-            "loading": "Please wait..."
+            "loading": "Please wait...",
+            "nomodifLogin": "No modification allowed for management purpose"
         },
         "messages": {
             "error": {

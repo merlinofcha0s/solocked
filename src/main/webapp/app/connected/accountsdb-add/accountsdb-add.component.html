@@ -73,7 +73,7 @@
                   </mat-error>
               </mat-form-field>
             <mat-form-field class="addAccountInput">
-              <textarea matInput placeholder="{{'ninjaccountApp.accountsDB.add.notes' | translate}}" id="notes" rows="3" [formControl]="notes"></textarea>
+              <textarea matInput matTextareaAutosize placeholder="{{'ninjaccountApp.accountsDB.add.notes' | translate}}" id="notes" rows="3" [formControl]="notes"></textarea>
                 <mat-hint align="end">{{notes.value?.length || 0}} / {{ maxNotes }}</mat-hint>
              <mat-error class="text-danger"
                        *ngIf="notes.dirty && notes.invalid && notes.errors.maxlength"

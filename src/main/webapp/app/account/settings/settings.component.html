@@ -8,12 +8,15 @@
 
             <form name="form" role="form" (ngSubmit)="save()" #settingsForm="ngForm" *ngIf="settingsAccount" novalidate>
                 <mat-form-field class="settingsInput">
-                    <input matInput disabled type="text" id="login" name="login" placeholder="{{'settings.form.login' | translate}}"
+                    <input matInput disabled type="text" id="login" name="login" placeholder="{{'settings.form.username' | translate}}"
                            [(ngModel)]="settingsAccount.login" minlength=1 maxlength=50 #login="ngModel" required>
+                    <mat-hint align="start" jhiTranslate="settings.form.nomodifLogin">No modification allowed, for management purpose</mat-hint>
+                    <mat-hint align="end">{{settingsAccount.login?.length || 0}} / {{ maxUsername }}</mat-hint>
                 </mat-form-field>
                  <mat-form-field class="settingsInput">
                     <input matInput type="text" id="firstName" name="firstName" placeholder="{{'settings.form.firstname' | translate}}"
                            [(ngModel)]="settingsAccount.firstName" minlength=1 maxlength=50 #firstNameInput="ngModel">
+                      <mat-hint align="end">{{settingsAccount.firstName?.length || 0}} / {{ maxFirstname }}</mat-hint>
                         <mat-error *ngIf="firstNameInput.dirty && firstNameInput.invalid && firstNameInput.errors.minlength" class="form-text text-danger"
                                   jhiTranslate="settings.messages.validate.firstname.minlength">
                             Your first name is required to be at least 1 character.
@@ -26,6 +29,7 @@
                  <mat-form-field class="settingsInput">
                     <input type="text" matInput id="lastName" name="lastName" placeholder="{{'settings.form.lastname' | translate}}"
                            [(ngModel)]="settingsAccount.lastName" minlength=1 maxlength=50 #lastNameInput="ngModel">
+                     <mat-hint align="end">{{settingsAccount.lastName?.length || 0}} / {{ maxLastname }}</mat-hint>
                         <mat-error class="form-text text-danger"
                            *ngIf="lastNameInput.dirty && lastNameInput.invalid && lastNameInput.errors.minlength" jhiTranslate="settings.messages.validate.lastname.minlength">
                             Your last name is required to be at least 1 character.
@@ -35,9 +39,10 @@
                             Your last name cannot be longer than 50 characters.
                         </mat-error>
                  </mat-form-field>
-                <mat-form-field class="settingsInput">
+                <mat-form-field class="settingsInput emailInput">
                     <input type="email" matInput id="email" name="email" placeholder="{{'global.form.email' | translate}}"
                            [(ngModel)]="settingsAccount.email" minlength="5" maxlength="100" #emailInput="ngModel" email required>
+                    <mat-hint align="end">{{settingsAccount.email?.length || 0}} / {{ maxEmail }}</mat-hint>
                         <mat-error class="form-text text-danger"
                            *ngIf="emailInput.dirty && emailInput.invalid && emailInput.errors.required" jhiTranslate="global.messages.validate.email.required">
                             Your email is required.

@@ -24,7 +24,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
     max: number;
     actualPercentage: number;
     colorActualAccount: string;
-    private actualMaxSubscription: Subscription;
+    private actualMaxSubscription: Subscription
+
+    maxUsername = 40;
+    maxLastname = 50;
+    maxFirstname = 50;
+    maxEmail = 100;
 
     constructor(private account: AccountService,
                 private principal: Principal,
