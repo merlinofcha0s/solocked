@@ -10,7 +10,7 @@ import {NavigationEnd, Router} from '@angular/router';
     templateUrl: './footer.component.html',
     styleUrls: ['./footer.component.scss']
 })
-export class FooterComponent implements OnInit, OnDestroy  {
+export class FooterComponent implements OnInit, OnDestroy {
 
     payment: Payment;
     paymentSub: Subscription;
@@ -47,6 +47,7 @@ export class FooterComponent implements OnInit, OnDestroy  {
 
     isInPaymentWarning(payment: Payment): boolean {
         if (this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])
+            && payment.planType.toString() !== PlanType[PlanType.BETA]
             && (!payment.paid || payment.planType.toString() === PlanType[PlanType.FREE])) {
             return true;
         } else {

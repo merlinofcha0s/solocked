@@ -23,6 +23,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     actual: number;
     max: number;
     actualPercentage: number;
+    colorActualAccount: string;
     private actualMaxSubscription: Subscription;
 
     constructor(private account: AccountService,
@@ -81,11 +82,15 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     initActualAndMaxAccount() {
         this.actualMaxSubscription = this.accountDbService.getActualMaxAccount().subscribe((actualAndMax) => {
-            console.log('actual and max: ' + actualAndMax);
             this.actual = actualAndMax.first;
-            //this.max = actualAndMax.second;
-            this.max = 20;
+            this.max = actualAndMax.second;
             this.actualPercentage = (this.actual / this.max) * 100;
+
+            if (this.actual === this.max) {
+                this.colorActualAccount = 'warn';
+            } else {
+                this.colorActualAccount = 'primary';
+            }
         });
         this.accountDbService.getActualMaxAccount();
     }

@@ -173,8 +173,12 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                     },
                     (error) => {
                         let message;
+                        let urlSettings;
+                        let actionSettings;
                         if (!error.ok && error.status === 400) {
                             message = this.translateService.instant('ninjaccountApp.accountsDB.add.toomanyAccount');
+                            urlSettings = '/settings';
+                            actionSettings = 'Settings';
                         } else {
                             message = this.translateService.instant('ninjaccountApp.accountsDB.add.error');
                         }
@@ -182,8 +186,8 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                         this.accountsService.rollingAddedAccount(newAccount);
                         const config = new MatSnackBarConfig();
                         config.verticalPosition = 'top';
-                        config.duration = 10000;
-                        config.data = {icon: 'fa-exclamation-triangle', text: message}
+                        config.duration = 15000;
+                        config.data = {icon: 'fa-exclamation-triangle', text: message, url: urlSettings, action: actionSettings}
                         this.snackBar.openFromComponent(SnackComponent, config);
                     });
         }

@@ -1,7 +1,6 @@
 package com.ninja.ninjaccount.service.util;
 
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
-import com.ninja.ninjaccount.service.dto.PaymentConstant;
 
 public final class PaymentUtil {
 

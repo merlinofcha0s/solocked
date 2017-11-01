@@ -9,8 +9,8 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Version} from './version.enum';
 import {OperationAccountType} from './operation-account-type.enum';
-import {MatSnackBar, MatSnackBarConfig} from "@angular/material";
-import {SnackComponent} from "../snack/snack.component";
+import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
+import {SnackComponent} from '../snack/snack.component';
 import {TranslateService} from '@ngx-translate/core';
 
 @Injectable()

@@ -1,4 +1,5 @@
 <div class="d-flex justify-content-center align-content-center">
     <div class="fa {{ data.icon }} snackIcon"></div>
     <div class="message" >{{ data.text }}</div>
+    <a class="action" *ngIf="data.url" (click)="goToAction(data.url)" >{{ data.action }}</a>
 </div>

@@ -1,9 +1,21 @@
+@import './../../../content/scss/custom-variables';
+
 .message {
     font-weight: bold;
     margin-top: 5px;
+    margin-right: 15px;
 }
 
 .snackIcon {
     font-size: 33px;
     margin-right: 15px;
+}
+
+.action {
+    color: $solocked-primary-color!important;
+    margin-top: 5px;
+}
+
+.action:hover {
+    text-decoration: underline!important;
 }

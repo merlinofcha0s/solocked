@@ -1,5 +1,5 @@
 import { BaseEntity } from './../../shared';
-import {OperationAccountType} from "../../shared/account/operation-account-type.enum";
+import {OperationAccountType} from '../../shared/account/operation-account-type.enum';
 
 export class AccountsDB implements BaseEntity {
     constructor(
