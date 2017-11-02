@@ -4,7 +4,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -33,9 +32,7 @@ public class AccountsDB implements Serializable {
     @Column(name = "jhi_database_content_type")
     private String databaseContentType;
 
-    @NotNull
-    @Min(value = 0)
-    @Column(name = "nb_accounts", nullable = false)
+    @Column(name = "nb_accounts")
     private Integer nbAccounts;
 
     @OneToOne

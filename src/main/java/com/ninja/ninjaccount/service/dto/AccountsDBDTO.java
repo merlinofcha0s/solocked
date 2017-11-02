@@ -20,8 +20,6 @@ public class AccountsDBDTO implements Serializable {
     private byte[] database;
     private String databaseContentType;
 
-    @NotNull
-    @Min(value = 0)
     private Integer nbAccounts;
 
     private Long userId;

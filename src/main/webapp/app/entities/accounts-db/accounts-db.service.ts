@@ -11,8 +11,7 @@ export class AccountsDBService {
 
     private resourceUrl = SERVER_API_URL + 'api/accounts-dbs';
 
-    constructor(private http: Http) {
-    }
+    constructor(private http: Http) { }
 
     create(accountsDB: AccountsDB): Observable<AccountsDB> {
         const copy = this.convert(accountsDB);

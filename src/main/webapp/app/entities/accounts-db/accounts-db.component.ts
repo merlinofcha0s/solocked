@@ -11,15 +11,17 @@ import {Principal, ResponseWrapper} from '../../shared';
     templateUrl: './accounts-db.component.html'
 })
 export class AccountsDBComponent implements OnInit, OnDestroy {
-    accountsDBS: AccountsDB[];
+accountsDBS: AccountsDB[];
     currentAccount: any;
     eventSubscriber: Subscription;
 
-    constructor(private accountsDBService: AccountsDBService,
-                private jhiAlertService: JhiAlertService,
-                private dataUtils: JhiDataUtils,
-                private eventManager: JhiEventManager,
-                private principal: Principal) {
+    constructor(
+        private accountsDBService: AccountsDBService,
+        private jhiAlertService: JhiAlertService,
+        private dataUtils: JhiDataUtils,
+        private eventManager: JhiEventManager,
+        private principal: Principal
+    ) {
     }
 
     loadAll() {
@@ -30,7 +32,6 @@ export class AccountsDBComponent implements OnInit, OnDestroy {
             (res: ResponseWrapper) => this.onError(res.json)
         );
     }
-
     ngOnInit() {
         this.loadAll();
         this.principal.identity().then((account) => {

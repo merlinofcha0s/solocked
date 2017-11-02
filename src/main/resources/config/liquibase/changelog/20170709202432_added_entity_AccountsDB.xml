@@ -33,7 +33,7 @@
             </column>
 
             <column name="nb_accounts" type="integer">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="user_id" type="bigint">
                 <constraints unique="true" nullable="true" />
