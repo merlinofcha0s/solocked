@@ -21,6 +21,7 @@ import {
     accountState
 } from './';
 import {ExportAllAccountsComponent} from './settings/export-all-accounts/export-all-accounts.component';
+import {DeleteAllAccountsComponent} from "./settings/delete-all-accounts/delete-all-accounts.component";
 
 @NgModule({
     imports: [
@@ -37,7 +38,8 @@ import {ExportAllAccountsComponent} from './settings/export-all-accounts/export-
         PasswordResetInitComponent,
         PasswordResetFinishComponent,
         SettingsComponent,
-        ExportAllAccountsComponent
+        ExportAllAccountsComponent,
+        DeleteAllAccountsComponent
     ],
     providers: [
         Register,
@@ -47,6 +49,6 @@ import {ExportAllAccountsComponent} from './settings/export-all-accounts/export-
         PasswordResetFinishService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    entryComponents: [ExportAllAccountsComponent]
+    entryComponents: [ExportAllAccountsComponent, DeleteAllAccountsComponent]
 })
 export class NinjaccountAccountModule {}

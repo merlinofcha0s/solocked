@@ -8,6 +8,7 @@ import {SnackComponent} from '../../shared/snack/snack.component';
 import {AccountsDBService} from '../../entities/accounts-db/accounts-db.service';
 import {Subscription} from 'rxjs/Subscription';
 import {ExportAllAccountsComponent} from './export-all-accounts/export-all-accounts.component';
+import {DeleteAllAccountsComponent} from "./delete-all-accounts/delete-all-accounts.component";
 
 @Component({
     selector: 'jhi-settings',
@@ -116,5 +117,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     openExportAccountPopup(){
         this.dialog.open(ExportAllAccountsComponent, {});
+    }
+
+    openDeleteAccountsPopup(){
+        this.dialog.open(DeleteAllAccountsComponent, {});
     }
 }

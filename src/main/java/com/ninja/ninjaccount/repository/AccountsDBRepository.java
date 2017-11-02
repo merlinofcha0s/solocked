@@ -19,4 +19,5 @@ public interface AccountsDBRepository extends JpaRepository<AccountsDB, Long> {
 
     Optional<AccountsDB> findOneByUserLogin(String login);
 
+    Integer deleteAccountsDBByUserLogin(String login);
 }

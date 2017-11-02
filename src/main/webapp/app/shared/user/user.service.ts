@@ -37,6 +37,10 @@ export class UserService {
         return this.http.delete(`${this.resourceUrl}/${login}`);
     }
 
+    destroyEntireUser(): Observable<boolean>{
+        return this.http.delete(`${this.resourceUrl}/destroy-user-account`).map((res: Response) => res.json());
+    }
+
     authorities(): Observable<string[]> {
         return this.http.get(SERVER_API_URL + 'api/users/authorities').map((res: Response) => {
             const json = res.json();

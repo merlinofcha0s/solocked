@@ -16,4 +16,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     Optional<Payment> findOneByUserLogin(String login);
 
+    Integer deletePaymentByUserLogin(String login);
+
 }

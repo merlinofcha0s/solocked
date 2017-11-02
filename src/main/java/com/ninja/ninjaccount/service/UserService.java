@@ -2,8 +2,10 @@ package com.ninja.ninjaccount.service;
 
 import com.ninja.ninjaccount.domain.Authority;
 import com.ninja.ninjaccount.domain.User;
+import com.ninja.ninjaccount.repository.AccountsDBRepository;
 import com.ninja.ninjaccount.repository.AuthorityRepository;
 import com.ninja.ninjaccount.config.Constants;
+import com.ninja.ninjaccount.repository.PaymentRepository;
 import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.security.SecurityUtils;
@@ -44,12 +46,22 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SocialService socialService, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    private final AccountsDBRepository accountsDBRepository;
+
+    private final PaymentRepository paymentRepository;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder
+        , SocialService socialService, AuthorityRepository authorityRepository
+        , CacheManager cacheManager
+        , AccountsDBRepository accountsDBRepository
+        , PaymentRepository paymentRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.socialService = socialService;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.paymentRepository = paymentRepository;
+        this.accountsDBRepository = accountsDBRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -66,17 +78,17 @@ public class UserService {
     }
 
     public Optional<User> completePasswordReset(String newPassword, String key) {
-       log.debug("Reset user password for reset key {}", key);
+        log.debug("Reset user password for reset key {}", key);
 
-       return userRepository.findOneByResetKey(key)
-           .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))
-           .map(user -> {
+        return userRepository.findOneByResetKey(key)
+            .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))
+            .map(user -> {
                 user.setPassword(passwordEncoder.encode(newPassword));
                 user.setResetKey(null);
                 user.setResetDate(null);
                 cacheManager.getCache("users").evict(user.getLogin());
                 return user;
-           });
+            });
     }
 
     public Optional<User> requestPasswordReset(String mail) {
@@ -91,7 +103,7 @@ public class UserService {
     }
 
     public User createUser(String login, String password, String firstName, String lastName, String email,
-        String imageUrl, String langKey) {
+                           String imageUrl, String langKey) {
 
         User newUser = new User();
         Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
@@ -149,17 +161,17 @@ public class UserService {
      * Update basic information (first name, last name, email, language) for the current user.
      *
      * @param firstName first name of user
-     * @param lastName last name of user
-     * @param email email id of user
-     * @param langKey language key
-     * @param imageUrl image URL of user
+     * @param lastName  last name of user
+     * @param email     email id of user
+     * @param langKey   language key
+     * @param imageUrl  image URL of user
      */
     public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
         userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(user -> {
-            if(firstName != null){
+            if (firstName != null) {
                 user.setFirstName(firstName);
             }
-            if(lastName != null){
+            if (lastName != null) {
                 user.setLastName(lastName);
             }
             user.setLastName(lastName);
@@ -258,5 +270,18 @@ public class UserService {
      */
     public List<String> getAuthorities() {
         return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
+    }
+
+    public boolean destroyUserAccount() {
+        Optional<User> user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin());
+        if (user.isPresent()) {
+            accountsDBRepository.deleteAccountsDBByUserLogin(user.get().getLogin());
+            paymentRepository.deletePaymentByUserLogin(user.get().getLogin());
+            deleteUser(user.get().getLogin());
+            return true;
+        } else {
+           return false;
+        }
+
     }
 }

@@ -4,12 +4,18 @@ import com.ninja.ninjaccount.NinjaccountApp;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.config.Constants;
 import com.ninja.ninjaccount.repository.UserRepository;
+import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.util.RandomUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -18,8 +24,7 @@ import org.springframework.data.domain.PageRequest;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Optional;
-import java.util.List;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -38,6 +43,12 @@ public class UserServiceIntTest {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PaymentService paymentService;
+
+    @Autowired
+    private AccountsDBService accountsDBService;
 
     @Test
     public void assertThatUserMustExistToResetPassword() {
@@ -138,5 +149,46 @@ public class UserServiceIntTest {
         assertThat(userRepository.findOneByLogin("johndoe")).isPresent();
         userService.removeNotActivatedUsers();
         assertThat(userRepository.findOneByLogin("johndoe")).isNotPresent();
+    }
+
+    @Test
+    public void testDestroyAccountWorks() {
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.USER));
+        securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("johndoe", "johndoe", authorities));
+        SecurityContextHolder.setContext(securityContext);
+
+        User user = userService.createUser("johndoe", "johndoe", "John", "Doe"
+            , "john.doe@localhost", "http://placehold.it/50x50", "en-US");
+        user.setCreatedDate(Instant.now().minus(30, ChronoUnit.DAYS));
+
+        String example = "This is an example";
+        byte[] bytes = example.getBytes();
+        String uuid = UUID.randomUUID().toString();
+
+        userRepository.save(user);
+        accountsDBService.createNewAccountDB(bytes, uuid, user);
+        paymentService.createRegistrationPaymentForUser(user);
+
+        assertThat(userRepository.findOneByLogin("johndoe")).isPresent();
+
+        boolean succeed = userService.destroyUserAccount();
+
+        assertThat(succeed).isTrue();
+        assertThat(userRepository.findOneByLogin("johndoe")).isNotPresent();
+    }
+
+    @Test
+    public void testDestroyAccountFails() {
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.USER));
+        securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("johndoe", "johndoe", authorities));
+        SecurityContextHolder.setContext(securityContext);
+
+        boolean succeed = userService.destroyUserAccount();
+
+        assertThat(succeed).isFalse();
     }
 }

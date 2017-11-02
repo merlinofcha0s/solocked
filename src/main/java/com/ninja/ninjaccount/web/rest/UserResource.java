@@ -5,6 +5,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
+import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.MailService;
 import com.ninja.ninjaccount.service.UserService;
 import com.ninja.ninjaccount.service.dto.UserDTO;
@@ -68,7 +69,7 @@ public class UserResource {
     private final UserService userService;
 
     public UserResource(UserRepository userRepository, MailService mailService,
-            UserService userService) {
+                        UserService userService) {
 
         this.userRepository = userRepository;
         this.mailService = mailService;
@@ -96,7 +97,7 @@ public class UserResource {
             return ResponseEntity.badRequest()
                 .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new user cannot already have an ID"))
                 .body(null);
-        // Lowercase the user login before comparing with database
+            // Lowercase the user login before comparing with database
         } else if (userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase()).isPresent()) {
             return ResponseEntity.badRequest()
                 .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "userexists", "Login already in use"))
@@ -109,7 +110,7 @@ public class UserResource {
             User newUser = userService.createUser(managedUserVM);
             mailService.sendCreationEmail(newUser);
             return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))
-                .headers(HeaderUtil.createAlert( "userManagement.created", newUser.getLogin()))
+                .headers(HeaderUtil.createAlert("userManagement.created", newUser.getLogin()))
                 .body(newUser);
         }
     }
@@ -192,6 +193,22 @@ public class UserResource {
     public ResponseEntity<Void> deleteUser(@PathVariable String login) {
         log.debug("REST request to delete User: {}", login);
         userService.deleteUser(login);
-        return ResponseEntity.ok().headers(HeaderUtil.createAlert( "userManagement.deleted", login)).build();
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert("userManagement.deleted", login)).build();
     }
+
+
+    /**
+     * DELETE /users/:login : delete the "login" User.
+     *
+     * @param login the login of the user to delete
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @DeleteMapping("/users/destroy-user-account")
+    @Timed
+    @Secured(AuthoritiesConstants.USER)
+    public ResponseEntity<Boolean> destroyUserAccount() {
+        boolean succeed = userService.destroyUserAccount();
+        return ResponseUtil.wrapOrNotFound(Optional.of(succeed));
+    }
+
 }
