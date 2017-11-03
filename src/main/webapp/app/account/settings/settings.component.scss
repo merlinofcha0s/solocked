@@ -18,6 +18,24 @@
     margin-bottom: 20px;
 }
 
-.warn{
-    background-image: none!important;
+.warn {
+    background-image: none !important;
+}
+
+.container-danger {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.red {
+    color: red;
+}
+
+.unit-red-border{
+    border: 2px dashed red;
+}
+
+.unit-danger-container {
+    margin-top: 15px;
+    margin-bottom: 15px;
 }

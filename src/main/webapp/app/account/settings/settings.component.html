@@ -103,17 +103,17 @@
 
     <div class="row justify-content-center margin-bottom">
         <div class="col-12 col-md-3"></div>
-        <div class="col-md-6" style="padding-top: 10px; padding-bottom: 10px;">
-            <h2 style="color: red;">Danger zone</h2>
-            <div style="border: 2px dashed red; margin-top: 15px; margin-bottom: 15px;" class="p-3">
+        <div class="col-md-6 container-danger">
+            <h2 class="red" jhiTranslate="settings.danger.zone">Danger zone</h2>
+            <div class="unit-danger-container unit-red-border p-3">
                 <mat-card>
                     <mat-card-header>
                         <mat-card-title>
-                            <h3>Export your database</h3>
+                            <h3 jhiTranslate="settings.danger.export.title">Export your database</h3>
                         </mat-card-title>
                     </mat-card-header>
                     <mat-card-content>
-                        <div class="content">
+                        <div class="content" jhiTranslate="settings.danger.export.content">
                             Export you entire database in the CSV format (with ; separator)<br/>
                             You can open it with excel or with a text editor
                         </div>
@@ -121,20 +121,22 @@
                     <mat-card-actions>
                         <div class="d-flex justify-content-center align-items-center">
                             <button mat-raised-button type="button" class="default-mat-background-button"
-                                    (click)="openExportAccountPopup()" color="warn">Export all my accounts</button>
+                                    (click)="openExportAccountPopup()" color="warn">
+                                {{'settings.danger.export.action' | translate}}
+                            </button>
                         </div>
                     </mat-card-actions>
                 </mat-card>
             </div>
-            <div style="border: 2px dashed red;" class="p-3">
+            <div class="unit-red-border p-3">
                 <mat-card>
                     <mat-card-header>
                         <mat-card-title>
-                            <h3>Delete your solocked account</h3>
+                            <h3 jhiTranslate="settings.danger.delete.title">Delete your solocked account</h3>
                         </mat-card-title>
                     </mat-card-header>
                     <mat-card-content>
-                        <div class="content">
+                        <div class="content" jhiTranslate="settings.danger.delete.content">
                             Delete all your accounts and <span class="font-weight-bold">all informations</span> that we have.<br/>
                             This operation is <span class="font-weight-bold">irreversible</span>, it will log you out at the end of the process
                         </div>
@@ -142,7 +144,7 @@
                     <mat-card-actions>
                         <div class="d-flex justify-content-center align-items-center">
                             <button mat-raised-button type="button" class="default-mat-background-button"
-                                    (click)="openDeleteAccountsPopup()" color="warn">Delete all my accounts</button>
+                                    (click)="openDeleteAccountsPopup()" color="warn"> {{'settings.danger.delete.action' | translate}}</button>
                         </div>
                     </mat-card-actions>
                 </mat-card>
