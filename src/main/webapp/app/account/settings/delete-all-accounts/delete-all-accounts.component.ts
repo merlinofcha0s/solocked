@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {LoginService, UserService} from '../../../shared/index';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
-import {SnackComponent} from "../../../shared/snack/snack.component";
-import {Principal} from "../../../shared/auth/principal.service";
-import {Subscription} from "rxjs/Subscription";
-import {isUndefined} from "util";
+import {SnackComponent} from '../../../shared/snack/snack.component';
+import {Principal} from '../../../shared/auth/principal.service';
+import {Subscription} from 'rxjs/Subscription';
+import {isUndefined} from 'util';
 
 @Component({
     selector: 'jhi-delete-all-accounts',

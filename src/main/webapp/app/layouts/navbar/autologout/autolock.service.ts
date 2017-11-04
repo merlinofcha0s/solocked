@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {LoginService} from "../../../shared/login/login.service";
-import {Router} from "@angular/router";
-import {Observable} from "rxjs/Observable";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {Subscription} from "rxjs/Subscription";
+import {LoginService} from '../../../shared/login/login.service';
+import {Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Subscription} from 'rxjs/Subscription';
 
 @Injectable()
 export class AutolockService {
@@ -26,14 +26,14 @@ export class AutolockService {
     startTimer() {
         this.timer = Observable
             .timer(100, 1000)
-            .map(i => this.totalTime - i)
+            .map((i) => this.totalTime - i)
             .take(this.totalTime + 1);
 
         this._dataStore.remainingTime = this.totalTime;
-        this.timerSubscription = this.timer.subscribe(secondRemaining => {
+        this.timerSubscription = this.timer.subscribe((secondRemaining) => {
                 this.remainingTime$.next(secondRemaining);
             }
-            , error => {
+            , (error) => {
             }
             , () => {
                 this.loginService.logout();
@@ -42,9 +42,9 @@ export class AutolockService {
     }
 
     resetTimer() {
-       this.timerSubscription.unsubscribe();
-       //Restart the timer
-       this.startTimer();
+        this.timerSubscription.unsubscribe();
+        // Restart the timer
+        this.startTimer();
     }
 
 }

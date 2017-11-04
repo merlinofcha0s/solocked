@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
 
 import {JhiLanguageHelper} from '../../shared';
-import {Principal} from "../../shared/auth/principal.service";
-import {AutolockService} from "../navbar/autologout/autolock.service";
+import {Principal} from '../../shared/auth/principal.service';
+import {AutolockService} from '../navbar/autologout/autolock.service';
 
 @Component({
     selector: 'jhi-main',

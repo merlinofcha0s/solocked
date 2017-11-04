@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AutolockService} from "./autolock.service";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {AutolockService} from './autolock.service';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Component({
     selector: 'jhi-autolock',
@@ -20,7 +20,7 @@ export class AutolockComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.remainingTime$
-            .subscribe(secondRemaining => {
+            .subscribe((secondRemaining) => {
                 const minutes = Math.floor(secondRemaining / 60);
                 const seconds = secondRemaining - minutes * 60;
                 this.remainingTime = minutes + ':' + (seconds < 10 ? '0' + seconds : seconds);

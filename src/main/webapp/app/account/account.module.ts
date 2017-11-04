@@ -1,32 +1,32 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
 
-import { NinjaccountSharedModule } from '../shared';
+import {NinjaccountSharedModule} from '../shared';
 
 import {
-    Register,
-    ActivateService,
-    PasswordService,
-    PasswordResetInitService,
-    PasswordResetFinishService,
-    PasswordStrengthBarComponent,
-    RegisterComponent,
+    accountState,
     ActivateComponent,
+    ActivateService,
     PasswordComponent,
-    PasswordResetInitComponent,
     PasswordResetFinishComponent,
+    PasswordResetFinishService,
+    PasswordResetInitComponent,
+    PasswordResetInitService,
+    PasswordService,
+    PasswordStrengthBarComponent,
+    Register,
+    RegisterComponent,
     SettingsComponent,
-    SocialRegisterComponent,
     SocialAuthComponent,
-    accountState
+    SocialRegisterComponent
 } from './';
 import {ExportAllAccountsComponent} from './settings/export-all-accounts/export-all-accounts.component';
-import {DeleteAllAccountsComponent} from "./settings/delete-all-accounts/delete-all-accounts.component";
+import {DeleteAllAccountsComponent} from './settings/delete-all-accounts/delete-all-accounts.component';
 
 @NgModule({
     imports: [
         NinjaccountSharedModule,
-        RouterModule.forRoot(accountState, { useHash: true })
+        RouterModule.forRoot(accountState, {useHash: true})
     ],
     declarations: [
         SocialRegisterComponent,
@@ -51,4 +51,5 @@ import {DeleteAllAccountsComponent} from "./settings/delete-all-accounts/delete-
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     entryComponents: [ExportAllAccountsComponent, DeleteAllAccountsComponent]
 })
-export class NinjaccountAccountModule {}
+export class NinjaccountAccountModule {
+}
