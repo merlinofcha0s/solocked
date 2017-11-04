@@ -1,0 +1,11 @@
+<div class="d-flex justify-content-center align-items-center">
+    <mat-progress-spinner class="autologout-spinner" diameter="40"
+        [color]="warn"
+        [mode]="'determinate'"
+        [value]="progressTimeValue">
+    </mat-progress-spinner>
+    <div class="time-container">
+        <div jhiTranslate="autolock.name">Autolock</div>
+        <div><span jhiTranslate="autolock.in">in</span> {{ remainingTime }}</div>
+    </div>
+</div>

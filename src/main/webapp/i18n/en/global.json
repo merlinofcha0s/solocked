@@ -134,5 +134,9 @@
         "emailexists": "Email is already in use!",
         "idexists": "A new {{ entityName }} cannot already have an ID"
     },
-    "footer": "This is your footer"
+    "footer": "This is your footer",
+    "autolock":{
+        "name" : "Autolock",
+        "in": "in"
+    }
 }

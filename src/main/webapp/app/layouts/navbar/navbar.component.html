@@ -101,10 +101,12 @@
                     </li>
                 </ul>
             </li>
-             <li class="nav-item dropdown pointer" *ngIf="isAuthenticated() && !hasAnyAuthorityDirect(['ROLE_ADMIN'])">
-                <a mat-raised-button class="add-button" [routerLink]="['/accounts/add']">
-                    <span jhiTranslate="global.addAccount"></span>
-                </a>
+             <li class="nav-item dropdown pointer d-flex justify-content-center align-items-center"
+                 *ngIf="isAuthenticated() && !hasAnyAuthorityDirect(['ROLE_ADMIN'])">
+                 <jhi-autolock class="autolock"></jhi-autolock>
+                 <a mat-raised-button class="add-button" [routerLink]="['/accounts/add']">
+                     <span jhiTranslate="global.addAccount"></span>
+                 </a>
             </li>
             <li *ngIf="languages">
                  <button class="menu" [class.home]="!defaultColor" *ngIf="languages.length > 1" mat-button [matMenuTriggerFor]="languagesMenu">{{ 'global.menu.language' | translate }}</button>

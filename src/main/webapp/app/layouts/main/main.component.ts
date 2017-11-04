@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
 
 import {JhiLanguageHelper} from '../../shared';
+import {Principal} from "../../shared/auth/principal.service";
+import {AutolockService} from "../navbar/autologout/autolock.service";
 
 @Component({
     selector: 'jhi-main',
@@ -12,8 +14,11 @@ export class JhiMainComponent implements OnInit {
 
     loginPage: boolean;
 
-    constructor(private jhiLanguageHelper: JhiLanguageHelper,
-                private router: Router) {}
+    constructor(private jhiLanguageHelper: JhiLanguageHelper
+        , private router: Router
+        , private principal: Principal
+        , private autolockService: AutolockService) {
+    }
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
         let title: string = (routeSnapshot.data && routeSnapshot.data['pageTitle']) ? routeSnapshot.data['pageTitle'] : 'ninjaccountApp';
@@ -36,6 +41,12 @@ export class JhiMainComponent implements OnInit {
                 }
             }
         });
+    }
+
+    resetAutolockTime() {
+        if (this.principal.isAuthenticated()) {
+            this.autolockService.resetTimer();
+        }
     }
 
 }

@@ -26,6 +26,8 @@ import {
 } from './layouts';
 import { NinjaccountConnectedModule } from './connected/connected.module';
 import {NavbarService} from './layouts/navbar/navbar.service';
+import {AutolockComponent} from "./layouts/navbar/autologout/autolock.component";
+import {AutolockService} from "./layouts/navbar/autologout/autolock.service";
 
 @NgModule({
     imports: [
@@ -46,14 +48,16 @@ import {NavbarService} from './layouts/navbar/navbar.service';
         ErrorComponent,
         PageRibbonComponent,
         ActiveMenuDirective,
-        FooterComponent
+        FooterComponent,
+        AutolockComponent
     ],
     providers: [
         ProfileService,
         NavbarService,
         customHttpProvider(),
         PaginationConfig,
-        UserRouteAccessService
+        UserRouteAccessService,
+        AutolockService
     ],
     bootstrap: [ JhiMainComponent ]
 })
