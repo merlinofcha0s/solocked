@@ -4,6 +4,7 @@ import {AccountsTechService} from '../../shared/account/accounts-tech.service';
 import {Accounts} from '../../shared/account/accounts.model';
 import {CryptoService} from '../../shared/crypto/crypto.service';
 import {CryptoUtilsService} from '../../shared/crypto/crypto-utils.service';
+import {OperationAccountType} from '../../shared/account/operation-account-type.enum';
 
 @Injectable()
 export class PasswordService {
@@ -15,9 +16,11 @@ export class PasswordService {
 
     save(newPassword: string): Observable<any> {
         let accountsSynchro = null;
+
         return this.accountTech.synchroDB()
             .flatMap((accounts: Accounts) => {
                 accountsSynchro = accounts;
+                accountsSynchro.operationAccountType = OperationAccountType.UPDATE;
                 return this.crypto.creatingKey(newPassword);
             }).flatMap((newCryptoKey: CryptoKey) => this.crypto.putCryptoKeyInStorage(newCryptoKey))
             .flatMap((success: boolean) => {

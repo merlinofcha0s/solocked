@@ -1,9 +1,10 @@
-import {Injectable} from '@angular/core';
+import {forwardRef, Inject, Injectable} from '@angular/core';
 import {LoginService} from '../../../shared/login/login.service';
-import {Router} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Subscription} from 'rxjs/Subscription';
+import {isUndefined} from 'util';
 
 @Injectable()
 export class AutolockService {
@@ -17,10 +18,21 @@ export class AutolockService {
         remainingTime: number;
     };
 
-    constructor(private loginService: LoginService
+    constructor(@Inject(forwardRef(() => LoginService)) private loginService: LoginService
         , private router: Router) {
         this._dataStore = {remainingTime: this.totalTime};
         this.remainingTime$ = new BehaviorSubject<number>(this._dataStore.remainingTime);
+
+        // Case where the user logout, we can't unsubscribe when logout cause of circular dependencies
+        this.router.events.subscribe((event) => {
+            if (event instanceof NavigationEnd) {
+                if (event.url === '/') {
+                    if (!isUndefined(this.timerSubscription)) {
+                        this.timerSubscription.unsubscribe();
+                    }
+                }
+            }
+        });
     }
 
     startTimer() {
@@ -37,7 +49,7 @@ export class AutolockService {
             }
             , () => {
                 this.loginService.logout();
-                this.router.navigate(['/']);
+                this.router.navigate(['']);
             });
     }
 
@@ -46,5 +58,4 @@ export class AutolockService {
         // Restart the timer
         this.startTimer();
     }
-
 }

@@ -19,6 +19,8 @@ export class PasswordComponent implements OnInit {
     confirmPassword: string;
     loading: boolean;
 
+    maxPassword = 50;
+
     constructor(
         private passwordService: PasswordService,
         private principal: Principal,

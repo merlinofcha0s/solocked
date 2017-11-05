@@ -40,6 +40,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {UserRouteAccessIsConnectedService} from './auth/user-route-is-connected';
 import {PasswordMatchValidatorDirective} from './auth/password-match.directive';
 import {SnackComponent} from './snack/snack.component';
+import {AutolockService} from '../layouts/navbar/autologout/autolock.service';
 
 @NgModule({
     imports: [
@@ -82,7 +83,8 @@ import {SnackComponent} from './snack/snack.component';
         AccountsService,
         CryptoService,
         CryptoUtilsService,
-        UserRouteAccessIsConnectedService
+        UserRouteAccessIsConnectedService,
+        AutolockService
     ],
     entryComponents: [JhiLoginModalComponent, SnackComponent],
     exports: [

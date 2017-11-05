@@ -56,8 +56,7 @@ import {AutolockService} from './layouts/navbar/autologout/autolock.service';
         NavbarService,
         customHttpProvider(),
         PaginationConfig,
-        UserRouteAccessService,
-        AutolockService
+        UserRouteAccessService
     ],
     bootstrap: [ JhiMainComponent ]
 })

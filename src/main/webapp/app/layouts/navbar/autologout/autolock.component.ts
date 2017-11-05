@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AutolockService} from './autolock.service';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
     selector: 'jhi-autolock',
@@ -13,13 +14,14 @@ export class AutolockComponent implements OnInit, OnDestroy {
     progressTimeValue = 0;
 
     remainingTime$: BehaviorSubject<number>;
+    remainingTimeSub: Subscription;
 
     constructor(private autolockService: AutolockService) {
         this.remainingTime$ = this.autolockService.remainingTime$;
     }
 
     ngOnInit() {
-        this.remainingTime$
+       this.remainingTimeSub = this.remainingTime$
             .subscribe((secondRemaining) => {
                 const minutes = Math.floor(secondRemaining / 60);
                 const seconds = secondRemaining - minutes * 60;
@@ -30,6 +32,7 @@ export class AutolockComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.remainingTimeSub.unsubscribe();
     }
 
 }
