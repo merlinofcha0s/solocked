@@ -4,11 +4,14 @@ import com.ninja.ninjaccount.NinjaccountApp;
 import com.ninja.ninjaccount.domain.AccountsDB;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
+import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.service.util.PaymentConstant;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +44,31 @@ public class AccountDBServiceTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    private User userJohn;
+
+    @Before
+    public void init() {
+        userJohn = new User();
+        userJohn.setLogin("johndoe");
+        userJohn.setPassword(RandomStringUtils.random(60));
+        userJohn.setActivated(true);
+        userJohn.setEmail("johndoe@localhost");
+        userJohn.setFirstName("john");
+        userJohn.setLastName("doe");
+        userJohn.setImageUrl("http://placehold.it/50x50");
+        userJohn.setLangKey("en");
+    }
+
     @Test
     public void testCreationEncryptedDB() {
         String example = "This is an example";
         byte[] bytes = example.getBytes();
         String uuid = UUID.randomUUID().toString();
 
-        User user = userService.createUser("johndoe", "johndoe", "John", "Doe", "john.doe@localhost", "http://placehold.it/50x50", "en-US");
+        User user = userRepository.saveAndFlush(userJohn);
 
         AccountsDBDTO accountsDBDTO = accountsDBService.createNewAccountDB(bytes, uuid, user);
         assertThat(accountsDBDTO.getId()).isNotNull();
@@ -65,7 +86,7 @@ public class AccountDBServiceTest {
         byte[] bytes = example.getBytes();
         String uuid = UUID.randomUUID().toString();
 
-        User user = userService.createUser("johndoe", "johndoe", "John", "Doe", "john.doe@localhost", "http://placehold.it/50x50", "en-US");
+        User user = userRepository.saveAndFlush(userJohn);
         accountsDBService.createNewAccountDB(bytes, uuid, user);
         Optional<AccountsDB> accountsDB = accountsDBRepository.findOneByUserLogin("johndoe");
         assertThat(accountsDB.isPresent()).isTrue();
@@ -74,13 +95,13 @@ public class AccountDBServiceTest {
     }
 
     @Test
-    @WithMockUser("user-update-db")
+    @WithMockUser("johndoe")
     public void testUpdateAccountsByUserconnected() throws MaxAccountsException {
         String example = "This is an example";
         byte[] bytes = example.getBytes();
         String uuid = UUID.randomUUID().toString();
 
-        User user = userService.createUser("user-update-db", "johndoe", "John", "Doe", "john.doe@localhost", "http://placehold.it/50x50", "en-US");
+        User user = userRepository.saveAndFlush(userJohn);
         accountsDBService.createNewAccountDB(bytes, uuid, user);
         paymentService.createRegistrationPaymentForUser(user);
 

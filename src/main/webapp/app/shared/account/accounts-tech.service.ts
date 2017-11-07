@@ -29,7 +29,6 @@ export class AccountsTechService {
                 accountDBDTO.database = accountDBbase64;
                 accountDBDTO.databaseContentType = 'application/octet-stream';
                 accountDBDTO.initializationVector = initVector;
-                console.log('Operation accounn type : ' + accounts.operationAccountType);
                 accountDBDTO.operationAccountType = accounts.operationAccountType;
                 return this.accountsDBService.updateDBUserConnected(accountDBDTO);
             });

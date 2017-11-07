@@ -74,9 +74,6 @@ public class AccountResource {
     /*@PostMapping( "/register_default")
     @Timed
     public ResponseEntity registerAccountDefault(@Valid @RequestBody ManagedUserVM managedUserVM) {
-
-        HttpHeaders textPlainHeaders = new HttpHeaders();
-        textPlainHeaders.setContentType(MediaType.TEXT_PLAIN);
         if (!checkPasswordLength(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
         }
@@ -212,41 +209,34 @@ public class AccountResource {
         }
     }
 
+    /**
+     * POST  /register : register the user.
+     *
+     * @param managedUserVM the managed user View Model
+     * @throws InvalidPasswordException 400 (Bad Request) if the password is incorrect
+     * @throws EmailAlreadyUsedException 400 (Bad Request) if the email is already used
+     * @throws LoginAlreadyUsedException 400 (Bad Request) if the login  is already used
+     */
     @PostMapping(path = "/register")
+    @ResponseStatus(HttpStatus.CREATED)
     @Timed
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public ResponseEntity register(@Valid @RequestBody ManagedUserVM managedUserVM) {
-
-        HttpHeaders textPlainHeaders = new HttpHeaders();
-        textPlainHeaders.setContentType(MediaType.TEXT_PLAIN);
-
-        if (managedUserVM.getAccountsDB() == null) {
-            return new ResponseEntity<>("problem with the init of the DB", HttpStatus.BAD_REQUEST);
-        }
-
+    public void register(@Valid @RequestBody ManagedUserVM managedUserVM) {
         if (!checkPasswordLength(managedUserVM.getPassword())) {
-            return new ResponseEntity<>(CHECK_ERROR_MESSAGE, HttpStatus.BAD_REQUEST);
+            throw new InvalidPasswordException();
         }
-        return userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase())
-            .map(user -> new ResponseEntity<>("login already in use", textPlainHeaders, HttpStatus.BAD_REQUEST))
-            .orElseGet(() -> userRepository.findOneByEmailIgnoreCase(managedUserVM.getEmail())
-                .map(user -> new ResponseEntity<>("email address already in use", textPlainHeaders, HttpStatus.BAD_REQUEST))
-                .orElseGet(() -> {
-                    User user = userService
-                        .createUser(managedUserVM.getLogin().toLowerCase(), managedUserVM.getPassword(),
-                            managedUserVM.getFirstName(), managedUserVM.getLastName(),
-                            managedUserVM.getEmail().toLowerCase(), managedUserVM.getImageUrl(),
-                            managedUserVM.getLangKey());
+        userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase())
+            .ifPresent(u -> {throw new LoginAlreadyUsedException();});
+        userRepository.findOneByEmail(managedUserVM.getEmail())
+            .ifPresent(u -> {throw new EmailAlreadyUsedException() ;});
+        User user = userService
+            .registerUser(managedUserVM);
+        managedUserVM.getAccountsDB().setUserLogin(user.getLogin());
+        managedUserVM.getAccountsDB().setUserId(user.getId());
+        accountsDBService.save(managedUserVM.getAccountsDB());
+        paymentService.createRegistrationPaymentForUser(user);
 
-                    managedUserVM.getAccountsDB().setUserLogin(user.getLogin());
-                    managedUserVM.getAccountsDB().setUserId(user.getId());
-                    accountsDBService.save(managedUserVM.getAccountsDB());
-                    paymentService.createRegistrationPaymentForUser(user);
-
-                    mailService.sendActivationEmail(user);
-                    return new ResponseEntity<>(HttpStatus.CREATED);
-                })
-            );
+        mailService.sendActivationEmail(user);
     }
 
     private static boolean checkPasswordLength(String password) {

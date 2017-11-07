@@ -197,17 +197,15 @@ public class UserServiceIntTest {
         securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("johndoe", "johndoe", authorities));
         SecurityContextHolder.setContext(securityContext);
 
-        User user = userService.createUser("johndoe", "johndoe", "John", "Doe"
-            , "john.doe@localhost", "http://placehold.it/50x50", "en-US");
-        user.setCreatedDate(Instant.now().minus(30, ChronoUnit.DAYS));
+        User userJohn = userRepository.saveAndFlush(user);
+        userJohn.setCreatedDate(Instant.now().minus(30, ChronoUnit.DAYS));
 
         String example = "This is an example";
         byte[] bytes = example.getBytes();
         String uuid = UUID.randomUUID().toString();
 
-        userRepository.save(user);
-        accountsDBService.createNewAccountDB(bytes, uuid, user);
-        paymentService.createRegistrationPaymentForUser(user);
+        accountsDBService.createNewAccountDB(bytes, uuid, userJohn);
+        paymentService.createRegistrationPaymentForUser(userJohn);
 
         assertThat(userRepository.findOneByLogin("johndoe")).isPresent();
 
