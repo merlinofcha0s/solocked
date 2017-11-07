@@ -9,7 +9,7 @@ import {isUndefined} from 'util';
 @Injectable()
 export class AutolockService {
 
-    totalTime = 120;
+    totalTime = 600;
     remainingTime$: BehaviorSubject<number>;
     timer: Observable<number>;
     timerSubscription: Subscription;
