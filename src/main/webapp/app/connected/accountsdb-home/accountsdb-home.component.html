@@ -7,7 +7,10 @@
             <i class="fa fa-times clear" matSuffix *ngIf="filter !== undefined && filter.length >= 1" (click)="clearSearch()" aria-hidden="true"></i>
         </mat-form-field>
         <div class="d-flex justify-content-end">
-            <button mat-button id="seeAll" class="see-all" (click)="showAll()">{{ 'ninjaccountApp.accountsDB.home.online.seeAll' | translate }}</button>
+            <button mat-button id="seeAll" class="see-all" (click)="showAll()">
+                <span *ngIf="!seeAll">{{ 'ninjaccountApp.accountsDB.home.online.seeAll' | translate }}</span>
+                <span *ngIf="seeAll">{{ 'ninjaccountApp.accountsDB.home.online.clear' | translate }}</span>
+            </button>
         </div>
         <mat-tab-group class="tab">
             <mat-tab *ngIf="detectSearch() || seeAll">
