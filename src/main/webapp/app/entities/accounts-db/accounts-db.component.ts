@@ -1,6 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Rx';
 import {JhiAlertService, JhiDataUtils, JhiEventManager} from 'ng-jhipster';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs/Rx';
+import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
 import {AccountsDB} from './accounts-db.model';
 import {AccountsDBService} from './accounts-db.service';

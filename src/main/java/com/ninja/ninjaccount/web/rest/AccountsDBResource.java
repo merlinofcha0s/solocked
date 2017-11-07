@@ -3,6 +3,8 @@ package com.ninja.ninjaccount.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.AccountsDBService;
+import com.ninja.ninjaccount.web.rest.errors.BadRequestAlertException;
+import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import com.ninja.ninjaccount.web.rest.errors.CustomParameterizedException;
@@ -50,7 +52,7 @@ public class AccountsDBResource {
     public ResponseEntity<AccountsDBDTO> createAccountsDB(@Valid @RequestBody AccountsDBDTO accountsDBDTO) throws URISyntaxException {
         log.debug("REST request to save AccountsDB : {}", accountsDBDTO);
         if (accountsDBDTO.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new accountsDB cannot already have an ID")).body(null);
+            throw new BadRequestAlertException("A new accountsDB cannot already have an ID", ENTITY_NAME, "idexists");
         }
         AccountsDBDTO result = accountsDBService.save(accountsDBDTO);
         return ResponseEntity.created(new URI("/api/accounts-dbs/" + result.getId()))

@@ -3,6 +3,8 @@ package com.ninja.ninjaccount.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.PaymentService;
+import com.ninja.ninjaccount.web.rest.errors.BadRequestAlertException;
+import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
 import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -46,7 +48,7 @@ public class PaymentResource {
     public ResponseEntity<PaymentDTO> createPayment(@Valid @RequestBody PaymentDTO paymentDTO) throws URISyntaxException {
         log.debug("REST request to save Payment : {}", paymentDTO);
         if (paymentDTO.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new payment cannot already have an ID")).body(null);
+            throw new BadRequestAlertException("A new payment cannot already have an ID", ENTITY_NAME, "idexists");
         }
         PaymentDTO result = paymentService.save(paymentDTO);
         return ResponseEntity.created(new URI("/api/payments/" + result.getId()))

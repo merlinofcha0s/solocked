@@ -6,7 +6,7 @@ import {JhiLanguageService} from 'ng-jhipster';
 import {ProfileService} from '../profiles/profile.service';
 import {JhiLanguageHelper, LoginModalService, LoginService, Principal} from '../../shared';
 
-import {VERSION} from '../../app.constants';
+import { VERSION } from '../../app.constants';
 
 @Component({
     selector: 'jhi-navbar',
@@ -16,7 +16,6 @@ import {VERSION} from '../../app.constants';
     ]
 })
 export class NavbarComponent implements OnInit {
-
     inProduction: boolean;
     isNavbarCollapsed: boolean;
     languages: any[];

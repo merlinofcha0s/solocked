@@ -6,6 +6,7 @@ import { LoginService } from './login.service';
 import {CryptoUtilsService} from '../crypto/crypto-utils.service';
 import {Principal} from '../index';
 import {AccountsService} from '../account/accounts.service';
+import { StateStorageService } from '../auth/state-storage.service';
 
 @Component({
     selector: 'jhi-login-modal',

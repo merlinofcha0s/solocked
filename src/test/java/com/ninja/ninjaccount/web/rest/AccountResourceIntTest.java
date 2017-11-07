@@ -1,6 +1,6 @@
 package com.ninja.ninjaccount.web.rest;
-import com.ninja.ninjaccount.config.Constants;
 
+import com.ninja.ninjaccount.config.Constants;
 import com.ninja.ninjaccount.NinjaccountApp;
 import com.ninja.ninjaccount.domain.AccountsDB;
 import com.ninja.ninjaccount.domain.Authority;
@@ -15,9 +15,12 @@ import com.ninja.ninjaccount.service.PaymentService;
 import com.ninja.ninjaccount.service.UserService;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.UserDTO;
+import com.ninja.ninjaccount.web.rest.errors.ExceptionTranslator;
 import com.ninja.ninjaccount.web.rest.vm.KeyAndPasswordVM;
 import com.ninja.ninjaccount.web.rest.vm.ManagedUserVM;
+import com.ninja.ninjaccount.service.UserService;
 import org.apache.commons.lang3.RandomStringUtils;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,9 +36,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.Instant;
 import java.util.Collections;
+
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -81,31 +84,35 @@ public class AccountResourceIntTest {
     @Autowired
     private PaymentService paymentService;
 
+    @Autowired
+    private ExceptionTranslator exceptionTranslator;
+
     @Mock
     private UserService mockUserService;
 
     @Mock
     private MailService mockMailService;
 
-    private MockMvc restUserMockMvc;
-
     private MockMvc restMvc;
+
+    private MockMvc restUserMockMvc;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         doNothing().when(mockMailService).sendActivationEmail(anyObject());
-
         AccountResource accountResource =
             new AccountResource(userRepository, userService, mockMailService, accountsDBService, paymentService);
 
         AccountResource accountUserMockResource =
             new AccountResource(userRepository, mockUserService, mockMailService, accountsDBService, paymentService);
-
         this.restMvc = MockMvcBuilders.standaloneSetup(accountResource)
             .setMessageConverters(httpMessageConverters)
+            .setControllerAdvice(exceptionTranslator)
             .build();
-        this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource).build();
+        this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource)
+            .setControllerAdvice(exceptionTranslator)
+            .build();
     }
 
     @Test
