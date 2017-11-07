@@ -85,7 +85,6 @@ spring:
             client-secret: xxx
 
         # jhipster-needle-add-social-configuration
-
 security:
     basic:
         enabled: false

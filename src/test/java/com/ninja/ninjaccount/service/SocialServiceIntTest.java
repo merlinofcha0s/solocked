@@ -5,6 +5,7 @@ import com.ninja.ninjaccount.domain.Authority;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.AuthorityRepository;
 import com.ninja.ninjaccount.repository.UserRepository;
+import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.service.MailService;
 
 import org.junit.Before;
@@ -189,7 +190,7 @@ public class SocialServiceIntTest {
         User user = userRepository.findOneByEmailIgnoreCase("mail@mail.com").get();
         assertThat(user.getActivated()).isEqualTo(true);
         assertThat(user.getPassword()).isNotEmpty();
-        Authority userAuthority = authorityRepository.findOne("ROLE_USER");
+        Authority userAuthority = authorityRepository.findOne(AuthoritiesConstants.USER);
         assertThat(user.getAuthorities().toArray()).containsExactly(userAuthority);
 
         // Teardown
