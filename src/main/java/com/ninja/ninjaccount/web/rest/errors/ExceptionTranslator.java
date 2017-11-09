@@ -32,7 +32,6 @@ public class ExceptionTranslator implements ProblemHandling {
     /**
      * Post-process Problem payload to add the message key for front-end if needed
      */
-    @Override
     public ResponseEntity<Problem> process(@Nullable ResponseEntity<Problem> entity, NativeWebRequest request) {
         if (entity == null || entity.getBody() == null) {
             return entity;
