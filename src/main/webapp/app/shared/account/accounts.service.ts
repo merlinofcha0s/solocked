@@ -25,11 +25,9 @@ export class AccountsService {
     };
 
     constructor(private cryptoUtils: CryptoUtilsService,
-                private sessionStorage: SessionStorageService,
                 private accountTech: AccountsTechService,
                 private translateService: TranslateService,
                 private snackBar: MatSnackBar) {
-
         this._dataStore = {accounts: new Accounts()};
 
         this.accounts$ = new BehaviorSubject<Array<Account>>(this._dataStore.accounts.accounts);
@@ -39,32 +37,41 @@ export class AccountsService {
 
     getAccount(id: number) {
         if (this._dataStore.accounts.accounts.length === 0) {
-            this._dataStore.accounts = JSON.parse(this.sessionStorage.retrieve('accountsdb'));
+            this.accountTech.synchroDB().subscribe((accountsFromDB) => {
+                this._dataStore.accounts = accountsFromDB;
+                const accounts = this._dataStore.accounts.accounts.filter((account) => account.id === id);
+                this.account$.next(accounts[0]);
+            });
+        } else {
+            const accounts = this._dataStore.accounts.accounts.filter((account) => account.id === id);
+            this.account$.next(accounts[0]);
         }
-        const accounts = this._dataStore.accounts.accounts.filter((account) => account.id === id);
-        this.account$.next(accounts[0]);
     }
 
     getAccountsList() {
         if (this._dataStore.accounts.accounts.length === 0) {
-            this._dataStore.accounts = JSON.parse(this.sessionStorage.retrieve('accountsdb'));
+            this.accountTech.synchroDB().subscribe((accountsFromDB) => {
+                this._dataStore.accounts = accountsFromDB;
+                this.accounts$.next(this._dataStore.accounts.accounts);
+            });
+        } else {
+            this.accounts$.next(this._dataStore.accounts.accounts);
         }
-        this.accounts$.next(this._dataStore.accounts.accounts);
     }
 
     getAccountsListInstant(): Array<Account> {
-        if (this._dataStore.accounts.accounts.length === 0) {
-            this._dataStore.accounts = JSON.parse(this.sessionStorage.retrieve('accountsdb'));
-        }
-
         return this._dataStore.accounts.accounts;
     }
 
     getFeaturedAccountsList() {
         if (this._dataStore.accounts.accounts.length === 0) {
-            this._dataStore.accounts = JSON.parse(this.sessionStorage.retrieve('accountsdb'));
+            this.accountTech.synchroDB().subscribe((accountsFromDB) => {
+                this._dataStore.accounts = accountsFromDB;
+                this.featuredAccounts$.next(this._dataStore.accounts.accounts.filter((account) => account.featured));
+            });
+        } else {
+            this.featuredAccounts$.next(this._dataStore.accounts.accounts.filter((account) => account.featured));
         }
-        this.featuredAccounts$.next(this._dataStore.accounts.accounts.filter((account) => account.featured));
     }
 
     addOrRemoveFeatured(accountToFeatured: Account, featuredOrNot: boolean) {
@@ -79,7 +86,6 @@ export class AccountsService {
             }
         });
         this.featuredAccounts$.next(this._dataStore.accounts.accounts.filter((account) => account.featured));
-
     }
 
     init(): Accounts {
@@ -112,7 +118,6 @@ export class AccountsService {
 
     saveOnBrowser(accounts: Accounts) {
         accounts.operationAccountType = null;
-        this.sessionStorage.store('accountsdb', JSON.stringify(accounts));
         this._dataStore.accounts = accounts;
         this.accounts$.next(this._dataStore.accounts.accounts);
     }
