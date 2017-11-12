@@ -8,9 +8,10 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {Account} from '../../shared/account/account.model';
 import {isUndefined} from 'util';
 import {Custom} from '../../shared/account/custom-account.model';
-import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
+import {MatSnackBar, MatSnackBarConfig, MatDialog} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {SnackComponent} from '../../shared/snack/snack.component';
+import {AddCustomBlockComponent} from "./add-custom-block/add-custom-block.component";
 
 @Component({
     selector: 'jhi-accountsdb-add',
@@ -56,7 +57,8 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 private router: Router,
                 private route: ActivatedRoute,
                 private snackBar: MatSnackBar,
-                private translateService: TranslateService) {
+                private translateService: TranslateService,
+                public dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -219,5 +221,9 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
             this.passwordType = 'password';
             this.iconPasswordType = 'fa-eye-slash'
         }
+    }
+
+    openCustomBlock() {
+        this.dialog.open(AddCustomBlockComponent);
     }
 }

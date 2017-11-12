@@ -33,7 +33,9 @@ import {
     MatTabsModule,
     MatDialogModule,
     MatProgressBarModule,
-    MatChipsModule, MatMenuModule
+    MatChipsModule,
+    MatMenuModule,
+    MatButtonToggleModule
 } from '@angular/material';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -59,7 +61,8 @@ import {AutolockService} from '../layouts/navbar/autologout/autolock.service';
         MatChipsModule,
         MatSelectModule,
         MatProgressBarModule,
-        MatMenuModule
+        MatMenuModule,
+        MatButtonToggleModule
     ],
     declarations: [
         JhiSocialComponent,
@@ -110,7 +113,8 @@ import {AutolockService} from '../layouts/navbar/autologout/autolock.service';
         SnackComponent,
         MatMenuModule,
         SnackComponent,
-        MatProgressBarModule
+        MatProgressBarModule,
+        MatButtonToggleModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

@@ -12,14 +12,25 @@
     width: 100%;
 }
 
-#addCustomField {
+.addCustom {
     width: 100%;
-    border: 1px $font-color-primary solid;
+    border: 1px $font-color-primary dashed;
     font-size: 19px;
     font-weight: bold;
     margin-bottom: 20px;
     padding: 10px;
+    border-radius: 10px;
+
+    .custom-icons {
+        font-size: 35px;
+    }
 }
+
+#addCustomField {
+    margin-right: 15px;
+}
+
+
 
 .customLabel {
     margin-right: 10px;

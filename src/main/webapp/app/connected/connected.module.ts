@@ -12,6 +12,7 @@ import {PasswordHidePipe} from './accountsdb-details/password-hide.pipe';
 import {ClipboardModule} from 'ngx-clipboard/dist';
 import {AccountsdbListComponent} from './accountsdb-home/accountsdb-list/accountsdb-list.component';
 import { AccountsdbDeleteComponent } from './accountsdb-details/accountsdb-delete/accountsdb-delete.component';
+import {AddCustomBlockComponent} from './accountsdb-add/add-custom-block/add-custom-block.component';
 
 @NgModule({
     imports: [
@@ -29,9 +30,10 @@ import { AccountsdbDeleteComponent } from './accountsdb-details/accountsdb-delet
         PasswordHidePipe,
         AccountsdbDetailsComponent,
         AccountsdbListComponent,
-        AccountsdbDeleteComponent
+        AccountsdbDeleteComponent,
+        AddCustomBlockComponent
     ],
-    entryComponents: [AccountsdbDeleteComponent],
+    entryComponents: [AccountsdbDeleteComponent, AddCustomBlockComponent],
 })
 export class NinjaccountConnectedModule {
 }

@@ -49,7 +49,10 @@
                 "custom":{
                     "label": "Label",
                     "value": "Value",
-                    "button": "Add custom field"
+                    "button": "Add custom field",
+                    "sets":{
+                        "button": "Add custom block"
+                    }
                 },
                 "button": "Add new account",
                 "successful": "Account added successfully",
