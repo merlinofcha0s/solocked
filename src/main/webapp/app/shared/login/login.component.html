@@ -1,7 +1,7 @@
 <div class="row justify-content-center ">
-        <mat-card *ngIf="authenticationError" id="errorMessage" class="card-warning text-white" jhiTranslate="login.messages.error.authentication">
+        <div *ngIf="authenticationError" id="errorMessage" class="card-warning text-white" jhiTranslate="login.messages.error.authentication">
             <strong>Failed to sign in!</strong> <span>Please check your credentials and try again.</span>
-        </mat-card>
+        </div>
         <div class="col-md-12">
             <form class="form" role="form" (ngSubmit)="login()">
                 <mat-form-field class="loginInput">

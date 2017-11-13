@@ -222,7 +222,7 @@ ui bootstrap tweaks
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
- }
+}
 
 /* ==========================================================================
 Social button
@@ -295,6 +295,10 @@ Social button
     height: 100%;
 }
 
+.weight-max {
+    width: 100%;
+}
+
 /* ==========================================================================
  Custom material design component
 ========================================================================== */
@@ -314,8 +318,8 @@ Social button
     border-radius: 50px;
 }
 
-.default-mat-background-button{
-    background-image: none!important;
+.default-mat-background-button {
+    background-image: none !important;
 }
 
 .cancel {

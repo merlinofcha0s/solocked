@@ -35,7 +35,11 @@ import {
     MatProgressBarModule,
     MatChipsModule,
     MatMenuModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatGridListModule
 } from '@angular/material';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -62,7 +66,11 @@ import {AutolockService} from '../layouts/navbar/autologout/autolock.service';
         MatSelectModule,
         MatProgressBarModule,
         MatMenuModule,
-        MatButtonToggleModule
+        MatButtonToggleModule,
+        MatCardModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatGridListModule
     ],
     declarations: [
         JhiSocialComponent,
@@ -114,7 +122,11 @@ import {AutolockService} from '../layouts/navbar/autologout/autolock.service';
         MatMenuModule,
         SnackComponent,
         MatProgressBarModule,
-        MatButtonToggleModule
+        MatButtonToggleModule,
+        MatCardModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatGridListModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

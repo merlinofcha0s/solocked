@@ -1,0 +1,56 @@
+@import './../../../../content/scss/custom-variables';
+
+$border-radius-payment: 10px !important;
+
+.payment-custom-card {
+    color: $font-color-primary;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px !important;
+}
+
+.payment-block-icons {
+    font-size: 35px;
+    margin-right: 15px;
+}
+
+.payments {
+    padding: 0px 0px 15px 0px !important;
+    border-top-left-radius: $border-radius-payment;
+    border-top-right-radius: $border-radius-payment;
+}
+
+.title {
+    font-size: 25px;
+    margin-top: 0px !important;
+}
+
+.header {
+    background: $font-color-primary;
+    color: white;
+}
+
+.top-left {
+    border-top-left-radius: $border-radius-payment;
+}
+
+.top-right {
+    border-top-right-radius: $border-radius-payment;
+}
+
+.first-field {
+    padding-left: 7px;
+}
+
+.last-field {
+    padding-right: 7px;
+}
+
+.notes {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.notes-area {
+    font-style: italic;
+}

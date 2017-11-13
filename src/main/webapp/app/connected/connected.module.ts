@@ -13,6 +13,7 @@ import {ClipboardModule} from 'ngx-clipboard/dist';
 import {AccountsdbListComponent} from './accountsdb-home/accountsdb-list/accountsdb-list.component';
 import { AccountsdbDeleteComponent } from './accountsdb-details/accountsdb-delete/accountsdb-delete.component';
 import {AddCustomBlockComponent} from './accountsdb-add/add-custom-block/add-custom-block.component';
+import {PaymentCustomBlockComponent} from './accountsdb-add/payment-custom-block/payment-custom-block.component';
 
 @NgModule({
     imports: [
@@ -31,7 +32,8 @@ import {AddCustomBlockComponent} from './accountsdb-add/add-custom-block/add-cus
         AccountsdbDetailsComponent,
         AccountsdbListComponent,
         AccountsdbDeleteComponent,
-        AddCustomBlockComponent
+        AddCustomBlockComponent,
+        PaymentCustomBlockComponent
     ],
     entryComponents: [AccountsdbDeleteComponent, AddCustomBlockComponent],
 })

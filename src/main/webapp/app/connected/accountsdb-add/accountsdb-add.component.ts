@@ -8,7 +8,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {Account} from '../../shared/account/account.model';
 import {isUndefined} from 'util';
 import {Custom} from '../../shared/account/custom-account.model';
-import {MatSnackBar, MatSnackBarConfig, MatDialog} from '@angular/material';
+import {MatDialog, MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {SnackComponent} from '../../shared/snack/snack.component';
 import {AddCustomBlockComponent} from "./add-custom-block/add-custom-block.component";
@@ -51,6 +51,11 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
     passwordType: string;
     iconPasswordType: string;
+    private customBlockDialog: MatDialogRef<AddCustomBlockComponent>;
+
+    private customBlockCounter: {
+        paymentBlocks: Array<number>;
+    };
 
     constructor(private fb: FormBuilder,
                 private accountsService: AccountsService,
@@ -59,6 +64,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 private snackBar: MatSnackBar,
                 private translateService: TranslateService,
                 public dialog: MatDialog) {
+        this.customBlockCounter = { paymentBlocks: []};
     }
 
     ngOnInit() {
@@ -189,7 +195,12 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                         const config = new MatSnackBarConfig();
                         config.verticalPosition = 'top';
                         config.duration = 15000;
-                        config.data = {icon: 'fa-exclamation-triangle', text: message, url: urlSettings, action: actionSettings}
+                        config.data = {
+                            icon: 'fa-exclamation-triangle',
+                            text: message,
+                            url: urlSettings,
+                            action: actionSettings
+                        }
                         this.snackBar.openFromComponent(SnackComponent, config);
                     });
         }
@@ -224,6 +235,19 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     }
 
     openCustomBlock() {
-        this.dialog.open(AddCustomBlockComponent);
+        this.customBlockDialog = this.dialog.open(AddCustomBlockComponent);
+        this.onCloseCustomBlockPopup();
+    }
+
+    onCloseCustomBlockPopup() {
+        this.customBlockDialog.afterClosed().subscribe(blockToAdd => {
+            if (!isUndefined(blockToAdd)) {
+                if (blockToAdd.paymentBlocks) {
+                    console.log('Adding one payment block !!');
+                    this.customBlockCounter.paymentBlocks.push(1) ;
+                    console.log('Total number of payment block : ' + this.customBlockCounter.paymentBlocks.length);
+                }
+            }
+        });
     }
 }

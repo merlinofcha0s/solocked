@@ -1,29 +1,27 @@
 <h1 mat-dialog-title class="font-weight-bold" style="font-size: 25px;">Add a custom block</h1>
 <mat-dialog-content class="d-flex justify-content-center align-content-center">
     <div class="d-flex justify-content-center align-content-center custom-button-container flex-md-wrap" style="margin-bottom: 15px;">
-        <mat-button-toggle-group multiple #group="matButtonToggleGroup">
-            <mat-button-toggle class="add-custom-block">
-                <div class="d-flex flex-column justify-content-center align-content-center" style="width: 100%;">
-                    <i class="fa fa-money custom-block-icons" aria-hidden="true"></i>
-                    <div>Payment fields</div>
-                </div>
-            </mat-button-toggle>
-            <mat-button-toggle disabled class="add-custom-block">
-                <div class="d-flex flex-column justify-content-center align-content-center" style="width: 100%;">
-                    <i class="fa fa-id-card custom-block-icons" aria-hidden="true"></i>
-                    <div>Contact fields</div>
-                </div>
-            </mat-button-toggle>
-            <mat-button-toggle disabled class="add-custom-block">
-                <div class="d-flex flex-column justify-content-center align-content-center" style="width: 100%;">
-                    <i class="fa fa-credit-card custom-block-icons" aria-hidden="true"></i>
-                    <div>Credit Card fields</div>
-                </div>
-            </mat-button-toggle>
-        </mat-button-toggle-group>
+        <mat-button-toggle (click)="onPaymentFieldSelected()"   class="add-custom-block">
+            <div class="d-flex flex-column justify-content-center align-content-center" style="width: 100%;">
+                <i class="fa fa-money custom-block-icons" aria-hidden="true"></i>
+                <div>Payment fields</div>
+            </div>
+        </mat-button-toggle>
+        <mat-button-toggle disabled class="add-custom-block">
+            <div class="d-flex flex-column justify-content-center align-content-center" style="width: 100%;">
+                <i class="fa fa-id-card custom-block-icons" aria-hidden="true"></i>
+                <div>Contact fields</div>
+            </div>
+        </mat-button-toggle>
+        <mat-button-toggle disabled class="add-custom-block">
+            <div class="d-flex flex-column justify-content-center align-content-center" style="width: 100%;">
+                <i class="fa fa-credit-card custom-block-icons" aria-hidden="true"></i>
+                <div>Credit Card fields</div>
+            </div>
+        </mat-button-toggle>
     </div>
 </mat-dialog-content>
 <mat-dialog-actions class="d-flex justify-content-center align-content-center">
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="true">Continue</button>
+    <button mat-button (click)="validateChoice()" [disabled]="disableValidate()">Continue</button>
 </mat-dialog-actions>
