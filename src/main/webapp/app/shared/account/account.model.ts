@@ -1,4 +1,5 @@
 import {Custom} from './custom-account.model';
+import {Payment} from "./payment-block.model";
 
 export class Account {
     public id: number;
@@ -11,6 +12,7 @@ export class Account {
     public customs: Array<Custom>;
     public featured: boolean;
     public url: string;
+    public payments: Array<Payment>
 
     constructor(
         username: string,
@@ -25,5 +27,6 @@ export class Account {
         this.customs = new Array<Custom>();
         this.id = id ? id : 0;
         this.featured = false;
+        this.payments = new Array<Payment>();
     }
 }

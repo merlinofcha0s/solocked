@@ -8,42 +8,53 @@
   <mat-card-content>
       <mat-card class="payments">
           <mat-card-content>
-              <mat-grid-list cols="4" rowHeight="5:1" gutterSize="0px">
-                  <mat-grid-tile class="header top-left">Paid date</mat-grid-tile>
-                  <mat-grid-tile class="header">Amount paid</mat-grid-tile>
-                  <mat-grid-tile class="header">Payment method</mat-grid-tile>
-                  <mat-grid-tile class="header top-right">Code</mat-grid-tile>
-                  <mat-grid-tile >
-                      <mat-form-field class="first-field">
-                          <input matInput [matDatepicker]="picker">
-                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                          <mat-datepicker #picker></mat-datepicker>
+              <form [formGroup]="paymentForm" (ngSubmit)="onSubmitPayment()">
+                  <mat-grid-list cols="4" rowHeight="5:1" gutterSize="0px">
+                      <mat-grid-tile class="header top-left">Paid date</mat-grid-tile>
+                      <mat-grid-tile class="header">Amount paid</mat-grid-tile>
+                      <mat-grid-tile class="header">Payment method</mat-grid-tile>
+                      <mat-grid-tile class="header top-right">Code</mat-grid-tile>
+                      <template *ngFor="let payment of payments;">
+                          <mat-grid-tile>{{ payment.date }}></mat-grid-tile>
+                          <mat-grid-tile>{{ payment.amount }}</mat-grid-tile>
+                          <mat-grid-tile>{{ payment.method }}</mat-grid-tile>
+                          <mat-grid-tile>{{ payment.code }}</mat-grid-tile>
+                          <mat-grid-tile>{{ payment.notes }}</mat-grid-tile>
+                      </template>
+                      <mat-grid-tile>
+                          <mat-form-field class="first-field">
+                              <input matInput [matDatepicker]="picker" [formControl]="date">
+                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-datepicker #picker></mat-datepicker>
+                          </mat-form-field>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                          <mat-form-field>
+                              <input matInput type="number" [formControl]="amount">
+                              <span matPrefix>$&nbsp;</span>
+                          </mat-form-field>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                          <mat-form-field>
+                            <input matInput [formControl]="method">
+                           </mat-form-field>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                          <mat-form-field  class="last-field">
+                              <input matInput [formControl]="code">
+                          </mat-form-field></mat-grid-tile>
+                  </mat-grid-list>
+                  <div class="notes">
+                      <mat-form-field class="weight-max">
+                          <div class="d-flex weight-max">
+                              <div>Notes: </div>
+                              <textarea class="notes-area" matInput matTextareaAutosize [formControl]="notes"></textarea>
+                          </div>
                       </mat-form-field>
-                  </mat-grid-tile>
-                  <mat-grid-tile>
-                      <mat-form-field>
-                          <input matInput type="number">
-                          <span matPrefix>$&nbsp;</span>
-                      </mat-form-field>
-                  </mat-grid-tile>
-                  <mat-grid-tile>
-                      <mat-form-field>
-                        <input matInput>
-                       </mat-form-field>
-                  </mat-grid-tile>
-                  <mat-grid-tile>
-                      <mat-form-field  class="last-field">
-                          <input matInput>
-                      </mat-form-field></mat-grid-tile>
-              </mat-grid-list>
-              <div class="notes">
-                  <mat-form-field class="weight-max">
-                      <div class="d-flex weight-max">
-                          <div>Notes: </div>
-                          <textarea class="notes-area" matInput matTextareaAutosize></textarea>
-                      </div>
-                  </mat-form-field>
-              </div>
+                  </div>
+                  <button mat-mini-fab color="primary" type="submit">+</button>
+                  <button mat-mini-fab color="primary">-</button>
+              </form>
           </mat-card-content>
       </mat-card>
   </mat-card-content>
