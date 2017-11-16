@@ -15,6 +15,7 @@ import { AccountsdbDeleteComponent } from './accountsdb-details/accountsdb-delet
 import {AddCustomBlockComponent} from './accountsdb-add/add-custom-block/add-custom-block.component';
 import {PaymentCustomBlockComponent} from './accountsdb-add/payment-custom-block/payment-custom-block.component';
 import {PaymentLineComponent} from "./accountsdb-add/payment-custom-block/payment-line/payment-line.component";
+import {ClickOutsideDirective} from './accountsdb-add/payment-custom-block/click-outside.directive';
 
 @NgModule({
     imports: [
@@ -35,7 +36,8 @@ import {PaymentLineComponent} from "./accountsdb-add/payment-custom-block/paymen
         AccountsdbDeleteComponent,
         AddCustomBlockComponent,
         PaymentCustomBlockComponent,
-        PaymentLineComponent
+        PaymentLineComponent,
+        ClickOutsideDirective
     ],
     entryComponents: [AccountsdbDeleteComponent, AddCustomBlockComponent],
 })

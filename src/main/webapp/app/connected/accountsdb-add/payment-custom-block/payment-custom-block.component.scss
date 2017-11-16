@@ -30,6 +30,25 @@ $border-radius-payment: 10px !important;
     color: white;
 }
 
+.payment-input-date {
+    text-align: center;
+    margin-left: 12px;
+}
+
+.payment-input-number {
+    text-align: center;
+    margin-left: 0.5px;
+}
+
+.payment-input {
+    text-align: center;
+    margin-left: 0px;
+}
+
+.payment-value {
+    margin-bottom: 7px;
+}
+
 .top-left {
     border-top-left-radius: $border-radius-payment;
 }
