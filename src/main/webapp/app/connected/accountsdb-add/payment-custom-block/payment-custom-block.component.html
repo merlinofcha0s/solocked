@@ -26,6 +26,15 @@
                               </div>
                           </mat-grid-tile>
                       </ng-container>
+                      <mat-grid-tile colspan="4">
+                          <div class="add-payments">
+                              <div class="d-flex justify-content-center container-btn-payment">
+                                  <button mat-mini-fab color="primary" class="btn-payment add-payment" type="submit">+</button>
+                                  <button mat-mini-fab color="primary" class="btn-payment remove-payment">-</button>
+                              </div>
+                              <div class="separator"></div>
+                          </div>
+                      </mat-grid-tile>
                       <mat-grid-tile>
                           <mat-form-field class="first-field">
                               <input matInput [matDatepicker]="picker" [formControl]="date">
@@ -108,8 +117,6 @@
                           </div>
                       </mat-form-field>
                   </div>
-                  <button mat-mini-fab color="primary" type="submit">+</button>
-                  <button mat-mini-fab color="primary">-</button>
               </form>
           </mat-card-content>
       </mat-card>

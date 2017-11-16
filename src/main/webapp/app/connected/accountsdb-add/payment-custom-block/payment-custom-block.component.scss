@@ -58,3 +58,34 @@ $border-radius-payment: 10px !important;
 .notesHead {
     margin-right: 10px;
 }
+
+.btn-payment {
+    width: 30px;
+    height: 30px;
+    margin-top: 10px;
+    padding-bottom: 2px;
+    /deep/ .mat-button-wrapper {
+        padding: 0px 0px !important;
+        font-size: 20px;
+    }
+}
+
+.container-btn-payment {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 15px;
+    transform: translate(0px, 10px);
+}
+
+.separator {
+    border-bottom: 1px solid #000000;
+    transform: translate(0px, -20px);
+}
+
+.add-payment {
+    margin-right: 8px;
+}
+
+.add-payments {
+    width: 100%;
+}
