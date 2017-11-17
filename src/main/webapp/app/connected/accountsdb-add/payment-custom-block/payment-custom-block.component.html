@@ -8,98 +8,98 @@
   <mat-card-content>
       <mat-card class="payments">
           <mat-card-content>
-              <form (ngSubmit)="onSubmitPayment()" #paymentForm="ngForm">
-                  <mat-grid-list cols="4" rowHeight="5:1" gutterSize="0px">
+              <form (ngSubmit)="onAddPayment()" #paymentForm="ngForm">
+                  <mat-grid-list cols="4" rowHeight="40px" gutterSize="0px">
                       <mat-grid-tile class="header top-left">Paid date</mat-grid-tile>
                       <mat-grid-tile class="header">Amount paid</mat-grid-tile>
                       <mat-grid-tile class="header">Payment method</mat-grid-tile>
                       <mat-grid-tile class="header top-right">Code</mat-grid-tile>
-                      <ng-container *ngFor="let payment of payments;let i = index">
-                          <mat-grid-tile (click)="editDate=true;" (clickOutside)="editDate=false;overDate=false;"
-                                         (mouseover)="overDate=true;" (mouseout)="overDate=false;" class="first-field">
-                              <mat-form-field class="width-max" *ngIf="overDate || editDate;else dateValue">
-                                  <input matInput class="payment-input-date" [(ngModel)]="payment.date" [matDatepicker]="picker" id="date" name="date">
-                                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                  <mat-datepicker #picker></mat-datepicker>
-                              </mat-form-field>
-                              <ng-template #dateValue>
-                                  <div class="text-center width-max payment-value">{{ payment.date | date:'shortDate' }}</div>
-                              </ng-template>
-                          </mat-grid-tile>
-                          <mat-grid-tile (click)="editAmount=true;" (clickOutside)="editAmount=false;overAmount=false;"
-                                         (mouseover)="overAmount=true;" (mouseout)="overAmount=false;">
-                              <mat-form-field class="width-max" *ngIf="editAmount || overAmount;else amountValue">
-                                  <input matInput class="payment-input-number" type="number" [(ngModel)]="payment.amount" id="amount" name="amount">
-                                  <span matPrefix>$&nbsp;</span>
-                              </mat-form-field>
-                              <ng-template #amountValue>
-                                 <div class="text-center width-max payment-value">{{ payment.amount }}</div>
-                              </ng-template>
-                          </mat-grid-tile>
-                          <mat-grid-tile (click)="editMethod=true;" (clickOutside)="editMethod=false;overMethod=false;"
-                                         (mouseover)="overMethod=true;" (mouseout)="overMethod=false;">
-                              <mat-form-field class="width-max" *ngIf="editMethod || overMethod;else methodValue">
-                                  <input matInput class="payment-input" [(ngModel)]="payment.method" id="method" name="method">
-                              </mat-form-field>
-                              <ng-template #methodValue>
-                                  <div class="text-center width-max payment-value">{{ payment.method }}</div>
-                              </ng-template>
-                          </mat-grid-tile>
-                          <mat-grid-tile (click)="editCode=true;" (clickOutside)="editCode=false;overCode=false;"
-                                         (mouseover)="overCode=true;" (mouseout)="overCode=false;">
-                              <mat-form-field class="width-max" *ngIf="editCode || overCode;else codeValue">
-                                  <input matInput class="payment-input" [(ngModel)]="payment.code" id="code" name="code">
-                              </mat-form-field>
-                               <ng-template #codeValue>
-                                   <div class="text-center width-max payment-value">{{ payment.code }}</div>
-                               </ng-template>
-                          </mat-grid-tile>
-                          <mat-grid-tile colspan="4">
-                              <div style="width: 100%; padding-left: 7px;"  class="d-flex justify-content-start">
-                                  <div class="font-weight-bold notesHead">Notes : </div>
-                                  <div class="notes-area">{{ payment.notes }}</div>
+                      <div *ngFor="let payment of payments;let i = index;let even = even; let odd = odd;">
+                          <mat-grid-tile (click)="displayPayments[i].editDate=true;" [class.odd]="odd"
+                                         (clickOutside)="displayPayments[i].editDate=false;displayPayments[i].overDate=false;"
+                                         (mouseover)="displayPayments[i].overDate=true;" (mouseout)="displayPayments[i].overDate=false;">
+                              <div class="field">
+                                  <mat-form-field class="width-max" *ngIf="displayPayments[i].overDate || displayPayments[i].editDate;else dateValue">
+                                      <input matInput class="payment-input-date" [(ngModel)]="payment.date" [matDatepicker]="picker" id="date" name="date">
+                                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                      <mat-datepicker #picker></mat-datepicker>
+                                  </mat-form-field>
+                                  <ng-template #dateValue>
+                                      <div class="text-center width-max payment-value">{{ payment.date | date:'shortDate' }}</div>
+                                  </ng-template>
                               </div>
                           </mat-grid-tile>
-                      </ng-container>
-                      <mat-grid-tile colspan="4">
+                          <mat-grid-tile (click)="displayPayments[i].editAmount=true;" [class.odd]="odd"
+                                         (clickOutside)="displayPayments[i].editAmount=false;displayPayments[i].overAmount=false;"
+                                         (mouseover)="displayPayments[i].overAmount=true;" (mouseout)="displayPayments[i].overAmount=false;">
+                              <div class="field">
+                                  <mat-form-field class="width-max" *ngIf="displayPayments[i].editAmount || displayPayments[i].overAmount;else amountValue">
+                                      <input matInput class="payment-input-number" type="number" [(ngModel)]="payment.amount" id="amount" name="amount">
+                                      <span matPrefix>$&nbsp;</span>
+                                  </mat-form-field>
+                                  <ng-template #amountValue>
+                                     <div class="text-center width-max payment-value">{{ payment.amount | currency }}</div>
+                                  </ng-template>
+                              </div>
+                          </mat-grid-tile>
+                          <mat-grid-tile (click)="displayPayments[i].editMethod=true;clearPlaceholderMethod(i);" [class.odd]="odd"
+                                         (clickOutside)="displayPayments[i].editMethod=false;displayPayments[i].overMethod=false;createPlaceholderMethod(i);"
+                                         (mouseover)="displayPayments[i].overMethod=true;" (mouseout)="displayPayments[i].overMethod=false;">
+                              <div class="field">
+                                  <mat-form-field class="width-max" *ngIf="displayPayments[i].editMethod || displayPayments[i].overMethod;else methodValue">
+                                      <input matInput class="payment-input" [(ngModel)]="payment.method" id="method" name="method">
+                                  </mat-form-field>
+                                  <ng-template #methodValue>
+                                      <div class="text-center width-max payment-value">{{ payment.method }}</div>
+                                  </ng-template>
+                              </div>
+                          </mat-grid-tile>
+                          <mat-grid-tile (click)="displayPayments[i].editCode=true;clearPlaceholderCode(i);" [class.odd]="odd"
+                                         (clickOutside)="displayPayments[i].editCode=false;displayPayments[i].overCode=false;createPlaceholderCode(i);"
+                                         (mouseover)="displayPayments[i].overCode=true;" (mouseout)="displayPayments[i].overCode=false;">
+                              <div class="field">
+                                  <mat-form-field class="width-max" *ngIf="displayPayments[i].editCode || displayPayments[i].overCode;else codeValue">
+                                      <input matInput class="payment-input" [(ngModel)]="payment.code" id="code" name="code">
+                                  </mat-form-field>
+                                   <ng-template #codeValue>
+                                       <div class="text-center width-max payment-value">{{ payment.code }}</div>
+                                   </ng-template>
+                              </div>
+                          </mat-grid-tile>
+                          <mat-grid-tile colspan="4" (click)="displayPayments[i].editNotes=true;clearPlaceholderNotes(i);"
+                                         (clickOutside)="displayPayments[i].editNotes=false;displayPayments[i].overNotes=false;createPlaceholderNotes(i);"
+                                         (mouseover)="displayPayments[i].overNotes=true;"
+                                         (mouseout)="displayPayments[i].overNotes=false;" [class.odd]="odd" class="notes-add-payment">
+                              <div class="d-flex flex-column width-max">
+                                  <div class="width-max" *ngIf="displayPayments[i].editNotes || displayPayments[i].overNotes;else noteValue">
+                                       <div class="d-flex weight-max">
+                                           <div class="notesHead">Notes: </div>
+                                           <input class="notes-style note-area" [class.odd]="odd"
+                                                [(ngModel)]="payment.notes" id="notes" name="notes"/>
+                                       </div>
+                                  </div>
+                                  <ng-template #noteValue>
+                                      <div style="width: 100%;" class="d-flex">
+                                          <div class="font-weight-bold notesHead">Notes: </div>
+                                          <div class="notes-style note-value payment-value">{{ payment.notes }}</div>
+                                      </div>
+                                  </ng-template>
+                                  <div class="add-payments">
+                                      <div class="d-flex justify-content-center container-btn-payment">
+                                          <button mat-mini-fab color="primary" class="btn-payment" type="button" (click)="onRemovePayment(i)">-</button>
+                                      </div>
+                                  </div>
+                              </div>
+                          </mat-grid-tile>
+                      </div>
+                      <mat-grid-tile colspan="4" style="z-index: 10; overflow: unset;">
                           <div class="add-payments">
                               <div class="d-flex justify-content-center container-btn-payment">
-                                  <button mat-mini-fab color="primary" class="btn-payment add-payment" type="submit">+</button>
-                                  <button mat-mini-fab color="primary" class="btn-payment remove-payment">-</button>
+                                  <button mat-mini-fab color="primary" class="btn-payment" type="submit">+</button>
                               </div>
-                              <div class="separator"></div>
                           </div>
                       </mat-grid-tile>
-                      <!--<mat-grid-tile>-->
-                          <!--<mat-form-field class="first-field">-->
-                              <!--<input matInput [matDatepicker]="picker" [formControl]="date">-->
-                              <!--<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
-                              <!--<mat-datepicker #picker></mat-datepicker>-->
-                          <!--</mat-form-field>-->
-                      <!--</mat-grid-tile>-->
-                      <!--<mat-grid-tile>-->
-                          <!--<mat-form-field>-->
-                              <!--<input matInput type="number" [formControl]="amount">-->
-                              <!--<span matPrefix>$&nbsp;</span>-->
-                          <!--</mat-form-field>-->
-                      <!--</mat-grid-tile>-->
-                      <!--<mat-grid-tile>-->
-                          <!--<mat-form-field>-->
-                            <!--<input matInput [formControl]="method">-->
-                           <!--</mat-form-field>-->
-                      <!--</mat-grid-tile>-->
-                      <!--<mat-grid-tile>-->
-                          <!--<mat-form-field  class="last-field">-->
-                              <!--<input matInput [formControl]="code">-->
-                          <!--</mat-form-field></mat-grid-tile>-->
                   </mat-grid-list>
-                  <!--<div class="notes">-->
-                      <!--<mat-form-field class="weight-max">-->
-                          <!--<div class="d-flex weight-max">-->
-                              <!--<div class="notesHead">Notes: </div>-->
-                              <!--<textarea class="notes-area" matInput matTextareaAutosize [formControl]="notes"></textarea>-->
-                          <!--</div>-->
-                      <!--</mat-form-field>-->
                   </div>
               </form>
           </mat-card-content>

@@ -1,6 +1,7 @@
 @import './../../../../content/scss/custom-variables';
 
 $border-radius-payment: 10px !important;
+$color-input: #7B7B7B;
 
 .payment-custom-card {
     color: $font-color-primary;
@@ -33,20 +34,24 @@ $border-radius-payment: 10px !important;
 .payment-input-date {
     text-align: center;
     margin-left: 12px;
+    color: $color-input;
 }
 
 .payment-input-number {
     text-align: center;
     margin-left: 0.5px;
+    color: $color-input;
 }
 
 .payment-input {
     text-align: center;
     margin-left: 0px;
+    color: $color-input;
 }
 
 .payment-value {
     margin-bottom: 7px;
+    color: $color-input;
 }
 
 .top-left {
@@ -57,8 +62,8 @@ $border-radius-payment: 10px !important;
     border-top-right-radius: $border-radius-payment;
 }
 
-.first-field {
-    padding-left: 7px;
+.field {
+    padding-top: 10px;
 }
 
 .last-field {
@@ -70,19 +75,34 @@ $border-radius-payment: 10px !important;
     padding-right: 10px;
 }
 
-.notes-area {
+.notes-style {
     font-style: italic;
+    color: $color-input;
+    border: 0px;
+    width: 100%;
+    margin-bottom: 5px;
+    height: 22px;
+}
+
+.note-value {
+    margin-left: 1px;
+}
+
+.note-area {
+    margin-top: 1px;
 }
 
 .notesHead {
+    font-weight: bold;
     margin-right: 10px;
+    padding-left: 15px;
+    color: $color-input;
+    margin-bottom: 5px;
 }
 
 .btn-payment {
     width: 30px;
     height: 30px;
-    margin-top: 10px;
-    padding-bottom: 2px;
     /deep/ .mat-button-wrapper {
         padding: 0px 0px !important;
         font-size: 20px;
@@ -91,14 +111,8 @@ $border-radius-payment: 10px !important;
 
 .container-btn-payment {
     width: 100%;
-    height: 50px;
-    margin-bottom: 15px;
-    transform: translate(0px, 10px);
-}
-
-.separator {
-    border-bottom: 1px solid #000000;
-    transform: translate(0px, -20px);
+    transform: translate(0px, -17px);
+    height: 0px;
 }
 
 .add-payment {
@@ -107,4 +121,17 @@ $border-radius-payment: 10px !important;
 
 .add-payments {
     width: 100%;
+    height: 0px;
+    border-top: 1px solid #000000;
+    transform: translate(0px, 4px);
+    margin-top: 2px;
+}
+
+.odd {
+    background-color: #F1F1F1;
+}
+
+.notes-add-payment {
+    z-index: 2;
+    overflow: unset;
 }

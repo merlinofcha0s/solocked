@@ -1,6 +1,38 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder} from "@angular/forms";
 import {Payment} from '../../../shared/account/payment-block.model';
+
+class DisplayValuesPayment {
+    overDate: boolean;
+    editDate: boolean;
+
+    overAmount: boolean;
+    editAmount: boolean;
+
+    overMethod: boolean;
+    editMethod: boolean;
+    placeholderMethod: boolean;
+
+    overCode: boolean;
+    editCode: boolean;
+    placeholderCode: boolean;
+
+    overNotes: boolean;
+    editNotes: boolean;
+    placeholderNotes: boolean;
+
+    constructor() {
+        this.overDate = false;
+        this.editDate = false;
+        this.overAmount = false;
+        this.editAmount = false;
+        this.overMethod = false;
+        this.editMethod = false;
+        this.overCode = false;
+        this.editCode = false;
+        this.overNotes = false;
+        this.editNotes = false;
+    }
+}
 
 @Component({
     selector: 'jhi-payment-custom-block',
@@ -11,35 +43,70 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
 
     payments: Array<Payment>;
 
-    overDate: boolean;
-    editDate: boolean;
+    displayPayments: Array<DisplayValuesPayment>;
 
-    overAmount: boolean;
-    editAmount: boolean;
+    placeholderValueMethod = 'My method';
+    placeholderValueCode = 'MYCODE';
+    placeholderValueNotes = 'My notes !';
 
-    overMethod: boolean;
-    editMethod: boolean;
-
-    overCode: boolean;
-    editCode: boolean;
-
-    overNotes: boolean;
-    editNotes: boolean;
-
-    constructor(private formBuilder: FormBuilder) {
+    constructor() {
         this.payments = new Array<Payment>();
+        this.displayPayments = new Array<DisplayValuesPayment>();
     }
 
     ngOnInit() {
     }
 
     ngOnDestroy(): void {
-
     }
 
-    onSubmitPayment() {
-        const newPayment = new Payment(new Date(), 100
-            , 'VISA', 'FRHYGJD', 'Lorem ipsum !!!');
+    onAddPayment() {
+        const newPayment = new Payment(new Date(), 0
+            , this.placeholderValueMethod, this.placeholderValueCode, this.placeholderValueNotes);
+        const newDisplayPayment = new DisplayValuesPayment();
+
+        this.displayPayments.push(newDisplayPayment);
         this.payments.push(newPayment);
+    }
+
+    onRemovePayment(index: number) {
+        this.displayPayments.splice(index, 1);
+        this.payments.splice(index, 1);
+    }
+
+    clearPlaceholderMethod(index: number) {
+        if (this.payments[index].method === this.placeholderValueMethod) {
+            this.payments[index].method = '';
+        }
+    }
+
+    clearPlaceholderCode(index: number) {
+        if (this.payments[index].code === this.placeholderValueCode) {
+            this.payments[index].code = '';
+        }
+    }
+
+    clearPlaceholderNotes(index: number) {
+        if (this.payments[index].notes === this.placeholderValueNotes) {
+            this.payments[index].notes = '';
+        }
+    }
+
+    createPlaceholderMethod(index: number) {
+        if (this.payments[index].method === '') {
+            this.payments[index].method = this.placeholderValueMethod;
+        }
+    }
+
+    createPlaceholderCode(index: number) {
+        if (this.payments[index].code === '') {
+            this.payments[index].code = this.placeholderValueCode;
+        }
+    }
+
+    createPlaceholderNotes(index: number) {
+        if (this.payments[index].notes === '') {
+            this.payments[index].notes = this.placeholderValueNotes;
+        }
     }
 }
