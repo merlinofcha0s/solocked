@@ -1,5 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Payment} from '../../../shared/account/payment-block.model';
+import {MatDatepicker} from "@angular/material";
+import {isUndefined} from "util";
 
 class DisplayValuesPayment {
     overDate: boolean;
@@ -38,6 +40,8 @@ class DisplayValuesPayment {
 })
 export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
 
+    @ViewChild(MatDatepicker) picker;
+
     payments: Array<Payment>;
 
     displayPayments: Array<DisplayValuesPayment>;
@@ -64,6 +68,12 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
 
         this.displayPayments.push(newDisplayPayment);
         this.payments.push(newPayment);
+    }
+
+    onClickOutsideDatePicker(index: number) {
+        if (isUndefined(this.picker) || !this.picker.opened) {
+            this.displayPayments[index].editDate = false;
+        }
     }
 
     onRemovePayment(index: number) {
@@ -104,6 +114,44 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     createPlaceholderNotes(index: number) {
         if (this.payments[index].notes === '') {
             this.payments[index].notes = this.placeholderValueNotes;
+        }
+    }
+
+    onClickOutSideAmount(event: any, index: number) {
+        if (event && event['value'] === true) {
+            this.displayPayments[index].editAmount = false;
+            this.displayPayments[index].overAmount = false;
+        }
+    }
+
+    onClickOutSideDate(event: any, index: number) {
+        if (event && event['value'] === true && (isUndefined(this.picker) || !this.picker.opened)) {
+            this.displayPayments[index].editDate = false;
+            this.displayPayments[index].overDate = false;
+        }
+    }
+
+    onClickOutSideMethod(event: any, index: number) {
+        if (event && event['value'] === true) {
+            this.displayPayments[index].editMethod = false;
+            this.displayPayments[index].overMethod = false;
+            this.createPlaceholderMethod(index);
+        }
+    }
+
+    onClickOutSideCode(event: any, index: number) {
+        if (event && event['value'] === true) {
+            this.displayPayments[index].editCode = false;
+            this.displayPayments[index].overCode = false;
+            this.createPlaceholderCode(index);
+        }
+    }
+
+    onClickOutSideNotes(event: any, index: number) {
+        if (event && event['value'] === true) {
+            this.displayPayments[index].editNotes = false;
+            this.displayPayments[index].overNotes = false;
+            this.createPlaceholderNotes(index);
         }
     }
 }

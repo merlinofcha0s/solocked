@@ -16,12 +16,10 @@
                       <mat-grid-tile class="header top-right">Code</mat-grid-tile>
                       <div *ngFor="let payment of payments;let i = index;let odd = odd; let last = last;">
                           <mat-grid-tile (click)="displayPayments[i].editDate=true;" [class.odd]="odd"
-                                         (clickOutside)="displayPayments[i].editDate=false;displayPayments[i].overDate=false;"
-                                         (mouseover)="displayPayments[i].overDate=true;" (mouseout)="displayPayments[i].overDate=false;">
-                              <div class="field">
+                                         click-outside (clickOutside)="onClickOutSideDate($event, i);">
+                              <div class="field width-max" (mouseover)="displayPayments[i].overDate=true;" (mouseout)="displayPayments[i].overDate=false;">
                                   <mat-form-field class="width-max" *ngIf="displayPayments[i].overDate || displayPayments[i].editDate;else dateValue">
-                                      <input matInput class="payment-input-date" [(ngModel)]="payment.date" [matDatepicker]="picker" id="date" name="date">
-                                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                      <input matInput (click)="picker.open()" class="payment-input-date" [(ngModel)]="payment.date" [matDatepicker]="picker" id="date" name="date">
                                       <mat-datepicker #picker></mat-datepicker>
                                   </mat-form-field>
                                   <ng-template #dateValue>
@@ -30,9 +28,8 @@
                               </div>
                           </mat-grid-tile>
                           <mat-grid-tile (click)="displayPayments[i].editAmount=true;" [class.odd]="odd"
-                                         (clickOutside)="displayPayments[i].editAmount=false;displayPayments[i].overAmount=false;"
-                                         (mouseover)="displayPayments[i].overAmount=true;" (mouseout)="displayPayments[i].overAmount=false;">
-                              <div class="field">
+                                         click-outside (clickOutside)="onClickOutSideAmount($event, i);">
+                              <div class="field" (mouseover)="displayPayments[i].overAmount=true;" (mouseout)="displayPayments[i].overAmount=false;">
                                   <mat-form-field class="width-max" *ngIf="displayPayments[i].editAmount || displayPayments[i].overAmount;else amountValue">
                                       <input matInput class="payment-input-number" type="number" [(ngModel)]="payment.amount" id="amount" name="amount">
                                       <span matPrefix>$&nbsp;</span>
@@ -43,9 +40,8 @@
                               </div>
                           </mat-grid-tile>
                           <mat-grid-tile (click)="displayPayments[i].editMethod=true;clearPlaceholderMethod(i);" [class.odd]="odd"
-                                         (clickOutside)="displayPayments[i].editMethod=false;displayPayments[i].overMethod=false;createPlaceholderMethod(i);"
-                                         (mouseover)="displayPayments[i].overMethod=true;" (mouseout)="displayPayments[i].overMethod=false;">
-                              <div class="field">
+                                         click-outside (clickOutside)="onClickOutSideMethod($event, i);">
+                              <div class="field" (mouseover)="displayPayments[i].overMethod=true;" (mouseout)="displayPayments[i].overMethod=false;">
                                   <mat-form-field class="width-max" *ngIf="displayPayments[i].editMethod || displayPayments[i].overMethod;else methodValue">
                                       <input matInput class="payment-input" [(ngModel)]="payment.method" id="method" name="method">
                                   </mat-form-field>
@@ -55,9 +51,8 @@
                               </div>
                           </mat-grid-tile>
                           <mat-grid-tile (click)="displayPayments[i].editCode=true;clearPlaceholderCode(i);" [class.odd]="odd"
-                                         (clickOutside)="displayPayments[i].editCode=false;displayPayments[i].overCode=false;createPlaceholderCode(i);"
-                                         (mouseover)="displayPayments[i].overCode=true;" (mouseout)="displayPayments[i].overCode=false;">
-                              <div class="field">
+                                         click-outside (clickOutside)="onClickOutSideCode($event, i);">
+                              <div class="field" (mouseover)="displayPayments[i].overCode=true;" (mouseout)="displayPayments[i].overCode=false;">
                                   <mat-form-field class="width-max" *ngIf="displayPayments[i].editCode || displayPayments[i].overCode;else codeValue">
                                       <input matInput class="payment-input" [(ngModel)]="payment.code" id="code" name="code">
                                   </mat-form-field>
@@ -67,10 +62,10 @@
                               </div>
                           </mat-grid-tile>
                           <mat-grid-tile colspan="4" (click)="displayPayments[i].editNotes=true;clearPlaceholderNotes(i);"
-                                         (clickOutside)="displayPayments[i].editNotes=false;displayPayments[i].overNotes=false;createPlaceholderNotes(i);"
-                                         (mouseover)="displayPayments[i].overNotes=true;"
-                                         (mouseout)="displayPayments[i].overNotes=false;" [class.odd]="odd" class="notes-add-payment">
-                              <div class="d-flex flex-column width-max">
+                                         click-outside (clickOutside)="onClickOutSideNotes($event, i);"
+                                         [class.odd]="odd" class="notes-add-payment">
+                              <div class="d-flex flex-column width-max" (mouseover)="displayPayments[i].overNotes=true;"
+                                   (mouseout)="displayPayments[i].overNotes=false;">
                                   <div class="width-max" *ngIf="displayPayments[i].editNotes || displayPayments[i].overNotes;else noteValue">
                                        <div class="d-flex weight-max">
                                            <div class="notesHead">Notes: </div>
