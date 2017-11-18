@@ -14,7 +14,7 @@
                       <mat-grid-tile class="header">Amount paid</mat-grid-tile>
                       <mat-grid-tile class="header">Payment method</mat-grid-tile>
                       <mat-grid-tile class="header top-right">Code</mat-grid-tile>
-                      <div *ngFor="let payment of payments;let i = index;let even = even; let odd = odd;">
+                      <div *ngFor="let payment of payments;let i = index;let odd = odd; let last = last;">
                           <mat-grid-tile (click)="displayPayments[i].editDate=true;" [class.odd]="odd"
                                          (clickOutside)="displayPayments[i].editDate=false;displayPayments[i].overDate=false;"
                                          (mouseover)="displayPayments[i].overDate=true;" (mouseout)="displayPayments[i].overDate=false;">
@@ -84,18 +84,19 @@
                                           <div class="notes-style note-value payment-value">{{ payment.notes }}</div>
                                       </div>
                                   </ng-template>
-                                  <div class="add-payments">
+                                  <div class="add-payments" [class.add-payments-grid]="!last" [class.add-payments-bottom]="last">
                                       <div class="d-flex justify-content-center container-btn-payment">
-                                          <button mat-mini-fab color="primary" class="btn-payment" type="button" (click)="onRemovePayment(i)">-</button>
+                                          <button *ngIf="last" mat-mini-fab class="btn-payment" type="submit">+</button>
+                                          <button mat-mini-fab class="btn-payment" type="button" (click)="onRemovePayment(i)">-</button>
                                       </div>
                                   </div>
                               </div>
                           </mat-grid-tile>
                       </div>
-                      <mat-grid-tile colspan="4" style="z-index: 10; overflow: unset;">
-                          <div class="add-payments">
+                      <mat-grid-tile colspan="4" style="z-index: 10; overflow: unset;" *ngIf="payments.length == 0">
+                          <div class="add-payments add-payments-bottom add-payment-first">
                               <div class="d-flex justify-content-center container-btn-payment">
-                                  <button mat-mini-fab color="primary" class="btn-payment" type="submit">+</button>
+                                  <button mat-mini-fab class="btn-payment" type="submit">+</button>
                               </div>
                           </div>
                       </mat-grid-tile>

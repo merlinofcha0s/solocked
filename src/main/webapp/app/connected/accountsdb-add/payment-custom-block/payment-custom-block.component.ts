@@ -10,15 +10,12 @@ class DisplayValuesPayment {
 
     overMethod: boolean;
     editMethod: boolean;
-    placeholderMethod: boolean;
 
     overCode: boolean;
     editCode: boolean;
-    placeholderCode: boolean;
 
     overNotes: boolean;
     editNotes: boolean;
-    placeholderNotes: boolean;
 
     constructor() {
         this.overDate = false;

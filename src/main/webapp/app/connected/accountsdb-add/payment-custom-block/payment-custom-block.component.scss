@@ -16,7 +16,7 @@ $color-input: #7B7B7B;
 }
 
 .payments {
-    padding: 0px 0px 15px 0px !important;
+    padding: 0px 0px 0px 0px !important;
     border-top-left-radius: $border-radius-payment;
     border-top-right-radius: $border-radius-payment;
 }
@@ -103,15 +103,22 @@ $color-input: #7B7B7B;
 .btn-payment {
     width: 30px;
     height: 30px;
+    margin-right: 7px;
     /deep/ .mat-button-wrapper {
         padding: 0px 0px !important;
         font-size: 20px;
+        vertical-align: text-bottom;
     }
+}
+
+.btn-payment {
+    background-color: #E5E5E5;
+    box-shadow: none !important;
 }
 
 .container-btn-payment {
     width: 100%;
-    transform: translate(0px, -17px);
+    transform: translate(0px, -16px);
     height: 0px;
 }
 
@@ -122,9 +129,32 @@ $color-input: #7B7B7B;
 .add-payments {
     width: 100%;
     height: 0px;
-    border-top: 1px solid #000000;
-    transform: translate(0px, 4px);
     margin-top: 2px;
+}
+
+.add-payments-grid {
+    border-top: 1px solid #E5E5E5;
+    transform: translate(0px, 4px);
+    transition: border-top 0.4s;
+}
+
+.add-payments-bottom {
+    transform: translate(0px, 4px);
+}
+
+.add-payment-first {
+    transform: translate(0px, 20px);
+}
+
+.add-payments:hover {
+
+    .btn-payment {
+        background-color: black !important;
+    }
+}
+
+.add-payments-grid:hover {
+    border-top: 1px solid #000000 !important;
 }
 
 .odd {
