@@ -19,7 +19,13 @@
                                          click-outside (clickOutside)="onClickOutSideDate($event, i);">
                               <div class="field width-max" (mouseover)="displayPayments[i].overDate=true;" (mouseout)="displayPayments[i].overDate=false;">
                                   <mat-form-field class="width-max" *ngIf="displayPayments[i].overDate || displayPayments[i].editDate;else dateValue">
-                                      <input matInput (click)="picker.open()" class="payment-input-date" [(ngModel)]="payment.date" [matDatepicker]="picker" id="date" name="date">
+                                      <input #dateInput="ngModel" matInput class="payment-input-date" [(ngModel)]="payment.date"
+                                             [matDatepicker]="picker" (click)="picker.open()" id="date" name="date">
+                                      <!--<mat-error class="text-danger"-->
+                                                 <!--*ngIf="dateInput.dirty && dateInput.dirty && !dateInput.valid"-->
+                                                 <!--jhiTranslate="global.messages.validate.confirmpassword.passwordmatch">-->
+                                          <!--Your passwords don't match-->
+                                      <!--</mat-error>-->
                                       <mat-datepicker #picker></mat-datepicker>
                                   </mat-form-field>
                                   <ng-template #dateValue>

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild, EventEmitter, Output} from '@angular/core';
 import {Payment} from '../../../shared/account/payment-block.model';
 import {MatDatepicker} from "@angular/material";
 import {isUndefined} from "util";
@@ -44,6 +44,8 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
 
     payments: Array<Payment>;
 
+    @Output() onSyncPayments = new EventEmitter<Array<Payment>>();
+
     displayPayments: Array<DisplayValuesPayment>;
 
     placeholderValueMethod = 'My method';
@@ -68,6 +70,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
 
         this.displayPayments.push(newDisplayPayment);
         this.payments.push(newPayment);
+        this.onSyncPayments.emit(this.payments);
     }
 
     onClickOutsideDatePicker(index: number) {
@@ -79,6 +82,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     onRemovePayment(index: number) {
         this.displayPayments.splice(index, 1);
         this.payments.splice(index, 1);
+        this.onSyncPayments.emit(this.payments);
     }
 
     clearPlaceholderMethod(index: number) {
@@ -117,10 +121,23 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
         }
     }
 
+    createPlaceholderDate(index: number) {
+        if (this.payments[index].date === null) {
+            this.payments[index].date =  new Date();
+        }
+    }
+
+    createPlaceholderAmount(index: number) {
+        if (this.payments[index].amount === null) {
+            this.payments[index].amount =  0;
+        }
+    }
+
     onClickOutSideAmount(event: any, index: number) {
         if (event && event['value'] === true) {
             this.displayPayments[index].editAmount = false;
             this.displayPayments[index].overAmount = false;
+            this.createPlaceholderAmount(index);
         }
     }
 
@@ -128,6 +145,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
         if (event && event['value'] === true && (isUndefined(this.picker) || !this.picker.opened)) {
             this.displayPayments[index].editDate = false;
             this.displayPayments[index].overDate = false;
+            this.createPlaceholderDate(index);
         }
     }
 

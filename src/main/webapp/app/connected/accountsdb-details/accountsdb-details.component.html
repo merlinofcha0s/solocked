@@ -70,6 +70,12 @@
                   <mat-chip color="primary" selected="true" *ngFor="let tag of account.tags">{{ tag }}</mat-chip>
               </mat-chip-list>
           </div>
+          <div class="m-3 d-flex align-baseline">
+            <span class="font-weight-bold titleTags">{{ "ninjaccountApp.accountsDB.details.tags" | translate }}:</span>
+              <mat-chip-list>
+                  <mat-chip color="primary" selected="true" *ngFor="let payment of account.payments">{{ payment.code }}</mat-chip>
+              </mat-chip-list>
+          </div>
           <div class="d-flex flex-column justify-content-center align-items-center">
               <button mat-raised-button class="edit btnDetail" [routerLink]="['/accounts/edit', account.id]">{{ "ninjaccountApp.accountsDB.details.edit" | translate }}</button>
               <button mat-raised-button class="delete btnDetail" (click)="openConfirmationDeleteDialog(account.id)">{{ "ninjaccountApp.accountsDB.details.delete" | translate }}</button>

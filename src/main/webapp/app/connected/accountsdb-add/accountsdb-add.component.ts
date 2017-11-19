@@ -12,6 +12,7 @@ import {MatDialog, MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/
 import {TranslateService} from '@ngx-translate/core';
 import {SnackComponent} from '../../shared/snack/snack.component';
 import {AddCustomBlockComponent} from "./add-custom-block/add-custom-block.component";
+import {Payment} from "../../shared/account/payment-block.model";
 
 @Component({
     selector: 'jhi-accountsdb-add',
@@ -52,6 +53,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     passwordType: string;
     iconPasswordType: string;
     private customBlockDialog: MatDialogRef<AddCustomBlockComponent>;
+    private payments: Array<Payment>;
 
     private customBlockCounter: {
         paymentBlocks: Array<number>;
@@ -64,7 +66,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 private snackBar: MatSnackBar,
                 private translateService: TranslateService,
                 public dialog: MatDialog) {
-        this.customBlockCounter = { paymentBlocks: []};
+        this.customBlockCounter = {paymentBlocks: []};
     }
 
     ngOnInit() {
@@ -141,6 +143,9 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         newAccount.url = this.url.value;
         newAccount.number = this.accountNumber.value;
         newAccount.notes = this.notes.value;
+        if (this.payments.length != 0) {
+            newAccount.payments = this.payments;
+        }
 
         // If no tag we don't split anything
         if (this.tags.value !== '') {
@@ -244,10 +249,16 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
             if (!isUndefined(blockToAdd)) {
                 if (blockToAdd.paymentBlocks) {
                     console.log('Adding one payment block !!');
-                    this.customBlockCounter.paymentBlocks.push(1) ;
+                    this.customBlockCounter.paymentBlocks.push(1);
                     console.log('Total number of payment block : ' + this.customBlockCounter.paymentBlocks.length);
                 }
             }
         });
+    }
+
+    onSyncPayments(payments: Array<Payment>) {
+        this.payments = payments;
+        console.log('payments: ' + this.payments.length);
+        this.payments.forEach((payment) => console.log(payment.code));
     }
 }
