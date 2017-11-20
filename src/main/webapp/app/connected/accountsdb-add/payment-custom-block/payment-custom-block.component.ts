@@ -3,7 +3,7 @@ import {Payment} from '../../../shared/account/payment-block.model';
 import {MatDatepicker} from "@angular/material";
 import {isUndefined} from "util";
 
-class DisplayValuesPayment {
+export class DisplayValuesPayment {
     overDate: boolean;
     editDate: boolean;
 
@@ -18,6 +18,10 @@ class DisplayValuesPayment {
 
     overNotes: boolean;
     editNotes: boolean;
+
+    static placeholderValueMethod = 'My method';
+    static placeholderValueCode = 'MYCODE';
+    static placeholderValueNotes = 'My notes !';
 
     constructor() {
         this.overDate = false;
@@ -48,10 +52,6 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
 
     displayPayments: Array<DisplayValuesPayment>;
 
-    placeholderValueMethod = 'My method';
-    placeholderValueCode = 'MYCODE';
-    placeholderValueNotes = 'My notes !';
-
     constructor() {
         this.payments = new Array<Payment>();
         this.displayPayments = new Array<DisplayValuesPayment>();
@@ -65,7 +65,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
 
     onAddPayment() {
         const newPayment = new Payment(new Date(), 0
-            , this.placeholderValueMethod, this.placeholderValueCode, this.placeholderValueNotes);
+            , DisplayValuesPayment.placeholderValueMethod, DisplayValuesPayment.placeholderValueCode, DisplayValuesPayment.placeholderValueNotes);
         const newDisplayPayment = new DisplayValuesPayment();
 
         this.displayPayments.push(newDisplayPayment);
@@ -86,38 +86,38 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     }
 
     clearPlaceholderMethod(index: number) {
-        if (this.payments[index].method === this.placeholderValueMethod) {
+        if (this.payments[index].method === DisplayValuesPayment.placeholderValueMethod) {
             this.payments[index].method = '';
         }
     }
 
     clearPlaceholderCode(index: number) {
-        if (this.payments[index].code === this.placeholderValueCode) {
+        if (this.payments[index].code === DisplayValuesPayment.placeholderValueCode) {
             this.payments[index].code = '';
         }
     }
 
     clearPlaceholderNotes(index: number) {
-        if (this.payments[index].notes === this.placeholderValueNotes) {
+        if (this.payments[index].notes === DisplayValuesPayment.placeholderValueNotes) {
             this.payments[index].notes = '';
         }
     }
 
     createPlaceholderMethod(index: number) {
         if (this.payments[index].method === '') {
-            this.payments[index].method = this.placeholderValueMethod;
+            this.payments[index].method = DisplayValuesPayment.placeholderValueMethod;
         }
     }
 
     createPlaceholderCode(index: number) {
         if (this.payments[index].code === '') {
-            this.payments[index].code = this.placeholderValueCode;
+            this.payments[index].code = DisplayValuesPayment.placeholderValueCode;
         }
     }
 
     createPlaceholderNotes(index: number) {
         if (this.payments[index].notes === '') {
-            this.payments[index].notes = this.placeholderValueNotes;
+            this.payments[index].notes = DisplayValuesPayment.placeholderValueNotes;
         }
     }
 

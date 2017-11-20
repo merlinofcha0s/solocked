@@ -13,6 +13,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {SnackComponent} from '../../shared/snack/snack.component';
 import {AddCustomBlockComponent} from "./add-custom-block/add-custom-block.component";
 import {Payment} from "../../shared/account/payment-block.model";
+import {DisplayValuesPayment} from "./payment-custom-block/payment-custom-block.component";
 
 @Component({
     selector: 'jhi-accountsdb-add',
@@ -143,8 +144,23 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         newAccount.url = this.url.value;
         newAccount.number = this.accountNumber.value;
         newAccount.notes = this.notes.value;
-        if (this.payments.length != 0) {
-            newAccount.payments = this.payments;
+        if (!isUndefined(this.payments) && this.payments.length != 0) {
+            this.payments.forEach((payment, index) => {
+
+                if (payment.notes === DisplayValuesPayment.placeholderValueNotes) {
+                    payment.notes = '';
+                }
+
+                if (payment.code === DisplayValuesPayment.placeholderValueCode) {
+                    payment.code = '';
+                }
+
+                if (payment.method === DisplayValuesPayment.placeholderValueMethod) {
+                    payment.method = '';
+                }
+
+                this.payments[index] = payment;
+            });
         }
 
         // If no tag we don't split anything
