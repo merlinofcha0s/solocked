@@ -1,4 +1,4 @@
-@import './../../../../content/scss/custom-variables';
+@import './../../../../../content/scss/custom-variables';
 
 $border-radius-payment: 10px !important;
 $color-input: #7B7B7B;
@@ -89,6 +89,8 @@ $color-input: #7B7B7B;
 
 .note-area {
     margin-top: 1px;
+    background: transparent;
+    border: none;
 }
 
 .notesHead {
@@ -133,7 +135,7 @@ $color-input: #7B7B7B;
 
 .add-payments-grid {
     border-top: 1px solid #E5E5E5;
-    transform: translate(0px, 0px);
+    transform: translate(0px, 4px);
     transition: border-top 0.4s;
 }
 
@@ -163,9 +165,4 @@ $color-input: #7B7B7B;
 .notes-add-payment {
     z-index: 2;
     overflow: unset;
-
-    /deep/ .mat-figure{
-        flex-direction: column;
-    }
-
 }

@@ -13,7 +13,6 @@ import {TranslateService} from '@ngx-translate/core';
 import {SnackComponent} from '../../shared/snack/snack.component';
 import {AddCustomBlockComponent} from "./add-custom-block/add-custom-block.component";
 import {Payment} from "../../shared/account/payment-block.model";
-import {DisplayValuesPayment} from "./payment-custom-block/payment-custom-block.component";
 
 @Component({
     selector: 'jhi-accountsdb-add',
@@ -133,6 +132,13 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 });
 
                 this.tags.setValue(tagsValue.slice(0, -2));
+
+                console.log('payments: ' + account.payments.length);
+
+                if (account.payments.length !== 0) {
+                    this.payments = account.payments;
+                    this.addNewPaymentBlock(false);
+                }
             }
         });
         this.accountsService.getAccount(idAccount);
@@ -147,7 +153,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         if (!isUndefined(this.payments) && this.payments.length != 0) {
             this.payments.forEach((payment, index) => {
 
-                if (payment.notes === DisplayValuesPayment.placeholderValueNotes) {
+               /* if (payment.notes === DisplayValuesPayment.placeholderValueNotes) {
                     payment.notes = '';
                 }
 
@@ -157,10 +163,12 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
                 if (payment.method === DisplayValuesPayment.placeholderValueMethod) {
                     payment.method = '';
-                }
+                }*/
 
                 this.payments[index] = payment;
             });
+
+            newAccount.payments = this.payments;
         }
 
         // If no tag we don't split anything
@@ -264,12 +272,18 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         this.customBlockDialog.afterClosed().subscribe(blockToAdd => {
             if (!isUndefined(blockToAdd)) {
                 if (blockToAdd.paymentBlocks) {
-                    console.log('Adding one payment block !!');
-                    this.customBlockCounter.paymentBlocks.push(1);
-                    console.log('Total number of payment block : ' + this.customBlockCounter.paymentBlocks.length);
+                    this.addNewPaymentBlock(true);
                 }
             }
         });
+    }
+
+    addNewPaymentBlock(addNewList: boolean) {
+        if (addNewList) {
+            this.payments = new Array<Payment>();
+        }
+
+        this.customBlockCounter.paymentBlocks.push(1);
     }
 
     onSyncPayments(payments: Array<Payment>) {

@@ -198,6 +198,7 @@ export class AccountsService {
         target.customs = source.customs;
         target.featured = source.featured;
         target.url = source.url;
+        target.payments = source.payments;
     }
 
     rollingAddedAccount(account: Account): void {

@@ -1,0 +1,12 @@
+<div class="field width-max" (click)="edit=true;"
+     click-outside (clickOutside)="onClickOutSide($event);"
+     (mouseover)="over=true;" (mouseout)="over=false;">
+    <mat-form-field class="width-max" *ngIf="over || edit;else valueContainer">
+        <input  matInput class="payment-input-date" [(ngModel)]="value"
+                [matDatepicker]="picker" (click)="picker.open()" id="date" name="date">
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <ng-template #valueContainer>
+        <div class="text-center width-max payment-value">{{ value | date:'shortDate' }}</div>
+    </ng-template>
+</div>

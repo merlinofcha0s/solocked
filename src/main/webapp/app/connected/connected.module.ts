@@ -16,6 +16,8 @@ import {AddCustomBlockComponent} from './accountsdb-add/add-custom-block/add-cus
 import {PaymentCustomBlockComponent} from './accountsdb-add/payment-custom-block/payment-custom-block.component';
 import {PaymentLineComponent} from "./accountsdb-add/payment-custom-block/payment-line/payment-line.component";
 import {ClickOutsideDirective} from './accountsdb-add/payment-custom-block/click-outside.directive';
+import {EditInlineTileComponent} from "./accountsdb-add/payment-custom-block/edit-inline-tile/edit.inline.tile.component";
+import {EditDateInlineTileComponent} from "./accountsdb-add/payment-custom-block/edit-date-inline-tile/edit.date.inline.tile.component";
 
 @NgModule({
     imports: [
@@ -37,7 +39,9 @@ import {ClickOutsideDirective} from './accountsdb-add/payment-custom-block/click
         AddCustomBlockComponent,
         PaymentCustomBlockComponent,
         PaymentLineComponent,
-        ClickOutsideDirective
+        ClickOutsideDirective,
+        EditInlineTileComponent,
+        EditDateInlineTileComponent
     ],
     entryComponents: [AccountsdbDeleteComponent, AddCustomBlockComponent],
 })

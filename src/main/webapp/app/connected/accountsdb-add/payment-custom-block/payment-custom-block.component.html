@@ -15,81 +15,24 @@
                       <mat-grid-tile class="header">Payment method</mat-grid-tile>
                       <mat-grid-tile class="header top-right">Code</mat-grid-tile>
                       <div *ngFor="let payment of payments;let i = index;let odd = odd; let last = last;">
-                          <mat-grid-tile (click)="displayPayments[i].editDate=true;" [class.odd]="odd"
-                                         click-outside (clickOutside)="onClickOutSideDate($event, i);">
-                              <div class="field width-max" (mouseover)="displayPayments[i].overDate=true;" (mouseout)="displayPayments[i].overDate=false;">
-                                  <mat-form-field class="width-max" *ngIf="displayPayments[i].overDate || displayPayments[i].editDate;else dateValue">
-                                      <input #dateInput="ngModel" matInput class="payment-input-date" [(ngModel)]="payment.date"
-                                             [matDatepicker]="picker" (click)="picker.open()" id="date" name="date">
-                                      <!--<mat-error class="text-danger"-->
-                                                 <!--*ngIf="dateInput.dirty && dateInput.dirty && !dateInput.valid"-->
-                                                 <!--jhiTranslate="global.messages.validate.confirmpassword.passwordmatch">-->
-                                          <!--Your passwords don't match-->
-                                      <!--</mat-error>-->
-                                      <mat-datepicker #picker></mat-datepicker>
-                                  </mat-form-field>
-                                  <ng-template #dateValue>
-                                      <div class="text-center width-max payment-value">{{ payment.date | date:'shortDate' }}</div>
-                                  </ng-template>
-                              </div>
+                          <mat-grid-tile [class.odd]="odd"">
+                              <jhi-edit-date-inline class="width-max" [(value)]="payment.date"></jhi-edit-date-inline>
                           </mat-grid-tile>
-                          <mat-grid-tile (click)="displayPayments[i].editAmount=true;" [class.odd]="odd"
-                                         click-outside (clickOutside)="onClickOutSideAmount($event, i);">
-                              <div class="field" (mouseover)="displayPayments[i].overAmount=true;" (mouseout)="displayPayments[i].overAmount=false;">
-                                  <mat-form-field class="width-max" *ngIf="displayPayments[i].editAmount || displayPayments[i].overAmount;else amountValue">
-                                      <input matInput class="payment-input-number" type="number" [(ngModel)]="payment.amount" id="amount" name="amount">
-                                      <span matPrefix>$&nbsp;</span>
-                                  </mat-form-field>
-                                  <ng-template #amountValue>
-                                     <div class="text-center width-max payment-value">{{ payment.amount | currency }}</div>
-                                  </ng-template>
-                              </div>
+                          <mat-grid-tile [class.odd]="odd">
+                              <jhi-edit-inline class="width-max" [type]="'currency'" [placeholder]="0" [(value)]="payment.amount"></jhi-edit-inline>
                           </mat-grid-tile>
-                          <mat-grid-tile (click)="displayPayments[i].editMethod=true;clearPlaceholderMethod(i);" [class.odd]="odd"
-                                         click-outside (clickOutside)="onClickOutSideMethod($event, i);">
-                              <div class="field" (mouseover)="displayPayments[i].overMethod=true;" (mouseout)="displayPayments[i].overMethod=false;">
-                                  <mat-form-field class="width-max" *ngIf="displayPayments[i].editMethod || displayPayments[i].overMethod;else methodValue">
-                                      <input matInput class="payment-input" [(ngModel)]="payment.method" id="method" name="method">
-                                  </mat-form-field>
-                                  <ng-template #methodValue>
-                                      <div class="text-center width-max payment-value">{{ payment.method }}</div>
-                                  </ng-template>
-                              </div>
+                          <mat-grid-tile [class.odd]="odd">
+                              <jhi-edit-inline class="width-max" [type]="'string'" [placeholder]="'My method'" [(value)]="payment.method"></jhi-edit-inline>
                           </mat-grid-tile>
-                          <mat-grid-tile (click)="displayPayments[i].editCode=true;clearPlaceholderCode(i);" [class.odd]="odd"
-                                         click-outside (clickOutside)="onClickOutSideCode($event, i);">
-                              <div class="field" (mouseover)="displayPayments[i].overCode=true;" (mouseout)="displayPayments[i].overCode=false;">
-                                  <mat-form-field class="width-max" *ngIf="displayPayments[i].editCode || displayPayments[i].overCode;else codeValue">
-                                      <input matInput class="payment-input" [(ngModel)]="payment.code" id="code" name="code">
-                                  </mat-form-field>
-                                   <ng-template #codeValue>
-                                       <div class="text-center width-max payment-value">{{ payment.code }}</div>
-                                   </ng-template>
-                              </div>
+                          <mat-grid-tile [class.odd]="odd">
+                              <jhi-edit-inline class="width-max" [type]="'string'" [placeholder]="'MYCODE'" [(value)]="payment.code"></jhi-edit-inline>
                           </mat-grid-tile>
-                          <mat-grid-tile colspan="4" (click)="displayPayments[i].editNotes=true;clearPlaceholderNotes(i);"
-                                         click-outside (clickOutside)="onClickOutSideNotes($event, i);"
-                                         [class.odd]="odd" class="notes-add-payment">
-                              <div class="d-flex flex-column width-max" (mouseover)="displayPayments[i].overNotes=true;"
-                                   (mouseout)="displayPayments[i].overNotes=false;">
-                                  <div class="width-max" *ngIf="displayPayments[i].editNotes || displayPayments[i].overNotes;else noteValue">
-                                       <div class="d-flex weight-max">
-                                           <div class="notesHead">Notes: </div>
-                                           <input class="notes-style note-area" [class.odd]="odd"
-                                                [(ngModel)]="payment.notes" id="notes" name="notes"/>
-                                       </div>
-                                  </div>
-                                  <ng-template #noteValue>
-                                      <div style="width: 100%;" class="d-flex">
-                                          <div class="font-weight-bold notesHead">Notes: </div>
-                                          <div class="notes-style note-value payment-value">{{ payment.notes }}</div>
-                                      </div>
-                                  </ng-template>
-                                  <div class="add-payments" [class.add-payments-grid]="!last" [class.add-payments-bottom]="last">
-                                      <div class="d-flex justify-content-center container-btn-payment">
-                                          <button *ngIf="last" mat-mini-fab class="btn-payment" type="submit">+</button>
-                                          <button mat-mini-fab class="btn-payment" type="button" (click)="onRemovePayment(i)">-</button>
-                                      </div>
+                          <mat-grid-tile colspan="4" [class.odd]="odd" class="notes-add-payment">
+                              <jhi-edit-inline class="width-max" [type]="'notes'" [placeholder]="'My notes !'" [(value)]="payment.notes"></jhi-edit-inline>
+                              <div class="add-payments" [class.add-payments-grid]="!last" [class.add-payments-bottom]="last">
+                                  <div class="d-flex justify-content-center container-btn-payment">
+                                      <button *ngIf="last" mat-mini-fab class="btn-payment" type="submit">+</button>
+                                      <button mat-mini-fab class="btn-payment" type="button" (click)="onRemovePayment(i)">-</button>
                                   </div>
                               </div>
                           </mat-grid-tile>

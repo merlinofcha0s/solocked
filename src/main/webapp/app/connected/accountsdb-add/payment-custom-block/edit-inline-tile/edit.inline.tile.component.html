@@ -1,0 +1,25 @@
+<div class="field" [ngClass]="{'d-flex': notesType, 'flex-column': notesType, 'width-max': notesType}" (click)="edit=true;clearPlaceholder();"
+     click-outside (clickOutside)="onClickOutSide($event);"
+     (mouseover)="over=true;" (mouseout)="over=false;">
+    <div *ngIf="stringType || currencyType">
+        <mat-form-field class="width-max" *ngIf="edit || over;else valueContainer">
+            <input  matInput class="payment-input" type="getInputType()" [(ngModel)]="value" id="'value'" name="value">
+            <span *ngIf="currencyType" matPrefix>$&nbsp;</span>
+        </mat-form-field>
+    </div>
+    <div *ngIf="notesType">
+        <div class="d-flex weight-max" *ngIf="edit || over;else valueContainer">
+            <div class="notesHead">Notes: </div>
+            <input class="notes-style note-area" [class.odd]="odd"
+                   [(ngModel)]="value" id="notes" name="notes"/>
+        </div>
+    </div>
+    <ng-template #valueContainer>
+        <div *ngIf="stringType" class="text-center width-max payment-value">{{ value }}</div>
+        <div *ngIf="currencyType" class="text-center width-max payment-value">{{ value | currency }}</div>
+        <div *ngIf="notesType" style="width: 100%;" class="d-flex">
+            <div class="font-weight-bold notesHead">Notes: </div>
+            <div class="notes-style note-value payment-value">{{ value }}</div>
+        </div>
+    </ng-template>
+</div>
