@@ -22,13 +22,13 @@
                               <jhi-edit-inline class="width-max" [type]="'currency'" [placeholder]="0" [(value)]="payment.amount"></jhi-edit-inline>
                           </mat-grid-tile>
                           <mat-grid-tile [class.odd]="odd">
-                              <jhi-edit-inline class="width-max" [type]="'string'" [placeholder]="'My method'" [(value)]="payment.method"></jhi-edit-inline>
+                              <jhi-edit-inline class="width-max" [type]="'string'" [placeholder]="_placeholderMethod" [(value)]="payment.method"></jhi-edit-inline>
                           </mat-grid-tile>
                           <mat-grid-tile [class.odd]="odd">
-                              <jhi-edit-inline class="width-max" [type]="'string'" [placeholder]="'MYCODE'" [(value)]="payment.code"></jhi-edit-inline>
+                              <jhi-edit-inline class="width-max" [type]="'string'" [placeholder]="_placeholderCode" [(value)]="payment.code"></jhi-edit-inline>
                           </mat-grid-tile>
                           <mat-grid-tile colspan="4" [class.odd]="odd" class="notes-add-payment">
-                              <jhi-edit-inline class="width-max" [type]="'notes'" [placeholder]="'My notes !'" [(value)]="payment.notes"></jhi-edit-inline>
+                              <jhi-edit-inline class="width-max" [type]="'notes'" [placeholder]="_placeholderNotes" [(value)]="payment.notes"></jhi-edit-inline>
                               <div class="add-payments" [class.add-payments-grid]="!last" [class.add-payments-bottom]="last">
                                   <div class="d-flex justify-content-center container-btn-payment">
                                       <button *ngIf="last" mat-mini-fab class="btn-payment" type="submit">+</button>

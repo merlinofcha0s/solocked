@@ -1,5 +1,4 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {DatePipe} from '@angular/common';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 
 @Component({
     selector: 'jhi-edit-date-inline',

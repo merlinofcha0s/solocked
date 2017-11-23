@@ -19,10 +19,11 @@ export class EditInlineTileComponent implements OnInit, OnDestroy {
     notesType: boolean;
 
     constructor() {
+        console.log('value: ' + this.value);
     }
 
     ngOnInit() {
-        console.log('type:' + this.type);
+        console.log('value init: ' + this.value);
         if (this.type === 'currency') {
             this.currencyType = true;
         } else if (this.type === 'string') {
@@ -39,7 +40,9 @@ export class EditInlineTileComponent implements OnInit, OnDestroy {
         if (event && event['value'] === true) {
             this.edit = false;
             this.over = false;
-            this.createPlaceholder();
+            if (this.value === '') {
+                this.createPlaceholder();
+            }
         }
     }
 

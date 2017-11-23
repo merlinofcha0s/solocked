@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild, EventEmitter, Output, Input} fr
 import {Payment} from '../../../shared/account/payment-block.model';
 import {MatDatepicker} from "@angular/material";
 import {isUndefined} from "util";
+import {PaymentCustomBlockConstant} from "../payment-custom-block.constant";
 
 @Component({
     selector: 'jhi-payment-custom-block',
@@ -16,8 +17,14 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
 
     @Output() onSyncPayments = new EventEmitter<Array<Payment>>();
 
+    private _placeholderMethod: string
+    private _placeholderCode: string;
+    private _placeholderNotes: string;
 
     constructor() {
+        this._placeholderMethod =  PaymentCustomBlockConstant.placeholderMethod;
+        this._placeholderCode = PaymentCustomBlockConstant.placeholderCode;
+        this._placeholderNotes = PaymentCustomBlockConstant.placeholderNotes;
     }
 
     ngOnInit() {
@@ -27,7 +34,8 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     }
 
     onAddPayment() {
-        const newPayment = new Payment(new Date(), 0, '', '', '');
+        const newPayment = new Payment(new Date(), 0, this._placeholderMethod
+            , this._placeholderCode, this._placeholderNotes);
 
         this.payments.push(newPayment);
         this.onSyncPayments.emit(this.payments);

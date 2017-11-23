@@ -36,6 +36,7 @@ export class AccountsService {
     }
 
     getAccount(id: number) {
+        console.log('Calling get account !!!');
         if (this._dataStore.accounts.accounts.length === 0) {
             this.accountTech.synchroDB().subscribe((accountsFromDB) => {
                 this._dataStore.accounts = accountsFromDB;

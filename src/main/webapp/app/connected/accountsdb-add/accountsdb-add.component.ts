@@ -13,6 +13,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {SnackComponent} from '../../shared/snack/snack.component';
 import {AddCustomBlockComponent} from "./add-custom-block/add-custom-block.component";
 import {Payment} from "../../shared/account/payment-block.model";
+import {PaymentCustomBlockConstant} from "./payment-custom-block.constant";
 
 @Component({
     selector: 'jhi-accountsdb-add',
@@ -137,11 +138,12 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
                 if (account.payments.length !== 0) {
                     this.payments = account.payments;
+                    this.clearAllPaymentBlock();
                     this.addNewPaymentBlock(false);
                 }
             }
         });
-        this.accountsService.getAccount(idAccount);
+        //this.accountsService.getAccount(idAccount);
     }
 
     onSubmitNewAccount() {
@@ -153,17 +155,19 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         if (!isUndefined(this.payments) && this.payments.length != 0) {
             this.payments.forEach((payment, index) => {
 
-               /* if (payment.notes === DisplayValuesPayment.placeholderValueNotes) {
-                    payment.notes = '';
-                }
+                 if (payment.notes === PaymentCustomBlockConstant.placeholderNotes) {
+                     payment.notes = '';
+                 }
 
-                if (payment.code === DisplayValuesPayment.placeholderValueCode) {
-                    payment.code = '';
-                }
+                 if (payment.code === PaymentCustomBlockConstant.placeholderCode) {
+                     payment.code = '';
+                 }
 
-                if (payment.method === DisplayValuesPayment.placeholderValueMethod) {
-                    payment.method = '';
-                }*/
+                 if (payment.method === PaymentCustomBlockConstant.placeholderMethod) {
+                     payment.method = '';
+                 }
+
+                 console.log('Code : ' + payment.method);
 
                 this.payments[index] = payment;
             });
@@ -278,6 +282,10 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         });
     }
 
+    clearAllPaymentBlock(): void {
+        this.customBlockCounter.paymentBlocks.splice(0, this.customBlockCounter.paymentBlocks.length);
+    }
+
     addNewPaymentBlock(addNewList: boolean) {
         if (addNewList) {
             this.payments = new Array<Payment>();
@@ -288,7 +296,5 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
     onSyncPayments(payments: Array<Payment>) {
         this.payments = payments;
-        console.log('payments: ' + this.payments.length);
-        this.payments.forEach((payment) => console.log(payment.code));
     }
 }

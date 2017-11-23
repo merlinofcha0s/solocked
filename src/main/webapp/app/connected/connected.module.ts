@@ -14,7 +14,6 @@ import {AccountsdbListComponent} from './accountsdb-home/accountsdb-list/account
 import { AccountsdbDeleteComponent } from './accountsdb-details/accountsdb-delete/accountsdb-delete.component';
 import {AddCustomBlockComponent} from './accountsdb-add/add-custom-block/add-custom-block.component';
 import {PaymentCustomBlockComponent} from './accountsdb-add/payment-custom-block/payment-custom-block.component';
-import {PaymentLineComponent} from "./accountsdb-add/payment-custom-block/payment-line/payment-line.component";
 import {ClickOutsideDirective} from './accountsdb-add/payment-custom-block/click-outside.directive';
 import {EditInlineTileComponent} from "./accountsdb-add/payment-custom-block/edit-inline-tile/edit.inline.tile.component";
 import {EditDateInlineTileComponent} from "./accountsdb-add/payment-custom-block/edit-date-inline-tile/edit.date.inline.tile.component";
@@ -38,7 +37,6 @@ import {EditDateInlineTileComponent} from "./accountsdb-add/payment-custom-block
         AccountsdbDeleteComponent,
         AddCustomBlockComponent,
         PaymentCustomBlockComponent,
-        PaymentLineComponent,
         ClickOutsideDirective,
         EditInlineTileComponent,
         EditDateInlineTileComponent
