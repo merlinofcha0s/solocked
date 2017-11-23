@@ -3,7 +3,7 @@
      (mouseover)="over=true;" (mouseout)="over=false;">
     <div *ngIf="stringType || currencyType">
         <mat-form-field class="width-max" *ngIf="edit || over;else valueContainer">
-            <input  matInput class="payment-input" type="getInputType()" [(ngModel)]="value" id="'value'" name="value">
+            <input  matInput class="payment-input" type="getInputType()" (change)="onChangeValue(value)" [(ngModel)]="value" id="'value'" name="value">
             <span *ngIf="currencyType" matPrefix>$&nbsp;</span>
         </mat-form-field>
     </div>
@@ -11,7 +11,7 @@
         <div class="d-flex weight-max" *ngIf="edit || over;else valueContainer">
             <div class="notesHead">Notes: </div>
             <input class="notes-style note-area" [class.odd]="odd"
-                   [(ngModel)]="value" id="notes" name="notes"/>
+                   [(ngModel)]="value" id="notes" name="notes" (change)="onChangeValue(value)"/>
         </div>
     </div>
     <ng-template #valueContainer>

@@ -155,19 +155,17 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         if (!isUndefined(this.payments) && this.payments.length != 0) {
             this.payments.forEach((payment, index) => {
 
-                 if (payment.notes === PaymentCustomBlockConstant.placeholderNotes) {
-                     payment.notes = '';
-                 }
+                if (payment.notes === PaymentCustomBlockConstant.placeholderNotes) {
+                    payment.notes = '';
+                }
 
-                 if (payment.code === PaymentCustomBlockConstant.placeholderCode) {
-                     payment.code = '';
-                 }
+                if (payment.code === PaymentCustomBlockConstant.placeholderCode) {
+                    payment.code = '';
+                }
 
-                 if (payment.method === PaymentCustomBlockConstant.placeholderMethod) {
-                     payment.method = '';
-                 }
-
-                 console.log('Code : ' + payment.method);
+                if (payment.method === PaymentCustomBlockConstant.placeholderMethod) {
+                    payment.method = '';
+                }
 
                 this.payments[index] = payment;
             });

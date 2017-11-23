@@ -14,7 +14,6 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     @ViewChild(MatDatepicker) picker;
 
     @Input() payments: Array<Payment>;
-
     @Output() onSyncPayments = new EventEmitter<Array<Payment>>();
 
     private _placeholderMethod: string
@@ -44,5 +43,35 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     onRemovePayment(index: number) {
         this.payments.splice(index, 1);
         this.onSyncPayments.emit(this.payments);
+    }
+
+    onChangeDate(index: number, newValue: Date){
+        const payment = this.payments[index];
+        payment.date = newValue;
+        this.payments[index] = payment;
+    }
+
+    onChangeAmount(index: number, newValue: number){
+       const payment = this.payments[index];
+        payment.amount = newValue;
+        this.payments[index] = payment;
+    }
+
+    onChangeMethod(index: number, newValue: string){
+        const payment = this.payments[index];
+        payment.method = newValue;
+        this.payments[index] = payment;
+    }
+
+    onChangeCode(index: number, newValue: string){
+        const payment = this.payments[index];
+        payment.code = newValue;
+        this.payments[index] = payment;
+    }
+
+    onChangeNotes(index: number, newValue: string){
+        const payment = this.payments[index];
+        payment.notes = newValue;
+        this.payments[index] = payment;
     }
 }

@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 
 @Component({
     selector: 'jhi-edit-inline',
@@ -14,16 +14,16 @@ export class EditInlineTileComponent implements OnInit, OnDestroy {
     @Input() value: string;
     @Input() type: string;
 
+    @Output() onValueChange = new EventEmitter<string>();
+
     currencyType: boolean;
     stringType: boolean;
     notesType: boolean;
 
     constructor() {
-        console.log('value: ' + this.value);
     }
 
     ngOnInit() {
-        console.log('value init: ' + this.value);
         if (this.type === 'currency') {
             this.currencyType = true;
         } else if (this.type === 'string') {
@@ -64,5 +64,10 @@ export class EditInlineTileComponent implements OnInit, OnDestroy {
         if (this.value === this.placeholder) {
             this.value = '';
         }
+    }
+
+    onChangeValue(newValue){
+        this.value = newValue;
+        this.onValueChange.emit(newValue);
     }
 }

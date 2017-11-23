@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 
 @Component({
     selector: 'jhi-edit-date-inline',
@@ -12,6 +12,8 @@ export class EditDateInlineTileComponent implements OnInit, OnDestroy {
 
     @Input() placeholder: Date;
     @Input() value: Date;
+
+    @Output() onValueChange = new EventEmitter<Date>();
 
     constructor() {
 
@@ -29,6 +31,11 @@ export class EditDateInlineTileComponent implements OnInit, OnDestroy {
             this.edit = false;
             this.over = false;
         }
+    }
+
+    onChangeValue(newValue: Date){
+        this.value = newValue;
+        this.onValueChange.emit(newValue);
     }
 
 }
