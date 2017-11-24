@@ -7,7 +7,7 @@
                   <div jhiTranslate="ninjaccountApp.accountsDB.paymentblock.paymentCustomBlock.title">Payment fields</div>
               </mat-card-title>
           </div>
-          <i class="fa fa-trash suppress" (click)="onSuppressPaymentBlock()"></i>
+          <i class="fa fa-trash suppress" *ngIf="!readOnlyMode" (click)="onSuppressPaymentBlock()"></i>
       </div>
   </mat-card-header>
   <mat-card-content>
@@ -21,24 +21,24 @@
                       <mat-grid-tile class="header top-right">{{ "ninjaccountApp.accountsDB.paymentblock.paymentCustomBlock.code" | translate }}</mat-grid-tile>
                       <div *ngFor="let payment of payments;let i = index;let odd = odd; let last = last;">
                           <mat-grid-tile [class.odd]="odd">
-                              <jhi-edit-date-inline class="width-max" [value]="payment.date" (onValueChange)="onChangeDate(i, $event)"></jhi-edit-date-inline>
+                              <jhi-edit-date-inline [readonlyMode]="readOnlyMode" class="width-max" [value]="payment.date" (onValueChange)="onChangeDate(i, $event)"></jhi-edit-date-inline>
                           </mat-grid-tile>
                           <mat-grid-tile [class.odd]="odd">
-                              <jhi-edit-inline class="width-max" [type]="'currency'" [placeholder]="0"
+                              <jhi-edit-inline [readonlyMode]="readOnlyMode" class="width-max" [type]="'currency'" [placeholder]="0"
                                                [value]="payment.amount" (onValueChange)="onChangeAmount(i, $event)"></jhi-edit-inline>
                           </mat-grid-tile>
                           <mat-grid-tile [class.odd]="odd">
-                              <jhi-edit-inline class="width-max" [type]="'string'" [placeholder]="_placeholderMethod"
+                              <jhi-edit-inline [readonlyMode]="readOnlyMode" class="width-max" [type]="'string'" [placeholder]="_placeholderMethod"
                                                [value]="payment.method" (onValueChange)="onChangeMethod(i, $event)"></jhi-edit-inline>
                           </mat-grid-tile>
                           <mat-grid-tile [class.odd]="odd">
-                              <jhi-edit-inline class="width-max" [type]="'string'" [placeholder]="_placeholderCode"
+                              <jhi-edit-inline [readonlyMode]="readOnlyMode" class="width-max" [type]="'string'" [placeholder]="_placeholderCode"
                                                [value]="payment.code" (onValueChange)="onChangeCode(i, $event)"></jhi-edit-inline>
                           </mat-grid-tile>
                           <mat-grid-tile colspan="4" [class.odd]="odd" class="notes-add-payment">
-                              <jhi-edit-inline class="width-max" [type]="'notes'" [placeholder]="_placeholderNotes"
+                              <jhi-edit-inline [readonlyMode]="readOnlyMode" class="width-max" [type]="'notes'" [placeholder]="_placeholderNotes"
                                                [value]="payment.notes" (onValueChange)="onChangeNotes(i, value)"></jhi-edit-inline>
-                              <div class="add-payments" [class.add-payments-grid]="!last" [class.add-payments-bottom]="last">
+                              <div *ngIf="!readOnlyMode" class="add-payments" [class.add-payments-grid]="!last" [class.add-payments-bottom]="last">
                                   <div class="d-flex justify-content-center container-btn-payment">
                                       <button *ngIf="last" mat-mini-fab class="btn-payment" type="submit">+</button>
                                       <button mat-mini-fab class="btn-payment" type="button" (click)="onRemovePayment(i)">-</button>
@@ -46,7 +46,7 @@
                               </div>
                           </mat-grid-tile>
                       </div>
-                      <mat-grid-tile colspan="4" class="tile-add-bottom" *ngIf="payments.length == 0">
+                      <mat-grid-tile  colspan="4" class="tile-add-bottom" *ngIf="payments.length == 0 && !readOnlyMode">
                           <div class="add-payments add-payment-first">
                               <div class="d-flex justify-content-center container-btn-payment">
                                   <button mat-mini-fab class="btn-payment" type="submit">+</button>

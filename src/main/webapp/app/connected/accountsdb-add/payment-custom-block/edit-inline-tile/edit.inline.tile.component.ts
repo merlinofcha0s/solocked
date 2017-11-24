@@ -13,6 +13,7 @@ export class EditInlineTileComponent implements OnInit, OnDestroy {
     @Input() placeholder: string;
     @Input() value: string;
     @Input() type: string;
+    @Input() readonlyMode: boolean;
 
     @Output() onValueChange = new EventEmitter<string>();
 
@@ -55,13 +56,13 @@ export class EditInlineTileComponent implements OnInit, OnDestroy {
     }
 
     createPlaceholder() {
-        if (this.value === '') {
+        if (this.value === '' && !this.readonlyMode) {
             this.value = this.placeholder;
         }
     }
 
     clearPlaceholder() {
-        if (this.value === this.placeholder) {
+        if (this.value === this.placeholder && !this.readonlyMode) {
             this.value = '';
         }
     }

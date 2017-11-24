@@ -15,6 +15,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     @ViewChild(MatDatepicker) picker;
 
     @Input() payments: Array<Payment>;
+    @Input() readOnlyMode: boolean;
     @Output() onSyncPayments = new EventEmitter<Array<Payment>>();
     @Output() suppressPaymentBlock = new EventEmitter<boolean>();
 

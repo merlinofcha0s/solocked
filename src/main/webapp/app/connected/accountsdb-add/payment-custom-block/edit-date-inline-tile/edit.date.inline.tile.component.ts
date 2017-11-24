@@ -11,8 +11,10 @@ export class EditDateInlineTileComponent implements OnInit, OnDestroy {
     over: boolean;
     edit: boolean;
 
+
     @Input() placeholder: Date;
     @Input() value: Date;
+    @Input() readonlyMode: boolean;
 
     @Output() onValueChange = new EventEmitter<Date>();
 
