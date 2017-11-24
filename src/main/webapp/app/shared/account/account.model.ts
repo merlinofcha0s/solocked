@@ -12,7 +12,7 @@ export class Account {
     public customs: Array<Custom>;
     public featured: boolean;
     public url: string;
-    public payments: Array<Payment>
+    public payments: Array<Payment>;
 
     constructor(
         username: string,
