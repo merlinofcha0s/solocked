@@ -16,6 +16,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
 
     @Input() payments: Array<Payment>;
     @Output() onSyncPayments = new EventEmitter<Array<Payment>>();
+    @Output() suppressPaymentBlock = new EventEmitter<boolean>();
 
     private _placeholderMethod: string
     private _placeholderCode: string;
@@ -44,7 +45,10 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     }
 
     onRemovePayment(index: number) {
-        this.deleteLinePayment = this.dialog.open(DeletePaymentLineComponent);
+        this.deleteLinePayment = this.dialog.open(DeletePaymentLineComponent, {
+            data: { title: 'ninjaccountApp.accountsDB.paymentblock.deletelinepopup.title'
+            , snackMessage: 'ninjaccountApp.accountsDB.paymentblock.deletelinepopup.snack'}
+        });
 
         this.deleteLinePayment.afterClosed().subscribe((result) => {
             if (!isUndefined(result) && result === true) {
@@ -82,5 +86,9 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
         const payment = this.payments[index];
         payment.notes = newValue;
         this.payments[index] = payment;
+    }
+
+    onSuppressPaymentBlock(){
+        this.suppressPaymentBlock.emit(true);
     }
 }

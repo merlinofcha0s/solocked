@@ -9,16 +9,22 @@ import {TranslateService} from '@ngx-translate/core';
 })
 export class DeletePaymentLineComponent implements OnInit {
 
+    title: string;
+    snackMessage: string;
+
     constructor(@Inject(MAT_DIALOG_DATA) private data: any,
                 private snackBar: MatSnackBar,
                 private translateService: TranslateService) {
+        this.title = this.data.title;
+        this.snackMessage = this.data.snackMessage;
     }
+
 
     ngOnInit() {
     }
 
     onDelete() {
-        const message = this.translateService.instant('ninjaccountApp.accountsDB.paymentblock.deletePopup.snack');
+        const message = this.translateService.instant(this.snackMessage);
         const config = new MatSnackBarConfig();
         config.verticalPosition = 'top';
         config.duration = 3000;

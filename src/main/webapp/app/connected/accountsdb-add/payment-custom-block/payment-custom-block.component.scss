@@ -75,7 +75,7 @@ $border-radius-payment: 10px !important;
 
 .add-payments {
     width: 100%;
-    height: 0px;
+    height: 0;
     margin-top: 2px;
 }
 
@@ -100,15 +100,19 @@ $border-radius-payment: 10px !important;
 }
 
 .odd {
-    background-color: #F1F1F1;
+    background-color: #d4d4d4;
 }
 
 .notes-add-payment {
     z-index: 2;
     overflow: unset;
 
-    /deep/ .mat-figure{
+    /deep/ .mat-figure {
         flex-direction: column;
     }
+}
 
+.suppress {
+    font-size: 25px;
+    cursor: pointer;
 }

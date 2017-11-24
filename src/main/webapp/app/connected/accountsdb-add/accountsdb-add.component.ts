@@ -14,6 +14,7 @@ import {SnackComponent} from '../../shared/snack/snack.component';
 import {AddCustomBlockComponent} from "./add-custom-block/add-custom-block.component";
 import {Payment} from "../../shared/account/payment-block.model";
 import {PaymentCustomBlockConstant} from "./payment-custom-block.constant";
+import {DeletePaymentLineComponent} from "./payment-custom-block/delete-payment-line/delete-payment-line.component";
 
 @Component({
     selector: 'jhi-accountsdb-add',
@@ -54,6 +55,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     passwordType: string;
     iconPasswordType: string;
     private customBlockDialog: MatDialogRef<AddCustomBlockComponent>;
+    private deletePaymentBlock: MatDialogRef<DeletePaymentLineComponent>;
     private payments: Array<Payment>;
 
     private customBlockCounter: {
@@ -267,7 +269,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
     openCustomBlock() {
         this.customBlockDialog = this.dialog.open(AddCustomBlockComponent, {
-            data: { customBlockCounter: this.customBlockCounter },
+            data: {customBlockCounter: this.customBlockCounter},
         });
         this.onCloseCustomBlockPopup();
     }
@@ -296,5 +298,21 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
     onSyncPayments(payments: Array<Payment>) {
         this.payments = payments;
+    }
+
+    onSuppressPaymentblock(suppress: boolean) {
+        this.deletePaymentBlock = this.dialog.open(DeletePaymentLineComponent, {
+            data: {
+                title: 'ninjaccountApp.accountsDB.paymentblock.deleteblock.title'
+                , snackMessage: 'ninjaccountApp.accountsDB.paymentblock.deleteblock.snack'
+            }
+        });
+
+        this.deletePaymentBlock.afterClosed().subscribe((result) => {
+            if (!isUndefined(result) && result) {
+                this.customBlockCounter.paymentBlocks.splice(0, this.customBlockCounter.paymentBlocks.length);
+                this.payments.splice(0, this.payments.length);
+            }
+        });
     }
 }
