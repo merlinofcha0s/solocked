@@ -1,5 +1,5 @@
 <div class="field width-max" (click)="edit=true;"
-     click-outside (clickOutside)="onClickOutSide($event);"
+     jhiClickOutside (clickOutside)="onClickOutSide($event);"
      (mouseover)="over=true;" (mouseout)="over=false;">
     <mat-form-field class="width-max" *ngIf="(over || edit) && !readonlyMode;else valueContainer">
         <input  matInput class="payment-input-date" [(ngModel)]="value"

@@ -15,9 +15,9 @@ import { AccountsdbDeleteComponent } from './accountsdb-details/accountsdb-delet
 import {AddCustomBlockComponent} from './accountsdb-add/add-custom-block/add-custom-block.component';
 import {PaymentCustomBlockComponent} from './accountsdb-add/payment-custom-block/payment-custom-block.component';
 import {ClickOutsideDirective} from './accountsdb-add/payment-custom-block/click-outside.directive';
-import {EditInlineTileComponent} from "./accountsdb-add/payment-custom-block/edit-inline-tile/edit.inline.tile.component";
-import {EditDateInlineTileComponent} from "./accountsdb-add/payment-custom-block/edit-date-inline-tile/edit.date.inline.tile.component";
-import {DeletePaymentLineComponent} from "./accountsdb-add/payment-custom-block/delete-payment-line/delete-payment-line.component";
+import {EditInlineTileComponent} from './accountsdb-add/payment-custom-block/edit-inline-tile/edit.inline.tile.component';
+import {EditDateInlineTileComponent} from './accountsdb-add/payment-custom-block/edit-date-inline-tile/edit.date.inline.tile.component';
+import {DeletePaymentLineComponent} from './accountsdb-add/payment-custom-block/delete-payment-line/delete-payment-line.component';
 import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({

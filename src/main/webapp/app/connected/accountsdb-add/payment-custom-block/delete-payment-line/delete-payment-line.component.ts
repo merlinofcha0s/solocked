@@ -19,7 +19,6 @@ export class DeletePaymentLineComponent implements OnInit {
         this.snackMessage = this.data.snackMessage;
     }
 
-
     ngOnInit() {
     }
 

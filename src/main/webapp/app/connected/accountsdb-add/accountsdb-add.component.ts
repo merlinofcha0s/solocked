@@ -11,10 +11,10 @@ import {Custom} from '../../shared/account/custom-account.model';
 import {MatDialog, MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {SnackComponent} from '../../shared/snack/snack.component';
-import {AddCustomBlockComponent} from "./add-custom-block/add-custom-block.component";
-import {Payment} from "../../shared/account/payment-block.model";
-import {PaymentCustomBlockConstant} from "./payment-custom-block.constant";
-import {DeletePaymentLineComponent} from "./payment-custom-block/delete-payment-line/delete-payment-line.component";
+import {AddCustomBlockComponent} from './add-custom-block/add-custom-block.component';
+import {Payment} from '../../shared/account/payment-block.model';
+import {PaymentCustomBlockConstant} from './payment-custom-block.constant';
+import {DeletePaymentLineComponent} from './payment-custom-block/delete-payment-line/delete-payment-line.component';
 
 @Component({
     selector: 'jhi-accountsdb-add',
@@ -56,9 +56,9 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     iconPasswordType: string;
     private customBlockDialog: MatDialogRef<AddCustomBlockComponent>;
     private deletePaymentBlock: MatDialogRef<DeletePaymentLineComponent>;
-    private payments: Array<Payment>;
+    payments: Array<Payment>;
 
-    private customBlockCounter: {
+    customBlockCounter: {
         paymentBlocks: Array<number>;
     };
 
@@ -136,8 +136,6 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
                 this.tags.setValue(tagsValue.slice(0, -2));
 
-                console.log('payments: ' + account.payments.length);
-
                 if (account.payments.length !== 0) {
                     this.payments = account.payments;
                     this.clearAllPaymentBlock();
@@ -154,7 +152,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         newAccount.url = this.url.value;
         newAccount.number = this.accountNumber.value;
         newAccount.notes = this.notes.value;
-        if (!isUndefined(this.payments) && this.payments.length != 0) {
+        if (!isUndefined(this.payments) && this.payments.length !== 0) {
             this.payments.forEach((payment, index) => {
 
                 if (payment.notes === PaymentCustomBlockConstant.placeholderNotes) {
@@ -275,7 +273,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     }
 
     onCloseCustomBlockPopup() {
-        this.customBlockDialog.afterClosed().subscribe(blockToAdd => {
+        this.customBlockDialog.afterClosed().subscribe((blockToAdd) => {
             if (!isUndefined(blockToAdd)) {
                 if (blockToAdd.paymentBlocks) {
                     this.addNewPaymentBlock(true);

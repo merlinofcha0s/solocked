@@ -1,5 +1,5 @@
 import {Custom} from './custom-account.model';
-import {Payment} from "./payment-block.model";
+import {Payment} from './payment-block.model';
 
 export class Account {
     public id: number;

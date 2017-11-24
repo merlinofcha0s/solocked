@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {Payment} from '../../../shared/account/payment-block.model';
-import {MatDatepicker, MatDialog, MatDialogRef} from "@angular/material";
-import {PaymentCustomBlockConstant} from "../payment-custom-block.constant";
-import {DeletePaymentLineComponent} from "./delete-payment-line/delete-payment-line.component";
-import {isUndefined} from "util";
+import {MatDatepicker, MatDialog, MatDialogRef} from '@angular/material';
+import {PaymentCustomBlockConstant} from '../payment-custom-block.constant';
+import {DeletePaymentLineComponent} from './delete-payment-line/delete-payment-line.component';
+import {isUndefined} from 'util';
 
 @Component({
     selector: 'jhi-payment-custom-block',
@@ -19,9 +19,9 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     @Output() onSyncPayments = new EventEmitter<Array<Payment>>();
     @Output() suppressPaymentBlock = new EventEmitter<boolean>();
 
-    private _placeholderMethod: string
-    private _placeholderCode: string;
-    private _placeholderNotes: string;
+    _placeholderMethod: string
+    _placeholderCode: string;
+    _placeholderNotes: string;
 
     private deleteLinePayment: MatDialogRef<DeletePaymentLineComponent>;
 
@@ -47,8 +47,10 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
 
     onRemovePayment(index: number) {
         this.deleteLinePayment = this.dialog.open(DeletePaymentLineComponent, {
-            data: { title: 'ninjaccountApp.accountsDB.paymentblock.deletelinepopup.title'
-            , snackMessage: 'ninjaccountApp.accountsDB.paymentblock.deletelinepopup.snack'}
+            data: {
+                title: 'ninjaccountApp.accountsDB.paymentblock.deletelinepopup.title'
+                , snackMessage: 'ninjaccountApp.accountsDB.paymentblock.deletelinepopup.snack'
+            }
         });
 
         this.deleteLinePayment.afterClosed().subscribe((result) => {
@@ -89,7 +91,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
         this.payments[index] = payment;
     }
 
-    onSuppressPaymentBlock(){
+    onSuppressPaymentBlock() {
         this.suppressPaymentBlock.emit(true);
     }
 }

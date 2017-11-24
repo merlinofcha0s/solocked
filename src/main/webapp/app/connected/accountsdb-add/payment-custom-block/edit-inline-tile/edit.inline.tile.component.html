@@ -1,5 +1,5 @@
 <div class="field" [ngClass]="{'d-flex': notesType, 'flex-column': notesType, 'width-max': notesType}" (click)="edit=true;clearPlaceholder();"
-     click-outside (clickOutside)="onClickOutSide($event);"
+     jhiClickOutside (clickOutside)="onClickOutSide($event);"
      (mouseover)="over=true;" (mouseout)="over=false;">
     <div *ngIf="stringType || currencyType">
         <mat-form-field class="width-max" *ngIf="(edit || over) && !readonlyMode;else valueContainer">
@@ -10,7 +10,7 @@
     <div *ngIf="notesType">
         <div class="d-flex weight-max" *ngIf="(edit || over) && !readonlyMode;else valueContainer">
             <div class="notesHead">Notes: </div>
-            <input class="notes-style note-area" [class.odd]="odd"
+            <input class="notes-style note-area"
                    [(ngModel)]="value" id="notes" name="notes" (change)="onChangeValue(value)"/>
         </div>
     </div>

@@ -36,7 +36,6 @@ export class AccountsService {
     }
 
     getAccount(id: number) {
-        console.log('Calling get account !!!');
         if (this._dataStore.accounts.accounts.length === 0) {
             this.accountTech.synchroDB().subscribe((accountsFromDB) => {
                 this._dataStore.accounts = accountsFromDB;
@@ -98,7 +97,6 @@ export class AccountsService {
     }
 
     seqNextVal(accounts: Accounts): number {
-        console.log('accounts size : ' + accounts.accounts.length);
         const accountsIds = accounts.accounts.map((account) => account.id);
         if (accountsIds.length === 0) {
             return 1;
@@ -127,7 +125,6 @@ export class AccountsService {
     saveNewAccount(account: Account): Observable<AccountsDB> {
         // Sequence management
         account.id = this.seqNextVal(this._dataStore.accounts);
-        console.log('id : ' + account.id);
         const initVector = this.cryptoUtils.getRandomNumber();
         return this.accountTech.synchroDB()
             .flatMap((accounts: Accounts) => {

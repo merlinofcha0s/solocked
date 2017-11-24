@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {MatDatepickerInputEvent} from "@angular/material";
+import {MatDatepickerInputEvent} from '@angular/material';
 
 @Component({
     selector: 'jhi-edit-date-inline',
@@ -10,7 +10,6 @@ export class EditDateInlineTileComponent implements OnInit, OnDestroy {
 
     over: boolean;
     edit: boolean;
-
 
     @Input() placeholder: Date;
     @Input() value: Date;

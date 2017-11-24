@@ -1,5 +1,5 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({
     selector: 'jhi-custom-block',
@@ -48,6 +48,4 @@ export class AddCustomBlockComponent implements OnInit, OnDestroy {
     disableValidate(): boolean {
         return !this.blockToAdd.paymentBlocks;
     }
-
-
 }

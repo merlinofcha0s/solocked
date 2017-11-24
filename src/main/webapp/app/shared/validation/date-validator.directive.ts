@@ -1,12 +1,11 @@
-import {Directive} from "@angular/core";
-import {AbstractControl, NG_VALIDATORS, Validator} from "@angular/forms";
+import {Directive} from '@angular/core';
+import {AbstractControl, NG_VALIDATORS, Validator} from '@angular/forms';
 
 @Directive({
     selector: '[jhiDateValidator][ngModel]',
     providers: [{provide: NG_VALIDATORS, useExisting: DateValidatorDirective, multi: true}]
 })
 export class DateValidatorDirective implements Validator {
-
 
     constructor() {
     }

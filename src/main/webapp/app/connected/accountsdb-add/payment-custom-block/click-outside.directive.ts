@@ -3,10 +3,10 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/do';
-import {Subscription} from "rxjs/Subscription";
+import {Subscription} from 'rxjs/Subscription';
 
 @Directive({
-    selector: '[click-outside]'
+    selector: '[jhiClickOutside]'
 })
 
 export class ClickOutsideDirective implements OnInit, OnDestroy {
