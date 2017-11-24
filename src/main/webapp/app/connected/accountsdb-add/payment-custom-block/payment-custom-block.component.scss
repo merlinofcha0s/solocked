@@ -116,3 +116,8 @@ $border-radius-payment: 10px !important;
     font-size: 25px;
     cursor: pointer;
 }
+
+.tile-add-bottom {
+    z-index: 10;
+    overflow: unset;
+}

@@ -1,6 +1,6 @@
 {
     "ninjaccountApp": {
-        "accountsDB" : {
+        "accountsDB": {
             "home": {
                 "title": "Accounts DBS",
                 "createLabel": "Create a new Accounts DB",
@@ -19,7 +19,6 @@
                     "noPinned": "No pinned account :(",
                     "loadMore": "Load more"
                 }
-
             },
             "created": "A new Accounts DB is created with identifier {{ param }}",
             "updated": "A Accounts DB is updated with identifier {{ param }}",
@@ -46,11 +45,11 @@
                 "notes": "Notes",
                 "url": "URL",
                 "tags": "Tags (separated with comma)",
-                "custom":{
+                "custom": {
                     "label": "Label",
                     "value": "Value",
                     "button": "Add custom field",
-                    "sets":{
+                    "sets": {
                         "button": "Add custom block"
                     }
                 },
@@ -59,7 +58,7 @@
                 "error": "Error during the add account, please retry",
                 "toomanyAccount": "Limit reached. Go to settings for more info"
             },
-            "update":{
+            "update": {
                 "header": "Update account | Solocked",
                 "title": "Update an account.",
                 "button": "Update account",
@@ -108,19 +107,35 @@
                 "notes": {
                     "max": "Too many characters"
                 },
-                "url":{
+                "url": {
                     "pattern": "URL must begin with http// or https://"
                 }
             },
-            "paymentblock":{
-                "deletelinepopup":{
+            "paymentblock": {
+                "addCustomBlock": {
+                    "title": "Add a custom block",
+                    "payment": "Payment fields",
+                    "contact": "Contact fields",
+                    "creditcard": "Credit Card fields",
+                    "continue": "Continue",
+                    "cancel": "Cancel"
+                },
+                "paymentCustomBlock": {
+                    "title": "Payment field",
+                    "date": "Paid date",
+                    "amount": "Amount paid",
+                    "method": "Method",
+                    "code": "Code"
+
+                },
+                "deletelinepopup": {
                     "title": "Delele this line",
                     "text": "Are you sure ?",
                     "yes": "yes",
                     "no": "no",
                     "snack": "Payment line deleted !"
                 },
-                "deleteblock":{
+                "deleteblock": {
                     "title": "Delete this payment block",
                     "snack": "Payment block deleted !"
                 }

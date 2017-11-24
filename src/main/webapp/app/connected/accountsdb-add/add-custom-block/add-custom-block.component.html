@@ -1,27 +1,28 @@
-<h1 mat-dialog-title class="font-weight-bold" style="font-size: 25px;">Add a custom block</h1>
+<h1 mat-dialog-title class="font-weight-bold title" jhiTranslate="ninjaccountApp.accountsDB.paymentblock.addCustomBlock.title">Add a custom block</h1>
 <mat-dialog-content class="d-flex justify-content-center align-content-center">
-    <div class="d-flex justify-content-center align-content-center custom-button-container flex-md-wrap" style="margin-bottom: 15px;">
-        <mat-button-toggle #paymentblock (change)="onPaymentFieldSelected()" [attr.disabled]="disablePaymentBlock" [disabled]="disablePaymentBlock" class="add-custom-block">
+    <div class="d-flex justify-content-center align-content-center custom-button-container flex-md-wrap margin-content">
+        <mat-button-toggle (change)="onPaymentFieldSelected()" [attr.disabled]="disablePaymentBlock"
+                           [disabled]="disablePaymentBlock" class="add-custom-block">
             <div class="d-flex flex-column justify-content-center align-content-center width-max">
                 <i class="fa fa-money custom-block-icons" aria-hidden="true"></i>
-                <div>Payment fields</div>
+                <div jhiTranslate="ninjaccountApp.accountsDB.paymentblock.addCustomBlock.payment">Payment fields</div>
             </div>
         </mat-button-toggle>
         <mat-button-toggle disabled class="add-custom-block">
             <div class="d-flex flex-column justify-content-center align-content-center width-max">
                 <i class="fa fa-id-card custom-block-icons" aria-hidden="true"></i>
-                <div>Contact fields</div>
+                <div jhiTranslate="ninjaccountApp.accountsDB.paymentblock.addCustomBlock.contact">Contact fields</div>
             </div>
         </mat-button-toggle>
         <mat-button-toggle disabled class="add-custom-block">
             <div class="d-flex flex-column justify-content-center align-content-center width-max">
                 <i class="fa fa-credit-card custom-block-icons" aria-hidden="true"></i>
-                <div>Credit Card fields</div>
+                <div jhiTranslate="ninjaccountApp.accountsDB.paymentblock.addCustomBlock.creditcard">Credit Card fields</div>
             </div>
         </mat-button-toggle>
     </div>
 </mat-dialog-content>
 <mat-dialog-actions class="d-flex justify-content-center align-content-center">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button (click)="validateChoice()" [disabled]="disableValidate()">Continue</button>
+    <button mat-button mat-dialog-close>{{ 'ninjaccountApp.accountsDB.paymentblock.addCustomBlock.cancel' | translate }}</button>
+    <button mat-button (click)="validateChoice()" [disabled]="disableValidate()">{{ 'ninjaccountApp.accountsDB.paymentblock.addCustomBlock.continue' | translate }}</button>
 </mat-dialog-actions>

@@ -4,7 +4,7 @@
           <div class="d-flex">
               <i class="fa fa-money payment-block-icons" aria-hidden="true"></i>
               <mat-card-title class="title d-flex align-items-center justify-content-center">
-                  <div>Payment fields</div>
+                  <div jhiTranslate="ninjaccountApp.accountsDB.paymentblock.paymentCustomBlock.title">Payment fields</div>
               </mat-card-title>
           </div>
           <i class="fa fa-trash suppress" (click)="onSuppressPaymentBlock()"></i>
@@ -15,10 +15,10 @@
           <mat-card-content>
               <form (ngSubmit)="onAddPayment()" #paymentForm="ngForm">
                   <mat-grid-list cols="4" rowHeight="40px" gutterSize="0px">
-                      <mat-grid-tile class="header top-left">Paid date</mat-grid-tile>
-                      <mat-grid-tile class="header">Amount paid</mat-grid-tile>
-                      <mat-grid-tile class="header">Payment method</mat-grid-tile>
-                      <mat-grid-tile class="header top-right">Code</mat-grid-tile>
+                      <mat-grid-tile class="header top-left">{{ "ninjaccountApp.accountsDB.paymentblock.paymentCustomBlock.date" | translate }}</mat-grid-tile>
+                      <mat-grid-tile class="header">{{ "ninjaccountApp.accountsDB.paymentblock.paymentCustomBlock.amount" | translate }}</mat-grid-tile>
+                      <mat-grid-tile class="header">{{ "ninjaccountApp.accountsDB.paymentblock.paymentCustomBlock.method" | translate }}</mat-grid-tile>
+                      <mat-grid-tile class="header top-right">{{ "ninjaccountApp.accountsDB.paymentblock.paymentCustomBlock.code" | translate }}</mat-grid-tile>
                       <div *ngFor="let payment of payments;let i = index;let odd = odd; let last = last;">
                           <mat-grid-tile [class.odd]="odd">
                               <jhi-edit-date-inline class="width-max" [value]="payment.date" (onValueChange)="onChangeDate(i, $event)"></jhi-edit-date-inline>
@@ -46,7 +46,7 @@
                               </div>
                           </mat-grid-tile>
                       </div>
-                      <mat-grid-tile colspan="4" style="z-index: 10; overflow: unset;" *ngIf="payments.length == 0">
+                      <mat-grid-tile colspan="4" class="tile-add-bottom" *ngIf="payments.length == 0">
                           <div class="add-payments add-payment-first">
                               <div class="d-flex justify-content-center container-btn-payment">
                                   <button mat-mini-fab class="btn-payment" type="submit">+</button>
