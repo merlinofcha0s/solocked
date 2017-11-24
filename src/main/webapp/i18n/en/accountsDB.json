@@ -111,6 +111,15 @@
                 "url":{
                     "pattern": "URL must begin with http// or https://"
                 }
+            },
+            "paymentblock":{
+                "deletePopup":{
+                    "title": "Delele this line",
+                    "text": "Are you sure ?",
+                    "yes": "yes",
+                    "no": "no",
+                    "snack": "Payment line deleted !"
+                }
             }
         }
     }

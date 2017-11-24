@@ -1,166 +1,22 @@
 @import './../../../../../content/scss/custom-variables';
 
-$border-radius-payment: 10px !important;
-$color-input: #7B7B7B;
-
-.payment-custom-card {
-    color: $font-color-primary;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding: 20px !important;
-}
-
-.payment-block-icons {
-    font-size: 35px;
-    margin-right: 15px;
-}
-
-.payments {
-    padding: 0px 0px 0px 0px !important;
-    border-top-left-radius: $border-radius-payment;
-    border-top-right-radius: $border-radius-payment;
-}
-
-.title {
-    font-size: 25px;
-    margin-top: 0px !important;
-}
-
-.header {
-    background: $font-color-primary;
-    color: white;
-}
-
 .payment-input-date {
     text-align: center;
-    color: $color-input;
-}
-
-.payment-input-number {
-    text-align: center;
-    margin-left: 0.5px;
-    color: $color-input;
+    color: $payment-block-color-input;
 }
 
 .payment-input {
     text-align: center;
     margin-left: 0px;
-    color: $color-input;
+    color: $payment-block-color-input;
 }
 
 .payment-value {
     margin-bottom: 6px;
-    color: $color-input;
+    color: $payment-block-color-input;
 }
 
-.top-left {
-    border-top-left-radius: $border-radius-payment;
-}
-
-.top-right {
-    border-top-right-radius: $border-radius-payment;
-}
 
 .field {
     padding-top: 10px;
-}
-
-.last-field {
-    padding-right: 7px;
-}
-
-.notes {
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.notes-style {
-    font-style: italic;
-    color: $color-input;
-    border: 0px;
-    width: 100%;
-    margin-bottom: 5px;
-    height: 22px;
-}
-
-.note-value {
-    margin-left: 1px;
-}
-
-.note-area {
-    margin-top: 1px;
-}
-
-.notesHead {
-    font-weight: bold;
-    margin-right: 10px;
-    padding-left: 15px;
-    color: $color-input;
-    margin-bottom: 5px;
-}
-
-.btn-payment {
-    width: 30px;
-    height: 30px;
-    margin-right: 7px;
-    /deep/ .mat-button-wrapper {
-        padding: 0px 0px !important;
-        font-size: 20px;
-        vertical-align: text-bottom;
-    }
-}
-
-.btn-payment {
-    background-color: #E5E5E5;
-    box-shadow: none !important;
-}
-
-.container-btn-payment {
-    width: 100%;
-    transform: translate(0px, -16px);
-    height: 0px;
-}
-
-.add-payment {
-    margin-right: 8px;
-}
-
-.add-payments {
-    width: 100%;
-    height: 0px;
-    margin-top: 2px;
-}
-
-.add-payments-grid {
-    border-top: 1px solid #E5E5E5;
-    transform: translate(0px, 4px);
-    transition: border-top 0.4s;
-}
-
-.add-payments-bottom {
-    transform: translate(0px, 4px);
-}
-
-.add-payment-first {
-    transform: translate(0px, 20px);
-}
-
-.add-payments:hover {
-
-    .btn-payment {
-        background-color: black !important;
-    }
-}
-
-.add-payments-grid:hover {
-    border-top: 1px solid #000000 !important;
-}
-
-.odd {
-    background-color: #F1F1F1;
-}
-
-.notes-add-payment {
-    z-index: 2;
-    overflow: unset;
 }

@@ -1,7 +1,6 @@
 @import './../../../../content/scss/custom-variables';
 
 $border-radius-payment: 10px !important;
-$color-input: #7B7B7B;
 
 .payment-custom-card {
     color: $font-color-primary;
@@ -16,7 +15,7 @@ $color-input: #7B7B7B;
 }
 
 .payments {
-    padding: 0px 0px 0px 0px !important;
+    padding: 0 0 0 0 !important;
     border-top-left-radius: $border-radius-payment;
     border-top-right-radius: $border-radius-payment;
 }
@@ -31,28 +30,6 @@ $color-input: #7B7B7B;
     color: white;
 }
 
-.payment-input-date {
-    text-align: center;
-    color: $color-input;
-}
-
-.payment-input-number {
-    text-align: center;
-    margin-left: 0.5px;
-    color: $color-input;
-}
-
-.payment-input {
-    text-align: center;
-    margin-left: 0px;
-    color: $color-input;
-}
-
-.payment-value {
-    margin-bottom: 6px;
-    color: $color-input;
-}
-
 .top-left {
     border-top-left-radius: $border-radius-payment;
 }
@@ -65,38 +42,9 @@ $color-input: #7B7B7B;
     padding-top: 10px;
 }
 
-.last-field {
-    padding-right: 7px;
-}
-
 .notes {
     padding-left: 10px;
     padding-right: 10px;
-}
-
-.notes-style {
-    font-style: italic;
-    color: $color-input;
-    border: 0px;
-    width: 100%;
-    margin-bottom: 5px;
-    height: 22px;
-}
-
-.note-value {
-    margin-left: 1px;
-}
-
-.note-area {
-    margin-top: 1px;
-}
-
-.notesHead {
-    font-weight: bold;
-    margin-right: 10px;
-    padding-left: 15px;
-    color: $color-input;
-    margin-bottom: 5px;
 }
 
 .btn-payment {
@@ -133,12 +81,7 @@ $color-input: #7B7B7B;
 
 .add-payments-grid {
     border-top: 1px solid #E5E5E5;
-    transform: translate(0px, 0px);
     transition: border-top 0.4s;
-}
-
-.add-payments-bottom {
-    transform: translate(0px, 4px);
 }
 
 .add-payment-first {

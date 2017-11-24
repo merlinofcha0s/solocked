@@ -1,5 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MatDialogRef} from "@angular/material";
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 
 @Component({
     selector: 'jhi-custom-block',
@@ -8,12 +8,19 @@ import {MatDialogRef} from "@angular/material";
 })
 export class AddCustomBlockComponent implements OnInit, OnDestroy {
 
+    disablePaymentBlock: boolean;
+
     private blockToAdd: {
         paymentBlocks: boolean
     };
 
-    constructor(public dialogRef: MatDialogRef<AddCustomBlockComponent>) {
+    constructor(private dialogRef: MatDialogRef<AddCustomBlockComponent>
+        , @Inject(MAT_DIALOG_DATA) private data: any) {
         this.blockToAdd = {paymentBlocks: false};
+        if (this.data.customBlockCounter.paymentBlocks.length >= 1) {
+            this.disablePaymentBlock = true;
+            this.blockToAdd.paymentBlocks = false;
+        }
     }
 
     ngOnInit() {
@@ -25,12 +32,13 @@ export class AddCustomBlockComponent implements OnInit, OnDestroy {
     }
 
     onPaymentFieldSelected() {
-        if (this.blockToAdd.paymentBlocks) {
-            this.blockToAdd.paymentBlocks = false;
-        } else {
-            this.blockToAdd.paymentBlocks = true;
+        if (!this.disablePaymentBlock) {
+            if (!this.blockToAdd.paymentBlocks) {
+                this.blockToAdd.paymentBlocks = true;
+            } else {
+                this.blockToAdd.paymentBlocks = false;
+            }
         }
-
     }
 
     validateChoice() {

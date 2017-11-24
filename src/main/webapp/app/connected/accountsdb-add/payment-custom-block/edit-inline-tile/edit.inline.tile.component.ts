@@ -66,8 +66,7 @@ export class EditInlineTileComponent implements OnInit, OnDestroy {
         }
     }
 
-    onChangeValue(newValue){
-        this.value = newValue;
+    onChangeValue(newValue) {
         this.onValueChange.emit(newValue);
     }
 }

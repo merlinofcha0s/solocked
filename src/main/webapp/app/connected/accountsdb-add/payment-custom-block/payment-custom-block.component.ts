@@ -1,8 +1,9 @@
-import {Component, OnDestroy, OnInit, ViewChild, EventEmitter, Output, Input} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {Payment} from '../../../shared/account/payment-block.model';
-import {MatDatepicker} from "@angular/material";
-import {isUndefined} from "util";
+import {MatDatepicker, MatDialog, MatDialogRef} from "@angular/material";
 import {PaymentCustomBlockConstant} from "../payment-custom-block.constant";
+import {DeletePaymentLineComponent} from "./delete-payment-line/delete-payment-line.component";
+import {isUndefined} from "util";
 
 @Component({
     selector: 'jhi-payment-custom-block',
@@ -20,8 +21,10 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     private _placeholderCode: string;
     private _placeholderNotes: string;
 
-    constructor() {
-        this._placeholderMethod =  PaymentCustomBlockConstant.placeholderMethod;
+    private deleteLinePayment: MatDialogRef<DeletePaymentLineComponent>;
+
+    constructor(private dialog: MatDialog) {
+        this._placeholderMethod = PaymentCustomBlockConstant.placeholderMethod;
         this._placeholderCode = PaymentCustomBlockConstant.placeholderCode;
         this._placeholderNotes = PaymentCustomBlockConstant.placeholderNotes;
     }
@@ -41,35 +44,41 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     }
 
     onRemovePayment(index: number) {
-        this.payments.splice(index, 1);
-        this.onSyncPayments.emit(this.payments);
+        this.deleteLinePayment = this.dialog.open(DeletePaymentLineComponent);
+
+        this.deleteLinePayment.afterClosed().subscribe((result) => {
+            if (!isUndefined(result) && result === true) {
+                this.payments.splice(index, 1);
+                this.onSyncPayments.emit(this.payments);
+            }
+        });
     }
 
-    onChangeDate(index: number, newValue: Date){
+    onChangeDate(index: number, newValue: Date) {
         const payment = this.payments[index];
         payment.date = newValue;
         this.payments[index] = payment;
     }
 
-    onChangeAmount(index: number, newValue: number){
-       const payment = this.payments[index];
+    onChangeAmount(index: number, newValue: number) {
+        const payment = this.payments[index];
         payment.amount = newValue;
         this.payments[index] = payment;
     }
 
-    onChangeMethod(index: number, newValue: string){
+    onChangeMethod(index: number, newValue: string) {
         const payment = this.payments[index];
         payment.method = newValue;
         this.payments[index] = payment;
     }
 
-    onChangeCode(index: number, newValue: string){
+    onChangeCode(index: number, newValue: string) {
         const payment = this.payments[index];
         payment.code = newValue;
         this.payments[index] = payment;
     }
 
-    onChangeNotes(index: number, newValue: string){
+    onChangeNotes(index: number, newValue: string) {
         const payment = this.payments[index];
         payment.notes = newValue;
         this.payments[index] = payment;

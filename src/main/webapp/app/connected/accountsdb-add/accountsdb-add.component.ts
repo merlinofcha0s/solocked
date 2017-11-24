@@ -143,7 +143,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 }
             }
         });
-        //this.accountsService.getAccount(idAccount);
+        this.accountsService.getAccount(idAccount);
     }
 
     onSubmitNewAccount() {
@@ -266,7 +266,9 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     }
 
     openCustomBlock() {
-        this.customBlockDialog = this.dialog.open(AddCustomBlockComponent);
+        this.customBlockDialog = this.dialog.open(AddCustomBlockComponent, {
+            data: { customBlockCounter: this.customBlockCounter },
+        });
         this.onCloseCustomBlockPopup();
     }
 

@@ -16,19 +16,19 @@
                       <mat-grid-tile class="header top-right">Code</mat-grid-tile>
                       <div *ngFor="let payment of payments;let i = index;let odd = odd; let last = last;">
                           <mat-grid-tile [class.odd]="odd"">
-                              <jhi-edit-date-inline class="width-max" [value]="payment.date" (onValueChange)="onChangeDate(i, value)"></jhi-edit-date-inline>
+                              <jhi-edit-date-inline class="width-max" [value]="payment.date" (onValueChange)="onChangeDate(i, $event)"></jhi-edit-date-inline>
                           </mat-grid-tile>
                           <mat-grid-tile [class.odd]="odd">
                               <jhi-edit-inline class="width-max" [type]="'currency'" [placeholder]="0"
-                                               [value]="payment.amount" (onValueChange)="onChangeAmount(i, value)"></jhi-edit-inline>
+                                               [value]="payment.amount" (onValueChange)="onChangeAmount(i, $event)"></jhi-edit-inline>
                           </mat-grid-tile>
                           <mat-grid-tile [class.odd]="odd">
                               <jhi-edit-inline class="width-max" [type]="'string'" [placeholder]="_placeholderMethod"
-                                               [value]="payment.method" (onValueChange)="onChangeMethod(i, value)"></jhi-edit-inline>
+                                               [value]="payment.method" (onValueChange)="onChangeMethod(i, $event)"></jhi-edit-inline>
                           </mat-grid-tile>
                           <mat-grid-tile [class.odd]="odd">
                               <jhi-edit-inline class="width-max" [type]="'string'" [placeholder]="_placeholderCode"
-                                               [value]="payment.code" (onValueChange)="onChangeCode(i, value)"></jhi-edit-inline>
+                                               [value]="payment.code" (onValueChange)="onChangeCode(i, $event)"></jhi-edit-inline>
                           </mat-grid-tile>
                           <mat-grid-tile colspan="4" [class.odd]="odd" class="notes-add-payment">
                               <jhi-edit-inline class="width-max" [type]="'notes'" [placeholder]="_placeholderNotes"
@@ -42,7 +42,7 @@
                           </mat-grid-tile>
                       </div>
                       <mat-grid-tile colspan="4" style="z-index: 10; overflow: unset;" *ngIf="payments.length == 0">
-                          <div class="add-payments add-payments-bottom add-payment-first">
+                          <div class="add-payments add-payment-first">
                               <div class="d-flex justify-content-center container-btn-payment">
                                   <button mat-mini-fab class="btn-payment" type="submit">+</button>
                               </div>

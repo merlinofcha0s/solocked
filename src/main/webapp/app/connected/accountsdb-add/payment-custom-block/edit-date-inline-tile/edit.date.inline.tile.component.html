@@ -3,7 +3,7 @@
      (mouseover)="over=true;" (mouseout)="over=false;">
     <mat-form-field class="width-max" *ngIf="over || edit;else valueContainer">
         <input  matInput class="payment-input-date" [(ngModel)]="value"
-                [matDatepicker]="picker" (click)="picker.open()" id="date" name="date" (change)="onChangeValue(value)">
+                [matDatepicker]="picker" (click)="picker.open()" id="date" name="date" (dateChange)="onChangeValue($event)">
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <ng-template #valueContainer>

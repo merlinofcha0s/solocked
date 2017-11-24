@@ -26,7 +26,7 @@ export class AccountsdbDetailsComponent implements OnInit, OnDestroy {
                 private accountsService: AccountsService,
                 private snackBar: MatSnackBar,
                 private translateService: TranslateService,
-                public dialog: MatDialog) {
+                private dialog: MatDialog) {
     }
 
     ngOnInit() {

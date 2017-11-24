@@ -17,6 +17,8 @@ import {PaymentCustomBlockComponent} from './accountsdb-add/payment-custom-block
 import {ClickOutsideDirective} from './accountsdb-add/payment-custom-block/click-outside.directive';
 import {EditInlineTileComponent} from "./accountsdb-add/payment-custom-block/edit-inline-tile/edit.inline.tile.component";
 import {EditDateInlineTileComponent} from "./accountsdb-add/payment-custom-block/edit-date-inline-tile/edit.date.inline.tile.component";
+import {DeletePaymentLineComponent} from "./accountsdb-add/payment-custom-block/delete-payment-line/delete-payment-line.component";
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
     imports: [
@@ -25,7 +27,8 @@ import {EditDateInlineTileComponent} from "./accountsdb-add/payment-custom-block
         FormsModule,
         ReactiveFormsModule,
         NinjaccountSharedModule,
-        ClipboardModule
+        ClipboardModule,
+        MatDialogModule
     ],
     declarations: [
         AccountsdbAddComponent,
@@ -39,9 +42,10 @@ import {EditDateInlineTileComponent} from "./accountsdb-add/payment-custom-block
         PaymentCustomBlockComponent,
         ClickOutsideDirective,
         EditInlineTileComponent,
-        EditDateInlineTileComponent
+        EditDateInlineTileComponent,
+        DeletePaymentLineComponent
     ],
-    entryComponents: [AccountsdbDeleteComponent, AddCustomBlockComponent],
+    entryComponents: [AccountsdbDeleteComponent, AddCustomBlockComponent, DeletePaymentLineComponent],
 })
 export class NinjaccountConnectedModule {
 }

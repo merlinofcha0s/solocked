@@ -31,7 +31,6 @@ import {
     MatSnackBarModule,
     MatTooltipModule,
     MatTabsModule,
-    MatDialogModule,
     MatProgressBarModule,
     MatChipsModule,
     MatMenuModule,
@@ -39,9 +38,8 @@ import {
     MatCardModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatGridListModule
+    MatGridListModule, MatDialogModule
 } from '@angular/material';
-
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {UserRouteAccessIsConnectedService} from './auth/user-route-is-connected';
 import {PasswordMatchValidatorDirective} from './auth/password-match.directive';

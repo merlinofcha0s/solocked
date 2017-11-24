@@ -26,7 +26,6 @@ export class DeleteAllAccountsComponent implements OnInit, OnDestroy {
         , private dialogRef: MatDialogRef<DeleteAllAccountsComponent>
         , private router: Router
         , private snackBar: MatSnackBar
-        , private translateService: TranslateService
         , private principal: Principal) {
     }
 
