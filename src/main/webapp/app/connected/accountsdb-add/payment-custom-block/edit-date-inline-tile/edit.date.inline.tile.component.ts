@@ -21,7 +21,6 @@ export class EditDateInlineTileComponent implements OnInit, OnDestroy {
     @Output() onValueChange = new EventEmitter<Date>();
 
     constructor() {
-
     }
 
     ngOnInit() {
