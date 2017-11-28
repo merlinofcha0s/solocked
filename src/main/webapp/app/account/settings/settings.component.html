@@ -41,14 +41,15 @@
                  </mat-form-field>
                 <mat-form-field class="settingsInput emailInput">
                     <input type="email" matInput id="email" name="email" placeholder="{{'global.form.email' | translate}}"
-                           [(ngModel)]="settingsAccount.email" minlength="5" maxlength="100" #emailInput="ngModel" email required>
+                           [(ngModel)]="settingsAccount.email" pattern="^[a-zA-Z0-9_\-.]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+$"
+                           minlength="5" maxlength="100" #emailInput="ngModel" email required>
                     <mat-hint align="end">{{settingsAccount.email?.length || 0}} / {{ maxEmail }}</mat-hint>
                         <mat-error class="form-text text-danger"
                            *ngIf="emailInput.dirty && emailInput.invalid && emailInput.errors.required" jhiTranslate="global.messages.validate.email.required">
                             Your email is required.
                         </mat-error>
                         <mat-error class="form-text text-danger"
-                           *ngIf="emailInput.dirty && emailInput.invalid && emailInput.errors.email" jhiTranslate="global.messages.validate.email.invalid">
+                           *ngIf="emailInput.dirty && emailInput.invalid && emailInput.errors.pattern" jhiTranslate="global.messages.validate.email.invalid">
                             Your email is invalid.
                         </mat-error>
                         <mat-error class="form-text text-danger"
