@@ -292,6 +292,7 @@ Social button
 
 .background-offline {
     background: linear-gradient($solocked-primary-color, $solocked-secondary-color);
+    overflow-x: auto;
     height: 100%;
 }
 
@@ -337,6 +338,3 @@ Social button
 :focus {
     outline: none !important;
 }
-
-
-
