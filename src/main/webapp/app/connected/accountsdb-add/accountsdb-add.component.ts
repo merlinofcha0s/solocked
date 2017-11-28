@@ -196,17 +196,12 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
             newAccount.id = this.id;
             this.accountsService.updateAccount(newAccount);
             this.loading = false;
+            this.openSnackBar('ninjaccountApp.accountsDB.update.successful');
             this.router.navigate(['accounts']);
         } else {
             this.accountsService.saveNewAccount(newAccount)
                 .subscribe((accountsUpdated: AccountsDB) => {
-                        const message = this.translateService.instant('ninjaccountApp.accountsDB.add.successful');
-                        const config = new MatSnackBarConfig();
-                        config.verticalPosition = 'top';
-                        config.duration = 3000;
-                        config.data = {icon: 'fa-check-circle-o', text: message}
-                        this.snackBar.openFromComponent(SnackComponent, config);
-
+                        this.openSnackBar('ninjaccountApp.accountsDB.add.successful');
                         this.loading = false;
                         this.router.navigate(['accounts']);
                     },
@@ -235,6 +230,15 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                         this.snackBar.openFromComponent(SnackComponent, config);
                     });
         }
+    }
+
+    openSnackBar(messageKey: string){
+        const message = this.translateService.instant(messageKey);
+        const config = new MatSnackBarConfig();
+        config.verticalPosition = 'top';
+        config.duration = 3000;
+        config.data = {icon: 'fa-check-circle-o', text: message}
+        this.snackBar.openFromComponent(SnackComponent, config);
     }
 
     addCustomField(key: string, value: string) {

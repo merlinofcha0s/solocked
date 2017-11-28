@@ -62,7 +62,8 @@
                 "header": "Update account | Solocked",
                 "title": "Update an account.",
                 "button": "Update account",
-                "error": "Error during the account update"
+                "error": "Error during the account update",
+                "successful":  "Account updated successfully"
             },
             "details": {
                 "title": "Details",
