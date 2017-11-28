@@ -108,7 +108,7 @@
                     "max": "Too many characters"
                 },
                 "url": {
-                    "pattern": "URL must begin with http// or https://"
+                    "pattern": "URL must begin with http:// or https://"
                 }
             },
             "paymentblock": {
@@ -126,7 +126,6 @@
                     "amount": "Amount paid",
                     "method": "Method",
                     "code": "Code"
-
                 },
                 "deletelinepopup": {
                     "title": "Delele this line",
