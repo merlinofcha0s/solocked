@@ -8,6 +8,14 @@
                 <strong>Registration saved!</strong> Please check your email for confirmation.
             </div>
 
+             <div *ngIf="success" class="d-flex m-4 justify-content-center align-items-center">
+                     <button mat-raised-button class="default-validation-button"
+                             [routerLink]="['/']"
+                             id="signin">
+                         {{ 'global.messages.info.authenticated.link' | translate}}
+                    </button>
+             </div>
+
             <div class="alert alert-danger" *ngIf="error" jhiTranslate="register.messages.error.fail">
                 <strong>Registration failed!</strong> Please try again later.
             </div>
