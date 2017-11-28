@@ -12,7 +12,7 @@ import {saveAs as importedSaveAs} from 'file-saver';
 })
 export class ExportAllAccountsComponent implements OnInit, OnDestroy {
 
-    separator = ';'
+    separator = ':'
 
     constructor(private accountsService: AccountsService,
                 private dialogRef: MatDialogRef<ExportAllAccountsComponent>) {
@@ -28,7 +28,7 @@ export class ExportAllAccountsComponent implements OnInit, OnDestroy {
         const accounts = this.accountsService.getAccountsListInstant();
         if (accounts.length !== 0) {
             let lines = '';
-            const header = 'Id;Name;Number;Username;Password;Notes;Fields;Tags';
+            const header = 'Id:Name:Number:Username:Password:Notes:Fields:Tags';
             lines += lines.concat(header).concat('\n');
 
             accounts.forEach((account: Account) => {
