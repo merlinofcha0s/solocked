@@ -14,7 +14,7 @@
       <mat-card class="payments">
           <mat-card-content>
               <form (ngSubmit)="onAddPayment()" #paymentForm="ngForm">
-                  <mat-grid-list cols="4" rowHeight="30px" gutterSize="0px">
+                  <mat-grid-list cols="4" rowHeight="35px" gutterSize="0px">
                       <mat-grid-tile class="header top-left">{{ "ninjaccountApp.accountsDB.paymentblock.paymentCustomBlock.date" | translate }}</mat-grid-tile>
                       <mat-grid-tile class="header">{{ "ninjaccountApp.accountsDB.paymentblock.paymentCustomBlock.amount" | translate }}</mat-grid-tile>
                       <mat-grid-tile class="header">{{ "ninjaccountApp.accountsDB.paymentblock.paymentCustomBlock.method" | translate }}</mat-grid-tile>
