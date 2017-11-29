@@ -82,10 +82,11 @@ $border-radius-payment: 10px !important;
 .add-payments-grid {
     border-top: 1px solid #E5E5E5;
     transition: border-top 0.4s;
+    transform: translate(0px, 14px);
 }
 
 .add-payment-first {
-    transform: translate(0px, 20px);
+    transform: translate(0px, 14px);
 }
 
 .add-payments:hover {
@@ -120,4 +121,8 @@ $border-radius-payment: 10px !important;
 .tile-add-bottom {
     z-index: 10;
     overflow: unset;
+}
+
+.add-payments-bottom {
+    transform: translate(0px, 14px);
 }

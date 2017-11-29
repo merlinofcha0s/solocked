@@ -19,7 +19,6 @@ export class EditInlineTileComponent implements OnInit, OnDestroy {
 
     currencyType: boolean;
     stringType: boolean;
-    notesType: boolean;
 
     constructor() {
     }
@@ -29,8 +28,6 @@ export class EditInlineTileComponent implements OnInit, OnDestroy {
             this.currencyType = true;
         } else if (this.type === 'string') {
             this.stringType = true;
-        } else {
-            this.notesType = true;
         }
     }
 
