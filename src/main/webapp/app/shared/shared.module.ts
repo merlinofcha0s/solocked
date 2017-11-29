@@ -38,8 +38,10 @@ import {
     MatCardModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatGridListModule, MatDialogModule
+    MatGridListModule,
+    MatDialogModule
 } from '@angular/material';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {UserRouteAccessIsConnectedService} from './auth/user-route-is-connected';
 import {PasswordMatchValidatorDirective} from './auth/password-match.directive';
@@ -69,7 +71,8 @@ import {DateValidatorDirective} from './validation/date-validator.directive';
         MatCardModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatGridListModule
+        MatGridListModule,
+        MatExpansionModule
     ],
     declarations: [
         JhiSocialComponent,
@@ -126,7 +129,8 @@ import {DateValidatorDirective} from './validation/date-validator.directive';
         MatCardModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatGridListModule
+        MatGridListModule,
+        MatExpansionModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

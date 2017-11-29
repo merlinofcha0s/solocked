@@ -9,6 +9,10 @@ $border-radius-payment: 10px !important;
     padding: 20px !important;
 }
 
+/deep/ .mat-expansion-panel-body {
+    overflow: initial !important;
+}
+
 .payment-block-icons {
     font-size: 35px;
     margin-right: 15px;

@@ -16,6 +16,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
 
     @Input() payments: Array<Payment>;
     @Input() readOnlyMode: boolean;
+    @Input() expanded: boolean;
     @Output() onSyncPayments = new EventEmitter<Array<Payment>>();
     @Output() suppressPaymentBlock = new EventEmitter<boolean>();
 
