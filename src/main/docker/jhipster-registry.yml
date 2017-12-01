@@ -9,10 +9,13 @@ services:
         # When run with the "prod" Spring profile, it will read the configuration from a Git repository
         # See http://www.jhipster.tech/microservices-architecture/#registry_app_configuration
         environment:
-            - SPRING_PROFILES_ACTIVE=dev
+            - SPRING_PROFILES_ACTIVE=prod
             - SECURITY_USER_PASSWORD=admin
-            - SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_LOCATIONS=file:./central-config/localhost-config/
-            # - GIT_URI=https://github.com/jhipster/jhipster-registry/
+            #- SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_LOCATIONS=file:./central-config/localhost-config/
+            - GIT_URI=https://ccasaucau@bitbucket.org/ccasaucau/ninjaccount-registry.git
+            - SPRING_CLOUD_CONFIG_SERVER_GIT_USERNAME=mdr
+            - SPRING_CLOUD_CONFIG_SERVER_GIT_PASSWORD=loool
+            - JHIPSTER_SECURITY_AUTHENTICATION_JWT_SECRET=PYVGOKbN3HlhnERRGrs1Dl3rc2HTa2ckHClEJqkf
             # - GIT_SEARCH_PATHS=central-config
         ports:
             - 8761:8761
