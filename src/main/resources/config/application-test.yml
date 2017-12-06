@@ -15,10 +15,10 @@
 
 eureka:
     instance:
-        prefer-ip-address: true
+        prefer-ip-address: false
     client:
         service-url:
-            defaultZone: http://admin:admin@jhipsterregistry-test-raiden0610.boxfuse.io:8761/eureka/
+            defaultZone: https://admin:G5E6C4FzTMxpSpMp@jhipsterregistry-test.solocked.com:8761/eureka/
 
 spring:
     devtools:
@@ -87,10 +87,8 @@ server:
     port: 443
     ssl:
         enabled: true
-        key-store: classpath:keystore-test.p12
-        key-store-password: 123456
-        keyStoreType: PKCS12
-        keyAlias: ninjaccount
+        key-store: /app-config/boxfuse-selfsigned.jks
+        key-store-password: boxfuse-selfsigned
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
