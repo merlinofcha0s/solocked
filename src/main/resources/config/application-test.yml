@@ -84,7 +84,7 @@ liquibase:
 #        keyAlias: ninjaccount
 # ===================================================================
 server:
-    port: 443
+    port: 80
     use-forward-headers: true
     ssl:
         enabled: true
