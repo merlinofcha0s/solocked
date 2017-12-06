@@ -86,6 +86,7 @@ liquibase:
 # ===================================================================
 server:
     port: 443
+    use-forward-headers: true
     ssl:
         enabled: true
         key-store: /app-config/boxfuse-selfsigned.jks
