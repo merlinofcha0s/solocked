@@ -15,7 +15,8 @@
 
 eureka:
     instance:
-        prefer-ip-address: false
+        prefer-ip-address: true
+        ip-address: ${BOXFUSE_INSTANCE_IP}
     client:
         service-url:
             defaultZone: https://admin:G5E6C4FzTMxpSpMp@jhipsterregistry-test.solocked.com:8761/eureka/
