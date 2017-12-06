@@ -8,6 +8,7 @@ import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -25,6 +26,8 @@ import org.springframework.web.filter.CorsFilter;
 import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @Import(SecurityProblemSupport.class)
@@ -42,13 +45,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final SecurityProblemSupport problemSupport;
 
+    private final Environment env;
+
     public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder, UserDetailsService userDetailsService,
-            TokenProvider tokenProvider,CorsFilter corsFilter, SecurityProblemSupport problemSupport) {
+            TokenProvider tokenProvider,CorsFilter corsFilter, SecurityProblemSupport problemSupport, Environment env) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.userDetailsService = userDetailsService;
         this.tokenProvider = tokenProvider;
         this.corsFilter = corsFilter;
         this.problemSupport = problemSupport;
+        this.env = env;
     }
 
     @PostConstruct
@@ -113,6 +119,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
             .apply(securityConfigurerAdapter());
 
+        List<String> profiles = Arrays.asList(env.getActiveProfiles());
+
+        if (profiles.contains("test") || profiles.contains("prod")){
+            http.requiresChannel().anyRequest().requiresSecure();
+        }
     }
 
     private JWTConfigurer securityConfigurerAdapter() {
