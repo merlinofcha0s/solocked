@@ -148,5 +148,12 @@ jhipster:
 # More documentation is available at:
 # https://jhipster.github.io/common-application-properties/
 # ===================================================================
+security:
+    basic:
+        enabled: true
+    user:
+        name: test
+        password: test
+    require-ssl: true
 
 application:

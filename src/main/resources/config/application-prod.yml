@@ -85,7 +85,7 @@ liquibase:
 #        keyAlias: ninjaccount
 # ===================================================================
 server:
-    port: 80
+    port: 443
     ssl:
         key-store: classpath:keystore-prod.p12
         key-store-password: 123456
