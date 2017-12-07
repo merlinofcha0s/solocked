@@ -119,7 +119,7 @@ jhipster:
                 token-validity-in-seconds-for-remember-me: 2592000
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: notification-test@solocked.com
-        base-url: https://ninjaccount-test-raiden0610.boxfuse.io # Modify according to your server's URL
+        base-url: https://test.solocked.com # Modify according to your server's URL
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         graphite:
@@ -148,12 +148,4 @@ jhipster:
 # More documentation is available at:
 # https://jhipster.github.io/common-application-properties/
 # ===================================================================
-security:
-    basic:
-        enabled: true
-    user:
-        name: test
-        password: test
-    require-ssl: true
-
 application:

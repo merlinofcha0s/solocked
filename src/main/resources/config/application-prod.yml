@@ -86,12 +86,11 @@ liquibase:
 # ===================================================================
 server:
     port: 443
+    use-forward-headers: true
     ssl:
-        key-store: classpath:keystore-prod.p12
-        key-store-password: 123456
-        keyStoreType: PKCS12
-        keyAlias: ninjaccount
         enabled: true
+        key-store: /app-config/boxfuse-selfsigned.jks
+        key-store-password: boxfuse-selfsigned
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
@@ -151,5 +150,4 @@ jhipster:
 # More documentation is available at:
 # http://www.jhipster.tech/common-application-properties/
 # ===================================================================
-
 application:

@@ -1,9 +1,9 @@
 package com.ninja.ninjaccount.config;
 
-import com.ninja.ninjaccount.security.*;
-import com.ninja.ninjaccount.security.jwt.*;
-
-
+import com.ninja.ninjaccount.security.AuthoritiesConstants;
+import com.ninja.ninjaccount.security.jwt.JWTConfigurer;
+import com.ninja.ninjaccount.security.jwt.TokenProvider;
+import io.github.jhipster.config.JHipsterConstants;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +27,7 @@ import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 
 @Configuration
 @Import(SecurityProblemSupport.class)
@@ -119,9 +119,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
             .apply(securityConfigurerAdapter());
 
-        List<String> profiles = Arrays.asList(env.getActiveProfiles());
-
-        if (profiles.contains("test") || profiles.contains("prod")){
+        Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
+        if (activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_TEST) || activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_PRODUCTION)){
             http.requiresChannel().anyRequest().requiresSecure();
         }
     }

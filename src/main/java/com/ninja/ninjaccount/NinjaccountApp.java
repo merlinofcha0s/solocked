@@ -11,8 +11,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
+import org.springframework.boot.context.embedded.undertow.UndertowBuilderCustomizer;
+import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
@@ -54,6 +57,17 @@ public class NinjaccountApp {
             log.error("You have misconfigured your application! It should not " +
                 "run with both the 'dev' and 'cloud' profiles at the same time.");
         }
+    }
+
+    @Bean
+    public UndertowEmbeddedServletContainerFactory embeddedServletContainerFactory() {
+        Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
+        UndertowEmbeddedServletContainerFactory factory = new UndertowEmbeddedServletContainerFactory();
+        if (activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_PRODUCTION) || activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_TEST)){
+            factory.addBuilderCustomizers((UndertowBuilderCustomizer) builder -> builder.addHttpListener(80, "0.0.0.0"));
+        }
+
+        return factory;
     }
 
     /**
