@@ -18,7 +18,7 @@ eureka:
         prefer-ip-address: true
     client:
         service-url:
-            defaultZone: http://admin:admin@jhipsterregistry-test-raiden0610.boxfuse.io:8761/eureka/
+            defaultZone: http://admin:admin@jhipsterregistry-test-raiden0610.boxfuse.io:8761/eureka
 
 spring:
     devtools:

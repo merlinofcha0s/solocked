@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {JhiEventManager} from 'ng-jhipster';
 
-import { Account, LoginModalService, Principal } from '../shared';
+import {Account, LoginModalService, Principal} from '../shared';
+import {Meta} from '@angular/platform-browser';
+import {ProfileService} from '../layouts/profiles/profile.service';
 
 @Component({
     selector: 'jhi-home',
@@ -12,15 +14,17 @@ import { Account, LoginModalService, Principal } from '../shared';
     ]
 
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
+
     account: Account;
     modalRef: NgbModalRef;
+    inProduction: boolean;
 
-    constructor(
-        private principal: Principal,
-        private loginModalService: LoginModalService,
-        private eventManager: JhiEventManager
-    ) {
+    constructor(private principal: Principal,
+                private loginModalService: LoginModalService,
+                private eventManager: JhiEventManager,
+                private meta: Meta,
+                private profileService: ProfileService,) {
     }
 
     ngOnInit() {
@@ -28,6 +32,19 @@ export class HomeComponent implements OnInit {
             this.account = account;
         });
         this.registerAuthenticationSuccess();
+
+        this.profileService.getProfileInfo().subscribe((profileInfo) => {
+            this.inProduction = profileInfo.inProduction;
+            if (!this.inProduction) {
+                this.meta.addTag({name: 'robots', content: 'noindex, nofollow'});
+            }
+        });
+    }
+
+    ngOnDestroy(): void {
+        if (!this.inProduction) {
+            this.meta.removeTag('name=\'robots\'');
+        }
     }
 
     registerAuthenticationSuccess() {
