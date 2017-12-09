@@ -48,7 +48,6 @@ export class JhiLoginModalComponent implements AfterViewInit {
 
     login() {
         this.loading = true;
-        this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN']);
         if (this.username === 'admin') {
             this.loginJHI();
         } else {

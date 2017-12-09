@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {MatDatepicker, MatDatepickerInputEvent} from '@angular/material';
-import {isUndefined} from "util";
+import {isUndefined} from 'util';
 
 @Component({
     selector: 'jhi-edit-date-inline',

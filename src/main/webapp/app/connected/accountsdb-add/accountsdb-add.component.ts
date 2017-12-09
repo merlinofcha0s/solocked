@@ -232,12 +232,12 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         }
     }
 
-    openSnackBar(messageKey: string){
+    openSnackBar(messageKey: string) {
         const message = this.translateService.instant(messageKey);
         const config = new MatSnackBarConfig();
         config.verticalPosition = 'top';
         config.duration = 3000;
-        config.data = {icon: 'fa-check-circle-o', text: message}
+        config.data = {icon: 'fa-check-circle-o', text: message};
         this.snackBar.openFromComponent(SnackComponent, config);
     }
 

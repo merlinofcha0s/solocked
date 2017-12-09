@@ -1,7 +1,6 @@
 package com.ninja.ninjaccount.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.SecurityUtils;
@@ -13,22 +12,17 @@ import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.web.rest.errors.*;
 import com.ninja.ninjaccount.web.rest.vm.KeyAndPasswordVM;
 import com.ninja.ninjaccount.web.rest.vm.ManagedUserVM;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.*;
+import java.util.Optional;
 
 /**
 * REST controller for managing the current user's account.
@@ -164,7 +158,7 @@ public class AccountResource {
     * @param password the new password
     * @throws InvalidPasswordException 400 (Bad Request) if the new password is incorrect
     */
-    @PostMapping(path = "/account/change-password")
+    @PostMapping(path = "/account/change_password")
     @Timed
     public void changePassword(@RequestBody String password) {
         if (!checkPasswordLength(password)) {

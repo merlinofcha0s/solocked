@@ -20,6 +20,6 @@ node {
     }
 
     stage('deploy on boxfuse prod env') {
-        sh "/home/raiden/tools/boxfuse/boxfuse run -env=prod -envvars.SPRING_PROFILES_ACTIVE=prod -ports.https=443 -ports.http=80"
+        sh "/home/raiden/tools/boxfuse/boxfuse run -env=prod -envvars.SPRING_PROFILES_ACTIVE=prod -ports.https=443 -ports.http=80 -jvm.args=-Deureka.instance.ip-address=$BOXFUSE_INSTANCE_IP"
     }
 }

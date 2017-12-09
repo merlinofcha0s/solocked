@@ -44,7 +44,7 @@ export class JhiMainComponent implements OnInit {
     }
 
     resetAutolockTime() {
-        if (this.principal.isAuthenticated()) {
+        if (this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
             this.autolockService.resetTimer();
         }
     }

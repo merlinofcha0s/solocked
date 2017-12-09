@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 private loginModalService: LoginModalService,
                 private eventManager: JhiEventManager,
                 private meta: Meta,
-                private profileService: ProfileService,) {
+                private profileService: ProfileService) {
     }
 
     ngOnInit() {
