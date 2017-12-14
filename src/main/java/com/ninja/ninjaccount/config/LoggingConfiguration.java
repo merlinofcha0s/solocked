@@ -71,7 +71,6 @@ public class LoggingConfiguration {
 
         LogstashTcpSocketAppender logstashAppender = new LogstashTcpSocketAppender();
         /*SSLConfiguration sslConfiguration = new SSLConfiguration();
-        sslConfiguration.setProtocol("TLS");
         logstashAppender.setSsl(sslConfiguration);*/
         logstashAppender.setName("LOGSTASH");
         logstashAppender.setContext(context);
