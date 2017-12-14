@@ -137,8 +137,8 @@ jhipster:
     logging:
         logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
             enabled: true
-            host: https://monitor.solocked.com
-            port: 5001
+            host: monitor.solocked.com
+            port: 5000
             queue-size: 512
 
 

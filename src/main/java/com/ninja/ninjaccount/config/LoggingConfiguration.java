@@ -1,10 +1,5 @@
 package com.ninja.ninjaccount.config;
 
-import java.net.InetSocketAddress;
-import java.util.Iterator;
-
-import io.github.jhipster.config.JHipsterProperties;
-
 import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
@@ -13,8 +8,10 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.LoggerContextListener;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.filter.EvaluatorFilter;
+import ch.qos.logback.core.net.ssl.SSLConfiguration;
 import ch.qos.logback.core.spi.ContextAwareBase;
 import ch.qos.logback.core.spi.FilterReply;
+import io.github.jhipster.config.JHipsterProperties;
 import net.logstash.logback.appender.LogstashTcpSocketAppender;
 import net.logstash.logback.encoder.LogstashEncoder;
 import net.logstash.logback.stacktrace.ShortenedThrowableConverter;
@@ -24,6 +21,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean;
 import org.springframework.context.annotation.Configuration;
+
+import java.net.InetSocketAddress;
+import java.util.Iterator;
 
 @Configuration
 @ConditionalOnProperty("eureka.client.enabled")
@@ -70,6 +70,9 @@ public class LoggingConfiguration {
         log.info("Initializing Logstash logging");
 
         LogstashTcpSocketAppender logstashAppender = new LogstashTcpSocketAppender();
+        SSLConfiguration sslConfiguration = new SSLConfiguration();
+        sslConfiguration.setProtocol("TLS");
+        logstashAppender.setSsl(sslConfiguration);
         logstashAppender.setName("LOGSTASH");
         logstashAppender.setContext(context);
         String customFields = "{\"app_name\":\"" + appName + "\",\"app_port\":\"" + serverPort + "\"}";
