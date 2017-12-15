@@ -89,10 +89,6 @@ server:
     use-forward-headers: true
     ssl:
         enabled: true
-        key-store: ${SERVER_SSL_KEY_STORE}
-        key-store-password: ${SERVER_SSL_KEY_STORE_PASSWORD}
-        keyStoreType: PKCS12
-        keyAlias: ${SERVER_SSL_KEYALIAS}
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
