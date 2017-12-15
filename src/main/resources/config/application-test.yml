@@ -88,7 +88,7 @@ server:
     use-forward-headers: true
     ssl:
         enabled: true
-        key-store: keystore-test.p12
+        key-store: classpath:keystore-test.p12
         key-store-password: MrmV5D436FzySi9L
         keyStoreType: PKCS12
         keyAlias: ninjaccount-test

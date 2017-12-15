@@ -20,6 +20,6 @@ node {
     }
 
     stage('deploy on boxfuse test env') {
-        sh "/home/raiden/tools/boxfuse/boxfuse run -env=test -envvars.SPRING_PROFILES_ACTIVE=test -ports.https=443 -ports.http=80"
+        sh "/home/raiden/tools/boxfuse/boxfuse run -env=test -envvars.SPRING_PROFILES_ACTIVE=test -envvars.SERVER_SSL_KEY_STORE=classpath:keystore-test.p12 -ports.https=443 -ports.http=80"
     }
 }
