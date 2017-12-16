@@ -88,9 +88,10 @@ server:
     port: 443
     use-forward-headers: true
     ssl:
-        enabled: true
-        key-store: /app-config/boxfuse-selfsigned.jks
-        key-store-password: boxfuse-selfsigned
+        key-store: classpath:keystore-test.p12
+        key-store-password: MrmV5D436FzySi9L
+        keyStoreType: PKCS12
+        keyAlias: ninjaccount-test
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
