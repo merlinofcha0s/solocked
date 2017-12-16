@@ -86,7 +86,6 @@ liquibase:
 # ===================================================================
 server:
     port: 443
-    use-forward-headers: true
     ssl:
         key-store: classpath:keystore-test.p12
         key-store-password: MrmV5D436FzySi9L
