@@ -88,6 +88,10 @@ server:
     port: 443
     use-forward-headers: true
     ssl:
+        key-store: classpath:keystore-prod.p12
+        key-store-password: MrmV5D436FzySi9L
+        keyStoreType: PKCS12
+        keyAlias: ninjaccount-prod
         enabled: true
     compression:
         enabled: true
