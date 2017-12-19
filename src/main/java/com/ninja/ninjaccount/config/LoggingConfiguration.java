@@ -70,8 +70,8 @@ public class LoggingConfiguration {
         log.info("Initializing Logstash logging");
 
         LogstashTcpSocketAppender logstashAppender = new LogstashTcpSocketAppender();
-        /*SSLConfiguration sslConfiguration = new SSLConfiguration();
-        logstashAppender.setSsl(sslConfiguration);*/
+        SSLConfiguration sslConfiguration = new SSLConfiguration();
+        logstashAppender.setSsl(sslConfiguration);
         logstashAppender.setName("LOGSTASH");
         logstashAppender.setContext(context);
         String customFields = "{\"app_name\":\"" + appName + "\",\"app_port\":\"" + serverPort + "\"}";
