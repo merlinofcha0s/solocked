@@ -31,7 +31,7 @@
     <logger name="javax.xml.bind" level="WARN"/>
     <logger name="ch.qos.logback" level="WARN"/>
     <logger name="com.codahale.metrics" level="WARN"/>
-    <logger name="com.netflix" level="WARN"/>
+    <logger name="com.netflix" level="DEBUG"/>
     <logger name="com.netflix.discovery" level="INFO"/>
     <logger name="com.ryantenney" level="WARN"/>
     <logger name="com.sun" level="WARN"/>
@@ -42,12 +42,12 @@
     <logger name="org.apache.catalina.startup.DigesterFactory" level="OFF"/>
     <logger name="org.bson" level="WARN"/>
     <logger name="org.hibernate.validator" level="WARN"/>
-    <logger name="org.hibernate" level="WARN"/>
+    <logger name="org.hibernate" level="DEBUG"/>
     <logger name="org.hibernate.ejb.HibernatePersistence" level="OFF"/>
     <logger name="org.springframework" level="WARN"/>
-    <logger name="org.springframework.web" level="WARN"/>
-    <logger name="org.springframework.security" level="WARN"/>
-    <logger name="org.springframework.cache" level="WARN"/>
+    <logger name="org.springframework.web" level="DEBUG"/>
+    <logger name="org.springframework.security" level="DEBUG"/>
+    <logger name="org.springframework.cache" level="DEBUG"/>
     <logger name="org.thymeleaf" level="WARN"/>
     <logger name="org.xnio" level="WARN"/>
     <logger name="springfox" level="WARN"/>
@@ -55,9 +55,9 @@
     <logger name="liquibase" level="WARN"/>
     <logger name="LiquibaseSchemaResolver" level="INFO"/>
     <logger name="sun.rmi.transport" level="WARN"/>
-    <!--<logger name="org.springframework.cloud.netflix.eureka" level="DEBUG"/>-->
-    <!--<logger name="com.netflix.eureka" level="DEBUG"/>-->
-    <!--<logger name="com.netflix.discovery" level="DEBUG"/>-->
+    <logger name="org.springframework.cloud.netflix.eureka" level="DEBUG"/>
+    <logger name="com.netflix.eureka" level="DEBUG"/>
+    <logger name="com.netflix.discovery" level="DEBUG"/>
 
     <!-- https://logback.qos.ch/manual/configuration.html#shutdownHook and https://jira.qos.ch/browse/LOGBACK-1090 -->
     <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
