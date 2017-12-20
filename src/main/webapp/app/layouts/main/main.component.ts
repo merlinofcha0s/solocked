@@ -62,13 +62,10 @@ export class JhiMainComponent implements OnInit {
             const inTest = profileInfo.inTest;
             if (inTest) {
                 //document.write('<script type="text/javascript">// ProductionAnalyticsCodeHere</script>');
-                console.log('test !!');
             } else if (!inTest && inProduction) {
-                console.log('production !!');
                 const script = document.createElement("script");
                 script.type = "text/javascript";
-                script.innerHTML = "<script type=\"text/javascript\">\n" +
-                    "  var _paq = _paq || [];\n" +
+                script.innerHTML = "var _paq = _paq || [];\n" +
                     "  /* tracker methods like \"setCustomDimension\" should be called before \"trackPageView\" */\n" +
                     "  _paq.push(['trackPageView']);\n" +
                     "  _paq.push(['enableLinkTracking']);\n" +
@@ -78,12 +75,9 @@ export class JhiMainComponent implements OnInit {
                     "    _paq.push(['setSiteId', '1']);\n" +
                     "    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];\n" +
                     "    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);\n" +
-                    "  })();\n" +
-                    "</script>";
+                    "  })();";
 
                 document.getElementsByTagName('head')[0].appendChild(script);
-            } else {
-                console.log('others !!!!');
             }
         });
     }
