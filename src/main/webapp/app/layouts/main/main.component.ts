@@ -63,19 +63,24 @@ export class JhiMainComponent implements OnInit {
             if (inTest) {
                 //document.write('<script type="text/javascript">// ProductionAnalyticsCodeHere</script>');
             } else if (!inTest && inProduction) {
-                document.write('<script type="text/javascript">\n' +
-                    '  var _paq = _paq || [];\n' +
-                    '  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */\n' +
-                    '  _paq.push([\'trackPageView\']);\n' +
-                    '  _paq.push([\'enableLinkTracking\']);\n' +
-                    '  (function() {\n' +
-                    '    var u="//piwik.solocked.com/";\n' +
-                    '    _paq.push([\'setTrackerUrl\', u+\'piwik.php\']);\n' +
-                    '    _paq.push([\'setSiteId\', \'1\']);\n' +
-                    '    var d=document, g=d.createElement(\'script\'), s=d.getElementsByTagName(\'script\')[0];\n' +
-                    '    g.type=\'text/javascript\'; g.async=true; g.defer=true; g.src=u+\'piwik.js\'; s.parentNode.insertBefore(g,s);\n' +
-                    '  })();\n' +
-                    '</script>');
+                const script = document.createElement("script");
+                script.type = "text/javascript";
+                script.innerHTML = "<script type=\"text/javascript\">\n" +
+                    "  var _paq = _paq || [];\n" +
+                    "  /* tracker methods like \"setCustomDimension\" should be called before \"trackPageView\" */\n" +
+                    "  _paq.push(['trackPageView']);\n" +
+                    "  _paq.push(['enableLinkTracking']);\n" +
+                    "  (function() {\n" +
+                    "    var u=\"//piwik.solocked.com/\";\n" +
+                    "    _paq.push(['setTrackerUrl', u+'piwik.php']);\n" +
+                    "    _paq.push(['setSiteId', '1']);\n" +
+                    "    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];\n" +
+                    "    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);\n" +
+                    "  })();\n" +
+                    "</script>";
+
+                document.getElementsByTagName('head')[0].appendChild(script);
+
             }
         });
     }
