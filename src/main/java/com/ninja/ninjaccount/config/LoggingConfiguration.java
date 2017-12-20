@@ -91,7 +91,7 @@ public class LoggingConfiguration {
         keyStoreFactoryBean.setPassword(keystorePassword);
         keyStoreFactoryBean.setType(keyStoreType);
 
-        sslConfiguration.setTrustStore(keyStoreFactoryBean);
+        sslConfiguration.setKeyStore(keyStoreFactoryBean);
         logstashAppender.setSsl(sslConfiguration);
         logstashAppender.setName("LOGSTASH");
         logstashAppender.setContext(context);
