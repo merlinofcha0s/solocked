@@ -62,7 +62,9 @@ export class JhiMainComponent implements OnInit {
             const inTest = profileInfo.inTest;
             if (inTest) {
                 //document.write('<script type="text/javascript">// ProductionAnalyticsCodeHere</script>');
+                console.log('test !!');
             } else if (!inTest && inProduction) {
+                console.log('production !!');
                 const script = document.createElement("script");
                 script.type = "text/javascript";
                 script.innerHTML = "<script type=\"text/javascript\">\n" +
@@ -80,7 +82,8 @@ export class JhiMainComponent implements OnInit {
                     "</script>";
 
                 document.getElementsByTagName('head')[0].appendChild(script);
-
+            } else {
+                console.log('others !!!!');
             }
         });
     }
