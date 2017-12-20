@@ -89,7 +89,7 @@ server:
     use-forward-headers: true
     ssl:
         key-store: classpath:keystore-prod.p12
-        key-store-password: MrmV5D436FzySi9L
+        key-store-password: yAMZ88szf8BU4aM2
         keyStoreType: PKCS12
         keyAlias: ninjaccount-prod
         enabled: true

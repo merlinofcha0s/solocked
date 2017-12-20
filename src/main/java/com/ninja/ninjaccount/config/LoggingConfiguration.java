@@ -8,6 +8,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.LoggerContextListener;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.filter.EvaluatorFilter;
+import ch.qos.logback.core.net.ssl.KeyStoreFactoryBean;
 import ch.qos.logback.core.net.ssl.SSLConfiguration;
 import ch.qos.logback.core.spi.ContextAwareBase;
 import ch.qos.logback.core.spi.FilterReply;
@@ -45,12 +46,25 @@ public class LoggingConfiguration {
 
     private final JHipsterProperties jHipsterProperties;
 
+    private final String keystoreLocation;
+
+    private final String keystorePassword;
+
+    private final String keyStoreType;
+
     public LoggingConfiguration(@Value("${spring.application.name}") String appName, @Value("${server.port}") String serverPort,
-        EurekaInstanceConfigBean eurekaInstanceConfigBean, JHipsterProperties jHipsterProperties) {
+        EurekaInstanceConfigBean eurekaInstanceConfigBean, JHipsterProperties jHipsterProperties,
+                                @Value("${server.ssl.key-store}") String keystoreLocation,
+                                @Value("${server.ssl.key-store-password}") String keystorePassword,
+                                @Value("${server.ssl.keyStoreType}") String keyStoreType) {
         this.appName = appName;
         this.serverPort = serverPort;
         this.eurekaInstanceConfigBean = eurekaInstanceConfigBean;
         this.jHipsterProperties = jHipsterProperties;
+
+        this.keystoreLocation = keystoreLocation;
+        this.keystorePassword = keystorePassword;
+        this.keyStoreType = keyStoreType;
         if (jHipsterProperties.getLogging().getLogstash().isEnabled()) {
             addLogstashAppender(context);
             addContextListener(context);
@@ -71,6 +85,13 @@ public class LoggingConfiguration {
 
         LogstashTcpSocketAppender logstashAppender = new LogstashTcpSocketAppender();
         /*SSLConfiguration sslConfiguration = new SSLConfiguration();
+
+        KeyStoreFactoryBean keyStoreFactoryBean = new KeyStoreFactoryBean();
+        keyStoreFactoryBean.setLocation(keystoreLocation);
+        keyStoreFactoryBean.setPassword(keystorePassword);
+        keyStoreFactoryBean.setType(keyStoreType);
+
+        sslConfiguration.setKeyStore(keyStoreFactoryBean);
         logstashAppender.setSsl(sslConfiguration);*/
         logstashAppender.setName("LOGSTASH");
         logstashAppender.setContext(context);
