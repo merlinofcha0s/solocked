@@ -4,6 +4,7 @@ import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
 import {JhiLanguageHelper} from '../../shared';
 import {Principal} from '../../shared/auth/principal.service';
 import {AutolockService} from '../navbar/autologout/autolock.service';
+import {ProfileService} from "../profiles/profile.service";
 
 @Component({
     selector: 'jhi-main',
@@ -17,7 +18,8 @@ export class JhiMainComponent implements OnInit {
     constructor(private jhiLanguageHelper: JhiLanguageHelper
         , private router: Router
         , private principal: Principal
-        , private autolockService: AutolockService) {
+        , private autolockService: AutolockService
+        , private profileService: ProfileService) {
     }
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
@@ -29,6 +31,11 @@ export class JhiMainComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.initEventRouter();
+        this.initTracking();
+    }
+
+    initEventRouter() {
         this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
                 this.jhiLanguageHelper.updateTitle(this.getPageTitle(this.router.routerState.snapshot.root));
@@ -47,6 +54,30 @@ export class JhiMainComponent implements OnInit {
         if (this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
             this.autolockService.resetTimer();
         }
+    }
+
+    initTracking() {
+        this.profileService.getProfileInfo().subscribe((profileInfo) => {
+            const inProduction = profileInfo.inProduction;
+            const inTest = profileInfo.inTest;
+            if (inTest) {
+                //document.write('<script type="text/javascript">// ProductionAnalyticsCodeHere</script>');
+            } else if (!inTest && inProduction) {
+                document.write('<script type="text/javascript">\n' +
+                    '  var _paq = _paq || [];\n' +
+                    '  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */\n' +
+                    '  _paq.push([\'trackPageView\']);\n' +
+                    '  _paq.push([\'enableLinkTracking\']);\n' +
+                    '  (function() {\n' +
+                    '    var u="//piwik.solocked.com/";\n' +
+                    '    _paq.push([\'setTrackerUrl\', u+\'piwik.php\']);\n' +
+                    '    _paq.push([\'setSiteId\', \'1\']);\n' +
+                    '    var d=document, g=d.createElement(\'script\'), s=d.getElementsByTagName(\'script\')[0];\n' +
+                    '    g.type=\'text/javascript\'; g.async=true; g.defer=true; g.src=u+\'piwik.js\'; s.parentNode.insertBefore(g,s);\n' +
+                    '  })();\n' +
+                    '</script>');
+            }
+        });
     }
 
 }
