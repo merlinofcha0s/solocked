@@ -5490,11 +5490,11 @@ ng-jhipster@0.3.4:
     "@ngx-translate/core" "^8.0.0"
     "@ngx-translate/http-loader" "^2.0.0"
 
-ngx-clipboard@^8.1.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/ngx-clipboard/-/ngx-clipboard-8.1.0.tgz#9b931dd7b4f0cad85bdf971978ddc60f9efb877d"
+ngx-clipboard@9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-clipboard/-/ngx-clipboard-9.0.0.tgz#a56e4a3d0488a491898ee5209980b81ddad8b659"
   dependencies:
-    ngx-window-token "0.0.3"
+    ngx-window-token "0.0.4"
 
 ngx-cookie@2.0.1:
   version "2.0.1"
@@ -5508,9 +5508,9 @@ ngx-webstorage@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/ngx-webstorage/-/ngx-webstorage-2.0.1.tgz#232446262241e8fd0d794a03821c0b5e28459295"
 
-ngx-window-token@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/ngx-window-token/-/ngx-window-token-0.0.3.tgz#43c67f04d387b6dc9fd41b2d2366779e5915b979"
+ngx-window-token@0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/ngx-window-token/-/ngx-window-token-0.0.4.tgz#47e7aaa465411c4ab5f7ba17601bc593c956c736"
 
 no-case@^2.2.0:
   version "2.3.1"
