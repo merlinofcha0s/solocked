@@ -44,7 +44,7 @@ node {
     //}
 
     stage('build and create docker image'){
-        sh "./mvnw package -Pprod dockerfile:build -Dmaven.test.skip=true"
+        sh "./mvnw package -Pdev dockerfile:build -Dmaven.test.skip=true"
     }
 
     stage('starting docker image'){
