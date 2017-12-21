@@ -120,7 +120,7 @@ public class AccountsDBDTO implements Serializable {
             "id=" + getId() +
             ", initializationVector='" + getInitializationVector() + "'" +
             ", database='" + getDatabase() + "'" +
-            ", nbAccounts='" + getNbAccounts() + "'" +
+            ", nbAccounts=" + getNbAccounts() +
             "}";
     }
 }

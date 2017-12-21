@@ -13,6 +13,12 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+logging:
+    level:
+        ROOT: INFO
+        com.ninja.ninjaccount: INFO
+        io.github.jhipster: INFO
+
 eureka:
     instance:
         prefer-ip-address: true
@@ -81,8 +87,8 @@ liquibase:
 #    ssl:
 #        key-store: keystore.p12
 #        key-store-password: <your-password>
-#        keyStoreType: PKCS12
-#        keyAlias: ninjaccount
+#        key-store-type: PKCS12
+#        key-alias: ninjaccount
 # ===================================================================
 server:
     port: 443
@@ -114,6 +120,10 @@ jhipster:
         hazelcast: # Hazelcast distributed cache
             time-to-live-seconds: 3600
             backup-count: 1
+            management-center: # Full reference is available at: http://docs.hazelcast.org/docs/management-center/3.9/manual/html/Deploying_and_Starting.html
+                enabled: false
+                update-interval: 3
+                url:
     security:
         authentication:
             jwt:

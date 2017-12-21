@@ -99,7 +99,7 @@ public class AccountsDBService {
     }
 
     /**
-     * Delete the  accountsDB by id.
+     * Delete the accountsDB by id.
      *
      * @param id the id of the entity
      */
