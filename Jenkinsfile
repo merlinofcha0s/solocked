@@ -44,7 +44,7 @@ node {
     //}
 
     stage('build and create docker image'){
-        sh "./mvnw package -Pdev dockerfile:build -Dmaven.test.skip=true"
+        sh "./mvnw clean package com.github.eirslett:frontend-maven-plugin:yarn -Dfrontend.yarn.arguments=webpack:prod -Pdev dockerfile:build  -Dmaven.test.skip=true"
     }
 
     stage('starting docker image'){
