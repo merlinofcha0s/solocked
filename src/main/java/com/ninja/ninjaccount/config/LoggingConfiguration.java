@@ -46,25 +46,26 @@ public class LoggingConfiguration {
 
     private final JHipsterProperties jHipsterProperties;
 
-    private final String keystoreLocation;
-
-    private final String keystorePassword;
-
-    private final String keyStoreType;
+//    private final String keystoreLocation;
+//
+//    private final String keystorePassword;
+//
+//    private final String keyStoreType;
 
     public LoggingConfiguration(@Value("${spring.application.name}") String appName, @Value("${server.port}") String serverPort,
-        EurekaInstanceConfigBean eurekaInstanceConfigBean, JHipsterProperties jHipsterProperties,
-                                @Value("${server.ssl.key-store}") String keystoreLocation,
-                                @Value("${server.ssl.key-store-password}") String keystorePassword,
-                                @Value("${server.ssl.keyStoreType}") String keyStoreType) {
+        EurekaInstanceConfigBean eurekaInstanceConfigBean, JHipsterProperties jHipsterProperties
+//                                @Value("${server.ssl.key-store}") String keystoreLocation,
+//                                @Value("${server.ssl.key-store-password}") String keystorePassword,
+//                                @Value("${server.ssl.keyStoreType}") String keyStoreType
+        ) {
         this.appName = appName;
         this.serverPort = serverPort;
         this.eurekaInstanceConfigBean = eurekaInstanceConfigBean;
         this.jHipsterProperties = jHipsterProperties;
 
-        this.keystoreLocation = keystoreLocation;
-        this.keystorePassword = keystorePassword;
-        this.keyStoreType = keyStoreType;
+//        this.keystoreLocation = keystoreLocation;
+//        this.keystorePassword = keystorePassword;
+//        this.keyStoreType = keyStoreType;
         if (jHipsterProperties.getLogging().getLogstash().isEnabled()) {
             addLogstashAppender(context);
             addContextListener(context);
