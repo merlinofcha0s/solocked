@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         });
         this.registerAuthenticationSuccess();
 
-        this.profileService.getProfileInfo().subscribe((profileInfo) => {
+        this.profileService.getProfileInfo().then((profileInfo) => {
             this.inProduction = profileInfo.inProduction;
             if (!this.inProduction) {
                 this.meta.addTag({name: 'robots', content: 'noindex, nofollow'});

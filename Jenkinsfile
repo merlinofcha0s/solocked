@@ -33,15 +33,15 @@ node {
         }
     }
 
-    stage('frontend tests') {
+    /*stage('frontend tests') {
         try {
             sh "./mvnw com.github.eirslett:frontend-maven-plugin:yarn -Dfrontend.yarn.arguments=test"
         } catch(err) {
             throw err
-        } finally {
-            junit '**/target/test-results/karma/TESTS-*.xml'
-        }
-    }
+        } finally {*/
+           // junit '**/target/test-results/karma/TESTS-*.xml'
+       // }
+    //}
 
     stage('build and create docker image'){
         sh "./mvnw package -Pprod dockerfile:build -Dmaven.test.skip=true"

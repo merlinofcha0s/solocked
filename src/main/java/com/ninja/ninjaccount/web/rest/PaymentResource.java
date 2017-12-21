@@ -127,7 +127,7 @@ public class PaymentResource {
     @Timed
     public ResponseEntity<PaymentDTO> getPaymentByLogin() {
         log.debug("REST request to get payment method by login : {}", SecurityUtils.getCurrentUserLogin());
-        PaymentDTO paymentDTO = paymentService.findPaymentByLogin(SecurityUtils.getCurrentUserLogin());
+        PaymentDTO paymentDTO = paymentService.findPaymentByLogin(SecurityUtils.getCurrentUserLogin().get());
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(paymentDTO));
     }
 }

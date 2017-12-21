@@ -1,6 +1,6 @@
 import {AccountsTechService} from './accounts-tech.service';
 import {Observable} from 'rxjs/Rx';
-import {SessionStorageService} from 'ng2-webstorage';
+import {SessionStorageService} from 'ngx-webstorage';
 import {CryptoUtilsService} from '../crypto/crypto-utils.service';
 import {AccountsDB} from '../../entities/accounts-db/accounts-db.model';
 import {Account} from './account.model';

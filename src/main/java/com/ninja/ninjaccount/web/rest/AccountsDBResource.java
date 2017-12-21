@@ -131,7 +131,7 @@ public class AccountsDBResource {
     @GetMapping("/accounts-dbs/getDbUserConnected")
     @Timed
     public ResponseEntity<AccountsDBDTO> getAccountDBUserConnected() {
-        final String userLogin = SecurityUtils.getCurrentUserLogin();
+        final String userLogin = SecurityUtils.getCurrentUserLogin().get();
         AccountsDBDTO accountsDBDTO = accountsDBService.findByUsernameLogin(userLogin);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(accountsDBDTO));
     }
@@ -170,7 +170,7 @@ public class AccountsDBResource {
     @GetMapping("/accounts-dbs/get-actual-max-account")
     @Timed
     public ResponseEntity<Pair<Integer, Integer>> getActualAndMaxAccount() {
-        final String userLogin = SecurityUtils.getCurrentUserLogin();
+        final String userLogin = SecurityUtils.getCurrentUserLogin().get();
         Pair<Integer, Integer> actualAndMax = accountsDBService.getActualAndMaxAccount(userLogin);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(actualAndMax));
     }

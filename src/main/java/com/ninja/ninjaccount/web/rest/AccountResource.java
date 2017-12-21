@@ -221,10 +221,10 @@ public class AccountResource {
         }
         userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase())
             .ifPresent(u -> {throw new LoginAlreadyUsedException();});
-        userRepository.findOneByEmail(managedUserVM.getEmail())
+        userRepository.findOneByEmail(managedUserVM.getEmail().toLowerCase())
             .ifPresent(u -> {throw new EmailAlreadyUsedException() ;});
         User user = userService
-            .registerUser(managedUserVM);
+            .registerUser(managedUserVM, managedUserVM.getPassword());
         managedUserVM.getAccountsDB().setUserLogin(user.getLogin());
         managedUserVM.getAccountsDB().setUserId(user.getId());
         accountsDBService.save(managedUserVM.getAccountsDB());

@@ -23,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -169,7 +170,9 @@ public class UserService {
      */
     public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
         SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin).ifPresent(user -> {
-            if (firstName != null) {user.setFirstName(firstName);}
+            if (firstName != null) {
+                user.setFirstName(firstName);
+            }
             if (lastName != null) {
                 user.setLastName(lastName);
             }
@@ -274,16 +277,20 @@ public class UserService {
     }
 
     public boolean destroyUserAccount() {
-        Optional<User> user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin());
-        if (user.isPresent()) {
-            accountsDBRepository.deleteAccountsDBByUserLogin(user.get().getLogin());
-            paymentRepository.deletePaymentByUserLogin(user.get().getLogin());
-            deleteUser(user.get().getLogin());
-            return true;
+        Optional<String> login = SecurityUtils.getCurrentUserLogin();
+        if (login.isPresent()) {
+            Optional<User> user = userRepository.findOneByLogin(login.get());
+            if (user.isPresent()) {
+                accountsDBRepository.deleteAccountsDBByUserLogin(user.get().getLogin());
+                paymentRepository.deletePaymentByUserLogin(user.get().getLogin());
+                deleteUser(user.get().getLogin());
+                return true;
+            } else {
+                return false;
+            }
         } else {
-           return false;
+            return false;
         }
-
     }
 
 }

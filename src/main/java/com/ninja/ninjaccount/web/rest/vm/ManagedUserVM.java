@@ -35,6 +35,10 @@ public class ManagedUserVM extends UserDTO {
         return accountsDB;
     }
 
+    public void setAccountsDB(AccountsDBDTO accountsDB) {
+        this.accountsDB = accountsDB;
+    }
+
     @Override
     public String toString() {
         return "ManagedUserVM{" +

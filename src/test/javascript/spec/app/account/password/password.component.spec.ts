@@ -10,7 +10,7 @@ import {AccountsTechService} from '../../../../../../main/webapp/app/shared/acco
 import {AccountsDBService} from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db.service';
 import {CryptoUtilsService} from '../../../../../../main/webapp/app/shared/crypto/crypto-utils.service';
 import {CryptoService} from '../../../../../../main/webapp/app/shared/crypto/crypto.service';
-import {SessionStorageService} from 'ng2-webstorage';
+import {SessionStorageService} from 'ngx-webstorage';
 import {LoginService} from '../../../../../../main/webapp/app/shared/index';
 import {Router} from '@angular/router';
 

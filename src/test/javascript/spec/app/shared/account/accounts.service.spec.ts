@@ -1,4 +1,4 @@
-import { SessionStorageService } from 'ng2-webstorage/dist/services';
+import { SessionStorageService } from 'ngx-webstorage/dist/services';
 import { JhiDataUtils } from 'ng-jhipster';
 import { NinjaccountTestModule } from './../../../test.module';
 import { TestBed, async, fakeAsync, inject } from '@angular/core/testing';

@@ -57,11 +57,11 @@ export class JhiMainComponent implements OnInit {
     }
 
     initTracking() {
-        this.profileService.getProfileInfo().subscribe((profileInfo) => {
+        this.profileService.getProfileInfo().then((profileInfo) => {
             const inProduction = profileInfo.inProduction;
             const inTest = profileInfo.inTest;
             if (inTest) {
-                //document.write('<script type="text/javascript">// ProductionAnalyticsCodeHere</script>');
+                // document.write('<script type="text/javascript">// ProductionAnalyticsCodeHere</script>');
             } else if (!inTest && inProduction) {
                 const script = document.createElement("script");
                 script.type = "text/javascript";

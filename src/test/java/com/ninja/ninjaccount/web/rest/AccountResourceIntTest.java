@@ -182,21 +182,17 @@ public class AccountResourceIntTest {
         accountsDBDTO.setDatabase("some xml".getBytes());
         accountsDBDTO.setDatabaseContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         accountsDBDTO.setNbAccounts(0);
-        ManagedUserVM validUser = new ManagedUserVM(
-            null,                   // id
-            "joe",                  // login
-            "password",             // password
-            "Joe",                  // firstName
-            "Shmoe",                // lastName
-            "joe@example.com",      // email
-            true,                   // activated
-            "http://placehold.it/50x50", //imageUrl
-            Constants.DEFAULT_LANGUAGE,// langKey
-            null,                   // createdBy
-            null,                   // createdDate
-            null,                   // lastModifiedBy
-            null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)), accountsDBDTO);
+        ManagedUserVM validUser = new ManagedUserVM();
+        validUser.setLogin("alice");
+        validUser.setPassword("password");
+        validUser.setFirstName("Alice");
+        validUser.setLastName("Something");
+        validUser.setEmail("alice@example.com");
+        validUser.setActivated(true);
+        validUser.setImageUrl("http://placehold.it/50x50");
+        validUser.setLangKey(Constants.DEFAULT_LANGUAGE);
+        validUser.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        validUser.setAccountsDB(accountsDBDTO);
 
         restMvc.perform(
             post("/api/register")
@@ -204,7 +200,7 @@ public class AccountResourceIntTest {
                 .content(TestUtil.convertObjectToJsonBytes(validUser)))
             .andExpect(status().isCreated());
 
-        Optional<User> user = userRepository.findOneByLogin("joe");
+        Optional<User> user = userRepository.findOneByLogin("alice");
         assertThat(user.isPresent()).isTrue();
         Optional<AccountsDB> accountsDB = accountsDBRepository.findOneByUser(user.get());
         assertThat(accountsDB.isPresent()).isTrue();
@@ -229,6 +225,7 @@ public class AccountResourceIntTest {
         invalidUser.setImageUrl("http://placehold.it/50x50");
         invalidUser.setLangKey(Constants.DEFAULT_LANGUAGE);
         invalidUser.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        invalidUser.setAccountsDB(accountsDBDTO);
 
         restUserMockMvc.perform(
             post("/api/register")
@@ -281,6 +278,7 @@ public class AccountResourceIntTest {
         invalidUser.setImageUrl("http://placehold.it/50x50");
         invalidUser.setLangKey(Constants.DEFAULT_LANGUAGE);
         invalidUser.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        invalidUser.setAccountsDB(accountsDBDTO);
 
         restUserMockMvc.perform(
             post("/api/register")
@@ -309,6 +307,7 @@ public class AccountResourceIntTest {
         invalidUser.setImageUrl("http://placehold.it/50x50");
         invalidUser.setLangKey(Constants.DEFAULT_LANGUAGE);
         invalidUser.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        invalidUser.setAccountsDB(accountsDBDTO);
 
         restUserMockMvc.perform(
             post("/api/register")
@@ -340,6 +339,7 @@ public class AccountResourceIntTest {
         validUser.setImageUrl("http://placehold.it/50x50");
         validUser.setLangKey(Constants.DEFAULT_LANGUAGE);
         validUser.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        validUser.setAccountsDB(accountsDBDTO);
 
         // Duplicate login, different email
         ManagedUserVM duplicatedUser = new ManagedUserVM();
@@ -395,6 +395,7 @@ public class AccountResourceIntTest {
         validUser.setImageUrl("http://placehold.it/50x50");
         validUser.setLangKey(Constants.DEFAULT_LANGUAGE);
         validUser.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        validUser.setAccountsDB(accountsDBDTO);
 
         // Duplicate email, different login
         ManagedUserVM duplicatedUser = new ManagedUserVM();
@@ -410,7 +411,8 @@ public class AccountResourceIntTest {
         duplicatedUser.setCreatedDate( validUser.getCreatedDate());
         duplicatedUser.setLastModifiedBy( validUser.getLastModifiedBy());
         duplicatedUser.setLastModifiedDate( validUser.getLastModifiedDate());
-        duplicatedUser.setAuthorities(new HashSet<>( validUser.getAuthorities(), accountsDBDTO));
+        duplicatedUser.setAuthorities(new HashSet<>( validUser.getAuthorities()));
+        duplicatedUser.setAccountsDB(accountsDBDTO);
 
         // Good user
         restMvc.perform(
@@ -442,6 +444,7 @@ public class AccountResourceIntTest {
         userWithUpperCaseEmail.setLastModifiedBy(validUser.getLastModifiedBy());
         userWithUpperCaseEmail.setLastModifiedDate(validUser.getLastModifiedDate());
         userWithUpperCaseEmail.setAuthorities(new HashSet<>(validUser.getAuthorities()));
+        userWithUpperCaseEmail.setAccountsDB(accountsDBDTO);
 
         restMvc.perform(
             post("/api/register")
@@ -473,6 +476,7 @@ public class AccountResourceIntTest {
         validUser.setImageUrl("http://placehold.it/50x50");
         validUser.setLangKey(Constants.DEFAULT_LANGUAGE);
         validUser.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        validUser.setAccountsDB(accountsDBDTO);
 
         restMvc.perform(
             post("/api/register")

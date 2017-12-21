@@ -1,5 +1,5 @@
 import {CryptoUtilsService} from './crypto-utils.service';
-import {SessionStorageService} from 'ng2-webstorage';
+import {SessionStorageService} from 'ngx-webstorage';
 import {JhiDataUtils} from 'ng-jhipster';
 import {Observable} from 'rxjs/Rx';
 import {Accounts} from './../account/accounts.model';
