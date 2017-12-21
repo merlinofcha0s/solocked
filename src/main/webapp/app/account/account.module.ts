@@ -24,7 +24,7 @@ import {
 @NgModule({
     imports: [
         NinjaccountSharedModule,
-        RouterModule.forRoot(accountState, { useHash: true })
+        RouterModule.forChild(accountState)
     ],
     declarations: [
         SocialRegisterComponent,

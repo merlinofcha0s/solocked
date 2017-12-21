@@ -114,7 +114,7 @@ public class PaymentDTO implements Serializable {
         return "PaymentDTO{" +
             "id=" + getId() +
             ", subscriptionDate='" + getSubscriptionDate() + "'" +
-            ", price='" + getPrice() + "'" +
+            ", price=" + getPrice() +
             ", planType='" + getPlanType() + "'" +
             ", paid='" + isPaid() + "'" +
             "}";

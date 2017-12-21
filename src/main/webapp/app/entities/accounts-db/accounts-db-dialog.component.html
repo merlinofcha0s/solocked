@@ -15,7 +15,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="ninjaccountApp.accountsDB.initializationVector" for="field_initializationVector">Initialization Vector</label>
             <input type="text" class="form-control" name="initializationVector" id="field_initializationVector"
-                [(ngModel)]="accountsDB.initializationVector"  />
+                [(ngModel)]="accountsDB.initializationVector" />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="ninjaccountApp.accountsDB.database" for="field_database">Database</label>
@@ -31,14 +31,14 @@
                 <input type="file" id="file_database" (change)="setFileData($event, accountsDB, 'database', false)" jhiTranslate="entity.action.addblob"/>
             </div>
             <input type="hidden" class="form-control" name="database" id="field_database"
-                [(ngModel)]="accountsDB.database"  />
+                [(ngModel)]="accountsDB.database" />
             <input type="hidden" class="form-control" name="databaseContentType" id="field_databaseContentType"
                 [(ngModel)]="accountsDB.databaseContentType" />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="ninjaccountApp.accountsDB.nbAccounts" for="field_nbAccounts">Nb Accounts</label>
             <input type="number" class="form-control" name="nbAccounts" id="field_nbAccounts"
-                [(ngModel)]="accountsDB.nbAccounts" required min="0" />
+                [(ngModel)]="accountsDB.nbAccounts" required min="0"/>
             <div [hidden]="!(editForm.controls.nbAccounts?.dirty && editForm.controls.nbAccounts?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.nbAccounts?.errors?.required" jhiTranslate="entity.validation.required">

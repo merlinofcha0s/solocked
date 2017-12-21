@@ -31,7 +31,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.price" for="field_price">Price</label>
             <input type="number" class="form-control" name="price" id="field_price"
-                [(ngModel)]="payment.price" required />
+                [(ngModel)]="payment.price" required/>
             <div [hidden]="!(editForm.controls.price?.dirty && editForm.controls.price?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.price?.errors?.required" jhiTranslate="entity.validation.required">
@@ -59,7 +59,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.paid" for="field_paid">Paid</label>
             <input type="checkbox" class="form-control" name="paid" id="field_paid"
-                [(ngModel)]="payment.paid"  />
+                [(ngModel)]="payment.paid" />
             <div [hidden]="!(editForm.controls.paid?.dirty && editForm.controls.paid?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.paid?.errors?.required" jhiTranslate="entity.validation.required">

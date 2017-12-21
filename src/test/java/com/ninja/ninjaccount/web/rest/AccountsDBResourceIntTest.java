@@ -221,6 +221,8 @@ public class AccountsDBResourceIntTest {
 
         // Update the accountsDB
         AccountsDB updatedAccountsDB = accountsDBRepository.findOne(accountsDB.getId());
+        // Disconnect from session so that the updates on updatedAccountsDB are not directly saved in db
+        em.detach(updatedAccountsDB);
         updatedAccountsDB
             .initializationVector(UPDATED_INITIALIZATION_VECTOR)
             .database(UPDATED_DATABASE)

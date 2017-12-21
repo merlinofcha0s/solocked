@@ -1,7 +1,6 @@
-import { browser, element, by, $ } from 'protractor';
+import { browser, element, by } from 'protractor';
 import { NavBarPage } from './../page-objects/jhi-page-objects';
-const path = require('path');
-
+import * as path from 'path';
 describe('AccountsDB e2e test', () => {
 
     let navBarPage: NavBarPage;
@@ -9,7 +8,6 @@ describe('AccountsDB e2e test', () => {
     let accountsDBComponentsPage: AccountsDBComponentsPage;
     const fileToUpload = '../../../../main/webapp/content/images/logo-jhipster.png';
     const absolutePath = path.resolve(__dirname, fileToUpload);
-    
 
     beforeAll(() => {
         browser.get('/');
@@ -43,7 +41,7 @@ describe('AccountsDB e2e test', () => {
         accountsDBDialogPage.userSelectLastOption();
         accountsDBDialogPage.save();
         expect(accountsDBDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    }); 
+    });
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -76,43 +74,43 @@ export class AccountsDBDialogPage {
         return this.modalTitle.getAttribute('jhiTranslate');
     }
 
-    setInitializationVectorInput = function (initializationVector) {
+    setInitializationVectorInput = function(initializationVector) {
         this.initializationVectorInput.sendKeys(initializationVector);
     }
 
-    getInitializationVectorInput = function () {
+    getInitializationVectorInput = function() {
         return this.initializationVectorInput.getAttribute('value');
     }
 
-    setDatabaseInput = function (database) {
+    setDatabaseInput = function(database) {
         this.databaseInput.sendKeys(database);
     }
 
-    getDatabaseInput = function () {
+    getDatabaseInput = function() {
         return this.databaseInput.getAttribute('value');
     }
 
-    setNbAccountsInput = function (nbAccounts) {
+    setNbAccountsInput = function(nbAccounts) {
         this.nbAccountsInput.sendKeys(nbAccounts);
     }
 
-    getNbAccountsInput = function () {
+    getNbAccountsInput = function() {
         return this.nbAccountsInput.getAttribute('value');
     }
 
-    userSelectLastOption = function () {
+    userSelectLastOption = function() {
         this.userSelect.all(by.tagName('option')).last().click();
     }
 
-    userSelectOption = function (option) {
+    userSelectOption = function(option) {
         this.userSelect.sendKeys(option);
     }
 
-    getUserSelect = function () {
+    getUserSelect = function() {
         return this.userSelect;
     }
 
-    getUserSelectedOption = function () {
+    getUserSelectedOption = function() {
         return this.userSelect.element(by.css('option:checked')).getText();
     }
 

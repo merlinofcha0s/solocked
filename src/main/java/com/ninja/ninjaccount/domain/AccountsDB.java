@@ -5,6 +5,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -143,8 +144,8 @@ public class AccountsDB implements Serializable {
             "id=" + getId() +
             ", initializationVector='" + getInitializationVector() + "'" +
             ", database='" + getDatabase() + "'" +
-            ", databaseContentType='" + databaseContentType + "'" +
-            ", nbAccounts='" + getNbAccounts() + "'" +
+            ", databaseContentType='" + getDatabaseContentType() + "'" +
+            ", nbAccounts=" + getNbAccounts() +
             "}";
     }
 }

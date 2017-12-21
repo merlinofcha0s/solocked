@@ -45,9 +45,9 @@ public class PaymentService {
     }
 
     /**
-     *  Get all the payments.
+     * Get all the payments.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     @Transactional(readOnly = true)
     public List<PaymentDTO> findAll() {
@@ -58,10 +58,10 @@ public class PaymentService {
     }
 
     /**
-     *  Get one payment by id.
+     * Get one payment by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Transactional(readOnly = true)
     public PaymentDTO findOne(Long id) {
@@ -71,9 +71,9 @@ public class PaymentService {
     }
 
     /**
-     *  Delete the  payment by id.
+     * Delete the payment by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     public void delete(Long id) {
         log.debug("Request to delete Payment : {}", id);

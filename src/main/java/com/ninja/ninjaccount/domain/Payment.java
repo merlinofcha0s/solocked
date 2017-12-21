@@ -5,6 +5,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -147,7 +148,7 @@ public class Payment implements Serializable {
         return "Payment{" +
             "id=" + getId() +
             ", subscriptionDate='" + getSubscriptionDate() + "'" +
-            ", price='" + getPrice() + "'" +
+            ", price=" + getPrice() +
             ", planType='" + getPlanType() + "'" +
             ", paid='" + isPaid() + "'" +
             "}";
