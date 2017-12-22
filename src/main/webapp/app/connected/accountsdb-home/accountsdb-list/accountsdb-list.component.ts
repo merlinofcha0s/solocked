@@ -36,7 +36,7 @@ export class AccountsdbListComponent implements OnInit {
         } else {
             const message = this.translateService.instant('ninjaccountApp.accountsDB.home.online.toast.pinned');
             this.accountService.addOrRemoveFeatured(account, true);
-            config.data = {icon: 'fa-check-circle-o', text: message}
+            config.data = {icon: 'fa-check-circle', text: message}
             this.snackBar.openFromComponent(SnackComponent, config);
         }
     }

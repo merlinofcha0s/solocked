@@ -58,7 +58,7 @@ export class AccountsdbDetailsComponent implements OnInit, OnDestroy {
         const config = new MatSnackBarConfig();
         config.verticalPosition = 'top';
         config.duration = 3000;
-        config.data = {icon: 'fa-check-circle-o', text: nameFieldTrans + ' ' + textToast}
+        config.data = {icon: 'fa-check-circle', text: nameFieldTrans + ' ' + textToast}
         this.snackBar.openFromComponent(SnackComponent, config);
 
         // this.startTimeout();

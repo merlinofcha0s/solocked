@@ -14,7 +14,7 @@ $border-radius-payment: 10px !important;
 }
 
 .payment-block-icons {
-    font-size: 35px;
+    font-size: 45px;
     margin-right: 15px;
 }
 
@@ -129,4 +129,17 @@ $border-radius-payment: 10px !important;
 
 .add-payments-bottom {
     transform: translate(0px, 16px);
+}
+
+.containerAverageTotal {
+    margin-top: 15px;
+
+    .iconTotalAverage {
+        margin-right: 10px;
+        font-size: 35px;
+    }
+
+    .labelAverageTotal {
+        margin-right: 5px;
+    }
 }

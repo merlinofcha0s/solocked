@@ -24,6 +24,9 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     _placeholderCode: string;
     _placeholderNotes: string;
 
+    average : string = '0';
+    total = 0;
+
     private deleteLinePayment: MatDialogRef<DeletePaymentLineComponent>;
 
     constructor(private dialog: MatDialog) {
@@ -33,6 +36,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.computeAverageAndTotal();
     }
 
     ngOnDestroy(): void {
@@ -72,6 +76,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
         const payment = this.payments[index];
         payment.amount = newValue;
         this.payments[index] = payment;
+        this.computeAverageAndTotal();
     }
 
     onChangeMethod(index: number, newValue: string) {
@@ -86,13 +91,21 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
         this.payments[index] = payment;
     }
 
-    onChangeNotes(index: number, newValue: string) {
-        const payment = this.payments[index];
-        payment.notes = newValue;
-        this.payments[index] = payment;
-    }
+    // onChangeNotes(index: number, newValue: string) {
+    //     const payment = this.payments[index];
+    //     payment.notes = newValue;
+    //     this.payments[index] = payment;
+    // }
 
     onSuppressPaymentBlock() {
         this.suppressPaymentBlock.emit(true);
+    }
+
+    computeAverageAndTotal(){
+        if(this.payments.length >= 1){
+            this.total = this.payments.map((payment) => payment.amount)
+                .reduce( (a, b) => (Number(a) + Number(b)));
+            this.average = Math.round(this.total / this.payments.length).toFixed(1);
+        }
     }
 }

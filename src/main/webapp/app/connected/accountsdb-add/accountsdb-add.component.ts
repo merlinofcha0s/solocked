@@ -21,6 +21,7 @@ import {DeletePaymentLineComponent} from './payment-custom-block/delete-payment-
     templateUrl: './accountsdb-add.component.html',
     styleUrls: ['./accountsdb-add.component.scss']
 })
+
 export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
     accountForm: FormGroup;
@@ -70,6 +71,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 private translateService: TranslateService,
                 public dialog: MatDialog) {
         this.customBlockCounter = {paymentBlocks: []};
+        this.loading = true;
     }
 
     ngOnInit() {
@@ -237,7 +239,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         const config = new MatSnackBarConfig();
         config.verticalPosition = 'top';
         config.duration = 3000;
-        config.data = {icon: 'fa-check-circle-o', text: message};
+        config.data = {icon: 'fa-check-circle', text: message};
         this.snackBar.openFromComponent(SnackComponent, config);
     }
 
@@ -261,9 +263,11 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
     onHideDisplayPassword() {
         if (this.passwordType === 'password') {
+            console.log('password');
             this.passwordType = 'text';
             this.iconPasswordType = 'fa-eye'
         } else {
+            console.log('text');
             this.passwordType = 'password';
             this.iconPasswordType = 'fa-eye-slash'
         }

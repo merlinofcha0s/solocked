@@ -5,6 +5,7 @@ import {JhiLanguageHelper} from '../../shared';
 import {Principal} from '../../shared/auth/principal.service';
 import {AutolockService} from '../navbar/autologout/autolock.service';
 import {ProfileService} from "../profiles/profile.service";
+import fontawesome from '@fortawesome/fontawesome'
 
 @Component({
     selector: 'jhi-main',
@@ -33,6 +34,7 @@ export class JhiMainComponent implements OnInit {
     ngOnInit() {
         this.initEventRouter();
         this.initTracking();
+        this.initFontAwesome5();
     }
 
     initEventRouter() {
@@ -80,6 +82,12 @@ export class JhiMainComponent implements OnInit {
                 document.getElementsByTagName('head')[0].appendChild(script);
             }
         });
+    }
+
+    initFontAwesome5(){
+        fontawesome.config = {
+            autoReplaceSvg: 'nest'
+        }
     }
 
 }

@@ -27,7 +27,7 @@ export class DeletePaymentLineComponent implements OnInit {
         const config = new MatSnackBarConfig();
         config.verticalPosition = 'top';
         config.duration = 3000;
-        config.data = {icon: 'fa-check-circle-o', text: message}
+        config.data = {icon: 'fa-check-circle', text: message}
         this.snackBar.openFromComponent(SnackComponent, config);
     }
 

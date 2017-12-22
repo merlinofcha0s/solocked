@@ -17,7 +17,6 @@ export class ProfileService {
         if (!this.profileInfo) {
             this.profileInfo = this.http.get(this.profileInfoUrl)
                 .map((res: Response) => {
-                    console.log('looooool');
                     const data = res.json();
                     const pi = new ProfileInfo();
                     pi.activeProfiles = data.activeProfiles;
