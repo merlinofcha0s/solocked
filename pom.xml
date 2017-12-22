@@ -854,6 +854,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-clean-plugin</artifactId>
+                        <version>${maven-clean-plugin.version}</version>
                         <configuration>
                             <filesets>
                                 <fileset>
@@ -865,14 +866,26 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-war-plugin</artifactId>
+                        <version>${maven-war-plugin.version}</version>
                         <configuration>
+                            <failOnMissingWebXml>false</failOnMissingWebXml>
                             <warSourceDirectory>target/www/</warSourceDirectory>
+                            <webResources>
+                                <resource>
+                                    <directory>src/main/webapp</directory>
+                                    <includes>
+                                        <include>WEB-INF/**</include>
+                                    </includes>
+                                </resource>
+                            </webResources>
                         </configuration>
                     </plugin>
                     <plugin>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
+                        <version>${spring-boot.version}</version>
                         <configuration>
+                            <mainClass>${start-class}</mainClass>
                             <executable>true</executable>
                         </configuration>
                         <executions>
@@ -907,7 +920,7 @@
                                     <arguments>install --force</arguments>
                                 </configuration>
                             </execution>
-                            <!--<execution>
+                            <!-- <execution>
                                 <id>webpack build test</id>
                                 <goals>
                                     <goal>yarn</goal>
@@ -915,8 +928,9 @@
                                 <phase>test</phase>
                                 <configuration>
                                     <arguments>run webpack:test</arguments>
+                                    <yarnInheritsProxyConfigFromMaven>false</yarnInheritsProxyConfigFromMaven>
                                 </configuration>
-                            </execution>-->
+                            </execution> -->
                             <execution>
                                 <id>webpack build prod</id>
                                 <goals>
@@ -925,6 +939,7 @@
                                 <phase>generate-resources</phase>
                                 <configuration>
                                     <arguments>run webpack:prod</arguments>
+                                    <yarnInheritsProxyConfigFromMaven>false</yarnInheritsProxyConfigFromMaven>
                                 </configuration>
                             </execution>
                         </executions>
@@ -932,10 +947,8 @@
                 </plugins>
             </build>
             <properties>
-                <!-- log configuration -->
-                <logback.loglevel>INFO</logback.loglevel>
                 <!-- default Spring profiles -->
-                <spring.profiles.active>test${profile.swagger}${profile.no-liquibase}</spring.profiles.active>
+                <spring.profiles.active>test{profile.swagger}${profile.no-liquibase}</spring.profiles.active>
             </properties>
         </profile>
         <profile>
