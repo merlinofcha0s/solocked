@@ -1,7 +1,7 @@
 @import 'custom-variables';
 @include mat-core();
 
-$candy-app-primary: mat-palette($mat-amber);
+$candy-app-primary: mat-palette($mat-solockedpalette);
 $candy-app-accent:  mat-palette($mat-pink, A200, A100, A400);
 // The warn palette is optional (defaults to red).
 $candy-app-warn:    mat-palette($mat-red);

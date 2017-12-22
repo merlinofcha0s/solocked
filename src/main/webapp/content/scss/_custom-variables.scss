@@ -5,12 +5,45 @@ $font-color-primary: #555555;
 $font-color-warning: rgb(244, 67, 54);
 $loginColor: white;
 
-$solocked-primary-color: #F8BE47;
-$solocked-secondary-color: #F47E74;
-$linear-gradient: linear-gradient(to bottom right, $solocked-primary-color, $solocked-secondary-color);
+$solocked-primary-color: #296a64;
+$solocked-secondary-color: #062925;
+$linear-gradient: radial-gradient(circle at center, $solocked-primary-color 0, #164944, $solocked-secondary-color 100%);
 
 
 /**
 Payments block
  */
 $payment-block-color-input: #7B7B7B;
+
+$mat-solockedpalette: (
+    50 : #e5edec,
+    100 : #bfd2d1,
+    200 : #94b5b2,
+    300 : #699793,
+    400 : #49807b,
+    500 : #296a64,
+    600 : #24625c,
+    700 : #1f5752,
+    800 : #194d48,
+    900 : #0f3c36,
+    A100 : #77ffed,
+    A200 : #44ffe6,
+    A400 : #11ffe0,
+    A700 : #00f6d6,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);

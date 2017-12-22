@@ -9,7 +9,7 @@
             </div>
 
              <div *ngIf="success" class="d-flex m-4 justify-content-center align-items-center">
-                     <button mat-raised-button class="default-validation-button"
+                     <button mat-raised-button color="primary" class="default-validation-button"
                              [routerLink]="['/']"
                              id="signin">
                          {{ 'global.messages.info.authenticated.link' | translate}}
@@ -140,7 +140,7 @@
 
 
                 <div class="d-flex align-items-center justify-content-center m-3">
-                    <button mat-raised-button type="submit" id="validate" [disabled]="registerForm.form.invalid"
+                    <button mat-raised-button color="primary" type="submit" id="validate" [disabled]="registerForm.form.invalid"
                             class="buttonRegistration default-validation-button">{{'register.form.button' | translate}}</button>
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
