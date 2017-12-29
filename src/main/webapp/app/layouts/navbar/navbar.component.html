@@ -8,6 +8,9 @@
             <span jhiTranslate="global.title" class="navbar-title">Solocked</span> <span class="navbar-version">{{version}}</span>
         </a>
     </div>
+    <div class="hidden-lg-up" style="margin-left: auto; margin-right: auto; width: 100%;">
+        <jhi-search></jhi-search>
+    </div>
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
         <ul class="navbar-nav ml-auto">
          <!--   <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">

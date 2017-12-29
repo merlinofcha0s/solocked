@@ -71,7 +71,6 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 private translateService: TranslateService,
                 public dialog: MatDialog) {
         this.customBlockCounter = {paymentBlocks: []};
-        this.loading = true;
     }
 
     ngOnInit() {

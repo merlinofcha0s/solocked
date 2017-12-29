@@ -39,7 +39,8 @@ import {
     MatDatepickerModule,
     MatNativeDateModule,
     MatGridListModule,
-    MatDialogModule
+    MatDialogModule,
+    MatAutocompleteModule
 } from '@angular/material';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -72,7 +73,8 @@ import {DateValidatorDirective} from './validation/date-validator.directive';
         MatDatepickerModule,
         MatNativeDateModule,
         MatGridListModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatAutocompleteModule
     ],
     declarations: [
         JhiSocialComponent,
@@ -130,7 +132,8 @@ import {DateValidatorDirective} from './validation/date-validator.directive';
         MatDatepickerModule,
         MatNativeDateModule,
         MatGridListModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatAutocompleteModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
