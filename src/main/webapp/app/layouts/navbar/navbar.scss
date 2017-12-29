@@ -9,8 +9,10 @@ Navbar
 }
 
 .jh-navbar {
+    z-index: 1;
     background-color: white;
     padding: .2em 1em;
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,0.08);
     .profile-image {
         margin: -10px 0px;
         height: 40px;
@@ -64,20 +66,6 @@ Navbar
     color: $loginColor;
 }
 
-.defaultColor {
-    .nav-link {
-        color: $font-color-primary;
-    }
-
-    .navbar-title {
-        color: $font-color-primary;
-    }
-
-    .navbar-version {
-        color: $font-color-primary;
-    }
-}
-
 /* ==========================================================================
 Logo styles
 ========================================================================== */
@@ -115,4 +103,22 @@ Custom solocked
 
 .autolock {
     margin-right: 15px;
+}
+
+.defaultColor {
+    .nav-link {
+        color: $font-color-primary;
+    }
+
+    .navbar-title {
+        color: $font-color-primary;
+    }
+
+    .navbar-version {
+        color: $font-color-primary;
+    }
+}
+
+.background-login {
+    background-color: transparent;
 }
