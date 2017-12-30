@@ -1,12 +1,15 @@
 <div class="d-flex justify-content-center align-items-center">
-    <form name="searchForm" role="form" (ngSubmit)="search()" style="width: 50%;" novalidate>
+    <form name="searchForm width-max" role="form" (ngSubmit)="search()" novalidate>
         <mat-form-field style="width: 100%;">
-            <input type="text" matInput [formControl]="search" placeholder="Search...." [matAutocomplete]="auto">
-            <div matSuffix><i class="fas fa-search"></i></div>
-            <mat-autocomplete #auto="matAutocomplete" (source)="onAccountSelected()">
-                <mat-option *ngFor="let account of filteredAccounts | async" [value]="account.name">
+            <input type="text" matInput [formControl]="searchControl" placeholder="Search...." [matAutocomplete]="auto">
+            <div matSuffix>
+                <i class="fas fa-search search" [class.hide]="searchControl.value.length != 0"></i>
+                <i class="fas fa-times cross" [class.hide]="searchControl.value.length == 0" (click)="clearSearch()"></i>
+            </div>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onAccountSelected($event)" [displayWith]="displayFn">
+                <mat-option *ngFor="let account of filteredAccounts | async" [value]="account">
                     <div class="d-flex">
-                        <i class="fas fa-unlock-alt" style="font-size: 25px; margin-right: 10px;"></i>
+                        <i class="fas fa-unlock-alt ico-account"></i>
                         <div>{{ account.name }}</div>
                     </div>
                 </mat-option>

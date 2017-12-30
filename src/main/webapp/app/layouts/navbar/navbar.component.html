@@ -8,9 +8,6 @@
             <span jhiTranslate="global.title" class="navbar-title">Solocked</span> <span class="navbar-version">{{version}}</span>
         </a>
     </div>
-    <div class="hidden-lg-up" style="margin-left: auto; margin-right: auto; width: 100%;">
-        <jhi-search></jhi-search>
-    </div>
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
         <ul class="navbar-nav ml-auto">
          <!--   <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
@@ -104,6 +101,10 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item dropdown pointer d-flex"
+                *ngIf="isAuthenticated() && !hasAnyAuthorityDirect(['ROLE_ADMIN'])">
+                <jhi-search  class="autolock"></jhi-search>
+            </li>
              <li class="nav-item dropdown pointer d-flex justify-content-center align-items-center"
                  *ngIf="isAuthenticated() && !hasAnyAuthorityDirect(['ROLE_ADMIN'])">
                  <jhi-autolock class="autolock"></jhi-autolock>
@@ -111,8 +112,8 @@
                      <span jhiTranslate="global.addAccount"></span>
                  </a>
             </li>
-            <li *ngIf="languages">
-                 <button class="menu" [class.home]="!defaultColor" *ngIf="languages.length > 1" mat-button [matMenuTriggerFor]="languagesMenu">{{ 'global.menu.language' | translate }}</button>
+            <li *ngIf="languages" class="d-flex justify-content-center align-items-center">
+                 <button [class.home]="!defaultColor" *ngIf="languages.length > 1" mat-button [matMenuTriggerFor]="languagesMenu">{{ 'global.menu.language' | translate }}</button>
                 <!--<a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="languagesnavBarDropdown" *ngIf="languages.length > 1">-->
                     <!--<span>-->
                         <!--<i class="fa fa-flag" aria-hidden="true"></i>-->
@@ -129,8 +130,8 @@
 
                 <!--</ul>-->
             </li>
-            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-             <button mat-button class="menu" [class.home]="!defaultColor" [matMenuTriggerFor]="account">{{ 'global.menu.account.main' | translate }}</button>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="d-flex justify-content-center align-items-center">
+             <button mat-button [class.home]="!defaultColor" [matMenuTriggerFor]="account">{{ 'global.menu.account.main' | translate }}</button>
                 <mat-menu #account="matMenu">
                     <a *ngSwitchCase="true" routerLink="settings" routerLinkActive="active" mat-menu-item>{{ 'settings.title' | translate }}</a>
                     <a *ngSwitchCase="true" routerLink="password" routerLinkActive="active" mat-menu-item>{{ 'global.menu.account.password' | translate }}</a>

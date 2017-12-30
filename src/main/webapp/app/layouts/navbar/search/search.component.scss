@@ -1,0 +1,20 @@
+@import './../../../../content/scss/custom-variables';
+
+.ico-account {
+    color: $solocked-primary-color;
+    font-size: 25px;
+    margin-right: 10px;
+}
+
+.hide {
+    display: none;
+}
+
+.search {
+    font-size: 15px;
+}
+
+.cross {
+    font-size: 20px;
+    cursor: pointer;
+}
