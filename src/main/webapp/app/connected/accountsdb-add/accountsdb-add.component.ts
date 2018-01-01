@@ -262,11 +262,9 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
     onHideDisplayPassword() {
         if (this.passwordType === 'password') {
-            console.log('password');
             this.passwordType = 'text';
             this.iconPasswordType = 'fa-eye'
         } else {
-            console.log('text');
             this.passwordType = 'password';
             this.iconPasswordType = 'fa-eye-slash'
         }
