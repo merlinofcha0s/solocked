@@ -4,7 +4,7 @@
       "packageName": "com.ninja.ninjaccount",
       "nativeLanguage": "en"
     },
-    "jhipsterVersion": "4.13.0",
+    "jhipsterVersion": "4.13.1",
     "baseName": "ninjaccount",
     "packageName": "com.ninja.ninjaccount",
     "packageFolder": "com/ninja/ninjaccount",
@@ -35,6 +35,8 @@
     "languages": [
       "en",
       "fr"
-    ]
+    ],
+    "cacheProvider": "hazelcast",
+    "enableHibernateCache": true
   }
 }

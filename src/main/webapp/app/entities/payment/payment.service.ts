@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { SERVER_API_URL } from '../../app.constants';
 
 import { JhiDateUtils } from 'ng-jhipster';
@@ -11,7 +11,7 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 @Injectable()
 export class PaymentService {
 
-    private resourceUrl = SERVER_API_URL + 'api/payments';
+    private resourceUrl =  SERVER_API_URL + 'api/payments';
 
     constructor(private http: Http, private dateUtils: JhiDateUtils) { }
 

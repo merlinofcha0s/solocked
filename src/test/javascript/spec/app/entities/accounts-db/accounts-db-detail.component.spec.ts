@@ -1,6 +1,6 @@
 /* tslint:disable max-line-length */
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 import { NinjaccountTestModule } from '../../../test.module';
 import { AccountsDBDetailComponent } from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db-detail.component';
