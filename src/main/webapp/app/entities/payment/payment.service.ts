@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
-import {Observable} from 'rxjs/Rx';
+import {Observable} from 'rxjs/Observable';
 import {JhiDateUtils} from 'ng-jhipster';
 import { SERVER_API_URL } from '../../app.constants';
 
@@ -11,7 +11,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 @Injectable()
 export class PaymentService {
 
-    private resourceUrl = SERVER_API_URL + 'api/payments';
+    private resourceUrl =  SERVER_API_URL + 'api/payments';
 
     payment$: BehaviorSubject<Payment>;
 

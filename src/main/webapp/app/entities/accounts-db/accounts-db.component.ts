@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs/Rx';
+import {Subscription} from 'rxjs/Subscription';
 import {JhiAlertService, JhiDataUtils, JhiEventManager} from 'ng-jhipster';
 import {AccountsDB} from './accounts-db.model';
 import {AccountsDBService} from './accounts-db.service';

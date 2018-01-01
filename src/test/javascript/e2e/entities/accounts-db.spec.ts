@@ -20,14 +20,16 @@ describe('AccountsDB e2e test', () => {
     it('should load AccountsDBS', () => {
         navBarPage.goToEntity('accounts-db');
         accountsDBComponentsPage = new AccountsDBComponentsPage();
-        expect(accountsDBComponentsPage.getTitle()).toMatch(/ninjaccountApp.accountsDB.home.title/);
+        expect(accountsDBComponentsPage.getTitle())
+            .toMatch(/ninjaccountApp.accountsDB.home.title/);
 
     });
 
     it('should load create AccountsDB dialog', () => {
         accountsDBComponentsPage.clickOnCreateButton();
         accountsDBDialogPage = new AccountsDBDialogPage();
-        expect(accountsDBDialogPage.getModalTitle()).toMatch(/ninjaccountApp.accountsDB.home.createOrEditLabel/);
+        expect(accountsDBDialogPage.getModalTitle())
+            .toMatch(/ninjaccountApp.accountsDB.home.createOrEditLabel/);
         accountsDBDialogPage.close();
     });
 

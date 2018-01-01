@@ -18,14 +18,16 @@ describe('Payment e2e test', () => {
     it('should load Payments', () => {
         navBarPage.goToEntity('payment');
         paymentComponentsPage = new PaymentComponentsPage();
-        expect(paymentComponentsPage.getTitle()).toMatch(/ninjaccountApp.payment.home.title/);
+        expect(paymentComponentsPage.getTitle())
+            .toMatch(/ninjaccountApp.payment.home.title/);
 
     });
 
     it('should load create Payment dialog', () => {
         paymentComponentsPage.clickOnCreateButton();
         paymentDialogPage = new PaymentDialogPage();
-        expect(paymentDialogPage.getModalTitle()).toMatch(/ninjaccountApp.payment.home.createOrEditLabel/);
+        expect(paymentDialogPage.getModalTitle())
+            .toMatch(/ninjaccountApp.payment.home.createOrEditLabel/);
         paymentDialogPage.close();
     });
 

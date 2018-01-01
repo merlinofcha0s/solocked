@@ -3,7 +3,7 @@ import { AccountsDB } from './../../entities/accounts-db/accounts-db.model';
 import { CryptoService } from './../../shared/crypto/crypto.service';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { AccountsService } from '../../shared/account/accounts.service';
 
 @Injectable()
