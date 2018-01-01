@@ -4,7 +4,7 @@ import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
 import {JhiLanguageHelper} from '../../shared';
 import {Principal} from '../../shared/auth/principal.service';
 import {AutolockService} from '../navbar/autologout/autolock.service';
-import {ProfileService} from "../profiles/profile.service";
+import {ProfileService} from '../profiles/profile.service';
 import fontawesome from '@fortawesome/fontawesome'
 
 @Component({
@@ -54,6 +54,7 @@ export class JhiMainComponent implements OnInit {
         }
     }
 
+    /* tslint:disable */
     initTracking() {
         this.profileService.getProfileInfo().then((profileInfo) => {
             const inProduction = profileInfo.inProduction;
@@ -79,6 +80,7 @@ export class JhiMainComponent implements OnInit {
             }
         });
     }
+    /* tslint:enable */
 
     initFontAwesome5() {
         fontawesome.config = {
