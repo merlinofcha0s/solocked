@@ -43,11 +43,7 @@ export class JhiMainComponent implements OnInit {
                 this.jhiLanguageHelper.updateTitle(this.getPageTitle(this.router.routerState.snapshot.root));
             }
             if (event instanceof NavigationEnd) {
-                if (event.url === '/') {
-                    this.loginPage = true;
-                } else {
-                    this.loginPage = false;
-                }
+                this.loginPage = event.url === '/';
             }
         });
     }
@@ -84,7 +80,7 @@ export class JhiMainComponent implements OnInit {
         });
     }
 
-    initFontAwesome5(){
+    initFontAwesome5() {
         fontawesome.config = {
             autoReplaceSvg: 'nest'
         }

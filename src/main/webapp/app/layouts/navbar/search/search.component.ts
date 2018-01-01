@@ -1,14 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {AccountsService} from "../../../shared/account/accounts.service";
-import {Account} from "../../../shared/account/account.model";
-import {Observable} from "rxjs/Observable";
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {AccountsService} from '../../../shared/account/accounts.service';
+import {Account} from '../../../shared/account/account.model';
+import {Observable} from 'rxjs/Observable';
 import {map} from 'rxjs/operators/map';
 import {startWith} from 'rxjs/operators/startWith';
-import {Subscription} from "rxjs/Subscription";
-import {MatAutocompleteSelectedEvent} from "@angular/material";
-import {Router} from "@angular/router";
-import {filter} from "rxjs/operator/filter";
+import {Subscription} from 'rxjs/Subscription';
+import {MatAutocompleteSelectedEvent} from '@angular/material';
+import {Router} from '@angular/router';
+import {filter} from 'rxjs/operator/filter';
 
 @Component({
     selector: 'jhi-search',
@@ -28,9 +28,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     constructor(private fb: FormBuilder,
                 private accountsService: AccountsService,
-                private router: Router,) {
-
-    }
+                private router: Router) {}
 
     ngOnInit() {
         this.initForm();
@@ -55,8 +53,8 @@ export class SearchComponent implements OnInit, OnDestroy {
             this.filteredAccounts = this.searchControl.valueChanges
                 .pipe(
                     startWith({} as Account),
-                    map(account => account && typeof account === 'object' ? account.name : account),
-                    map(name => name ? this.filter(name) : [])
+                    map((account) => account && typeof account === 'object' ? account.name : account),
+                    map((name) => name ? this.filter(name) : [])
                 );
         });
     }

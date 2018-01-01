@@ -24,7 +24,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     _placeholderCode: string;
     _placeholderNotes: string;
 
-    average : string = '0';
+    average = '0';
     total = 0;
 
     private deleteLinePayment: MatDialogRef<DeletePaymentLineComponent>;
@@ -101,10 +101,10 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
         this.suppressPaymentBlock.emit(true);
     }
 
-    computeAverageAndTotal(){
-        if(this.payments.length >= 1){
+    computeAverageAndTotal() {
+        if (this.payments.length >= 1) {
             this.total = this.payments.map((payment) => payment.amount)
-                .reduce( (a, b) => (Number(a) + Number(b)));
+                .reduce((a, b) => (Number(a) + Number(b)));
             this.average = Math.round(this.total / this.payments.length).toFixed(1);
         }
     }
