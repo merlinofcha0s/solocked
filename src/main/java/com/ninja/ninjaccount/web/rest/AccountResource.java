@@ -216,15 +216,16 @@ public class AccountResource {
     @Timed
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void register(@Valid @RequestBody ManagedUserVM managedUserVM) {
-        if (!checkPasswordLength(managedUserVM.getPassword())) {
+        if (!checkPasswordLength(managedUserVM.getAuthenticationKey())) {
             throw new InvalidPasswordException();
         }
+
         userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase())
             .ifPresent(u -> {throw new LoginAlreadyUsedException();});
         userRepository.findOneByEmail(managedUserVM.getEmail().toLowerCase())
             .ifPresent(u -> {throw new EmailAlreadyUsedException() ;});
         User user = userService
-            .registerUser(managedUserVM, managedUserVM.getPassword());
+            .registerUser(managedUserVM, managedUserVM.getAuthenticationKey());
         managedUserVM.getAccountsDB().setUserLogin(user.getLogin());
         managedUserVM.getAccountsDB().setUserId(user.getId());
         accountsDBService.save(managedUserVM.getAccountsDB());

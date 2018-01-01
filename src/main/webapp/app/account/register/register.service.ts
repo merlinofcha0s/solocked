@@ -28,7 +28,7 @@ export class Register {
                 accountDBDTO.databaseContentType = 'application/octet-stream';
                 accountDBDTO.initializationVector = initVector;
                 accountDBDTO.nbAccounts = 0;
-                account.password = newAccountsDB.authenticationKey;
+                account.authenticationKey = newAccountsDB.authenticationKey;
 
                 account.accountsDB = accountDBDTO;
                 return this.http.post('api/register', account);

@@ -184,7 +184,7 @@ public class AccountResourceIntTest {
         accountsDBDTO.setNbAccounts(0);
         ManagedUserVM validUser = new ManagedUserVM();
         validUser.setLogin("alice");
-        validUser.setPassword("password");
+        validUser.setAuthenticationKey("password");
         validUser.setFirstName("Alice");
         validUser.setLastName("Something");
         validUser.setEmail("alice@example.com");
@@ -333,7 +333,7 @@ public class AccountResourceIntTest {
 
         ManagedUserVM validUser = new ManagedUserVM();
         validUser.setLogin("alice");
-        validUser.setPassword("password");
+        validUser.setAuthenticationKey("password");
         validUser.setFirstName("Alice");
         validUser.setLastName("Something");
         validUser.setEmail("alice@example.com");
@@ -346,7 +346,7 @@ public class AccountResourceIntTest {
         // Duplicate login, different email
         ManagedUserVM duplicatedUser = new ManagedUserVM();
         duplicatedUser.setLogin(validUser.getLogin());
-        duplicatedUser.setPassword(validUser.getPassword());
+        duplicatedUser.setAuthenticationKey(validUser.getPassword());
         duplicatedUser.setFirstName(validUser.getFirstName());
         duplicatedUser.setLastName(validUser.getLastName());
         duplicatedUser.setEmail("alicejr@example.com");
@@ -389,7 +389,7 @@ public class AccountResourceIntTest {
 
         ManagedUserVM validUser = new ManagedUserVM();
         validUser.setLogin("john");
-        validUser.setPassword("password");
+        validUser.setAuthenticationKey("password");
         validUser.setFirstName("John");
         validUser.setLastName("Doe");
         validUser.setEmail("john@example.com");
@@ -402,7 +402,7 @@ public class AccountResourceIntTest {
         // Duplicate email, different login
         ManagedUserVM duplicatedUser = new ManagedUserVM();
         duplicatedUser.setLogin( "johnjr");
-        duplicatedUser.setPassword( validUser.getPassword());
+        duplicatedUser.setAuthenticationKey( validUser.getPassword());
         duplicatedUser.setFirstName( validUser.getFirstName());
         duplicatedUser.setLastName( validUser.getLastName());
             duplicatedUser.setEmail(validUser.getEmail());
@@ -470,7 +470,7 @@ public class AccountResourceIntTest {
 
         ManagedUserVM validUser = new ManagedUserVM();
         validUser.setLogin("badguy");
-        validUser.setPassword("password");
+        validUser.setAuthenticationKey("password");
         validUser.setFirstName("Bad");
         validUser.setLastName("Guy");
         validUser.setEmail("badguy@example.com");

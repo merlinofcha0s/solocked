@@ -18,6 +18,9 @@ public class ManagedUserVM extends UserDTO {
 
     private AccountsDBDTO accountsDB;
 
+    @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
+    private String authenticationKey;
+
     public ManagedUserVM() {
         // Empty constructor needed for Jackson.
     }
@@ -37,6 +40,14 @@ public class ManagedUserVM extends UserDTO {
 
     public void setAccountsDB(AccountsDBDTO accountsDB) {
         this.accountsDB = accountsDB;
+    }
+
+    public String getAuthenticationKey() {
+        return authenticationKey;
+    }
+
+    public void setAuthenticationKey(String authenticationKey) {
+        this.authenticationKey = authenticationKey;
     }
 
     @Override
