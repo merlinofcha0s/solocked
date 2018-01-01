@@ -201,8 +201,10 @@ public class AccountResourceIntTest {
                 .content(TestUtil.convertObjectToJsonBytes(validUser)))
             .andExpect(status().isCreated());
 
-        assertThat(userRepository.findOneByLogin("alice").isPresent()).isTrue();
-        Optional<AccountsDB> accountsDB = accountsDBRepository.findOneByUser(user.get());
+        Optional<User> alice = userRepository.findOneByLogin("alice");
+
+        assertThat(alice.isPresent()).isTrue();
+        Optional<AccountsDB> accountsDB = accountsDBRepository.findOneByUser(alice.get());
         assertThat(accountsDB.isPresent()).isTrue();
         assertThat(accountsDB.get().getDatabase()).isNotNull();
         assertThat(accountsDB.get().getInitializationVector()).isNotNull();
