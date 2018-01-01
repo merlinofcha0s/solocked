@@ -26,6 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -65,8 +66,10 @@ public class UserResource {
 
     private final UserService userService;
 
-    private final MailService mailService;public UserResource(UserRepository userRepository,
-            UserService userService, MailService mailService) {
+    private final MailService mailService;
+
+    public UserResource(UserRepository userRepository,
+                        UserService userService, MailService mailService) {
 
         this.userRepository = userRepository;
         this.userService = userService;
@@ -82,7 +85,7 @@ public class UserResource {
      *
      * @param userDTO the user to create
      * @return the ResponseEntity with status 201 (Created) and with body the new user, or with status 400 (Bad Request) if the login or email is already in use
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @throws URISyntaxException       if the Location URI syntax is incorrect
      * @throws BadRequestAlertException 400 (Bad Request) if the login or email is already in use
      */
     @PostMapping("/users")
@@ -199,8 +202,13 @@ public class UserResource {
     @Timed
     @Secured(AuthoritiesConstants.USER)
     public ResponseEntity<Boolean> destroyUserAccount() {
-        boolean succeed = userService.destroyUserAccount();
-        return ResponseUtil.wrapOrNotFound(Optional.of(succeed));
+        Optional<String> login = SecurityUtils.getCurrentUserLogin();
+        if (login.isPresent()) {
+            boolean succeed = userService.destroyUserAccount(login.get());
+            return ResponseUtil.wrapOrNotFound(Optional.of(succeed));
+        } else {
+            return ResponseUtil.wrapOrNotFound(Optional.of(false));
+        }
     }
 
 }

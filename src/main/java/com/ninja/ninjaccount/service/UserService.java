@@ -1,6 +1,5 @@
 package com.ninja.ninjaccount.service;
 
-import com.ninja.ninjaccount.config.CacheConfiguration;
 import com.ninja.ninjaccount.domain.Authority;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
@@ -23,7 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -186,7 +184,7 @@ public class UserService {
             user.setLangKey(langKey);
             user.setImageUrl(imageUrl);
             cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLogin());
-                cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).evict(user.getEmail());
+            cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).evict(user.getEmail());
             log.debug("Changed Information for User: {}", user);
         });
     }
@@ -273,7 +271,7 @@ public class UserService {
         List<User> users = userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(Instant.now().minus(3, ChronoUnit.DAYS));
         for (User user : users) {
             log.debug("Deleting not activated user {}", user.getLogin());
-            userRepository.delete(user);
+            destroyUserAccount(user.getLogin());
             cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLogin());
             cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).evict(user.getEmail());
         }
@@ -286,18 +284,15 @@ public class UserService {
         return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
     }
 
-    public boolean destroyUserAccount() {
-        Optional<String> login = SecurityUtils.getCurrentUserLogin();
-        if (login.isPresent()) {
-            Optional<User> user = userRepository.findOneByLogin(login.get());
-            if (user.isPresent()) {
-                accountsDBRepository.deleteAccountsDBByUserLogin(user.get().getLogin());
-                paymentRepository.deletePaymentByUserLogin(user.get().getLogin());
-                deleteUser(user.get().getLogin());
-                return true;
-            } else {
-                return false;
-            }
+    public boolean destroyUserAccount(String login) {
+        Optional<User> user = userRepository.findOneByLogin(login);
+        if (user.isPresent()) {
+            accountsDBRepository.deleteAccountsDBByUserLogin(user.get().getLogin());
+            paymentRepository.deletePaymentByUserLogin(user.get().getLogin());
+            deleteUser(user.get().getLogin());
+            cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.get().getLogin());
+            cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).evict(user.get().getEmail());
+            return true;
         } else {
             return false;
         }
