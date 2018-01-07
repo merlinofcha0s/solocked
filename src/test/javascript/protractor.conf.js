@@ -14,7 +14,7 @@ exports.config = {
     capabilities: {
         'browserName': 'chrome',
         chromeOptions: {
-            args: [ "--headless", "--disable-gpu", "--window-size=800,600" ]
+            args: ["--headless", "--disable-gpu", "--window-size=1280,800"]
         }
     },
 
@@ -29,14 +29,14 @@ exports.config = {
         defaultTimeoutInterval: 720000
     },
 
-    beforeLaunch: function() {
+    beforeLaunch: function () {
         require('ts-node').register({
             project: ''
         });
     },
 
-    onPrepare: function() {
-        browser.driver.manage().window().setSize(1280, 1024);
+    onPrepare: function () {
+        browser.driver.manage().window().setSize(1440, 900);
         jasmine.getEnv().addReporter(new JasmineReporters.JUnitXmlReporter({
             savePath: 'target/reports/e2e',
             consolidateAll: false
