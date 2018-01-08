@@ -31,7 +31,7 @@ export class CommonAction {
 
     activateUser(username: string) {
         this.login('admin', 'admin');
-        browser.driver.sleep(1000);
+        browser.driver.sleep(2000);
         expect<any>(browser.getTitle()).toBe('Users');
 
         element(by.id(username + '-deactivation')).click();
@@ -63,9 +63,6 @@ export class CommonAction {
             element.all(by.id('title-accounts')).first().isPresent().then((value) => {
                 expect(value).toEqual(true);
             });
-            // browser.wait(this.myAccounts.title.isPresent()).then((value : boolean) => {
-            //     expect(value).toBe(true);
-            // });
         }
     }
 }

@@ -22,7 +22,6 @@ describe('account', () => {
         registerHelper.activateUser('test02');
 
         registerHelper.login('test02', 'lolmdr', true);
-        //await browser.driver.sleep(1000);
         registerHelper.logout();
     });
 
