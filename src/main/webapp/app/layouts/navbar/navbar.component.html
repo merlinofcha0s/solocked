@@ -101,13 +101,13 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item dropdown pointer d-flex"
+            <li class="nav-item dropdown pointer d-flex justify-content-center align-items-center"
                 *ngIf="isAuthenticated() && !hasAnyAuthorityDirect(['ROLE_ADMIN'])">
-                <jhi-search  class="autolock"></jhi-search>
+                <jhi-autolock></jhi-autolock>
             </li>
              <li class="nav-item dropdown pointer d-flex justify-content-center align-items-center"
                  *ngIf="isAuthenticated() && !hasAnyAuthorityDirect(['ROLE_ADMIN'])">
-                 <jhi-autolock class="autolock"></jhi-autolock>
+                 <jhi-search  class="search"></jhi-search>
                  <a mat-raised-button class="add-button" [routerLink]="['/accounts/add']">
                      <span jhiTranslate="global.addAccount"></span>
                  </a>
