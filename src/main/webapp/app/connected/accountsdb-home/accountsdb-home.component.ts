@@ -19,7 +19,6 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
     counter: number;
     pageSize = 2;
 
-    filter: string;
     seeAll = false;
 
     constructor(private accountsService: AccountsService, private paymentService: PaymentService) {
@@ -71,26 +70,5 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
             }
         }
         this.counter += offset;
-    }
-
-    clearSearch() {
-        this.filter = '';
-    }
-
-    showAll() {
-        this.clearSearch();
-
-        if (this.seeAll) {
-            this.seeAll = false;
-        } else {
-            this.seeAll = true;
-        }
-    }
-
-    detectSearch(): boolean {
-        if ((this.filter !== undefined && this.filter.length >= 2)) {
-            this.seeAll = false;
-            return true;
-        }
     }
 }
