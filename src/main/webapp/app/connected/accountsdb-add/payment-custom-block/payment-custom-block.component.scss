@@ -34,6 +34,10 @@ $border-radius-payment: 10px !important;
     color: white;
 }
 
+.fixFF{
+    width: calc(26% + 0rem) !important;
+}
+
 .top-left {
     border-top-left-radius: $border-radius-payment;
 }

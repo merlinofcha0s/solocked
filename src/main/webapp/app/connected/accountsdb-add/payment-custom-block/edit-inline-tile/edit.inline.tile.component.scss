@@ -58,3 +58,10 @@
     z-index: 2;
     overflow: unset;
 }
+
+//Fixing firefox
+@-moz-document url-prefix() {
+    .payment-value {
+        margin-bottom: 7px!important;
+    }
+}

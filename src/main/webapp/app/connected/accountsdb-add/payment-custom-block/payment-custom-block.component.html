@@ -15,10 +15,10 @@
               <form (ngSubmit)="onAddPayment()" #paymentForm="ngForm">
                   <mat-grid-list cols="4" rowHeight="35px" gutterSize="0px">
                       <mat-grid-tile class="header top-left">{{ "ninjaccountApp.accountsDB.paymentblock.paymentCustomBlock.date" | translate }}</mat-grid-tile>
-                      <mat-grid-tile class="header">{{ "ninjaccountApp.accountsDB.paymentblock.paymentCustomBlock.amount" | translate }}</mat-grid-tile>
+                      <mat-grid-tile class="header fixFF">{{ "ninjaccountApp.accountsDB.paymentblock.paymentCustomBlock.amount" | translate }}</mat-grid-tile>
                       <mat-grid-tile class="header">{{ "ninjaccountApp.accountsDB.paymentblock.paymentCustomBlock.method" | translate }}</mat-grid-tile>
                       <mat-grid-tile class="header top-right">{{ "ninjaccountApp.accountsDB.paymentblock.paymentCustomBlock.code" | translate }}</mat-grid-tile>
-                      <div *ngFor="let payment of payments;let i = index;let odd = odd; let last = last;">
+                      <ng-container *ngFor="let payment of payments;let i = index;let odd = odd; let last = last;">
                           <mat-grid-tile [class.odd]="odd">
                               <jhi-edit-date-inline [readonlyMode]="readOnlyMode" class="width-max" [value]="payment.date" (onValueChange)="onChangeDate(i, $event)"></jhi-edit-date-inline>
                           </mat-grid-tile>
@@ -42,7 +42,7 @@
                                   </div>
                               </div>
                           </mat-grid-tile>
-                      </div>
+                      </ng-container>
                       <mat-grid-tile  colspan="4" class="tile-add-bottom" *ngIf="payments.length == 0 && !readOnlyMode">
                           <div class="add-payments add-payment-first">
                               <div class="d-flex justify-content-center container-btn-payment">

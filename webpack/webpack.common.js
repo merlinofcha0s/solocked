@@ -41,6 +41,7 @@ module.exports = (options) => ({
         ]
     },
     plugins: [
+        new webpack.IgnorePlugin(/\.\/locale$/),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: `'${options.env}'`,
