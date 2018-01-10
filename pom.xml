@@ -29,7 +29,7 @@
         <profile.swagger />
 
         <!-- Dependency versions -->
-        <jhipster-dependencies.version>0.1.5</jhipster-dependencies.version>
+        <jhipster-dependencies.version>0.1.6</jhipster-dependencies.version>
         <!-- The spring-boot version should match the one managed by
         https://mvnrepository.com/artifact/io.github.jhipster/jhipster-dependencies/${jhipster-dependencies.version} -->
         <spring-boot.version>1.5.9.RELEASE</spring-boot.version>
@@ -430,14 +430,14 @@
                                     <directory>src/main/resources/</directory>
                                     <filtering>true</filtering>
                                     <includes>
-                                        <include>config/application.yml</include>
+                                        <include>config/*.yml</include>
                                     </includes>
                                 </resource>
                                 <resource>
                                     <directory>src/main/resources/</directory>
                                     <filtering>false</filtering>
                                     <excludes>
-                                        <exclude>config/application.yml</exclude>
+                                        <exclude>config/*.yml</exclude>
                                     </excludes>
                                 </resource>
                             </resources>
@@ -838,6 +838,27 @@
                                 </configuration>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>pl.project13.maven</groupId>
+                        <artifactId>git-commit-id-plugin</artifactId>
+                        <version>2.2.4</version>
+                            <executions>
+                                <execution>
+                                    <goals>
+                                        <goal>revision</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                            <configuration>
+                                <failOnNoGitDirectory>false</failOnNoGitDirectory>
+                                <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                                <includeOnlyProperties>
+                                    <includeOnlyProperty>^git.commit.id.abbrev$</includeOnlyProperty>
+                                    <includeOnlyProperty>^git.commit.id.describe$</includeOnlyProperty>
+                                    <includeOnlyProperty>^git.branch$</includeOnlyProperty>
+                                </includeOnlyProperties>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>

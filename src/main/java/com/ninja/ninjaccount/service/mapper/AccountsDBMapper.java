@@ -13,7 +13,7 @@ public interface AccountsDBMapper extends EntityMapper<AccountsDBDTO, AccountsDB
 
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "user.login", target = "userLogin")
-    AccountsDBDTO toDto(AccountsDB accountsDB); 
+    AccountsDBDTO toDto(AccountsDB accountsDB);
 
     @Mapping(source = "userId", target = "user")
     AccountsDB toEntity(AccountsDBDTO accountsDBDTO);
