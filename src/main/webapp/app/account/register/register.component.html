@@ -41,7 +41,7 @@
                     <mat-form-field class="registerInput">
                         <input matInput type="text" [(ngModel)]="registerAccount.login" id="login" name="login"
                                #login="ngModel" placeholder="{{'global.form.username' | translate}}"
-                               required minlength="1" maxlength="50" pattern="^[_'.A-Za-z0-9-]*$" autofocus>
+                               required minlength="1" maxlength="50" pattern="^[_'.@A-Za-z0-9-]*$" autofocus>
                         <mat-error class="text-danger" *ngIf="login.dirty && login.invalid && login.errors.required"
                                   jhiTranslate="register.messages.validate.login.required">
                             Your username is required.
