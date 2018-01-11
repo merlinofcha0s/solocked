@@ -8,6 +8,7 @@ export class AccountsDB implements BaseEntity {
         public databaseContentType?: string,
         public database?: any,
         public nbAccounts?: number,
+        public sum?: string,
         public userId?: number,
         public operationAccountType?: OperationAccountType
     ) {

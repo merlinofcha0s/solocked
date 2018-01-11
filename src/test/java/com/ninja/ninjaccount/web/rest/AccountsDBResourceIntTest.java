@@ -54,6 +54,9 @@ public class AccountsDBResourceIntTest {
     private static final Integer DEFAULT_NB_ACCOUNTS = 0;
     private static final Integer UPDATED_NB_ACCOUNTS = 1;
 
+    private static final String DEFAULT_SUM = "AAAAAAAAAA";
+    private static final String UPDATED_SUM = "BBBBBBBBBB";
+
     @Autowired
     private AccountsDBRepository accountsDBRepository;
 
@@ -101,7 +104,8 @@ public class AccountsDBResourceIntTest {
             .initializationVector(DEFAULT_INITIALIZATION_VECTOR)
             .database(DEFAULT_DATABASE)
             .databaseContentType(DEFAULT_DATABASE_CONTENT_TYPE)
-            .nbAccounts(DEFAULT_NB_ACCOUNTS);
+            .nbAccounts(DEFAULT_NB_ACCOUNTS)
+            .sum(DEFAULT_SUM);
         return accountsDB;
     }
 
@@ -131,6 +135,7 @@ public class AccountsDBResourceIntTest {
         assertThat(testAccountsDB.getDatabase()).isEqualTo(DEFAULT_DATABASE);
         assertThat(testAccountsDB.getDatabaseContentType()).isEqualTo(DEFAULT_DATABASE_CONTENT_TYPE);
         assertThat(testAccountsDB.getNbAccounts()).isEqualTo(DEFAULT_NB_ACCOUNTS);
+        assertThat(testAccountsDB.getSum()).isEqualTo(DEFAULT_SUM);
     }
 
     @Test
@@ -186,7 +191,8 @@ public class AccountsDBResourceIntTest {
             .andExpect(jsonPath("$.[*].initializationVector").value(hasItem(DEFAULT_INITIALIZATION_VECTOR.toString())))
             .andExpect(jsonPath("$.[*].databaseContentType").value(hasItem(DEFAULT_DATABASE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].database").value(hasItem(Base64Utils.encodeToString(DEFAULT_DATABASE))))
-            .andExpect(jsonPath("$.[*].nbAccounts").value(hasItem(DEFAULT_NB_ACCOUNTS)));
+            .andExpect(jsonPath("$.[*].nbAccounts").value(hasItem(DEFAULT_NB_ACCOUNTS)))
+            .andExpect(jsonPath("$.[*].sum").value(hasItem(DEFAULT_SUM.toString())));
     }
 
     @Test
@@ -203,7 +209,8 @@ public class AccountsDBResourceIntTest {
             .andExpect(jsonPath("$.initializationVector").value(DEFAULT_INITIALIZATION_VECTOR.toString()))
             .andExpect(jsonPath("$.databaseContentType").value(DEFAULT_DATABASE_CONTENT_TYPE))
             .andExpect(jsonPath("$.database").value(Base64Utils.encodeToString(DEFAULT_DATABASE)))
-            .andExpect(jsonPath("$.nbAccounts").value(DEFAULT_NB_ACCOUNTS));
+            .andExpect(jsonPath("$.nbAccounts").value(DEFAULT_NB_ACCOUNTS))
+            .andExpect(jsonPath("$.sum").value(DEFAULT_SUM.toString()));
     }
 
     @Test
@@ -229,7 +236,8 @@ public class AccountsDBResourceIntTest {
             .initializationVector(UPDATED_INITIALIZATION_VECTOR)
             .database(UPDATED_DATABASE)
             .databaseContentType(UPDATED_DATABASE_CONTENT_TYPE)
-            .nbAccounts(UPDATED_NB_ACCOUNTS);
+            .nbAccounts(UPDATED_NB_ACCOUNTS)
+            .sum(UPDATED_SUM);
         AccountsDBDTO accountsDBDTO = accountsDBMapper.toDto(updatedAccountsDB);
         accountsDBDTO.setOperationAccountType(OperationAccountType.CREATE);
 
@@ -246,6 +254,7 @@ public class AccountsDBResourceIntTest {
         assertThat(testAccountsDB.getDatabase()).isEqualTo(UPDATED_DATABASE);
         assertThat(testAccountsDB.getDatabaseContentType()).isEqualTo(UPDATED_DATABASE_CONTENT_TYPE);
         assertThat(testAccountsDB.getNbAccounts()).isEqualTo(UPDATED_NB_ACCOUNTS);
+        assertThat(testAccountsDB.getSum()).isEqualTo(UPDATED_SUM);
     }
 
     @Test

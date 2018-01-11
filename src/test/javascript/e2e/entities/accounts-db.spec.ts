@@ -40,6 +40,8 @@ describe('AccountsDB e2e test', () => {
         accountsDBDialogPage.setDatabaseInput(absolutePath);
         accountsDBDialogPage.setNbAccountsInput('5');
         expect(accountsDBDialogPage.getNbAccountsInput()).toMatch('5');
+        accountsDBDialogPage.setSumInput('sum');
+        expect(accountsDBDialogPage.getSumInput()).toMatch('sum');
         accountsDBDialogPage.userSelectLastOption();
         accountsDBDialogPage.save();
         expect(accountsDBDialogPage.getSaveButton().isPresent()).toBeFalsy();
@@ -70,6 +72,7 @@ export class AccountsDBDialogPage {
     initializationVectorInput = element(by.css('input#field_initializationVector'));
     databaseInput = element(by.css('input#file_database'));
     nbAccountsInput = element(by.css('input#field_nbAccounts'));
+    sumInput = element(by.css('input#field_sum'));
     userSelect = element(by.css('select#field_user'));
 
     getModalTitle() {
@@ -98,6 +101,14 @@ export class AccountsDBDialogPage {
 
     getNbAccountsInput = function() {
         return this.nbAccountsInput.getAttribute('value');
+    }
+
+    setSumInput = function(sum) {
+        this.sumInput.sendKeys(sum);
+    }
+
+    getSumInput = function() {
+        return this.sumInput.getAttribute('value');
     }
 
     userSelectLastOption = function() {

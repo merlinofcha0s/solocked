@@ -34,8 +34,13 @@ public class AccountsDB implements Serializable {
     @Column(name = "jhi_database_content_type")
     private String databaseContentType;
 
-    @Column(name = "nb_accounts")
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "nb_accounts", nullable = false)
     private Integer nbAccounts;
+
+    @Column(name = "sum")
+    private String sum;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -102,6 +107,19 @@ public class AccountsDB implements Serializable {
         this.nbAccounts = nbAccounts;
     }
 
+    public String getSum() {
+        return sum;
+    }
+
+    public AccountsDB sum(String sum) {
+        this.sum = sum;
+        return this;
+    }
+
+    public void setSum(String sum) {
+        this.sum = sum;
+    }
+
     public User getUser() {
         return user;
     }
@@ -144,6 +162,7 @@ public class AccountsDB implements Serializable {
             ", database='" + getDatabase() + "'" +
             ", databaseContentType='" + getDatabaseContentType() + "'" +
             ", nbAccounts=" + getNbAccounts() +
+            ", sum='" + getSum() + "'" +
             "}";
     }
 }
