@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.util.Pair;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -146,5 +147,19 @@ public class AccountDBServiceTest {
         assertThat(actualAndMax.getFirst()).isEqualTo(1);
         assertThat(actualAndMax.getSecond()).isNotNull();
         assertThat(actualAndMax.getSecond()).isEqualTo(PaymentConstant.MAX_ACCOUNTS_BETA);
+    }
+
+    public void testChecksumShouldValidate() {
+        String example = "This is an example";
+        byte[] bytes = example.getBytes();
+        String uuid = UUID.randomUUID().toString();
+
+        User user = userRepository.saveAndFlush(userJohn);
+        AccountsDBDTO accountsDBDTO = accountsDBService.createNewAccountDB(bytes, uuid, user);
+        ShaPasswordEncoder shaPasswordEncoder = new ShaPasswordEncoder(256);
+        String sumSHACheck = shaPasswordEncoder.encodePassword(new String(accountsDBDTO.getDatabase()), null);
+        accountsDBDTO.setSum(sumSHACheck);
+
+        boolean check  = accountsDBService.checkDBSum(accountsDBDTO.getDatabase(), accountsDBDTO.getSum());
     }
 }

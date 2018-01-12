@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.util.Pair;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,9 +51,21 @@ public class AccountsDBService {
      */
     public AccountsDBDTO save(AccountsDBDTO accountsDBDTO) {
         log.debug("Request to save AccountsDB : {}", accountsDBDTO);
+
         AccountsDB accountsDB = accountsDBMapper.toEntity(accountsDBDTO);
         accountsDB = accountsDBRepository.save(accountsDB);
         return accountsDBMapper.toDto(accountsDB);
+    }
+
+    public boolean checkDBSum(byte[] accountsdb, String sum){
+        boolean validSum = false;
+        ShaPasswordEncoder shaPasswordEncoder = new ShaPasswordEncoder(256);
+        String sumSHACheck = shaPasswordEncoder.encodePassword(new String(accountsdb), null);
+        if(sumSHACheck.equalsIgnoreCase(sum)){
+            validSum = true;
+        }
+
+        return validSum;
     }
 
     /**
