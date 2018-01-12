@@ -8,6 +8,7 @@ import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.MailService;
 import com.ninja.ninjaccount.service.PaymentService;
 import com.ninja.ninjaccount.service.UserService;
+import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.web.rest.errors.*;
 import com.ninja.ninjaccount.web.rest.vm.KeyAndPasswordVM;
@@ -129,7 +130,7 @@ public class AccountResource {
      *
      * @param userDTO the current user information
      * @throws EmailAlreadyUsedException 400 (Bad Request) if the email is already used
-     * @throws RuntimeException 500 (Internal Server Error) if the user login wasn't found
+     * @throws RuntimeException          500 (Internal Server Error) if the user login wasn't found
      */
     @PostMapping("/account")
     @Timed
@@ -141,14 +142,14 @@ public class AccountResource {
         }
         Optional<User> user = userRepository
             .findOneByLogin(userLogin);
-            if (!user.isPresent()) {
+        if (!user.isPresent()) {
             throw new InternalServerErrorException("User could not be found");
         }
-                String firstName =userDTO.getFirstName();
-                String lastName = userDTO.getLastName();
+        String firstName = userDTO.getFirstName();
+        String lastName = userDTO.getLastName();
 
-                userService.updateUser(firstName, lastName, userDTO.getEmail(),
-                    userDTO.getLangKey(), userDTO.getImageUrl());
+        userService.updateUser(firstName, lastName, userDTO.getEmail(),
+            userDTO.getLangKey(), userDTO.getImageUrl());
 
     }
 
@@ -165,7 +166,7 @@ public class AccountResource {
             throw new InvalidPasswordException();
         }
         userService.changePassword(password);
-   }
+    }
 
     /**
      * POST   /account/reset-password/init : Send an email to reset the password of the user
@@ -176,10 +177,10 @@ public class AccountResource {
     /*@PostMapping(path = "/account/reset_password/init")*/
     @Timed
     public void requestPasswordReset(@RequestBody String mail) {
-       mailService.sendPasswordResetMail(
-           userService.requestPasswordReset(mail)
-               .orElseThrow(EmailNotFoundException::new)
-       );
+        mailService.sendPasswordResetMail(
+            userService.requestPasswordReset(mail)
+                .orElseThrow(EmailNotFoundException::new)
+        );
     }
 
     /**
@@ -187,7 +188,7 @@ public class AccountResource {
      *
      * @param keyAndPassword the generated key and the new password
      * @throws InvalidPasswordException 400 (Bad Request) if the password is incorrect
-     * @throws RuntimeException 500 (Internal Server Error) if the password could not be reset
+     * @throws RuntimeException         500 (Internal Server Error) if the password could not be reset
      */
     /*@PostMapping(path = "/account/reset_password/finish")*/
     @Timed
@@ -207,7 +208,7 @@ public class AccountResource {
      * POST  /register : register the user.
      *
      * @param managedUserVM the managed user View Model
-     * @throws InvalidPasswordException 400 (Bad Request) if the password is incorrect
+     * @throws InvalidPasswordException  400 (Bad Request) if the password is incorrect
      * @throws EmailAlreadyUsedException 400 (Bad Request) if the email is already used
      * @throws LoginAlreadyUsedException 400 (Bad Request) if the login  is already used
      */
@@ -221,14 +222,21 @@ public class AccountResource {
         }
 
         userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase())
-            .ifPresent(u -> {throw new LoginAlreadyUsedException();});
+            .ifPresent(u -> {
+                throw new LoginAlreadyUsedException();
+            });
         userRepository.findOneByEmail(managedUserVM.getEmail().toLowerCase())
-            .ifPresent(u -> {throw new EmailAlreadyUsedException() ;});
+            .ifPresent(u -> {
+                throw new EmailAlreadyUsedException();
+            });
         User user = userService
             .registerUser(managedUserVM, managedUserVM.getAuthenticationKey());
         managedUserVM.getAccountsDB().setUserLogin(user.getLogin());
         managedUserVM.getAccountsDB().setUserId(user.getId());
-        accountsDBService.save(managedUserVM.getAccountsDB());
+        AccountsDBDTO accountsDBDTO = accountsDBService.save(managedUserVM.getAccountsDB());
+        if (accountsDBDTO == null) {
+            throw new InvalidChecksumException();
+        }
         paymentService.createRegistrationPaymentForUser(user);
 
         mailService.sendActivationEmail(user);

@@ -9,6 +9,7 @@ import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import com.ninja.ninjaccount.service.mapper.AccountsDBMapper;
 import com.ninja.ninjaccount.service.util.PaymentUtil;
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.util.Pair;
@@ -17,6 +18,7 @@ import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -51,17 +53,21 @@ public class AccountsDBService {
      */
     public AccountsDBDTO save(AccountsDBDTO accountsDBDTO) {
         log.debug("Request to save AccountsDB : {}", accountsDBDTO);
-
-        AccountsDB accountsDB = accountsDBMapper.toEntity(accountsDBDTO);
-        accountsDB = accountsDBRepository.save(accountsDB);
-        return accountsDBMapper.toDto(accountsDB);
+        if (checkDBSum(accountsDBDTO.getDatabase(), accountsDBDTO.getSum())) {
+            AccountsDB accountsDB = accountsDBMapper.toEntity(accountsDBDTO);
+            accountsDB = accountsDBRepository.save(accountsDB);
+            return accountsDBMapper.toDto(accountsDB);
+        } else {
+            return null;
+        }
     }
 
-    public boolean checkDBSum(byte[] accountsdb, String sum){
+    public boolean checkDBSum(byte[] accountsdb, String sum) {
         boolean validSum = false;
         ShaPasswordEncoder shaPasswordEncoder = new ShaPasswordEncoder(256);
-        String sumSHACheck = shaPasswordEncoder.encodePassword(new String(accountsdb), null);
-        if(sumSHACheck.equalsIgnoreCase(sum)){
+        byte[] baseByte64 = Base64.encodeBase64(accountsdb);
+        String sumSHACheck = shaPasswordEncoder.encodePassword(new String(baseByte64, StandardCharsets.UTF_8), null);
+        if (sumSHACheck.equalsIgnoreCase(sum)) {
             validSum = true;
         }
 

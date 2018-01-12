@@ -17,20 +17,24 @@ export class Register {
         // Generate the new DB
         const newAccountsDB = this.accountService.init();
         const initVector = this.cryptoUtils.getRandomNumber();
-
+        const accountDBDTO = new AccountsDB();
         return Observable
             .fromPromise(this.crypto.creatingKey(account.password))
             .flatMap((derivedCryptoKey) => this.crypto.cryptingDB(initVector, newAccountsDB, derivedCryptoKey))
             .flatMap((accountDB: ArrayBuffer) => this.cryptoUtils.toBase64Promise(new Blob([new Uint8Array(accountDB)], { type: 'application/octet-stream' })))
             .flatMap((accountDBbase64: string) => {
-                const accountDBDTO = new AccountsDB();
                 accountDBDTO.database = accountDBbase64;
                 accountDBDTO.databaseContentType = 'application/octet-stream';
                 accountDBDTO.initializationVector = initVector;
                 accountDBDTO.nbAccounts = 0;
                 account.authenticationKey = newAccountsDB.authenticationKey;
 
+                console.log('Base64 : ' + accountDBDTO.database)
                 account.accountsDB = accountDBDTO;
+                return this.crypto.generateChecksum(accountDBDTO.database);
+            }).flatMap((sum) => {
+                accountDBDTO.sum = sum;
+                console.log('sum : ' + sum);
                 return this.http.post('api/register', account);
             });
     }
