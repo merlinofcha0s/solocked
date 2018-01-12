@@ -4,6 +4,7 @@ import com.ninja.ninjaccount.NinjaccountApp;
 
 import com.ninja.ninjaccount.domain.AccountsDB;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
+import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
@@ -19,6 +20,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -26,6 +32,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static com.ninja.ninjaccount.web.rest.TestUtil.createFormattingConversionService;
@@ -54,7 +62,7 @@ public class AccountsDBResourceIntTest {
     private static final Integer DEFAULT_NB_ACCOUNTS = 0;
     private static final Integer UPDATED_NB_ACCOUNTS = 1;
 
-    private static final String DEFAULT_SUM = "AAAAAAAAAA";
+    private static final String DEFAULT_SUM = "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d";
     private static final String UPDATED_SUM = "BBBBBBBBBB";
 
     @Autowired
@@ -152,6 +160,31 @@ public class AccountsDBResourceIntTest {
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(accountsDBDTO)))
             .andExpect(status().isBadRequest());
+
+        // Validate the AccountsDB in the database
+        List<AccountsDB> accountsDBList = accountsDBRepository.findAll();
+        assertThat(accountsDBList).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    public void createAccountsDBWithWrongSum() throws Exception {
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.USER));
+        securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("johndoe", "johndoe", authorities));
+        SecurityContextHolder.setContext(securityContext);
+
+        int databaseSizeBeforeCreate = accountsDBRepository.findAll().size();
+
+        // Create the AccountsDB
+        accountsDB.setSum(UPDATED_SUM);
+        AccountsDBDTO accountsDBDTO = accountsDBMapper.toDto(accountsDB);
+        accountsDBDTO.setOperationAccountType(OperationAccountType.CREATE);
+        restAccountsDBMockMvc.perform(post("/api/accounts-dbs")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(accountsDBDTO)))
+            .andExpect(status().isExpectationFailed());
 
         // Validate the AccountsDB in the database
         List<AccountsDB> accountsDBList = accountsDBRepository.findAll();

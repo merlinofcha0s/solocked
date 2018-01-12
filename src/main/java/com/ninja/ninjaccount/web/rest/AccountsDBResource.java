@@ -44,7 +44,9 @@ public class AccountsDBResource {
      * POST  /accounts-dbs : Create a new accountsDB.
      *
      * @param accountsDBDTO the accountsDBDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new accountsDBDTO, or with status 400 (Bad Request) if the accountsDB has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new accountsDBDTO
+     * , or with status 400 (Bad Request) if the accountsDB has already an ID
+     * , or with status 417 (Expectation failed) if the checksum of the DB don't match
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/accounts-dbs")
@@ -54,10 +56,18 @@ public class AccountsDBResource {
         if (accountsDBDTO.getId() != null) {
             throw new BadRequestAlertException("A new accountsDB cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        AccountsDBDTO result = accountsDBService.save(accountsDBDTO);
-        return ResponseEntity.created(new URI("/api/accounts-dbs/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+
+        if (accountsDBService.checkDBSum(accountsDBDTO.getDatabase(), accountsDBDTO.getSum())) {
+            AccountsDBDTO result = accountsDBService.save(accountsDBDTO);
+            return ResponseEntity.created(new URI("/api/accounts-dbs/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
+        } else {
+            Optional<String> login = SecurityUtils.getCurrentUserLogin();
+            log.error("Error checksum when creating DB - login : {}, DB info {} ",  login.get());
+
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+        }
     }
 
     /**

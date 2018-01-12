@@ -149,6 +149,7 @@ public class AccountDBServiceTest {
         assertThat(actualAndMax.getSecond()).isEqualTo(PaymentConstant.MAX_ACCOUNTS_BETA);
     }
 
+    @Test
     public void testChecksumShouldValidate() {
         String example = "This is an example";
         byte[] bytes = example.getBytes();
@@ -161,5 +162,22 @@ public class AccountDBServiceTest {
         accountsDBDTO.setSum(sumSHACheck);
 
         boolean check  = accountsDBService.checkDBSum(accountsDBDTO.getDatabase(), accountsDBDTO.getSum());
+
+        assertThat(check).isTrue();
+    }
+
+    @Test
+    public void testChecksumShouldBeUnvalide() {
+        String example = "This is an example";
+        byte[] bytes = example.getBytes();
+        String uuid = UUID.randomUUID().toString();
+
+        User user = userRepository.saveAndFlush(userJohn);
+        AccountsDBDTO accountsDBDTO = accountsDBService.createNewAccountDB(bytes, uuid, user);
+        accountsDBDTO.setSum("loool");
+
+        boolean check  = accountsDBService.checkDBSum(accountsDBDTO.getDatabase(), accountsDBDTO.getSum());
+
+        assertThat(check).isFalse();
     }
 }
