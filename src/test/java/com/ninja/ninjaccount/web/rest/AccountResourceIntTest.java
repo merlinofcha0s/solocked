@@ -180,6 +180,7 @@ public class AccountResourceIntTest {
         AccountsDBDTO accountsDBDTO = new AccountsDBDTO();
         accountsDBDTO.setInitializationVector("87978687326873626");
         accountsDBDTO.setDatabase("some xml".getBytes());
+        accountsDBDTO.setSum("b1c0aaec38071497dd347a4fa056ddcfcfa67724133c49150e60cde3898c7aad");
         accountsDBDTO.setDatabaseContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         accountsDBDTO.setNbAccounts(0);
         ManagedUserVM validUser = new ManagedUserVM();
@@ -328,6 +329,7 @@ public class AccountResourceIntTest {
         AccountsDBDTO accountsDBDTO = new AccountsDBDTO();
         accountsDBDTO.setInitializationVector("87978687326873626");
         accountsDBDTO.setDatabase("some xml".getBytes());
+        accountsDBDTO.setSum("b1c0aaec38071497dd347a4fa056ddcfcfa67724133c49150e60cde3898c7aad");
         accountsDBDTO.setDatabaseContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         accountsDBDTO.setNbAccounts(0);
 
@@ -384,6 +386,7 @@ public class AccountResourceIntTest {
         AccountsDBDTO accountsDBDTO = new AccountsDBDTO();
         accountsDBDTO.setInitializationVector("87978687326873626");
         accountsDBDTO.setDatabase("some xml".getBytes());
+        accountsDBDTO.setSum("b1c0aaec38071497dd347a4fa056ddcfcfa67724133c49150e60cde3898c7aad");
         accountsDBDTO.setDatabaseContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         accountsDBDTO.setNbAccounts(0);
 
@@ -465,6 +468,7 @@ public class AccountResourceIntTest {
         AccountsDBDTO accountsDBDTO = new AccountsDBDTO();
         accountsDBDTO.setInitializationVector("87978687326873626");
         accountsDBDTO.setDatabase("some xml".getBytes());
+        accountsDBDTO.setSum("b1c0aaec38071497dd347a4fa056ddcfcfa67724133c49150e60cde3898c7aad");
         accountsDBDTO.setDatabaseContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         accountsDBDTO.setNbAccounts(0);
 

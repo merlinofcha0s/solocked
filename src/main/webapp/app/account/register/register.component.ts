@@ -1,9 +1,9 @@
 import {Component, OnInit, AfterViewInit, Renderer, ElementRef, ViewChildren, ViewChild} from '@angular/core';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiLanguageService } from 'ng-jhipster';
+import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {JhiLanguageService} from 'ng-jhipster';
 
-import { Register } from './register.service';
-import { LoginModalService, EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from '../../shared';
+import {Register} from './register.service';
+import {LoginModalService, EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE} from '../../shared';
 
 @Component({
     selector: 'jhi-register',
@@ -23,13 +23,11 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     loading: boolean;
     passwordMatch: boolean;
 
-    constructor(
-        private languageService: JhiLanguageService,
-        private loginModalService: LoginModalService,
-        private registerService: Register,
-        private elementRef: ElementRef,
-        private renderer: Renderer
-    ) {
+    constructor(private languageService: JhiLanguageService,
+                private loginModalService: LoginModalService,
+                private registerService: Register,
+                private elementRef: ElementRef,
+                private renderer: Renderer) {
 
     }
 
@@ -72,6 +70,9 @@ export class RegisterComponent implements OnInit, AfterViewInit {
             this.errorUserExists = 'ERROR';
             this.loading = false;
         } else if (response.status === 400 && response.json().type === EMAIL_ALREADY_USED_TYPE) {
+            this.errorEmailExists = 'ERROR';
+            this.loading = false;
+        } else if (response.status === 417) {
             this.errorEmailExists = 'ERROR';
             this.loading = false;
         } else {

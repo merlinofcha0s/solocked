@@ -235,6 +235,7 @@ public class AccountResource {
         managedUserVM.getAccountsDB().setUserId(user.getId());
         AccountsDBDTO accountsDBDTO = accountsDBService.save(managedUserVM.getAccountsDB());
         if (accountsDBDTO == null) {
+            log.error("Problem with the checksum with this user when registration : {} ", managedUserVM.getLogin());
             throw new InvalidChecksumException();
         }
         paymentService.createRegistrationPaymentForUser(user);
