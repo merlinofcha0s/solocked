@@ -6,6 +6,7 @@ import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import com.ninja.ninjaccount.web.rest.errors.BadRequestAlertException;
 import com.ninja.ninjaccount.web.rest.errors.CustomParameterizedException;
+import com.ninja.ninjaccount.web.rest.errors.InvalidChecksumException;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -64,9 +65,8 @@ public class AccountsDBResource {
                 .body(result);
         } else {
             Optional<String> login = SecurityUtils.getCurrentUserLogin();
-            log.error("Error checksum when creating DB - login : {}, DB info {} ",  login.get());
-
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+            log.error("Error checksum when creating DB - login : {}",  login.get());
+            throw new InvalidChecksumException();
         }
     }
 
@@ -159,12 +159,18 @@ public class AccountsDBResource {
     public ResponseEntity<AccountsDBDTO> updateAccountsDBForUserConnected(@RequestBody AccountsDBDTO accountsDBDTO) throws URISyntaxException {
         try {
             AccountsDBDTO result = accountsDBService.updateAccountDBForUserConnected(accountsDBDTO);
+            if(result == null){
+                throw new InvalidChecksumException();
+            }
             return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
         } catch (MaxAccountsException e) {
             log.error("Too many accounts on your database, userID : {}", accountsDBDTO.getUserId());
             throw new CustomParameterizedException("Too many accounts", e.getActual().toString(), e.getMax().toString());
+        } catch (InvalidChecksumException e) {
+            log.error("Problem with the checksum with this user when registration : {} ", SecurityUtils.getCurrentUserLogin().get());
+            throw new InvalidChecksumException();
         } catch (Exception e) {
             log.error("Error when updating db for userID : {}", accountsDBDTO.getUserId());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

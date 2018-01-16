@@ -64,14 +64,18 @@ public class AccountsDBService {
 
     public boolean checkDBSum(byte[] accountsdb, String sum) {
         boolean validSum = false;
-        ShaPasswordEncoder shaPasswordEncoder = new ShaPasswordEncoder(256);
-        byte[] baseByte64 = Base64.encodeBase64(accountsdb);
-        String sumSHACheck = shaPasswordEncoder.encodePassword(new String(baseByte64, StandardCharsets.UTF_8), null);
+        String sumSHACheck = calculateSum(accountsdb);
         if (sumSHACheck.equalsIgnoreCase(sum)) {
             validSum = true;
         }
 
         return validSum;
+    }
+
+    public String calculateSum(byte[] db){
+        ShaPasswordEncoder shaPasswordEncoder = new ShaPasswordEncoder(256);
+        byte[] baseByte64 = Base64.encodeBase64(db);
+        return shaPasswordEncoder.encodePassword(new String(baseByte64, StandardCharsets.UTF_8), null);
     }
 
     /**
@@ -135,6 +139,7 @@ public class AccountsDBService {
         newAccountsDBDTO.setUserId(newUser.getId());
         newAccountsDBDTO.setUserLogin(newUser.getLogin());
         newAccountsDBDTO.setNbAccounts(0);
+        newAccountsDBDTO.setSum("c026ff12a9bee39a00dd883ae925b79054a7b86799d4dfa4dd03a13b9d2c6bce");
 
         return save(newAccountsDBDTO);
     }
@@ -143,7 +148,7 @@ public class AccountsDBService {
      * Update the accountDB for the connected user
      *
      * @param accountsDBDTO The new accountDB
-     * @return the account db updated
+     * @return the account db updated or null
      */
     public AccountsDBDTO updateAccountDBForUserConnected(AccountsDBDTO accountsDBDTO) throws MaxAccountsException {
         final String userLogin = SecurityUtils.getCurrentUserLogin().get();
@@ -152,15 +157,14 @@ public class AccountsDBService {
         accountsDBDTOToUpdate.setDatabase(accountsDBDTO.getDatabase());
         accountsDBDTOToUpdate.setInitializationVector(accountsDBDTO.getInitializationVector());
         accountsDBDTOToUpdate.setDatabaseContentType(accountsDBDTO.getDatabaseContentType());
+        accountsDBDTOToUpdate.setSum(accountsDBDTO.getSum());
 
         Integer nbAccounts = paymentService.checkReachLimitAccounts(userLogin
             , accountsDBDTO.getOperationAccountType(), accountsDBDTOToUpdate.getNbAccounts());
 
         accountsDBDTOToUpdate.setNbAccounts(nbAccounts);
 
-        save(accountsDBDTOToUpdate);
-
-        return accountsDBDTOToUpdate;
+        return save(accountsDBDTOToUpdate);
     }
 
     public Pair<Integer, Integer> getActualAndMaxAccount(String userLogin) {

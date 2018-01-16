@@ -10,6 +10,7 @@ import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.service.util.PaymentConstant;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +24,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -113,6 +115,7 @@ public class AccountDBServiceTest {
         AccountsDBDTO newAccountsDBDTO = new AccountsDBDTO();
         newAccountsDBDTO.setDatabase(updatedBytes);
         newAccountsDBDTO.setInitializationVector(updatedUuid);
+        newAccountsDBDTO.setSum(accountsDBService.calculateSum(updatedBytes));
         newAccountsDBDTO.setOperationAccountType(OperationAccountType.CREATE);
 
         AccountsDBDTO updatedAccountDB = accountsDBService.updateAccountDBForUserConnected(newAccountsDBDTO);
@@ -157,9 +160,7 @@ public class AccountDBServiceTest {
 
         User user = userRepository.saveAndFlush(userJohn);
         AccountsDBDTO accountsDBDTO = accountsDBService.createNewAccountDB(bytes, uuid, user);
-        ShaPasswordEncoder shaPasswordEncoder = new ShaPasswordEncoder(256);
-        String sumSHACheck = shaPasswordEncoder.encodePassword(new String(accountsDBDTO.getDatabase()), null);
-        accountsDBDTO.setSum(sumSHACheck);
+        accountsDBDTO.setSum(accountsDBService.calculateSum(accountsDBDTO.getDatabase()));
 
         boolean check  = accountsDBService.checkDBSum(accountsDBDTO.getDatabase(), accountsDBDTO.getSum());
 

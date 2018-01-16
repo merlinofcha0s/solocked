@@ -28,13 +28,10 @@ export class Register {
                 accountDBDTO.initializationVector = initVector;
                 accountDBDTO.nbAccounts = 0;
                 account.authenticationKey = newAccountsDB.authenticationKey;
-
-                console.log('Base64 : ' + accountDBDTO.database)
                 account.accountsDB = accountDBDTO;
                 return this.crypto.generateChecksum(accountDBDTO.database);
             }).flatMap((sum) => {
                 accountDBDTO.sum = sum;
-                console.log('sum : ' + sum);
                 return this.http.post('api/register', account);
             });
     }
