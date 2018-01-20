@@ -33,9 +33,9 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/cdk@5.0.2":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-5.0.2.tgz#9d2505e5736a14a6b59d226280a7600559e6d707"
+"@angular/cdk@5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-5.1.0.tgz#e04547609d96d8b6fe0dac17bed323760c3952e9"
   dependencies:
     tslib "^1.7.1"
 
@@ -142,15 +142,15 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/material-moment-adapter@^5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@angular/material-moment-adapter/-/material-moment-adapter-5.0.3.tgz#8cc331aba22d075d085b3f75502ae121bd27cdfb"
+"@angular/material-moment-adapter@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@angular/material-moment-adapter/-/material-moment-adapter-5.1.0.tgz#95bd8fdc6b8ad9170628f42ccecce9e9952a932e"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/material@5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@angular/material/-/material-5.0.3.tgz#0345551346973e0607680288489c5f9129e20ba2"
+"@angular/material@5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@angular/material/-/material-5.1.0.tgz#038803b6a52e484c6bf9bb413714795952d61d49"
   dependencies:
     tslib "^1.7.1"
 
@@ -172,17 +172,27 @@
   dependencies:
     tslib "^1.7.1"
 
-"@fortawesome/fontawesome-free-brands@^5.0.2":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-brands/-/fontawesome-free-brands-5.0.2.tgz#a1cc602eec40a379a3dd8a44c78b31110dd3d3d3"
+"@fortawesome/fontawesome-common-types@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.1.1.tgz#28c78607ffd2d246abfcc09bacd28490952280af"
 
-"@fortawesome/fontawesome-free-regular@^5.0.2":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-regular/-/fontawesome-free-regular-5.0.2.tgz#429af86bed14689f87648e6322983c65c782c017"
+"@fortawesome/fontawesome-free-brands@^5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-brands/-/fontawesome-free-brands-5.0.4.tgz#764ceaefc44b5ec5ca5b549cfa51e8cc672f72b4"
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.1.1"
 
-"@fortawesome/fontawesome-free-solid@^5.0.2":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-solid/-/fontawesome-free-solid-5.0.2.tgz#090ce2c59dd5ec76983f3da8a43e1ab0321b42d5"
+"@fortawesome/fontawesome-free-regular@^5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-regular/-/fontawesome-free-regular-5.0.4.tgz#29b6aba73c5288461526e4c5f2151464b3cef7a0"
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.1.1"
+
+"@fortawesome/fontawesome-free-solid@^5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-solid/-/fontawesome-free-solid-5.0.4.tgz#6f4eef5a624b086aec359aa7e41c0eb3dd4e44c5"
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.1.1"
 
 "@fortawesome/fontawesome@^1.1.0":
   version "1.1.0"
