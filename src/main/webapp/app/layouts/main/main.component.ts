@@ -5,7 +5,9 @@ import {JhiLanguageHelper} from '../../shared';
 import {Principal} from '../../shared/auth/principal.service';
 import {AutolockService} from '../navbar/autologout/autolock.service';
 import {ProfileService} from '../profiles/profile.service';
-import fontawesome from '@fortawesome/fontawesome'
+import fontawesome from '@fortawesome/fontawesome';
+import {WarnBrowserComponent} from './warn-browser/warn-browser.component';
+import {MatDialog} from '@angular/material';
 
 @Component({
     selector: 'jhi-main',
@@ -20,21 +22,15 @@ export class JhiMainComponent implements OnInit {
         , private router: Router
         , private principal: Principal
         , private autolockService: AutolockService
-        , private profileService: ProfileService) {
-    }
-
-    private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
-        let title: string = (routeSnapshot.data && routeSnapshot.data['pageTitle']) ? routeSnapshot.data['pageTitle'] : 'ninjaccountApp';
-        if (routeSnapshot.firstChild) {
-            title = this.getPageTitle(routeSnapshot.firstChild) || title;
-        }
-        return title;
+        , private profileService: ProfileService
+        , private dialog: MatDialog) {
     }
 
     ngOnInit() {
         this.initEventRouter();
         this.initTracking();
         this.initFontAwesome5();
+        this.detectEdge();
     }
 
     initEventRouter() {
@@ -46,6 +42,14 @@ export class JhiMainComponent implements OnInit {
                 this.loginPage = event.url === '/';
             }
         });
+    }
+
+    private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
+        let title: string = (routeSnapshot.data && routeSnapshot.data['pageTitle']) ? routeSnapshot.data['pageTitle'] : 'ninjaccountApp';
+        if (routeSnapshot.firstChild) {
+            title = this.getPageTitle(routeSnapshot.firstChild) || title;
+        }
+        return title;
     }
 
     resetAutolockTime() {
@@ -64,15 +68,15 @@ export class JhiMainComponent implements OnInit {
             } else if (!inTest && inProduction) {
                 const script = document.createElement("script");
                 script.type = "text/javascript";
-                script.innerHTML = "var _paq = _paq || [];\n" +
+                script.innerHTML = "let _paq = _paq || [];\n" +
                     "  /* tracker methods like \"setCustomDimension\" should be called before \"trackPageView\" */\n" +
                     "  _paq.push(['trackPageView']);\n" +
                     "  _paq.push(['enableLinkTracking']);\n" +
                     "  (function() {\n" +
-                    "    var u=\"//piwik.solocked.com/\";\n" +
+                    "    let u=\"//piwik.solocked.com/\";\n" +
                     "    _paq.push(['setTrackerUrl', u+'piwik.php']);\n" +
                     "    _paq.push(['setSiteId', '1']);\n" +
-                    "    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];\n" +
+                    "    let d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];\n" +
                     "    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);\n" +
                     "  })();";
 
@@ -80,12 +84,37 @@ export class JhiMainComponent implements OnInit {
             }
         });
     }
+
     /* tslint:enable */
 
     initFontAwesome5() {
         fontawesome.config = {
             autoReplaceSvg: 'nest'
         }
+    }
+
+    detectEdge() {
+        // Get IE or Edge browser version
+        const version = this.isEdge();
+        if (version >= 12) {
+            this.dialog.open(WarnBrowserComponent, {
+            });
+        }
+    }
+
+    /**
+     * detect IE
+     * returns version of IE or false, if browser is not Internet Explorer
+     */
+    isEdge() {
+        const ua = window.navigator.userAgent;
+        const edge = ua.indexOf('Edge/');
+        if (edge > 0) {
+            // Edge (IE 12+) => return version number
+            return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+        }
+        // other browser
+        return false;
     }
 
 }

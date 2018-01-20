@@ -29,6 +29,7 @@ import {NavbarService} from './layouts/navbar/navbar.service';
 import {AutolockComponent} from './layouts/navbar/autologout/autolock.component';
 import {SearchComponent} from './layouts/navbar/search/search.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {WarnBrowserComponent} from './layouts/main/warn-browser/warn-browser.component';
 
 @NgModule({
     imports: [
@@ -52,7 +53,8 @@ import {ReactiveFormsModule} from '@angular/forms';
         ActiveMenuDirective,
         FooterComponent,
         AutolockComponent,
-        SearchComponent
+        SearchComponent,
+        WarnBrowserComponent,
     ],
     providers: [
         ProfileService,
@@ -61,6 +63,7 @@ import {ReactiveFormsModule} from '@angular/forms';
         PaginationConfig,
         UserRouteAccessService
     ],
+    entryComponents: [ WarnBrowserComponent ],
     bootstrap: [ JhiMainComponent ]
 })
 export class NinjaccountAppModule {}
