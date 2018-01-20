@@ -4,11 +4,17 @@
   <div class="col-12 col-md-6">
           <div *ngIf="updateMode;then update else create"></div>
           <ng-template #create><h1 jhiTranslate="ninjaccountApp.accountsDB.add.title">Create a new account.</h1></ng-template>
-          <ng-template #update><h1 jhiTranslate="ninjaccountApp.accountsDB.update.title">Update an account.</h1></ng-template>
+          <ng-template #update>
+              <h1 class="d-flex align-items-center">
+                  <span>{{ 'ninjaccountApp.accountsDB.update.title' | translate}}</span>
+                  <i class="fas fa-trash suppress" (click)="openConfirmationDeleteDialog()"></i>
+              </h1>
+
+          </ng-template>
           <form [formGroup]="accountForm" (ngSubmit)="onSubmitNewAccount()">
             <mat-form-field class="addAccountInput">
               <input matInput type="text" id="accountName" placeholder="{{'ninjaccountApp.accountsDB.add.name' | translate}}"
-                     [formControl]="accountName" required>
+                     [formControl]="accountName" required autofocus>
                 <mat-hint align="end">{{accountName.value?.length || 0}} / {{ maxName }}</mat-hint>
                 <mat-error class="text-danger"
                           *ngIf="accountName.dirty && accountName.invalid && accountName.errors.required"

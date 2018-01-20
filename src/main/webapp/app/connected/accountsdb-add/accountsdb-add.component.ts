@@ -15,6 +15,7 @@ import {AddCustomBlockComponent} from './add-custom-block/add-custom-block.compo
 import {Payment} from '../../shared/account/payment-block.model';
 import {PaymentCustomBlockConstant} from './payment-custom-block.constant';
 import {DeletePaymentLineComponent} from './payment-custom-block/delete-payment-line/delete-payment-line.component';
+import {AccountsdbDeleteComponent} from '../accountsdb-details/accountsdb-delete/accountsdb-delete.component';
 
 @Component({
     selector: 'jhi-accountsdb-add',
@@ -315,6 +316,14 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
             if (!isUndefined(result) && result) {
                 this.customBlockCounter.paymentBlocks.splice(0, this.customBlockCounter.paymentBlocks.length);
                 this.payments.splice(0, this.payments.length);
+            }
+        });
+    }
+
+    openConfirmationDeleteDialog() {
+        this.dialog.open(AccountsdbDeleteComponent, {
+            data: {
+                id: this.id
             }
         });
     }
