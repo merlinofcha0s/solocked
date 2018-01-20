@@ -20,15 +20,16 @@ export class ActivateComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.route.queryParams.subscribe((params) => {
-            this.activateService.get(params['key']).subscribe(() => {
-                this.error = null;
-                this.success = 'OK';
-            }, () => {
-                this.success = null;
-                this.error = 'ERROR';
-            });
-        });
+        // this.route.queryParams.subscribe((params) => {
+        //     this.activateService.get(params['key']).subscribe(() => {
+        //         this.error = null;
+        //         this.success = 'OK';
+        //     }, () => {
+        //         this.success = null;
+        //         this.error = 'ERROR';
+        //     });
+        // });
+        this.success = 'OK';
     }
 
     login() {
