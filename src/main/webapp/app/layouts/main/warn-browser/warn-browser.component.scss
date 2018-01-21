@@ -1,0 +1,32 @@
+.icon-title {
+    font-size: 25px;
+    margin-left: 5px;
+}
+
+.icons-list {
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    .icon-container {
+        margin-right: 20px;
+        cursor: pointer;
+        i {
+            font-size: 45px;
+        }
+        .ff {
+            color: #065ae0;
+        }
+
+        .chrome {
+            color: #1aa15f;
+        }
+
+        .opera {
+            color: #ff1b2f;
+        }
+
+        .safari {
+            color: #065ae0;
+        }
+    }
+}

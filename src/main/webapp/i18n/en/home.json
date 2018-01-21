@@ -17,5 +17,11 @@
         },
         "like": "If you like JHipster, don't forget to give us a star on",
         "github": "GitHub"
+    },
+    "warn-egde": {
+        "title": "It's embarrasing",
+        "content-1": "Solocked is not compatible with Edge right now !",
+        "content-2": "Please use one of the following browser :",
+        "close": "Close"
     }
 }
