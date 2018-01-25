@@ -1,9 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs/Rx';
-import {JhiAlertService, JhiDataUtils, JhiEventManager} from 'ng-jhipster';
-import {AccountsDB} from './accounts-db.model';
-import {AccountsDBService} from './accounts-db.service';
-import {Principal, ResponseWrapper} from '../../shared';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
+
+import { AccountsDB } from './accounts-db.model';
+import { AccountsDBService } from './accounts-db.service';
+import { Principal, ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-accounts-db',
@@ -54,7 +55,6 @@ accountsDBS: AccountsDB[];
     openFile(contentType, field) {
         return this.dataUtils.openFile(contentType, field);
     }
-
     registerChangeInAccountsDBS() {
         this.eventSubscriber = this.eventManager.subscribe('accountsDBListModification', (response) => this.loadAll());
     }

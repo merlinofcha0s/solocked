@@ -28,6 +28,10 @@
                 "min"
             ],
             "fieldValidateRulesMin": "0"
+        },
+        {
+            "fieldName": "sum",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20170709202432",

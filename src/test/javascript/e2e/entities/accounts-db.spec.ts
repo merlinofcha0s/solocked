@@ -1,7 +1,6 @@
-import { browser, element, by, $ } from 'protractor';
+import { browser, element, by } from 'protractor';
 import { NavBarPage } from './../page-objects/jhi-page-objects';
-const path = require('path');
-
+import * as path from 'path';
 describe('AccountsDB e2e test', () => {
 
     let navBarPage: NavBarPage;
@@ -9,7 +8,6 @@ describe('AccountsDB e2e test', () => {
     let accountsDBComponentsPage: AccountsDBComponentsPage;
     const fileToUpload = '../../../../main/webapp/content/images/logo-jhipster.png';
     const absolutePath = path.resolve(__dirname, fileToUpload);
-    
 
     beforeAll(() => {
         browser.get('/');
@@ -22,14 +20,16 @@ describe('AccountsDB e2e test', () => {
     it('should load AccountsDBS', () => {
         navBarPage.goToEntity('accounts-db');
         accountsDBComponentsPage = new AccountsDBComponentsPage();
-        expect(accountsDBComponentsPage.getTitle()).toMatch(/ninjaccountApp.accountsDB.home.title/);
+        expect(accountsDBComponentsPage.getTitle())
+            .toMatch(/ninjaccountApp.accountsDB.home.title/);
 
     });
 
     it('should load create AccountsDB dialog', () => {
         accountsDBComponentsPage.clickOnCreateButton();
         accountsDBDialogPage = new AccountsDBDialogPage();
-        expect(accountsDBDialogPage.getModalTitle()).toMatch(/ninjaccountApp.accountsDB.home.createOrEditLabel/);
+        expect(accountsDBDialogPage.getModalTitle())
+            .toMatch(/ninjaccountApp.accountsDB.home.createOrEditLabel/);
         accountsDBDialogPage.close();
     });
 
@@ -40,10 +40,12 @@ describe('AccountsDB e2e test', () => {
         accountsDBDialogPage.setDatabaseInput(absolutePath);
         accountsDBDialogPage.setNbAccountsInput('5');
         expect(accountsDBDialogPage.getNbAccountsInput()).toMatch('5');
+        accountsDBDialogPage.setSumInput('sum');
+        expect(accountsDBDialogPage.getSumInput()).toMatch('sum');
         accountsDBDialogPage.userSelectLastOption();
         accountsDBDialogPage.save();
         expect(accountsDBDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    }); 
+    });
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -70,49 +72,58 @@ export class AccountsDBDialogPage {
     initializationVectorInput = element(by.css('input#field_initializationVector'));
     databaseInput = element(by.css('input#file_database'));
     nbAccountsInput = element(by.css('input#field_nbAccounts'));
+    sumInput = element(by.css('input#field_sum'));
     userSelect = element(by.css('select#field_user'));
 
     getModalTitle() {
         return this.modalTitle.getAttribute('jhiTranslate');
     }
 
-    setInitializationVectorInput = function (initializationVector) {
+    setInitializationVectorInput = function(initializationVector) {
         this.initializationVectorInput.sendKeys(initializationVector);
     }
 
-    getInitializationVectorInput = function () {
+    getInitializationVectorInput = function() {
         return this.initializationVectorInput.getAttribute('value');
     }
 
-    setDatabaseInput = function (database) {
+    setDatabaseInput = function(database) {
         this.databaseInput.sendKeys(database);
     }
 
-    getDatabaseInput = function () {
+    getDatabaseInput = function() {
         return this.databaseInput.getAttribute('value');
     }
 
-    setNbAccountsInput = function (nbAccounts) {
+    setNbAccountsInput = function(nbAccounts) {
         this.nbAccountsInput.sendKeys(nbAccounts);
     }
 
-    getNbAccountsInput = function () {
+    getNbAccountsInput = function() {
         return this.nbAccountsInput.getAttribute('value');
     }
 
-    userSelectLastOption = function () {
+    setSumInput = function(sum) {
+        this.sumInput.sendKeys(sum);
+    }
+
+    getSumInput = function() {
+        return this.sumInput.getAttribute('value');
+    }
+
+    userSelectLastOption = function() {
         this.userSelect.all(by.tagName('option')).last().click();
     }
 
-    userSelectOption = function (option) {
+    userSelectOption = function(option) {
         this.userSelect.sendKeys(option);
     }
 
-    getUserSelect = function () {
+    getUserSelect = function() {
         return this.userSelect;
     }
 
-    getUserSelectedOption = function () {
+    getUserSelectedOption = function() {
         return this.userSelect.element(by.css('option:checked')).getText();
     }
 

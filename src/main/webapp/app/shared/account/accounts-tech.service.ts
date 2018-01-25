@@ -22,14 +22,17 @@ export class AccountsTechService {
     }
 
     saveEncryptedDB(accounts: Accounts, initVector: string): Observable<AccountsDB> {
+        const accountDBDTO = new AccountsDB();
         return this.encryptWithKeyInStorage(accounts, initVector)
             .flatMap((accountDB: ArrayBuffer) => this.cryptoUtils.toBase64Promise(new Blob([new Uint8Array(accountDB)], { type: 'application/octet-stream' })))
             .flatMap((accountDBbase64: string) => {
-                const accountDBDTO = new AccountsDB();
                 accountDBDTO.database = accountDBbase64;
                 accountDBDTO.databaseContentType = 'application/octet-stream';
                 accountDBDTO.initializationVector = initVector;
                 accountDBDTO.operationAccountType = accounts.operationAccountType;
+                return this.crypto.generateChecksum(accountDBDTO.database);
+            }).flatMap((sum) => {
+                accountDBDTO.sum = sum;
                 return this.accountsDBService.updateDBUserConnected(accountDBDTO);
             });
     }

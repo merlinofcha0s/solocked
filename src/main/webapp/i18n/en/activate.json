@@ -4,7 +4,8 @@
         "title": "Activation",
         "messages": {
             "success": "<strong>Your user account has been activated.</strong> Please ",
-            "error": "Your user could not be activated. Please use the registration form to register."
+            "error": "Your user could not be activated. Please use the registration form to register.",
+            "cause": "Probable causes : <ul><li>Your user is already activated : try to sign in</li><li>The link has expired : re-register</li></ul>"
         }
     }
 }

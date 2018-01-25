@@ -1,12 +1,12 @@
 @import './../../../../content/scss/custom-variables';
 
 .card-account-content {
-    background-image: $linear-gradient;
+    background-color: $solocked-primary-color;
     border-radius: 8px;
     color: white;
     margin: 2em auto;
     width: 99%;
-    transition: all 0.4s ease-out;
+    transition: all 0.3s ease-out;
     .content{
         width: 90%;
     }
@@ -16,7 +16,7 @@
     box-shadow: 0 2px 12px 0 rgba(0,0,0,0.24), 0 1px 3px 0 rgba(0,0,0,0.12);
     cursor: pointer;
     color: black;
-    background-image: linear-gradient(to bottom right, #FFFFFF, #FFFFFF);
+    background-color: #FFFFFF;
 }
 
 .name {
@@ -28,7 +28,7 @@
     width: 60px;
     margin-left: auto;
     transform: translate(-25px, 0px);
-    margin-top: 23px;
+    margin-top: 19px;
     i {
         cursor: pointer;
     }

@@ -6,7 +6,7 @@ import { LoginService } from './login.service';
 import {CryptoUtilsService} from '../crypto/crypto-utils.service';
 import {Principal} from '../index';
 import {AccountsService} from '../account/accounts.service';
-import { StateStorageService } from '../auth/state-storage.service';
+import {isUndefined} from 'util';
 
 @Component({
     selector: 'jhi-login-modal',
@@ -16,6 +16,7 @@ import { StateStorageService } from '../auth/state-storage.service';
 export class JhiLoginModalComponent implements AfterViewInit {
     authenticationError: boolean;
     password: string;
+    authenticationKey: string;
     rememberMe: boolean;
     username: string;
     credentials: any;
@@ -58,7 +59,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
                         this.loading = false;
                         this.authenticationError = true;
                     } else {
-                        this.password = accounts.authenticationKey;
+                        this.authenticationKey = accounts.authenticationKey;
                         this.authenticationError = false;
                         accounts.authenticationKey = '';
                         this.accountService.saveOnBrowser(accounts);
@@ -74,7 +75,8 @@ export class JhiLoginModalComponent implements AfterViewInit {
     loginJHI() {
         this.loginService.login({
             username: this.username,
-            password: this.password,
+            // Difference between regular user and admin users
+            password: !isUndefined(this.authenticationKey) ? this.authenticationKey : this.password,
             rememberMe: this.rememberMe
         }).then(() => {
             this.loading = false;

@@ -50,13 +50,13 @@
                 "authenticated": {
                     "prefix": "If you want to ",
                     "signin": "sign in",
-                    "signup": "Register",
+                    "signup": "Sign up",
                     "link": "Sign in",
                     "suffix": ", you can try the default accounts:<br/>- Administrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\")."
                 },
                 "register": {
-                    "noaccount": "Haven't register yet ?",
-                    "link": "Register"
+                    "noaccount": "Haven't signed up yet ?",
+                    "link": "Sign up"
                 }
             },
             "error": {
@@ -121,7 +121,8 @@
             "maxbytes": "This field cannot be more than {{ max }} bytes.",
             "pattern": "This field should follow pattern for {{ pattern }}.",
             "number": "This field should be a number.",
-            "datetimelocal": "This field should be a date and time."
+            "datetimelocal": "This field should be a date and time.",
+            "patternLogin": "This field can only contain letters, digits and e-mail addresses."
         }
     },
     "error": {

@@ -33,6 +33,10 @@
             </column>
 
             <column name="nb_accounts" type="integer">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="sum" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="user_id" type="bigint">

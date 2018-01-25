@@ -15,12 +15,14 @@ import {AddCustomBlockComponent} from './add-custom-block/add-custom-block.compo
 import {Payment} from '../../shared/account/payment-block.model';
 import {PaymentCustomBlockConstant} from './payment-custom-block.constant';
 import {DeletePaymentLineComponent} from './payment-custom-block/delete-payment-line/delete-payment-line.component';
+import {AccountsdbDeleteComponent} from '../accountsdb-details/accountsdb-delete/accountsdb-delete.component';
 
 @Component({
     selector: 'jhi-accountsdb-add',
     templateUrl: './accountsdb-add.component.html',
     styleUrls: ['./accountsdb-add.component.scss']
 })
+
 export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
     accountForm: FormGroup;
@@ -237,7 +239,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         const config = new MatSnackBarConfig();
         config.verticalPosition = 'top';
         config.duration = 3000;
-        config.data = {icon: 'fa-check-circle-o', text: message};
+        config.data = {icon: 'fa-check-circle', text: message};
         this.snackBar.openFromComponent(SnackComponent, config);
     }
 
@@ -255,8 +257,8 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     }
 
     initPasswordHideDisplay() {
-        this.passwordType = 'password';
-        this.iconPasswordType = 'fa-eye-slash'
+        this.passwordType = 'text';
+        this.iconPasswordType = 'fa-eye'
     }
 
     onHideDisplayPassword() {
@@ -314,6 +316,14 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
             if (!isUndefined(result) && result) {
                 this.customBlockCounter.paymentBlocks.splice(0, this.customBlockCounter.paymentBlocks.length);
                 this.payments.splice(0, this.payments.length);
+            }
+        });
+    }
+
+    openConfirmationDeleteDialog() {
+        this.dialog.open(AccountsdbDeleteComponent, {
+            data: {
+                id: this.id
             }
         });
     }

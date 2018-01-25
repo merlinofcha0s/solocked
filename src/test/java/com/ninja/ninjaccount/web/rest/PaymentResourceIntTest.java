@@ -287,6 +287,8 @@ public class PaymentResourceIntTest {
 
         // Update the payment
         Payment updatedPayment = paymentRepository.findOne(payment.getId());
+        // Disconnect from session so that the updates on updatedPayment are not directly saved in db
+        em.detach(updatedPayment);
         updatedPayment
             .subscriptionDate(UPDATED_SUBSCRIPTION_DATE)
             .price(UPDATED_PRICE)

@@ -1,5 +1,5 @@
 import {CryptoUtilsService} from './crypto-utils.service';
-import {SessionStorageService} from 'ng2-webstorage';
+import {SessionStorageService} from 'ngx-webstorage';
 import {JhiDataUtils} from 'ng-jhipster';
 import {Observable} from 'rxjs/Rx';
 import {Accounts} from './../account/accounts.model';
@@ -128,5 +128,16 @@ export class CryptoService {
         const keyBlob = this.cryptoUtils.b64toBlob(keyB64, 'application/octet-stream', 2048);
         return this.cryptoUtils.blobToArrayBuffer(keyBlob)
             .flatMap((keyArrayBuffer) => this.importKey(new Uint8Array(keyArrayBuffer), ['encrypt', 'decrypt'], true, this.cryptingAlgorithm));
+    }
+
+    async generateChecksum(accountDBB64: string): Promise<string> {
+        // encode as UTF-8
+        const msgBuffer = new TextEncoder('utf-8').encode(accountDBB64);
+        // hash the message
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        // convert ArrayBuffer to Array
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        // Join all the hex strings into one
+        return hashArray.map((b) => ('00' + b.toString(16)).slice(-2)).join('');
     }
 }

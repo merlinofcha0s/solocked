@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Rx';
+import {Observable} from 'rxjs/Observable';
 import {AccountsTechService} from '../../shared/account/accounts-tech.service';
 import {Accounts} from '../../shared/account/accounts.model';
 import {CryptoService} from '../../shared/crypto/crypto.service';
@@ -21,10 +21,8 @@ export class PasswordService {
     save(newPassword: string): Observable<any> {
         let accountsSynchro = null;
         if (this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
-            console.log('admin');
             return this.http.post('api/account/change_password', newPassword);
         } else {
-            console.log('user');
             return this.accountTech.synchroDB()
                 .flatMap((accounts: Accounts) => {
                     accountsSynchro = accounts;

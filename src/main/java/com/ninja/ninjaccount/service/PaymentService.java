@@ -78,7 +78,7 @@ public class PaymentService {
     }
 
     /**
-     * Delete the  payment by id.
+     * Delete the payment by id.
      *
      * @param id the id of the entity
      */

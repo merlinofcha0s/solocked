@@ -19,6 +19,10 @@
         <dd>
             <span>{{accountsDB.nbAccounts}}</span>
         </dd>
+        <dt><span jhiTranslate="ninjaccountApp.accountsDB.sum">Sum</span></dt>
+        <dd>
+            <span>{{accountsDB.sum}}</span>
+        </dd>
         <dt><span jhiTranslate="ninjaccountApp.accountsDB.user">User</span></dt>
         <dd>
             {{accountsDB.userLogin}}
@@ -34,6 +38,7 @@
     <button type="button"
             [routerLink]="['/', { outlets: { popup: 'accounts-db/'+ accountsDB.id + '/edit'} }]"
             replaceUrl="true"
+            queryParamsHandling="merge"
             class="btn btn-primary">
         <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
     </button>

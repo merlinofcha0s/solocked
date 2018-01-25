@@ -20,7 +20,11 @@ public class AccountsDBDTO implements Serializable {
     private byte[] database;
     private String databaseContentType;
 
+    @NotNull
+    @Min(value = 0)
     private Integer nbAccounts;
+
+    private String sum;
 
     private Long userId;
 
@@ -67,6 +71,14 @@ public class AccountsDBDTO implements Serializable {
 
     public void setNbAccounts(Integer nbAccounts) {
         this.nbAccounts = nbAccounts;
+    }
+
+    public String getSum() {
+        return sum;
+    }
+
+    public void setSum(String sum) {
+        this.sum = sum;
     }
 
     public Long getUserId() {
@@ -120,7 +132,8 @@ public class AccountsDBDTO implements Serializable {
             "id=" + getId() +
             ", initializationVector='" + getInitializationVector() + "'" +
             ", database='" + getDatabase() + "'" +
-            ", nbAccounts='" + getNbAccounts() + "'" +
+            ", nbAccounts=" + getNbAccounts() +
+            ", sum='" + getSum() + "'" +
             "}";
     }
 }

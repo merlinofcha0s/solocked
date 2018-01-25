@@ -4,7 +4,10 @@ import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
 import {JhiLanguageHelper} from '../../shared';
 import {Principal} from '../../shared/auth/principal.service';
 import {AutolockService} from '../navbar/autologout/autolock.service';
-import {ProfileService} from "../profiles/profile.service";
+import {ProfileService} from '../profiles/profile.service';
+import fontawesome from '@fortawesome/fontawesome';
+import {WarnBrowserComponent} from './warn-browser/warn-browser.component';
+import {MatDialog} from '@angular/material';
 
 @Component({
     selector: 'jhi-main',
@@ -19,7 +22,26 @@ export class JhiMainComponent implements OnInit {
         , private router: Router
         , private principal: Principal
         , private autolockService: AutolockService
-        , private profileService: ProfileService) {
+        , private profileService: ProfileService
+        , private dialog: MatDialog) {
+    }
+
+    ngOnInit() {
+        this.initEventRouter();
+        this.initTracking();
+        this.initFontAwesome5();
+        this.detectEdge();
+    }
+
+    initEventRouter() {
+        this.router.events.subscribe((event) => {
+            if (event instanceof NavigationEnd) {
+                this.jhiLanguageHelper.updateTitle(this.getPageTitle(this.router.routerState.snapshot.root));
+            }
+            if (event instanceof NavigationEnd) {
+                this.loginPage = event.url === '/';
+            }
+        });
     }
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
@@ -30,56 +52,69 @@ export class JhiMainComponent implements OnInit {
         return title;
     }
 
-    ngOnInit() {
-        this.initEventRouter();
-        this.initTracking();
-    }
-
-    initEventRouter() {
-        this.router.events.subscribe((event) => {
-            if (event instanceof NavigationEnd) {
-                this.jhiLanguageHelper.updateTitle(this.getPageTitle(this.router.routerState.snapshot.root));
-            }
-            if (event instanceof NavigationEnd) {
-                if (event.url === '/') {
-                    this.loginPage = true;
-                } else {
-                    this.loginPage = false;
-                }
-            }
-        });
-    }
-
     resetAutolockTime() {
         if (this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
             this.autolockService.resetTimer();
         }
     }
 
+    /* tslint:disable */
     initTracking() {
-        this.profileService.getProfileInfo().subscribe((profileInfo) => {
+        this.profileService.getProfileInfo().then((profileInfo) => {
             const inProduction = profileInfo.inProduction;
             const inTest = profileInfo.inTest;
             if (inTest) {
-                //document.write('<script type="text/javascript">// ProductionAnalyticsCodeHere</script>');
+                // document.write('<script type="text/javascript">// ProductionAnalyticsCodeHere</script>');
             } else if (!inTest && inProduction) {
                 const script = document.createElement("script");
                 script.type = "text/javascript";
-                script.innerHTML = "var _paq = _paq || [];\n" +
+                script.innerHTML = "let _paq = _paq || [];\n" +
                     "  /* tracker methods like \"setCustomDimension\" should be called before \"trackPageView\" */\n" +
                     "  _paq.push(['trackPageView']);\n" +
                     "  _paq.push(['enableLinkTracking']);\n" +
                     "  (function() {\n" +
-                    "    var u=\"//piwik.solocked.com/\";\n" +
+                    "    let u=\"//piwik.solocked.com/\";\n" +
                     "    _paq.push(['setTrackerUrl', u+'piwik.php']);\n" +
                     "    _paq.push(['setSiteId', '1']);\n" +
-                    "    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];\n" +
+                    "    let d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];\n" +
                     "    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);\n" +
                     "  })();";
 
                 document.getElementsByTagName('head')[0].appendChild(script);
             }
         });
+    }
+
+    /* tslint:enable */
+
+    initFontAwesome5() {
+        fontawesome.config = {
+            autoReplaceSvg: 'nest'
+        }
+    }
+
+    detectEdge() {
+        // Get IE or Edge browser version
+        const version = this.isEdge();
+        if (version >= 12) {
+            this.dialog.open(WarnBrowserComponent, {
+            });
+        }
+    }
+
+    /**
+     * detect IE
+     * returns version of IE or false, if browser is not Internet Explorer
+     */
+    isEdge() {
+        const ua = window.navigator.userAgent;
+        const edge = ua.indexOf('Edge/');
+        if (edge > 0) {
+            // Edge (IE 12+) => return version number
+            return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+        }
+        // other browser
+        return false;
     }
 
 }

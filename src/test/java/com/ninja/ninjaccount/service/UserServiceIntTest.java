@@ -5,6 +5,7 @@ import com.ninja.ninjaccount.config.Constants;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
+import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.util.RandomUtil;
 
@@ -24,8 +25,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -209,7 +208,7 @@ public class UserServiceIntTest {
 
         assertThat(userRepository.findOneByLogin("johndoe")).isPresent();
 
-        boolean succeed = userService.destroyUserAccount();
+        boolean succeed = userService.destroyUserAccount(SecurityUtils.getCurrentUserLogin().get());
 
         assertThat(succeed).isTrue();
         assertThat(userRepository.findOneByLogin("johndoe")).isNotPresent();
@@ -223,7 +222,7 @@ public class UserServiceIntTest {
         securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("johndoe", "johndoe", authorities));
         SecurityContextHolder.setContext(securityContext);
 
-        boolean succeed = userService.destroyUserAccount();
+        boolean succeed = userService.destroyUserAccount(SecurityUtils.getCurrentUserLogin().get());
 
         assertThat(succeed).isFalse();
     }

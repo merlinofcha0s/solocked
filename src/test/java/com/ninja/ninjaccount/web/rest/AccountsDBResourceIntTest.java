@@ -4,6 +4,7 @@ import com.ninja.ninjaccount.NinjaccountApp;
 
 import com.ninja.ninjaccount.domain.AccountsDB;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
+import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
@@ -19,6 +20,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -26,6 +32,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static com.ninja.ninjaccount.web.rest.TestUtil.createFormattingConversionService;
@@ -53,6 +61,9 @@ public class AccountsDBResourceIntTest {
 
     private static final Integer DEFAULT_NB_ACCOUNTS = 0;
     private static final Integer UPDATED_NB_ACCOUNTS = 1;
+
+    private static final String DEFAULT_SUM = "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d";
+    private static final String UPDATED_SUM = "e30cfeca4494f089d22d545c04f90cb28c2518bb6590e1d8c952af15d91bf663";
 
     @Autowired
     private AccountsDBRepository accountsDBRepository;
@@ -101,7 +112,8 @@ public class AccountsDBResourceIntTest {
             .initializationVector(DEFAULT_INITIALIZATION_VECTOR)
             .database(DEFAULT_DATABASE)
             .databaseContentType(DEFAULT_DATABASE_CONTENT_TYPE)
-            .nbAccounts(DEFAULT_NB_ACCOUNTS);
+            .nbAccounts(DEFAULT_NB_ACCOUNTS)
+            .sum(DEFAULT_SUM);
         return accountsDB;
     }
 
@@ -116,6 +128,7 @@ public class AccountsDBResourceIntTest {
         int databaseSizeBeforeCreate = accountsDBRepository.findAll().size();
 
         // Create the AccountsDB
+        accountsDB.setSum(accountsDBService.calculateSum(accountsDB.getDatabase()));
         AccountsDBDTO accountsDBDTO = accountsDBMapper.toDto(accountsDB);
         accountsDBDTO.setOperationAccountType(OperationAccountType.CREATE);
         restAccountsDBMockMvc.perform(post("/api/accounts-dbs")
@@ -131,6 +144,7 @@ public class AccountsDBResourceIntTest {
         assertThat(testAccountsDB.getDatabase()).isEqualTo(DEFAULT_DATABASE);
         assertThat(testAccountsDB.getDatabaseContentType()).isEqualTo(DEFAULT_DATABASE_CONTENT_TYPE);
         assertThat(testAccountsDB.getNbAccounts()).isEqualTo(DEFAULT_NB_ACCOUNTS);
+        assertThat(testAccountsDB.getSum()).isEqualTo(accountsDBService.calculateSum(DEFAULT_DATABASE));
     }
 
     @Test
@@ -147,6 +161,31 @@ public class AccountsDBResourceIntTest {
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(accountsDBDTO)))
             .andExpect(status().isBadRequest());
+
+        // Validate the AccountsDB in the database
+        List<AccountsDB> accountsDBList = accountsDBRepository.findAll();
+        assertThat(accountsDBList).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    public void createAccountsDBWithWrongSum() throws Exception {
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.USER));
+        securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("johndoe", "johndoe", authorities));
+        SecurityContextHolder.setContext(securityContext);
+
+        int databaseSizeBeforeCreate = accountsDBRepository.findAll().size();
+
+        // Create the AccountsDB
+        accountsDB.setSum(UPDATED_SUM);
+        AccountsDBDTO accountsDBDTO = accountsDBMapper.toDto(accountsDB);
+        accountsDBDTO.setOperationAccountType(OperationAccountType.CREATE);
+        restAccountsDBMockMvc.perform(post("/api/accounts-dbs")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(accountsDBDTO)))
+            .andExpect(status().isExpectationFailed());
 
         // Validate the AccountsDB in the database
         List<AccountsDB> accountsDBList = accountsDBRepository.findAll();
@@ -183,10 +222,11 @@ public class AccountsDBResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(accountsDB.getId().intValue())))
-            .andExpect(jsonPath("$.[*].initializationVector").value(hasItem(DEFAULT_INITIALIZATION_VECTOR.toString())))
+            .andExpect(jsonPath("$.[*].initializationVector").value(hasItem(DEFAULT_INITIALIZATION_VECTOR)))
             .andExpect(jsonPath("$.[*].databaseContentType").value(hasItem(DEFAULT_DATABASE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].database").value(hasItem(Base64Utils.encodeToString(DEFAULT_DATABASE))))
-            .andExpect(jsonPath("$.[*].nbAccounts").value(hasItem(DEFAULT_NB_ACCOUNTS)));
+            .andExpect(jsonPath("$.[*].nbAccounts").value(hasItem(DEFAULT_NB_ACCOUNTS)))
+            .andExpect(jsonPath("$.[*].sum").value(hasItem(DEFAULT_SUM)));
     }
 
     @Test
@@ -200,10 +240,11 @@ public class AccountsDBResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(accountsDB.getId().intValue()))
-            .andExpect(jsonPath("$.initializationVector").value(DEFAULT_INITIALIZATION_VECTOR.toString()))
+            .andExpect(jsonPath("$.initializationVector").value(DEFAULT_INITIALIZATION_VECTOR))
             .andExpect(jsonPath("$.databaseContentType").value(DEFAULT_DATABASE_CONTENT_TYPE))
             .andExpect(jsonPath("$.database").value(Base64Utils.encodeToString(DEFAULT_DATABASE)))
-            .andExpect(jsonPath("$.nbAccounts").value(DEFAULT_NB_ACCOUNTS));
+            .andExpect(jsonPath("$.nbAccounts").value(DEFAULT_NB_ACCOUNTS))
+            .andExpect(jsonPath("$.sum").value(DEFAULT_SUM));
     }
 
     @Test
@@ -223,11 +264,14 @@ public class AccountsDBResourceIntTest {
 
         // Update the accountsDB
         AccountsDB updatedAccountsDB = accountsDBRepository.findOne(accountsDB.getId());
+        // Disconnect from session so that the updates on updatedAccountsDB are not directly saved in db
+        em.detach(updatedAccountsDB);
         updatedAccountsDB
             .initializationVector(UPDATED_INITIALIZATION_VECTOR)
             .database(UPDATED_DATABASE)
             .databaseContentType(UPDATED_DATABASE_CONTENT_TYPE)
-            .nbAccounts(UPDATED_NB_ACCOUNTS);
+            .nbAccounts(UPDATED_NB_ACCOUNTS)
+            .sum(accountsDBService.calculateSum(UPDATED_DATABASE));
         AccountsDBDTO accountsDBDTO = accountsDBMapper.toDto(updatedAccountsDB);
         accountsDBDTO.setOperationAccountType(OperationAccountType.CREATE);
 
@@ -244,6 +288,7 @@ public class AccountsDBResourceIntTest {
         assertThat(testAccountsDB.getDatabase()).isEqualTo(UPDATED_DATABASE);
         assertThat(testAccountsDB.getDatabaseContentType()).isEqualTo(UPDATED_DATABASE_CONTENT_TYPE);
         assertThat(testAccountsDB.getNbAccounts()).isEqualTo(UPDATED_NB_ACCOUNTS);
+        assertThat(testAccountsDB.getSum()).isEqualTo(UPDATED_SUM);
     }
 
     @Test

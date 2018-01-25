@@ -16,7 +16,13 @@
     color: $payment-block-color-input;
 }
 
-
 .field {
     padding-top: 10px;
+}
+
+//Fixing firefox
+@-moz-document url-prefix() {
+    .payment-value {
+        margin-bottom: 7px!important;
+    }
 }

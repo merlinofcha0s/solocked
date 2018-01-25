@@ -20,6 +20,7 @@
             <th><span jhiTranslate="ninjaccountApp.accountsDB.initializationVector">Initialization Vector</span></th>
             <th><span jhiTranslate="ninjaccountApp.accountsDB.database">Database</span></th>
             <th><span jhiTranslate="ninjaccountApp.accountsDB.nbAccounts">Nb Accounts</span></th>
+            <th><span jhiTranslate="ninjaccountApp.accountsDB.sum">Sum</span></th>
             <th><span jhiTranslate="ninjaccountApp.accountsDB.user">User</span></th>
             <th></th>
             </tr>
@@ -33,6 +34,7 @@
                     <span *ngIf="accountsDB.database">{{accountsDB.databaseContentType}}, {{byteSize(accountsDB.database)}}</span>
                 </td>
                 <td>{{accountsDB.nbAccounts}}</td>
+                <td>{{accountsDB.sum}}</td>
                 <td>
                     {{accountsDB.userLogin}}
                 </td>
@@ -47,6 +49,7 @@
                         <button type="submit"
                                 [routerLink]="['/', { outlets: { popup: 'accounts-db/'+ accountsDB.id + '/edit'} }]"
                                 replaceUrl="true"
+                                queryParamsHandling="merge"
                                 class="btn btn-primary btn-sm">
                             <span class="fa fa-pencil"></span>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
@@ -54,6 +57,7 @@
                         <button type="submit"
                                 [routerLink]="['/', { outlets: { popup: 'accounts-db/'+ accountsDB.id + '/delete'} }]"
                                 replaceUrl="true"
+                                queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
                             <span class="fa fa-remove"></span>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>

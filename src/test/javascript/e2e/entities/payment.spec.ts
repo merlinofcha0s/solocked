@@ -1,15 +1,11 @@
-import { browser, element, by, $ } from 'protractor';
+import { browser, element, by } from 'protractor';
 import { NavBarPage } from './../page-objects/jhi-page-objects';
-const path = require('path');
 
 describe('Payment e2e test', () => {
 
     let navBarPage: NavBarPage;
     let paymentDialogPage: PaymentDialogPage;
     let paymentComponentsPage: PaymentComponentsPage;
-    const fileToUpload = '../../../../main/webapp/content/images/logo-jhipster.png';
-    const absolutePath = path.resolve(__dirname, fileToUpload);
-    
 
     beforeAll(() => {
         browser.get('/');
@@ -22,14 +18,16 @@ describe('Payment e2e test', () => {
     it('should load Payments', () => {
         navBarPage.goToEntity('payment');
         paymentComponentsPage = new PaymentComponentsPage();
-        expect(paymentComponentsPage.getTitle()).toMatch(/ninjaccountApp.payment.home.title/);
+        expect(paymentComponentsPage.getTitle())
+            .toMatch(/ninjaccountApp.payment.home.title/);
 
     });
 
     it('should load create Payment dialog', () => {
         paymentComponentsPage.clickOnCreateButton();
         paymentDialogPage = new PaymentDialogPage();
-        expect(paymentDialogPage.getModalTitle()).toMatch(/ninjaccountApp.payment.home.createOrEditLabel/);
+        expect(paymentDialogPage.getModalTitle())
+            .toMatch(/ninjaccountApp.payment.home.createOrEditLabel/);
         paymentDialogPage.close();
     });
 
@@ -40,7 +38,7 @@ describe('Payment e2e test', () => {
         paymentDialogPage.setPriceInput('5');
         expect(paymentDialogPage.getPriceInput()).toMatch('5');
         paymentDialogPage.planTypeSelectLastOption();
-        paymentDialogPage.getPaidInput().isSelected().then(function (selected) {
+        paymentDialogPage.getPaidInput().isSelected().then((selected) => {
             if (selected) {
                 paymentDialogPage.getPaidInput().click();
                 expect(paymentDialogPage.getPaidInput().isSelected()).toBeFalsy();
@@ -52,7 +50,7 @@ describe('Payment e2e test', () => {
         paymentDialogPage.userSelectLastOption();
         paymentDialogPage.save();
         expect(paymentDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    }); 
+    });
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -86,49 +84,49 @@ export class PaymentDialogPage {
         return this.modalTitle.getAttribute('jhiTranslate');
     }
 
-    setSubscriptionDateInput = function (subscriptionDate) {
+    setSubscriptionDateInput = function(subscriptionDate) {
         this.subscriptionDateInput.sendKeys(subscriptionDate);
     }
 
-    getSubscriptionDateInput = function () {
+    getSubscriptionDateInput = function() {
         return this.subscriptionDateInput.getAttribute('value');
     }
 
-    setPriceInput = function (price) {
+    setPriceInput = function(price) {
         this.priceInput.sendKeys(price);
     }
 
-    getPriceInput = function () {
+    getPriceInput = function() {
         return this.priceInput.getAttribute('value');
     }
 
-    setPlanTypeSelect = function (planType) {
+    setPlanTypeSelect = function(planType) {
         this.planTypeSelect.sendKeys(planType);
     }
 
-    getPlanTypeSelect = function () {
+    getPlanTypeSelect = function() {
         return this.planTypeSelect.element(by.css('option:checked')).getText();
     }
 
-    planTypeSelectLastOption = function () {
+    planTypeSelectLastOption = function() {
         this.planTypeSelect.all(by.tagName('option')).last().click();
     }
-    getPaidInput = function () {
+    getPaidInput = function() {
         return this.paidInput;
     }
-    userSelectLastOption = function () {
+    userSelectLastOption = function() {
         this.userSelect.all(by.tagName('option')).last().click();
     }
 
-    userSelectOption = function (option) {
+    userSelectOption = function(option) {
         this.userSelect.sendKeys(option);
     }
 
-    getUserSelect = function () {
+    getUserSelect = function() {
         return this.userSelect;
     }
 
-    getUserSelectedOption = function () {
+    getUserSelectedOption = function() {
         return this.userSelect.element(by.css('option:checked')).getText();
     }
 

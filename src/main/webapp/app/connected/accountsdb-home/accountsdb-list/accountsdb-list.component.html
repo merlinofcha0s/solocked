@@ -4,9 +4,9 @@
         <div>{{ account.username }}</div>
     </div>
     <div class="d-flex actions justify-content-between">
-        <i class="fa" [class.fa-star-o]="!account.featured"
-           [class.fa-star]="account.featured"  aria-hidden="true"
+        <i class="fa-star" [class.far]="!account.featured"
+           [class.fas]="account.featured"  aria-hidden="true"
            (click)="makeFeatured(account)"></i>
-        <i class="fa fa-pencil" aria-hidden="true" [routerLink]="['/accounts/edit', account.id]"></i>
+        <i class="fas fa-pencil-alt" aria-hidden="true" [routerLink]="['/accounts/edit', account.id]"></i>
     </div>
 </div>

@@ -13,7 +13,7 @@ public interface PaymentMapper extends EntityMapper<PaymentDTO, Payment> {
 
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "user.login", target = "userLogin")
-    PaymentDTO toDto(Payment payment); 
+    PaymentDTO toDto(Payment payment);
 
     @Mapping(source = "userId", target = "user")
     Payment toEntity(PaymentDTO paymentDTO);

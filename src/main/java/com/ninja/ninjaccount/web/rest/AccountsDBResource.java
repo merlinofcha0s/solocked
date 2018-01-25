@@ -3,12 +3,12 @@ package com.ninja.ninjaccount.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.AccountsDBService;
+import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import com.ninja.ninjaccount.web.rest.errors.BadRequestAlertException;
+import com.ninja.ninjaccount.web.rest.errors.CustomParameterizedException;
+import com.ninja.ninjaccount.web.rest.errors.InvalidChecksumException;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
-import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
-import com.ninja.ninjaccount.web.rest.errors.CustomParameterizedException;
-import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +45,9 @@ public class AccountsDBResource {
      * POST  /accounts-dbs : Create a new accountsDB.
      *
      * @param accountsDBDTO the accountsDBDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new accountsDBDTO, or with status 400 (Bad Request) if the accountsDB has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new accountsDBDTO
+     * , or with status 400 (Bad Request) if the accountsDB has already an ID
+     * , or with status 417 (Expectation failed) if the checksum of the DB don't match
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/accounts-dbs")
@@ -54,10 +57,17 @@ public class AccountsDBResource {
         if (accountsDBDTO.getId() != null) {
             throw new BadRequestAlertException("A new accountsDB cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        AccountsDBDTO result = accountsDBService.save(accountsDBDTO);
-        return ResponseEntity.created(new URI("/api/accounts-dbs/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+
+        if (accountsDBService.checkDBSum(accountsDBDTO.getDatabase(), accountsDBDTO.getSum())) {
+            AccountsDBDTO result = accountsDBService.save(accountsDBDTO);
+            return ResponseEntity.created(new URI("/api/accounts-dbs/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
+        } else {
+            Optional<String> login = SecurityUtils.getCurrentUserLogin();
+            log.error("Error checksum when creating DB - login : {}",  login.get());
+            throw new InvalidChecksumException();
+        }
     }
 
     /**
@@ -76,7 +86,6 @@ public class AccountsDBResource {
         if (accountsDBDTO.getId() == null) {
             return ResponseEntity.notFound().build();
         }
-
         AccountsDBDTO result = accountsDBService.save(accountsDBDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, accountsDBDTO.getId().toString()))
@@ -131,7 +140,7 @@ public class AccountsDBResource {
     @GetMapping("/accounts-dbs/getDbUserConnected")
     @Timed
     public ResponseEntity<AccountsDBDTO> getAccountDBUserConnected() {
-        final String userLogin = SecurityUtils.getCurrentUserLogin();
+        final String userLogin = SecurityUtils.getCurrentUserLogin().get();
         AccountsDBDTO accountsDBDTO = accountsDBService.findByUsernameLogin(userLogin);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(accountsDBDTO));
     }
@@ -150,12 +159,18 @@ public class AccountsDBResource {
     public ResponseEntity<AccountsDBDTO> updateAccountsDBForUserConnected(@RequestBody AccountsDBDTO accountsDBDTO) throws URISyntaxException {
         try {
             AccountsDBDTO result = accountsDBService.updateAccountDBForUserConnected(accountsDBDTO);
+            if(result == null){
+                throw new InvalidChecksumException();
+            }
             return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
         } catch (MaxAccountsException e) {
             log.error("Too many accounts on your database, userID : {}", accountsDBDTO.getUserId());
             throw new CustomParameterizedException("Too many accounts", e.getActual().toString(), e.getMax().toString());
+        } catch (InvalidChecksumException e) {
+            log.error("Problem with the checksum with this user when registration : {} ", SecurityUtils.getCurrentUserLogin().get());
+            throw new InvalidChecksumException();
         } catch (Exception e) {
             log.error("Error when updating db for userID : {}", accountsDBDTO.getUserId());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -170,7 +185,7 @@ public class AccountsDBResource {
     @GetMapping("/accounts-dbs/get-actual-max-account")
     @Timed
     public ResponseEntity<Pair<Integer, Integer>> getActualAndMaxAccount() {
-        final String userLogin = SecurityUtils.getCurrentUserLogin();
+        final String userLogin = SecurityUtils.getCurrentUserLogin().get();
         Pair<Integer, Integer> actualAndMax = accountsDBService.getActualAndMaxAccount(userLogin);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(actualAndMax));
     }

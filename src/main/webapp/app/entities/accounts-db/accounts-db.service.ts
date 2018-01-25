@@ -1,15 +1,15 @@
-import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
-import {Observable} from 'rxjs/Rx';
-import {SERVER_API_URL} from '../../app.constants';
+import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { SERVER_API_URL } from '../../app.constants';
 
-import {AccountsDB} from './accounts-db.model';
-import {createRequestOption, ResponseWrapper} from '../../shared';
+import { AccountsDB } from './accounts-db.model';
+import { ResponseWrapper, createRequestOption } from '../../shared';
 
 @Injectable()
 export class AccountsDBService {
 
-    private resourceUrl = SERVER_API_URL + 'api/accounts-dbs';
+    private resourceUrl =  SERVER_API_URL + 'api/accounts-dbs';
 
     constructor(private http: Http) { }
 

@@ -9,13 +9,15 @@ Navbar
 }
 
 .jh-navbar {
-    //background-color: #353d47;
+    z-index: 1;
+    background-color: white;
     padding: .2em 1em;
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,0.08);
     .profile-image {
         margin: -10px 0px;
         height: 40px;
         width: 40px;
-        border-radius: 50%;
+        border-radius: 50%
     }
     .dropdown-item.active, .dropdown-item.active:focus, .dropdown-item.active:hover {
         background-color: #353d47;
@@ -64,20 +66,6 @@ Navbar
     color: $loginColor;
 }
 
-.defaultColor {
-    .nav-link {
-        color: $font-color-primary;
-    }
-
-    .navbar-title {
-        color: $font-color-primary;
-    }
-
-    .navbar-version {
-        color: $font-color-primary;
-    }
-}
-
 /* ==========================================================================
 Logo styles
 ========================================================================== */
@@ -109,10 +97,25 @@ Custom solocked
     color: $loginColor;
 }
 
-.menu {
-    margin-top: 5px;
+.search {
+    margin-right: 22px;
 }
 
-.autolock {
-    margin-right: 15px;
+.defaultColor {
+    .nav-link {
+        color: $font-color-primary;
+    }
+
+    .navbar-title {
+        color: $font-color-primary;
+    }
+
+    .navbar-version {
+        color: $font-color-primary;
+    }
+}
+
+.background-login {
+    background-color: transparent;
+    box-shadow: 0 0px 0px 0 rgba(0,0,0,0);
 }

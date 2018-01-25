@@ -2,14 +2,14 @@ import './vendor.ts';
 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { Ng2Webstorage } from 'ng2-webstorage';
+import { Ng2Webstorage } from 'ngx-webstorage';
 
 import { NinjaccountSharedModule, UserRouteAccessService } from './shared';
+import { NinjaccountAppRoutingModule} from './app-routing.module';
 import { NinjaccountHomeModule } from './home/home.module';
 import { NinjaccountAdminModule } from './admin/admin.module';
 import { NinjaccountAccountModule } from './account/account.module';
 import { NinjaccountEntityModule } from './entities/entity.module';
-
 import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
 
@@ -17,7 +17,6 @@ import { PaginationConfig } from './blocks/config/uib-pagination.config';
 
 import {
     JhiMainComponent,
-    LayoutRoutingModule,
     NavbarComponent,
     FooterComponent,
     ProfileService,
@@ -28,12 +27,15 @@ import {
 import { NinjaccountConnectedModule } from './connected/connected.module';
 import {NavbarService} from './layouts/navbar/navbar.service';
 import {AutolockComponent} from './layouts/navbar/autologout/autolock.component';
-import {AutolockService} from './layouts/navbar/autologout/autolock.service';
+import {SearchComponent} from './layouts/navbar/search/search.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {WarnBrowserComponent} from './layouts/main/warn-browser/warn-browser.component';
 
 @NgModule({
     imports: [
         BrowserModule,
-        LayoutRoutingModule,
+        ReactiveFormsModule,
+        NinjaccountAppRoutingModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
         NinjaccountSharedModule,
         NinjaccountHomeModule,
@@ -50,7 +52,9 @@ import {AutolockService} from './layouts/navbar/autologout/autolock.service';
         PageRibbonComponent,
         ActiveMenuDirective,
         FooterComponent,
-        AutolockComponent
+        AutolockComponent,
+        SearchComponent,
+        WarnBrowserComponent,
     ],
     providers: [
         ProfileService,
@@ -59,6 +63,7 @@ import {AutolockService} from './layouts/navbar/autologout/autolock.service';
         PaginationConfig,
         UserRouteAccessService
     ],
+    entryComponents: [ WarnBrowserComponent ],
     bootstrap: [ JhiMainComponent ]
 })
 export class NinjaccountAppModule {}

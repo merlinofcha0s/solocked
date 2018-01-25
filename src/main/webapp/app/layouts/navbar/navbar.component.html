@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md jh-navbar" [class.defaultColor]="defaultColor">
+<nav class="navbar fixed-top navbar-expand-md jh-navbar" [class.defaultColor]="defaultColor" [class.background-login]="!defaultColor">
     <div class="jh-logo-container float-left">
         <a class="jh-navbar-toggler hidden-lg-up float-right" href="javascript:void(0);" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavbar()">
             <i class="fa fa-bars"></i>
@@ -37,6 +37,12 @@
                         <a class="dropdown-item" routerLink="payment" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.payment">Payment</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="accounts-db" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
+                            <span jhiTranslate="global.menu.entities.accountsDb">Accounts Db</span>
                         </a>
                     </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
@@ -101,15 +107,19 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item dropdown pointer d-flex justify-content-center align-items-center"
+                *ngIf="isAuthenticated() && !hasAnyAuthorityDirect(['ROLE_ADMIN'])">
+                <jhi-autolock></jhi-autolock>
+            </li>
              <li class="nav-item dropdown pointer d-flex justify-content-center align-items-center"
                  *ngIf="isAuthenticated() && !hasAnyAuthorityDirect(['ROLE_ADMIN'])">
-                 <jhi-autolock class="autolock"></jhi-autolock>
+                 <jhi-search  class="search"></jhi-search>
                  <a mat-raised-button class="add-button" [routerLink]="['/accounts/add']">
                      <span jhiTranslate="global.addAccount"></span>
                  </a>
             </li>
-            <li *ngIf="languages">
-                 <button class="menu" [class.home]="!defaultColor" *ngIf="languages.length > 1" mat-button [matMenuTriggerFor]="languagesMenu">{{ 'global.menu.language' | translate }}</button>
+            <li *ngIf="languages" class="d-flex justify-content-center align-items-center">
+                 <button [class.home]="!defaultColor" *ngIf="languages.length > 1" mat-button [matMenuTriggerFor]="languagesMenu">{{ 'global.menu.language' | translate }}</button>
                 <!--<a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="languagesnavBarDropdown" *ngIf="languages.length > 1">-->
                     <!--<span>-->
                         <!--<i class="fa fa-flag" aria-hidden="true"></i>-->
@@ -126,13 +136,13 @@
 
                 <!--</ul>-->
             </li>
-            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-             <button mat-button class="menu" [class.home]="!defaultColor" [matMenuTriggerFor]="account">{{ 'global.menu.account.main' | translate }}</button>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="d-flex justify-content-center align-items-center">
+             <button id="account" mat-button [class.home]="!defaultColor" [matMenuTriggerFor]="account">{{ 'global.menu.account.main' | translate }}</button>
                 <mat-menu #account="matMenu">
                     <a *ngSwitchCase="true" routerLink="settings" routerLinkActive="active" mat-menu-item>{{ 'settings.title' | translate }}</a>
                     <a *ngSwitchCase="true" routerLink="password" routerLinkActive="active" mat-menu-item>{{ 'global.menu.account.password' | translate }}</a>
                     <!--<a *ngSwitchCase="false" routerLink="/" mat-menu-item>{{ 'global.menu.account.login' | translate }}</a>-->
-                    <a *ngSwitchCase="true" (click)="logout()" mat-menu-item>{{ 'global.menu.account.logout' | translate }}</a>
+                    <a id="logout" *ngSwitchCase="true" (click)="logout()" mat-menu-item>{{ 'global.menu.account.logout' | translate }}</a>
                     <a *ngSwitchCase="false"  routerLink="register" mat-menu-item>{{ 'global.menu.account.register' | translate }}</a>
                 </mat-menu>
                 <!--<a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu">-->

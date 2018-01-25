@@ -4,9 +4,6 @@ import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import javax.validation.constraints.Size;
 
-import java.time.Instant;
-import java.util.Set;
-
 /**
  * View Model extending the UserDTO, which is meant to be used in the user management UI.
  */
@@ -21,39 +18,36 @@ public class ManagedUserVM extends UserDTO {
 
     private AccountsDBDTO accountsDB;
 
+    @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
+    private String authenticationKey;
+
     public ManagedUserVM() {
         // Empty constructor needed for Jackson.
-    }
-
-    public ManagedUserVM(Long id, String login, String password, String firstName, String lastName,
-                         String email, boolean activated, String imageUrl, String langKey,
-                         String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate,
-                         Set<String> authorities) {
-
-        super(id, login, firstName, lastName, email, activated, imageUrl, langKey,
-            createdBy, createdDate, lastModifiedBy, lastModifiedDate,  authorities);
-
-        this.password = password;
-    }
-
-    public ManagedUserVM(Long id, String login, String password, String firstName, String lastName,
-                         String email, boolean activated, String imageUrl, String langKey,
-                         String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate,
-                         Set<String> authorities, AccountsDBDTO accountsDBDTO) {
-
-        super(id, login, firstName, lastName, email, activated, imageUrl, langKey,
-            createdBy, createdDate, lastModifiedBy, lastModifiedDate,  authorities);
-        this.password = password;
-        this.accountsDB = accountsDBDTO;
     }
 
     public String getPassword() {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 
     public AccountsDBDTO getAccountsDB() {
         return accountsDB;
+    }
+
+    public void setAccountsDB(AccountsDBDTO accountsDB) {
+        this.accountsDB = accountsDB;
+    }
+
+    public String getAuthenticationKey() {
+        return authenticationKey;
+    }
+
+    public void setAuthenticationKey(String authenticationKey) {
+        this.authenticationKey = authenticationKey;
     }
 
     @Override

@@ -146,7 +146,7 @@ public class Payment implements Serializable {
         return "Payment{" +
             "id=" + getId() +
             ", subscriptionDate='" + getSubscriptionDate() + "'" +
-            ", price='" + getPrice() + "'" +
+            ", price=" + getPrice() +
             ", planType='" + getPlanType() + "'" +
             ", paid='" + isPaid() + "'" +
             "}";

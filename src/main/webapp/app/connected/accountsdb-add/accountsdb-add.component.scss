@@ -30,8 +30,6 @@
     margin-right: 15px;
 }
 
-
-
 .customLabel {
     margin-right: 10px;
     flex-grow: 1;
@@ -50,4 +48,13 @@
     margin-top: 20px;
 }
 
+.hideIcon {
+    display: none;
+}
 
+.suppress{
+    margin-left: 10px;
+    font-size: 30px;
+    cursor: pointer;
+    color: #f44336;
+}

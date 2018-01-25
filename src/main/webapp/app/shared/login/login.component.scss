@@ -1,3 +1,5 @@
+@import './../../../content/scss/custom-variables';
+
 $primary-color: white;
 
 .loadingContainerCustom {
@@ -14,7 +16,7 @@ $primary-color: white;
         font-size: 20px;
         border: 1px $primary-color solid;
         background-color: white;
-        color: #f69a60;
+        color: $solocked-primary-color;
     }
     .registerButton:hover {
         text-decoration: none;
@@ -55,9 +57,6 @@ $primary-color: white;
 
 .spinnerLogin {
     margin-right: 10px;
-    /deep/ path {
-        stroke: $primary-color;
-    }
 }
 
 .loginArrow {

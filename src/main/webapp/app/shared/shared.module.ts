@@ -39,7 +39,8 @@ import {
     MatDatepickerModule,
     MatNativeDateModule,
     MatGridListModule,
-    MatDialogModule
+    MatDialogModule,
+    MatAutocompleteModule, MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS
 } from '@angular/material';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -48,6 +49,7 @@ import {PasswordMatchValidatorDirective} from './auth/password-match.directive';
 import {SnackComponent} from './snack/snack.component';
 import {AutolockService} from '../layouts/navbar/autologout/autolock.service';
 import {DateValidatorDirective} from './validation/date-validator.directive';
+import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 
 @NgModule({
     imports: [
@@ -72,7 +74,8 @@ import {DateValidatorDirective} from './validation/date-validator.directive';
         MatDatepickerModule,
         MatNativeDateModule,
         MatGridListModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatAutocompleteModule
     ],
     declarations: [
         JhiSocialComponent,
@@ -98,7 +101,9 @@ import {DateValidatorDirective} from './validation/date-validator.directive';
         CryptoService,
         CryptoUtilsService,
         UserRouteAccessIsConnectedService,
-        AutolockService
+        AutolockService,
+        {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+        {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
     ],
     entryComponents: [JhiLoginModalComponent, SnackComponent],
     exports: [
@@ -130,7 +135,8 @@ import {DateValidatorDirective} from './validation/date-validator.directive';
         MatDatepickerModule,
         MatNativeDateModule,
         MatGridListModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatAutocompleteModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

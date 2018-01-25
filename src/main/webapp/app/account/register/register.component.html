@@ -9,7 +9,7 @@
             </div>
 
              <div *ngIf="success" class="d-flex m-4 justify-content-center align-items-center">
-                     <button mat-raised-button class="default-validation-button"
+                     <button mat-raised-button color="primary" class="default-validation-button"
                              [routerLink]="['/']"
                              id="signin">
                          {{ 'global.messages.info.authenticated.link' | translate}}
@@ -56,7 +56,7 @@
                         </mat-error>
                         <mat-error class="text-danger" *ngIf="login.dirty && login.invalid && login.errors.pattern"
                                   jhiTranslate="register.messages.validate.login.pattern">
-                            Your username can only contain lower-case letters and digits.
+                            Your username can only contain letters and digits.
                         </mat-error>
                     </mat-form-field>
 
@@ -140,7 +140,7 @@
 
 
                 <div class="d-flex align-items-center justify-content-center m-3">
-                    <button mat-raised-button type="submit" id="validate" [disabled]="registerForm.form.invalid"
+                    <button mat-raised-button color="primary" type="submit" id="validate" [disabled]="registerForm.form.invalid"
                             class="buttonRegistration default-validation-button">{{'register.form.button' | translate}}</button>
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
@@ -148,7 +148,7 @@
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
                     <div *ngIf="loading" class="loadingContainer">
-                        <mat-spinner class="spinner" diameter="50" mode="indeterminate"></mat-spinner>
+                        <mat-spinner color="primary" diameter="50" mode="indeterminate"></mat-spinner>
                         <div class="loadingMessage" jhiTranslate="register.form.loading">Generating your key</div>
                     </div>
                 </div>

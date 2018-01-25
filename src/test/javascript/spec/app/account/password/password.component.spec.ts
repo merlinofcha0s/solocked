@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+
 import { NinjaccountTestModule } from '../../../test.module';
 import { PasswordComponent } from '../../../../../../main/webapp/app/account/password/password.component';
 import { PasswordService } from '../../../../../../main/webapp/app/account/password/password.service';
@@ -9,7 +10,7 @@ import {AccountsTechService} from '../../../../../../main/webapp/app/shared/acco
 import {AccountsDBService} from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db.service';
 import {CryptoUtilsService} from '../../../../../../main/webapp/app/shared/crypto/crypto-utils.service';
 import {CryptoService} from '../../../../../../main/webapp/app/shared/crypto/crypto.service';
-import {SessionStorageService} from 'ng2-webstorage';
+import {SessionStorageService} from 'ngx-webstorage';
 import {LoginService} from '../../../../../../main/webapp/app/shared/index';
 import {Router} from '@angular/router';
 
@@ -52,7 +53,8 @@ describe('Component Tests', () => {
                         useValue: null
                     }
                 ]
-            }).overrideTemplate(PasswordComponent, '')
+            })
+            .overrideTemplate(PasswordComponent, '')
             .compileComponents();
         }));
 
