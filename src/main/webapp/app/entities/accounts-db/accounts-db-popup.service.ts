@@ -1,6 +1,7 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { HttpResponse } from '@angular/common/http';
 import { AccountsDB } from './accounts-db.model';
 import { AccountsDBService } from './accounts-db.service';
 
@@ -25,10 +26,12 @@ export class AccountsDBPopupService {
             }
 
             if (id) {
-                this.accountsDBService.find(id).subscribe((accountsDB) => {
-                    this.ngbModalRef = this.accountsDBModalRef(component, accountsDB);
-                    resolve(this.ngbModalRef);
-                });
+                this.accountsDBService.find(id)
+                    .subscribe((accountsDBResponse: HttpResponse<AccountsDB>) => {
+                        const accountsDB: AccountsDB = accountsDBResponse.body;
+                        this.ngbModalRef = this.accountsDBModalRef(component, accountsDB);
+                        resolve(this.ngbModalRef);
+                    });
             } else {
                 // setTimeout used as a workaround for getting ExpressionChangedAfterItHasBeenCheckedError
                 setTimeout(() => {

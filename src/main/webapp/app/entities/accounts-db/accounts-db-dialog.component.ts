@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Response } from '@angular/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,7 +10,6 @@ import { AccountsDB } from './accounts-db.model';
 import { AccountsDBPopupService } from './accounts-db-popup.service';
 import { AccountsDBService } from './accounts-db.service';
 import { User, UserService } from '../../shared';
-import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-accounts-db-dialog',
@@ -36,7 +35,7 @@ export class AccountsDBDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.userService.query()
-            .subscribe((res: ResponseWrapper) => { this.users = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+            .subscribe((res: HttpResponse<User[]>) => { this.users = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     byteSize(field) {
@@ -66,9 +65,9 @@ export class AccountsDBDialogComponent implements OnInit {
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<AccountsDB>) {
-        result.subscribe((res: AccountsDB) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError());
+    private subscribeToSaveResponse(result: Observable<HttpResponse<AccountsDB>>) {
+        result.subscribe((res: HttpResponse<AccountsDB>) =>
+            this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError());
     }
 
     private onSaveSuccess(result: AccountsDB) {
