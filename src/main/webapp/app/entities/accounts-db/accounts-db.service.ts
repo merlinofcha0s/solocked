@@ -1,49 +1,50 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { SERVER_API_URL } from '../../app.constants';
 
 import { AccountsDB } from './accounts-db.model';
-import { ResponseWrapper, createRequestOption } from '../../shared';
+import { createRequestOption } from '../../shared';
+
+export type EntityResponseType = HttpResponse<AccountsDB>;
 
 @Injectable()
 export class AccountsDBService {
 
     private resourceUrl =  SERVER_API_URL + 'api/accounts-dbs';
 
-    constructor(private http: Http) { }
+    constructor(private http: HttpClient) { }
 
-    create(accountsDB: AccountsDB): Observable<AccountsDB> {
+    create(accountsDB: AccountsDB): Observable<EntityResponseType> {
         const copy = this.convert(accountsDB);
-        return this.http.post(this.resourceUrl, copy).map((res: Response) => {
-            const jsonResponse = res.json();
-            return this.convertItemFromServer(jsonResponse);
-        });
+        return this.http.post<AccountsDB>(this.resourceUrl, copy, { observe: 'response' })
+            .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
-    update(accountsDB: AccountsDB): Observable<AccountsDB> {
+    update(accountsDB: AccountsDB): Observable<EntityResponseType> {
         const copy = this.convert(accountsDB);
-        return this.http.put(this.resourceUrl, copy).map((res: Response) => {
-            const jsonResponse = res.json();
-            return this.convertItemFromServer(jsonResponse);
-        });
+        return this.http.put<AccountsDB>(this.resourceUrl, copy, { observe: 'response' })
+            .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
-    find(id: number): Observable<AccountsDB> {
-        return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
-            const jsonResponse = res.json();
-            return this.convertItemFromServer(jsonResponse);
-        });
+    find(id: number): Observable<EntityResponseType> {
+        return this.http.get<AccountsDB>(`${this.resourceUrl}/${id}`, { observe: 'response'})
+            .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
-    query(req?: any): Observable<ResponseWrapper> {
+    query(req?: any): Observable<HttpResponse<AccountsDB[]>> {
         const options = createRequestOption(req);
-        return this.http.get(this.resourceUrl, options)
-            .map((res: Response) => this.convertResponse(res));
+        return this.http.get<AccountsDB[]>(this.resourceUrl, { params: options, observe: 'response' })
+            .map((res: HttpResponse<AccountsDB[]>) => this.convertArrayResponse(res));
     }
 
-    delete(id: number): Observable<Response> {
-        return this.http.delete(`${this.resourceUrl}/${id}`);
+    delete(id: number): Observable<HttpResponse<any>> {
+        return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response'});
+    }
+
+    private convertResponse(res: EntityResponseType): EntityResponseType {
+        const body: AccountsDB = this.convertItemFromServer(res.body);
+        return res.clone({body});
     }
 
     getDbUserConnected(): Observable<AccountsDB> {
@@ -68,21 +69,21 @@ export class AccountsDBService {
         return this.http.get(SERVER_API_URL + 'api/accounts-dbs/get-actual-max-account').map((res: Response) => res.json());
     }
 
-    private convertResponse(res: Response): ResponseWrapper {
-        const jsonResponse = res.json();
-        const result = [];
+    private convertArrayResponse(res: HttpResponse<AccountsDB[]>): HttpResponse<AccountsDB[]> {
+        const jsonResponse: AccountsDB[] = res.body;
+        const body: AccountsDB[] = [];
         for (let i = 0; i < jsonResponse.length; i++) {
-            result.push(this.convertItemFromServer(jsonResponse[i]));
+            body.push(this.convertItemFromServer(jsonResponse[i]));
         }
-        return new ResponseWrapper(res.headers, result, res.status);
+        return res.clone({body});
     }
 
     /**
      * Convert a returned JSON object to AccountsDB.
      */
-    private convertItemFromServer(json: any): AccountsDB {
-        const entity: AccountsDB = Object.assign(new AccountsDB(), json);
-        return entity;
+    private convertItemFromServer(accountsDB: AccountsDB): AccountsDB {
+        const copy: AccountsDB = Object.assign({}, accountsDB);
+        return copy;
     }
 
     /**

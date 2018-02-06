@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs/Subscription';
 import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
 import { AccountsDB } from './accounts-db.model';
 import { AccountsDBService } from './accounts-db.service';
-import { Principal, ResponseWrapper } from '../../shared';
+import { Principal } from '../../shared';
 
 @Component({
     selector: 'jhi-accounts-db',
@@ -26,10 +27,10 @@ accountsDBS: AccountsDB[];
 
     loadAll() {
         this.accountsDBService.query().subscribe(
-            (res: ResponseWrapper) => {
-                this.accountsDBS = res.json;
+            (res: HttpResponse<AccountsDB[]>) => {
+                this.accountsDBS = res.body;
             },
-            (res: ResponseWrapper) => this.onError(res.json)
+            (res: HttpErrorResponse) => this.onError(res.message)
         );
     }
     ngOnInit() {
