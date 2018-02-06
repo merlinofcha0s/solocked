@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { SERVER_API_URL } from '../../app.constants';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpResponse} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import {SERVER_API_URL} from '../../app.constants';
 
 @Injectable()
 export class JhiConfigurationService {
@@ -10,7 +10,7 @@ export class JhiConfigurationService {
     }
 
     get(): Observable<any> {
-        return this.http.get(SERVER_API_URL + 'management/configprops', { observe: 'response' }).map((res: HttpResponse<any>) => {
+        return this.http.get(SERVER_API_URL + 'management/configprops', {observe: 'response'}).map((res: HttpResponse<any>) => {
             const properties: any[] = [];
 
             const propertiesObject = res.body;
@@ -29,7 +29,7 @@ export class JhiConfigurationService {
     }
 
     getEnv(): Observable<any> {
-        return this.http.get(SERVER_API_URL + 'management/env', { observe: 'response' }).map((res: HttpResponse<any>) => {
+        return this.http.get(SERVER_API_URL + 'management/env', {observe: 'response'}).map((res: HttpResponse<any>) => {
             const properties: any = {};
 
             const propertiesObject = res.body;

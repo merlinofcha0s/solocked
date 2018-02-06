@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {JhiEventManager} from 'ng-jhipster';
 
-import { UserModalService } from './user-modal.service';
-import { JhiLanguageHelper, User, UserService } from '../../shared';
+import {UserModalService} from './user-modal.service';
+import {JhiLanguageHelper, User, UserService} from '../../shared';
 
 @Component({
     selector: 'jhi-user-mgmt-dialog',

@@ -1,12 +1,12 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ActivatedRoute} from '@angular/router';
+import {HttpResponse} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
 
-import { NinjaccountTestModule } from '../../../test.module';
-import { MockActivatedRoute } from '../../../helpers/mock-route.service';
-import { UserMgmtDetailComponent } from '../../../../../../main/webapp/app/admin/user-management/user-management-detail.component';
-import { UserService, User } from '../../../../../../main/webapp/app/shared';
+import {NinjaccountTestModule} from '../../../test.module';
+import {MockActivatedRoute} from '../../../helpers/mock-route.service';
+import {UserMgmtDetailComponent} from '../../../../../../main/webapp/app/admin/user-management/user-management-detail.component';
+import {User, UserService} from '../../../../../../main/webapp/app/shared';
 
 describe('Component Tests', () => {
 

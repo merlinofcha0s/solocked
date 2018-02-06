@@ -1,7 +1,7 @@
-import { Component, OnDestroy } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
-import { Subscription } from 'rxjs/Subscription';
+import {Component, OnDestroy} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
+import {JhiAlertService, JhiEventManager} from 'ng-jhipster';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
     selector: 'jhi-alert-error',

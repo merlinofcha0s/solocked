@@ -86,11 +86,10 @@ export class JhiMainComponent implements OnInit {
     }
 
     /* tslint:enable */
-
     initFontAwesome5() {
-        fontawesome.config = {
-            autoReplaceSvg: 'nest'
-        }
+        const config = fontawesome.config;
+        config.autoReplaceSvg = 'nest';
+        fontawesome.config = config;
     }
 
     detectEdge() {

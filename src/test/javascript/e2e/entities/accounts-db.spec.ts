@@ -1,6 +1,7 @@
-import { browser, element, by } from 'protractor';
-import { NavBarPage } from './../page-objects/jhi-page-objects';
+import {browser, by, element} from 'protractor';
+import {NavBarPage} from './../page-objects/jhi-page-objects';
 import * as path from 'path';
+
 describe('AccountsDB e2e test', () => {
 
     let navBarPage: NavBarPage;

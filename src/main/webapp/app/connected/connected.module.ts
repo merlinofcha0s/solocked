@@ -9,9 +9,9 @@ import {AccountsdbHomeComponent} from './accountsdb-home/accountsdb-home.compone
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AccountsdbDetailsComponent} from './accountsdb-details/accountsdb-details.component';
 import {PasswordHidePipe} from './accountsdb-details/password-hide.pipe';
-import {ClipboardModule} from 'ngx-clipboard/dist';
+import {ClipboardModule} from 'ngx-clipboard';
 import {AccountsdbListComponent} from './accountsdb-home/accountsdb-list/accountsdb-list.component';
-import { AccountsdbDeleteComponent } from './accountsdb-details/accountsdb-delete/accountsdb-delete.component';
+import {AccountsdbDeleteComponent} from './accountsdb-details/accountsdb-delete/accountsdb-delete.component';
 import {AddCustomBlockComponent} from './accountsdb-add/add-custom-block/add-custom-block.component';
 import {PaymentCustomBlockComponent} from './accountsdb-add/payment-custom-block/payment-custom-block.component';
 import {ClickOutsideDirective} from './accountsdb-add/payment-custom-block/click-outside.directive';

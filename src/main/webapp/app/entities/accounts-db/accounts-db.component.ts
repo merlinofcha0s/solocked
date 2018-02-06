@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs/Subscription';
-import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {Subscription} from 'rxjs/Subscription';
+import {JhiAlertService, JhiDataUtils, JhiEventManager} from 'ng-jhipster';
 
-import { AccountsDB } from './accounts-db.model';
-import { AccountsDBService } from './accounts-db.service';
-import { Principal } from '../../shared';
+import {AccountsDB} from './accounts-db.model';
+import {AccountsDBService} from './accounts-db.service';
+import {Principal} from '../../shared';
 
 @Component({
     selector: 'jhi-accounts-db',

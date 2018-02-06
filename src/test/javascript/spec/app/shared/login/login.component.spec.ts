@@ -1,14 +1,14 @@
-import { ComponentFixture, TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+import {async, ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
+import {Router} from '@angular/router';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {JhiEventManager} from 'ng-jhipster';
 
-import { LoginService } from '../../../../../../main/webapp/app/shared/login/login.service';
-import { JhiLoginModalComponent } from '../../../../../../main/webapp/app/shared/login/login.component';
-import { StateStorageService } from '../../../../../../main/webapp/app/shared/auth/state-storage.service';
-import { NinjaccountTestModule } from '../../../test.module';
-import { MockLoginService } from '../../../helpers/mock-login.service';
-import { MockStateStorageService } from '../../../helpers/mock-state-storage.service';
+import {LoginService} from '../../../../../../main/webapp/app/shared/login/login.service';
+import {JhiLoginModalComponent} from '../../../../../../main/webapp/app/shared/login/login.component';
+import {StateStorageService} from '../../../../../../main/webapp/app/shared/auth/state-storage.service';
+import {NinjaccountTestModule} from '../../../test.module';
+import {MockLoginService} from '../../../helpers/mock-login.service';
+import {MockStateStorageService} from '../../../helpers/mock-state-storage.service';
 
 describe('Component Tests', () => {
 

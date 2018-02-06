@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { SERVER_API_URL } from '../../app.constants';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpResponse} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import {SERVER_API_URL} from '../../app.constants';
 
-import { AccountsDB } from './accounts-db.model';
-import { createRequestOption } from '../../shared';
+import {AccountsDB} from './accounts-db.model';
+import {createRequestOption} from '../../shared';
 
 export type EntityResponseType = HttpResponse<AccountsDB>;
 
@@ -13,33 +13,34 @@ export class AccountsDBService {
 
     private resourceUrl =  SERVER_API_URL + 'api/accounts-dbs';
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {
+    }
 
     create(accountsDB: AccountsDB): Observable<EntityResponseType> {
         const copy = this.convert(accountsDB);
-        return this.http.post<AccountsDB>(this.resourceUrl, copy, { observe: 'response' })
+        return this.http.post<AccountsDB>(this.resourceUrl, copy, {observe: 'response'})
             .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
     update(accountsDB: AccountsDB): Observable<EntityResponseType> {
         const copy = this.convert(accountsDB);
-        return this.http.put<AccountsDB>(this.resourceUrl, copy, { observe: 'response' })
+        return this.http.put<AccountsDB>(this.resourceUrl, copy, {observe: 'response'})
             .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
     find(id: number): Observable<EntityResponseType> {
-        return this.http.get<AccountsDB>(`${this.resourceUrl}/${id}`, { observe: 'response'})
+        return this.http.get<AccountsDB>(`${this.resourceUrl}/${id}`, {observe: 'response'})
             .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
     query(req?: any): Observable<HttpResponse<AccountsDB[]>> {
         const options = createRequestOption(req);
-        return this.http.get<AccountsDB[]>(this.resourceUrl, { params: options, observe: 'response' })
+        return this.http.get<AccountsDB[]>(this.resourceUrl, {params: options, observe: 'response'})
             .map((res: HttpResponse<AccountsDB[]>) => this.convertArrayResponse(res));
     }
 
     delete(id: number): Observable<HttpResponse<any>> {
-        return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response'});
+        return this.http.delete<any>(`${this.resourceUrl}/${id}`, {observe: 'response'});
     }
 
     private convertResponse(res: EntityResponseType): EntityResponseType {
@@ -47,21 +48,20 @@ export class AccountsDBService {
         return res.clone({body});
     }
 
-    getDbUserConnected(): Observable<AccountsDB> {
-        return this.http.get(`${this.resourceUrl}/getDbUserConnected`).map((res: Response) => {
-            return res.json();
-        });
+    getDbUserConnected(): Observable<HttpResponse<AccountsDB>> {
+        return this.http.get<AccountsDB>(`${this.resourceUrl}/getDbUserConnected`, {observe: 'response'})
+            .map((res: HttpResponse<AccountsDB>) => this.convertResponse(res));
     }
 
     updateDBUserConnected(accountsDB: AccountsDB): Observable<AccountsDB> {
         const copy = this.convert(accountsDB);
-        return this.http.put(`${this.resourceUrl}/updateDbUserConnected`, copy).map((res: Response) => {
+        return this.http.put(`${this.resourceUrl}/updateDbUserConnected`, copy, {observe: 'response'})
+            .map((res: HttpResponse<AccountsDB>) => {
             if (res.ok) {
-                return res.json();
+                return Observable.create(res.body);
             } else {
                 return Observable.throw(res.statusText);
             }
-
         });
     }
 

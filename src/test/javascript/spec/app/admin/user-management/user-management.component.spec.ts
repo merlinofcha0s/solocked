@@ -1,10 +1,10 @@
-import { ComponentFixture, TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import {async, ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
+import {Observable} from 'rxjs/Observable';
+import {HttpHeaders, HttpResponse} from '@angular/common/http';
 
-import { NinjaccountTestModule } from '../../../test.module';
-import { UserMgmtComponent } from '../../../../../../main/webapp/app/admin/user-management/user-management.component';
-import { UserService, User } from '../../../../../../main/webapp/app/shared';
+import {NinjaccountTestModule} from '../../../test.module';
+import {UserMgmtComponent} from '../../../../../../main/webapp/app/admin/user-management/user-management.component';
+import {User, UserService} from '../../../../../../main/webapp/app/shared';
 
 describe('Component Tests', () => {
 
@@ -65,7 +65,7 @@ describe('Component Tests', () => {
                             body: [user],
                             headers
                         })));
-                        spyOn(service, 'update').and.returnValue(Observable.of(new HttpResponse({ status: 200 })));
+                        spyOn(service, 'update').and.returnValue(Observable.of(new HttpResponse({status: 200})));
 
                         // WHEN
                         comp.setActive(user, true);

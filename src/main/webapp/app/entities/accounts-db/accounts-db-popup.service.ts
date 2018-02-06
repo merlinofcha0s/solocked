@@ -1,9 +1,9 @@
-import { Injectable, Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { HttpResponse } from '@angular/common/http';
-import { AccountsDB } from './accounts-db.model';
-import { AccountsDBService } from './accounts-db.service';
+import {Component, Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {HttpResponse} from '@angular/common/http';
+import {AccountsDB} from './accounts-db.model';
+import {AccountsDBService} from './accounts-db.service';
 
 @Injectable()
 export class AccountsDBPopupService {

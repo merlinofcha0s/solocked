@@ -1,10 +1,10 @@
 /* tslint:disable max-line-length */
-import { TestBed, getTestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { JhiDateUtils } from 'ng-jhipster';
+import {getTestBed, TestBed} from '@angular/core/testing';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {JhiDateUtils} from 'ng-jhipster';
 
-import { AccountsDBService } from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db.service';
-import { SERVER_API_URL } from '../../../../../../main/webapp/app/app.constants';
+import {AccountsDBService} from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db.service';
+import {SERVER_API_URL} from '../../../../../../main/webapp/app/app.constants';
 
 describe('Service Tests', () => {
 
@@ -32,7 +32,7 @@ describe('Service Tests', () => {
             it('should call correct URL', () => {
                 service.find(123).subscribe(() => {});
 
-                const req  = httpMock.expectOne({ method: 'GET' });
+                const req = httpMock.expectOne({method: 'GET'});
 
                 const resourceUrl = SERVER_API_URL + 'api/accounts-dbs';
                 expect(req.request.url).toEqual(resourceUrl + '/' + 123);
@@ -43,7 +43,7 @@ describe('Service Tests', () => {
                     expect(received.body.id).toEqual(123);
                 });
 
-                const req = httpMock.expectOne({ method: 'GET' });
+                const req = httpMock.expectOne({method: 'GET'});
                 req.flush({id: 123});
             });
 
@@ -53,7 +53,7 @@ describe('Service Tests', () => {
                     expect(_error.status).toEqual(404);
                 });
 
-                const req  = httpMock.expectOne({ method: 'GET' });
+                const req = httpMock.expectOne({method: 'GET'});
                 req.flush('Invalid request parameters', {
                     status: 404, statusText: 'Bad Request'
                 });

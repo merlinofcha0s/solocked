@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Renderer } from '@angular/core';
+import {Component, ElementRef, Input, Renderer} from '@angular/core';
 
 @Component({
     selector: 'jhi-password-strength-bar',

@@ -1,12 +1,12 @@
 /* tslint:disable max-line-length */
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {HttpResponse} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
 
-import { NinjaccountTestModule } from '../../../test.module';
-import { AccountsDBDetailComponent } from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db-detail.component';
-import { AccountsDBService } from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db.service';
-import { AccountsDB } from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db.model';
+import {NinjaccountTestModule} from '../../../test.module';
+import {AccountsDBDetailComponent} from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db-detail.component';
+import {AccountsDBService} from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db.service';
+import {AccountsDB} from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db.model';
 
 describe('Component Tests', () => {
 

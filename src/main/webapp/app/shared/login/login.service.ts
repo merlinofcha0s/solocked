@@ -1,13 +1,13 @@
-import { CryptoUtilsService } from './../crypto/crypto-utils.service';
-import { CryptoService } from './../crypto/crypto.service';
-import { AccountsDB } from './../../entities/accounts-db/accounts-db.model';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { Injectable } from '@angular/core';
-import { JhiLanguageService } from 'ng-jhipster';
+import {CryptoUtilsService} from './../crypto/crypto-utils.service';
+import {CryptoService} from './../crypto/crypto.service';
+import {AccountsDB} from './../../entities/accounts-db/accounts-db.model';
+import {Observable} from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
+import {JhiLanguageService} from 'ng-jhipster';
 
-import { Principal } from '../auth/principal.service';
-import { AuthServerProvider } from '../auth/auth-jwt.service';
+import {Principal} from '../auth/principal.service';
+import {AuthServerProvider} from '../auth/auth-jwt.service';
+import {HttpClient, HttpResponse} from "@angular/common/http";
 
 @Injectable()
 export class LoginService {
@@ -16,7 +16,7 @@ export class LoginService {
         private languageService: JhiLanguageService,
         private principal: Principal,
         private authServerProvider: AuthServerProvider,
-        private http: Http,
+        private http: HttpClient,
         private cryptoService: CryptoService,
         private cryptoUtilsService: CryptoUtilsService
     ) { }
@@ -26,7 +26,7 @@ export class LoginService {
         let accountDBArrayBufferOut = null;
         let derivedCryptoKeyOut = null;
         return this.http.post('api/preauthenticate', username)
-            .map((res: Response) => res.json())
+            .map((res: HttpResponse<AccountsDB>) => res.body)
             .flatMap((accountDBJSON: AccountsDB) => {
                 accountDBJSONOut = accountDBJSON;
                 return Observable.of(this.cryptoUtilsService.b64toBlob(accountDBJSONOut.database, 'application/octet-stream', 2048));

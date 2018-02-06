@@ -11,9 +11,10 @@
                 <input type="date" class="form-control" name="start" [(ngModel)]="fromDate" (ngModelChange)="onChangeDate($event)" required/>
 
                 <div class="input-group-append">
-                        <span class="input-group-text" jhiTranslate="audits.filter.to">To</span>
-                    </div>
-                    <input type="date" class="form-control" name="end" [(ngModel)]="toDate" (ngModelChange)="onChangeDate($event)" required/>
+                    <span class="input-group-text" jhiTranslate="audits.filter.to">To</span>
+                </div>
+                <input type="date" class="form-control" name="end" [(ngModel)]="toDate"
+                       (ngModelChange)="onChangeDate($event)" required/>
             </div>
         </div>
     </div>

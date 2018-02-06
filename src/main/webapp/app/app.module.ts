@@ -1,33 +1,33 @@
 import './vendor.ts';
 
-import { NgModule, Injector } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { Ng2Webstorage, LocalStorageService, SessionStorageService  } from 'ngx-webstorage';
-import { JhiEventManager } from 'ng-jhipster';
+import {Injector, NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {LocalStorageService, Ng2Webstorage, SessionStorageService} from 'ngx-webstorage';
+import {JhiEventManager} from 'ng-jhipster';
 
-import { AuthInterceptor } from './blocks/interceptor/auth.interceptor';
-import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interceptor';
-import { ErrorHandlerInterceptor } from './blocks/interceptor/errorhandler.interceptor';
-import { NotificationInterceptor } from './blocks/interceptor/notification.interceptor';
-import { NinjaccountSharedModule, UserRouteAccessService } from './shared';
-import { NinjaccountAppRoutingModule} from './app-routing.module';
-import { NinjaccountHomeModule } from './home/home.module';
-import { NinjaccountAdminModule } from './admin/admin.module';
-import { NinjaccountAccountModule } from './account/account.module';
-import { NinjaccountEntityModule } from './entities/entity.module';
-import { PaginationConfig } from './blocks/config/uib-pagination.config';
+import {AuthInterceptor} from './blocks/interceptor/auth.interceptor';
+import {AuthExpiredInterceptor} from './blocks/interceptor/auth-expired.interceptor';
+import {ErrorHandlerInterceptor} from './blocks/interceptor/errorhandler.interceptor';
+import {NotificationInterceptor} from './blocks/interceptor/notification.interceptor';
+import {NinjaccountSharedModule, UserRouteAccessService} from './shared';
+import {NinjaccountAppRoutingModule} from './app-routing.module';
+import {NinjaccountHomeModule} from './home/home.module';
+import {NinjaccountAdminModule} from './admin/admin.module';
+import {NinjaccountAccountModule} from './account/account.module';
+import {NinjaccountEntityModule} from './entities/entity.module';
+import {PaginationConfig} from './blocks/config/uib-pagination.config';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import {
+    ActiveMenuDirective,
+    ErrorComponent,
+    FooterComponent,
     JhiMainComponent,
     NavbarComponent,
-    FooterComponent,
-    ProfileService,
     PageRibbonComponent,
-    ActiveMenuDirective,
-    ErrorComponent
+    ProfileService
 } from './layouts';
-import { NinjaccountConnectedModule } from './connected/connected.module';
+import {NinjaccountConnectedModule} from './connected/connected.module';
 import {NavbarService} from './layouts/navbar/navbar.service';
 import {AutolockComponent} from './layouts/navbar/autologout/autolock.component';
 import {SearchComponent} from './layouts/navbar/search/search.component';
@@ -62,7 +62,6 @@ import {WarnBrowserComponent} from './layouts/main/warn-browser/warn-browser.com
     providers: [
         ProfileService,
         NavbarService,
-        customHttpProvider(),
         PaginationConfig,
         UserRouteAccessService,
         {

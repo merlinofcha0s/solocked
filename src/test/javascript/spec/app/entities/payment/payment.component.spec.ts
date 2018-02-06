@@ -1,12 +1,12 @@
 /* tslint:disable max-line-length */
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {Observable} from 'rxjs/Observable';
+import {HttpHeaders, HttpResponse} from '@angular/common/http';
 
-import { NinjaccountTestModule } from '../../../test.module';
-import { PaymentComponent } from '../../../../../../main/webapp/app/entities/payment/payment.component';
-import { PaymentService } from '../../../../../../main/webapp/app/entities/payment/payment.service';
-import { Payment } from '../../../../../../main/webapp/app/entities/payment/payment.model';
+import {NinjaccountTestModule} from '../../../test.module';
+import {PaymentComponent} from '../../../../../../main/webapp/app/entities/payment/payment.component';
+import {PaymentService} from '../../../../../../main/webapp/app/entities/payment/payment.service';
+import {Payment} from '../../../../../../main/webapp/app/entities/payment/payment.model';
 
 describe('Component Tests', () => {
 
