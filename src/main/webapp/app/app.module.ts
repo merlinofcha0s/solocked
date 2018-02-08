@@ -7,10 +7,10 @@ import {LocalStorageService, Ng2Webstorage, SessionStorageService} from 'ngx-web
 import {JhiEventManager} from 'ng-jhipster';
 
 import {AuthInterceptor} from './blocks/interceptor/auth.interceptor';
-import {AuthExpiredInterceptor} from './blocks/interceptor/auth-expired.interceptor';
 import {ErrorHandlerInterceptor} from './blocks/interceptor/errorhandler.interceptor';
 import {NotificationInterceptor} from './blocks/interceptor/notification.interceptor';
-import {NinjaccountSharedModule, UserRouteAccessService} from './shared';
+import {UserRouteAccessService} from './shared/auth/user-route-access-service';
+import {NinjaccountSharedModule} from './shared/shared.module';
 import {NinjaccountAppRoutingModule} from './app-routing.module';
 import {NinjaccountHomeModule} from './home/home.module';
 import {NinjaccountAdminModule} from './admin/admin.module';
@@ -39,7 +39,7 @@ import {WarnBrowserComponent} from './layouts/main/warn-browser/warn-browser.com
         BrowserModule,
         ReactiveFormsModule,
         NinjaccountAppRoutingModule,
-        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
+        Ng2Webstorage.forRoot({prefix: 'jhi', separator: '-'}),
         NinjaccountSharedModule,
         NinjaccountHomeModule,
         NinjaccountAdminModule,
@@ -73,14 +73,14 @@ import {WarnBrowserComponent} from './layouts/main/warn-browser/warn-browser.com
                 SessionStorageService
             ]
         },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: AuthExpiredInterceptor,
-            multi: true,
-            deps: [
-                Injector
-            ]
-        },
+        // {
+        //     provide: HTTP_INTERCEPTORS,
+        //     useClass: AuthExpiredInterceptor,
+        //     multi: true,
+        //     deps: [
+        //         Injector
+        //     ]
+        // },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: ErrorHandlerInterceptor,
@@ -99,6 +99,7 @@ import {WarnBrowserComponent} from './layouts/main/warn-browser/warn-browser.com
         }
     ],
     entryComponents: [ WarnBrowserComponent ],
-    bootstrap: [ JhiMainComponent ]
+    bootstrap: [JhiMainComponent]
 })
-export class NinjaccountAppModule {}
+export class NinjaccountAppModule {
+}

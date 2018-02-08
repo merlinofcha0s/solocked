@@ -64,7 +64,7 @@ export class CryptoService {
                 // when false, the key can only be passed as a web crypto object, not inspected
                 true,
                 ['encrypt', 'decrypt']
-            )
+            );
         } catch (e) {
             console.log(e);
         }

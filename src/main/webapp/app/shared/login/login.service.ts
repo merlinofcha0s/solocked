@@ -7,7 +7,7 @@ import {JhiLanguageService} from 'ng-jhipster';
 
 import {Principal} from '../auth/principal.service';
 import {AuthServerProvider} from '../auth/auth-jwt.service';
-import {HttpClient, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpResponse} from '@angular/common/http';
 
 @Injectable()
 export class LoginService {
@@ -34,11 +34,11 @@ export class LoginService {
             .flatMap((accountDBBlob: Blob) => this.cryptoUtilsService.blobToArrayBuffer(accountDBBlob))
             .flatMap((accountDBArrayBuffer) => {
                 accountDBArrayBufferOut = accountDBArrayBuffer;
-                return this.cryptoService.creatingKey(password)
+                return this.cryptoService.creatingKey(password);
             })
             .flatMap((derivedCryptoKey: CryptoKey) => {
                 derivedCryptoKeyOut = derivedCryptoKey;
-                return this.cryptoService.putCryptoKeyInStorage(derivedCryptoKeyOut)
+                return this.cryptoService.putCryptoKeyInStorage(derivedCryptoKeyOut);
             }).flatMap((success: boolean) =>  this.cryptoService.decrypt(accountDBJSONOut.initializationVector, derivedCryptoKeyOut, accountDBArrayBufferOut));
     }
 

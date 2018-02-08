@@ -6,10 +6,9 @@ import {SERVER_API_URL} from '../../app.constants';
 import {Payment} from './payment.model';
 import {createRequestOption} from '../../shared';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {HttpClient, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpResponse} from '@angular/common/http';
 
 export type EntityResponseType = HttpResponse<Payment>;
-
 
 @Injectable()
 export class PaymentService {

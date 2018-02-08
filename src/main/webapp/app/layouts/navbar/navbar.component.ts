@@ -3,9 +3,10 @@ import {Event, NavigationEnd, Router} from '@angular/router';
 import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 import {ProfileService} from '../profiles/profile.service';
-import {JhiLanguageHelper, LoginModalService, Principal} from '../../shared';
+import {JhiLanguageHelper, LoginModalService, LoginService, Principal} from '../../shared';
 
 import {VERSION} from '../../app.constants';
+import {JhiLanguageService} from 'ng-jhipster';
 
 @Component({
     selector: 'jhi-navbar',
@@ -23,12 +24,13 @@ export class NavbarComponent implements OnInit {
     version: string;
     defaultColor: boolean;
 
-    constructor(
+    constructor(private languageService: JhiLanguageService,
                 private languageHelper: JhiLanguageHelper,
                 private principal: Principal,
                 private loginModalService: LoginModalService,
                 private profileService: ProfileService,
-                private router: Router) {
+                private router: Router,
+                private loginService: LoginService) {
         this.version = VERSION ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
         this.initListenerRouterEvent();
@@ -58,7 +60,7 @@ export class NavbarComponent implements OnInit {
     }
 
     changeLanguage(languageKey: string) {
-        //this.languageService.changeLanguage(languageKey);
+        this.languageService.changeLanguage(languageKey);
     }
 
     collapseNavbar() {
@@ -75,7 +77,7 @@ export class NavbarComponent implements OnInit {
 
     logout() {
         this.collapseNavbar();
-        // this.loginService.logout();
+        this.loginService.logout();
         this.router.navigate(['']);
     }
 

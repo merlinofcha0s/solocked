@@ -26,7 +26,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     max: number;
     actualPercentage: number;
     colorActualAccount: string;
-    private actualMaxSubscription: Subscription
+    private actualMaxSubscription: Subscription;
 
     maxUsername = 40;
     maxLastname = 50;
@@ -78,7 +78,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
             config.duration = 3000;
 
             const message = this.translateService.instant('settings.messages.success');
-            config.data = {icon: 'fa-check-circle', text: message}
+            config.data = {icon: 'fa-check-circle', text: message};
             this.snackBar.openFromComponent(SnackComponent, config);
 
         }, () => {

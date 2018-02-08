@@ -2,10 +2,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {AccountsService} from '../../../shared/account/accounts.service';
 import {Router} from '@angular/router';
-import {SnackComponent} from '../../../shared/snack/snack.component'
+import {SnackComponent} from '../../../shared/snack/snack.component';
 import {TranslateService} from '@ngx-translate/core';
-
-;
 
 @Component({
     selector: 'jhi-accountsdb-delete',

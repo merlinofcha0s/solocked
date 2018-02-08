@@ -12,7 +12,7 @@ import {saveAs as importedSaveAs} from 'file-saver';
 })
 export class ExportAllAccountsComponent implements OnInit, OnDestroy {
 
-    separator = ','
+    separator = ',';
 
     constructor(private accountsService: AccountsService,
                 private dialogRef: MatDialogRef<ExportAllAccountsComponent>) {

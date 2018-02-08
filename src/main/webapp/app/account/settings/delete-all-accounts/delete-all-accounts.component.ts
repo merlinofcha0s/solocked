@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {LoginService, UserService} from '../../../shared/index';
 import {Router} from '@angular/router';
-import {TranslateService} from '@ngx-translate/core';
 import {SnackComponent} from '../../../shared/snack/snack.component';
 import {Principal} from '../../../shared/auth/principal.service';
 import {Subscription} from 'rxjs/Subscription';
@@ -51,13 +50,13 @@ export class DeleteAllAccountsComponent implements OnInit, OnDestroy {
                         this.router.navigate(['/']);
                     } else {
                         const message = 'An error occured when deleting your account, please retry !!';
-                        this.config.data = {icon: 'fa-exclamation-circle', text: message}
+                        this.config.data = {icon: 'fa-exclamation-circle', text: message};
                         this.snackBar.openFromComponent(SnackComponent, this.config);
                     }
                 });
             } else {
                 const message = 'Not the right username';
-                this.config.data = {icon: 'fa-exclamation-circle', text: message}
+                this.config.data = {icon: 'fa-exclamation-circle', text: message};
                 this.snackBar.openFromComponent(SnackComponent, this.config);
             }
         });

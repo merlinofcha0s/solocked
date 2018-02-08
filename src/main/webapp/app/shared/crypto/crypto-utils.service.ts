@@ -14,20 +14,20 @@ export class CryptoUtilsService {
      */
     hexToArrayBuffer(hex): ArrayBuffer {
         if (typeof hex !== 'string') {
-            throw new TypeError('Expected input to be a string')
+            throw new TypeError('Expected input to be a string');
         }
 
         if ((hex.length % 2) !== 0) {
-            throw new RangeError('Expected string to be an even number of characters')
+            throw new RangeError('Expected string to be an even number of characters');
         }
 
-        const view = new Uint8Array(hex.length / 2)
+        const view = new Uint8Array(hex.length / 2);
 
         for (let i = 0; i < hex.length; i += 2) {
-            view[i / 2] = parseInt(hex.substring(i, i + 2), 16)
+            view[i / 2] = parseInt(hex.substring(i, i + 2), 16);
         }
 
-        return view.buffer
+        return view.buffer;
     }
 
     getRandomNumber(): string {
