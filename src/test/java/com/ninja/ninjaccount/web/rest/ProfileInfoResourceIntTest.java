@@ -1,7 +1,7 @@
 package com.ninja.ninjaccount.web.rest;
 
-import io.github.jhipster.config.JHipsterProperties;
 import com.ninja.ninjaccount.NinjaccountApp;
+import io.github.jhipster.config.JHipsterProperties;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -228,7 +228,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                             text: message,
                             url: urlSettings,
                             action: actionSettings
-                        }
+                        };
                         this.snackBar.openFromComponent(SnackComponent, config);
                     });
         }
@@ -258,16 +258,16 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
     initPasswordHideDisplay() {
         this.passwordType = 'text';
-        this.iconPasswordType = 'fa-eye'
+        this.iconPasswordType = 'fa-eye';
     }
 
     onHideDisplayPassword() {
         if (this.passwordType === 'password') {
             this.passwordType = 'text';
-            this.iconPasswordType = 'fa-eye'
+            this.iconPasswordType = 'fa-eye';
         } else {
             this.passwordType = 'password';
-            this.iconPasswordType = 'fa-eye-slash'
+            this.iconPasswordType = 'fa-eye-slash';
         }
     }
 

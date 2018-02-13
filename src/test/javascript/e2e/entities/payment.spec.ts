@@ -1,5 +1,5 @@
-import { browser, element, by } from 'protractor';
-import { NavBarPage } from './../page-objects/jhi-page-objects';
+import {browser, by, element} from 'protractor';
+import {NavBarPage} from './../page-objects/jhi-page-objects';
 
 describe('Payment e2e test', () => {
 
@@ -86,49 +86,49 @@ export class PaymentDialogPage {
 
     setSubscriptionDateInput = function(subscriptionDate) {
         this.subscriptionDateInput.sendKeys(subscriptionDate);
-    }
+    };
 
     getSubscriptionDateInput = function() {
         return this.subscriptionDateInput.getAttribute('value');
-    }
+    };
 
     setPriceInput = function(price) {
         this.priceInput.sendKeys(price);
-    }
+    };
 
     getPriceInput = function() {
         return this.priceInput.getAttribute('value');
-    }
+    };
 
     setPlanTypeSelect = function(planType) {
         this.planTypeSelect.sendKeys(planType);
-    }
+    };
 
     getPlanTypeSelect = function() {
         return this.planTypeSelect.element(by.css('option:checked')).getText();
-    }
+    };
 
     planTypeSelectLastOption = function() {
         this.planTypeSelect.all(by.tagName('option')).last().click();
-    }
+    };
     getPaidInput = function() {
         return this.paidInput;
-    }
+    };
     userSelectLastOption = function() {
         this.userSelect.all(by.tagName('option')).last().click();
-    }
+    };
 
     userSelectOption = function(option) {
         this.userSelect.sendKeys(option);
-    }
+    };
 
     getUserSelect = function() {
         return this.userSelect;
-    }
+    };
 
     getUserSelectedOption = function() {
         return this.userSelect.element(by.css('option:checked')).getText();
-    }
+    };
 
     save() {
         this.saveButton.click();

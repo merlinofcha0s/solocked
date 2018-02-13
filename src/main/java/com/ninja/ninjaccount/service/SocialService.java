@@ -5,7 +5,6 @@ import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.AuthorityRepository;
 import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

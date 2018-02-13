@@ -6,8 +6,6 @@ import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.AuthorityRepository;
 import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
-import com.ninja.ninjaccount.service.MailService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

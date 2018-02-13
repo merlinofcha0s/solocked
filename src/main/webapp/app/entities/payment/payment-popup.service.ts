@@ -1,8 +1,9 @@
-import { Injectable, Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Payment } from './payment.model';
-import { PaymentService } from './payment.service';
+import {Component, Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {HttpResponse} from '@angular/common/http';
+import {Payment} from './payment.model';
+import {PaymentService} from './payment.service';
 
 @Injectable()
 export class PaymentPopupService {
@@ -25,17 +26,19 @@ export class PaymentPopupService {
             }
 
             if (id) {
-                this.paymentService.find(id).subscribe((payment) => {
-                    if (payment.subscriptionDate) {
-                        payment.subscriptionDate = {
-                            year: payment.subscriptionDate.getFullYear(),
-                            month: payment.subscriptionDate.getMonth() + 1,
-                            day: payment.subscriptionDate.getDate()
-                        };
-                    }
-                    this.ngbModalRef = this.paymentModalRef(component, payment);
-                    resolve(this.ngbModalRef);
-                });
+                this.paymentService.find(id)
+                    .subscribe((paymentResponse: HttpResponse<Payment>) => {
+                        const payment: Payment = paymentResponse.body;
+                        if (payment.subscriptionDate) {
+                            payment.subscriptionDate = {
+                                year: payment.subscriptionDate.getFullYear(),
+                                month: payment.subscriptionDate.getMonth() + 1,
+                                day: payment.subscriptionDate.getDate()
+                            };
+                        }
+                        this.ngbModalRef = this.paymentModalRef(component, payment);
+                        resolve(this.ngbModalRef);
+                    });
             } else {
                 // setTimeout used as a workaround for getting ExpressionChangedAfterItHasBeenCheckedError
                 setTimeout(() => {

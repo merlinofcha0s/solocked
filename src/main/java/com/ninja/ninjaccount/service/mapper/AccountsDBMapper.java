@@ -1,9 +1,9 @@
 package com.ninja.ninjaccount.service.mapper;
 
-import com.ninja.ninjaccount.domain.*;
+import com.ninja.ninjaccount.domain.AccountsDB;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
-
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 /**
  * Mapper for the entity AccountsDB and its DTO AccountsDBDTO.

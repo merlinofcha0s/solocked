@@ -1,14 +1,13 @@
 package com.ninja.ninjaccount.service.dto;
 
 import com.ninja.ninjaccount.config.Constants;
-
 import com.ninja.ninjaccount.domain.Authority;
 import com.ninja.ninjaccount.domain.User;
-
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;

@@ -1,6 +1,5 @@
 import {AccountsTechService} from './accounts-tech.service';
 import {Observable} from 'rxjs/Rx';
-import {SessionStorageService} from 'ngx-webstorage';
 import {CryptoUtilsService} from '../crypto/crypto-utils.service';
 import {AccountsDB} from '../../entities/accounts-db/accounts-db.model';
 import {Account} from './account.model';
@@ -106,7 +105,7 @@ export class AccountsService {
     }
 
     getRandomString(length: number) {
-        let text = ''
+        let text = '';
         const charset = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
         for (let i = 0; i < length; i++) {
@@ -209,7 +208,7 @@ export class AccountsService {
         const config = new MatSnackBarConfig();
         config.verticalPosition = 'top';
         config.duration = 10000;
-        config.data = {icon: 'fa-exclamation-triangle', text: message}
+        config.data = {icon: 'fa-exclamation-triangle', text: message};
         this.snackBar.openFromComponent(SnackComponent, config);
     }
 }

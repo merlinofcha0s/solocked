@@ -1,16 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Response } from '@angular/http';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import {Observable} from 'rxjs/Observable';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {JhiAlertService, JhiEventManager} from 'ng-jhipster';
 
-import { Payment } from './payment.model';
-import { PaymentPopupService } from './payment-popup.service';
-import { PaymentService } from './payment.service';
-import { User, UserService } from '../../shared';
-import { ResponseWrapper } from '../../shared';
+import {Payment} from './payment.model';
+import {PaymentPopupService} from './payment-popup.service';
+import {PaymentService} from './payment.service';
+import {User, UserService} from '../../shared';
 
 @Component({
     selector: 'jhi-payment-dialog',
@@ -36,7 +35,9 @@ export class PaymentDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.userService.query()
-            .subscribe((res: ResponseWrapper) => { this.users = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+            .subscribe((res: HttpResponse<User[]>) => {
+                this.users = res.body;
+            }, (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     clear() {
@@ -54,9 +55,9 @@ export class PaymentDialogComponent implements OnInit {
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Payment>) {
-        result.subscribe((res: Payment) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError());
+    private subscribeToSaveResponse(result: Observable<HttpResponse<Payment>>) {
+        result.subscribe((res: HttpResponse<Payment>) =>
+            this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError());
     }
 
     private onSaveSuccess(result: Payment) {

@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {Subscription} from 'rxjs/Subscription';
+import {JhiAlertService, JhiEventManager} from 'ng-jhipster';
 
-import { Payment } from './payment.model';
-import { PaymentService } from './payment.service';
-import { Principal, ResponseWrapper } from '../../shared';
+import {Payment} from './payment.model';
+import {PaymentService} from './payment.service';
+import {Principal} from '../../shared';
 
 @Component({
     selector: 'jhi-payment',
@@ -25,10 +26,10 @@ payments: Payment[];
 
     loadAll() {
         this.paymentService.query().subscribe(
-            (res: ResponseWrapper) => {
-                this.payments = res.json;
+            (res: HttpResponse<Payment[]>) => {
+                this.payments = res.body;
             },
-            (res: ResponseWrapper) => this.onError(res.json)
+            (res: HttpErrorResponse) => this.onError(res.message)
         );
     }
     ngOnInit() {

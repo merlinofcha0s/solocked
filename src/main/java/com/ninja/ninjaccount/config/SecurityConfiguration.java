@@ -2,7 +2,6 @@ package com.ninja.ninjaccount.config;
 
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.security.jwt.JWTConfigurer;
-
 import com.ninja.ninjaccount.security.jwt.TokenProvider;
 import io.github.jhipster.config.JHipsterConstants;
 import org.springframework.beans.factory.BeanInitializationException;

@@ -1,11 +1,12 @@
-import { ComponentFixture, TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Observable';
-import { JhiEventManager } from 'ng-jhipster';
+import {async, ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
+import {HttpResponse} from '@angular/common/http';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {Observable} from 'rxjs/Observable';
+import {JhiEventManager} from 'ng-jhipster';
 
-import { NinjaccountTestModule } from '../../../test.module';
-import { UserMgmtDialogComponent } from '../../../../../../main/webapp/app/admin/user-management/user-management-dialog.component';
-import { UserService, User, JhiLanguageHelper } from '../../../../../../main/webapp/app/shared';
+import {NinjaccountTestModule} from '../../../test.module';
+import {UserMgmtDialogComponent} from '../../../../../../main/webapp/app/admin/user-management/user-management-dialog.component';
+import {JhiLanguageHelper, User, UserService} from '../../../../../../main/webapp/app/shared';
 
 describe('Component Tests', () => {
 
@@ -63,7 +64,9 @@ describe('Component Tests', () => {
                     fakeAsync(() => {
                         // GIVEN
                         const entity = new User(123);
-                        spyOn(service, 'update').and.returnValue(Observable.of(entity));
+                        spyOn(service, 'update').and.returnValue(Observable.of(new HttpResponse({
+                            body: entity
+                        })));
                         comp.user = entity;
                         // WHEN
                         comp.save();
@@ -83,7 +86,7 @@ describe('Component Tests', () => {
                     fakeAsync(() => {
                         // GIVEN
                         const entity = new User();
-                        spyOn(service, 'create').and.returnValue(Observable.of(entity));
+                        spyOn(service, 'create').and.returnValue(Observable.of(new HttpResponse({body: entity})));
                         comp.user = entity;
                         // WHEN
                         comp.save();

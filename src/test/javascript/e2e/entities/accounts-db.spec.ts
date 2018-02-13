@@ -1,6 +1,7 @@
-import { browser, element, by } from 'protractor';
-import { NavBarPage } from './../page-objects/jhi-page-objects';
+import {browser, by, element} from 'protractor';
+import {NavBarPage} from './../page-objects/jhi-page-objects';
 import * as path from 'path';
+
 describe('AccountsDB e2e test', () => {
 
     let navBarPage: NavBarPage;
@@ -81,51 +82,51 @@ export class AccountsDBDialogPage {
 
     setInitializationVectorInput = function(initializationVector) {
         this.initializationVectorInput.sendKeys(initializationVector);
-    }
+    };
 
     getInitializationVectorInput = function() {
         return this.initializationVectorInput.getAttribute('value');
-    }
+    };
 
     setDatabaseInput = function(database) {
         this.databaseInput.sendKeys(database);
-    }
+    };
 
     getDatabaseInput = function() {
         return this.databaseInput.getAttribute('value');
-    }
+    };
 
     setNbAccountsInput = function(nbAccounts) {
         this.nbAccountsInput.sendKeys(nbAccounts);
-    }
+    };
 
     getNbAccountsInput = function() {
         return this.nbAccountsInput.getAttribute('value');
-    }
+    };
 
     setSumInput = function(sum) {
         this.sumInput.sendKeys(sum);
-    }
+    };
 
     getSumInput = function() {
         return this.sumInput.getAttribute('value');
-    }
+    };
 
     userSelectLastOption = function() {
         this.userSelect.all(by.tagName('option')).last().click();
-    }
+    };
 
     userSelectOption = function(option) {
         this.userSelect.sendKeys(option);
-    }
+    };
 
     getUserSelect = function() {
         return this.userSelect;
-    }
+    };
 
     getUserSelectedOption = function() {
         return this.userSelect.element(by.css('option:checked')).getText();
-    }
+    };
 
     save() {
         this.saveButton.click();

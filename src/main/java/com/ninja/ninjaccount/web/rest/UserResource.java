@@ -1,7 +1,7 @@
 package com.ninja.ninjaccount.web.rest;
 
-import com.ninja.ninjaccount.config.Constants;
 import com.codahale.metrics.annotation.Timed;
+import com.ninja.ninjaccount.config.Constants;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
@@ -15,7 +15,6 @@ import com.ninja.ninjaccount.web.rest.errors.LoginAlreadyUsedException;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
 import com.ninja.ninjaccount.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -26,11 +25,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing users.
@@ -85,7 +84,7 @@ public class UserResource {
      *
      * @param userDTO the user to create
      * @return the ResponseEntity with status 201 (Created) and with body the new user, or with status 400 (Bad Request) if the login or email is already in use
-     * @throws URISyntaxException       if the Location URI syntax is incorrect
+     * @throws URISyntaxException if the Location URI syntax is incorrect
      * @throws BadRequestAlertException 400 (Bad Request) if the login or email is already in use
      */
     @PostMapping("/users")

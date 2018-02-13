@@ -3,12 +3,12 @@ package com.ninja.ninjaccount.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.AccountsDBService;
+import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import com.ninja.ninjaccount.web.rest.errors.BadRequestAlertException;
 import com.ninja.ninjaccount.web.rest.errors.CustomParameterizedException;
 import com.ninja.ninjaccount.web.rest.errors.InvalidChecksumException;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
-import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -45,10 +44,10 @@ public class AccountsDBResource {
      * POST  /accounts-dbs : Create a new accountsDB.
      *
      * @param accountsDBDTO the accountsDBDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new accountsDBDTO
-     * , or with status 400 (Bad Request) if the accountsDB has already an ID
-     * , or with status 417 (Expectation failed) if the checksum of the DB don't match
      * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @return the ResponseEntity with status 201 (Created) and with body the new accountsDBDTO,
+     * or with status 400 (Bad Request) if the accountsDB has already an ID
+     * , or with status 417 (Expectation failed) if the checksum of the DB don't match
      */
     @PostMapping("/accounts-dbs")
     @Timed

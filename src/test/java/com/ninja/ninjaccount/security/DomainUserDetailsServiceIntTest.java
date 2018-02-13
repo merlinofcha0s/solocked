@@ -3,7 +3,6 @@ package com.ninja.ninjaccount.security;
 import com.ninja.ninjaccount.NinjaccountApp;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.UserRepository;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;

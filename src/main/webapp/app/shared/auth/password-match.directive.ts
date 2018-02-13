@@ -31,7 +31,7 @@ export class PasswordMatchValidatorDirective implements Validators {
         if (e && v !== e.value && !this.isReverse) {
             return {
                 validatePasswordMatch: false
-            }
+            };
         }
 
         // value equal and reverse

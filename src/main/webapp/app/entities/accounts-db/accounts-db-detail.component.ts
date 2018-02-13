@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
-import { JhiEventManager, JhiDataUtils } from 'ng-jhipster';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {HttpResponse} from '@angular/common/http';
+import {Subscription} from 'rxjs/Subscription';
+import {JhiDataUtils, JhiEventManager} from 'ng-jhipster';
 
-import { AccountsDB } from './accounts-db.model';
-import { AccountsDBService } from './accounts-db.service';
+import {AccountsDB} from './accounts-db.model';
+import {AccountsDBService} from './accounts-db.service';
 
 @Component({
     selector: 'jhi-accounts-db-detail',
@@ -32,9 +33,10 @@ export class AccountsDBDetailComponent implements OnInit, OnDestroy {
     }
 
     load(id) {
-        this.accountsDBService.find(id).subscribe((accountsDB) => {
-            this.accountsDB = accountsDB;
-        });
+        this.accountsDBService.find(id)
+            .subscribe((accountsDBResponse: HttpResponse<AccountsDB>) => {
+                this.accountsDB = accountsDBResponse.body;
+            });
     }
     byteSize(field) {
         return this.dataUtils.byteSize(field);

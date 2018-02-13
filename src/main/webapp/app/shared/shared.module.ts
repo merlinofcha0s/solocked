@@ -1,4 +1,3 @@
-import {AccountsTechService} from './account/accounts-tech.service';
 import {CryptoUtilsService} from './crypto/crypto-utils.service';
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {DatePipe} from '@angular/common';
@@ -8,39 +7,42 @@ import {
     AccountService,
     AuthServerProvider,
     CSRFService,
-    LoginService,
-    LoginModalService,
-    JhiLoginModalComponent,
-    Principal,
     HasAnyAuthorityDirective,
+    JhiLoginModalComponent,
     JhiSocialComponent,
+    LoginModalService,
+    LoginService,
     NinjaccountSharedCommonModule,
     NinjaccountSharedLibsModule,
+    Principal,
     SocialService,
     StateStorageService,
     UserService
 } from './';
 import {CryptoService} from './crypto/crypto.service';
 import {
+    DateAdapter,
+    MAT_DATE_FORMATS,
+    MAT_DATE_LOCALE,
+    MatAutocompleteModule,
     MatButtonModule,
-    MatCheckboxModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatProgressSpinnerModule,
-    MatSnackBarModule,
-    MatTooltipModule,
-    MatTabsModule,
-    MatProgressBarModule,
-    MatChipsModule,
-    MatMenuModule,
     MatButtonToggleModule,
     MatCardModule,
+    MatCheckboxModule,
+    MatChipsModule,
     MatDatepickerModule,
-    MatNativeDateModule,
-    MatGridListModule,
     MatDialogModule,
-    MatAutocompleteModule, MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS
+    MatFormFieldModule,
+    MatGridListModule,
+    MatInputModule,
+    MatMenuModule,
+    MatNativeDateModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
+    MatSnackBarModule,
+    MatTabsModule,
+    MatTooltipModule
 } from '@angular/material';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -50,6 +52,7 @@ import {SnackComponent} from './snack/snack.component';
 import {AutolockService} from '../layouts/navbar/autologout/autolock.service';
 import {DateValidatorDirective} from './validation/date-validator.directive';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
+import {AccountsTechService} from './account/accounts-tech.service';
 
 @NgModule({
     imports: [

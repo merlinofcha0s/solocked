@@ -1,10 +1,10 @@
-import { CryptoService } from './../crypto/crypto.service';
-import { CryptoUtilsService } from './../crypto/crypto-utils.service';
-import { AccountsDBService } from './../../entities/accounts-db/accounts-db.service';
-import { AccountsDB } from './../../entities/accounts-db/accounts-db.model';
-import { Accounts } from './accounts.model';
-import { Observable } from 'rxjs/Rx';
-import { Injectable } from '@angular/core';
+import {CryptoService} from './../crypto/crypto.service';
+import {CryptoUtilsService} from './../crypto/crypto-utils.service';
+import {AccountsDBService} from './../../entities/accounts-db/accounts-db.service';
+import {AccountsDB} from './../../entities/accounts-db/accounts-db.model';
+import {Accounts} from './accounts.model';
+import {Observable} from 'rxjs/Rx';
+import {Injectable} from '@angular/core';
 
 @Injectable()
 export class AccountsTechService {
@@ -44,10 +44,10 @@ export class AccountsTechService {
             .flatMap((accountDBBlob: Blob) => this.cryptoUtils.blobToArrayBuffer(accountDBBlob))
             .flatMap((accountDBArrayBuffer) => {
                 accountDBArrayBufferOut = accountDBArrayBuffer;
-                return this.crypto.getCryptoKeyInStorage()
+                return this.crypto.getCryptoKeyInStorage();
             })
             .flatMap((cryptoKey: CryptoKey) => {
-                return this.crypto.decrypt(accountDbDto.initializationVector, cryptoKey, accountDBArrayBufferOut)
+                return this.crypto.decrypt(accountDbDto.initializationVector, cryptoKey, accountDBArrayBufferOut);
             })
             .flatMap((decryptedDB: ArrayBuffer) => {
                 return Observable.of(this.cryptoUtils.arrayBufferToAccounts(decryptedDB));

@@ -1,7 +1,7 @@
 package com.ninja.ninjaccount.web.rest;
 
-import com.ninja.ninjaccount.config.Constants;
 import com.ninja.ninjaccount.NinjaccountApp;
+import com.ninja.ninjaccount.config.Constants;
 import com.ninja.ninjaccount.domain.AccountsDB;
 import com.ninja.ninjaccount.domain.Authority;
 import com.ninja.ninjaccount.domain.User;
@@ -18,9 +18,7 @@ import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.web.rest.errors.ExceptionTranslator;
 import com.ninja.ninjaccount.web.rest.vm.KeyAndPasswordVM;
 import com.ninja.ninjaccount.web.rest.vm.ManagedUserVM;
-import com.ninja.ninjaccount.service.UserService;
 import org.apache.commons.lang3.RandomStringUtils;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,19 +34,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.Instant;
 import java.util.Collections;
-
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
@@ -184,11 +182,11 @@ public class AccountResourceIntTest {
         accountsDBDTO.setDatabaseContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         accountsDBDTO.setNbAccounts(0);
         ManagedUserVM validUser = new ManagedUserVM();
-        validUser.setLogin("alice");
+        validUser.setLogin("joe");
         validUser.setAuthenticationKey("password");
-        validUser.setFirstName("Alice");
-        validUser.setLastName("Something");
-        validUser.setEmail("alice@example.com");
+        validUser.setFirstName("Joe");
+        validUser.setLastName("Shmoe");
+        validUser.setEmail("joe@example.com");
         validUser.setActivated(true);
         validUser.setImageUrl("http://placehold.it/50x50");
         validUser.setLangKey(Constants.DEFAULT_LANGUAGE);
@@ -202,7 +200,7 @@ public class AccountResourceIntTest {
                 .content(TestUtil.convertObjectToJsonBytes(validUser)))
             .andExpect(status().isCreated());
 
-        Optional<User> alice = userRepository.findOneByLogin("alice");
+        Optional<User> alice = userRepository.findOneByLogin("joe");
 
         assertThat(alice.isPresent()).isTrue();
         Optional<AccountsDB> accountsDB = accountsDBRepository.findOneByUser(alice.get());
@@ -410,14 +408,13 @@ public class AccountResourceIntTest {
         duplicatedUser.setLastName( validUser.getLastName());
             duplicatedUser.setEmail(validUser.getEmail());
         duplicatedUser.setActivated(validUser.isActivated());
-        duplicatedUser.setImageUrl( validUser.getImageUrl());
-        duplicatedUser.setLangKey( validUser.getLangKey());
-        duplicatedUser.setCreatedBy( validUser.getCreatedBy());
-        duplicatedUser.setCreatedDate( validUser.getCreatedDate());
-        duplicatedUser.setLastModifiedBy( validUser.getLastModifiedBy());
-        duplicatedUser.setLastModifiedDate( validUser.getLastModifiedDate());
-        duplicatedUser.setAuthorities(new HashSet<>( validUser.getAuthorities()));
-        duplicatedUser.setAccountsDB(accountsDBDTO);
+        duplicatedUser.setImageUrl(validUser.getImageUrl());
+        duplicatedUser.setLangKey(validUser.getLangKey());
+        duplicatedUser.setCreatedBy(validUser.getCreatedBy());
+        duplicatedUser.setCreatedDate(validUser.getCreatedDate());
+        duplicatedUser.setLastModifiedBy(validUser.getLastModifiedBy());
+        duplicatedUser.setLastModifiedDate(validUser.getLastModifiedDate());
+        duplicatedUser.setAuthorities(new HashSet<>(validUser.getAuthorities()));
 
         // Good user
         restMvc.perform(
@@ -681,7 +678,7 @@ public class AccountResourceIntTest {
         user.setEmail("change-password@example.com");
         userRepository.saveAndFlush(user);
 
-        restMvc.perform(post("/api/account/change_password").content("new password"))
+        restMvc.perform(post("/api/account/change-password").content("new password"))
             .andExpect(status().isOk());
 
         User updatedUser = userRepository.findOneByLogin("change-password").orElse(null);
@@ -698,7 +695,7 @@ public class AccountResourceIntTest {
         user.setEmail("change-password-too-small@example.com");
         userRepository.saveAndFlush(user);
 
-        restMvc.perform(post("/api/account/change_password").content("new"))
+        restMvc.perform(post("/api/account/change-password").content("new"))
             .andExpect(status().isBadRequest());
 
         User updatedUser = userRepository.findOneByLogin("change-password-too-small").orElse(null);
@@ -715,7 +712,7 @@ public class AccountResourceIntTest {
         user.setEmail("change-password-too-long@example.com");
         userRepository.saveAndFlush(user);
 
-        restMvc.perform(post("/api/account/change_password").content(RandomStringUtils.random(101)))
+        restMvc.perform(post("/api/account/change-password").content(RandomStringUtils.random(101)))
             .andExpect(status().isBadRequest());
 
         User updatedUser = userRepository.findOneByLogin("change-password-too-long").orElse(null);
@@ -732,7 +729,7 @@ public class AccountResourceIntTest {
         user.setEmail("change-password-empty@example.com");
         userRepository.saveAndFlush(user);
 
-        restMvc.perform(post("/api/account/change_password").content(RandomStringUtils.random(0)))
+        restMvc.perform(post("/api/account/change-password").content(RandomStringUtils.random(0)))
             .andExpect(status().isBadRequest());
 
         User updatedUser = userRepository.findOneByLogin("change-password-empty").orElse(null);

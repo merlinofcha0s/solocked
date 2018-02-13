@@ -88,17 +88,15 @@ export class JhiMainComponent implements OnInit {
     /* tslint:enable */
 
     initFontAwesome5() {
-        fontawesome.config = {
-            autoReplaceSvg: 'nest'
-        }
+        const config = fontawesome.config;
+        config.autoReplaceSvg = 'nest';
     }
 
     detectEdge() {
         // Get IE or Edge browser version
         const version = this.isEdge();
         if (version >= 12) {
-            this.dialog.open(WarnBrowserComponent, {
-            });
+            this.dialog.open(WarnBrowserComponent, {});
         }
     }
 

@@ -20,7 +20,7 @@ export class DateValidatorDirective implements Validator {
         } else {
             return {
                 validateDate: false
-            }
+            };
         }
     }
 }

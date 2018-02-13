@@ -17,7 +17,7 @@
             <div class="input-group">
                 <input id="field_subscriptionDate" type="text" class="form-control" name="subscriptionDate" ngbDatepicker  #subscriptionDateDp="ngbDatepicker" [(ngModel)]="payment.subscriptionDate"
                 required/>
-                <span class="input-group-btn">
+                <span class="input-group-append">
                     <button type="button" class="btn btn-secondary" (click)="subscriptionDateDp.toggle()"><i class="fa fa-calendar"></i></button>
                 </span>
             </div>

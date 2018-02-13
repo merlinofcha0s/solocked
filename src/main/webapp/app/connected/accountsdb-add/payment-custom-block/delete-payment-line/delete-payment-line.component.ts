@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatSnackBar, MatSnackBarConfig} from '@angular/material';
-import {SnackComponent} from '../../../../shared/snack/snack.component'
+import {SnackComponent} from '../../../../shared/snack/snack.component';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
@@ -27,7 +27,7 @@ export class DeletePaymentLineComponent implements OnInit {
         const config = new MatSnackBarConfig();
         config.verticalPosition = 'top';
         config.duration = 3000;
-        config.data = {icon: 'fa-check-circle', text: message}
+        config.data = {icon: 'fa-check-circle', text: message};
         this.snackBar.openFromComponent(SnackComponent, config);
     }
 

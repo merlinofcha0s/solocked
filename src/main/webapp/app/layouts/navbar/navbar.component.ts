@@ -4,9 +4,10 @@ import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {JhiLanguageService} from 'ng-jhipster';
 
 import {ProfileService} from '../profiles/profile.service';
-import {JhiLanguageHelper, LoginModalService, LoginService, Principal} from '../../shared';
+import {JhiLanguageHelper, LoginModalService, Principal} from '../../shared';
+import {LoginService} from './../../shared/login/login.service';
 
-import { VERSION } from '../../app.constants';
+import {VERSION} from '../../app.constants';
 
 @Component({
     selector: 'jhi-navbar',

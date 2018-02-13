@@ -1,35 +1,39 @@
 import './vendor.ts';
 
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { Ng2Webstorage } from 'ngx-webstorage';
+import {Injector, NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {LocalStorageService, Ng2Webstorage, SessionStorageService} from 'ngx-webstorage';
+import {JhiEventManager} from 'ng-jhipster';
 
-import { NinjaccountSharedModule, UserRouteAccessService } from './shared';
-import { NinjaccountAppRoutingModule} from './app-routing.module';
-import { NinjaccountHomeModule } from './home/home.module';
-import { NinjaccountAdminModule } from './admin/admin.module';
-import { NinjaccountAccountModule } from './account/account.module';
-import { NinjaccountEntityModule } from './entities/entity.module';
-import { customHttpProvider } from './blocks/interceptor/http.provider';
-import { PaginationConfig } from './blocks/config/uib-pagination.config';
-
-// jhipster-needle-angular-add-module-import JHipster will add new module here
-
+import {AuthInterceptor} from './blocks/interceptor/auth.interceptor';
+import {AuthExpiredInterceptor} from './blocks/interceptor/auth-expired.interceptor';
+import {ErrorHandlerInterceptor} from './blocks/interceptor/errorhandler.interceptor';
+import {NotificationInterceptor} from './blocks/interceptor/notification.interceptor';
+import {NinjaccountSharedModule, UserRouteAccessService} from './shared';
+import {NinjaccountAppRoutingModule} from './app-routing.module';
+import {NinjaccountHomeModule} from './home/home.module';
+import {NinjaccountAdminModule} from './admin/admin.module';
+import {NinjaccountAccountModule} from './account/account.module';
+import {NinjaccountEntityModule} from './entities/entity.module';
+import {PaginationConfig} from './blocks/config/uib-pagination.config';
 import {
+    ActiveMenuDirective,
+    ErrorComponent,
+    FooterComponent,
     JhiMainComponent,
     NavbarComponent,
-    FooterComponent,
-    ProfileService,
     PageRibbonComponent,
-    ActiveMenuDirective,
-    ErrorComponent
+    ProfileService
 } from './layouts';
-import { NinjaccountConnectedModule } from './connected/connected.module';
+import {NinjaccountConnectedModule} from './connected/connected.module';
 import {NavbarService} from './layouts/navbar/navbar.service';
 import {AutolockComponent} from './layouts/navbar/autologout/autolock.component';
 import {SearchComponent} from './layouts/navbar/search/search.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {WarnBrowserComponent} from './layouts/main/warn-browser/warn-browser.component';
+
+// jhipster-needle-angular-add-module-import JHipster will add new module here
 
 @NgModule({
     imports: [
@@ -58,10 +62,42 @@ import {WarnBrowserComponent} from './layouts/main/warn-browser/warn-browser.com
     ],
     providers: [
         ProfileService,
-        NavbarService,
-        customHttpProvider(),
         PaginationConfig,
-        UserRouteAccessService
+        NavbarService,
+        UserRouteAccessService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true,
+            deps: [
+                LocalStorageService,
+                SessionStorageService
+            ]
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthExpiredInterceptor,
+            multi: true,
+            deps: [
+                Injector
+            ]
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ErrorHandlerInterceptor,
+            multi: true,
+            deps: [
+                JhiEventManager
+            ]
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: NotificationInterceptor,
+            multi: true,
+            deps: [
+                Injector
+            ]
+        }
     ],
     entryComponents: [ WarnBrowserComponent ],
     bootstrap: [ JhiMainComponent ]

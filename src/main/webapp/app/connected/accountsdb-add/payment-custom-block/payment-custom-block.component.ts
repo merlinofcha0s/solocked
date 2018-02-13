@@ -20,7 +20,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     @Output() onSyncPayments = new EventEmitter<Array<Payment>>();
     @Output() suppressPaymentBlock = new EventEmitter<boolean>();
 
-    _placeholderMethod: string
+    _placeholderMethod: string;
     _placeholderCode: string;
     _placeholderNotes: string;
 

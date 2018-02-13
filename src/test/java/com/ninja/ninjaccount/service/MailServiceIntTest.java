@@ -1,7 +1,7 @@
 package com.ninja.ninjaccount.service;
-import com.ninja.ninjaccount.config.Constants;
 
 import com.ninja.ninjaccount.NinjaccountApp;
+import com.ninja.ninjaccount.config.Constants;
 import com.ninja.ninjaccount.domain.User;
 import io.github.jhipster.config.JHipsterProperties;
 import org.junit.Before;

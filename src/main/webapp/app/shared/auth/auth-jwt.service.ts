@@ -1,17 +1,16 @@
-import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
-import { SERVER_API_URL } from '../../app.constants';
-import { AccountsService } from '../account/accounts.service';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import {LocalStorageService, SessionStorageService} from 'ngx-webstorage';
+import {SERVER_API_URL} from '../../app.constants';
+import {AccountsService} from '../account/accounts.service';
 
 @Injectable()
 export class AuthServerProvider {
-    constructor(
-        private http: Http,
-        private $localStorage: LocalStorageService,
-        private $sessionStorage: SessionStorageService,
-        private $accountService: AccountsService
+    constructor(private http: HttpClient,
+                private $localStorage: LocalStorageService,
+                private $sessionStorage: SessionStorageService,
+                private $accountService: AccountsService
     ) {}
 
     getToken() {
@@ -26,7 +25,7 @@ export class AuthServerProvider {
             password: credentials.password,
             rememberMe: credentials.rememberMe
         };
-        return this.http.post(SERVER_API_URL + 'api/authenticate', data).map(authenticateSuccess.bind(this));
+        return this.http.post(SERVER_API_URL + 'api/authenticate', data, {observe: 'response'}).map(authenticateSuccess.bind(this));
 
         function authenticateSuccess(resp) {
             const bearerToken = resp.headers.get('Authorization');

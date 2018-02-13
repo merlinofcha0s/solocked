@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Payment, PlanType} from '../../entities/payment/payment.model';
-import {PaymentService} from '../../entities/payment/payment.service';
-import {Principal} from '../../shared/auth/principal.service';
+import {Payment, PaymentService, PlanType} from '../../entities/payment';
+import {Principal} from '../../shared';
 import {Subscription} from 'rxjs/Subscription';
 import {NavigationEnd, Router} from '@angular/router';
 
@@ -46,12 +45,8 @@ export class FooterComponent implements OnInit, OnDestroy {
     }
 
     isInPaymentWarning(payment: Payment): boolean {
-        if (this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])
-            && payment.planType.toString() !== PlanType[PlanType.BETA]
-            && (!payment.paid || payment.planType.toString() === PlanType[PlanType.FREE])) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])
+            && payment.planType.toString() !== PlanType.BETA
+            && (!payment.paid || payment.planType.toString() === PlanType.FREE);
     }
 }

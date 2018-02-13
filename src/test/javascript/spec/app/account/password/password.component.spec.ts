@@ -1,11 +1,11 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {Observable} from 'rxjs/Observable';
 
-import { NinjaccountTestModule } from '../../../test.module';
-import { PasswordComponent } from '../../../../../../main/webapp/app/account/password/password.component';
-import { PasswordService } from '../../../../../../main/webapp/app/account/password/password.service';
-import { Principal } from '../../../../../../main/webapp/app/shared/auth/principal.service';
-import { AccountService } from '../../../../../../main/webapp/app/shared/auth/account.service';
+import {NinjaccountTestModule} from '../../../test.module';
+import {PasswordComponent} from '../../../../../../main/webapp/app/account/password/password.component';
+import {PasswordService} from '../../../../../../main/webapp/app/account/password/password.service';
+import {Principal} from '../../../../../../main/webapp/app/shared/auth/principal.service';
+import {AccountService} from '../../../../../../main/webapp/app/shared/auth/account.service';
 import {AccountsTechService} from '../../../../../../main/webapp/app/shared/account/accounts-tech.service';
 import {AccountsDBService} from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db.service';
 import {CryptoUtilsService} from '../../../../../../main/webapp/app/shared/crypto/crypto-utils.service';

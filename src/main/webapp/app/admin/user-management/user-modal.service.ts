@@ -1,8 +1,8 @@
-import { Injectable, Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import {Component, Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
-import { User, UserService } from '../../shared';
+import {User, UserService} from '../../shared';
 
 @Injectable()
 export class UserModalService {
@@ -24,8 +24,8 @@ export class UserModalService {
             }
 
             if (id) {
-                this.userService.find(id).subscribe((user) => {
-                    this.ngbModalRef = this.userModalRef(component, user);
+                this.userService.find(id).subscribe((response) => {
+                    this.ngbModalRef = this.userModalRef(component, response.body);
                     resolve(this.ngbModalRef);
                 });
             } else {

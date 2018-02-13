@@ -1,11 +1,12 @@
 /* tslint:disable max-line-length */
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {HttpResponse} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
 
-import { NinjaccountTestModule } from '../../../test.module';
-import { PaymentDetailComponent } from '../../../../../../main/webapp/app/entities/payment/payment-detail.component';
-import { PaymentService } from '../../../../../../main/webapp/app/entities/payment/payment.service';
-import { Payment } from '../../../../../../main/webapp/app/entities/payment/payment.model';
+import {NinjaccountTestModule} from '../../../test.module';
+import {PaymentDetailComponent} from '../../../../../../main/webapp/app/entities/payment/payment-detail.component';
+import {PaymentService} from '../../../../../../main/webapp/app/entities/payment/payment.service';
+import {Payment} from '../../../../../../main/webapp/app/entities/payment/payment.model';
 
 describe('Component Tests', () => {
 
@@ -36,7 +37,9 @@ describe('Component Tests', () => {
             it('Should call load all on init', () => {
                 // GIVEN
 
-                spyOn(service, 'find').and.returnValue(Observable.of(new Payment(123)));
+                spyOn(service, 'find').and.returnValue(Observable.of(new HttpResponse({
+                    body: new Payment(123)
+                })));
 
                 // WHEN
                 comp.ngOnInit();

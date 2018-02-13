@@ -1,17 +1,16 @@
 package com.ninja.ninjaccount.service;
 
+import com.ninja.ninjaccount.config.Constants;
 import com.ninja.ninjaccount.domain.Authority;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
 import com.ninja.ninjaccount.repository.AuthorityRepository;
-import com.ninja.ninjaccount.config.Constants;
 import com.ninja.ninjaccount.repository.PaymentRepository;
 import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.security.SecurityUtils;
-import com.ninja.ninjaccount.service.util.RandomUtil;
 import com.ninja.ninjaccount.service.dto.UserDTO;
-
+import com.ninja.ninjaccount.service.util.RandomUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
@@ -24,7 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -166,27 +168,24 @@ public class UserService {
      * Update basic information (first name, last name, email, language) for the current user.
      *
      * @param firstName first name of user
-     * @param lastName  last name of user
-     * @param email     email id of user
-     * @param langKey   language key
-     * @param imageUrl  image URL of user
+     * @param lastName last name of user
+     * @param email email id of user
+     * @param langKey language key
+     * @param imageUrl image URL of user
      */
     public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
-        SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin).ifPresent(user -> {
-            if (firstName != null) {
+        SecurityUtils.getCurrentUserLogin()
+            .flatMap(userRepository::findOneByLogin)
+            .ifPresent(user -> {
                 user.setFirstName(firstName);
-            }
-            if (lastName != null) {
                 user.setLastName(lastName);
-            }
-            user.setLastName(lastName);
-            user.setEmail(email);
-            user.setLangKey(langKey);
-            user.setImageUrl(imageUrl);
-            cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLogin());
-            cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).evict(user.getEmail());
-            log.debug("Changed Information for User: {}", user);
-        });
+                user.setEmail(email);
+                user.setLangKey(langKey);
+                user.setImageUrl(imageUrl);
+                cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLogin());
+                cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).evict(user.getEmail());
+                log.debug("Changed Information for User: {}", user);
+            });
     }
 
     /**

@@ -1,7 +1,8 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 
-import { NinjaccountAccountsDBModule } from './accounts-db/accounts-db.module';
-import { NinjaccountPaymentModule } from './payment/payment.module';
+import {NinjaccountAccountsDBModule} from './accounts-db/accounts-db.module';
+import {NinjaccountPaymentModule} from './payment/payment.module';
+
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
