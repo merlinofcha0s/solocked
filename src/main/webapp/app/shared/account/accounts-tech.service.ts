@@ -5,7 +5,6 @@ import {AccountsDB} from './../../entities/accounts-db/accounts-db.model';
 import {Accounts} from './accounts.model';
 import {Observable} from 'rxjs/Rx';
 import {Injectable} from '@angular/core';
-import {HttpResponse} from '@angular/common/http';
 
 @Injectable()
 export class AccountsTechService {
@@ -18,7 +17,6 @@ export class AccountsTechService {
 
     synchroDB(): Observable<Accounts> {
         return this.accountsDBService.getDbUserConnected()
-            .map((res: HttpResponse<AccountsDB>) => res.body)
             .flatMap((accountDbDto: AccountsDB) => this.decryptWithKeyInStorage(accountDbDto))
             .flatMap((accounts: Accounts) => Observable.of(accounts));
     }

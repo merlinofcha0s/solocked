@@ -1,19 +1,19 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
 
-import { NinjaccountSharedModule } from '../../shared';
-import { NinjaccountAdminModule } from '../../admin/admin.module';
+import {NinjaccountSharedModule} from '../../shared';
+import {NinjaccountAdminModule} from '../../admin/admin.module';
 import {
-    AccountsDBService,
-    AccountsDBPopupService,
     AccountsDBComponent,
+    AccountsDBDeleteDialogComponent,
+    AccountsDBDeletePopupComponent,
     AccountsDBDetailComponent,
     AccountsDBDialogComponent,
     AccountsDBPopupComponent,
-    AccountsDBDeletePopupComponent,
-    AccountsDBDeleteDialogComponent,
-    accountsDBRoute,
     accountsDBPopupRoute,
+    AccountsDBPopupService,
+    accountsDBRoute,
+    AccountsDBService,
 } from './';
 
 const ENTITY_STATES = [

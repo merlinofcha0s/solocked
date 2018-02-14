@@ -1,7 +1,6 @@
 package com.ninja.ninjaccount.security;
 
 import com.ninja.ninjaccount.config.Constants;
-
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
 

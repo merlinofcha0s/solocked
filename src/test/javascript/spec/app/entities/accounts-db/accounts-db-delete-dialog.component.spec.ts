@@ -1,12 +1,12 @@
 /* tslint:disable max-line-length */
-import { ComponentFixture, TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Observable';
-import { JhiEventManager } from 'ng-jhipster';
+import {async, ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {Observable} from 'rxjs/Observable';
+import {JhiEventManager} from 'ng-jhipster';
 
-import { NinjaccountTestModule } from '../../../test.module';
-import { AccountsDBDeleteDialogComponent } from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db-delete-dialog.component';
-import { AccountsDBService } from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db.service';
+import {NinjaccountTestModule} from '../../../test.module';
+import {AccountsDBDeleteDialogComponent} from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db-delete-dialog.component';
+import {AccountsDBService} from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db.service';
 
 describe('Component Tests', () => {
 

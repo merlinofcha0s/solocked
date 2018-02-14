@@ -2,9 +2,9 @@ import {CryptoUtilsService} from './../../shared/crypto/crypto-utils.service';
 import {AccountsDB} from './../../entities/accounts-db/accounts-db.model';
 import {CryptoService} from './../../shared/crypto/crypto.service';
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {AccountsService} from '../../shared/account/accounts.service';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class Register {

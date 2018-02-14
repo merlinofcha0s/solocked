@@ -7,17 +7,16 @@ import {LocalStorageService, Ng2Webstorage, SessionStorageService} from 'ngx-web
 import {JhiEventManager} from 'ng-jhipster';
 
 import {AuthInterceptor} from './blocks/interceptor/auth.interceptor';
+import {AuthExpiredInterceptor} from './blocks/interceptor/auth-expired.interceptor';
 import {ErrorHandlerInterceptor} from './blocks/interceptor/errorhandler.interceptor';
 import {NotificationInterceptor} from './blocks/interceptor/notification.interceptor';
-import {UserRouteAccessService} from './shared/auth/user-route-access-service';
-import {NinjaccountSharedModule} from './shared/shared.module';
+import {NinjaccountSharedModule, UserRouteAccessService} from './shared';
 import {NinjaccountAppRoutingModule} from './app-routing.module';
 import {NinjaccountHomeModule} from './home/home.module';
 import {NinjaccountAdminModule} from './admin/admin.module';
 import {NinjaccountAccountModule} from './account/account.module';
 import {NinjaccountEntityModule} from './entities/entity.module';
 import {PaginationConfig} from './blocks/config/uib-pagination.config';
-// jhipster-needle-angular-add-module-import JHipster will add new module here
 import {
     ActiveMenuDirective,
     ErrorComponent,
@@ -34,12 +33,14 @@ import {SearchComponent} from './layouts/navbar/search/search.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {WarnBrowserComponent} from './layouts/main/warn-browser/warn-browser.component';
 
+// jhipster-needle-angular-add-module-import JHipster will add new module here
+
 @NgModule({
     imports: [
         BrowserModule,
         ReactiveFormsModule,
         NinjaccountAppRoutingModule,
-        Ng2Webstorage.forRoot({prefix: 'jhi', separator: '-'}),
+        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
         NinjaccountSharedModule,
         NinjaccountHomeModule,
         NinjaccountAdminModule,
@@ -61,8 +62,8 @@ import {WarnBrowserComponent} from './layouts/main/warn-browser/warn-browser.com
     ],
     providers: [
         ProfileService,
-        NavbarService,
         PaginationConfig,
+        NavbarService,
         UserRouteAccessService,
         {
             provide: HTTP_INTERCEPTORS,
@@ -73,14 +74,14 @@ import {WarnBrowserComponent} from './layouts/main/warn-browser/warn-browser.com
                 SessionStorageService
             ]
         },
-        // {
-        //     provide: HTTP_INTERCEPTORS,
-        //     useClass: AuthExpiredInterceptor,
-        //     multi: true,
-        //     deps: [
-        //         Injector
-        //     ]
-        // },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthExpiredInterceptor,
+            multi: true,
+            deps: [
+                Injector
+            ]
+        },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: ErrorHandlerInterceptor,
@@ -99,7 +100,6 @@ import {WarnBrowserComponent} from './layouts/main/warn-browser/warn-browser.com
         }
     ],
     entryComponents: [ WarnBrowserComponent ],
-    bootstrap: [JhiMainComponent]
+    bootstrap: [ JhiMainComponent ]
 })
-export class NinjaccountAppModule {
-}
+export class NinjaccountAppModule {}

@@ -1,8 +1,8 @@
-import {Component, AfterViewInit, Renderer2} from '@angular/core';
-import { Router } from '@angular/router';
-import { JhiEventManager } from 'ng-jhipster';
+import {AfterViewInit, Component, Renderer2} from '@angular/core';
+import {Router} from '@angular/router';
+import {JhiEventManager} from 'ng-jhipster';
 
-import { LoginService } from './login.service';
+import {LoginService} from './login.service';
 import {CryptoUtilsService} from '../crypto/crypto-utils.service';
 import {Principal} from '../index';
 import {AccountsService} from '../account/accounts.service';

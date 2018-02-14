@@ -1,7 +1,6 @@
 package com.ninja.ninjaccount.repository;
 
 import com.ninja.ninjaccount.domain.SocialUserConnection;
-
 import org.springframework.social.connect.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;

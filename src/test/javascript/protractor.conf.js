@@ -6,8 +6,8 @@ exports.config = {
 
     specs: [
         './e2e/account/*.spec.ts',
-        /*'./e2e/admin/*.spec.ts',
-        './e2e/entities/*.spec.ts',*/
+        './e2e/admin/*.spec.ts',
+        './e2e/entities/*.spec.ts',
         /* jhipster-needle-add-protractor-tests - JHipster will add protractors tests here */
     ],
 
@@ -36,7 +36,7 @@ exports.config = {
     },
 
     onPrepare: function () {
-        browser.driver.manage().window().setSize(1440, 900);
+        browser.driver.manage().window().setSize(1280, 1024);
         jasmine.getEnv().addReporter(new JasmineReporters.JUnitXmlReporter({
             savePath: 'target/reports/e2e',
             consolidateAll: false

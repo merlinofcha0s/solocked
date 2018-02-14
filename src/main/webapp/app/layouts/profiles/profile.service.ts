@@ -22,7 +22,6 @@ export class ProfileService {
                     pi.activeProfiles = data.activeProfiles;
                     pi.ribbonEnv = data.ribbonEnv;
                     pi.inProduction = data.activeProfiles.includes('prod');
-                    pi.inTest = data.activeProfiles.indexOf('test') !== -1;
                     pi.swaggerEnabled = data.activeProfiles.includes('swagger');
                     return pi;
                 }).toPromise();

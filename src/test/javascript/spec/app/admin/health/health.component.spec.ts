@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { NinjaccountTestModule } from '../../../test.module';
-import { JhiHealthCheckComponent } from '../../../../../../main/webapp/app/admin/health/health.component';
-import { JhiHealthService } from '../../../../../../main/webapp/app/admin/health/health.service';
+import {NinjaccountTestModule} from '../../../test.module';
+import {JhiHealthCheckComponent} from '../../../../../../main/webapp/app/admin/health/health.component';
+import {JhiHealthService} from '../../../../../../main/webapp/app/admin/health/health.service';
 
 describe('Component Tests', () => {
 

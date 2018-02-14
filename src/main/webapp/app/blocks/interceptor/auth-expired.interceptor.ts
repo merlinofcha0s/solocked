@@ -2,7 +2,7 @@ import {Injector} from '@angular/core';
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
-import {LoginService} from '../../shared/login/login.service';
+import {LoginService} from '../../shared';
 
 export class AuthExpiredInterceptor implements HttpInterceptor {
 

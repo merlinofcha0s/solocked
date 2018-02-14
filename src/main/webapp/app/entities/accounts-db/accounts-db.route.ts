@@ -1,10 +1,10 @@
-import { Routes } from '@angular/router';
+import {Routes} from '@angular/router';
 
-import { UserRouteAccessService } from '../../shared';
-import { AccountsDBComponent } from './accounts-db.component';
-import { AccountsDBDetailComponent } from './accounts-db-detail.component';
-import { AccountsDBPopupComponent } from './accounts-db-dialog.component';
-import { AccountsDBDeletePopupComponent } from './accounts-db-delete-dialog.component';
+import {UserRouteAccessService} from '../../shared';
+import {AccountsDBComponent} from './accounts-db.component';
+import {AccountsDBDetailComponent} from './accounts-db-detail.component';
+import {AccountsDBPopupComponent} from './accounts-db-dialog.component';
+import {AccountsDBDeletePopupComponent} from './accounts-db-delete-dialog.component';
 
 export const accountsDBRoute: Routes = [
     {

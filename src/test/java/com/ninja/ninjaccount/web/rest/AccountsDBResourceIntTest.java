@@ -1,7 +1,6 @@
 package com.ninja.ninjaccount.web.rest;
 
 import com.ninja.ninjaccount.NinjaccountApp;
-
 import com.ninja.ninjaccount.domain.AccountsDB;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
@@ -10,7 +9,6 @@ import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.service.mapper.AccountsDBMapper;
 import com.ninja.ninjaccount.web.rest.errors.ExceptionTranslator;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -26,8 +26,7 @@ export class CryptoService {
         // Importing the raw input from the password field to a Cryptokey
         const passwordKey = await this.importKey(passwordArrayBuffer, ['deriveBits', 'deriveKey'], false, 'PBKDF2');
         // Key derivation from the password to a CryptoKey for securing the password
-        const derivedKey = await this.deriveKeyFromPassword(passwordKey, this.cryptoUtils.hexToArrayBuffer('12af0251ae3c818e446f503de25b6e2f'));
-        return derivedKey;
+        return await this.deriveKeyFromPassword(passwordKey, this.cryptoUtils.hexToArrayBuffer('12af0251ae3c818e446f503de25b6e2f'));
     }
 
     /**

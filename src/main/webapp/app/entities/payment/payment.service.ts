@@ -1,19 +1,20 @@
 import {Injectable} from '@angular/core';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import {JhiDateUtils} from 'ng-jhipster';
 import {SERVER_API_URL} from '../../app.constants';
+
+import {JhiDateUtils} from 'ng-jhipster';
 
 import {Payment} from './payment.model';
 import {createRequestOption} from '../../shared';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {HttpClient, HttpResponse} from '@angular/common/http';
 
 export type EntityResponseType = HttpResponse<Payment>;
 
 @Injectable()
 export class PaymentService {
 
-    private resourceUrl =  SERVER_API_URL + 'api/payments';
+    private resourceUrl = SERVER_API_URL + 'api/payments';
 
     payment$: BehaviorSubject<Payment>;
 
@@ -67,15 +68,6 @@ export class PaymentService {
         return res.clone({body});
     }
 
-    getPaymentByLogin() {
-        this.http.get(this.resourceUrl + '-by-login')
-            .map((res: HttpResponse<Payment>) => res.body)
-            .subscribe((payment: Payment) => {
-                this._dataStore.payment = payment;
-                this.payment$.next(this._dataStore.payment);
-            });
-    }
-
     /**
      * Convert a returned JSON object to Payment.
      */
@@ -94,5 +86,14 @@ export class PaymentService {
         copy.subscriptionDate = this.dateUtils
             .convertLocalDateToServer(payment.subscriptionDate);
         return copy;
+    }
+
+    getPaymentByLogin() {
+        this.http.get(this.resourceUrl + '-by-login', {observe: 'response'})
+            .map((res: HttpResponse<Payment>) => res.body)
+            .subscribe((payment: Payment) => {
+                this._dataStore.payment = payment;
+                this.payment$.next(this._dataStore.payment);
+            });
     }
 }

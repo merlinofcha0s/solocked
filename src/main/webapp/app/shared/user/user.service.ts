@@ -35,7 +35,7 @@ export class UserService {
     }
 
     destroyEntireUser(): Observable<boolean> {
-        return this.http.delete<boolean>(`${this.resourceUrl}/destroy-user-account`, {observe: 'response'}).map((res: HttpResponse<boolean>) => res.body);
+        return this.http.delete(`${this.resourceUrl}/destroy-user-account`, {observe: 'response'}).map((res: HttpResponse<boolean>) => res.body);
     }
 
     authorities(): Observable<string[]> {

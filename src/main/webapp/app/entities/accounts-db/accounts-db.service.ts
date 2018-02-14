@@ -48,27 +48,6 @@ export class AccountsDBService {
         return res.clone({body});
     }
 
-    getDbUserConnected(): Observable<HttpResponse<AccountsDB>> {
-        return this.http.get<AccountsDB>(`${this.resourceUrl}/getDbUserConnected`, {observe: 'response'})
-            .map((res: HttpResponse<AccountsDB>) => this.convertResponse(res));
-    }
-
-    updateDBUserConnected(accountsDB: AccountsDB): Observable<AccountsDB> {
-        const copy = this.convert(accountsDB);
-        return this.http.put(`${this.resourceUrl}/updateDbUserConnected`, copy, {observe: 'response'})
-            .map((res: HttpResponse<AccountsDB>) => {
-            if (res.ok) {
-                return Observable.create(res.body);
-            } else {
-                return Observable.throw(res.statusText);
-            }
-        });
-    }
-
-    getActualMaxAccount(): Observable<any> {
-        return this.http.get(SERVER_API_URL + 'api/accounts-dbs/get-actual-max-account').map((res: Response) => res.json());
-    }
-
     private convertArrayResponse(res: HttpResponse<AccountsDB[]>): HttpResponse<AccountsDB[]> {
         const jsonResponse: AccountsDB[] = res.body;
         const body: AccountsDB[] = [];
@@ -92,5 +71,28 @@ export class AccountsDBService {
     private convert(accountsDB: AccountsDB): AccountsDB {
         const copy: AccountsDB = Object.assign({}, accountsDB);
         return copy;
+    }
+
+    getDbUserConnected(): Observable<AccountsDB> {
+        return this.http.get(`${this.resourceUrl}/getDbUserConnected`, {observe: 'response'}).map((res: HttpResponse<AccountsDB>) => {
+            return res.body;
+        });
+    }
+
+    updateDBUserConnected(accountsDB: AccountsDB): Observable<AccountsDB> {
+        const copy = this.convert(accountsDB);
+        return this.http.put(`${this.resourceUrl}/updateDbUserConnected`, copy, {observe: 'response'})
+            .map((res: EntityResponseType) => {
+                if (res.ok) {
+                    return this.convertResponse(res).body;
+                } else {
+                    // return Observable.throw(res.statusText);
+                }
+
+            });
+    }
+
+    getActualMaxAccount(): Observable<any> {
+        return this.http.get(SERVER_API_URL + 'api/accounts-dbs/get-actual-max-account', {observe: 'response'}).map((res: EntityResponseType) => this.convertResponse(res).body);
     }
 }

@@ -5,8 +5,8 @@ import {Accounts} from '../../shared/account/accounts.model';
 import {CryptoService} from '../../shared/crypto/crypto.service';
 import {CryptoUtilsService} from '../../shared/crypto/crypto-utils.service';
 import {OperationAccountType} from '../../shared/account/operation-account-type.enum';
-import {HttpClient} from '@angular/common/http';
 import {Principal} from '../../shared';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class PasswordService {

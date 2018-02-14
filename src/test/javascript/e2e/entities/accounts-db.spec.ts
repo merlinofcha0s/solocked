@@ -106,11 +106,11 @@ export class AccountsDBDialogPage {
 
     setSumInput = function(sum) {
         this.sumInput.sendKeys(sum);
-    }
+    };
 
     getSumInput = function() {
         return this.sumInput.getAttribute('value');
-    }
+    };
 
     userSelectLastOption = function() {
         this.userSelect.all(by.tagName('option')).last().click();

@@ -2,7 +2,6 @@ package com.ninja.ninjaccount.web.rest;
 
 import com.ninja.ninjaccount.service.AuditEventService;
 import com.ninja.ninjaccount.web.rest.util.PaginationUtil;
-
 import io.github.jhipster.web.util.ResponseUtil;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.data.domain.Page;

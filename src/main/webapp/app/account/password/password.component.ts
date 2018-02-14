@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { Principal } from '../../shared';
-import { PasswordService } from './password.service';
+import {Principal} from '../../shared';
+import {PasswordService} from './password.service';
 import {LoginService} from '../../shared/login/login.service';
 import {Router} from '@angular/router';
 

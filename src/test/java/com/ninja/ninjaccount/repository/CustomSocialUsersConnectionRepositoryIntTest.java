@@ -2,7 +2,6 @@ package com.ninja.ninjaccount.repository;
 
 import com.ninja.ninjaccount.NinjaccountApp;
 import com.ninja.ninjaccount.domain.SocialUserConnection;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
