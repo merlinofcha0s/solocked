@@ -1,8 +1,8 @@
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Subscription} from 'rxjs/Rx';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AccountsDB} from './../../entities/accounts-db/accounts-db.model';
-import {AccountsService} from './../../shared/account/accounts.service';
+import {AccountsDB} from '../../entities/accounts-db';
+import {AccountsService} from '../../shared/account/accounts.service';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Account} from '../../shared/account/account.model';
