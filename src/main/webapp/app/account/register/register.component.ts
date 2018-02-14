@@ -4,6 +4,7 @@ import {JhiLanguageService} from 'ng-jhipster';
 
 import {Register} from './register.service';
 import {EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE, LoginModalService} from '../../shared';
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
     selector: 'jhi-register',
@@ -55,7 +56,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
                 this.registerService.save(this.registerAccount).subscribe(() => {
                     this.loading = true;
                     this.success = true;
-                }, (response) => this.processError(response));
+                }, (response: HttpErrorResponse) => this.processError(response));
             });
         }
     }
@@ -64,12 +65,12 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         this.modalRef = this.loginModalService.open();
     }
 
-    private processError(response) {
+    private processError(response: HttpErrorResponse) {
         this.success = null;
-        if (response.status === 400 && response.json().type === LOGIN_ALREADY_USED_TYPE) {
+        if (response.status === 400 && response.error.type === LOGIN_ALREADY_USED_TYPE) {
             this.errorUserExists = 'ERROR';
             this.loading = false;
-        } else if (response.status === 400 && response.json().type === EMAIL_ALREADY_USED_TYPE) {
+        } else if (response.status === 400 && response.error.type === EMAIL_ALREADY_USED_TYPE) {
             this.errorEmailExists = 'ERROR';
             this.loading = false;
         } else if (response.status === 417) {

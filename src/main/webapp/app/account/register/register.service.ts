@@ -32,7 +32,7 @@ export class Register {
                 return this.crypto.generateChecksum(accountDBDTO.database);
             }).flatMap((sum) => {
                 accountDBDTO.sum = sum;
-                return this.http.post('api/register', account);
+                return this.http.post('api/register', account, {observe: 'response'});
             });
     }
 }
