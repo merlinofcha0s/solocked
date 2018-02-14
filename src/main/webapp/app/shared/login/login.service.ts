@@ -42,7 +42,7 @@ export class LoginService {
     }
 
     login(credentials, callback?) {
-        const cb = callback || function () {
+        const cb = callback || function() {
         };
 
         return new Promise((resolve, reject) => {

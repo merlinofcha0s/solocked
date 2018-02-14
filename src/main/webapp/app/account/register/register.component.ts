@@ -4,7 +4,7 @@ import {JhiLanguageService} from 'ng-jhipster';
 
 import {Register} from './register.service';
 import {EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE, LoginModalService} from '../../shared';
-import {HttpErrorResponse} from "@angular/common/http";
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
     selector: 'jhi-register',
