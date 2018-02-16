@@ -3,6 +3,7 @@ package com.ninja.ninjaccount;
 import com.ninja.ninjaccount.config.ApplicationProperties;
 import com.ninja.ninjaccount.config.DefaultProfileUtil;
 import io.github.jhipster.config.JHipsterConstants;
+import io.undertow.UndertowOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -63,7 +64,8 @@ public class NinjaccountApp {
         Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
         UndertowEmbeddedServletContainerFactory factory = new UndertowEmbeddedServletContainerFactory();
         if (activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_PRODUCTION) || activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_TEST)){
-            factory.addBuilderCustomizers((UndertowBuilderCustomizer) builder -> builder.addHttpListener(80, "0.0.0.0"));
+            factory.addBuilderCustomizers(builder -> builder.addHttpListener(80, "0.0.0.0"));
+            factory.addBuilderCustomizers(builder -> builder.setServerOption(UndertowOptions.SSL_USER_CIPHER_SUITES_ORDER, Boolean.TRUE));
         }
 
         return factory;
