@@ -72,7 +72,7 @@ public class AccountsDBService {
         return validSum;
     }
 
-    public String calculateSum(byte[] db){
+    public String calculateSum(byte[] db) {
         ShaPasswordEncoder shaPasswordEncoder = new ShaPasswordEncoder(256);
         byte[] baseByte64 = Base64.encodeBase64(db);
         return shaPasswordEncoder.encodePassword(new String(baseByte64, StandardCharsets.UTF_8), null);
@@ -151,20 +151,24 @@ public class AccountsDBService {
      * @return the account db updated or null
      */
     public AccountsDBDTO updateAccountDBForUserConnected(AccountsDBDTO accountsDBDTO) throws MaxAccountsException {
-        final String userLogin = SecurityUtils.getCurrentUserLogin().get();
-        AccountsDBDTO accountsDBDTOToUpdate = findByUsernameLogin(userLogin);
+        if (SecurityUtils.getCurrentUserLogin().isPresent()) {
+            final String userLogin = SecurityUtils.getCurrentUserLogin().get();
+            AccountsDBDTO accountsDBDTOToUpdate = findByUsernameLogin(userLogin);
 
-        accountsDBDTOToUpdate.setDatabase(accountsDBDTO.getDatabase());
-        accountsDBDTOToUpdate.setInitializationVector(accountsDBDTO.getInitializationVector());
-        accountsDBDTOToUpdate.setDatabaseContentType(accountsDBDTO.getDatabaseContentType());
-        accountsDBDTOToUpdate.setSum(accountsDBDTO.getSum());
+            accountsDBDTOToUpdate.setDatabase(accountsDBDTO.getDatabase());
+            accountsDBDTOToUpdate.setInitializationVector(accountsDBDTO.getInitializationVector());
+            accountsDBDTOToUpdate.setDatabaseContentType(accountsDBDTO.getDatabaseContentType());
+            accountsDBDTOToUpdate.setSum(accountsDBDTO.getSum());
 
-        Integer nbAccounts = paymentService.checkReachLimitAccounts(userLogin
-            , accountsDBDTO.getOperationAccountType(), accountsDBDTOToUpdate.getNbAccounts());
+            Integer nbAccounts = paymentService.checkReachLimitAccounts(userLogin
+                , accountsDBDTO.getOperationAccountType(), accountsDBDTOToUpdate.getNbAccounts());
 
-        accountsDBDTOToUpdate.setNbAccounts(nbAccounts);
+            accountsDBDTOToUpdate.setNbAccounts(nbAccounts);
 
-        return save(accountsDBDTOToUpdate);
+            return save(accountsDBDTOToUpdate);
+        } else {
+            return null;
+        }
     }
 
     public Pair<Integer, Integer> getActualAndMaxAccount(String userLogin) {

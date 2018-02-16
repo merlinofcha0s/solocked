@@ -44,10 +44,10 @@ public class AccountsDBResource {
      * POST  /accounts-dbs : Create a new accountsDB.
      *
      * @param accountsDBDTO the accountsDBDTO to create
-     * @throws URISyntaxException if the Location URI syntax is incorrect
      * @return the ResponseEntity with status 201 (Created) and with body the new accountsDBDTO,
      * or with status 400 (Bad Request) if the accountsDB has already an ID
      * , or with status 417 (Expectation failed) if the checksum of the DB don't match
+     * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/accounts-dbs")
     @Timed
@@ -64,7 +64,13 @@ public class AccountsDBResource {
                 .body(result);
         } else {
             Optional<String> login = SecurityUtils.getCurrentUserLogin();
-            log.error("Error checksum when creating DB - login : {}",  login.get());
+
+            if (login.isPresent()) {
+                log.error("Error checksum when creating DB - login : {}", login.get());
+            } else {
+                log.error("Error checksum when creating DB - No login available");
+            }
+
             throw new InvalidChecksumException();
         }
     }
@@ -139,8 +145,13 @@ public class AccountsDBResource {
     @GetMapping("/accounts-dbs/getDbUserConnected")
     @Timed
     public ResponseEntity<AccountsDBDTO> getAccountDBUserConnected() {
-        final String userLogin = SecurityUtils.getCurrentUserLogin().get();
-        AccountsDBDTO accountsDBDTO = accountsDBService.findByUsernameLogin(userLogin);
+        AccountsDBDTO accountsDBDTO = null;
+        if (SecurityUtils.getCurrentUserLogin().isPresent()) {
+            final String userLogin = SecurityUtils.getCurrentUserLogin().get();
+            accountsDBDTO = accountsDBService.findByUsernameLogin(userLogin);
+        } else {
+            log.error("CALL without login, not normal");
+        }
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(accountsDBDTO));
     }
 
@@ -158,7 +169,7 @@ public class AccountsDBResource {
     public ResponseEntity<AccountsDBDTO> updateAccountsDBForUserConnected(@RequestBody AccountsDBDTO accountsDBDTO) throws URISyntaxException {
         try {
             AccountsDBDTO result = accountsDBService.updateAccountDBForUserConnected(accountsDBDTO);
-            if(result == null){
+            if (result == null) {
                 throw new InvalidChecksumException();
             }
             return ResponseEntity.ok()
@@ -168,7 +179,11 @@ public class AccountsDBResource {
             log.error("Too many accounts on your database, userID : {}", accountsDBDTO.getUserId());
             throw new CustomParameterizedException("Too many accounts", e.getActual().toString(), e.getMax().toString());
         } catch (InvalidChecksumException e) {
-            log.error("Problem with the checksum with this user when registration : {} ", SecurityUtils.getCurrentUserLogin().get());
+            if (SecurityUtils.getCurrentUserLogin().isPresent()) {
+                log.error("Problem with the checksum with this user when registration : {} ", SecurityUtils.getCurrentUserLogin().get());
+            } else {
+                log.error("Problem with the checksum with this user when registration : USER NOT CONNECTED");
+            }
             throw new InvalidChecksumException();
         } catch (Exception e) {
             log.error("Error when updating db for userID : {}", accountsDBDTO.getUserId());
@@ -184,8 +199,11 @@ public class AccountsDBResource {
     @GetMapping("/accounts-dbs/get-actual-max-account")
     @Timed
     public ResponseEntity<Pair<Integer, Integer>> getActualAndMaxAccount() {
-        final String userLogin = SecurityUtils.getCurrentUserLogin().get();
-        Pair<Integer, Integer> actualAndMax = accountsDBService.getActualAndMaxAccount(userLogin);
+        Pair<Integer, Integer> actualAndMax = null;
+        if (SecurityUtils.getCurrentUserLogin().isPresent()) {
+            final String userLogin = SecurityUtils.getCurrentUserLogin().get();
+            actualAndMax = accountsDBService.getActualAndMaxAccount(userLogin);
+        }
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(actualAndMax));
     }
 }

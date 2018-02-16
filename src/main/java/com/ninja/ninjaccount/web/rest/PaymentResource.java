@@ -87,7 +87,7 @@ public class PaymentResource {
     public List<PaymentDTO> getAllPayments() {
         log.debug("REST request to get all Payments");
         return paymentService.findAll();
-        }
+    }
 
     /**
      * GET  /payments/:id : get the "id" payment.
@@ -125,8 +125,13 @@ public class PaymentResource {
     @GetMapping("/payments-by-login")
     @Timed
     public ResponseEntity<PaymentDTO> getPaymentByLogin() {
-        log.debug("REST request to get payment method by login : {}", SecurityUtils.getCurrentUserLogin());
-        PaymentDTO paymentDTO = paymentService.findPaymentByLogin(SecurityUtils.getCurrentUserLogin().get());
+        PaymentDTO paymentDTO = null;
+        if (SecurityUtils.getCurrentUserLogin().isPresent()) {
+            log.debug("REST request to get payment method by login : {}", SecurityUtils.getCurrentUserLogin());
+            paymentDTO = paymentService.findPaymentByLogin(SecurityUtils.getCurrentUserLogin().get());
+        } else {
+            log.error("REST request to get payment method without login !!!!!");
+        }
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(paymentDTO));
     }
 }
