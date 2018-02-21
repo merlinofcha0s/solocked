@@ -62,12 +62,16 @@ public class NinjaccountApp {
     public UndertowEmbeddedServletContainerFactory embeddedServletContainerFactory() {
         Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
         boolean isHttpsActive = env.getProperty("server.ssl.key-store") != null;
+        boolean cipherPresent = env.getProperty("server.ssl.ciphers") != null;
+        boolean isProdLikeProfileActive = activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_PRODUCTION)
+            || activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_TEST);
 
         UndertowEmbeddedServletContainerFactory factory = new UndertowEmbeddedServletContainerFactory();
-        if (isHttpsActive && (activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_PRODUCTION)
-            || activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_TEST))) {
+        if (isHttpsActive && isProdLikeProfileActive) {
             factory.addBuilderCustomizers(builder -> builder.addHttpListener(80, "0.0.0.0"));
-            factory.addBuilderCustomizers(builder -> builder.setSocketOption(UndertowOptions.SSL_USER_CIPHER_SUITES_ORDER, Boolean.TRUE));
+            if(cipherPresent){
+                factory.addBuilderCustomizers(builder -> builder.setSocketOption(UndertowOptions.SSL_USER_CIPHER_SUITES_ORDER, Boolean.TRUE));
+            }
         }
 
         return factory;
