@@ -146,8 +146,11 @@ public class AccountsDBResource {
     @Timed
     public ResponseEntity<AccountsDBDTO> getAccountDBUserConnected() {
         AccountsDBDTO accountsDBDTO = null;
-        if (SecurityUtils.getCurrentUserLogin().isPresent()) {
-            final String userLogin = SecurityUtils.getCurrentUserLogin().get();
+
+        Optional<String> login = SecurityUtils.getCurrentUserLogin();
+
+        if (login.isPresent()) {
+            final String userLogin = login.get();
             accountsDBDTO = accountsDBService.findByUsernameLogin(userLogin);
         } else {
             log.error("CALL without login, not normal");
@@ -179,8 +182,9 @@ public class AccountsDBResource {
             log.error("Too many accounts on your database, userID : {}", accountsDBDTO.getUserId());
             throw new CustomParameterizedException("Too many accounts", e.getActual().toString(), e.getMax().toString());
         } catch (InvalidChecksumException e) {
-            if (SecurityUtils.getCurrentUserLogin().isPresent()) {
-                log.error("Problem with the checksum with this user when registration : {} ", SecurityUtils.getCurrentUserLogin().get());
+            Optional<String> login = SecurityUtils.getCurrentUserLogin();
+            if (login.isPresent()) {
+                log.error("Problem with the checksum with this user when registration : {} ", login.get());
             } else {
                 log.error("Problem with the checksum with this user when registration : USER NOT CONNECTED");
             }
@@ -200,8 +204,10 @@ public class AccountsDBResource {
     @Timed
     public ResponseEntity<Pair<Integer, Integer>> getActualAndMaxAccount() {
         Pair<Integer, Integer> actualAndMax = null;
-        if (SecurityUtils.getCurrentUserLogin().isPresent()) {
-            final String userLogin = SecurityUtils.getCurrentUserLogin().get();
+        Optional<String> login = SecurityUtils.getCurrentUserLogin();
+
+        if (login.isPresent()) {
+            final String userLogin = login.get();
             actualAndMax = accountsDBService.getActualAndMaxAccount(userLogin);
         }
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(actualAndMax));

@@ -3,7 +3,6 @@ package com.ninja.ninjaccount;
 import com.ninja.ninjaccount.config.ApplicationProperties;
 import com.ninja.ninjaccount.config.DefaultProfileUtil;
 import io.github.jhipster.config.JHipsterConstants;
-import io.undertow.UndertowOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -11,10 +10,8 @@ import org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfigurat
 import org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
-import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
@@ -56,21 +53,6 @@ public class NinjaccountApp {
             log.error("You have misconfigured your application! It should not " +
                 "run with both the 'dev' and 'cloud' profiles at the same time.");
         }
-    }
-
-    @Bean
-    public UndertowEmbeddedServletContainerFactory embeddedServletContainerFactory() {
-        Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
-        boolean isHttpsActive = env.getProperty("server.ssl.key-store") != null;
-
-        UndertowEmbeddedServletContainerFactory factory = new UndertowEmbeddedServletContainerFactory();
-        if (isHttpsActive && (activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_PRODUCTION)
-            || activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_TEST))) {
-            factory.addBuilderCustomizers(builder -> builder.addHttpListener(80, "0.0.0.0"));
-            factory.addBuilderCustomizers(builder -> builder.setSocketOption(UndertowOptions.SSL_USER_CIPHER_SUITES_ORDER, Boolean.TRUE));
-        }
-
-        return factory;
     }
 
     /**

@@ -3,6 +3,7 @@ package com.ninja.ninjaccount.config;
 import com.hazelcast.config.*;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.spring.cache.HazelcastCacheManager;
 import io.github.jhipster.config.JHipsterConstants;
 import io.github.jhipster.config.JHipsterProperties;
 import org.slf4j.Logger;
@@ -21,6 +22,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import javax.annotation.PreDestroy;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 @Configuration
 @EnableCaching
@@ -58,12 +61,11 @@ public class CacheConfiguration {
     @Bean
     public CacheManager cacheManager(HazelcastInstance hazelcastInstance) {
         log.debug("Starting HazelcastCacheManager");
-        CacheManager cacheManager = new com.hazelcast.spring.cache.HazelcastCacheManager(hazelcastInstance);
-        return cacheManager;
+        return new HazelcastCacheManager(hazelcastInstance);
     }
 
     @Bean
-    public HazelcastInstance hazelcastInstance(JHipsterProperties jHipsterProperties) {
+    public HazelcastInstance hazelcastInstance(JHipsterProperties jHipsterProperties) throws UnknownHostException {
         log.debug("Configuring Hazelcast");
         HazelcastInstance hazelCastInstance = Hazelcast.getHazelcastInstanceByName("ninjaccount");
         if (hazelCastInstance != null) {
@@ -84,11 +86,11 @@ public class CacheConfiguration {
                 log.debug("Application is running with the \"dev\" profile, Hazelcast " +
                           "cluster will only work with localhost instances");
 
-                System.setProperty("hazelcast.local.localAddress", "127.0.0.1");
+                System.setProperty("hazelcast.local.localAddress", InetAddress.getLocalHost().getHostAddress());
                 config.getNetworkConfig().setPort(serverProperties.getPort() + 5701);
                 config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(true);
                 for (ServiceInstance instance : discoveryClient.getInstances(serviceId)) {
-                    String clusterMember = "127.0.0.1:" + (instance.getPort() + 5701);
+                    String clusterMember = InetAddress.getLocalHost().getHostAddress() + (instance.getPort() + 5701);
                     log.debug("Adding Hazelcast (dev) cluster member " + clusterMember);
                     config.getNetworkConfig().getJoin().getTcpIpConfig().addMember(clusterMember);
                 }

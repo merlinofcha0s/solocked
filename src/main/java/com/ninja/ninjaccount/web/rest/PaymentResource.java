@@ -126,9 +126,11 @@ public class PaymentResource {
     @Timed
     public ResponseEntity<PaymentDTO> getPaymentByLogin() {
         PaymentDTO paymentDTO = null;
-        if (SecurityUtils.getCurrentUserLogin().isPresent()) {
-            log.debug("REST request to get payment method by login : {}", SecurityUtils.getCurrentUserLogin());
-            paymentDTO = paymentService.findPaymentByLogin(SecurityUtils.getCurrentUserLogin().get());
+        Optional<String> login = SecurityUtils.getCurrentUserLogin();
+
+        if (login.isPresent()) {
+            log.debug("REST request to get payment method by login : {}", login.get());
+            paymentDTO = paymentService.findPaymentByLogin(login.get());
         } else {
             log.error("REST request to get payment method without login !!!!!");
         }

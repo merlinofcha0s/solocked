@@ -151,8 +151,10 @@ public class AccountsDBService {
      * @return the account db updated or null
      */
     public AccountsDBDTO updateAccountDBForUserConnected(AccountsDBDTO accountsDBDTO) throws MaxAccountsException {
-        if (SecurityUtils.getCurrentUserLogin().isPresent()) {
-            final String userLogin = SecurityUtils.getCurrentUserLogin().get();
+        Optional<String> login = SecurityUtils.getCurrentUserLogin();
+
+        if (login.isPresent()) {
+            final String userLogin = login.get();
             AccountsDBDTO accountsDBDTOToUpdate = findByUsernameLogin(userLogin);
 
             accountsDBDTOToUpdate.setDatabase(accountsDBDTO.getDatabase());

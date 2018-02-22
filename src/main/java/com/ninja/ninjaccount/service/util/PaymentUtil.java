@@ -4,7 +4,7 @@ import com.ninja.ninjaccount.domain.enumeration.PlanType;
 
 public final class PaymentUtil {
 
-    public PaymentUtil() {
+    private PaymentUtil() {
     }
 
     public static Integer getMaxAccountByPlanType(PlanType planType) {
