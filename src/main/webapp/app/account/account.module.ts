@@ -22,11 +22,14 @@ import {
 } from './';
 import {ExportAllAccountsComponent} from './settings/export-all-accounts/export-all-accounts.component';
 import {DeleteAllAccountsComponent} from './settings/delete-all-accounts/delete-all-accounts.component';
+import {ImportComponent} from "./import/import.component";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
     imports: [
         NinjaccountSharedModule,
-        RouterModule.forChild(accountState)
+        RouterModule.forChild(accountState),
+        ReactiveFormsModule
     ],
     declarations: [
         SocialRegisterComponent,
@@ -39,7 +42,8 @@ import {DeleteAllAccountsComponent} from './settings/delete-all-accounts/delete-
         PasswordResetFinishComponent,
         SettingsComponent,
         ExportAllAccountsComponent,
-        DeleteAllAccountsComponent
+        DeleteAllAccountsComponent,
+        ImportComponent
     ],
     providers: [
         Register,

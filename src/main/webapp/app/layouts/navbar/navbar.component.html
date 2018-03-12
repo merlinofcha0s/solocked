@@ -145,6 +145,8 @@
                 <mat-menu #account="matMenu">
                     <a *ngSwitchCase="true" routerLink="settings" routerLinkActive="active" mat-menu-item>{{ 'settings.title' | translate }}</a>
                     <a *ngSwitchCase="true" routerLink="password" routerLinkActive="active" mat-menu-item>{{ 'global.menu.account.password' | translate }}</a>
+                    <a *ngSwitchCase="true" routerLink="import" routerLinkActive="active" mat-menu-item>{{
+                        'global.menu.account.import' | translate }}</a>
                     <!--<a *ngSwitchCase="false" routerLink="/" mat-menu-item>{{ 'global.menu.account.login' | translate }}</a>-->
                     <a id="logout" *ngSwitchCase="true" (click)="logout()" mat-menu-item>{{ 'global.menu.account.logout' | translate }}</a>
                     <a *ngSwitchCase="false"  routerLink="register" mat-menu-item>{{ 'global.menu.account.register' | translate }}</a>

@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <h1 id="title-accounts" jhiTranslate="import.title">Import data from another service</h1>
+        <div class="d-flex">
+            <form [formGroup]="importForm" (ngSubmit)="onSubmitImport()">
+                <mat-radio-group formControlName="importType">
+                    <mat-radio-button [value]="0" [checked]="true">Lastpass</mat-radio-button>
+                </mat-radio-group>
+            </form>
+        </div>
+    </div>
+</div>
