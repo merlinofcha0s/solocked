@@ -1,5 +1,6 @@
 {
     "import": {
-        "title": "Import accounts data"
+        "title": "Import accounts data",
+        "validation": "Import"
     }
 }

@@ -1,13 +1,65 @@
 <div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
         <h1 id="title-accounts" jhiTranslate="import.title">Import data from another service</h1>
-        <div class="d-flex">
-            <form [formGroup]="importForm" (ngSubmit)="onSubmitImport()">
-                <mat-radio-group formControlName="importType">
-                    <mat-radio-button [value]="0" [checked]="true">Lastpass</mat-radio-button>
-                </mat-radio-group>
-            </form>
-        </div>
+        <form [formGroup]="importForm" (ngSubmit)="onSubmitImport()">
+            <mat-radio-group [formControl]="importType" class="row">
+                <div class="col-lg-6 col-xl-3">
+                    <mat-card style="height: 200px;">
+                        <mat-card-header class="justify-content-center">
+                            <img src="../../../content/images/import/lastpass.png" style="object-fit: scale-down; width: 150px; height: 100px;">
+                        </mat-card-header>
+                        <mat-card-content>
+                            <mat-radio-button [value]="0"></mat-radio-button>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-lg-6 col-xl-3">
+                    <mat-card  style="height: 200px;">
+                        <mat-card-header class="justify-content-center">
+                            <div class="d-flex justify-content-center align-items-center flex-column">
+                                <img src="../../../content/images/import/1password.png" style="object-fit: scale-down; width: 100px;">
+                                <div>1Password</div>
+                            </div>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <mat-radio-button [value]="1"></mat-radio-button>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-lg-6 col-xl-3">
+                    <mat-card  style="height: 200px;">
+                        <mat-card-header class="justify-content-center">
+                            <div class="d-flex justify-content-center align-items-center flex-column">
+                                <img src="../../../content/images/import/dashlane.png" style="object-fit: scale-down; width: 100px;">
+                                <div>Dashlane</div>
+                            </div>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <mat-radio-button [value]="2"></mat-radio-button>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-lg-6 col-xl-3">
+                    <mat-card  style="height: 200px;">
+                        <mat-card-header class="justify-content-center">
+                            <div class="d-flex justify-content-center align-items-center flex-column">
+                                <i class="fas fa-file" style="font-size: 50px;"></i>
+                                <div>CSV</div>
+                            </div>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <mat-radio-button [value]="3"></mat-radio-button>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </mat-radio-group>
+            <div class="d-flex align-items-center justify-content-center m-3">
+                <button mat-raised-button color="primary" type="submit" class="default-validation-button">
+                    {{'import.validation' | translate}}
+                </button>
+            </div>
+        </form>
     </div>
+    <div class="col-md-2"></div>
 </div>

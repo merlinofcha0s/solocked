@@ -42,7 +42,8 @@ import {
     MatSelectModule,
     MatSnackBarModule,
     MatTabsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatRadioModule
 } from '@angular/material';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -78,7 +79,8 @@ import {AccountsTechService} from './account/accounts-tech.service';
         MatNativeDateModule,
         MatGridListModule,
         MatExpansionModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        MatRadioModule
     ],
     declarations: [
         JhiSocialComponent,
@@ -139,7 +141,8 @@ import {AccountsTechService} from './account/accounts-tech.service';
         MatNativeDateModule,
         MatGridListModule,
         MatExpansionModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        MatRadioModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
