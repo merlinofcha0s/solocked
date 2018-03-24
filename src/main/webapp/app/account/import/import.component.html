@@ -6,50 +6,48 @@
             <mat-radio-group [formControl]="importType" class="row">
                 <div class="col-lg-6 col-xl-3">
                     <mat-card style="height: 200px;">
-                        <mat-card-header class="justify-content-center">
+                        <mat-card-content class="d-flex justify-content-center align-items-center flex-column">
                             <img src="../../../content/images/import/lastpass.png" style="object-fit: scale-down; width: 150px; height: 100px;">
-                        </mat-card-header>
-                        <mat-card-content>
-                            <mat-radio-button [value]="0"></mat-radio-button>
+                            <mat-radio-button [value]="TypeImport.LASTPASS" style="margin-top: 15px;"></mat-radio-button>
                         </mat-card-content>
                     </mat-card>
                 </div>
                 <div class="col-lg-6 col-xl-3">
                     <mat-card  style="height: 200px;">
-                        <mat-card-header class="justify-content-center">
+                        <mat-card-content>
                             <div class="d-flex justify-content-center align-items-center flex-column">
                                 <img src="../../../content/images/import/1password.png" style="object-fit: scale-down; width: 100px;">
                                 <div>1Password</div>
                             </div>
-                        </mat-card-header>
-                        <mat-card-content>
-                            <mat-radio-button [value]="1"></mat-radio-button>
+                            <div class="d-flex justify-content-center align-items-center" style="margin-top: 15px;">
+                                <mat-radio-button [value]="1"></mat-radio-button>
+                            </div>
                         </mat-card-content>
                     </mat-card>
                 </div>
                 <div class="col-lg-6 col-xl-3">
-                    <mat-card  style="height: 200px;">
-                        <mat-card-header class="justify-content-center">
+                    <mat-card style="height: 200px;">
+                        <mat-card-content>
                             <div class="d-flex justify-content-center align-items-center flex-column">
                                 <img src="../../../content/images/import/dashlane.png" style="object-fit: scale-down; width: 100px;">
                                 <div>Dashlane</div>
                             </div>
-                        </mat-card-header>
-                        <mat-card-content>
-                            <mat-radio-button [value]="2"></mat-radio-button>
+                            <div class="d-flex justify-content-center align-items-center" style="margin-top: 15px;">
+                                <mat-radio-button [value]="2"></mat-radio-button>
+                            </div>
                         </mat-card-content>
                     </mat-card>
                 </div>
                 <div class="col-lg-6 col-xl-3">
                     <mat-card  style="height: 200px;">
-                        <mat-card-header class="justify-content-center">
+                        <mat-card-content>
                             <div class="d-flex justify-content-center align-items-center flex-column">
-                                <i class="fas fa-file" style="font-size: 50px;"></i>
+                                <i class="fas fa-file" style="font-size: 65px;"></i>
                                 <div>CSV</div>
                             </div>
-                        </mat-card-header>
-                        <mat-card-content>
-                            <mat-radio-button [value]="3"></mat-radio-button>
+                            <div class="d-flex align-items-center justify-content-center" style="margin-top: 15px;">
+                                <mat-radio-button [value]="3"></mat-radio-button>
+                            </div>
                         </mat-card-content>
                     </mat-card>
                 </div>

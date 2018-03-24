@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {TypeImport} from "./model/type-import.enum";
 
 @Component({
     selector: 'jhi-import',
@@ -8,8 +9,12 @@ import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 })
 export class ImportComponent implements OnInit {
 
+    TypeImport: typeof TypeImport = TypeImport;
+
     importForm: FormGroup;
     importType: FormControl;
+
+    importTypeValue: TypeImport;
 
     constructor(private formBuilder: FormBuilder) {
 
