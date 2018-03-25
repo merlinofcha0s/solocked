@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
 
 import {JhiLanguageHelper} from '../../shared';
-import {Principal} from '../../shared/auth/principal.service';
+import {Principal} from '../../shared';
 import {AutolockService} from '../navbar/autologout/autolock.service';
 import {ProfileService} from '../profiles/profile.service';
 import fontawesome from '@fortawesome/fontawesome';
@@ -83,20 +83,20 @@ export class JhiMainComponent implements OnInit {
                 document.getElementsByTagName('head')[0].appendChild(matomoScript);
             }
 
-            if (inTest) {
-                const crispScript = document.createElement("script");
-                crispScript.type = "text/javascript";
-                crispScript.innerHTML = "window.$crisp = [];\n" +
-                    "  window.CRISP_WEBSITE_ID = \"3805f1d2-26b3-4732-93e9-03df5b14cf50\";\n" +
-                    " (function () {\n" +
-                    "  d = document;\n" +
-                    "  s = d.createElement(\"script\");\n" +
-                    "  s.src = \"https://client.crisp.chat/l.js\";\n" +
-                    "  s.async = 1;\n" +
-                    "  d.getElementsByTagName(\"head\")[0].appendChild(s);" +
-                    "  })();";
-                document.getElementsByTagName('head')[0].appendChild(crispScript);
-            }
+            // if (inTest) {
+            const crispScript = document.createElement("script");
+            crispScript.type = "text/javascript";
+            crispScript.innerHTML = "window.$crisp = [];\n" +
+                "  window.CRISP_WEBSITE_ID = \"3805f1d2-26b3-4732-93e9-03df5b14cf50\";\n" +
+                " (function () {\n" +
+                "  d = document;\n" +
+                "  s = d.createElement(\"script\");\n" +
+                "  s.src = \"https://client.crisp.chat/l.js\";\n" +
+                "  s.async = 1;\n" +
+                "  d.getElementsByTagName(\"head\")[0].appendChild(s);" +
+                "  })();";
+            document.getElementsByTagName('head')[0].appendChild(crispScript);
+            // }
 
             if (inProduction) {
                 const crispScript = document.createElement("script");

@@ -3,6 +3,9 @@ import {Account} from '../../shared/account/account.model';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PaymentService} from '../../entities/payment/payment.service';
 import {Subscription} from 'rxjs/Subscription';
+import {Principal} from '../../shared';
+
+declare var $crisp: any;
 
 @Component({
     selector: 'jhi-accountdb-home',
@@ -21,7 +24,9 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
 
     seeAll = false;
 
-    constructor(private accountsService: AccountsService, private paymentService: PaymentService) {
+    constructor(private accountsService: AccountsService,
+                private paymentService: PaymentService,
+                private principal: Principal) {
         this.counter = 0;
         this.allAccountsPaginated = new Array<Account>();
         this.featuredAccounts = new Array<Account>();
@@ -30,6 +35,7 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.initAccountsList();
         this.paymentService.getPaymentByLogin();
+        this.initCrispData();
     }
 
     ngOnDestroy(): void {
@@ -70,5 +76,11 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
             }
         }
         this.counter += offset;
+    }
+
+    initCrispData() {
+        this.principal.identity(true).then((account) => {
+            $crisp.push(['set', 'user:nickname', account.login]);
+        });
     }
 }
