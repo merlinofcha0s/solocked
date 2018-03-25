@@ -28,7 +28,7 @@ export class JhiMainComponent implements OnInit {
 
     ngOnInit() {
         this.initEventRouter();
-        this.initTracking();
+        this.initTrackingAndChat();
         this.initFontAwesome5();
         this.detectEdge();
     }
@@ -59,16 +59,16 @@ export class JhiMainComponent implements OnInit {
     }
 
     /* tslint:disable */
-    initTracking() {
+    initTrackingAndChat() {
         this.profileService.getProfileInfo().then((profileInfo) => {
             const inProduction = profileInfo.inProduction;
             const inTest = profileInfo.inTest;
             if (inTest) {
                 // document.write('<script type="text/javascript">// ProductionAnalyticsCodeHere</script>');
             } else if (!inTest && inProduction) {
-                const script = document.createElement("script");
-                script.type = "text/javascript";
-                script.innerHTML = "let _paq = _paq || [];\n" +
+                const matomoScript = document.createElement("script");
+                matomoScript.type = "text/javascript";
+                matomoScript.innerHTML = "let _paq = _paq || [];\n" +
                     "  /* tracker methods like \"setCustomDimension\" should be called before \"trackPageView\" */\n" +
                     "  _paq.push(['trackPageView']);\n" +
                     "  _paq.push(['enableLinkTracking']);\n" +
@@ -80,7 +80,22 @@ export class JhiMainComponent implements OnInit {
                     "    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);\n" +
                     "  })();";
 
-                document.getElementsByTagName('head')[0].appendChild(script);
+                document.getElementsByTagName('head')[0].appendChild(matomoScript);
+            }
+
+            if (inTest || inProduction) {
+                const crispScript = document.createElement("script");
+                crispScript.type = "text/javascript";
+                crispScript.innerHTML = "window.$crisp = [];\n" +
+                    "  window.CRISP_WEBSITE_ID = \"3805f1d2-26b3-4732-93e9-03df5b14cf50\";\n" +
+                    " (function () {\n" +
+                    "  d = document;\n" +
+                    "  s = d.createElement(\"script\");\n" +
+                    "  s.src = \"https://client.crisp.chat/l.js\";\n" +
+                    "  s.async = 1;\n" +
+                    "  d.getElementsByTagName(\"head\")[0].appendChild(s);" +
+                    "  })();";
+                document.getElementsByTagName('head')[0].appendChild(crispScript);
             }
         });
     }
