@@ -103,9 +103,12 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
 
     computeAverageAndTotal() {
         if (this.payments.length >= 1) {
-            this.total = this.payments.map((payment) => payment.amount)
+            const totalNotRounded = this.payments.map((payment) => payment.amount)
                 .reduce((a, b) => (Number(a) + Number(b)));
-            this.average = Math.round(this.total / this.payments.length).toFixed(1);
+            const averageNotRounded = totalNotRounded / this.payments.length;
+            const precision = Math.pow(10, 2);
+            this.total = Math.round(totalNotRounded * precision) / precision;
+            this.average = Math.round(averageNotRounded * precision) / precision + '';
         }
     }
 }
