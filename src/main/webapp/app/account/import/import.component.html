@@ -8,7 +8,7 @@
                     <mat-card style="height: 200px;">
                         <mat-card-content class="d-flex justify-content-center align-items-center flex-column">
                             <img src="../../../content/images/import/lastpass.png" style="object-fit: scale-down; width: 150px; height: 100px;">
-                            <mat-radio-button [value]="TypeImport.LASTPASS" style="margin-top: 15px;"></mat-radio-button>
+                            <mat-radio-button [value]="TypeImport.LASTPASS" style="margin-top: 38px;"></mat-radio-button>
                         </mat-card-content>
                     </mat-card>
                 </div>
@@ -52,6 +52,16 @@
                     </mat-card>
                 </div>
             </mat-radio-group>
+            <div class="row" style="margin-top: 20px;">
+                <div class="col-12">
+                    <mat-card>
+                        <div class="d-flex justify-content-center align-items-center" style=" border: 2px dashed #296a64; height: 150px;">
+                            <input type="file" id="upload" (change)="onFileChange($event)" #fileInput>
+                            <!--<div>Drag and drop your file here, or click on this zone</div>-->
+                        </div>
+                    </mat-card>
+                </div>
+            </div>
             <div class="d-flex align-items-center justify-content-center m-3">
                 <button mat-raised-button color="primary" type="submit" class="default-validation-button">
                     {{'import.validation' | translate}}

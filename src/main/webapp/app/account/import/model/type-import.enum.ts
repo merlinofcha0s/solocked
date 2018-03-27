@@ -3,5 +3,6 @@ export enum TypeImport {
     ONEPASSWORD,
     DASHLANE,
     CSV,
-    KEEPASS2
+    KEEPASS2,
+    NONE
 }
