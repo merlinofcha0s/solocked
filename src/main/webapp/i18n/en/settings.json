@@ -32,13 +32,13 @@
             }
         },
         "accountdb": {
-            "title": "Your accounts database",
+            "title": "Your lockbox",
             "text": "Number of accounts"
         },
         "danger": {
             "zone": "Danger zone",
             "export": {
-                "title": "Export your database",
+                "title": "Export your lockbox",
                 "content": "Export you entire database in the CSV format (with ; separator) <br/> You can open it with excel or with a text editor",
                 "action": "Export all my accounts",
                 "popup": {

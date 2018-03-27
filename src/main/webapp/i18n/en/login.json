@@ -6,7 +6,7 @@
             "password.placeholder": "Your password",
             "rememberme": "Remember me",
             "button": "UNLOCK",
-            "loading": "Please wait"
+            "loading": "Unlocking your lockbox, please wait..."
         },
         "messages": {
             "error": {

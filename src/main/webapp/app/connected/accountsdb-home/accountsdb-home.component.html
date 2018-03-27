@@ -23,8 +23,7 @@
                     {{ 'ninjaccountApp.accountsDB.home.online.searchList' | translate }} <span
                     class="font-weight-light header-bar">({{ accounts.length }})</span></ng-template>
                 <div>
-                    <jhi-accountsdb-list *ngFor="let account of accounts"
-                                         [account]="account"></jhi-accountsdb-list>
+                    <jhi-accountsdb-list *ngFor="let account of accounts" [account]="account"></jhi-accountsdb-list>
                 </div>
             </mat-tab>
 

@@ -3,7 +3,7 @@
         "titleHeader": "Create a new lockbox | Solocked",
         "title": "Create a new lockbox.",
         "form": {
-            "button": "Register",
+            "button": "Sign up",
             "loading": "Generating your key, please wait ",
             "cancel": "Cancel"
         },

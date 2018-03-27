@@ -40,8 +40,8 @@
             "username.placeholder": "Your username",
             "newpassword": "New password",
             "newpassword.placeholder": "New password",
-            "confirmpassword": "New password confirmation",
-            "confirmpassword.placeholder": "Confirm the new password",
+            "confirmpassword": "Enter your password again",
+            "confirmpassword.placeholder": "Enter your password again",
             "email": "Email",
             "email.placeholder": "Your email"
         },
@@ -55,7 +55,7 @@
                     "suffix": ", you can try the default accounts:<br/>- Administrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\")."
                 },
                 "register": {
-                    "noaccount": "Haven't signed up yet ?",
+                    "noaccount": "Didn't signed up yet ?",
                     "link": "Sign up"
                 }
             },
@@ -90,7 +90,7 @@
             "dev":"Development"
         },
         "item-count": "Showing {{first}} - {{second}} of {{total}} items.",
-        "addAccount": "Add new account"
+        "addAccount": "Add account"
     },
     "entity": {
         "action": {

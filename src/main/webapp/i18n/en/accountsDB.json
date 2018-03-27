@@ -14,7 +14,7 @@
                     "title": "My accounts",
                     "searchList": "All",
                     "pinned": "Pinned",
-                    "noPinned": "No pinned account :(",
+                    "noPinned": "No pinned accounts yet! :)",
                     "loadMore": "Load more"
                 }
             },
@@ -33,9 +33,9 @@
             "user": "User",
             "title": "My accounts | Solocked",
             "add": {
-                "header": "Add a new account | Solocked",
-                "title": "Add a new account.",
-                "loading": "Creating new account...",
+                "header": "Add account | Solocked",
+                "title": "Add account.",
+                "loading": "Creating account...",
                 "name": "Name",
                 "number": "Number",
                 "username": "Username",
@@ -51,7 +51,7 @@
                         "button": "Add custom block"
                     }
                 },
-                "button": "Add new account",
+                "button": "Add account",
                 "successful": "Account added successfully",
                 "error": "Error during the add account, please retry",
                 "toomanyAccount": "Limit reached. Go to settings for more info"
