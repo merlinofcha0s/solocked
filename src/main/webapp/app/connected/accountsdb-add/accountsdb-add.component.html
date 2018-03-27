@@ -130,7 +130,7 @@
                         <div>{{'ninjaccountApp.accountsDB.add.custom.sets.button' | translate}}</div>
                     </button>
                 </div>
-                <button type="submit" mat-raised-button type="submit" color="primary" class="default-validation-button" [disabled]="!accountForm.valid" id="addEditAccount">
+                <button type="submit" mat-raised-button type="submit" color="primary" class="default-validation-button" [disabled]="!accountForm.valid || loading" id="addEditAccount">
                      <div *ngIf="updateMode;then updateBtn else createBtn"></div>
                      <ng-template #createBtn>{{'ninjaccountApp.accountsDB.add.button' | translate}}</ng-template>
                      <ng-template #updateBtn>{{'ninjaccountApp.accountsDB.update.button' | translate}}</ng-template>
