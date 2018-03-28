@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {TypeImport} from "./model/type-import.enum";
 import {Account} from "../../shared/account/account.model";
+import {isUndefined} from "util";
+import {AccountsService} from "../../shared/account/accounts.service";
 
 @Component({
     selector: 'jhi-import',
@@ -15,11 +17,15 @@ export class ImportComponent implements OnInit {
     importForm: FormGroup;
     importType: FormControl;
 
-    importTypeValue: TypeImport;
+    private importTypeValue: TypeImport;
+    private importTypeValueGuess: TypeImport;
+
+    private newAccounts: Array<Account>;
 
     private lastPassHeader = "url,username,password,extra,name,grouping,fav";
 
-    constructor(private formBuilder: FormBuilder) {}
+    constructor(private formBuilder: FormBuilder, private accountService: AccountsService) {
+    }
 
     ngOnInit() {
         this.initForm();
@@ -34,8 +40,18 @@ export class ImportComponent implements OnInit {
     }
 
     onSubmitImport() {
-        console.log('calling import');
-        //Appeler le save ici
+        this.importTypeValue = this.importType.value;
+
+        if (!isUndefined(this.newAccounts) && this.importTypeValue === this.importTypeValueGuess) {
+            console.log("Everything ok !!!!");
+            this.newAccounts.forEach(newAccount => {
+                this.accountService.saveNewAccount(newAccount).subscribe(account => {
+                    console.log('Okay');
+                });
+            });
+        } else {
+            //Mettre une erreur
+        }
     }
 
     onFileChange(event: any) {
@@ -51,15 +67,14 @@ export class ImportComponent implements OnInit {
     }
 
     prepareImport(importFile: string) {
-        this.importTypeValue = this.verifyImportType(importFile);
-        console.log('TypeImport: ' + this.importTypeValue.toString());
-        let newAccounts;
-        if (this.importTypeValue !== TypeImport.NONE) {
+        this.importTypeValueGuess = this.verifyImportType(importFile);
+        console.log('TypeImport: ' + this.importTypeValueGuess.toString());
+        if (this.importTypeValueGuess !== TypeImport.NONE) {
             const lines = this.extract(importFile);
-            switch (this.importTypeValue) {
+            switch (this.importTypeValueGuess) {
                 case TypeImport.LASTPASS:
-                    newAccounts = this.createAccountFromLastPass(lines);
-                    console.log('New accounts converted : ' + newAccounts.length);
+                    this.newAccounts = this.createAccountFromLastPass(lines);
+                    console.log('New accounts converted : ' + this.newAccounts.length);
                     break;
             }
         } else {
@@ -92,9 +107,9 @@ export class ImportComponent implements OnInit {
             const url = fields[0].trim();
             const username = fields[1].trim();
             const password = fields[2].trim();
-            const name = fields[3].trim();
-            const grouping = fields[4].trim();
-            const pined = fields[5].trim();
+            const name = fields[4].trim();
+            const grouping = fields[5].trim();
+            const pined = fields[6].trim();
 
             const newAccount = new Account(username, password, name);
             newAccount.featured = Boolean(Number(pined));
