@@ -5,6 +5,7 @@ import com.ninja.ninjaccount.domain.AccountsDB;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
 import com.ninja.ninjaccount.repository.UserRepository;
+import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.service.util.PaymentConstant;
@@ -19,12 +20,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.util.Pair;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -162,7 +170,7 @@ public class AccountDBServiceTest {
         AccountsDBDTO accountsDBDTO = accountsDBService.createNewAccountDB(bytes, uuid, user);
         accountsDBDTO.setSum(accountsDBService.calculateSum(accountsDBDTO.getDatabase()));
 
-        boolean check  = accountsDBService.checkDBSum(accountsDBDTO.getDatabase(), accountsDBDTO.getSum());
+        boolean check = accountsDBService.checkDBSum(accountsDBDTO.getDatabase(), accountsDBDTO.getSum());
 
         assertThat(check).isTrue();
     }
@@ -177,8 +185,35 @@ public class AccountDBServiceTest {
         AccountsDBDTO accountsDBDTO = accountsDBService.createNewAccountDB(bytes, uuid, user);
         accountsDBDTO.setSum("loool");
 
-        boolean check  = accountsDBService.checkDBSum(accountsDBDTO.getDatabase(), accountsDBDTO.getSum());
+        boolean check = accountsDBService.checkDBSum(accountsDBDTO.getDatabase(), accountsDBDTO.getSum());
 
         assertThat(check).isFalse();
+    }
+
+    @Test
+    public void testUpdateActualCountAccount() {
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.USER));
+        securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("johndoe", "johndoe", authorities));
+        SecurityContextHolder.setContext(securityContext);
+
+        String example = "This is an example";
+        byte[] bytes = example.getBytes();
+        String uuid = UUID.randomUUID().toString();
+
+        User user = userRepository.saveAndFlush(userJohn);
+        AccountsDBDTO accountsDBDTO = accountsDBService.createNewAccountDB(bytes, uuid, user);
+        accountsDBDTO.setNbAccounts(1);
+        AccountsDBDTO accountsDBDTOSaved = accountsDBService.save(accountsDBDTO);
+
+        assertThat(accountsDBDTOSaved.getNbAccounts()).isEqualTo(1);
+
+        int newActualNumber = accountsDBService.updateNumberActualAccount("johndoe", 20);
+
+        AccountsDBDTO accountsDBDTOToVerify = accountsDBService.findOne(accountsDBDTO.getId());
+
+        assertThat(newActualNumber).isEqualTo(20);
+        assertThat(accountsDBDTOToVerify.getNbAccounts()).isEqualTo(20);
     }
 }

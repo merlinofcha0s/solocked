@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {TypeImport} from "./model/type-import.enum";
-import {Account} from "../../shared/account/account.model";
-import {isUndefined} from "util";
-import {AccountsService} from "../../shared/account/accounts.service";
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {TypeImport} from './model/type-import.enum';
+import {Account} from '../../shared/account/account.model';
+import {isUndefined} from 'util';
+import {AccountsService} from '../../shared/account/accounts.service';
+import {SnackUtilService} from '../../shared/snack/snack-util.service';
+import {AccountsDBService} from "../../entities/accounts-db/accounts-db.service";
 
 @Component({
     selector: 'jhi-import',
@@ -22,9 +24,14 @@ export class ImportComponent implements OnInit {
 
     private newAccounts: Array<Account>;
 
-    private lastPassHeader = "url,username,password,extra,name,grouping,fav";
+    private lastPassHeader = 'url,username,password,extra,name,grouping,fav';
 
-    constructor(private formBuilder: FormBuilder, private accountService: AccountsService) {
+    loading: boolean;
+
+    constructor(private formBuilder: FormBuilder,
+                private accountService: AccountsService,
+                private snackUtil: SnackUtilService,
+                private accountsDBService: AccountsDBService) {
     }
 
     ngOnInit() {
@@ -40,24 +47,25 @@ export class ImportComponent implements OnInit {
     }
 
     onSubmitImport() {
+        this.loading = true;
         this.importTypeValue = this.importType.value;
 
-        if (!isUndefined(this.newAccounts) && this.importTypeValue === this.importTypeValueGuess) {
-            console.log("Everything ok !!!!");
-            this.newAccounts.forEach(newAccount => {
-                this.accountService.saveNewAccount(newAccount).subscribe(account => {
-                    console.log('Okay');
-                });
+        if (this.importTypeValue === this.importTypeValueGuess) {
+            this.accountService.saveNewAccount(this.newAccounts).subscribe((account) =>{
+                this.snackUtil.openSnackBar('import.success', 5000, 'fa-check-circle');
+                this.loading = false;
+                this.accountsDBService.updateActualNumberAccount(this.newAccounts.length).subscribe();
             });
         } else {
-            //Mettre une erreur
+            this.loading = false;
+            this.snackUtil.openSnackBar('import.error.wrongchoiceformat', 60000, 'fa-exclamation-triangle');
         }
     }
 
     onFileChange(event: any) {
         if (event.target.files && event.target.files.length > 0) {
-            let reader = new FileReader();
-            let file = event.target.files[0];
+            const reader = new FileReader();
+            const file = event.target.files[0];
             reader.readAsText(file);
             reader.onload = () => {
                 console.log(reader.result);
@@ -78,7 +86,7 @@ export class ImportComponent implements OnInit {
                     break;
             }
         } else {
-            //Mettre une erreur
+            this.snackUtil.openSnackBar('import.error.formatunknown', 6000, 'fa-exclamation-triangle');
         }
     }
 
@@ -96,13 +104,13 @@ export class ImportComponent implements OnInit {
 
     extract(importFile: string): Array<string> {
         const linesWithHeader = importFile.split('\n');
-        //Skip the header
+        // Skip the header
         return linesWithHeader.slice(1, linesWithHeader.length);
     }
 
     createAccountFromLastPass(lines: Array<string>): Array<Account> {
         const newAccounts = [];
-        lines.forEach(line => {
+        lines.forEach((line) => {
             const fields = line.split(',');
             const url = fields[0].trim();
             const username = fields[1].trim();

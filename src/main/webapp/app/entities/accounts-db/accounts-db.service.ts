@@ -83,6 +83,7 @@ export class AccountsDBService {
         const copy = this.convert(accountsDB);
         return this.http.put(`${this.resourceUrl}/updateDbUserConnected`, copy, {observe: 'response'})
             .map((res: EntityResponseType) => {
+                console.log('return from updating service');
                 if (res.ok) {
                     return this.convertResponse(res).body;
                 } else {
@@ -94,5 +95,10 @@ export class AccountsDBService {
 
     getActualMaxAccount(): Observable<any> {
         return this.http.get(SERVER_API_URL + 'api/accounts-dbs/get-actual-max-account', {observe: 'response'}).map((res: EntityResponseType) => this.convertResponse(res).body);
+    }
+
+    updateActualNumberAccount(newActualNumberAccount: number): Observable<EntityResponseType> {
+        return this.http.post<AccountsDB>(`${this.resourceUrl}/update-actual-number-account`, newActualNumberAccount, {observe: 'response'})
+            .map((res: EntityResponseType) => this.convertResponse(res));
     }
 }

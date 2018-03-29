@@ -1,6 +1,12 @@
 {
     "import": {
         "title": "Import accounts data.",
-        "validation": "Import"
+        "validation": "Import",
+        "success": "Data successfuly imported !",
+        "loading": "Importing.... Please wait",
+        "error":{
+            "formatunknown": "Unknown format, please check your file",
+            "wrongchoiceformat": "Format choosen and format detected are not the same dklsdklmqskdlmsq"
+        }
     }
 }

@@ -4,7 +4,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PaymentService} from '../../entities/payment/payment.service';
 import {Subscription} from 'rxjs/Subscription';
 import {Principal} from '../../shared';
-import {isUndefined} from "util";
+import {isUndefined} from 'util';
 
 declare var $crisp: any;
 
@@ -81,7 +81,7 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
 
     initCrispData() {
         this.principal.identity(true).then((account) => {
-            if(typeof $crisp !== 'undefined'){
+            if (typeof $crisp !== 'undefined') {
                 $crisp.push(['set', 'user:nickname', account.login]);
             }
         });

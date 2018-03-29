@@ -22,8 +22,8 @@ import {
 } from './';
 import {ExportAllAccountsComponent} from './settings/export-all-accounts/export-all-accounts.component';
 import {DeleteAllAccountsComponent} from './settings/delete-all-accounts/delete-all-accounts.component';
-import {ImportComponent} from "./import/import.component";
-import {ReactiveFormsModule} from "@angular/forms";
+import {ImportComponent} from './import/import.component';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
     imports: [

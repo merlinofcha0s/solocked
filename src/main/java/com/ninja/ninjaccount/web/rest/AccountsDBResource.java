@@ -212,4 +212,20 @@ public class AccountsDBResource {
         }
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(actualAndMax));
     }
+
+    /**
+     * GET  /accounts-dbs/get-actual-max-account : get the actual and max numbers of accounts
+     *
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @PostMapping("/accounts-dbs/update-actual-number-account")
+    @Timed
+    public Integer updateActualNumberAccount(@RequestBody Integer newActualCount) {
+        Optional<String> login = SecurityUtils.getCurrentUserLogin();
+        int actualCount = 0;
+        if (login.isPresent()) {
+            actualCount = accountsDBService.updateNumberActualAccount(login.get(), newActualCount);
+        }
+        return actualCount;
+    }
 }

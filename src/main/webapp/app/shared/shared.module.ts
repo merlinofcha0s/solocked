@@ -54,6 +54,7 @@ import {AutolockService} from '../layouts/navbar/autologout/autolock.service';
 import {DateValidatorDirective} from './validation/date-validator.directive';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {AccountsTechService} from './account/accounts-tech.service';
+import {SnackUtilService} from './snack/snack-util.service';
 
 @NgModule({
     imports: [
@@ -107,6 +108,7 @@ import {AccountsTechService} from './account/accounts-tech.service';
         CryptoUtilsService,
         UserRouteAccessIsConnectedService,
         AutolockService,
+        SnackUtilService,
         {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
         {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
     ],

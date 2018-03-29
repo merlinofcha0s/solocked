@@ -121,14 +121,22 @@ export class AccountsService {
         this.accounts$.next(this._dataStore.accounts.accounts);
     }
 
-    saveNewAccount(account: Account): Observable<AccountsDB> {
-        // Sequence management
-        account.id = this.seqNextVal(this._dataStore.accounts);
-        const initVector = this.cryptoUtils.getRandomNumber();
+    saveNewAccount(account: Account | Array<Account>): Observable<AccountsDB> {
         return this.accountTech.synchroDB()
             .flatMap((accounts: Accounts) => {
-                // Adding nen account
-                accounts.accounts.push(account);
+                const initVector = this.cryptoUtils.getRandomNumber();
+                if (account instanceof Account) {
+                    // Sequence management
+                    account.id = this.seqNextVal(this._dataStore.accounts);
+                    // Adding new account
+                    accounts.accounts.push(account);
+                } else {
+                    for (const newAccount of account) {
+                        newAccount.id = this.seqNextVal(this._dataStore.accounts);
+                        this._dataStore.accounts.accounts.push(newAccount);
+                        accounts.accounts.push(newAccount);
+                    }
+                }
                 this.saveOnBrowser(accounts);
                 accounts.operationAccountType = OperationAccountType.CREATE;
                 return this.accountTech.saveEncryptedDB(accounts, initVector);

@@ -1,0 +1,25 @@
+import {Injectable} from '@angular/core';
+import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
+import {SnackComponent} from './snack.component';
+import {TranslateService} from '@ngx-translate/core';
+
+@Injectable()
+export class SnackUtilService {
+
+    constructor(private translateService: TranslateService,
+                private snackBar: MatSnackBar) {
+    }
+
+    openSnackBar(messageKey: string, duration: number, icon: string) {
+        const message = this.translateService.instant(messageKey);
+        const config = new MatSnackBarConfig();
+        config.verticalPosition = 'top';
+        config.duration = duration;
+        config.data = {icon: icon, text: message};
+        this.snackBar.openFromComponent(SnackComponent, config);
+    }
+
+    openSnackBarWithConfig(config: MatSnackBarConfig) {
+        this.snackBar.openFromComponent(SnackComponent, config);
+    }
+}

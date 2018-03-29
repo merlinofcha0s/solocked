@@ -180,4 +180,11 @@ public class AccountsDBService {
 
         return Pair.of(accountsDBDTO.getNbAccounts(), maxAccount);
     }
+
+    public Integer updateNumberActualAccount(String userLogin, int newActualCount) {
+        AccountsDBDTO accountsDBDTO = findByUsernameLogin(userLogin);
+        accountsDBDTO.setNbAccounts(newActualCount);
+        save(accountsDBDTO);
+        return newActualCount;
+    }
 }

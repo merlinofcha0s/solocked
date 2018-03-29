@@ -26,6 +26,7 @@ export class AccountsTechService {
         return this.encryptWithKeyInStorage(accounts, initVector)
             .flatMap((accountDB: ArrayBuffer) => this.cryptoUtils.toBase64Promise(new Blob([new Uint8Array(accountDB)], { type: 'application/octet-stream' })))
             .flatMap((accountDBbase64: string) => {
+                console.log('return saving encrypted db');
                 accountDBDTO.database = accountDBbase64;
                 accountDBDTO.databaseContentType = 'application/octet-stream';
                 accountDBDTO.initializationVector = initVector;

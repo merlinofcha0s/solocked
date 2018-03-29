@@ -8,14 +8,14 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {Account} from '../../shared/account/account.model';
 import {isUndefined} from 'util';
 import {Custom} from '../../shared/account/custom-account.model';
-import {MatDialog, MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
+import {MatDialog, MatDialogRef, MatSnackBarConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
-import {SnackComponent} from '../../shared/snack/snack.component';
 import {AddCustomBlockComponent} from './add-custom-block/add-custom-block.component';
 import {Payment} from '../../shared/account/payment-block.model';
 import {PaymentCustomBlockConstant} from './payment-custom-block.constant';
 import {DeletePaymentLineComponent} from './payment-custom-block/delete-payment-line/delete-payment-line.component';
 import {AccountsdbDeleteComponent} from '../accountsdb-details/accountsdb-delete/accountsdb-delete.component';
+import {SnackUtilService} from '../../shared/snack/snack-util.service';
 
 @Component({
     selector: 'jhi-accountsdb-add',
@@ -68,7 +68,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 private accountsService: AccountsService,
                 private router: Router,
                 private route: ActivatedRoute,
-                private snackBar: MatSnackBar,
+                private snackUtil: SnackUtilService,
                 private translateService: TranslateService,
                 public dialog: MatDialog) {
         this.customBlockCounter = {paymentBlocks: []};
@@ -198,12 +198,12 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
             newAccount.id = this.id;
             this.accountsService.updateAccount(newAccount);
             this.loading = false;
-            this.openSnackBar('ninjaccountApp.accountsDB.update.successful');
+            this.snackUtil.openSnackBar('ninjaccountApp.accountsDB.update.successful', 3000, 'fa-check-circle');
             this.router.navigate(['accounts']);
         } else {
             this.accountsService.saveNewAccount(newAccount)
                 .subscribe((accountsUpdated: AccountsDB) => {
-                        this.openSnackBar('ninjaccountApp.accountsDB.add.successful');
+                        this.snackUtil.openSnackBar('ninjaccountApp.accountsDB.add.successful', 3000, 'fa-check-circle');
                         this.loading = false;
                         this.router.navigate(['accounts']);
                     },
@@ -229,18 +229,9 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                             url: urlSettings,
                             action: actionSettings
                         };
-                        this.snackBar.openFromComponent(SnackComponent, config);
+                        this.snackUtil.openSnackBarWithConfig(config);
                     });
         }
-    }
-
-    openSnackBar(messageKey: string) {
-        const message = this.translateService.instant(messageKey);
-        const config = new MatSnackBarConfig();
-        config.verticalPosition = 'top';
-        config.duration = 3000;
-        config.data = {icon: 'fa-check-circle', text: message};
-        this.snackBar.openFromComponent(SnackComponent, config);
     }
 
     addCustomField(key: string, value: string) {
