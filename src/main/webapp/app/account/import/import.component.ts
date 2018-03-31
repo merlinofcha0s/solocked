@@ -26,6 +26,8 @@ export class ImportComponent implements OnInit {
     private lastPassHeader = 'url,username,password,extra,name,grouping,fav';
     private onePasswordHeader = 'ainfo,autosubmit,custom,email,master-password,notesPlain,password,scope,secret key,section:r7xrdwk6iz6totkcjlrvnmo524,' +
         'section:Section_p44bcbwngagpmb4qm2svcwxpku,tags,title,urls,username,uuid';
+    private dashlaneHeader = 'ainfo,autosubmit,custom,email,master-password,notesPlain,password,scope,secret key,section:r7xrdwk6iz6totkcjlrvnmo524,' +
+        'section:Section_p44bcbwngagpmb4qm2svcwxpku,tags,title,urls,username,uuid';
 
     loading: boolean;
 
@@ -89,6 +91,10 @@ export class ImportComponent implements OnInit {
                     this.newAccounts = this.createAccountFromOnePassword(lines);
                     console.log('New accounts converted from 1Password : ' + this.newAccounts.length);
                     break;
+                case TypeImport.DASHLANE:
+                    this.newAccounts = this.createAccountFromDashLane(lines);
+                    console.log('New accounts converted from 1Password : ' + this.newAccounts.length);
+                    break;
             }
         } else {
             this.snackUtil.openSnackBar('import.error.formatunknown', 6000, 'fa-exclamation-triangle');
@@ -104,8 +110,12 @@ export class ImportComponent implements OnInit {
                 return TypeImport.LASTPASS;
             case this.onePasswordHeader:
                 return TypeImport.ONEPASSWORD;
-            default:
-                return TypeImport.NONE;
+        }
+
+        if (firstLine.includes('@')) {
+            return TypeImport.DASHLANE;
+        } else {
+            return TypeImport.NONE;
         }
     }
 
@@ -120,7 +130,7 @@ export class ImportComponent implements OnInit {
         // Remove and return the last row (\n on the 1Password file)
         lines.pop();
         lines.forEach((line) => {
-            const fields = line.replace(/"/g, "").split(',');
+            const fields = line.replace(/"/g, '').split(',');
             const notes = fields[5].trim();
             const password = fields[6].trim();
             const tags = fields[11].trim();
@@ -131,7 +141,7 @@ export class ImportComponent implements OnInit {
             const newAccount = new Account(username, password, title);
             newAccount.url = url;
             newAccount.tags.push(title);
-            if (tags != "") {
+            if (tags !== '') {
                 newAccount.tags.push(tags);
             }
             newAccount.notes = notes;
@@ -157,6 +167,27 @@ export class ImportComponent implements OnInit {
             newAccount.url = url;
             newAccount.tags.push(name);
             newAccount.tags.push(grouping);
+
+            newAccounts.push(newAccount);
+        });
+        return newAccounts;
+    }
+
+    createAccountFromDashLane(lines: Array<string>): Array<Account> {
+        const newAccounts = [];
+        lines.forEach((line) => {
+            const fields = line.replace(/"/g, '').split(',');
+            let name = fields[0].trim()
+            name = name.charAt(0).toUpperCase() + name.substring(1);
+            const url = fields[1].trim();
+            const username = fields[2].trim();
+            const password = fields[3].trim();
+            const notes = fields[4].trim();
+
+            const newAccount = new Account(username, password, name);
+            newAccount.url = url;
+            newAccount.tags.push(name);
+            newAccount.notes = notes;
 
             newAccounts.push(newAccount);
         });
