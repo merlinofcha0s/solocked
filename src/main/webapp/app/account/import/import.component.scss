@@ -1,3 +1,48 @@
 .importLoading {
     justify-content: center;
 }
+
+.type-card-height {
+    height: 200px;
+}
+
+.img-lastpass {
+    object-fit: scale-down;
+    width: 90px;
+    height: 100px;
+}
+
+.radio-button-lastpass {
+    margin-top: 38px;
+}
+
+.img-default {
+    object-fit: scale-down;
+    width: 100px;
+}
+
+.img-keepass {
+    object-fit: scale-down;
+    width: 90px;
+}
+
+.radio-button-default {
+    margin-top: 15px;
+}
+
+.title-upload {
+    margin-top: 30px;
+}
+
+.container-upload {
+    margin-top: 20px;
+}
+
+.border-upload {
+    border: 2px dashed #296a64;
+    height: 150px;
+}
+
+.img-csv {
+    font-size: 65px;
+}

@@ -12,7 +12,7 @@ import {saveAs as importedSaveAs} from 'file-saver';
 })
 export class ExportAllAccountsComponent implements OnInit, OnDestroy {
 
-    separator = ',';
+    separator = '","';
 
     constructor(private accountsService: AccountsService,
                 private dialogRef: MatDialogRef<ExportAllAccountsComponent>) {
@@ -28,12 +28,12 @@ export class ExportAllAccountsComponent implements OnInit, OnDestroy {
         const accounts = this.accountsService.getAccountsListInstant();
         if (accounts.length !== 0) {
             let lines = '';
-            const header = 'Id,Name,Number,Username,Password,Notes,Fields,Tags';
+            const header = 'Id,Name,Number,Username,Password,Notes,Fields,Tags,Url';
             lines += lines.concat(header).concat('\n');
 
             accounts.forEach((account: Account) => {
                 let line = '';
-                line += account.id.toString() + this.separator;
+                line += '"' + account.id.toString() + this.separator;
                 line += account.name + this.separator;
 
                 if (isUndefined(account.number)) {
@@ -52,9 +52,18 @@ export class ExportAllAccountsComponent implements OnInit, OnDestroy {
                 }
 
                 account.customs.forEach((custom) => line += custom.key + ' - ' + custom.value + ' / ');
+                if (account.customs.length !== 0) {
+                    line = line.slice(0, -3);
+                }
                 line += this.separator;
-                account.tags.forEach((tags) => line += tags + ' ');
+
+                account.tags.forEach((tag) => line += tag + ' - ');
+                if (account.tags.length !== 0) {
+                    line = line.slice(0, -3);
+                }
                 line += this.separator;
+
+                line += account.url + '"';
 
                 line += '\n';
 

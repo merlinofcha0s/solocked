@@ -10,12 +10,12 @@ export class SnackUtilService {
                 private snackBar: MatSnackBar) {
     }
 
-    openSnackBar(messageKey: string, duration: number, icon: string) {
+    openSnackBar(messageKey: string, duration: number, iconCode: string) {
         const message = this.translateService.instant(messageKey);
         const config = new MatSnackBarConfig();
         config.verticalPosition = 'top';
         config.duration = duration;
-        config.data = {icon: icon, text: message};
+        config.data = {icon: iconCode, text: message};
         this.snackBar.openFromComponent(SnackComponent, config);
     }
 

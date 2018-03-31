@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {TypeImport} from './model/type-import.enum';
 import {Account} from '../../shared/account/account.model';
 import {AccountsService} from '../../shared/account/accounts.service';
 import {SnackUtilService} from '../../shared/snack/snack-util.service';
-import {AccountsDBService} from '../../entities/accounts-db/accounts-db.service';
+import {AccountsDBService} from '../../entities/accounts-db';
+import {Custom} from '../../shared/account/custom-account.model';
 
 @Component({
     selector: 'jhi-import',
@@ -26,10 +27,11 @@ export class ImportComponent implements OnInit {
     private lastPassHeader = 'url,username,password,extra,name,grouping,fav';
     private onePasswordHeader = 'ainfo,autosubmit,custom,email,master-password,notesPlain,password,scope,secret key,section:r7xrdwk6iz6totkcjlrvnmo524,' +
         'section:Section_p44bcbwngagpmb4qm2svcwxpku,tags,title,urls,username,uuid';
-    private dashlaneHeader = 'ainfo,autosubmit,custom,email,master-password,notesPlain,password,scope,secret key,section:r7xrdwk6iz6totkcjlrvnmo524,' +
-        'section:Section_p44bcbwngagpmb4qm2svcwxpku,tags,title,urls,username,uuid';
+    private csvHeader = 'Id,Name,Number,Username,Password,Notes,Fields,Tags,Url';
+    private keepassHeader = '"Account","Login Name","Password","Web Site","Comments"';
 
     loading: boolean;
+    preloadOk: boolean;
 
     constructor(private formBuilder: FormBuilder,
                 private accountService: AccountsService,
@@ -42,11 +44,13 @@ export class ImportComponent implements OnInit {
     }
 
     initForm() {
-        this.importType = this.formBuilder.control('');
+        this.importType = this.formBuilder.control('', Validators.required);
 
         this.importForm = this.formBuilder.group({
-            importType: this.importType
+            importType: this.importType,
         });
+
+        this.preloadOk = false;
     }
 
     onSubmitImport() {
@@ -71,29 +75,31 @@ export class ImportComponent implements OnInit {
             const file = event.target.files[0];
             reader.readAsText(file);
             reader.onload = () => {
-                console.log(reader.result);
                 this.prepareImport(reader.result);
+                this.preloadOk = true;
             };
         }
     }
 
     prepareImport(importFile: string) {
         this.importTypeValueGuess = this.verifyImportType(importFile);
-        console.log('TypeImport: ' + this.importTypeValueGuess.toString());
         if (this.importTypeValueGuess !== TypeImport.NONE) {
             const lines = this.extract(importFile);
             switch (this.importTypeValueGuess) {
                 case TypeImport.LASTPASS:
                     this.newAccounts = this.createAccountFromLastPass(lines);
-                    console.log('New accounts converted from lastpass : ' + this.newAccounts.length);
                     break;
                 case TypeImport.ONEPASSWORD:
                     this.newAccounts = this.createAccountFromOnePassword(lines);
-                    console.log('New accounts converted from 1Password : ' + this.newAccounts.length);
                     break;
                 case TypeImport.DASHLANE:
                     this.newAccounts = this.createAccountFromDashLane(lines);
-                    console.log('New accounts converted from 1Password : ' + this.newAccounts.length);
+                    break;
+                case TypeImport.CSV:
+                    this.newAccounts = this.createAccountFromCSV(lines);
+                    break;
+                case TypeImport.KEEPASS2:
+                    this.newAccounts = this.createAccountFromKeepass2(lines);
                     break;
             }
         } else {
@@ -103,13 +109,15 @@ export class ImportComponent implements OnInit {
 
     verifyImportType(importFile: string): TypeImport {
         const firstLine = importFile.split('\n')[0].trim();
-        console.log('first Line : ' + firstLine);
-        console.log('header hardcoded : ' + this.onePasswordHeader);
         switch (firstLine) {
             case this.lastPassHeader:
                 return TypeImport.LASTPASS;
             case this.onePasswordHeader:
                 return TypeImport.ONEPASSWORD;
+            case this.csvHeader:
+                return TypeImport.CSV;
+            case this.keepassHeader:
+                return TypeImport.KEEPASS2;
         }
 
         if (firstLine.includes('@')) {
@@ -130,7 +138,7 @@ export class ImportComponent implements OnInit {
         // Remove and return the last row (\n on the 1Password file)
         lines.pop();
         lines.forEach((line) => {
-            const fields = line.replace(/"/g, '').split(',');
+            const fields = line.replace(/","/g, ',-').split(',-');
             const notes = fields[5].trim();
             const password = fields[6].trim();
             const tags = fields[11].trim();
@@ -176,8 +184,8 @@ export class ImportComponent implements OnInit {
     createAccountFromDashLane(lines: Array<string>): Array<Account> {
         const newAccounts = [];
         lines.forEach((line) => {
-            const fields = line.replace(/"/g, '').split(',');
-            let name = fields[0].trim()
+            const fields = line.replace(/","/g, ',-').split(',-');
+            let name = fields[0].replace('\"', '').trim();
             name = name.charAt(0).toUpperCase() + name.substring(1);
             const url = fields[1].trim();
             const username = fields[2].trim();
@@ -188,6 +196,69 @@ export class ImportComponent implements OnInit {
             newAccount.url = url;
             newAccount.tags.push(name);
             newAccount.notes = notes;
+
+            newAccounts.push(newAccount);
+        });
+        return newAccounts;
+    }
+
+    createAccountFromCSV(lines: Array<string>): Array<Account> {
+        const newAccounts = [];
+        // Delete the last line, we avoid an empty line, we generate it with \n at the end of the file
+        lines.pop();
+        lines.forEach((line) => {
+            const fields = line.replace(/","/g, ',-').split(',-');
+            let name = fields[1].trim();
+            name = name.charAt(0).toUpperCase() + name.substring(1);
+            const username = fields[3].trim();
+            const password = fields[4].trim();
+            const notes = fields[5].trim();
+            const fieldsField = fields[6].trim().split('/');
+            const tags = fields[7].trim().split(' - ');
+            const url = fields[8].trim().replace('\"', '');
+
+            const newAccount = new Account(username, password, name);
+            newAccount.url = url;
+            newAccount.notes = notes;
+
+            for (const field of fieldsField) {
+                if (field !== '') {
+                    const label = field.split(' - ')[0];
+                    const value = field.split(' - ')[1];
+                    const custom = new Custom(label, value);
+                    newAccount.customs.push(custom);
+                }
+            }
+
+            for (const tag of tags) {
+                if (tag !== name) {
+                    newAccount.tags.push(tag);
+                }
+            }
+            newAccount.tags.push(name);
+
+            newAccounts.push(newAccount);
+        });
+        return newAccounts;
+    }
+
+    createAccountFromKeepass2(lines: Array<string>): Array<Account> {
+        const newAccounts = [];
+        // Delete the last line, we avoid an empty line, we generate it with \n at the end of the file
+        lines.pop();
+        lines.forEach((line) => {
+            const fields = line.replace(/","/g, ',-').split(',-');
+            let name = fields[0].replace('\"', '').trim();
+            name = name.charAt(0).toUpperCase() + name.substring(1);
+            const username = fields[1].trim();
+            const password = fields[2].trim();
+            const url = fields[3].trim().replace('\"', '');
+            const notes = fields[4].trim().replace('\"', '');
+
+            const newAccount = new Account(username, password, name);
+            newAccount.url = url;
+            newAccount.notes = notes;
+            newAccount.tags.push(name);
 
             newAccounts.push(newAccount);
         });

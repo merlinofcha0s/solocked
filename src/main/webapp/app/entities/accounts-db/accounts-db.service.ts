@@ -83,7 +83,6 @@ export class AccountsDBService {
         const copy = this.convert(accountsDB);
         return this.http.put(`${this.resourceUrl}/updateDbUserConnected`, copy, {observe: 'response'})
             .map((res: EntityResponseType) => {
-                console.log('return from updating service');
                 if (res.ok) {
                     return this.convertResponse(res).body;
                 } else {

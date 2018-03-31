@@ -4,66 +4,83 @@
         <h1 id="title-accounts" jhiTranslate="import.title">Import data from another service</h1>
         <h3 id="title-select-type" >Select your service</h3>
         <form [formGroup]="importForm" (ngSubmit)="onSubmitImport()">
-            <mat-radio-group [formControl]="importType" class="row">
-                <div class="col-lg-6 col-xl-3">
-                    <mat-card style="height: 200px;">
-                        <mat-card-content class="d-flex justify-content-center align-items-center flex-column">
-                            <img src="../../../content/images/import/lastpass.png" style="object-fit: scale-down; width: 150px; height: 100px;">
-                            <mat-radio-button color="primary" [value]="TypeImport.LASTPASS" style="margin-top: 38px;"></mat-radio-button>
-                        </mat-card-content>
-                    </mat-card>
-                </div>
-                <div class="col-lg-6 col-xl-3">
-                    <mat-card  style="height: 200px;">
-                        <mat-card-content>
-                            <div class="d-flex justify-content-center align-items-center flex-column">
-                                <img src="../../../content/images/import/1password.png" style="object-fit: scale-down; width: 100px;">
-                                <div>1Password</div>
-                            </div>
-                            <div class="d-flex justify-content-center align-items-center" style="margin-top: 15px;">
-                                <mat-radio-button color="primary" [value]="TypeImport.ONEPASSWORD"></mat-radio-button>
-                            </div>
-                        </mat-card-content>
-                    </mat-card>
-                </div>
-                <div class="col-lg-6 col-xl-3">
-                    <mat-card style="height: 200px;">
-                        <mat-card-content>
-                            <div class="d-flex justify-content-center align-items-center flex-column">
-                                <img src="../../../content/images/import/dashlane.png" style="object-fit: scale-down; width: 100px;">
-                                <div>Dashlane</div>
-                            </div>
-                            <div class="d-flex justify-content-center align-items-center" style="margin-top: 15px;">
-                                <mat-radio-button color="primary" [value]="TypeImport.DASHLANE"></mat-radio-button>
-                            </div>
-                        </mat-card-content>
-                    </mat-card>
-                </div>
-                <div class="col-lg-6 col-xl-3">
-                    <mat-card  style="height: 200px;">
-                        <mat-card-content>
-                            <div class="d-flex justify-content-center align-items-center flex-column">
-                                <i class="fas fa-file" style="font-size: 65px;"></i>
-                                <div>CSV</div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center" style="margin-top: 15px;">
-                                <mat-radio-button color="primary" [value]="TypeImport.CSV"></mat-radio-button>
-                            </div>
-                        </mat-card-content>
-                    </mat-card>
+            <mat-radio-group [formControl]="importType">
+                <div class="row">
+                    <div class="d-none d-xl-block col-xl-1"></div>
+                    <div class="col-lg-4 col-xl-2 mt-1">
+                        <mat-card class="type-card-height">
+                            <mat-card-content class="d-flex justify-content-center align-items-center flex-column">
+                                <img src="../../../content/images/import/lastpass.png" class="img-lastpass">
+                                <mat-radio-button color="primary" [value]="TypeImport.LASTPASS" class="radio-button-lastpass"></mat-radio-button>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <div class="col-lg-4 col-xl-2 mt-1">
+                        <mat-card class="type-card-height">
+                            <mat-card-content>
+                                <div class="d-flex justify-content-center align-items-center flex-column">
+                                    <img src="../../../content/images/import/1password.png" class="img-default">
+                                    <div class="mt-1">1Password</div>
+                                </div>
+                                <div class="d-flex justify-content-center align-items-center radio-button-default">
+                                    <mat-radio-button color="primary" [value]="TypeImport.ONEPASSWORD"></mat-radio-button>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <div class="col-lg-4 col-xl-2 mt-1">
+                        <mat-card class="type-card-height">
+                            <mat-card-content>
+                                <div class="d-flex justify-content-center align-items-center flex-column">
+                                    <img src="../../../content/images/import/dashlane.png" class="img-default">
+                                    <div class="mt-1">Dashlane</div>
+                                </div>
+                                <div class="d-flex justify-content-center align-items-center radio-button-default">
+                                    <mat-radio-button color="primary" [value]="TypeImport.DASHLANE"></mat-radio-button>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <div class="col-lg-4 col-xl-2 mt-1">
+                        <mat-card class="type-card-height">
+                            <mat-card-content>
+                                <div class="d-flex justify-content-center align-items-center flex-column">
+                                    <i class="fas fa-file img-csv"></i>
+                                    <div class="mt-1">CSV</div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-center radio-button-default">
+                                    <mat-radio-button color="primary" [value]="TypeImport.CSV"></mat-radio-button>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <div class="col-lg-4 col-xl-2 mt-1">
+                        <mat-card class="type-card-height">
+                            <mat-card-content>
+                                <div class="d-flex justify-content-center align-items-center flex-column">
+                                    <img src="../../../content/images/import/keepass.png" class="img-keepass">
+                                    <div class="mt-1">Keepass (CSV)</div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-center radio-button-default">
+                                    <mat-radio-button color="primary" [value]="TypeImport.KEEPASS2"></mat-radio-button>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <div class="d-none d-xl-block col-xl-1"></div>
                 </div>
             </mat-radio-group>
-            <h3 id="title-select-file" style="margin-top: 30px;">Upload your file</h3>
-            <div class="row" style="margin-top: 20px;">
+            <h3 class="title-upload">Upload your file</h3>
+            <div class="row container-upload">
                 <div class="col-12">
-                    <div class="d-flex justify-content-center align-items-center" style=" border: 2px dashed #296a64; height: 150px;">
+                    <div class="d-flex justify-content-center align-items-center border-upload">
                         <input type="file" id="upload" (change)="onFileChange($event)" #fileInput>
                         <!--<div>Drag and drop your file here, or click on this zone</div>-->
                     </div>
                 </div>
             </div>
             <div class="d-flex align-items-center justify-content-center m-3">
-                <button mat-raised-button color="primary" type="submit" class="default-validation-button">
+                <button mat-raised-button color="primary" type="submit" class="default-validation-button" [disabled]="!importForm.valid || !preloadOk || loading">
                     {{'import.validation' | translate}}
                 </button>
             </div>
