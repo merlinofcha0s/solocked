@@ -2,10 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {TypeImport} from './model/type-import.enum';
 import {Account} from '../../shared/account/account.model';
-import {isUndefined} from 'util';
 import {AccountsService} from '../../shared/account/accounts.service';
 import {SnackUtilService} from '../../shared/snack/snack-util.service';
-import {AccountsDBService} from "../../entities/accounts-db/accounts-db.service";
+import {AccountsDBService} from '../../entities/accounts-db/accounts-db.service';
 
 @Component({
     selector: 'jhi-import',
@@ -25,6 +24,8 @@ export class ImportComponent implements OnInit {
     private newAccounts: Array<Account>;
 
     private lastPassHeader = 'url,username,password,extra,name,grouping,fav';
+    private onePasswordHeader = 'ainfo,autosubmit,custom,email,master-password,notesPlain,password,scope,secret key,section:r7xrdwk6iz6totkcjlrvnmo524,' +
+        'section:Section_p44bcbwngagpmb4qm2svcwxpku,tags,title,urls,username,uuid';
 
     loading: boolean;
 
@@ -51,7 +52,7 @@ export class ImportComponent implements OnInit {
         this.importTypeValue = this.importType.value;
 
         if (this.importTypeValue === this.importTypeValueGuess) {
-            this.accountService.saveNewAccount(this.newAccounts).subscribe((account) =>{
+            this.accountService.saveNewAccount(this.newAccounts).subscribe((account) => {
                 this.snackUtil.openSnackBar('import.success', 5000, 'fa-check-circle');
                 this.loading = false;
                 this.accountsDBService.updateActualNumberAccount(this.newAccounts.length).subscribe();
@@ -82,7 +83,11 @@ export class ImportComponent implements OnInit {
             switch (this.importTypeValueGuess) {
                 case TypeImport.LASTPASS:
                     this.newAccounts = this.createAccountFromLastPass(lines);
-                    console.log('New accounts converted : ' + this.newAccounts.length);
+                    console.log('New accounts converted from lastpass : ' + this.newAccounts.length);
+                    break;
+                case TypeImport.ONEPASSWORD:
+                    this.newAccounts = this.createAccountFromOnePassword(lines);
+                    console.log('New accounts converted from 1Password : ' + this.newAccounts.length);
                     break;
             }
         } else {
@@ -93,10 +98,12 @@ export class ImportComponent implements OnInit {
     verifyImportType(importFile: string): TypeImport {
         const firstLine = importFile.split('\n')[0].trim();
         console.log('first Line : ' + firstLine);
-        console.log('header hardcoded : ' + this.lastPassHeader);
+        console.log('header hardcoded : ' + this.onePasswordHeader);
         switch (firstLine) {
             case this.lastPassHeader:
                 return TypeImport.LASTPASS;
+            case this.onePasswordHeader:
+                return TypeImport.ONEPASSWORD;
             default:
                 return TypeImport.NONE;
         }
@@ -106,6 +113,32 @@ export class ImportComponent implements OnInit {
         const linesWithHeader = importFile.split('\n');
         // Skip the header
         return linesWithHeader.slice(1, linesWithHeader.length);
+    }
+
+    createAccountFromOnePassword(lines: Array<string>): Array<Account> {
+        const newAccounts = [];
+        // Remove and return the last row (\n on the 1Password file)
+        lines.pop();
+        lines.forEach((line) => {
+            const fields = line.replace(/"/g, "").split(',');
+            const notes = fields[5].trim();
+            const password = fields[6].trim();
+            const tags = fields[11].trim();
+            const title = fields[12].trim();
+            const url = fields[13].trim();
+            const username = fields[14].trim();
+
+            const newAccount = new Account(username, password, title);
+            newAccount.url = url;
+            newAccount.tags.push(title);
+            if (tags != "") {
+                newAccount.tags.push(tags);
+            }
+            newAccount.notes = notes;
+
+            newAccounts.push(newAccount);
+        });
+        return newAccounts;
     }
 
     createAccountFromLastPass(lines: Array<string>): Array<Account> {

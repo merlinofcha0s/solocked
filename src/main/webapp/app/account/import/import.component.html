@@ -2,13 +2,14 @@
     <div class="col-md-2"></div>
     <div class="col-md-8">
         <h1 id="title-accounts" jhiTranslate="import.title">Import data from another service</h1>
+        <h3 id="title-select-type" >Select your service</h3>
         <form [formGroup]="importForm" (ngSubmit)="onSubmitImport()">
             <mat-radio-group [formControl]="importType" class="row">
                 <div class="col-lg-6 col-xl-3">
                     <mat-card style="height: 200px;">
                         <mat-card-content class="d-flex justify-content-center align-items-center flex-column">
                             <img src="../../../content/images/import/lastpass.png" style="object-fit: scale-down; width: 150px; height: 100px;">
-                            <mat-radio-button [value]="TypeImport.LASTPASS" style="margin-top: 38px;"></mat-radio-button>
+                            <mat-radio-button color="primary" [value]="TypeImport.LASTPASS" style="margin-top: 38px;"></mat-radio-button>
                         </mat-card-content>
                     </mat-card>
                 </div>
@@ -20,7 +21,7 @@
                                 <div>1Password</div>
                             </div>
                             <div class="d-flex justify-content-center align-items-center" style="margin-top: 15px;">
-                                <mat-radio-button [value]="TypeImport.ONEPASSWORD"></mat-radio-button>
+                                <mat-radio-button color="primary" [value]="TypeImport.ONEPASSWORD"></mat-radio-button>
                             </div>
                         </mat-card-content>
                     </mat-card>
@@ -33,7 +34,7 @@
                                 <div>Dashlane</div>
                             </div>
                             <div class="d-flex justify-content-center align-items-center" style="margin-top: 15px;">
-                                <mat-radio-button [value]="TypeImport.DASHLANE"></mat-radio-button>
+                                <mat-radio-button color="primary" [value]="TypeImport.DASHLANE"></mat-radio-button>
                             </div>
                         </mat-card-content>
                     </mat-card>
@@ -46,12 +47,13 @@
                                 <div>CSV</div>
                             </div>
                             <div class="d-flex align-items-center justify-content-center" style="margin-top: 15px;">
-                                <mat-radio-button [value]="TypeImport.CSV"></mat-radio-button>
+                                <mat-radio-button color="primary" [value]="TypeImport.CSV"></mat-radio-button>
                             </div>
                         </mat-card-content>
                     </mat-card>
                 </div>
             </mat-radio-group>
+            <h3 id="title-select-file" style="margin-top: 30px;">Upload your file</h3>
             <div class="row" style="margin-top: 20px;">
                 <div class="col-12">
                     <div class="d-flex justify-content-center align-items-center" style=" border: 2px dashed #296a64; height: 150px;">
