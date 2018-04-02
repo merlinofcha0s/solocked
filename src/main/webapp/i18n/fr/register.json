@@ -1,9 +1,9 @@
 {
     "register": {
-        "titleHeader": "Création de compte utilisateur | Solocked",
-        "title": "Création de compte utilisateur",
+        "titleHeader": "Création nouveau coffre fort | Solocked",
+        "title": "Création nouveau coffre fort",
         "form": {
-            "button": "Enregistrement",
+            "button": "Créer un compte",
             "cancel": "Annuler"
         },
         "messages": {
