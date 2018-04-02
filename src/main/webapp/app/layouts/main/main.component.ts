@@ -17,6 +17,15 @@ import {MatDialog} from '@angular/material';
 export class JhiMainComponent implements OnInit {
 
     loginPage: boolean;
+    schema = {
+        '@context': 'http://schema.org',
+        '@type': 'Application',
+        'name': 'Solocked',
+        'url': 'https://solocked.com',
+        'description': 'All your accounts in one place.',
+    };
+
+    inProduction: boolean;
 
     constructor(private jhiLanguageHelper: JhiLanguageHelper
         , private router: Router
@@ -61,11 +70,11 @@ export class JhiMainComponent implements OnInit {
     /* tslint:disable */
     initTrackingAndChat() {
         this.profileService.getProfileInfo().then((profileInfo) => {
-            const inProduction = profileInfo.inProduction;
+            this.inProduction = profileInfo.inProduction;
             const inTest = profileInfo.inTest;
             if (inTest) {
                 // document.write('<script type="text/javascript">// ProductionAnalyticsCodeHere</script>');
-            } else if (!inTest && inProduction) {
+            } else if (!inTest && this.inProduction) {
                 const matomoScript = document.createElement("script");
                 matomoScript.type = "text/javascript";
                 matomoScript.innerHTML = "let _paq = _paq || [];\n" +
@@ -98,7 +107,7 @@ export class JhiMainComponent implements OnInit {
                 document.getElementsByTagName('head')[0].appendChild(crispScript);
             }
 
-            if (inProduction) {
+            if (this.inProduction) {
                 const crispScript = document.createElement("script");
                 crispScript.type = "text/javascript";
                 crispScript.innerHTML = "window.$crisp = [];\n" +

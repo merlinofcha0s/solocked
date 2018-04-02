@@ -5740,6 +5740,12 @@ ngx-infinite-scroll@0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/ngx-infinite-scroll/-/ngx-infinite-scroll-0.5.1.tgz#dd9452c602ff7c3222f0ca168481aa14140286b7"
 
+ngx-json-ld@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/ngx-json-ld/-/ngx-json-ld-0.3.1.tgz#9213153a05515a7279116927c9e8e1865f99501b"
+  dependencies:
+    tslib "^1.7.1"
+
 ngx-webstorage@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/ngx-webstorage/-/ngx-webstorage-2.0.1.tgz#232446262241e8fd0d794a03821c0b5e28459295"

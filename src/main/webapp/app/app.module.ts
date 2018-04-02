@@ -26,12 +26,13 @@ import {
     PageRibbonComponent,
     ProfileService
 } from './layouts';
-import {NinjaccountConnectedModule} from './connected/connected.module';
+import {NinjaccountConnectedModule} from './connected';
 import {NavbarService} from './layouts/navbar/navbar.service';
 import {AutolockComponent} from './layouts/navbar/autologout/autolock.component';
 import {SearchComponent} from './layouts/navbar/search/search.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {WarnBrowserComponent} from './layouts/main/warn-browser/warn-browser.component';
+import {NgxJsonLdModule} from 'ngx-json-ld';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
@@ -46,7 +47,8 @@ import {WarnBrowserComponent} from './layouts/main/warn-browser/warn-browser.com
         NinjaccountAdminModule,
         NinjaccountAccountModule,
         NinjaccountEntityModule,
-        NinjaccountConnectedModule
+        NinjaccountConnectedModule,
+        NgxJsonLdModule
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [
