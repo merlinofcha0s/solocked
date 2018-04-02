@@ -2,7 +2,7 @@
     <div class="col-md-2"></div>
     <div class="col-md-8">
         <h1 id="title-accounts" jhiTranslate="import.title">Import data from another service</h1>
-        <h3 id="title-select-type" >Select your service</h3>
+        <h3 id="title-select-type" jhiTranslate="import.subtitle1">Select your service</h3>
         <form [formGroup]="importForm" (ngSubmit)="onSubmitImport()">
             <mat-radio-group [formControl]="importType">
                 <div class="row">
@@ -75,7 +75,7 @@
                     <div class="d-none d-xl-block col-xl-1"></div>
                 </div>
             </mat-radio-group>
-            <h3 class="title-upload">Upload your file</h3>
+            <h3 class="title-upload" jhiTranslate="import.subtitle2">Upload your file</h3>
             <div class="row container-upload">
                 <div class="col-12">
                     <div class="d-flex justify-content-center align-items-center border-upload">

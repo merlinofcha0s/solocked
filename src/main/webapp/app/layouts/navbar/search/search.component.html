@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center align-items-center">
     <form name="searchForm width-max" role="form" (ngSubmit)="search()" novalidate>
         <mat-form-field class="width-max">
-            <input type="text" matInput [formControl]="searchControl" placeholder="Search...." [matAutocomplete]="auto">
+            <input type="text" matInput [formControl]="searchControl" placeholder="{{ 'global.menu.search' | translate }}" [matAutocomplete]="auto">
             <div matSuffix>
                 <i class="fas fa-search search" [class.hide]="searchControl.value.length != 0"></i>
                 <i class="fas fa-times cross" [class.hide]="searchControl.value.length == 0" (click)="clearSearch()"></i>

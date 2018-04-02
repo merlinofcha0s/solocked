@@ -18,7 +18,8 @@
                 "sessions": "Sessions",
                 "login": "S'authentifier",
                 "logout": "Déconnexion",
-                "register": "Créer un compte"
+                "register": "Créer un compte",
+                "import": "Importer"
             },
             "admin": {
                 "main": "Administration",
@@ -33,7 +34,8 @@
                 "database": "Base de données",
                 "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
             },
-            "language": "Langue"
+            "language": "Langue",
+            "search" : "Rechercher..."
         },
         "form": {
             "username": "Nom d'utilisateur",
@@ -86,7 +88,8 @@
         "ribbon": {
             "dev":"Développement"
         },
-        "item-count": "Affichage {{first}} - {{second}} de {{total}} items."
+        "item-count": "Affichage {{first}} - {{second}} de {{total}} items.",
+        "addAccount": "Ajouter compte"
     },
     "entity": {
         "action": {
@@ -130,5 +133,9 @@
         "emailexists": "Email déjà utilisé !",
         "idexists": "Une nouvelle entité {{entityName}} ne peut pas avoir d'ID !"
     },
-    "footer": "Ceci est votre pied de page"
+    "footer": "Ceci est votre pied de page",
+    "autolock":{
+        "name" : "Verrouillage",
+        "in": "dans"
+    }
 }

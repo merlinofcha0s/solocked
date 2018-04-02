@@ -113,9 +113,9 @@
             "paymentblock": {
                 "addCustomBlock": {
                     "title": "Add a custom block",
-                    "payment": "Payment fields",
-                    "contact": "Contact fields",
-                    "creditcard": "Credit Card fields",
+                    "payment": "Payment",
+                    "contact": "Contact",
+                    "creditcard": "Credit Card",
                     "continue": "Continue",
                     "cancel": "Cancel"
                 },
@@ -136,6 +136,10 @@
                 "deleteblock": {
                     "title": "Delete this payment block",
                     "snack": "Payment block deleted !"
+                },
+                "calcul":{
+                    "average": "Average",
+                    "total": "Total"
                 }
             }
         }

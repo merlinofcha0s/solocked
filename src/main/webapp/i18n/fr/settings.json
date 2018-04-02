@@ -1,13 +1,16 @@
 {
     "settings": {
-        "title": "Profil de l'utilisateur [<b>{{username}}</b>]",
+        "title": "Paramètres",
         "form": {
+            "username": "Nom d'utilisateur",
             "firstname": "Prénom",
             "firstname.placeholder": "Votre prénom",
             "lastname": "Nom",
             "lastname.placeholder": "Votre nom",
             "language": "Langue",
-            "button": "Sauvegarder"
+            "button": "Sauvegarder",
+            "loading": "Veuillez patienter...",
+            "nomodifLogin": "Modification interdite"
         },
         "messages": {
             "error": {
@@ -25,6 +28,38 @@
                     "required": "Votre nom est requis.",
                     "minlength": "Votre nom doit comporter au moins un caractère.",
                     "maxlength": "Votre nom ne doit pas comporter plus de 50 caractères."
+                }
+            }
+        },
+        "accountdb": {
+            "title": "Votre coffre fort",
+            "text": "Nombre de comptes"
+        },
+        "danger": {
+            "zone": "Zone de danger",
+            "export": {
+                "title": "Exporter votre coffre fort",
+                "content": "Exporte entièrement votre coffre fort au format CSV (avec , comme séparateur) <br/> Vous pourrez l'ouvrir avec Excel ou un editeur de texte",
+                "action": "Exporter tous mes comptes",
+                "popup": {
+                    "title": "Exporte tous mes comptes",
+                    "content": "Toute vos données seront <strong class='font-weight-bold'>transférés</strong> en  <strong class='font-weight-bold'>clair sans aucun chiffrement</strong> sur ce periphérique",
+                    "confirmation": "Êtes vous sur ?",
+                    "cancel": "Annuler",
+                    "ok": "Exporte tous mes comptes"
+                }
+            },
+            "delete": {
+                "title": "Supprimer mon compte Solocked",
+                "content": "Supprime tous mes comptes ainsi que <span class='font-weight-bold'>toutes les informations</span> que nous avons.<br/> Cette opération est <span class='font-weight-bold'>irréversible</span>, nous vous déconnecterons à la fin du processus.",
+                "action": "Supprimer entièrement mon compte",
+                "popup": {
+                    "title": "Tout supprimer",
+                    "content": "Supprime tous mes comptes ainsi que <span class='font-weight-bold'>toutes les informations</span> que nous avons.<br/> Cette opération est <span class='font-weight-bold'>irréversible</span>, nous vous déconnecterons à la fin du processus.",
+                    "contentUsername": "Entrer votre nom d'utilisateur pour confirmer",
+                    "confirmation": "Êtes vous sur ?",
+                    "cancel": "Annuler",
+                    "ok": "Tout supprimer"
                 }
             }
         }

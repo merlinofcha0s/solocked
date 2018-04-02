@@ -11,10 +11,10 @@
                         "featured": "Favoris",
                         "notFeatured": "Suppression des favoris"
                     },
-                    "title": "Mon tableau de bord",
-                    "search": "Recherche...",
-                    "all": "Tous",
-                    "featured": "Favoris",
+                    "title": "Mes comptes",
+                    "searchList": "Tous",
+                    "pinned": "Favoris",
+                    "noPinned": "Pas encore de favoris! :)",
                     "loadMore": "Plus"
                 }
             },
@@ -33,7 +33,7 @@
             "title": "Accounts",
             "add": {
                 "header": "Ajout d'un compte | Solocked",
-                "title": "Ajout d'un nouveau compte.",
+                "title": "Ajouter un compte.",
                 "loading": "Création du nouveau compte...",
                 "name": "Nom",
                 "number": "Numéro",
@@ -44,7 +44,10 @@
                 "custom": {
                     "label": "Nom",
                     "value": "Valeur",
-                    "button": "Ajout d'un champs personnalisé"
+                    "button": "Ajout d'un champ personnalisé",
+                    "sets": {
+                        "button": "Ajout d'un block personnalisé"
+                    }
                 },
                 "button": "Ajouter un compte"
             },
@@ -89,6 +92,38 @@
                 },
                 "notes": {
                     "max": "Trop de caractères"
+                }
+            },
+            "paymentblock": {
+                "addCustomBlock": {
+                    "title": "Ajout d'un block personnalisé",
+                    "payment": "Paiements",
+                    "contact": "Contact",
+                    "creditcard": "Carte de crédit",
+                    "continue": "Continuer",
+                    "cancel": "Annuler"
+                },
+                "paymentCustomBlock": {
+                    "title": "Paiements",
+                    "date": "Date",
+                    "amount": "Montant",
+                    "method": "Methode",
+                    "code": "Code"
+                },
+                "deletelinepopup": {
+                    "title": "Supprimer cette ligne",
+                    "text": "Ëtes vous sûr ?",
+                    "yes": "oui",
+                    "no": "non",
+                    "snack": "Ligne de paiement supprimé"
+                },
+                "deleteblock": {
+                    "title": "Supprimer ces champs de paiements",
+                    "snack": "Champs de paiement supprimés !"
+                },
+                "calcul":{
+                    "average": "Moyenne",
+                    "total": "Total"
                 }
             }
         }

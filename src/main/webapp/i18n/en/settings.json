@@ -39,7 +39,7 @@
             "zone": "Danger zone",
             "export": {
                 "title": "Export your lockbox",
-                "content": "Export you entire database in the CSV format (with ; separator) <br/> You can open it with excel or with a text editor",
+                "content": "Export your entire database in the CSV format (with ; separator) <br/> You can open it with excel or with a text editor",
                 "action": "Export all my accounts",
                 "popup": {
                     "title": "Export all accounts",

@@ -1,0 +1,14 @@
+{
+    "import": {
+        "title": "Importer vos données.",
+        "subtitle1": "Selectionnez votre service",
+        "subtitle2": "Téléverser votre fichier",
+        "validation": "Importer",
+        "success": "Données importées avec succés",
+        "loading": "Importation.... Veuillez patienter",
+        "error":{
+            "formatunknown": "Format inconnu, veuillez vérifier le format de votre fichier",
+            "wrongchoiceformat": "Différence entre le format détecté et celui choisi !"
+        }
+    }
+}
