@@ -58,14 +58,15 @@ export class ImportComponent implements OnInit {
         this.importTypeValue = this.importType.value;
 
         if (this.importTypeValue === this.importTypeValueGuess) {
+            const nbActualAccount = this.accountService.getAccountsListInstant().length;
             this.accountService.saveNewAccount(this.newAccounts).subscribe((account) => {
                 this.snackUtil.openSnackBar('import.success', 5000, 'fa-check-circle');
                 this.loading = false;
-                this.accountsDBService.updateActualNumberAccount(this.newAccounts.length).subscribe();
+                this.accountsDBService.updateActualNumberAccount(nbActualAccount + this.newAccounts.length).subscribe();
             });
         } else {
             this.loading = false;
-            this.snackUtil.openSnackBar('import.error.wrongchoiceformat', 60000, 'fa-exclamation-triangle');
+            this.snackUtil.openSnackBar('import.error.wrongchoiceformat', 5000, 'fa-exclamation-triangle');
         }
     }
 
@@ -103,7 +104,7 @@ export class ImportComponent implements OnInit {
                     break;
             }
         } else {
-            this.snackUtil.openSnackBar('import.error.formatunknown', 6000, 'fa-exclamation-triangle');
+            this.snackUtil.openSnackBar('import.error.formatunknown', 5000, 'fa-exclamation-triangle');
         }
     }
 
