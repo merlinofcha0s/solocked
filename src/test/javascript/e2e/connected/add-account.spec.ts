@@ -1,35 +1,46 @@
-import { browser, element, by } from 'protractor';
-import { NavBarPage, SignInPage, PasswordPage, SettingsPage } from './../page-objects/jhi-page-objects';
+import {browser, element, by, ExpectedConditions} from 'protractor';
+import {CommonAction} from "../account/common-action";
 
 describe('Adding account', function () {
 
-    let navBarPage: NavBarPage;
-    let signInPage: SignInPage;
-    let passwordPage: PasswordPage;
-    let settingsPage: SettingsPage;
+    let registerHelper: CommonAction;
+
 
     beforeAll(() => {
         browser.get('/');
-        browser.waitForAngular();
+        registerHelper = new CommonAction();
+        browser.waitForAngularEnabled(false);
     });
 
-    it('When adding account successfully', function () {
-        element(by.css("*[id='signin']")).click();
-        element(by.css("*[id='username']")).click();
-        element(by.css("*[id='username']")).sendKeys('raiden');
-        element(by.css("*[id='password']")).click();
-        element(by.css("*[id='password']")).sendKeys('lolmdr');
-        element(by.css("html > body > jhi-main > div:nth-of-type(1) > jhi-navbar > nav > ngb-modal-window > div > div > jhi-login-modal > div.modal-body > div > div.col-md-12 > form > div.d-flex > button > span")).click();
-        element(by.css("*[id='addAccount']")).click();
+    it('Should adding account successfully', function () {
+        registerHelper.registerUser('test03', 'lolmdr', 'test03@lol.com')
+        registerHelper.activateUser('test03');
+
+        registerHelper.login('test03', 'lolmdr', true);
+
+        let name = 'Dropbox 3';
+        let username = 'raiden';
+
+        element(by.css("*[id='add-button']")).click();
         element(by.css("*[id='accountName']")).click();
-        element(by.css("*[id='accountName']")).sendKeys('Dropbox 3');
+        element(by.css("*[id='accountName']")).sendKeys(name);
         element(by.css("*[id='username']")).click();
-        element(by.css("*[id='username']")).sendKeys('raiden');
-        element(by.css("*[id='password']")).sendKeys('');
+        element(by.css("*[id='username']")).sendKeys(username);
+        element(by.css("*[id='password']")).sendKeys('looolmdr');
         element(by.css("*[id='password']")).click();
-        element(by.css("*[id='password']")).sendKeys('lolmdr');
         element(by.css("*[id='addEditAccount']")).click();
-        element(by.css("*[id='account-menu'] > span > span > span")).click();
-        element(by.css("*[id='logout']")).click();
+
+        browser.wait(ExpectedConditions.presenceOf(element(by.id('all'))));
+        element(by.css("*[id='all']")).click();
+
+        element.all(by.id("name")).first().getText().then((value) => {
+            expect(value).toEqual(name);
+        });
+
+        element.all(by.id("username")).first().getText().then((value) => {
+            expect(value).toEqual(username);
+        });
+
+        registerHelper.logout();
     });
 });

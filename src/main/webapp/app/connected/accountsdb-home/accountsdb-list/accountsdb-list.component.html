@@ -1,7 +1,7 @@
 <div class="card-account-content d-flex">
     <div class="d-flex p-4 content" [routerLink]="['/accounts/details', account.id]">
-        <div class="name">{{ account.name }}</div>
-        <div>{{ account.username }}</div>
+        <div class="name" id="name">{{ account.name }}</div>
+        <div id="username">{{ account.username }}</div>
     </div>
     <div class="d-flex actions justify-content-between">
         <i class="fa-star" [class.far]="!account.featured"

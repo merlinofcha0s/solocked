@@ -5,12 +5,11 @@
         <mat-tab-group class="tab">
             <mat-tab>
                 <ng-template mat-tab-label>
-                    {{ 'ninjaccountApp.accountsDB.home.online.pinned' | translate }} <span
-                    class="font-weight-light header-bar">({{ featuredAccounts.length }})</span>
+                    <span id="pinned">{{ 'ninjaccountApp.accountsDB.home.online.pinned' | translate }}</span>
+                    <span class="font-weight-light header-bar">({{ featuredAccounts.length }})</span>
                 </ng-template>
                 <div *ngIf="featuredAccounts !== undefined && featuredAccounts.length >= 1;else empty">
-                    <jhi-accountsdb-list *ngFor="let account of featuredAccounts"
-                                         [account]="account"></jhi-accountsdb-list>
+                    <jhi-accountsdb-list *ngFor="let account of featuredAccounts" [account]="account"></jhi-accountsdb-list>
                 </div>
                 <ng-template #empty>
                     <div class="d-flex align-items-center justify-content-center p-3 emptyContainer">
@@ -20,8 +19,9 @@
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>
-                    {{ 'ninjaccountApp.accountsDB.home.online.searchList' | translate }} <span
-                    class="font-weight-light header-bar">({{ accounts.length }})</span></ng-template>
+                    <span id="all">{{ 'ninjaccountApp.accountsDB.home.online.searchList' | translate }} </span>
+                    <span class="font-weight-light header-bar">({{ accounts.length }})</span>
+                </ng-template>
                 <div>
                     <jhi-accountsdb-list *ngFor="let account of accounts" [account]="account"></jhi-accountsdb-list>
                 </div>
