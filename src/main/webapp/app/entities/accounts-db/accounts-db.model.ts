@@ -9,6 +9,7 @@ export class AccountsDB implements BaseEntity {
         public database?: any,
         public nbAccounts?: number,
         public sum?: string,
+        public userLogin?: string,
         public userId?: number,
         public operationAccountType?: OperationAccountType
     ) {
