@@ -1,0 +1,26 @@
+
+{
+    "ninjaccountApp": {
+        "accountsDB" : {
+            "home": {
+                "title": "Accounts DBS",
+                "createLabel": "Create a new Accounts DB",
+                "createOrEditLabel": "Create or edit a Accounts DB"
+            },
+            "created": "A new Accounts DB is created with identifier {{ param }}",
+            "updated": "A Accounts DB is updated with identifier {{ param }}",
+            "deleted": "A Accounts DB is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Accounts DB {{ id }}?"
+            },
+            "detail": {
+                "title": "Accounts DB"
+            },
+            "initializationVector": "Initialization Vector",
+            "database": "Database",
+            "nbAccounts": "Nb Accounts",
+            "sum": "Sum",
+            "user": "User"
+        }
+    }
+}
