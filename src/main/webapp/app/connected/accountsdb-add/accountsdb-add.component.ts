@@ -95,10 +95,10 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     }
 
     initForm() {
-        this.accountName = this.fb.control('', Validators.compose([Validators.required, Validators.maxLength(this.maxName)]));
+        this.accountName = this.fb.control('', Validators.compose([Validators.maxLength(this.maxName)]));
         this.accountNumber = this.fb.control('', Validators.maxLength(this.maxNumber));
-        this.username = this.fb.control('', Validators.compose([Validators.required, Validators.maxLength(this.maxLogin)]));
-        this.password = this.fb.control('', Validators.compose([Validators.required, Validators.maxLength(this.maxPassword)]));
+        this.username = this.fb.control('', Validators.compose([Validators.maxLength(this.maxLogin)]));
+        this.password = this.fb.control('', Validators.compose([Validators.maxLength(this.maxPassword)]));
         this.notes = this.fb.control('', Validators.maxLength(this.maxNotes));
         this.tags = this.fb.control('', Validators.maxLength(this.maxTags));
         this.url = this.fb.control('', Validators.pattern('https?://.+'));
