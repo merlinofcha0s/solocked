@@ -57,7 +57,7 @@
                     "suffix": ", you can try the default accounts:<br/>- Administrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\")."
                 },
                 "register": {
-                    "noaccount": "Didn't signed up yet ?",
+                    "noaccount": "Ready to jump?",
                     "link": "Sign up"
                 }
             },

@@ -32,32 +32,32 @@
             }
         },
         "accountdb": {
-            "title": "Your lockbox",
+            "title": "Your personal safe",
             "text": "Number of accounts"
         },
         "danger": {
             "zone": "Danger zone",
             "export": {
-                "title": "Export your lockbox",
-                "content": "Export your entire database in the CSV format (with ; separator) <br/> You can open it with excel or with a text editor",
+                "title": "Export your personal safe",
+                "content": "Export your entire database in CSV format (comma separated) <br/> You can open it in a spreadsheet or with a text editor",
                 "action": "Export all my accounts",
                 "popup": {
                     "title": "Export all accounts",
-                    "content": "All your data will be <strong class='font-weight-bold'>transfered</strong> in <strong class='font-weight-bold'>clear text without any encryption</strong> on this device",
-                    "confirmation": "Are you sure ?",
+                    "content": "All your data will be <strong class='font-weight-bold'>transferred</strong> in <strong class='font-weight-bold'>clear text without any encryption</strong> onto this device",
+                    "confirmation": "Are you sure?",
                     "cancel": "Cancel",
                     "ok": "Export all my accounts"
                 }
             },
             "delete": {
-                "title": "Delete your solocked account",
-                "content": "Delete all your accounts and <span class='font-weight-bold'>all informations</span> that we have.<br/> This operation is <span class='font-weight-bold'>irreversible</span>, it will log you out at the end of the process",
+                "title": "Delete your SoLocked account",
+                "content": "Delete your SoLocked account including your <span class='font-weight-bold'> personal safe </span>containing all your accounts.<br/> This operation is <span class='font-weight-bold'>irreversible</span>, it will log you out at the end of the process",
                 "action": "Delete all my accounts",
                 "popup": {
                     "title": "Delete everything",
                     "content": "All your data will be <strong class='font-weight-bold'>deleted</strong><br/> <strong class='font-weight-bold'>This operation is irreversible</strong><br/> We will log you out at the end of the process.",
                     "contentUsername": "Enter your username to confirm :",
-                    "confirmation": "Are you sure ?",
+                    "confirmation": "Are you sure?",
                     "cancel": "Cancel",
                     "ok": "Delete all my accounts"
                 }

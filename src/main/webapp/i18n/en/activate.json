@@ -1,7 +1,7 @@
 {
     "activate": {
-        "titleHeader": "Activation | Solocked",
-        "title": "Activation",
+        "titleHeader": "SoLocked account activation | Solocked",
+        "title": "SoLocked account activation:",
         "messages": {
             "success": "<strong>Your user account has been activated.</strong> Please ",
             "error": "Your user could not be activated. Please use the registration form to register.",

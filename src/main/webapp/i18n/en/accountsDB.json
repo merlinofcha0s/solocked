@@ -11,7 +11,7 @@
                         "pinned": "Pinned",
                         "notPinned": "Remove from pinned"
                     },
-                    "title": "My accounts",
+                    "title": "Personal safe",
                     "searchList": "All",
                     "pinned": "Pinned",
                     "noPinned": "No pinned accounts yet! :)",
@@ -58,7 +58,7 @@
             },
             "update": {
                 "header": "Update account | Solocked",
-                "title": "Update an account.",
+                "title": "Update account.",
                 "button": "Update account",
                 "error": "Error during the account update",
                 "successful":  "Account updated successfully"

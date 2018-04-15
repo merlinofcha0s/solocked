@@ -1,7 +1,7 @@
 {
     "register": {
-        "titleHeader": "Create a new lockbox | Solocked",
-        "title": "Create a new lockbox.",
+        "titleHeader": "Sign up for your SoLocked account | Solocked",
+        "title": "Sign up for your SoLocked account.",
         "form": {
             "button": "Sign up",
             "loading": "Generating your key, please wait ",
@@ -16,11 +16,11 @@
                     "pattern": "Your username can only contain letters and digits."
                 }
             },
-            "success": "<strong>Registration saved!</strong> Please check your email for confirmation.",
+            "success": "<strong>Almost done!</strong> Please check your email for confirmation.",
             "error": {
-                "fail": "<strong>Registration failed!</strong> Please try again later.",
-                "userexists": "<strong>Login name already registered!</strong> Please choose another one.",
-                "emailexists": "<strong>Email is already in use!</strong> Please choose another one."
+                "fail": "<strong>Oops! Problem with your sign up</strong> Please try again.",
+                "userexists": "<strong>Login name already taken!</strong> Please choose another one.",
+                "emailexists": "<strong>Email already in use!</strong> Please choose another one."
             }
         }
     }

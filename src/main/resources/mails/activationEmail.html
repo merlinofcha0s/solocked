@@ -10,7 +10,7 @@
             Dear
         </p>
         <p th:text="#{email.activation.text1(${user.login})}">
-            Thank you for creating your "{0}" SoLocked account, please click *the url* below to activate it:
+            Thank you for creating your "{0}" SoLocked account, please click below to activate it:
         </p>
         <p>
             <a th:href="@{|${baseUrl}/#/activate?key=${user.activationKey}|}"

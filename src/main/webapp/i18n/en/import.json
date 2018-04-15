@@ -1,14 +1,14 @@
 {
     "import": {
-        "title": "Import accounts data.",
-        "subtitle1": "Select your service",
+        "title": "Import",
+        "subtitle1": "Select your format",
         "subtitle2": "Upload your file",
         "validation": "Import",
         "success": "Data successfuly imported !",
         "loading": "Importing.... Please wait",
         "error":{
             "formatunknown": "Unknown format, please check your file",
-            "wrongchoiceformat": "Format choosen and format detected are not the same"
+            "wrongchoiceformat": "The format selected does not match the file uploaded"
         }
     }
 }
