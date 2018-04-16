@@ -13,10 +13,10 @@ describe('Adding account', function () {
     });
 
     it('Should adding account successfully', function () {
-        registerHelper.registerUser('test03', 'lolmdr', 'test03@lol.com')
+        registerHelper.registerUser('test03', 'Lolmdr06', 'test03@lol.com')
         registerHelper.activateUser('test03');
 
-        registerHelper.login('test03', 'lolmdr', true);
+        registerHelper.login('test03', 'Lolmdr06', true);
 
         let name = 'Dropbox 3';
         let username = 'raiden';
