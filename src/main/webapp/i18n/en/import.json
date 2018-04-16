@@ -4,7 +4,7 @@
         "subtitle1": "Select your format",
         "subtitle2": "Upload your file",
         "validation": "Import",
-        "success": "Data successfuly imported !",
+        "success": "{{nbImportedAccount}} accounts successfuly imported !",
         "loading": "Importing.... Please wait",
         "error":{
             "formatunknown": "Unknown format, please check your file",

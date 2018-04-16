@@ -122,7 +122,7 @@
                         Your password has to contain at least one letter in uppercase
                     </mat-error>
                 </mat-form-field>
-                <jhi-password-strength-bar [passwordToCheck]="registerAccount.password"></jhi-password-strength-bar>
+                <jhi-password-strength-bar class="mb-4" [passwordToCheck]="registerAccount.password"></jhi-password-strength-bar>
                 <mat-form-field class="registerInput">
                     <input matInput type="password" id="confirmPassword" name="confirmPassword"
                            #confirmPassword="ngModel"

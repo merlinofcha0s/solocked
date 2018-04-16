@@ -60,7 +60,7 @@ export class ImportComponent implements OnInit {
         if (this.importTypeValue === this.importTypeValueGuess) {
             const nbActualAccount = this.accountService.getAccountsListInstant().length;
             this.accountService.saveNewAccount(this.newAccounts).subscribe((account) => {
-                this.snackUtil.openSnackBar('import.success', 5000, 'fa-check-circle');
+                this.snackUtil.openSnackBar('import.success', 5000, 'fa-check-circle', {nbImportedAccount: this.newAccounts.length});
                 this.loading = false;
                 this.accountsDBService.updateActualNumberAccount(nbActualAccount + this.newAccounts.length).subscribe();
             });
