@@ -61,8 +61,8 @@
                             Your email cannot be longer than 100 characters.
                         </mat-error>
                 </mat-form-field>
-                <mat-form-field class="settingsInput" *ngIf="languages && languages.length > 0">
-                    <mat-select id="langKey" placeholder="{{'settings.form.language' | translate}}" name="langKey" [(ngModel)]="settingsAccount.langKey">
+                <mat-form-field  class="settingsInput" *ngIf="languages && languages.length > 0">
+                    <mat-select disabled="" id="langKey" placeholder="{{'settings.form.language' | translate}}" name="langKey" [(ngModel)]="settingsAccount.langKey">
                         <mat-option *ngFor="let language of languages" [value]="language">{{language | findLanguageFromKey}}</mat-option>
                     </mat-select>
                 </mat-form-field>
