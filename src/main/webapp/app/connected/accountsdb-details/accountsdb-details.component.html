@@ -11,7 +11,8 @@
                         ngxClipboard [cbContent]="account.username"
                         (click)="notifyCopyToClipboard('ninjaccountApp.accountsDB.details.username')"
                         class="pointer">
-                      {{ account.username }}
+                      <span> {{ account.username }}</span>
+                      <i class="fas fa-copy copy"></i>
                   </span>
               </div>
           </div>
@@ -22,7 +23,8 @@
                     ngxClipboard [cbContent]="account.number"
                     (click)="notifyCopyToClipboard('ninjaccountApp.accountsDB.details.number')"
                     class="pointer">
-                  {{ account.number }}
+                 <span> {{ account.number }}</span>
+                  <i class="fas fa-copy copy"></i>
               </span>
           </div>
           <div class="m-3 d-flex" *ngIf="account.password && account.password.length != 0">
@@ -35,8 +37,14 @@
                         matTooltip="{{ 'ninjaccountApp.accountsDB.details.tooltip' | translate }}"
                         [matTooltipPosition]="tooltipPosition"
                         class="pointer">
-                      <span *ngIf="showPassword"> {{ account.password }} </span>
-                      <span *ngIf="!showPassword"> {{ account.password | passwordhide }} </span>
+                      <span *ngIf="showPassword">
+                          <span> {{ account.password }}</span>
+                          <i class="fas fa-copy copy"></i>
+                      </span>
+                      <span *ngIf="!showPassword">
+                          <span> {{ account.password | passwordhide }} </span>
+                          <i class="fas fa-copy copy"></i>
+                      </span>
                   </span>
               </div>
           </div>
@@ -61,7 +69,8 @@
                     matTooltip="{{ 'ninjaccountApp.accountsDB.details.tooltip' | translate }}"
                     [matTooltipPosition]="tooltipPosition"
                     class="pointer">
-              {{ custom.value }}
+                  <span> {{ custom.value }}</span>
+                  <i class="fas fa-copy copy"></i>
               </span>
           </div>
           <div class="m-3 d-flex align-baseline">
