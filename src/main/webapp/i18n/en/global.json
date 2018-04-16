@@ -67,9 +67,11 @@
             "validate": {
                 "newpassword": {
                     "required": "Your password is required.",
-                    "minlength": "Your password is required to be at least 4 characters.",
+                    "minlength": "Your password is required to be at least 8 characters.",
                     "maxlength": "Your password cannot be longer than 50 characters.",
-                    "strength": "Password strength:"
+                    "strength": "Password strength:",
+                    "noNumber": "Your password has to contain at least one number",
+                    "noUppercase": "Your password has to contain at least one letter in uppercase"
                 },
                 "confirmpassword": {
                     "required": "Your confirmation password is required.",

@@ -24,6 +24,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     loading: boolean;
     passwordMatch: boolean;
 
+    maxPassword = 50;
+
     constructor(private languageService: JhiLanguageService,
                 private loginModalService: LoginModalService,
                 private registerService: Register,

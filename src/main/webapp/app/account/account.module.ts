@@ -24,6 +24,8 @@ import {ExportAllAccountsComponent} from './settings/export-all-accounts/export-
 import {DeleteAllAccountsComponent} from './settings/delete-all-accounts/delete-all-accounts.component';
 import {ImportComponent} from './import/import.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {NumberValidator} from './register/validator/number.validator';
+import {UpperValidator} from './register/validator/upper.validator';
 
 @NgModule({
     imports: [
@@ -43,14 +45,16 @@ import {ReactiveFormsModule} from '@angular/forms';
         SettingsComponent,
         ExportAllAccountsComponent,
         DeleteAllAccountsComponent,
-        ImportComponent
+        ImportComponent,
+        NumberValidator,
+        UpperValidator
     ],
     providers: [
         Register,
         ActivateService,
         PasswordService,
         PasswordResetInitService,
-        PasswordResetFinishService
+        PasswordResetFinishService,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     entryComponents: [ExportAllAccountsComponent, DeleteAllAccountsComponent]

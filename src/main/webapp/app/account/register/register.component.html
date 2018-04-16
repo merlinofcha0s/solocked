@@ -87,11 +87,15 @@
                             Your email cannot be longer than 100 characters.
                         </mat-error>
                 </mat-form-field>
-                <mat-form-field class="registerInput">
+                <mat-form-field class="registerInput mb-4">
                     <input matInput type="password" id="password" name="password"
                            #password="ngModel" jhiPasswordMatch="confirmPassword" reverse="true"
                            placeholder="{{'global.form.newpassword' | translate}}"
-                           [(ngModel)]="registerAccount.password" minlength=4 maxlength=50 required>
+                           [(ngModel)]="registerAccount.password" minlength=8 maxlength=50
+                           jhiNumberValidator="registerAccount.password"
+                           jhiUpperValidator="registerAccount.password"
+                           required>
+                        <mat-hint align="end">{{registerAccount.password?.length || 0}} / {{ maxPassword }}</mat-hint>
                         <mat-error class="text-danger"
                                   *ngIf="password.dirty && password.invalid && password.errors.required"
                                   jhiTranslate="global.messages.validate.newpassword.required">
@@ -100,22 +104,32 @@
                         <mat-error class="text-danger"
                                   *ngIf="password.dirty && password.invalid && password.errors.minlength"
                                   jhiTranslate="global.messages.validate.newpassword.minlength">
-                            Your password is required to be at least 4 characters.
+                            Your password is required to be at least 8 characters.
                         </mat-error>
                         <mat-error class="text-danger"
                                   *ngIf="password.dirty && password.invalid && password.errors.maxlength"
                                   jhiTranslate="global.messages.validate.newpassword.maxlength">
                             Your password cannot be longer than 50 characters.
                         </mat-error>
+                        <mat-error class="text-danger"
+                               *ngIf="password.dirty && password.invalid && password.errors.hasNoNumber"
+                                   jhiTranslate="global.messages.validate.newpassword.noNumber">
+                        Your password has to contain at least one number
+                        </mat-error>
+                    <mat-error class="text-danger"
+                               *ngIf="password.dirty && password.invalid && password.errors.hasNoUpper"
+                               jhiTranslate="global.messages.validate.newpassword.noUppercase">
+                        Your password has to contain at least one letter in uppercase
+                    </mat-error>
                 </mat-form-field>
                 <jhi-password-strength-bar [passwordToCheck]="registerAccount.password"></jhi-password-strength-bar>
                 <mat-form-field class="registerInput">
                     <input matInput type="password" id="confirmPassword" name="confirmPassword"
                            #confirmPassword="ngModel"
                            placeholder="{{'global.form.confirmpassword' | translate}}"
-                           [(ngModel)]="confirmPasswordValue" minlength=4 maxlength=50 required
+                           [(ngModel)]="confirmPasswordValue" minlength=8 maxlength=50 required
                            jhiPasswordMatch="password" reverse="false">
-
+                        <mat-hint align="end">{{confirmPasswordValue?.length || 0}} / {{ maxPassword }}</mat-hint>
                         <mat-error class="text-danger"
                                   *ngIf="confirmPassword.dirty && confirmPassword.invalid && confirmPassword.errors.required"
                                   jhiTranslate="global.messages.validate.confirmpassword.required">
