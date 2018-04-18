@@ -31,9 +31,9 @@
             "initializationVector": "Initialization Vector",
             "database": "Database",
             "user": "User",
-            "title": "My accounts | Solocked",
+            "title": "My accounts | SoLocked",
             "add": {
-                "header": "Add account | Solocked",
+                "header": "Add account | SoLocked",
                 "title": "Add account.",
                 "loading": "Creating account...",
                 "name": "Name",
@@ -57,7 +57,7 @@
                 "toomanyAccount": "Limit reached. Go to settings for more info"
             },
             "update": {
-                "header": "Update account | Solocked",
+                "header": "Update account | SoLocked",
                 "title": "Update account.",
                 "button": "Update account",
                 "error": "Error during the account update",

@@ -1,6 +1,6 @@
 {
-  "name": "Solocked",
-  "short_name": "Solocked",
+  "name": "SoLocked",
+  "short_name": "SoLocked",
   "icons": [
       {
           "src": "./content/images/lock.svg",

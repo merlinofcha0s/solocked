@@ -50,7 +50,7 @@
                 }
             },
             "delete": {
-                "title": "Supprimer mon compte Solocked",
+                "title": "Supprimer mon compte SoLocked",
                 "content": "Supprime tous mes comptes ainsi que <span class='font-weight-bold'>toutes les informations</span> que nous avons.<br/> Cette opération est <span class='font-weight-bold'>irréversible</span>, nous vous déconnecterons à la fin du processus.",
                 "action": "Supprimer entièrement mon compte",
                 "popup": {

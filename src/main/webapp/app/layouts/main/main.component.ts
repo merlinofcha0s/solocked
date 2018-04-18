@@ -20,7 +20,7 @@ export class JhiMainComponent implements OnInit {
     schema = {
         '@context': 'http://schema.org',
         '@type': 'Application',
-        'name': 'Solocked',
+        'name': 'SoLocked',
         'url': 'https://solocked.com',
         'description': 'All your accounts in one place.',
     };
