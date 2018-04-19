@@ -1,11 +1,11 @@
 <ngx-json-ld [json]="schema" *ngIf="inProduction"></ngx-json-ld>
-<div [class.background-offline]="loginPage" (click)="resetAutolockTime()">
+<div class="container-fluid" (click)="resetAutolockTime()">
     <jhi-page-ribbon></jhi-page-ribbon>
     <div>
         <router-outlet name="navbar"></router-outlet>
     </div>
-    <div class="container-fluid solocked-container">
-        <div class="p-5">
+    <div class="solocked-container">
+        <div class="pt-5">
             <router-outlet></router-outlet>
             <router-outlet name="popup"></router-outlet>
         </div>

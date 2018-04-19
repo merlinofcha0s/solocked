@@ -10,6 +10,7 @@ body {
     color: $font-color-primary;
     margin: 0;
     padding: 0;
+    height: 100%;
 }
 
 h1, h2, h3, h4 {
@@ -290,7 +291,6 @@ Social button
 
 .background-offline {
     background-color: $solocked-secondary-color;
-    height: 100%;
 }
 
 .width-max {

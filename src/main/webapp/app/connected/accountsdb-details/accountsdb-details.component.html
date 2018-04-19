@@ -1,9 +1,9 @@
 <div class="row" *ngIf="account$ | async as account">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-      <h1 class="m-3">{{ account.name }}.</h1>
+      <h1 class="mb-3">{{ account.name }}.</h1>
       <div class="d-flex flex-column">
-          <div class="m-3" *ngIf="account.username && account.username.length != 0">
+          <div class="mb-3" *ngIf="account.username && account.username.length != 0">
               <div>
                   <span class="font-weight-bold">{{ "ninjaccountApp.accountsDB.details.username" | translate }}:</span>
                   <span matTooltip="{{ 'ninjaccountApp.accountsDB.details.tooltip' | translate }}"
@@ -16,7 +16,7 @@
                   </span>
               </div>
           </div>
-          <div class="m-3" *ngIf="account.number && account.number.length != 0">
+          <div class="mb-3" *ngIf="account.number && account.number.length != 0">
               <span class="font-weight-bold">{{ "ninjaccountApp.accountsDB.details.number" | translate }}: </span>
               <span matTooltip="{{ 'ninjaccountApp.accountsDB.details.tooltip' | translate }}"
                     [matTooltipPosition]="tooltipPosition"
@@ -27,11 +27,11 @@
                   <i class="fas fa-copy copy"></i>
               </span>
           </div>
-          <div class="m-3 d-flex" *ngIf="account.password && account.password.length != 0">
-              <i class="fas fa-eye displayPassword" (mousedown)="showHidePassword(true)"
-                 (mouseup)="showHidePassword(false)"></i>
+          <div class="mb-3 d-flex" *ngIf="account.password && account.password.length != 0">
               <div class="d-flex align-items-center passwordContainer">
                   <span class="font-weight-bold">{{ "ninjaccountApp.accountsDB.details.password" | translate }}: </span>
+                  <i class="fas fa-eye displayPassword" (mousedown)="showHidePassword(true)" (touchstart)="showHidePassword(true)"
+                     (mouseup)="showHidePassword(false)"></i>
                   <span ngxClipboard [cbContent]="account.password"
                         (click)="notifyCopyToClipboard('ninjaccountApp.accountsDB.details.password')"
                         matTooltip="{{ 'ninjaccountApp.accountsDB.details.tooltip' | translate }}"
@@ -48,19 +48,19 @@
                   </span>
               </div>
           </div>
-          <div class="m-3" *ngIf="account.notes">
+          <div class="mb-3" *ngIf="account.notes">
               <span class="font-weight-bold">
                   {{ "ninjaccountApp.accountsDB.details.notes" | translate }}:
               </span>
               {{ account.notes }}
           </div>
-          <div class="m-3" *ngIf="account.url">
+          <div class="mb-3" *ngIf="account.url">
               <span class="font-weight-bold">
                   {{ "ninjaccountApp.accountsDB.details.url" | translate }}:
               </span>
               <a href="{{ account.url }}" target="_blank">{{ account.url }}</a>
           </div>
-          <div class="m-3" *ngFor="let custom of account.customs; let i=index">
+          <div class="mb-3" *ngFor="let custom of account.customs; let i=index">
               <span class="font-weight-bold">
                   {{ custom.key }}
               </span> :
@@ -73,13 +73,13 @@
                   <i class="fas fa-copy copy"></i>
               </span>
           </div>
-          <div class="m-3 d-flex align-baseline">
+          <div class="mb-3 d-flex align-baseline">
             <span class="font-weight-bold titleTags">{{ "ninjaccountApp.accountsDB.details.tags" | translate }}:</span>
               <mat-chip-list>
                   <mat-chip color="primary" selected="true" *ngFor="let tag of account.tags">{{ tag }}</mat-chip>
               </mat-chip-list>
           </div>
-          <div class="m-3 d-flex align-baseline">
+          <div class="mb-3 d-flex align-baseline">
             <jhi-payment-custom-block class="width-max" *ngIf="account.payments.length != 0"
                                       [payments]="account.payments"
                                       [readOnlyMode]="true" [expanded]="false"></jhi-payment-custom-block>

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Renderer2} from '@angular/core';
 import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
 
 import {JhiLanguageHelper} from '../../shared';
@@ -27,12 +27,13 @@ export class JhiMainComponent implements OnInit {
 
     inProduction: boolean;
 
-    constructor(private jhiLanguageHelper: JhiLanguageHelper
-        , private router: Router
-        , private principal: Principal
-        , private autolockService: AutolockService
-        , private profileService: ProfileService
-        , private dialog: MatDialog) {
+    constructor(private jhiLanguageHelper: JhiLanguageHelper,
+                private router: Router,
+                private principal: Principal,
+                private autolockService: AutolockService,
+                private profileService: ProfileService,
+                private dialog: MatDialog,
+                private renderer: Renderer2) {
     }
 
     ngOnInit() {
@@ -49,6 +50,7 @@ export class JhiMainComponent implements OnInit {
             }
             if (event instanceof NavigationEnd) {
                 this.loginPage = event.url === '/';
+                this.backgroundBodyManagement();
             }
         });
     }
@@ -139,10 +141,6 @@ export class JhiMainComponent implements OnInit {
         }
     }
 
-    /**
-     * detect IE
-     * returns version of IE or false, if browser is not Internet Explorer
-     */
     isEdge() {
         const ua = window.navigator.userAgent;
         const edge = ua.indexOf('Edge/');
@@ -152,6 +150,14 @@ export class JhiMainComponent implements OnInit {
         }
         // other browser
         return false;
+    }
+
+    backgroundBodyManagement() {
+        if (this.loginPage) {
+            this.renderer.addClass(document.body, 'background-offline');
+        } else {
+            this.renderer.removeClass(document.body, 'background-offline');
+        }
     }
 
 }

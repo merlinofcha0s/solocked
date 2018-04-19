@@ -108,17 +108,21 @@
                                            (suppressPaymentBlock)="onSuppressPaymentblock($event)"></jhi-payment-custom-block>
               </div>
               <div class="d-flex flex-column align-items-center justify-content-center buttonContainer">
-                <div class="d-flex align-content-center justify-content-center" style="width: 100%;">
-                    <button mat-button type="button" class="addCustom" id="addCustomField"
-                            (click)="addCustomField('', '')">
-                        <i class="fas fa-align-justify custom-icons" aria-hidden="true"></i>
-                        <div>{{'ninjaccountApp.accountsDB.add.custom.button' | translate}}</div>
-                    </button>
-                    <button mat-button type="button" class="addCustom" id="addCustomSetFields"
-                            (click)="openCustomBlock()">
-                        <i class="fas fa-th-list custom-icons" aria-hidden="true"></i>
-                        <div>{{'ninjaccountApp.accountsDB.add.custom.sets.button' | translate}}</div>
-                    </button>
+                <div class="row no-margin align-content-center justify-content-center" style="width: 100%;">
+                    <div class="col-12 col-sm-6 pl-sm-0">
+                        <button mat-button type="button" class="addCustom" id="addCustomField"
+                                (click)="addCustomField('', '')">
+                            <i class="fas fa-align-justify custom-icons" aria-hidden="true"></i>
+                            <div>{{'ninjaccountApp.accountsDB.add.custom.button' | translate}}</div>
+                        </button>
+                    </div>
+                    <div class="col-12 col-sm-6 pr-sm-0">
+                        <button mat-button type="button" class="addCustom" id="addCustomSetFields"
+                                (click)="openCustomBlock()">
+                            <i class="fas fa-th-list custom-icons" aria-hidden="true"></i>
+                            <div>{{'ninjaccountApp.accountsDB.add.custom.sets.button' | translate}}</div>
+                        </button>
+                    </div>
                 </div>
                 <button type="submit" mat-raised-button type="submit" color="primary" class="default-validation-button" [disabled]="!accountForm.valid || loading" id="addEditAccount">
                      <div *ngIf="updateMode;then updateBtn else createBtn"></div>
