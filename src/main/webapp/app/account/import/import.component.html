@@ -15,7 +15,7 @@
                                     <div class="mt-1 placeholder-lastpass">placeholder</div>
                                 </div>
                                 <div class="d-flex justify-content-center align-items-center radio-button-default">
-                                    <mat-radio-button color="primary" [value]="TypeImport.LASTPASS"></mat-radio-button>
+                                    <mat-radio-button color="primary" (click)="onTypeSelected(TypeImport.LASTPASS)" [value]="TypeImport.LASTPASS"></mat-radio-button>
                                 </div>
                             </mat-card-content>
                         </mat-card>
@@ -28,7 +28,7 @@
                                     <div class="mt-1">1Password</div>
                                 </div>
                                 <div class="d-flex justify-content-center align-items-center radio-button-default">
-                                    <mat-radio-button color="primary" [value]="TypeImport.ONEPASSWORD"></mat-radio-button>
+                                    <mat-radio-button color="primary" (click)="onTypeSelected(TypeImport.ONEPASSWORD)" [value]="TypeImport.ONEPASSWORD"></mat-radio-button>
                                 </div>
                             </mat-card-content>
                         </mat-card>
@@ -41,7 +41,7 @@
                                     <div class="mt-1">Dashlane</div>
                                 </div>
                                 <div class="d-flex justify-content-center align-items-center radio-button-default">
-                                    <mat-radio-button color="primary" [value]="TypeImport.DASHLANE"></mat-radio-button>
+                                    <mat-radio-button color="primary" (click)="onTypeSelected(TypeImport.DASHLANE)" [value]="TypeImport.DASHLANE"></mat-radio-button>
                                 </div>
                             </mat-card-content>
                         </mat-card>
@@ -54,7 +54,7 @@
                                     <div class="mt-1">CSV</div>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-center radio-button-default">
-                                    <mat-radio-button color="primary" [value]="TypeImport.CSV"></mat-radio-button>
+                                    <mat-radio-button color="primary" (click)="onTypeSelected(TypeImport.CSV)" [value]="TypeImport.CSV"></mat-radio-button>
                                 </div>
                             </mat-card-content>
                         </mat-card>
@@ -67,7 +67,7 @@
                                     <div class="mt-1">Keepass(CSV)</div>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-center radio-button-default">
-                                    <mat-radio-button color="primary" [value]="TypeImport.KEEPASS2"></mat-radio-button>
+                                    <mat-radio-button color="primary" (click)="onTypeSelected(TypeImport.KEEPASS2)" [value]="TypeImport.KEEPASS2"></mat-radio-button>
                                 </div>
                             </mat-card-content>
                         </mat-card>
@@ -75,6 +75,29 @@
                     <div class="d-none d-xl-block col-xl-1"></div>
                 </div>
             </mat-radio-group>
+            <div class="row mt-4 information-format" [hidden]="!displayCSVInformation">
+                <div class="col-12">
+                    <mat-card>
+                        <mat-card-content>
+                            <h5 jhiTranslate="import.titleinformation">Format informations</h5>
+                            <p>
+                                <span jhiTranslate="import.information.1">The header of the CSV file has to be in that format :</span>
+                                <span class="font-weight-bold" jhiTranslate="import.information.2">Id,Name,Number,Username,Password,Notes,Fields,Tags,Url</span>
+                            </p>
+                            <p>
+                                <span jhiTranslate="import.information.3">The tags has to be separated like this : "-" </span><br/>
+                                <span jhiTranslate="import.information.4">Example :</span>
+                                <span jhiTranslate="import.information.5" class="font-weight-bold">"my tags1 - my tags2 - myawesometags"</span>
+                            </p>
+                            <p>
+                                <span jhiTranslate="import.information.6">For custom fields, it has to be as follow : </span><br/>
+                                <span jhiTranslate="import.information.7">Example : </span>
+                                <span jhiTranslate="import.information.8" class="font-weight-bold">"fieldName1 - fieldValue1 / fieldname2 - fieldvalue2"</span>
+                            </p>
+                        </mat-card-content>
+                </mat-card>
+                </div>
+            </div>
             <h3 class="title-upload" jhiTranslate="import.subtitle2">Upload your file</h3>
             <div class="row container-upload">
                 <div class="col-12">

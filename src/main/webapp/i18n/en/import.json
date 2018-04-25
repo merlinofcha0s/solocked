@@ -6,6 +6,17 @@
         "validation": "Import",
         "success": "{{nbImportedAccount}} accounts successfuly imported !",
         "loading": "Importing.... Please wait",
+        "titleinformation": "Format informations",
+        "information":{
+            "1": "The header of the CSV file has to be in that format :",
+            "2":"Id,Name,Number,Username,Password,Notes,Fields,Tags,Url",
+            "3": "The tags has to be separated like this : '-' ",
+            "4": "Example :",
+            "5": "my tags1 - my tags2 - myawesometags",
+            "6": "For custom fields, it has to be as follow : ",
+            "7": "Example : ",
+            "8": "fieldName1 - fieldValue1 / fieldname2 - fieldvalue2"
+        },
         "error":{
             "formatunknown": "Unknown format, please check your file",
             "wrongchoiceformat": "The format selected does not match the file uploaded",

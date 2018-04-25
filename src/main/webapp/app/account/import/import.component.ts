@@ -36,6 +36,8 @@ export class ImportComponent implements OnInit {
     private lineInError: number;
     private lineInTotal: number;
 
+    displayCSVInformation: boolean;
+
     constructor(private formBuilder: FormBuilder,
                 private accountService: AccountsService,
                 private snackUtil: SnackUtilService,
@@ -278,5 +280,13 @@ export class ImportComponent implements OnInit {
             newAccounts.push(newAccount);
         });
         return newAccounts;
+    }
+
+    onTypeSelected(importType: TypeImport) {
+        if (importType === TypeImport.CSV) {
+            this.displayCSVInformation = true;
+        } else {
+            this.displayCSVInformation = false;
+        }
     }
 }
