@@ -41,6 +41,7 @@
                 "title": "Export your personal safe",
                 "content": "Export your entire database in CSV format (comma separated) <br/> You can open it in a spreadsheet or with a text editor",
                 "action": "Export all my accounts",
+                "nodata": "Nothing to import",
                 "popup": {
                     "title": "Export all accounts",
                     "content": "All your data will be <strong class='font-weight-bold'>transferred</strong> in <strong class='font-weight-bold'>clear text without any encryption</strong> onto this device",

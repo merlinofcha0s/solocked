@@ -4,6 +4,7 @@ import {Account} from '../../../shared/account/account.model';
 import {MatDialogRef} from '@angular/material';
 import {isUndefined} from 'util';
 import {saveAs as importedSaveAs} from 'file-saver';
+import {SnackUtilService} from "../../../shared/snack/snack-util.service";
 
 @Component({
     selector: 'jhi-export-all-accounts',
@@ -15,7 +16,8 @@ export class ExportAllAccountsComponent implements OnInit, OnDestroy {
     separator = '","';
 
     constructor(private accountsService: AccountsService,
-                private dialogRef: MatDialogRef<ExportAllAccountsComponent>) {
+                private dialogRef: MatDialogRef<ExportAllAccountsComponent>,
+                private snackUtil: SnackUtilService) {
     }
 
     ngOnInit() {
@@ -73,7 +75,8 @@ export class ExportAllAccountsComponent implements OnInit, OnDestroy {
             const blob = new Blob([lines], {type: 'text/csv'});
             importedSaveAs(blob, 'export-accounts.csv');
             this.dialogRef.close('export over');
+        } else {
+            this.snackUtil.openSnackBar('settings.danger.export.nodata', 5000, 'fa-exclamation-triangle');
         }
     }
-
 }
