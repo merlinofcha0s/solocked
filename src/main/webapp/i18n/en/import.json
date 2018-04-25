@@ -8,7 +8,8 @@
         "loading": "Importing.... Please wait",
         "error":{
             "formatunknown": "Unknown format, please check your file",
-            "wrongchoiceformat": "The format selected does not match the file uploaded"
+            "wrongchoiceformat": "The format selected does not match the file uploaded",
+            "lineerror": "There are {{lineInError}} line(s) on error (malformed)"
         }
     }
 }

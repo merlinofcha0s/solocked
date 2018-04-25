@@ -33,6 +33,9 @@ export class ImportComponent implements OnInit {
     loading: boolean;
     preloadOk: boolean;
 
+    private lineInError: number;
+    private lineInTotal: number;
+
     constructor(private formBuilder: FormBuilder,
                 private accountService: AccountsService,
                 private snackUtil: SnackUtilService,
@@ -56,7 +59,6 @@ export class ImportComponent implements OnInit {
     onSubmitImport() {
         this.loading = true;
         this.importTypeValue = this.importType.value;
-
         if (this.importTypeValue === this.importTypeValueGuess) {
             const nbActualAccount = this.accountService.getAccountsListInstant().length;
             this.accountService.saveNewAccount(this.newAccounts).subscribe((account) => {
@@ -71,6 +73,8 @@ export class ImportComponent implements OnInit {
     }
 
     onFileChange(event: any) {
+        this.lineInError = 0;
+        this.lineInTotal = 0;
         if (event.target.files && event.target.files.length > 0) {
             const reader = new FileReader();
             const file = event.target.files[0];
@@ -102,6 +106,11 @@ export class ImportComponent implements OnInit {
                 case TypeImport.KEEPASS2:
                     this.newAccounts = this.createAccountFromKeepass2(lines);
                     break;
+            }
+
+            if (this.lineInError > 0) {
+                this.snackUtil.openSnackBar('import.error.lineerror', 5000, 'fa-exclamation-triangle',
+                    {lineInError: this.lineInError});
             }
         } else {
             this.snackUtil.openSnackBar('import.error.formatunknown', 5000, 'fa-exclamation-triangle');
@@ -207,38 +216,43 @@ export class ImportComponent implements OnInit {
         const newAccounts = [];
         // Delete the last line, we avoid an empty line, we generate it with \n at the end of the file
         lines.pop();
+        this.lineInTotal = lines.length;
         lines.forEach((line) => {
             const fields = line.replace(/","/g, ',-').split(',-');
-            let name = fields[1].trim();
-            name = name.charAt(0).toUpperCase() + name.substring(1);
-            const username = fields[3].trim();
-            const password = fields[4].trim();
-            const notes = fields[5].trim();
-            const fieldsField = fields[6].trim().split('/');
-            const tags = fields[7].trim().split(' - ');
-            const url = fields[8].trim().replace('\"', '');
+            try {
+                let name = fields[1].trim();
+                name = name.charAt(0).toUpperCase() + name.substring(1);
+                const username = fields[3].trim();
+                const password = fields[4].trim();
+                const notes = fields[5].trim();
+                const fieldsField = fields[6].trim().split('/');
+                const tags = fields[7].trim().split(' - ');
+                const url = fields[8].trim().replace('\"', '');
 
-            const newAccount = new Account(username, password, name);
-            newAccount.url = url;
-            newAccount.notes = notes;
+                const newAccount = new Account(username, password, name);
+                newAccount.url = url;
+                newAccount.notes = notes;
 
-            for (const field of fieldsField) {
-                if (field !== '') {
-                    const label = field.split(' - ')[0];
-                    const value = field.split(' - ')[1];
-                    const custom = new Custom(label, value);
-                    newAccount.customs.push(custom);
+                for (const field of fieldsField) {
+                    if (field !== '') {
+                        const label = field.split(' - ')[0];
+                        const value = field.split(' - ')[1];
+                        const custom = new Custom(label, value);
+                        newAccount.customs.push(custom);
+                    }
                 }
-            }
 
-            for (const tag of tags) {
-                if (tag !== name) {
-                    newAccount.tags.push(tag);
+                for (const tag of tags) {
+                    if (tag !== name) {
+                        newAccount.tags.push(tag);
+                    }
                 }
-            }
-            newAccount.tags.push(name);
+                newAccount.tags.push(name);
 
-            newAccounts.push(newAccount);
+                newAccounts.push(newAccount);
+            } catch (e) {
+                this.lineInError++;
+            }
         });
         return newAccounts;
     }
