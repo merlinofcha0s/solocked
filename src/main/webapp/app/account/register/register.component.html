@@ -90,7 +90,7 @@
                 <mat-form-field class="registerInput mb-4">
                     <input matInput type="password" id="password" name="password"
                            #password="ngModel" jhiPasswordMatch="confirmPassword" reverse="true"
-                           placeholder="{{'global.form.newpassword' | translate}}"
+                           placeholder="{{'login.form.password' | translate}}"
                            [(ngModel)]="registerAccount.password" minlength=8 maxlength=50
                            jhiNumberValidator="registerAccount.password"
                            jhiUpperValidator="registerAccount.password"
