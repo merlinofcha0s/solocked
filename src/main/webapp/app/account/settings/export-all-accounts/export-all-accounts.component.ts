@@ -4,7 +4,7 @@ import {Account} from '../../../shared/account/account.model';
 import {MatDialogRef} from '@angular/material';
 import {isUndefined} from 'util';
 import {saveAs as importedSaveAs} from 'file-saver';
-import {SnackUtilService} from "../../../shared/snack/snack-util.service";
+import {SnackUtilService} from '../../../shared/snack/snack-util.service';
 
 @Component({
     selector: 'jhi-export-all-accounts',

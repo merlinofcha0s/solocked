@@ -141,7 +141,8 @@
                     "average": "Average",
                     "total": "Total"
                 }
-            }
+            },
+            "generatepassword": "Generate a strong password"
         }
     }
 }

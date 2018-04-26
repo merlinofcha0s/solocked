@@ -64,6 +64,8 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         paymentBlocks: Array<number>;
     };
 
+    private possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
     constructor(private fb: FormBuilder,
                 private accountsService: AccountsService,
                 private router: Router,
@@ -317,5 +319,14 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 id: this.id
             }
         });
+    }
+
+    generatePassword() {
+        let newPassword = '';
+        const length = 20;
+        for (let i = 0; i < length; i++) {
+            newPassword += this.possible.charAt(Math.floor(Math.random() * this.possible.length));
+        }
+        this.password.setValue(newPassword);
     }
 }

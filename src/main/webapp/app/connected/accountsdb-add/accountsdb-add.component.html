@@ -49,9 +49,14 @@
             <mat-form-field class="addAccountInput">
               <input matInput type="{{ passwordType }}" id="password" placeholder="{{'ninjaccountApp.accountsDB.add.password' | translate}}"
                      [formControl]="password">
-                <div matSuffix (click)="onHideDisplayPassword()">
-                    <i class="fas fa-eye suffixIcon" aria-hidden="true" [class.hideIcon]="passwordType == 'password'"></i>
-                    <i class="fas fa-eye-slash suffixIcon" aria-hidden="true" [class.hideIcon]="passwordType == 'text'"></i>
+                <div matSuffix class="d-flex">
+                    <div (click)="generatePassword()" style="margin-right: 10px;">
+                        <i matTooltip="{{ 'ninjaccountApp.accountsDB.generatepassword' | translate }}" class="fas fa-sync-alt suffixIcon" aria-hidden="true"></i>
+                    </div>
+                    <div (click)="onHideDisplayPassword()">
+                        <i class="fas fa-eye suffixIcon" aria-hidden="true" [class.hideIcon]="passwordType == 'password'"></i>
+                        <i class="fas fa-eye-slash suffixIcon" aria-hidden="true" [class.hideIcon]="passwordType == 'text'"></i>
+                    </div>
                 </div>
                 <mat-hint align="end">{{password.value?.length || 0}} / {{ maxPassword }}</mat-hint>
                 <mat-error class="text-danger"
