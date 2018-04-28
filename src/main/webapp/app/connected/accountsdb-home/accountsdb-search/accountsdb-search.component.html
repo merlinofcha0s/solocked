@@ -1,0 +1,11 @@
+<form name="searchForm width-max" role="form" (ngSubmit)="search()" novalidate>
+    <mat-form-field class="width-max autocomplete-width">
+        <input type="text" matInput [formControl]="searchControl"
+               placeholder="{{ 'global.menu.search' | translate }}">
+        <div matSuffix>
+            <i class="fas fa-search search" [class.hide]="searchControl.value.length != 0"></i>
+            <i class="fas fa-times cross" [class.hide]="searchControl.value.length == 0"
+               (click)="clearSearch()"></i>
+        </div>
+    </mat-form-field>
+</form>

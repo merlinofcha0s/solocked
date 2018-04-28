@@ -55,6 +55,7 @@ import {DateValidatorDirective} from './validation/date-validator.directive';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {AccountsTechService} from './account/accounts-tech.service';
 import {SnackUtilService} from './snack/snack-util.service';
+import {SearchService} from './search/search.service';
 
 @NgModule({
     imports: [
@@ -111,6 +112,7 @@ import {SnackUtilService} from './snack/snack-util.service';
         SnackUtilService,
         {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
         {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+        SearchService
     ],
     entryComponents: [JhiLoginModalComponent, SnackComponent],
     exports: [

@@ -24,7 +24,6 @@ export class SearchComponent implements OnInit, OnDestroy {
     filteredAccounts: Observable<Array<Account>>;
 
     accountsSub: Subscription;
-    filteredAccountsSub: Subscription;
 
     constructor(private fb: FormBuilder,
                 private accountsService: AccountsService,
@@ -37,18 +36,11 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.accountsSub.unsubscribe();
-        if (this.filteredAccountsSub) {
-            this.filteredAccountsSub.unsubscribe();
-        }
     }
 
     initAccounts() {
         this.accountsSub = this.accountsService.accounts$.subscribe((accounts) => {
             this.accounts = accounts;
-
-            if (this.filteredAccountsSub) {
-                this.filteredAccountsSub.unsubscribe();
-            }
 
             this.filteredAccounts = this.searchControl.valueChanges
                 .pipe(

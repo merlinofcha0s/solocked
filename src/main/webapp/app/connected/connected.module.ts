@@ -19,6 +19,7 @@ import {EditInlineTileComponent} from './accountsdb-add/payment-custom-block/edi
 import {EditDateInlineTileComponent} from './accountsdb-add/payment-custom-block/edit-date-inline-tile/edit.date.inline.tile.component';
 import {DeletePaymentLineComponent} from './accountsdb-add/payment-custom-block/delete-payment-line/delete-payment-line.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import {AccountsdbSearchComponent} from './accountsdb-home/accountsdb-search/accountsdb-search.component';
 
 @NgModule({
     imports: [
@@ -38,6 +39,7 @@ import {MatDialogModule} from '@angular/material/dialog';
         AccountsdbDetailsComponent,
         AccountsdbListComponent,
         AccountsdbDeleteComponent,
+        AccountsdbSearchComponent,
         AddCustomBlockComponent,
         PaymentCustomBlockComponent,
         ClickOutsideDirective,

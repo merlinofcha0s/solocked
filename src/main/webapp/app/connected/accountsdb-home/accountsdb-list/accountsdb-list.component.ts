@@ -4,15 +4,29 @@ import {AccountsService} from '../../../shared/account/accounts.service';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {SnackComponent} from '../../../shared/snack/snack.component';
+import {
+    trigger,
+    state,
+    style,
+    animate,
+    transition
+} from '@angular/animations';
 
 @Component({
     selector: 'jhi-accountsdb-list',
     templateUrl: './accountsdb-list.component.html',
-    styleUrls: ['./accountsdb-list.component.scss']
+    styleUrls: ['./accountsdb-list.component.scss'],
+    animations: [
+        trigger('appear', [
+            state('void', style({ opacity: 0.0, transform: 'translateY(100%)' })),
+            state('*', style({ opacity: 1, transform: 'translateY(0)' })),
+            transition('void => *, * => void', animate('200ms  ease-in-out'))
+        ])
+    ]
 })
 export class AccountsdbListComponent implements OnInit {
 
-    @Input() account: Account;
+    @Input() accounts: Array<Account>;
 
     constructor(private accountService: AccountsService,
                 private snackBar: MatSnackBar,

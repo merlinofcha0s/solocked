@@ -1,32 +1,13 @@
 <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-        <h1 id="title-accounts" jhiTranslate="ninjaccountApp.accountsDB.home.online.title">My account</h1>
-        <mat-tab-group class="tab">
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    <span id="pinned">{{ 'ninjaccountApp.accountsDB.home.online.pinned' | translate }}</span>
-                    <span class="font-weight-light header-bar">({{ featuredAccounts.length }})</span>
-                </ng-template>
-                <div *ngIf="featuredAccounts !== undefined && featuredAccounts.length >= 1;else empty">
-                    <jhi-accountsdb-list *ngFor="let account of featuredAccounts" [account]="account"></jhi-accountsdb-list>
-                </div>
-                <ng-template #empty>
-                    <div class="d-flex align-items-center justify-content-center p-3 emptyContainer">
-                        <div>{{ 'ninjaccountApp.accountsDB.home.online.noPinned' | translate }}</div>
-                    </div>
-                </ng-template>
-            </mat-tab>
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    <span id="all">{{ 'ninjaccountApp.accountsDB.home.online.searchList' | translate }} </span>
-                    <span class="font-weight-light header-bar">({{ accounts.length }})</span>
-                </ng-template>
-                <div>
-                    <jhi-accountsdb-list *ngFor="let account of accounts" [account]="account"></jhi-accountsdb-list>
-                </div>
-            </mat-tab>
-
-        </mat-tab-group>
+        <h1 id="title-accounts" jhiTranslate="ninjaccountApp.accountsDB.home.online.title">Personal safe</h1>
+        <jhi-accountsdb-search (filterTerms)="onFilter($event)"></jhi-accountsdb-search>
+        <jhi-accountsdb-list [accounts]="allAccountsPaginated"></jhi-accountsdb-list>
+        <div class="d-flex justify-content-center" *ngIf="displayLoadMore">
+            <button type="button" mat-raised-button color="primary" (click)="getNextPage()">
+                {{ "ninjaccountApp.accountsDB.home.online.loadMore" | translate }}
+            </button>
+        </div>
     </div>
 </div>
