@@ -117,7 +117,7 @@
             </li>
             <li class="dropdown pointer d-flex justify-content-center align-items-center"
                 *ngIf="isAuthenticated() && !hasAnyAuthorityDirect(['ROLE_ADMIN'])">
-                <jhi-search  class="search"></jhi-search>
+                <jhi-search *ngIf="showSearch" class="search"></jhi-search>
             </li>
              <li class="dropdown pointer d-flex justify-content-center align-items-center"
                  *ngIf="isAuthenticated() && !hasAnyAuthorityDirect(['ROLE_ADMIN'])">

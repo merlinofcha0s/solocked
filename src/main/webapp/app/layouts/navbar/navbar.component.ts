@@ -8,6 +8,7 @@ import {JhiLanguageHelper, LoginModalService, Principal} from '../../shared';
 import {LoginService} from './../../shared/login/login.service';
 
 import {VERSION} from '../../app.constants';
+import {AccountsHomeRouteName} from "../../connected";
 
 @Component({
     selector: 'jhi-navbar',
@@ -24,6 +25,7 @@ export class NavbarComponent implements OnInit {
     modalRef: NgbModalRef;
     version: string;
     defaultColor: boolean;
+    showSearch: boolean;
 
     constructor(private loginService: LoginService,
                 private languageService: JhiLanguageService,
@@ -55,6 +57,12 @@ export class NavbarComponent implements OnInit {
                     this.defaultColor = true;
                 } else {
                     this.defaultColor = false;
+                }
+
+                if (event.url === '/' + AccountsHomeRouteName) {
+                    this.showSearch = false;
+                } else {
+                    this.showSearch = true;
                 }
             }
         });

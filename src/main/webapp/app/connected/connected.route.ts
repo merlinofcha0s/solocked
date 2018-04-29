@@ -4,9 +4,11 @@ import { AccountsdbAddComponent } from './accountsdb-add/accountsdb-add.componen
 import { Routes } from '@angular/router';
 import { AccountsdbHomeComponent } from './accountsdb-home/accountsdb-home.component';
 
+export const AccountsHomeRouteName = 'accounts';
+
 export const ACCOUNTSDB_ROUTES: Routes = [
     {
-        path: 'accounts',
+        path: AccountsHomeRouteName,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'ninjaccountApp.accountsDB.title'
