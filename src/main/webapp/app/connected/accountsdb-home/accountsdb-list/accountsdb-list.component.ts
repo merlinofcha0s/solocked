@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Account} from '../../../shared/account/account.model';
 import {AccountsService} from '../../../shared/account/accounts.service';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
@@ -11,6 +11,9 @@ import {
     animate,
     transition
 } from '@angular/animations';
+import {Router} from '@angular/router';
+import {SessionStorageService} from 'ngx-webstorage';
+import {LAST_SEARCH} from '../../../shared';
 
 @Component({
     selector: 'jhi-accountsdb-list',
@@ -18,22 +21,29 @@ import {
     styleUrls: ['./accountsdb-list.component.scss'],
     animations: [
         trigger('appear', [
-            state('void', style({ opacity: 0.0, transform: 'translateY(100%)' })),
-            state('*', style({ opacity: 1, transform: 'translateY(0)' })),
+            state('void', style({opacity: 0.0, transform: 'translateY(100%)'})),
+            state('*', style({opacity: 1, transform: 'translateY(0)'})),
             transition('void => *, * => void', animate('200ms  ease-in-out'))
         ])
     ]
 })
-export class AccountsdbListComponent implements OnInit {
+export class AccountsdbListComponent implements OnInit, OnDestroy {
 
     @Input() accounts: Array<Account>;
+    @Input() terms: string;
 
     constructor(private accountService: AccountsService,
                 private snackBar: MatSnackBar,
-                private translateService: TranslateService) {
+                private translateService: TranslateService,
+                private router: Router,
+                private sessionStorage: SessionStorageService) {
     }
 
     ngOnInit() {
+    }
+
+    ngOnDestroy(): void {
+        this.sessionStorage.store(LAST_SEARCH, this.terms);
     }
 
     makeFeatured(account: Account) {
@@ -54,4 +64,9 @@ export class AccountsdbListComponent implements OnInit {
             this.snackBar.openFromComponent(SnackComponent, config);
         }
     }
+
+    onClickAccount(account: Account) {
+        this.router.navigate(['accounts/details/:id', {id: account.id}]);
+    }
+
 }

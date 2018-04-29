@@ -5,6 +5,7 @@ import {Observable} from 'rxjs/Rx';
 import {Accounts} from './../account/accounts.model';
 import {Injectable} from '@angular/core';
 import {TextEncoder} from 'text-encoding';
+import {KEY} from '../constants/session-storage.constants';
 
 @Injectable()
 export class CryptoService {
@@ -117,13 +118,13 @@ export class CryptoService {
             .fromPromise(crypto.subtle.exportKey('raw', key))
             .flatMap((rawKey) => this.cryptoUtils.toBase64Promise(new Blob([new Uint8Array(rawKey)], {type: 'application/octet-stream'})))
             .flatMap((base64Key) => {
-                this.sessionStorage.store('key', base64Key);
+                this.sessionStorage.store(KEY, base64Key);
                 return Observable.of(true);
             });
     }
 
     getCryptoKeyInStorage(): Observable<CryptoKey> {
-        const keyB64 = this.sessionStorage.retrieve('key');
+        const keyB64 = this.sessionStorage.retrieve(KEY);
         const keyBlob = this.cryptoUtils.b64toBlob(keyB64, 'application/octet-stream', 2048);
         return this.cryptoUtils.blobToArrayBuffer(keyBlob)
             .flatMap((keyArrayBuffer) => this.importKey(new Uint8Array(keyArrayBuffer), ['encrypt', 'decrypt'], true, this.cryptingAlgorithm));

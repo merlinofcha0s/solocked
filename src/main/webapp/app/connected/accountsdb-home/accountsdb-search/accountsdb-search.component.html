@@ -3,8 +3,8 @@
         <input type="text" matInput [formControl]="searchControl"
                placeholder="{{ 'global.menu.search' | translate }}" autofocus>
         <div matSuffix>
-            <i class="fas fa-search search" [class.hide]="searchControl.value.length != 0"></i>
-            <i class="fas fa-times cross" [class.hide]="searchControl.value.length == 0"
+            <i class="fas fa-search search" [class.hide]="searchControl.value && searchControl.value != ''"></i>
+            <i class="fas fa-times cross" [class.hide]="!searchControl.value || searchControl.value == ''"
                (click)="clearSearch()"></i>
         </div>
     </mat-form-field>

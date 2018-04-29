@@ -40,7 +40,6 @@ export class SearchComponent implements OnInit, OnDestroy {
     initAccounts() {
         this.accountsSub = this.accountsService.accounts$.subscribe((accounts) => {
             this.accounts = accounts;
-
             this.filteredAccounts = this.searchControl.valueChanges. map((name) => name ? this.searchService.filter(name, this.accounts) : []);
         });
     }

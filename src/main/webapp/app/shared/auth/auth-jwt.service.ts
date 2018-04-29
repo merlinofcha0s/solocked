@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {LocalStorageService, SessionStorageService} from 'ngx-webstorage';
 import {SERVER_API_URL} from '../../app.constants';
 import {AccountsService} from '../account/accounts.service';
+import {KEY, LAST_SEARCH} from '../constants/session-storage.constants';
 
 @Injectable()
 export class AuthServerProvider {
@@ -14,7 +15,6 @@ export class AuthServerProvider {
     ) {}
 
     getToken() {
-
         return this.$localStorage.retrieve('authenticationToken') || this.$sessionStorage.retrieve('authenticationToken');
     }
 
@@ -59,7 +59,8 @@ export class AuthServerProvider {
         return new Observable((observer) => {
             this.$localStorage.clear('authenticationToken');
             this.$sessionStorage.clear('authenticationToken');
-            this.$sessionStorage.clear('key');
+            this.$sessionStorage.clear(KEY);
+            this.$sessionStorage.clear(LAST_SEARCH);
             this.$accountService.clean();
             observer.complete();
         });
