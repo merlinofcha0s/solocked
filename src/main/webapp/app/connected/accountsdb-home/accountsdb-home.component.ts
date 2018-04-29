@@ -31,17 +31,19 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
 
     displayLoadMore: boolean;
 
+    lastSearchTerms: string;
+
     constructor(private accountsService: AccountsService,
                 private paymentService: PaymentService,
                 private principal: Principal,
                 private searchService: SearchService) {
         this.counter = 0;
+        this.lastSearchTerms = '';
         this.allAccountsPaginated = new Array<Account>();
         this.filteredAccounts = new Array<Account>();
     }
 
     ngOnInit() {
-
         this.initAccountsList();
         this.paymentService.getPaymentByLogin();
         this.initCrispData();
@@ -63,7 +65,7 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
                 this.pageSize = this.counter;
                 this.counter = 0;
             }
-
+            this.filterTerms.next(this.lastSearchTerms);
             this.getNextPage();
         });
 
@@ -101,6 +103,7 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
 
     onFilter(filterTerms) {
         this.counter = 0;
+        this.lastSearchTerms = filterTerms;
         this.allAccountsPaginated.splice(0, this.allAccountsPaginated.length);
         this.filterTerms.next(filterTerms);
     }

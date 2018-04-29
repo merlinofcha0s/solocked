@@ -7,11 +7,9 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {AccountsdbHomeComponent} from './accountsdb-home/accountsdb-home.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {AccountsdbDetailsComponent} from './accountsdb-details/accountsdb-details.component';
-import {PasswordHidePipe} from './accountsdb-details/password-hide.pipe';
+import {PasswordHidePipe} from './password-hide.pipe';
 import {ClipboardModule} from 'ngx-clipboard';
 import {AccountsdbListComponent} from './accountsdb-home/accountsdb-list/accountsdb-list.component';
-import {AccountsdbDeleteComponent} from './accountsdb-details/accountsdb-delete/accountsdb-delete.component';
 import {AddCustomBlockComponent} from './accountsdb-add/add-custom-block/add-custom-block.component';
 import {PaymentCustomBlockComponent} from './accountsdb-add/payment-custom-block/payment-custom-block.component';
 import {ClickOutsideDirective} from './accountsdb-add/payment-custom-block/click-outside.directive';
@@ -20,6 +18,7 @@ import {EditDateInlineTileComponent} from './accountsdb-add/payment-custom-block
 import {DeletePaymentLineComponent} from './accountsdb-add/payment-custom-block/delete-payment-line/delete-payment-line.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {AccountsdbSearchComponent} from './accountsdb-home/accountsdb-search/accountsdb-search.component';
+import {AccountsdbDeleteComponent} from './accountsdb-delete/accountsdb-delete.component';
 
 @NgModule({
     imports: [
@@ -36,7 +35,6 @@ import {AccountsdbSearchComponent} from './accountsdb-home/accountsdb-search/acc
         AccountsdbHomeComponent,
         TagsPipe,
         PasswordHidePipe,
-        AccountsdbDetailsComponent,
         AccountsdbListComponent,
         AccountsdbDeleteComponent,
         AccountsdbSearchComponent,

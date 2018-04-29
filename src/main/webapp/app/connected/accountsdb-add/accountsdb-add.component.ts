@@ -14,7 +14,7 @@ import {AddCustomBlockComponent} from './add-custom-block/add-custom-block.compo
 import {Payment} from '../../shared/account/payment-block.model';
 import {PaymentCustomBlockConstant} from './payment-custom-block.constant';
 import {DeletePaymentLineComponent} from './payment-custom-block/delete-payment-line/delete-payment-line.component';
-import {AccountsdbDeleteComponent} from '../accountsdb-details/accountsdb-delete/accountsdb-delete.component';
+import {AccountsdbDeleteComponent} from '../accountsdb-delete/accountsdb-delete.component';
 import {SnackUtilService} from '../../shared/snack/snack-util.service';
 
 @Component({

@@ -31,7 +31,7 @@
             "initializationVector": "Initialization Vector",
             "database": "Database",
             "user": "User",
-            "title": "My accounts | SoLocked",
+            "title": "Personal safe | SoLocked",
             "add": {
                 "header": "Add account | SoLocked",
                 "title": "Add account.",
@@ -64,16 +64,6 @@
                 "successful":  "Account updated successfully"
             },
             "details": {
-                "title": "Details",
-                "username": "Username",
-                "number": "Number",
-                "password": "Password",
-                "notes": "Notes",
-                "tags": "Tags",
-                "url": "URL",
-                "customField": "Custom Field",
-                "value": "Value",
-                "edit": "Edit",
                 "delete": "Delete",
                 "cancel": "Cancel",
                 "tooltip": "Click to copy",
@@ -83,7 +73,7 @@
                     "text": "Are you sure ?",
                     "yes": "yes",
                     "no": "no",
-                    "snack": "Deleted succesfully"
+                    "snack": "Deleted successfully"
                 }
             },
             "validate": {

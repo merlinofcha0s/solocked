@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Account} from '../../../shared/account/account.model';
 import {AccountsService} from '../../../shared/account/accounts.service';
-import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
+import {MatDialog, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {SnackComponent} from '../../../shared/snack/snack.component';
 import {
@@ -14,6 +14,7 @@ import {
 import {Router} from '@angular/router';
 import {SessionStorageService} from 'ngx-webstorage';
 import {LAST_SEARCH} from '../../../shared';
+import {AccountsdbDeleteComponent} from '../../accountsdb-delete/accountsdb-delete.component';
 
 @Component({
     selector: 'jhi-accountsdb-list',
@@ -36,7 +37,8 @@ export class AccountsdbListComponent implements OnInit, OnDestroy {
                 private snackBar: MatSnackBar,
                 private translateService: TranslateService,
                 private router: Router,
-                private sessionStorage: SessionStorageService) {
+                private sessionStorage: SessionStorageService,
+                public dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -65,8 +67,11 @@ export class AccountsdbListComponent implements OnInit, OnDestroy {
         }
     }
 
-    onClickAccount(account: Account) {
-        this.router.navigate(['accounts/details/:id', {id: account.id}]);
+    openConfirmationDeleteDialog(idToDelete: number) {
+        this.dialog.open(AccountsdbDeleteComponent, {
+            data: {
+                id: idToDelete
+            }
+        });
     }
-
 }
