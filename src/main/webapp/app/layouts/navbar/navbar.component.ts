@@ -8,13 +8,21 @@ import {JhiLanguageHelper, LoginModalService, Principal} from '../../shared';
 import {LoginService} from './../../shared/login/login.service';
 
 import {VERSION} from '../../app.constants';
-import {AccountsHomeRouteName} from "../../connected";
+import {AccountsHomeRouteName} from '../../connected';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
     selector: 'jhi-navbar',
     templateUrl: './navbar.component.html',
     styleUrls: [
         'navbar.scss'
+    ],
+    animations: [
+        trigger('appear', [
+            state('void', style({ opacity: 0.0})),
+            state('*', style({ opacity: 1})),
+            transition('void => *, * => void', animate('500ms  ease-in-out'))
+        ])
     ]
 })
 export class NavbarComponent implements OnInit {

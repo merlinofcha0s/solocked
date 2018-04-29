@@ -111,13 +111,13 @@
                     </li>
                 </ul>
             </li>
+            <li class="dropdown pointer d-flex justify-content-center align-items-center"
+                *ngIf="isAuthenticated() && !hasAnyAuthorityDirect(['ROLE_ADMIN'])">
+                <jhi-search *ngIf="showSearch" [@appear] class="search"></jhi-search>
+            </li>
             <li class="dropdown pointer d-flex justify-content-center align-items-center mr-4"
                 *ngIf="isAuthenticated() && !hasAnyAuthorityDirect(['ROLE_ADMIN'])">
                 <jhi-autolock></jhi-autolock>
-            </li>
-            <li class="dropdown pointer d-flex justify-content-center align-items-center"
-                *ngIf="isAuthenticated() && !hasAnyAuthorityDirect(['ROLE_ADMIN'])">
-                <jhi-search *ngIf="showSearch" class="search"></jhi-search>
             </li>
              <li class="dropdown pointer d-flex justify-content-center align-items-center"
                  *ngIf="isAuthenticated() && !hasAnyAuthorityDirect(['ROLE_ADMIN'])">

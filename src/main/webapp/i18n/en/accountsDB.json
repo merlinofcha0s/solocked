@@ -15,7 +15,7 @@
                     "searchList": "All",
                     "pinned": "Pinned",
                     "noPinned": "No pinned accounts yet! :)",
-                    "loadMore": "Load more"
+                    "loadMore": "More results"
                 }
             },
             "created": "A new Accounts DB is created with identifier {{ param }}",
