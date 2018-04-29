@@ -9,11 +9,11 @@ import {TranslateService} from '@ngx-translate/core';
 import {SnackComponent} from '../../shared/snack/snack.component';
 import {AccountsdbDeleteComponent} from "../accountsdb-delete/accountsdb-delete.component";
 
-@Component({
-    selector: 'jhi-accountsdb-details',
-    templateUrl: './accountsdb-details.component.html',
-    styleUrls: ['./accountsdb-details.component.scss']
-})
+// @Component({
+//     selector: 'jhi-accountsdb-details',
+//     templateUrl: './accountsdb-details.component.html',
+//     styleUrls: ['./accountsdb-details.component.scss']
+// })
 export class AccountsdbDetailsComponent implements OnInit, OnDestroy {
 
     private routeObservable: Subscription;
