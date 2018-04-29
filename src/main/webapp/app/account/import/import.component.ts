@@ -160,7 +160,6 @@ export class ImportComponent implements OnInit {
 
             const newAccount = new Account(username, password, title);
             newAccount.url = url;
-            newAccount.tags.push(title);
             if (tags !== '') {
                 newAccount.tags.push(tags);
             }
@@ -185,7 +184,6 @@ export class ImportComponent implements OnInit {
             const newAccount = new Account(username, password, name);
             newAccount.featured = Boolean(Number(pined));
             newAccount.url = url;
-            newAccount.tags.push(name);
             newAccount.tags.push(grouping);
 
             newAccounts.push(newAccount);
@@ -206,7 +204,6 @@ export class ImportComponent implements OnInit {
 
             const newAccount = new Account(username, password, name);
             newAccount.url = url;
-            newAccount.tags.push(name);
             newAccount.notes = notes;
 
             newAccounts.push(newAccount);
@@ -249,7 +246,6 @@ export class ImportComponent implements OnInit {
                         newAccount.tags.push(tag);
                     }
                 }
-                newAccount.tags.push(name);
 
                 newAccounts.push(newAccount);
             } catch (e) {
@@ -275,7 +271,6 @@ export class ImportComponent implements OnInit {
             const newAccount = new Account(username, password, name);
             newAccount.url = url;
             newAccount.notes = notes;
-            newAccount.tags.push(name);
 
             newAccounts.push(newAccount);
         });

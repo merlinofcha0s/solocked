@@ -9,7 +9,7 @@ export class SearchService {
     filter(term: any, accountsToFilter: Account[]): Account[] {
         if (term.length >= 2) {
             return accountsToFilter.filter((account) => {
-                const joined = account.tags.join(' ');
+                const joined = account.tags.join(' ') + account.name;
                 return joined.toLowerCase().indexOf(term.toLowerCase()) !== -1;
             });
         }

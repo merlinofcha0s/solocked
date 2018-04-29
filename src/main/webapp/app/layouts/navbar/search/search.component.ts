@@ -3,12 +3,10 @@ import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {AccountsService} from '../../../shared/account/accounts.service';
 import {Account} from '../../../shared/account/account.model';
 import {Observable} from 'rxjs/Observable';
-import {map} from 'rxjs/operators/map';
-import {startWith} from 'rxjs/operators/startWith';
 import {Subscription} from 'rxjs/Subscription';
 import {MatAutocompleteSelectedEvent} from '@angular/material';
 import {Router} from '@angular/router';
-import {filter} from 'rxjs/operator/filter';
+import {SearchService} from '../../../shared/search/search.service';
 
 @Component({
     selector: 'jhi-search',
@@ -27,7 +25,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     constructor(private fb: FormBuilder,
                 private accountsService: AccountsService,
-                private router: Router) {}
+                private router: Router,
+                private searchService: SearchService) {}
 
     ngOnInit() {
         this.initForm();
@@ -42,23 +41,8 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.accountsSub = this.accountsService.accounts$.subscribe((accounts) => {
             this.accounts = accounts;
 
-            this.filteredAccounts = this.searchControl.valueChanges
-                .pipe(
-                    startWith({} as Account),
-                    map((account) => account && typeof account === 'object' ? account.name : account),
-                    map((name) => name ? this.filter(name) : [])
-                );
+            this.filteredAccounts = this.searchControl.valueChanges. map((name) => name ? this.searchService.filter(name, this.accounts) : []);
         });
-    }
-
-    filter(val: any): Account[] {
-        if (val.length >= 2) {
-            return this.accounts.filter((account) => {
-                const joined = account.tags.join(' ');
-                return joined.toLowerCase().indexOf(val.toLowerCase()) !== -1;
-            });
-        }
-        return [];
     }
 
     initForm() {

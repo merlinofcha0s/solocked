@@ -181,7 +181,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         if (this.tags.value !== '') {
             newAccount.tags = this.tags.value.trim().split(',');
         }
-        newAccount.tags.push(this.accountName.value);
+
         // Regex to keep the space between word and delete the outer one
         newAccount.tags.forEach((tag, index) => newAccount.tags[index] = tag.replace(/^\s+|\s+$|\s+(?=\s)/g, ''));
 
