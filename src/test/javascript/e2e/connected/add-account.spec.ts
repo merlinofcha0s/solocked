@@ -30,8 +30,9 @@ describe('Adding account', function () {
         element(by.css("*[id='password']")).click();
         element(by.css("*[id='addEditAccount']")).click();
 
-        browser.wait(ExpectedConditions.presenceOf(element(by.id('all'))));
-        element(by.css("*[id='all']")).click();
+        browser.wait(ExpectedConditions.presenceOf(element(by.id('searchField'))));
+        element(by.css("*[id='searchField']")).click();
+        element(by.css("*[id='searchField']")).sendKeys('Drop');
 
         element.all(by.id("name")).first().getText().then((value) => {
             expect(value).toEqual(name);
