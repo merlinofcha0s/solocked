@@ -44,6 +44,7 @@
                 "hide": "Hide password",
                 "notes": "Notes",
                 "url": "URL",
+                "gourl": "Go to url",
                 "tags": "Tags (separated with comma)",
                 "custom": {
                     "label": "Label",
@@ -51,7 +52,9 @@
                     "button": "Add custom field",
                     "sets": {
                         "button": "Add custom block"
-                    }
+                    },
+                    "editlabel": "Edit label",
+                    "delete": "Delete custom field"
                 },
                 "button": "Add account",
                 "successful": "Account added successfully",
@@ -99,7 +102,7 @@
                     "max": "Too many characters"
                 },
                 "url": {
-                    "pattern": "URL must begin with http:// or https://"
+                    "pattern": "URL is not valid"
                 }
             },
             "paymentblock": {

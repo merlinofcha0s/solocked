@@ -78,7 +78,12 @@
                              jhiTranslate="ninjaccountApp.accountsDB.validate.url.pattern">
                       Not a url
                   </mat-error>
-                  <jhi-copy-clipboard class="suffixIcon" matSuffix [contentToCopy]="url.value" [keyNameField]="'ninjaccountApp.accountsDB.add.url'"></jhi-copy-clipboard>
+                  <div matSuffix class="d-flex">
+                      <a href="{{url.value}}" matTooltip="{{ 'ninjaccountApp.accountsDB.add.gourl' | translate }}" *ngIf="url.valid && url.dirty && url.value?.length >= 1" target="_blank">
+                        <i class="fas fa-external-link-square-alt suffixIcon url"></i>
+                      </a>
+                      <jhi-copy-clipboard class="suffixIcon" [contentToCopy]="url.value" [keyNameField]="'ninjaccountApp.accountsDB.add.url'"></jhi-copy-clipboard>
+                  </div>
               </mat-form-field>
             <mat-form-field class="addAccountInput">
               <textarea matInput matTextareaAutosize placeholder="{{'ninjaccountApp.accountsDB.add.notes' | translate}}" id="notes" rows="3" [formControl]="notes"></textarea>
