@@ -43,7 +43,7 @@ import {
     MatSnackBarModule,
     MatTabsModule,
     MatTooltipModule,
-    MatRadioModule
+    MatRadioModule, ErrorStateMatcher, ShowOnDirtyErrorStateMatcher
 } from '@angular/material';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -112,7 +112,8 @@ import {SearchService} from './search/search.service';
         SnackUtilService,
         {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
         {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
-        SearchService
+        SearchService,
+        {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}
     ],
     entryComponents: [JhiLoginModalComponent, SnackComponent],
     exports: [
