@@ -16,7 +16,6 @@ import {PaymentCustomBlockConstant} from './payment-custom-block.constant';
 import {DeletePaymentLineComponent} from './payment-custom-block/delete-payment-line/delete-payment-line.component';
 import {AccountsdbDeleteComponent} from '../accountsdb-delete/accountsdb-delete.component';
 import {SnackUtilService} from '../../shared/snack/snack-util.service';
-import {SnackComponent} from "../../shared/snack/snack.component";
 
 @Component({
     selector: 'jhi-accountsdb-add',
@@ -203,7 +202,6 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
             this.accountsService.updateAccount(newAccount);
             this.loading = false;
             this.snackUtil.openSnackBar('ninjaccountApp.accountsDB.update.successful', 3000, 'fa-check-circle');
-            this.router.navigate(['accounts']);
         } else {
             this.accountsService.saveNewAccount(newAccount)
                 .subscribe((accountsUpdated: AccountsDB) => {
@@ -331,6 +329,5 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         }
         this.password.setValue(newPassword);
     }
-
 
 }

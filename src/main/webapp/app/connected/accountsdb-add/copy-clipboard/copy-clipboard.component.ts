@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SnackUtilService} from "../../../shared/snack/snack-util.service";
+import {SnackUtilService} from '../../../shared/snack/snack-util.service';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
