@@ -1,0 +1,21 @@
+<div *ngFor="let cu of customs.controls; let i=index" [formGroup]="cu">
+    <div class="d-flex justify-content-around align-items-center">
+        <mat-form-field class="customLabel" [hidden]="isKeyFieldHided[i]">
+            <input placeholder="{{'ninjaccountApp.accountsDB.add.custom.label' | translate}} ({{ i + 1 }})" (blur)="hideKeyField(i)" matInput type="text" id="{{ i }}-key" formControlName="keyField"
+                   data-role="customInputKey" class="customInput" >
+
+            <mat-hint align="end">{{ cu.get('keyField').value?.length || 0 }} / {{ maxKey }}</mat-hint>
+        </mat-form-field>
+        <mat-form-field class="customValue" [floatLabel]="'always'" [class.customValueAlone]="isKeyFieldHided[i]">
+            <input placeholder="{{generateValuePlaceholder(i)}}" matInput id="{{ i }}-value" data-role="customInputValue"
+                   formControlName="valueField">
+
+            <mat-hint align="end">{{ cu.get('valueField').value?.length || 0 }} / {{ maxValue }}</mat-hint>
+            <div matSuffix class="d-flex justify-content-center">
+                <i class="fas fa-edit suffixIcon mr-2" *ngIf="isKeyFieldHided[i]" (click)="onEditLabel(i)" matTooltip="{{ 'ninjaccountApp.accountsDB.details.tooltip' | translate }}"></i>
+                <i class="fa fa-trash suffixIcon" (click)="onDeleteCustomField(i)" aria-hidden="true"></i>
+                <jhi-copy-clipboard class="suffixIcon" [contentToCopy]="cu.get('valueField').value" [keyNameField]="'ninjaccountApp.accountsDB.add.custom.value'"></jhi-copy-clipboard>
+            </div>
+        </mat-form-field>
+    </div>
+</div>

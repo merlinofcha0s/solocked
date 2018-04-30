@@ -34,6 +34,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     tags: FormControl;
     url: FormControl;
     customs: FormArray;
+    customs$: BehaviorSubject<FormArray>;
 
     maxName = 40;
     maxNumber = 50;
@@ -106,6 +107,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         this.tags = this.fb.control('', Validators.maxLength(this.maxTags));
         this.url = this.fb.control('', Validators.pattern('https?://.+'));
         this.customs = this.fb.array([]);
+        this.customs$ = new BehaviorSubject<FormArray>(this.customs);
 
         this.accountForm = this.fb.group({
             accountName: this.accountName,
@@ -243,10 +245,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         });
 
         this.customs.push(custom);
-    }
-
-    onDeleteCustomField(index: number) {
-        this.customs.controls.splice(index, 1);
+        this.customs$.next(this.customs);
     }
 
     initPasswordHideDisplay() {

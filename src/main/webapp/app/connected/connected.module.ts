@@ -20,6 +20,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {AccountsdbSearchComponent} from './accountsdb-home/accountsdb-search/accountsdb-search.component';
 import {AccountsdbDeleteComponent} from './accountsdb-delete/accountsdb-delete.component';
 import {CopyClipboardComponent} from './accountsdb-add/copy-clipboard/copy-clipboard.component';
+import {CustomFieldsComponent} from './accountsdb-add/custom-field/custom-fields.component';
 
 @NgModule({
     imports: [
@@ -45,7 +46,8 @@ import {CopyClipboardComponent} from './accountsdb-add/copy-clipboard/copy-clipb
         EditInlineTileComponent,
         EditDateInlineTileComponent,
         DeletePaymentLineComponent,
-        CopyClipboardComponent
+        CopyClipboardComponent,
+        CustomFieldsComponent
     ],
     entryComponents: [AccountsdbDeleteComponent, AddCustomBlockComponent, DeletePaymentLineComponent],
 })

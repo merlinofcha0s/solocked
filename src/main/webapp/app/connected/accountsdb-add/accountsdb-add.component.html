@@ -5,7 +5,7 @@
           <div *ngIf="updateMode;then update else create"></div>
           <ng-template #create><h1 jhiTranslate="ninjaccountApp.accountsDB.add.title">Create a new account.</h1></ng-template>
           <ng-template #update>
-              <h1 class="d-flex align-items-center" style="height: 48px;">
+              <h1 class="d-flex align-items-center edit-title">
                   <span >{{accountName.value}}</span>
               </h1>
 
@@ -53,7 +53,7 @@
               <input matInput type="{{ passwordType }}" id="password" placeholder="{{'ninjaccountApp.accountsDB.add.password' | translate}}"
                      [formControl]="password">
                 <div matSuffix class="d-flex">
-                    <div (click)="generatePassword()" style="margin-right: 10px;">
+                    <div (click)="generatePassword()" class="mr-2">
                         <i matTooltip="{{ 'ninjaccountApp.accountsDB.generatepassword' | translate }}" class="fas fa-sync-alt suffixIcon" aria-hidden="true"></i>
                     </div>
                     <div (click)="onHideDisplayPassword()">
@@ -96,26 +96,7 @@
                 <mat-hint align="end">{{tags.value?.length || 0}} / {{ maxTags }}</mat-hint>
             </mat-form-field>
               <div formArrayName="customs">
-                  <div class="form-group" *ngFor="let cu of customs.controls; let i=index" [formGroup]="cu">
-                      <div class="d-flex justify-content-around align-items-center">
-                          <mat-form-field class="customLabel">
-                                <input placeholder="{{'ninjaccountApp.accountsDB.add.custom.label' | translate}} ({{ i + 1 }})" matInput type="text" id="{{ i }}-key" formControlName="keyField"
-                                    data-role="customInputKey" class="customInput">
-
-                              <mat-hint align="end">{{ cu.get('keyField').value?.length || 0 }} / {{ maxKey }}</mat-hint>
-                          </mat-form-field>
-                          <mat-form-field class="customValue">
-                                <input placeholder="{{'ninjaccountApp.accountsDB.add.custom.value' | translate}} ({{ i + 1 }})" matInput id="{{ i }}-value" data-role="customInputValue"
-                                         formControlName="valueField">
-
-                              <mat-hint align="end">{{ cu.get('valueField').value?.length || 0 }} / {{ maxValue }}</mat-hint>
-                              <div matSuffix class="d-flex justify-content-center">
-                                  <i class="fa fa-trash suffixIcon" (click)="onDeleteCustomField(i)" aria-hidden="true"></i>
-                                  <jhi-copy-clipboard class="suffixIcon" [contentToCopy]="cu.get('valueField').value" [keyNameField]="'ninjaccountApp.accountsDB.add.custom.value'"></jhi-copy-clipboard>
-                              </div>
-                          </mat-form-field>
-                      </div>
-                  </div>
+                  <jhi-custom-fields [customs$]="customs$"></jhi-custom-fields>
               </div>
               <div *ngFor="let paymentBlock of customBlockCounter.paymentBlocks">
                  <jhi-payment-custom-block [payments]="payments" [expanded]="true" (onSyncPayments)="onSyncPayments($event)"
