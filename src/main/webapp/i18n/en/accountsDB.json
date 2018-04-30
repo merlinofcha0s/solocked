@@ -40,6 +40,8 @@
                 "number": "Number",
                 "username": "Username",
                 "password": "Password",
+                "show": "Show password",
+                "hide": "Hide password",
                 "notes": "Notes",
                 "url": "URL",
                 "tags": "Tags (separated with comma)",
@@ -67,7 +69,7 @@
                 "delete": "Delete",
                 "cancel": "Cancel",
                 "tooltip": "Click to copy",
-                "toastMessage": "copied to clipboard !",
+                "toastMessage": "{{ nameField }} copied to clipboard !",
                 "deletePopup": {
                     "title": "Permanently delete this account",
                     "text": "Are you sure ?",

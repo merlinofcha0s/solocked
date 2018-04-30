@@ -5,8 +5,8 @@
           <div *ngIf="updateMode;then update else create"></div>
           <ng-template #create><h1 jhiTranslate="ninjaccountApp.accountsDB.add.title">Create a new account.</h1></ng-template>
           <ng-template #update>
-              <h1 class="d-flex align-items-center">
-                  <span>{{ 'ninjaccountApp.accountsDB.update.title' | translate}}</span>
+              <h1 class="d-flex align-items-center" style="height: 48px;">
+                  <span >{{accountName.value}}</span>
               </h1>
 
           </ng-template>
@@ -25,6 +25,7 @@
                           jhiTranslate="ninjaccountApp.accountsDB.validate.accountName.max">
                     Too many characters
                 </mat-error>
+                <jhi-copy-clipboard matSuffix class="suffixIcon" [contentToCopy]="accountName.value" [keyNameField]="'ninjaccountApp.accountsDB.add.name'"></jhi-copy-clipboard>
             </mat-form-field>
             <mat-form-field class="addAccountInput">
               <input type="text" matInput id="accountNumber" placeholder="{{'ninjaccountApp.accountsDB.add.number' | translate}}"
@@ -35,6 +36,7 @@
                           jhiTranslate="ninjaccountApp.accountsDB.validate.accountNumber.max">
                     Too many characters
                 </mat-error>
+                <jhi-copy-clipboard matSuffix class="suffixIcon" [contentToCopy]="accountNumber.value" [keyNameField]="'ninjaccountApp.accountsDB.add.number'"></jhi-copy-clipboard>
             </mat-form-field>
             <mat-form-field class="addAccountInput">
               <input matInput type="text" id="username" placeholder="{{'ninjaccountApp.accountsDB.add.username' | translate}}"
@@ -45,6 +47,7 @@
                           jhiTranslate="ninjaccountApp.accountsDB.validate.username.max">
                     Too many characters
                 </mat-error>
+                <jhi-copy-clipboard matSuffix class="suffixIcon" [contentToCopy]="username.value" [keyNameField]="'ninjaccountApp.accountsDB.add.username'"></jhi-copy-clipboard>
             </mat-form-field>
             <mat-form-field class="addAccountInput">
               <input matInput type="{{ passwordType }}" id="password" placeholder="{{'ninjaccountApp.accountsDB.add.password' | translate}}"
@@ -54,9 +57,10 @@
                         <i matTooltip="{{ 'ninjaccountApp.accountsDB.generatepassword' | translate }}" class="fas fa-sync-alt suffixIcon" aria-hidden="true"></i>
                     </div>
                     <div (click)="onHideDisplayPassword()">
-                        <i class="fas fa-eye suffixIcon" aria-hidden="true" [class.hideIcon]="passwordType == 'password'"></i>
-                        <i class="fas fa-eye-slash suffixIcon" aria-hidden="true" [class.hideIcon]="passwordType == 'text'"></i>
+                        <i matTooltip="{{ 'ninjaccountApp.accountsDB.add.hide' | translate }}" class="fas fa-eye suffixIcon" aria-hidden="true" [class.hideIcon]="passwordType == 'password'"></i>
+                        <i matTooltip="{{ 'ninjaccountApp.accountsDB.add.show' | translate }}" class="fas fa-eye-slash suffixIcon" aria-hidden="true" [class.hideIcon]="passwordType == 'text'"></i>
                     </div>
+                    <jhi-copy-clipboard class="suffixIcon" [contentToCopy]="password.value" [keyNameField]="'ninjaccountApp.accountsDB.add.password'"></jhi-copy-clipboard>
                 </div>
                 <mat-hint align="end">{{password.value?.length || 0}} / {{ maxPassword }}</mat-hint>
                 <mat-error class="text-danger"
@@ -74,15 +78,17 @@
                              jhiTranslate="ninjaccountApp.accountsDB.validate.url.pattern">
                       Not a url
                   </mat-error>
+                  <jhi-copy-clipboard class="suffixIcon" matSuffix [contentToCopy]="url.value" [keyNameField]="'ninjaccountApp.accountsDB.add.url'"></jhi-copy-clipboard>
               </mat-form-field>
             <mat-form-field class="addAccountInput">
               <textarea matInput matTextareaAutosize placeholder="{{'ninjaccountApp.accountsDB.add.notes' | translate}}" id="notes" rows="3" [formControl]="notes"></textarea>
                 <mat-hint align="end">{{notes.value?.length || 0}} / {{ maxNotes }}</mat-hint>
-             <mat-error class="text-danger"
-                       *ngIf="notes.dirty && notes.invalid && notes.errors.maxlength"
-                       jhiTranslate="ninjaccountApp.accountsDB.validate.notes.max">
-                Too many characters
-            </mat-error>
+                 <mat-error class="text-danger"
+                           *ngIf="notes.dirty && notes.invalid && notes.errors.maxlength"
+                           jhiTranslate="ninjaccountApp.accountsDB.validate.notes.max">
+                    Too many characters
+                </mat-error>
+                <jhi-copy-clipboard matSuffix class="suffixIcon" [contentToCopy]="notes.value" [keyNameField]="'ninjaccountApp.accountsDB.add.notes'"></jhi-copy-clipboard>
             </mat-form-field>
             <mat-form-field class="addAccountInput">
               <input matInput placeholder="{{'ninjaccountApp.accountsDB.add.tags' | translate}}" id="tags" [formControl]="tags"
@@ -101,10 +107,13 @@
                           <mat-form-field class="customValue">
                                 <input placeholder="{{'ninjaccountApp.accountsDB.add.custom.value' | translate}} ({{ i + 1 }})" matInput id="{{ i }}-value" data-role="customInputValue"
                                          formControlName="valueField">
-                               <i matSuffix class="fa fa-trash suffixIcon" (click)="onDeleteCustomField(i)" aria-hidden="true"></i>
-                              <mat-hint align="end">{{ cu.get('valueField').value?.length || 0 }} / {{ maxValue }}</mat-hint>
-                          </mat-form-field>
 
+                              <mat-hint align="end">{{ cu.get('valueField').value?.length || 0 }} / {{ maxValue }}</mat-hint>
+                              <div matSuffix class="d-flex justify-content-center">
+                                  <i class="fa fa-trash suffixIcon" (click)="onDeleteCustomField(i)" aria-hidden="true"></i>
+                                  <jhi-copy-clipboard class="suffixIcon" [contentToCopy]="cu.get('valueField').value" [keyNameField]="'ninjaccountApp.accountsDB.add.custom.value'"></jhi-copy-clipboard>
+                              </div>
+                          </mat-form-field>
                       </div>
                   </div>
               </div>

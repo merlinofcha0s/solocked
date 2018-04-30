@@ -19,6 +19,7 @@ import {DeletePaymentLineComponent} from './accountsdb-add/payment-custom-block/
 import {MatDialogModule} from '@angular/material/dialog';
 import {AccountsdbSearchComponent} from './accountsdb-home/accountsdb-search/accountsdb-search.component';
 import {AccountsdbDeleteComponent} from './accountsdb-delete/accountsdb-delete.component';
+import {CopyClipboardComponent} from "./accountsdb-add/copy-clipboard/copy-clipboard.component";
 
 @NgModule({
     imports: [
@@ -43,7 +44,8 @@ import {AccountsdbDeleteComponent} from './accountsdb-delete/accountsdb-delete.c
         ClickOutsideDirective,
         EditInlineTileComponent,
         EditDateInlineTileComponent,
-        DeletePaymentLineComponent
+        DeletePaymentLineComponent,
+        CopyClipboardComponent
     ],
     entryComponents: [AccountsdbDeleteComponent, AddCustomBlockComponent, DeletePaymentLineComponent],
 })

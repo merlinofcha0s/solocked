@@ -24,7 +24,7 @@
                     (click)="notifyCopyToClipboard('ninjaccountApp.accountsDB.details.number')"
                     class="pointer">
                  <span> {{ account.number }}</span>
-                  <i class="fas fa-copy copy"></i>
+                  <i class="fas fa-copy copy" ngxClipboard [cbContent]="account.number"></i>
               </span>
           </div>
           <div class="mb-3 d-flex" *ngIf="account.password && account.password.length != 0">

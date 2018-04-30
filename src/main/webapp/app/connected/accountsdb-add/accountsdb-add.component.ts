@@ -8,7 +8,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {Account} from '../../shared/account/account.model';
 import {isUndefined} from 'util';
 import {Custom} from '../../shared/account/custom-account.model';
-import {MatDialog, MatDialogRef, MatSnackBarConfig} from '@angular/material';
+import {MatDialog, MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {AddCustomBlockComponent} from './add-custom-block/add-custom-block.component';
 import {Payment} from '../../shared/account/payment-block.model';
@@ -16,6 +16,7 @@ import {PaymentCustomBlockConstant} from './payment-custom-block.constant';
 import {DeletePaymentLineComponent} from './payment-custom-block/delete-payment-line/delete-payment-line.component';
 import {AccountsdbDeleteComponent} from '../accountsdb-delete/accountsdb-delete.component';
 import {SnackUtilService} from '../../shared/snack/snack-util.service';
+import {SnackComponent} from "../../shared/snack/snack.component";
 
 @Component({
     selector: 'jhi-accountsdb-add',
@@ -72,7 +73,8 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 private route: ActivatedRoute,
                 private snackUtil: SnackUtilService,
                 private translateService: TranslateService,
-                public dialog: MatDialog) {
+                private dialog: MatDialog,
+                ) {
         this.customBlockCounter = {paymentBlocks: []};
     }
 
@@ -329,4 +331,6 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         }
         this.password.setValue(newPassword);
     }
+
+
 }
