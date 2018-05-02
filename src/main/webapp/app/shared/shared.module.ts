@@ -56,6 +56,7 @@ import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-mome
 import {AccountsTechService} from './account/accounts-tech.service';
 import {SnackUtilService} from './snack/snack-util.service';
 import {SearchService} from './search/search.service';
+import {AutofocusDirective} from "./validation/autofocus.directive";
 
 @NgModule({
     imports: [
@@ -90,7 +91,8 @@ import {SearchService} from './search/search.service';
         SnackComponent,
         HasAnyAuthorityDirective,
         PasswordMatchValidatorDirective,
-        DateValidatorDirective
+        DateValidatorDirective,
+        AutofocusDirective
     ],
     providers: [
         LoginService,
@@ -147,7 +149,8 @@ import {SearchService} from './search/search.service';
         MatGridListModule,
         MatExpansionModule,
         MatAutocompleteModule,
-        MatRadioModule
+        MatRadioModule,
+        AutofocusDirective
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

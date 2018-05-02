@@ -13,7 +13,7 @@
           <form [formGroup]="accountForm" (ngSubmit)="onSubmitNewAccount()">
             <mat-form-field class="addAccountInput">
               <input matInput type="text" id="accountName" placeholder="{{'ninjaccountApp.accountsDB.add.name' | translate}}"
-                     [formControl]="accountName" required autofocus>
+                     [formControl]="accountName" required jhiAutofocus>
                 <mat-hint align="end">{{accountName.value?.length || 0}} / {{ maxName }}</mat-hint>
                 <mat-error class="text-danger"
                           *ngIf="accountName.dirty && accountName.invalid && accountName.errors.required"

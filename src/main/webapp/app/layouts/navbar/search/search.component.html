@@ -1,9 +1,9 @@
 <div class="d-flex justify-content-center align-items-center">
-    <form name="searchForm width-max" role="form" (ngSubmit)="search()" novalidate>
+    <form name="searchForm width-max" role="form" (ngSubmit)="onHomePageSearch(searchControl.value)" novalidate>
         <mat-form-field class="width-max autocomplete-width">
             <input type="text" matInput [formControl]="searchControl" placeholder="{{ 'global.menu.search' | translate }}" [matAutocomplete]="auto">
             <div matSuffix>
-                <i class="fas fa-search search" [class.hide]="searchControl.value.length != 0"></i>
+                <i class="fas fa-search search" (click)="onHomePageSearch(searchControl.value)"></i>
                 <i class="fas fa-times cross" [class.hide]="searchControl.value.length == 0" (click)="clearSearch()"></i>
             </div>
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onAccountSelected($event)" [displayWith]="displayFn">

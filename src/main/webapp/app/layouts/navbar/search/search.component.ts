@@ -7,6 +7,8 @@ import {Subscription} from 'rxjs/Subscription';
 import {MatAutocompleteSelectedEvent} from '@angular/material';
 import {Router} from '@angular/router';
 import {SearchService} from '../../../shared/search/search.service';
+import {SessionStorageService} from 'ngx-webstorage';
+import {LAST_SEARCH} from '../../../shared';
 
 @Component({
     selector: 'jhi-search',
@@ -26,7 +28,9 @@ export class SearchComponent implements OnInit, OnDestroy {
     constructor(private fb: FormBuilder,
                 private accountsService: AccountsService,
                 private router: Router,
-                private searchService: SearchService) {}
+                private searchService: SearchService,
+                private sessionStorage: SessionStorageService) {
+    }
 
     ngOnInit() {
         this.initForm();
@@ -40,7 +44,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     initAccounts() {
         this.accountsSub = this.accountsService.accounts$.subscribe((accounts) => {
             this.accounts = accounts;
-            this.filteredAccounts = this.searchControl.valueChanges. map((name) => name ? this.searchService.filter(name, this.accounts) : []);
+            this.filteredAccounts = this.searchControl.valueChanges.map((name) => name ? this.searchService.filter(name, this.accounts) : []);
         });
     }
 
@@ -52,17 +56,24 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
 
     onAccountSelected(matAutocompleteSelectedEvent: MatAutocompleteSelectedEvent) {
-        this.router.navigate(['/accounts/details', matAutocompleteSelectedEvent.option.value.id]);
+        this.router.navigate(['/accounts/edit', matAutocompleteSelectedEvent.option.value.id]);
     }
 
     displayFn(account: Account): string | Account {
         return account ? account.name : account;
     }
 
-    search() {
-    }
-
     clearSearch() {
         this.searchControl.setValue('');
+    }
+
+    onHomePageSearch(valueToSearch: String | Account) {
+        // We enforce that is a string, since the valueToSearch can be an account
+        if (typeof(valueToSearch) === 'string' || valueToSearch instanceof String) {
+            this.sessionStorage.store(LAST_SEARCH, valueToSearch);
+            this.router.navigate(['/accounts']);
+        } else {
+            this.router.navigate(['/accounts/edit', valueToSearch.id]);
+        }
     }
 }

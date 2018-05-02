@@ -1,4 +1,3 @@
-import {TagsPipe} from './accountsdb-home/tags.pipe';
 import {NinjaccountSharedModule} from './../shared/shared.module';
 import {ACCOUNTSDB_ROUTES} from './connected.route';
 import {RouterModule} from '@angular/router';
@@ -7,7 +6,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {AccountsdbHomeComponent} from './accountsdb-home/accountsdb-home.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {PasswordHidePipe} from './password-hide.pipe';
 import {ClipboardModule} from 'ngx-clipboard';
 import {AccountsdbListComponent} from './accountsdb-home/accountsdb-list/accountsdb-list.component';
 import {AddCustomBlockComponent} from './accountsdb-add/add-custom-block/add-custom-block.component';
@@ -35,8 +33,6 @@ import {CustomFieldsComponent} from './accountsdb-add/custom-field/custom-fields
     declarations: [
         AccountsdbAddComponent,
         AccountsdbHomeComponent,
-        TagsPipe,
-        PasswordHidePipe,
         AccountsdbListComponent,
         AccountsdbDeleteComponent,
         AccountsdbSearchComponent,

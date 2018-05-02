@@ -13,7 +13,7 @@ import {isUndefined} from 'util';
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class JhiLoginModalComponent implements AfterViewInit {
+export class JhiLoginModalComponent {
     authenticationError: boolean;
     password: string;
     authenticationKey: string;
@@ -30,11 +30,6 @@ export class JhiLoginModalComponent implements AfterViewInit {
                 private principal: Principal,
                 private renderer: Renderer2) {
         this.credentials = {};
-    }
-
-    ngAfterViewInit() {
-        // this.renderer.selectRootElement('#username').focus();
-        // this.renderer.invokeElementMethod(this.elementRef.nativeElement.querySelector('#username'), 'focus', []);
     }
 
     cancel() {

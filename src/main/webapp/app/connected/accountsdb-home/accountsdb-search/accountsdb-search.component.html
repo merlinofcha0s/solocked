@@ -1,7 +1,7 @@
 <form name="searchForm width-max" role="form" (ngSubmit)="search()" novalidate>
     <mat-form-field class="width-max autocomplete-width">
         <input type="text" id="searchField" matInput [formControl]="searchControl"
-               placeholder="{{ 'global.menu.search' | translate }}" autofocus>
+               placeholder="{{ 'global.menu.search' | translate }}" jhiAutofocus >
         <div matSuffix>
             <i class="fas fa-search search" [class.hide]="searchControl.value && searchControl.value != ''"></i>
             <i class="fas fa-times cross" [class.hide]="!searchControl.value || searchControl.value == ''"

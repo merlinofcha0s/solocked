@@ -39,8 +39,8 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
                 private searchService: SearchService) {
         this.counter = 0;
         this.lastSearchTerms = '';
-        this.allAccountsPaginated = new Array<Account>();
-        this.filteredAccounts = new Array<Account>();
+        this.allAccountsPaginated = [];
+        this.filteredAccounts = [];
     }
 
     ngOnInit() {
@@ -61,7 +61,7 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
             // In case of the user has clicked on the featured :
             // we have to update the list and set paginator at the exact same place as the user was
             if (this.counter !== 0) {
-                this.allAccountsPaginated = new Array<Account>();
+                this.allAccountsPaginated = [];
                 this.pageSize = this.counter;
                 this.counter = 0;
             }
