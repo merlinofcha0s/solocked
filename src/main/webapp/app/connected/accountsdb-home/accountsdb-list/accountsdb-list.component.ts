@@ -48,25 +48,6 @@ export class AccountsdbListComponent implements OnInit, OnDestroy {
         this.sessionStorage.store(LAST_SEARCH, this.terms);
     }
 
-    makeFeatured(account: Account) {
-        // Config and show toast message
-        const config = new MatSnackBarConfig();
-        config.verticalPosition = 'top';
-        config.duration = 3000;
-
-        if (account.featured) {
-            const message = this.translateService.instant('ninjaccountApp.accountsDB.home.online.toast.notPinned');
-            this.accountService.addOrRemoveFeatured(account, false);
-            config.data = {icon: 'fa-ban', text: message};
-            this.snackBar.openFromComponent(SnackComponent, config);
-        } else {
-            const message = this.translateService.instant('ninjaccountApp.accountsDB.home.online.toast.pinned');
-            this.accountService.addOrRemoveFeatured(account, true);
-            config.data = {icon: 'fa-check-circle', text: message};
-            this.snackBar.openFromComponent(SnackComponent, config);
-        }
-    }
-
     openConfirmationDeleteDialog(idToDelete: number) {
         this.dialog.open(AccountsdbDeleteComponent, {
             data: {

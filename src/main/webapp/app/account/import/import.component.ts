@@ -190,10 +190,8 @@ export class ImportComponent implements OnInit {
             const password = fields[2].trim();
             const name = fields[4].trim();
             const grouping = fields[5].trim();
-            const pined = fields[6].trim();
 
             const newAccount = new Account(username, password, name);
-            newAccount.featured = Boolean(Number(pined));
             newAccount.url = url;
             newAccount.tags.push(grouping);
 

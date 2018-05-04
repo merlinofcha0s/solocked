@@ -4,9 +4,6 @@
         <div class="d-none d-sm-block" id="username">{{ account.username }}</div>
     </div>
     <div class="d-flex col-4 col-sm-4 actions justify-content-end align-items-center">
-        <i class="fa-star" style="margin-right: 10px;" [class.far]="!account.featured"
-           [class.fas]="account.featured"  aria-hidden="true"
-           (click)="makeFeatured(account)"></i>
         <i class="fas fa-trash" aria-hidden="true" (click)="openConfirmationDeleteDialog(account.id)"></i>
     </div>
 </div>

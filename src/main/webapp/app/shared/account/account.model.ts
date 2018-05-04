@@ -10,7 +10,6 @@ export class Account {
     public notes?: string;
     public tags: Array<string>;
     public customs: Array<Custom>;
-    public featured: boolean;
     public url: string;
     public payments: Array<Payment>;
 
@@ -26,7 +25,6 @@ export class Account {
         this.tags = new Array<string>();
         this.customs = new Array<Custom>();
         this.id = id ? id : 0;
-        this.featured = false;
         this.payments = new Array<Payment>();
     }
 }

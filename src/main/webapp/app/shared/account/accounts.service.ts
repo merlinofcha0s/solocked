@@ -17,7 +17,6 @@ export class AccountsService {
 
     accounts$: BehaviorSubject<Array<Account>>;
     account$: BehaviorSubject<Account>;
-    featuredAccounts$: BehaviorSubject<Array<Account>>;
 
     private _dataStore: {
         accounts: Accounts
@@ -31,7 +30,6 @@ export class AccountsService {
 
         this.accounts$ = new BehaviorSubject<Array<Account>>(this._dataStore.accounts.accounts);
         this.account$ = new BehaviorSubject<Account>(null);
-        this.featuredAccounts$ = new BehaviorSubject<Array<Account>>(new Array<Account>());
     }
 
     getAccount(id: number) {
@@ -60,31 +58,6 @@ export class AccountsService {
 
     getAccountsListInstant(): Array<Account> {
         return this._dataStore.accounts.accounts;
-    }
-
-    getFeaturedAccountsList() {
-        if (this._dataStore.accounts.accounts.length === 0) {
-            this.accountTech.synchroDB().subscribe((accountsFromDB) => {
-                this._dataStore.accounts = accountsFromDB;
-                this.featuredAccounts$.next(this._dataStore.accounts.accounts.filter((account) => account.featured));
-            });
-        } else {
-            this.featuredAccounts$.next(this._dataStore.accounts.accounts.filter((account) => account.featured));
-        }
-    }
-
-    addOrRemoveFeatured(accountToFeatured: Account, featuredOrNot: boolean) {
-        this._dataStore.accounts.accounts.forEach((account) => {
-            if (account.id === accountToFeatured.id) {
-                if (featuredOrNot) {
-                    account.featured = true;
-                } else {
-                    account.featured = false;
-                }
-                this.updateAccount(account);
-            }
-        });
-        this.featuredAccounts$.next(this._dataStore.accounts.accounts.filter((account) => account.featured));
     }
 
     init(): Accounts {
@@ -181,7 +154,6 @@ export class AccountsService {
                 return this.accountTech.saveEncryptedDB(accounts, initVector);
             }).subscribe((accountDB: AccountsDB) => {
                 this.accounts$.next(this._dataStore.accounts.accounts);
-                this.featuredAccounts$.next(this._dataStore.accounts.accounts.filter((account) => account.featured));
             },
             (error) => {
                 this.errorSnack('ninjaccountApp.accountsDB.delete.error');
@@ -201,7 +173,6 @@ export class AccountsService {
         target.notes = source.notes;
         target.tags = source.tags;
         target.customs = source.customs;
-        target.featured = source.featured;
         target.url = source.url;
         target.payments = source.payments;
     }

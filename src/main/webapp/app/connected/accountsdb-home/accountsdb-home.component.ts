@@ -58,8 +58,7 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
         this.accountsSub = this.accountsService.accounts$.subscribe((accounts) => {
             this.accounts = accounts;
 
-            // In case of the user has clicked on the featured :
-            // we have to update the list and set paginator at the exact same place as the user was
+            // Retain the position of the pager
             if (this.counter !== 0) {
                 this.allAccountsPaginated = [];
                 this.pageSize = this.counter;
