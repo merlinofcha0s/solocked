@@ -6,6 +6,12 @@ export const enum PlanType {
     BETA = 'BETA'
 }
 
+export const enum MaxAccountPlanType {
+    MAX_ACCOUNTS_PREMIUM = 1000,
+    MAX_ACCOUNTS_BETA = 1000,
+    MAX_ACCOUNTS_FREE = 10
+}
+
 export class Payment implements BaseEntity {
     constructor(
         public id?: number,

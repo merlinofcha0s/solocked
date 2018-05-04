@@ -11,7 +11,6 @@ import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.service.util.PaymentConstant;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.util.Pair;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -30,7 +28,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
@@ -147,7 +144,7 @@ public class AccountDBServiceTest {
 
         AccountsDBDTO accountsDBDTO = accountsDBService.createNewAccountDB(bytes, uuid, user);
         accountsDBDTO.setNbAccounts(1);
-        accountsDBService.save(accountsDBDTO);
+        accountsDBService.checkSumAndSave(accountsDBDTO);
 
         paymentService.createRegistrationPaymentForUser(user);
 
@@ -205,7 +202,7 @@ public class AccountDBServiceTest {
         User user = userRepository.saveAndFlush(userJohn);
         AccountsDBDTO accountsDBDTO = accountsDBService.createNewAccountDB(bytes, uuid, user);
         accountsDBDTO.setNbAccounts(1);
-        AccountsDBDTO accountsDBDTOSaved = accountsDBService.save(accountsDBDTO);
+        AccountsDBDTO accountsDBDTOSaved = accountsDBService.checkSumAndSave(accountsDBDTO);
 
         assertThat(accountsDBDTOSaved.getNbAccounts()).isEqualTo(1);
 

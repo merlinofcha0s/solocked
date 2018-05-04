@@ -6,6 +6,7 @@ import {AccountsService} from '../../shared/account/accounts.service';
 import {SnackUtilService} from '../../shared/snack/snack-util.service';
 import {AccountsDBService} from '../../entities/accounts-db';
 import {Custom} from '../../shared/account/custom-account.model';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
     selector: 'jhi-import',
@@ -63,11 +64,26 @@ export class ImportComponent implements OnInit {
         this.importTypeValue = this.importType.value;
         if (this.importTypeValue === this.importTypeValueGuess) {
             const nbActualAccount = this.accountService.getAccountsListInstant().length;
-            this.accountService.saveNewAccount(this.newAccounts).subscribe((account) => {
+            this.accountsDBService.getActualMaxAccount().concatMap((actualAndMax) => {
+                if (actualAndMax.first + this.newAccounts.length < actualAndMax.second) {
+                    return this.accountService.saveNewAccount(this.newAccounts);
+                } else {
+                    this.snackUtil.openSnackBar('import.error.toomanyaccount', 10000, 'fa-exclamation-triangle'
+                        , {
+                            actual: actualAndMax.first,
+                            nbOfNewAccount: this.newAccounts.length,
+                            max: actualAndMax.second
+                        });
+                    this.loading = false;
+                    return Observable.empty();
+                }
+            }).flatMap((account) => {
+                return this.accountsDBService.updateActualNumberAccount(nbActualAccount + this.newAccounts.length);
+            }).subscribe((response) => {
                 this.snackUtil.openSnackBar('import.success', 5000, 'fa-check-circle', {nbImportedAccount: this.newAccounts.length});
                 this.loading = false;
-                this.accountsDBService.updateActualNumberAccount(nbActualAccount + this.newAccounts.length).subscribe();
             });
+
         } else {
             this.loading = false;
             this.snackUtil.openSnackBar('import.error.wrongchoiceformat', 5000, 'fa-exclamation-triangle');

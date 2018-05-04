@@ -6,21 +6,24 @@
         "validation": "Import",
         "success": "{{nbImportedAccount}} accounts successfuly imported !",
         "loading": "Importing.... Please wait",
-        "titleinformation": "Format informations",
+        "titleinformation": "CSV Format information",
         "information":{
-            "1": "The header of the CSV file has to be in that format :",
+            "1": "The header of the CSV file has to be in this format:",
             "2":"Id,Name,Number,Username,Password,Notes,Fields,Tags,Url",
-            "3": "The tags has to be separated like this : '-' ",
-            "4": "Example :",
-            "5": "my tags1 - my tags2 - myawesometags",
-            "6": "For custom fields, it has to be as follow : ",
-            "7": "Example : ",
-            "8": "fieldName1 - fieldValue1 / fieldname2 - fieldvalue2"
+            "3": "Tags must be separated with a hyphen: '-' ",
+            "4": "Example:",
+            "5": "my tag1 - my tag2 - myawesometags",
+            "6": "For custom fields, use a hyphen to separate the field name and value and the back slash to separate multiple custom fields: ",
+            "7": "Example 1: ",
+            "8": " Name1 - Value1 / Name2 - Value2",
+            "9": "Example 2: ",
+            "10": " Renewal Date - 8/17/2019 / Rep - Kara"
         },
         "error":{
             "formatunknown": "Unknown format, please check your file",
             "wrongchoiceformat": "The format selected does not match the file uploaded",
-            "lineerror": "There are {{lineInError}} line(s) on error (malformed)"
+            "lineerror": "There are {{lineInError}} line(s) in your file with data errors. Please go to <link> for possible causes. ",
+            "toomanyaccount": "Too many account to import you have {{actual}} account(s) and trying to import : {{nbOfNewAccount}} account(s). The limit is : {{max}} accounts"
         }
     }
 }

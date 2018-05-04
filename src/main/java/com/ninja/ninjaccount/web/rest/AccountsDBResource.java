@@ -58,7 +58,7 @@ public class AccountsDBResource {
         }
 
         if (accountsDBService.checkDBSum(accountsDBDTO.getDatabase(), accountsDBDTO.getSum())) {
-            AccountsDBDTO result = accountsDBService.save(accountsDBDTO);
+            AccountsDBDTO result = accountsDBService.checkSumAndSave(accountsDBDTO);
             return ResponseEntity.created(new URI("/api/accounts-dbs/" + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
@@ -91,7 +91,7 @@ public class AccountsDBResource {
         if (accountsDBDTO.getId() == null) {
             return ResponseEntity.notFound().build();
         }
-        AccountsDBDTO result = accountsDBService.save(accountsDBDTO);
+        AccountsDBDTO result = accountsDBService.checkSumAndSave(accountsDBDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, accountsDBDTO.getId().toString()))
             .body(result);

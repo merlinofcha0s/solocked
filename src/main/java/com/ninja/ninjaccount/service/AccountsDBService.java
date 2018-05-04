@@ -51,7 +51,7 @@ public class AccountsDBService {
      * @param accountsDBDTO the entity to save
      * @return the persisted entity
      */
-    public AccountsDBDTO save(AccountsDBDTO accountsDBDTO) {
+    public AccountsDBDTO checkSumAndSave(AccountsDBDTO accountsDBDTO) {
         log.debug("Request to save AccountsDB : {}", accountsDBDTO);
         if (checkDBSum(accountsDBDTO.getDatabase(), accountsDBDTO.getSum())) {
             AccountsDB accountsDB = accountsDBMapper.toEntity(accountsDBDTO);
@@ -114,11 +114,7 @@ public class AccountsDBService {
     public AccountsDBDTO findByUsernameLogin(String login) {
         log.debug("Request to get AccountsDB by username : {}", login);
         Optional<AccountsDB> accountsDB = accountsDBRepository.findOneByUserLogin(login);
-        if (accountsDB.isPresent()) {
-            return accountsDBMapper.toDto(accountsDB.get());
-        } else {
-            return null;
-        }
+        return accountsDB.map(accountsDBMapper::toDto).orElse(null);
     }
 
     /**
@@ -141,7 +137,7 @@ public class AccountsDBService {
         newAccountsDBDTO.setNbAccounts(0);
         newAccountsDBDTO.setSum("c026ff12a9bee39a00dd883ae925b79054a7b86799d4dfa4dd03a13b9d2c6bce");
 
-        return save(newAccountsDBDTO);
+        return checkSumAndSave(newAccountsDBDTO);
     }
 
     /**
@@ -167,7 +163,7 @@ public class AccountsDBService {
 
             accountsDBDTOToUpdate.setNbAccounts(nbAccounts);
 
-            return save(accountsDBDTOToUpdate);
+            return checkSumAndSave(accountsDBDTOToUpdate);
         } else {
             return null;
         }
@@ -184,7 +180,7 @@ public class AccountsDBService {
     public Integer updateNumberActualAccount(String userLogin, int newActualCount) {
         AccountsDBDTO accountsDBDTO = findByUsernameLogin(userLogin);
         accountsDBDTO.setNbAccounts(newActualCount);
-        save(accountsDBDTO);
+        checkSumAndSave(accountsDBDTO);
         return newActualCount;
     }
 }

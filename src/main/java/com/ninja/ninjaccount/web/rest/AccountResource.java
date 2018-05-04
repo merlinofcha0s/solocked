@@ -224,7 +224,7 @@ public class AccountResource {
             .registerUser(managedUserVM, managedUserVM.getAuthenticationKey());
         managedUserVM.getAccountsDB().setUserLogin(user.getLogin());
         managedUserVM.getAccountsDB().setUserId(user.getId());
-        AccountsDBDTO accountsDBDTO = accountsDBService.save(managedUserVM.getAccountsDB());
+        AccountsDBDTO accountsDBDTO = accountsDBService.checkSumAndSave(managedUserVM.getAccountsDB());
         if (accountsDBDTO == null) {
             log.error("Problem with the checksum with this user when registration : {} ", managedUserVM.getLogin());
             throw new InvalidChecksumException();
