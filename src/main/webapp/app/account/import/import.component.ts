@@ -34,7 +34,7 @@ export class ImportComponent implements OnInit {
     loading: boolean;
     preloadOk: boolean;
 
-    private lineInError: number;
+    lineInError: number;
     private lineInTotal: number;
 
     displayCSVInformation: boolean;
