@@ -103,9 +103,9 @@
             <h3 class="title-upload" jhiTranslate="import.subtitle2">Upload your file</h3>
             <div class="row container-upload">
                 <div class="col-12">
-                    <div class="d-flex justify-content-center align-items-center border-upload">
+                    <div class="d-flex flex-column justify-content-center align-items-center border-upload">
                         <input type="file" id="upload" (change)="onFileChange($event)" #fileInput>
-                        <!--<div>Drag and drop your file here, or click on this zone</div>-->
+                        <div class="mt-3 line-in-error" *ngIf="lineInError > 0" jhiTranslate="import.error.lineerror" translateValues="{lineInError: '{{ lineInError }}'}"></div>
                     </div>
                 </div>
             </div>

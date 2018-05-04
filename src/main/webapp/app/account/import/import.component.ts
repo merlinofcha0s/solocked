@@ -125,11 +125,6 @@ export class ImportComponent implements OnInit {
                     this.newAccounts = this.createAccountFromKeepass2(lines);
                     break;
             }
-
-            if (this.lineInError > 0) {
-                this.snackUtil.openSnackBar('import.error.lineerror', 5000, 'fa-exclamation-triangle',
-                    {lineInError: this.lineInError});
-            }
         } else {
             this.snackUtil.openSnackBar('import.error.formatunknown', 5000, 'fa-exclamation-triangle');
         }

@@ -22,7 +22,7 @@
         "error":{
             "formatunknown": "Unknown format, please check your file",
             "wrongchoiceformat": "The format selected does not match the file uploaded",
-            "lineerror": "There are {{lineInError}} line(s) in your file with data errors. Please go to <link> for possible causes. ",
+            "lineerror": "There are {{lineInError}} line(s) in your file with data errors. Please go to link for possible causes.",
             "toomanyaccount": "Too many account to import you have {{actual}} account(s) and trying to import : {{nbOfNewAccount}} account(s). The limit is : {{max}} accounts"
         }
     }
