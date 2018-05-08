@@ -65,7 +65,7 @@ export class ImportComponent implements OnInit {
         if (this.importTypeValue === this.importTypeValueGuess) {
             const nbActualAccount = this.accountService.getAccountsListInstant().length;
             this.accountsDBService.getActualMaxAccount().concatMap((actualAndMax) => {
-                if (actualAndMax.first + this.newAccounts.length < actualAndMax.second) {
+                if (actualAndMax.first + this.newAccounts.length <= actualAndMax.second) {
                     return this.accountService.saveNewAccount(this.newAccounts);
                 } else {
                     this.snackUtil.openSnackBar('import.error.toomanyaccount', 10000, 'fa-exclamation-triangle'
