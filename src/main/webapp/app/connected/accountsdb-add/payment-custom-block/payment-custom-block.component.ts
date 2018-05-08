@@ -4,7 +4,7 @@ import {MatDatepicker, MatDialog, MatDialogRef} from '@angular/material';
 import {PaymentCustomBlockConstant} from '../payment-custom-block.constant';
 import {DeletePaymentLineComponent} from './delete-payment-line/delete-payment-line.component';
 import {isUndefined} from 'util';
-import {animate, state, style, transition, trigger} from "@angular/animations";
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
     selector: 'jhi-payment-custom-block',
