@@ -79,7 +79,7 @@
                       Not a url
                   </mat-error>
                   <div matSuffix class="d-flex">
-                      <a href="{{url.value}}" matTooltip="{{ 'ninjaccountApp.accountsDB.add.gourl' | translate }}" *ngIf="url.valid && url.dirty && url.value?.length >= 1" target="_blank">
+                      <a href="{{ url.value.indexOf('http') != -1 ? url.value : 'http://' + url.value }}" matTooltip="{{ 'ninjaccountApp.accountsDB.add.gourl' | translate }}" *ngIf="url.valid && url.value?.length >= 1" target="_blank">
                         <i class="fas fa-external-link-square-alt suffixIcon url"></i>
                       </a>
                       <jhi-copy-clipboard class="suffixIcon" [contentToCopy]="url.value" [keyNameField]="'ninjaccountApp.accountsDB.add.url'"></jhi-copy-clipboard>
