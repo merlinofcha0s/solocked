@@ -29,10 +29,11 @@ import {
 import {NinjaccountConnectedModule} from './connected';
 import {NavbarService} from './layouts/navbar/navbar.service';
 import {AutolockComponent} from './layouts/navbar/autologout/autolock.component';
-import {SearchComponent} from './layouts/navbar/search/search.component';
+import {SafeStateComponent} from './layouts/navbar/safe-state/safe-state.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {WarnBrowserComponent} from './layouts/main/warn-browser/warn-browser.component';
 import {NgxJsonLdModule} from 'ngx-json-ld';
+import {SearchComponent} from './layouts/navbar/search/search.component';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
@@ -60,6 +61,7 @@ import {NgxJsonLdModule} from 'ngx-json-ld';
         FooterComponent,
         AutolockComponent,
         SearchComponent,
+        SafeStateComponent,
         WarnBrowserComponent,
     ],
     providers: [

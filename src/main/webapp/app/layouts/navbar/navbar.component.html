@@ -115,7 +115,11 @@
                 *ngIf="isAuthenticated() && !hasAnyAuthorityDirect(['ROLE_ADMIN'])">
                 <jhi-search *ngIf="showSearch" [@appear] class="search"></jhi-search>
             </li>
-            <li class="dropdown pointer d-flex justify-content-center align-items-center mr-4 mb-3 mb-sm-0"
+            <li class="dropdown pointer d-flex justify-content-center align-items-center mr-sm-4 mb-3 mb-sm-0 mr-sm-2"
+                *ngIf="isAuthenticated() && !hasAnyAuthorityDirect(['ROLE_ADMIN'])">
+               <jhi-safe-state></jhi-safe-state>
+            </li>
+            <li class="dropdown pointer d-flex justify-content-center align-items-center mr-sm-4 mb-3 mb-sm-0"
                 *ngIf="isAuthenticated() && !hasAnyAuthorityDirect(['ROLE_ADMIN'])">
                 <jhi-autolock></jhi-autolock>
             </li>

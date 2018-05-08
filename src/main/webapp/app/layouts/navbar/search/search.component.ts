@@ -8,7 +8,7 @@ import {MatAutocompleteSelectedEvent} from '@angular/material';
 import {Router} from '@angular/router';
 import {SearchService} from '../../../shared/search/search.service';
 import {SessionStorageService} from 'ngx-webstorage';
-import {LAST_SEARCH} from '../../../shared';
+import {LAST_SEARCH} from '../../../shared/index';
 
 @Component({
     selector: 'jhi-search',

@@ -143,5 +143,9 @@
     "autolock":{
         "name" : "Autolock",
         "in": "in"
+    },
+    "safe":{
+        "title" : "Your safe",
+        "state": "is open"
     }
 }
