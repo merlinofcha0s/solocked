@@ -4,11 +4,19 @@ import {MatDatepicker, MatDialog, MatDialogRef} from '@angular/material';
 import {PaymentCustomBlockConstant} from '../payment-custom-block.constant';
 import {DeletePaymentLineComponent} from './delete-payment-line/delete-payment-line.component';
 import {isUndefined} from 'util';
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
     selector: 'jhi-payment-custom-block',
     templateUrl: './payment-custom-block.component.html',
-    styleUrls: ['./payment-custom-block.component.scss']
+    styleUrls: ['./payment-custom-block.component.scss'],
+    animations: [
+        trigger('appear', [
+            state('void', style({opacity: 0.0})),
+            state('*', style({opacity: 1})),
+            transition('void => *, * => void', animate('500ms  ease-in-out'))
+        ])
+    ]
 })
 export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
 
@@ -26,6 +34,9 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
 
     average = '0';
     total = 0;
+
+    accordionOpened: boolean;
+    lastPayment: Payment;
 
     private deleteLinePayment: MatDialogRef<DeletePaymentLineComponent>;
 
@@ -110,5 +121,16 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
             this.total = Math.round(totalNotRounded * precision) / precision;
             this.average = Math.round(averageNotRounded * precision) / precision + '';
         }
+    }
+
+    onClose() {
+        if (this.payments.length > 0) {
+            this.lastPayment = this.payments[this.payments.length - 1];
+        }
+        this.accordionOpened = false;
+    }
+
+    onOpen() {
+        this.accordionOpened = true;
     }
 }

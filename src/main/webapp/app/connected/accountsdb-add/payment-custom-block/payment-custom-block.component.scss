@@ -13,6 +13,10 @@ $border-radius-payment: 10px !important;
     overflow: initial !important;
 }
 
+/deep/ .mat-expansion-panel-header-title {
+    color: $font-color-primary;
+}
+
 .payment-block-icons {
     font-size: 45px;
     margin-right: 15px;
@@ -34,7 +38,7 @@ $border-radius-payment: 10px !important;
     color: white;
 }
 
-.fixFF{
+.fixFF {
     width: calc(26% + 0rem) !important;
 }
 
@@ -124,6 +128,7 @@ $border-radius-payment: 10px !important;
 .suppress {
     font-size: 25px;
     cursor: pointer;
+    margin-left: auto;
 }
 
 .tile-add-bottom {
@@ -145,5 +150,15 @@ $border-radius-payment: 10px !important;
 
     .labelAverageTotal {
         margin-right: 5px;
+    }
+}
+
+.lastpayment-container {
+    font-size: 15px;
+    margin-left: auto;
+    .lastpayment-infos {
+        div {
+            margin-right: 10px;
+        }
     }
 }

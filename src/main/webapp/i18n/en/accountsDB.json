@@ -115,7 +115,8 @@
                     "cancel": "Cancel"
                 },
                 "paymentCustomBlock": {
-                    "title": "Payment field",
+                    "title": "Payments",
+                    "lastPayment": "Last payment",
                     "date": "Paid date",
                     "amount": "Amount paid",
                     "method": "Method",
