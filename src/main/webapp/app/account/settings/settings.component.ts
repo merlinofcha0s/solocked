@@ -2,13 +2,15 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {JhiLanguageService} from 'ng-jhipster';
 
 import {AccountService, JhiLanguageHelper, Principal} from '../../shared';
-import {MatDialog, MatSnackBar, MatSnackBarConfig} from '@angular/material';
+import {MatDialog, MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {SnackComponent} from '../../shared/snack/snack.component';
 import {AccountsDBService} from '../../entities/accounts-db/accounts-db.service';
 import {Subscription} from 'rxjs/Subscription';
 import {ExportAllAccountsComponent} from './export-all-accounts/export-all-accounts.component';
 import {DeleteAllAccountsComponent} from './delete-all-accounts/delete-all-accounts.component';
+import {SnackUtilService} from '../../shared/snack/snack-util.service';
+import {AccountsService} from '../../shared/account/accounts.service';
 
 @Component({
     selector: 'jhi-settings',
@@ -40,7 +42,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
                 private snackBar: MatSnackBar,
                 private translateService: TranslateService,
                 private accountDbService: AccountsDBService,
-                public dialog: MatDialog) {
+                public dialog: MatDialog,
+                private accountsService: AccountsService,
+                private snackUtil: SnackUtilService) {
     }
 
     ngOnInit() {
@@ -116,7 +120,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
 
     openExportAccountPopup() {
-        this.dialog.open(ExportAllAccountsComponent, {});
+        const accounts = this.accountsService.getAccountsListInstant();
+        if (accounts.length !== 0) {
+            this.dialog.open(ExportAllAccountsComponent, {});
+        } else {
+            this.snackUtil.openSnackBar('settings.danger.export.nodata', 5000, 'fa-exclamation-triangle');
+        }
     }
 
     openDeleteAccountsPopup() {

@@ -10,7 +10,7 @@
             "language": "Language",
             "button": "Save",
             "loading": "Please wait...",
-            "nomodifLogin": "No modification allowed for management purpose"
+            "nomodifLogin": "No modification allowed for management purposes"
         },
         "messages": {
             "error": {
@@ -41,7 +41,7 @@
                 "title": "Export your personal safe",
                 "content": "Export your entire database in CSV format (comma separated) <br/> You can open it in a spreadsheet or with a text editor",
                 "action": "Export all my accounts",
-                "nodata": "Nothing to import",
+                "nodata": "Nothing to export",
                 "popup": {
                     "title": "Export all accounts",
                     "content": "All your data will be <strong class='font-weight-bold'>transferred</strong> in <strong class='font-weight-bold'>clear text without any encryption</strong> onto this device",
@@ -58,7 +58,7 @@
                     "title": "Delete everything",
                     "content": "All your data will be <strong class='font-weight-bold'>deleted</strong><br/> <strong class='font-weight-bold'>This operation is irreversible</strong><br/> We will log you out at the end of the process.",
                     "contentUsername": "Enter your username to confirm :",
-                    "confirmation": "Are you sure?",
+                    "confirmation": "Delete SoLocked account?",
                     "cancel": "Cancel",
                     "ok": "Delete all my accounts"
                 }
