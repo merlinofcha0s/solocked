@@ -50,7 +50,6 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
         this.initAccountsList();
         this.paymentService.getPaymentByLogin();
         this.initCrispData();
-        console.log('passe after');
     }
 
     ngOnDestroy(): void {
@@ -107,7 +106,6 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
         // (https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4)
         Promise.resolve(null).then(() => this.nbResults = this.filteredAccounts.length);
 
-        console.log('passe filter');
         this.filteredAccounts = this.searchService.filter(filterTerms, this.accounts);
         this.getNextPage();
     }

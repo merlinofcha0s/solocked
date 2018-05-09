@@ -46,7 +46,9 @@ export class AccountsdbSearchComponent implements OnInit, OnDestroy {
         });
 
         this.searchControl.valueChanges.subscribe((value) => {
-            this.filterTerms.emit(value);
+            if(value){
+                this.filterTerms.emit(value);
+            }
         });
 
         this.accountsSub = this.accountsService.accounts$.subscribe((accounts) => {
