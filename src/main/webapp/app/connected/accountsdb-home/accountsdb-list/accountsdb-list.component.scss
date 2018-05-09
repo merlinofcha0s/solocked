@@ -8,8 +8,8 @@
     transition: all 0.3s ease-out;
 }
 
-.card-account-content:hover{
-    box-shadow: 0 2px 12px 0 rgba(0,0,0,0.24), 0 1px 3px 0 rgba(0,0,0,0.12);
+.card-account-content:hover, .selected {
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.24), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
     cursor: pointer;
     color: black;
     background-color: #FFFFFF;

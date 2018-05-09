@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Account} from '../../../shared/account/account.model';
 import {MatDialog} from '@angular/material';
 
@@ -10,6 +10,7 @@ import {
     transition
 } from '@angular/animations';
 import {AccountsdbDeleteComponent} from '../../accountsdb-delete/accountsdb-delete.component';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'jhi-accountsdb-list',
@@ -28,15 +29,27 @@ import {AccountsdbDeleteComponent} from '../../accountsdb-delete/accountsdb-dele
         ])
     ]
 })
-export class AccountsdbListComponent implements OnInit {
+export class AccountsdbListComponent implements OnInit, OnChanges {
 
     @Input() accounts: Array<Account>;
     @Input() terms: string;
 
-    constructor(public dialog: MatDialog) {
+    indexKey: number;
+
+    selected: Array<boolean>;
+
+    constructor(public dialog: MatDialog,
+                private router: Router) {
     }
 
     ngOnInit() {
+        this.resetSelectorState();
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.terms) {
+            this.resetSelectorState();
+        }
     }
 
     openConfirmationDeleteDialog(idToDelete: number) {
@@ -45,5 +58,60 @@ export class AccountsdbListComponent implements OnInit {
                 id: idToDelete
             }
         });
+    }
+
+    @HostListener('window:keydown', ['$event'])
+    keyEvent(event: KeyboardEvent) {
+        if (event.key === 'ArrowDown') {
+            this.onKeydown();
+        }
+
+        if (event.key === 'ArrowUp') {
+            this.onKeyup();
+        }
+
+        if (event.key === 'Enter') {
+            this.onEnter();
+            event.preventDefault();
+        }
+    }
+
+    onKeydown() {
+        if (this.indexKey === this.accounts.length - 1) {
+            this.indexKey = this.accounts.length - 1;
+        } else {
+            if (this.indexKey === 0) {
+                if (this.selected[this.indexKey]) {
+                    this.selected[this.indexKey] = false;
+                    this.indexKey++;
+                }
+                this.selected[this.indexKey] = true;
+
+            } else {
+                this.selected[this.indexKey] = false;
+                this.indexKey++;
+                this.selected[this.indexKey] = true;
+            }
+        }
+    }
+
+    onKeyup() {
+        if (this.indexKey === 0) {
+            this.indexKey = 0;
+        } else {
+            this.selected[this.indexKey] = false;
+            this.indexKey--;
+            this.selected[this.indexKey] = true;
+        }
+    }
+
+    onEnter() {
+        const accountSelected = this.accounts[this.indexKey];
+        this.router.navigate(['/accounts/edit', accountSelected.id]);
+    }
+
+    resetSelectorState() {
+        this.indexKey = 0;
+        this.selected = [];
     }
 }

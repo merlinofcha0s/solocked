@@ -1,4 +1,4 @@
-<div class="card-account-content row" *ngFor="let account of accounts" [@appear]>
+<div [class.selected]="selected[i]" class="card-account-content row" *ngFor="let account of accounts; let i = index;" [@appear]>
     <div class="col-10 d-flex p-4" [routerLink]="['/accounts/edit', account.id]">
         <div class="name" id="name">{{ account.name }}</div>
         <div class="d-none d-sm-block" id="username">{{ account.username }}</div>

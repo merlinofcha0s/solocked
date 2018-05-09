@@ -62,7 +62,7 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
         this.accountsSub = this.accountsService.accounts$.subscribe((accounts) => {
             this.accounts = accounts;
 
-            if(this.accounts.length !== 0){
+            if (this.accounts.length !== 0) {
                 // Retain the position of the pager
                 if (this.counter !== 0) {
                     this.allAccountsPaginated = [];
@@ -73,8 +73,6 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
                 this.onFilter(this.lastSearchTerms);
             }
         });
-
-
     }
 
     getNextPage() {
