@@ -3,10 +3,11 @@ import {Account} from '../../shared/account/account.model';
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {PaymentService} from '../../entities/payment/payment.service';
 import {Subscription} from 'rxjs/Subscription';
-import {Principal} from '../../shared';
+import {LAST_SEARCH, Principal} from '../../shared';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {SearchService} from '../../shared/search/search.service';
+import {SessionStorageService} from 'ngx-webstorage';
 
 declare var $crisp: any;
 
@@ -36,7 +37,8 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
     constructor(private accountsService: AccountsService,
                 private paymentService: PaymentService,
                 private principal: Principal,
-                private searchService: SearchService) {
+                private searchService: SearchService,
+                private sessionStorage: SessionStorageService) {
         this.counter = 0;
         this.lastSearchTerms = '';
         this.allAccountsPaginated = [];
@@ -51,6 +53,7 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.accountsSub.unsubscribe();
+        this.sessionStorage.store(LAST_SEARCH, this.lastSearchTerms);
     }
 
     initAccountsList() {

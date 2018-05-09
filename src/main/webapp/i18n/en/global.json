@@ -35,7 +35,9 @@
                 "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
             },
             "language": "Language",
-            "search" : "Search..."
+            "search" : "Search...",
+            "result": "{{nbResult}} result{{plural}}",
+            "accountTotal": "Total: {{nbtotal}} account{{plural}}"
         },
         "form": {
             "username": "Username",

@@ -1,38 +1,7 @@
 @import './../../../../content/scss/custom-variables';
 
-.card-account-content {
-    background-color: $solocked-primary-color;
-    border-radius: 8px;
-    color: white;
-    margin: 2em auto;
-    transition: all 0.3s ease-out;
-}
-
-.card-account-content:hover{
-    box-shadow: 0 2px 12px 0 rgba(0,0,0,0.24), 0 1px 3px 0 rgba(0,0,0,0.12);
-    cursor: pointer;
-    color: black;
-    background-color: #FFFFFF;
-}
-
-.name {
-    width: 200px;
-}
-
-.actions {
-    font-size: 24px;
-    width: 60px;
-    i {
-        cursor: pointer;
-    }
-}
-
 .hide {
     display: none;
-}
-
-.search {
-    width: 100%;
 }
 
 .cross {

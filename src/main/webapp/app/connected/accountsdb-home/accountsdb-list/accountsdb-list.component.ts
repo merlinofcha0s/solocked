@@ -1,9 +1,7 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Account} from '../../../shared/account/account.model';
-import {AccountsService} from '../../../shared/account/accounts.service';
-import {MatDialog, MatSnackBar, MatSnackBarConfig} from '@angular/material';
-import {TranslateService} from '@ngx-translate/core';
-import {SnackComponent} from '../../../shared/snack/snack.component';
+import {MatDialog} from '@angular/material';
+
 import {
     trigger,
     state,
@@ -11,9 +9,6 @@ import {
     animate,
     transition
 } from '@angular/animations';
-import {Router} from '@angular/router';
-import {SessionStorageService} from 'ngx-webstorage';
-import {LAST_SEARCH} from '../../../shared';
 import {AccountsdbDeleteComponent} from '../../accountsdb-delete/accountsdb-delete.component';
 
 @Component({
@@ -29,28 +24,19 @@ import {AccountsdbDeleteComponent} from '../../accountsdb-delete/accountsdb-dele
         trigger('noResult', [
             state('void', style({opacity: 0.0, transform: 'translateX(100%)'})),
             state('*', style({opacity: 1, transform: 'translateX(0)'})),
-            transition('void => *, * => void', animate('600ms  ease-in-out'))
+            transition('void => *, * => void', animate('400ms  ease-in-out'))
         ])
     ]
 })
-export class AccountsdbListComponent implements OnInit, OnDestroy {
+export class AccountsdbListComponent implements OnInit {
 
     @Input() accounts: Array<Account>;
     @Input() terms: string;
 
-    constructor(private accountService: AccountsService,
-                private snackBar: MatSnackBar,
-                private translateService: TranslateService,
-                private router: Router,
-                private sessionStorage: SessionStorageService,
-                public dialog: MatDialog) {
+    constructor(public dialog: MatDialog) {
     }
 
     ngOnInit() {
-    }
-
-    ngOnDestroy(): void {
-        this.sessionStorage.store(LAST_SEARCH, this.terms);
     }
 
     openConfirmationDeleteDialog(idToDelete: number) {

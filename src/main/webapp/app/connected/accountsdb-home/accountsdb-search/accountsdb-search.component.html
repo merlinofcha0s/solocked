@@ -1,11 +1,21 @@
-<form name="searchForm width-max" role="form" (ngSubmit)="search()" novalidate>
+<form name="searchForm" role="form" (ngSubmit)="search()" novalidate>
     <mat-form-field class="width-max autocomplete-width">
         <input type="text" id="searchField" matInput [formControl]="searchControl"
-               placeholder="{{ 'global.menu.search' | translate }}" jhiAutofocus >
+               placeholder="{{ 'global.menu.search' | translate }}" jhiAutofocus
+               autocomplete="off">
         <div matSuffix>
             <i class="fas fa-search search" [class.hide]="searchControl.value && searchControl.value != ''"></i>
             <i class="fas fa-times cross" [class.hide]="!searchControl.value || searchControl.value == ''"
                (click)="clearSearch()"></i>
         </div>
+        <mat-hint align="start">
+            <div *ngIf="searchControl.value && searchControl.value.length > 1
+            && nbResults >= 1" jhiTranslate="global.menu.result"
+                 translateValues="{nbResult: '{{nbResults}}', plural: '{{ nbResults == 1 ? '' : 's'  }}'}"></div>
+        </mat-hint>
+        <mat-hint align="end">
+            <div jhiTranslate="global.menu.accountTotal" translateValues="{nbtotal : '{{totalNumberAccount}}',
+             plural: '{{totalNumberAccount <= 1 ? '' : 's' }}'}">{{totalNumberAccount}}</div>
+        </mat-hint>
     </mat-form-field>
 </form>

@@ -7,4 +7,10 @@
         <i class="fas fa-trash" aria-hidden="true" (click)="openConfirmationDeleteDialog(account.id)"></i>
     </div>
 </div>
-<div class="d-flex justify-content-around align-items-center" style="height: 100px;" [@noResult] *ngIf="accounts.length == 0 && terms.length > 1">No result to display</div>
+<div class="row" [@noResult] *ngIf="accounts.length == 0 && terms.length > 1">
+    <div class="col-12 p-4">
+        <div class="d-flex justify-content-around align-items-center"
+              jhiTranslate="ninjaccountApp.accountsDB.home.online.noResult">No results :(</div>
+    </div>
+</div>
+
