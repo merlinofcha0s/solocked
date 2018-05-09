@@ -2,8 +2,8 @@
     <div class="col-md-3"></div>
     <div class="col-md-6">
         <h1 id="title-accounts" jhiTranslate="ninjaccountApp.accountsDB.home.online.title">Personal safe</h1>
-        <jhi-accountsdb-search [nbResults]="allAccountsPaginated.length" (filterTerms)="onFilter($event)"></jhi-accountsdb-search>
-        <jhi-accountsdb-list [accounts]="allAccountsPaginated" [terms]="filterTerms | async"></jhi-accountsdb-list>
+        <jhi-accountsdb-search [nbResults]="nbResults" (filterTerms)="onFilter($event)"></jhi-accountsdb-search>
+        <jhi-accountsdb-list [accounts]="allAccountsPaginated" [terms]="lastSearchTerms"></jhi-accountsdb-list>
         <div class="d-flex justify-content-center" *ngIf="displayLoadMore">
             <button type="button" mat-raised-button color="primary" (click)="getNextPage()">
                 {{ "ninjaccountApp.accountsDB.home.online.loadMore" | translate }}

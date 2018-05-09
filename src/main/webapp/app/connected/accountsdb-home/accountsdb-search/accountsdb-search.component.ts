@@ -50,7 +50,7 @@ export class AccountsdbSearchComponent implements OnInit, OnDestroy {
         });
 
         this.accountsSub = this.accountsService.accounts$.subscribe((accounts) => {
-            this.totalNumberAccount =  accounts.length;
+            this.totalNumberAccount = accounts.length;
         });
     }
 

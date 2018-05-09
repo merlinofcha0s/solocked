@@ -1,6 +1,6 @@
 import {AccountsService} from './../../shared/account/accounts.service';
 import {Account} from '../../shared/account/account.model';
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {PaymentService} from '../../entities/payment/payment.service';
 import {Subscription} from 'rxjs/Subscription';
 import {LAST_SEARCH, Principal} from '../../shared';
@@ -26,13 +26,13 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
 
     seeAll = false;
 
-    filteredAccounts$: Observable<Array<Account>>;
     filteredAccounts: Array<Account>;
-    filterTerms: BehaviorSubject<any>;
 
     displayLoadMore: boolean;
 
     lastSearchTerms: string;
+
+    nbResults: number;
 
     constructor(private accountsService: AccountsService,
                 private paymentService: PaymentService,
@@ -43,12 +43,14 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
         this.lastSearchTerms = '';
         this.allAccountsPaginated = [];
         this.filteredAccounts = [];
+        this.nbResults = 0;
     }
 
     ngOnInit() {
         this.initAccountsList();
         this.paymentService.getPaymentByLogin();
         this.initCrispData();
+        console.log('passe after');
     }
 
     ngOnDestroy(): void {
@@ -57,29 +59,23 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
     }
 
     initAccountsList() {
-        this.filterTerms = new BehaviorSubject<string>('');
+        this.accountsService.getAccountsList();
         this.accountsSub = this.accountsService.accounts$.subscribe((accounts) => {
             this.accounts = accounts;
 
-            // Retain the position of the pager
-            if (this.counter !== 0) {
-                this.allAccountsPaginated = [];
-                this.pageSize = this.counter;
-                this.counter = 0;
+            if(this.accounts.length !== 0){
+                // Retain the position of the pager
+                if (this.counter !== 0) {
+                    this.allAccountsPaginated = [];
+                    this.pageSize = this.counter;
+                    this.counter = 0;
+                }
+
+                this.onFilter(this.lastSearchTerms);
             }
-            this.filterTerms.next(this.lastSearchTerms);
-            this.getNextPage();
         });
 
-        this.filteredAccounts$ = this.filterTerms
-            .map((terms) => terms ? this.searchService.filter(terms, this.accounts) : []);
 
-        this.filteredAccounts$.subscribe((accounts) => {
-            this.filteredAccounts = accounts;
-            this.getNextPage();
-        });
-
-        this.accountsService.getAccountsList();
     }
 
     getNextPage() {
@@ -107,6 +103,12 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
         this.counter = 0;
         this.lastSearchTerms = filterTerms;
         this.allAccountsPaginated.splice(0, this.allAccountsPaginated.length);
-        this.filterTerms.next(filterTerms);
+        // Avoiding the problem of change detection when angular runs it !
+        // (https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4)
+        Promise.resolve(null).then(() => this.nbResults = this.filteredAccounts.length);
+
+        console.log('passe filter');
+        this.filteredAccounts = this.searchService.filter(filterTerms, this.accounts);
+        this.getNextPage();
     }
 }
