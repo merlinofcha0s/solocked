@@ -1,17 +1,17 @@
 <div *ngIf="showSearch" [@appear] class="d-flex justify-content-center align-items-center">
     <form name="searchForm width-max" role="form" (ngSubmit)="onHomePageSearch(searchControl.value)" novalidate>
-        <mat-form-field class="width-max autocomplete-width">
-            <input type="text" matInput [formControl]="searchControl" placeholder="{{ 'global.menu.search' | translate }}" [matAutocomplete]="auto">
-            <div matSuffix>
-                <i class="fas fa-search search" (click)="onHomePageSearch(searchControl.value)"></i>
-                <i class="fas fa-times cross" [class.hide]="searchControl.value.length == 0" (click)="clearSearch()"></i>
-            </div>
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onAccountSelected($event)" [displayWith]="displayFn">
-                <mat-option *ngFor="let account of filteredAccounts | async" [value]="account">
-                    <i class="fas fa-unlock-alt ico-account"></i>
-                    <span>{{ account.name }}</span>
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
+        <div class="d-flex align-items-center">
+            <mat-form-field class="width-max autocomplete-width">
+                <input type="text" matInput [formControl]="searchControl" placeholder="{{ 'global.menu.search' | translate }}" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onAccountSelected($event)" [displayWith]="displayFn">
+                    <mat-option *ngFor="let account of filteredAccounts | async" [value]="account">
+                        <i class="fas fa-unlock-alt ico-account"></i>
+                        <span>{{ account.name }}</span>
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <i class="ml-2 fas fa-search search" (click)="onHomePageSearch(searchControl.value)"></i>
+            <i class="ml-2 fas fa-times cross" [class.hide]="searchControl.value.length == 0" (click)="clearSearch()"></i>
+        </div>
     </form>
 </div>

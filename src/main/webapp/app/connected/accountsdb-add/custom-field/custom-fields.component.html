@@ -11,11 +11,9 @@
                    formControlName="valueField">
 
             <mat-hint align="end">{{ cu.get('valueField').value?.length || 0 }} / {{ maxValue }}</mat-hint>
-            <div matSuffix class="d-flex justify-content-center">
-                <i class="fas fa-edit suffixIcon mr-2" *ngIf="isKeyFieldHided[i]" (click)="onEditLabel(i)" matTooltip="{{ 'ninjaccountApp.accountsDB.add.custom.editlabel' | translate }}"></i>
-                <i class="fa fa-trash suffixIcon" (click)="onDeleteCustomField(i)" matTooltip="{{ 'ninjaccountApp.accountsDB.add.custom.delete' | translate }}" aria-hidden="true"></i>
-                <jhi-copy-clipboard class="suffixIcon" [contentToCopy]="cu.get('valueField').value" [keyNameField]="'ninjaccountApp.accountsDB.add.custom.value'"></jhi-copy-clipboard>
-            </div>
         </mat-form-field>
+        <i class="fas fa-edit suffixIcon ml-2" *ngIf="isKeyFieldHided[i]" (click)="onEditLabel(i)" matTooltip="{{ 'ninjaccountApp.accountsDB.add.custom.editlabel' | translate }}"></i>
+        <i class="fa fa-trash suffixIcon ml-2" (click)="onDeleteCustomField(i)" matTooltip="{{ 'ninjaccountApp.accountsDB.add.custom.delete' | translate }}" aria-hidden="true"></i>
+        <jhi-copy-clipboard class="suffixIcon" [contentToCopy]="cu.get('valueField').value" [keyNameField]="'ninjaccountApp.accountsDB.add.custom.value'"></jhi-copy-clipboard>
     </div>
 </div>
