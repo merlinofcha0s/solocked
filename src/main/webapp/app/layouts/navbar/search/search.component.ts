@@ -108,7 +108,7 @@ export class SearchComponent implements OnInit, OnDestroy {
             this.searchControl.setValue(this.sessionStorage.retrieve(LAST_SEARCH));
         }
 
-        this.router.events.subscribe((event: Event) => {
+       this.routerSub = this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationEnd) {
                 if (event.url === '/' + AccountsHomeRouteName) {
                     this.showSearch = false;
