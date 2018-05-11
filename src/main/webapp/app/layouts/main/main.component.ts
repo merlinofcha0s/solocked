@@ -8,7 +8,7 @@ import {ProfileService} from '../profiles/profile.service';
 import fontawesome from '@fortawesome/fontawesome';
 import {WarnBrowserComponent} from './warn-browser/warn-browser.component';
 import {MatDialog} from '@angular/material';
-import {AccountsService} from "../../shared/account/accounts.service";
+import {AccountsService} from '../../shared/account/accounts.service';
 
 @Component({
     selector: 'jhi-main',
@@ -162,7 +162,7 @@ export class JhiMainComponent implements OnInit {
     }
 
     private cacheDB() {
-        if(this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])){
+        if (this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
             this.accountsService.getAccountsList();
         }
     }
