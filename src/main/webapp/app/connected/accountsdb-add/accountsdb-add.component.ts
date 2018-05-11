@@ -74,7 +74,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 private snackUtil: SnackUtilService,
                 private translateService: TranslateService,
                 private dialog: MatDialog,
-                ) {
+    ) {
         this.customBlockCounter = {paymentBlocks: []};
     }
 
@@ -176,6 +176,9 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
                 this.payments[index] = payment;
             });
+
+            // Sorting to the most recent
+            this.payments.sort((a: Payment, b: Payment) => new Date(a.date).getTime() < new Date(b.date).getTime() ? 1 : -1);
 
             newAccount.payments = this.payments;
         }
@@ -286,7 +289,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
     addNewPaymentBlock(addNewList: boolean) {
         if (addNewList) {
-            this.payments = new Array<Payment>();
+            this.payments = [];
         }
 
         this.customBlockCounter.paymentBlocks.push(1);

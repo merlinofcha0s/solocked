@@ -97,8 +97,10 @@ $border-radius-payment: 10px !important;
     transform: translate(0px, 16px);
 }
 
-.add-payment-first {
-    transform: translate(0px, 16px);
+.add-payment-top{
+    transform: translate(0px, 35px);
+    position: absolute;
+    z-index: 10;
 }
 
 .add-payments:hover {
@@ -129,11 +131,6 @@ $border-radius-payment: 10px !important;
     font-size: 25px;
     cursor: pointer;
     margin-left: auto;
-}
-
-.tile-add-bottom {
-    z-index: 10;
-    overflow: unset;
 }
 
 .add-payments-bottom {

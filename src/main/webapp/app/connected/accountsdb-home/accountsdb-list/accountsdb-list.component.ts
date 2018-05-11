@@ -87,7 +87,6 @@ export class AccountsdbListComponent implements OnInit, OnChanges {
                     this.indexKey++;
                 }
                 this.selected[this.indexKey] = true;
-
             } else {
                 this.selected[this.indexKey] = false;
                 this.indexKey++;

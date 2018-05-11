@@ -57,7 +57,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
         const newPayment = new Payment(new Date(), 0, this._placeholderMethod
             , this._placeholderCode, this._placeholderNotes);
 
-        this.payments.push(newPayment);
+        this.payments.unshift(newPayment);
         this.onSyncPayments.emit(this.payments);
     }
 
