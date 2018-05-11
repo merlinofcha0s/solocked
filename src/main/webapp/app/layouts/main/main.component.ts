@@ -8,6 +8,7 @@ import {ProfileService} from '../profiles/profile.service';
 import fontawesome from '@fortawesome/fontawesome';
 import {WarnBrowserComponent} from './warn-browser/warn-browser.component';
 import {MatDialog} from '@angular/material';
+import {AccountsService} from "../../shared/account/accounts.service";
 
 @Component({
     selector: 'jhi-main',
@@ -16,7 +17,7 @@ import {MatDialog} from '@angular/material';
 })
 export class JhiMainComponent implements OnInit {
 
-    loginPage: boolean;
+    isLoginPage: boolean;
     schema = {
         '@context': 'http://schema.org',
         '@type': 'Application',
@@ -33,7 +34,8 @@ export class JhiMainComponent implements OnInit {
                 private autolockService: AutolockService,
                 private profileService: ProfileService,
                 private dialog: MatDialog,
-                private renderer: Renderer2) {
+                private renderer: Renderer2,
+                private accountsService: AccountsService) {
     }
 
     ngOnInit() {
@@ -47,10 +49,9 @@ export class JhiMainComponent implements OnInit {
         this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
                 this.jhiLanguageHelper.updateTitle(this.getPageTitle(this.router.routerState.snapshot.root));
-            }
-            if (event instanceof NavigationEnd) {
-                this.loginPage = event.url === '/';
+                this.isLoginPage = event.url === '/';
                 this.backgroundBodyManagement();
+                this.cacheDB();
             }
         });
     }
@@ -153,11 +154,16 @@ export class JhiMainComponent implements OnInit {
     }
 
     backgroundBodyManagement() {
-        if (this.loginPage) {
+        if (this.isLoginPage) {
             this.renderer.addClass(document.body, 'background-offline');
         } else {
             this.renderer.removeClass(document.body, 'background-offline');
         }
     }
 
+    private cacheDB() {
+        if(this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])){
+            this.accountsService.getAccountsList();
+        }
+    }
 }

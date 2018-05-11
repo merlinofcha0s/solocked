@@ -56,7 +56,7 @@
                 "action": "Delete all my accounts",
                 "popup": {
                     "title": "Delete everything",
-                    "content": "All your data will be <strong class='font-weight-bold'>deleted</strong><br/> <strong class='font-weight-bold'>This operation is irreversible</strong><br/> We will log you out at the end of the process.",
+                    "content": "Delete your <strong class='font-weight-bold'>entire</strong> solocked account including <strong class='font-weight-bold'>all data</strong><br/> <strong class='font-weight-bold'>This operation is irreversible</strong><br/> We will log you out at the end of the process.",
                     "contentUsername": "Enter your username to confirm :",
                     "confirmation": "Delete SoLocked account?",
                     "cancel": "Cancel",
