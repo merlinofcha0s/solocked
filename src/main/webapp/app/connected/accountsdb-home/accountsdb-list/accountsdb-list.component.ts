@@ -79,6 +79,7 @@ export class AccountsdbListComponent implements OnInit, OnChanges {
     onKeydown() {
         if (this.indexKey === this.accounts.length - 1) {
             this.indexKey = this.accounts.length - 1;
+            this.selected[this.indexKey] = true;
         } else {
             if (this.indexKey === 0) {
                 if (this.selected[this.indexKey]) {
