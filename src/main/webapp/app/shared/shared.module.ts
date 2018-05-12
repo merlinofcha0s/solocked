@@ -21,9 +21,6 @@ import {
 } from './';
 import {CryptoService} from './crypto/crypto.service';
 import {
-    DateAdapter,
-    MAT_DATE_FORMATS,
-    MAT_DATE_LOCALE,
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
@@ -52,7 +49,6 @@ import {PasswordMatchValidatorDirective} from './auth/password-match.directive';
 import {SnackComponent} from './snack/snack.component';
 import {AutolockService} from '../layouts/navbar/autologout/autolock.service';
 import {DateValidatorDirective} from './validation/date-validator.directive';
-import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {AccountsTechService} from './account/accounts-tech.service';
 import {SnackUtilService} from './snack/snack-util.service';
 import {SearchService} from './search/search.service';
@@ -112,8 +108,8 @@ import {AutofocusDirective} from './validation/autofocus.directive';
         UserRouteAccessIsConnectedService,
         AutolockService,
         SnackUtilService,
-        {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-        {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+        // {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+        // {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
         SearchService,
         {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}
     ],

@@ -3,8 +3,6 @@
 import '../content/scss/vendor.scss';
 import 'text-encoding/lib/encoding.js';
 import 'file-saver/FileSaver.min.js';
-import 'moment/min/locales.min.js';
-import 'moment/min/moment-with-locales.min.js';
 
 import '@fortawesome/fontawesome';
 import '@fortawesome/fontawesome-free-brands';
