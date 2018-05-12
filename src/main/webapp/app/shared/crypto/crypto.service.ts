@@ -4,7 +4,6 @@ import {JhiDataUtils} from 'ng-jhipster';
 import {Observable} from 'rxjs/Rx';
 import {Accounts} from './../account/accounts.model';
 import {Injectable} from '@angular/core';
-import {TextEncoder} from 'text-encoding';
 import {KEY} from '../constants/session-storage.constants';
 
 @Injectable()

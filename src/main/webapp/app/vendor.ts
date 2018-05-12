@@ -1,7 +1,6 @@
 /* after changing this file run 'yarn run webpack:build' */
 /* tslint:disable */
 import '../content/scss/vendor.scss';
-import 'text-encoding/lib/encoding.js';
 import 'file-saver/FileSaver.min.js';
 
 import '@fortawesome/fontawesome';
