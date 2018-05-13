@@ -1,0 +1,45 @@
+
+<div *ngIf="accountsDB">
+    <h2><span jhiTranslate="ninjaccountApp.accountsDB.detail.title">Accounts DB</span> {{accountsDB.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="ninjaccountApp.accountsDB.initializationVector">Initialization Vector</span></dt>
+        <dd>
+            <span>{{accountsDB.initializationVector}}</span>
+        </dd>
+        <dt><span jhiTranslate="ninjaccountApp.accountsDB.database">Database</span></dt>
+        <dd>
+            <div *ngIf="accountsDB.database">
+                <a (click)="openFile(accountsDB.databaseContentType, accountsDB.database)" jhiTranslate="entity.action.open">open</a>
+                {{accountsDB.databaseContentType}}, {{byteSize(accountsDB.database)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="ninjaccountApp.accountsDB.nbAccounts">Nb Accounts</span></dt>
+        <dd>
+            <span>{{accountsDB.nbAccounts}}</span>
+        </dd>
+        <dt><span jhiTranslate="ninjaccountApp.accountsDB.sum">Sum</span></dt>
+        <dd>
+            <span>{{accountsDB.sum}}</span>
+        </dd>
+        <dt><span jhiTranslate="ninjaccountApp.accountsDB.user">User</span></dt>
+        <dd>
+            {{accountsDB.userLogin}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'accounts-db/'+ accountsDB.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>
