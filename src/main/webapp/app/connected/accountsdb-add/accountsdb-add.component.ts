@@ -252,7 +252,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     }
 
     initPasswordHideDisplay() {
-        this.passwordType = 'text';
+        this.passwordType = 'password';
         this.iconPasswordType = 'fa-eye';
     }
 
