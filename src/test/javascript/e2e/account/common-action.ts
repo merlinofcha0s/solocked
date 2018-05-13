@@ -32,7 +32,7 @@ export class CommonAction {
     activateUser(username: string) {
         this.login('admin', 'admin');
         browser.driver.sleep(2000);
-        expect<any>(browser.getTitle()).toBe('Users');
+        expect<any>(browser.getTitle()).toBe('Users | SoLocked');
 
         element(by.id(username + '-deactivation')).click();
         this.logout();
