@@ -1,5 +1,5 @@
 # ninjaccount
-This application was generated using JHipster 4.14.2, you can find documentation and help at [http://www.jhipster.tech/documentation-archive/v4.14.2](http://www.jhipster.tech/documentation-archive/v4.14.2).
+This application was generated using JHipster 4.14.4, you can find documentation and help at [http://www.jhipster.tech/documentation-archive/v4.14.4](http://www.jhipster.tech/documentation-archive/v4.14.4).
 
 ## Development
 
@@ -147,14 +147,14 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
 
 [JHipster Homepage and latest documentation]: http://www.jhipster.tech
-[JHipster 4.14.2 archive]: http://www.jhipster.tech/documentation-archive/v4.14.2
+[JHipster 4.14.4 archive]: http://www.jhipster.tech/documentation-archive/v4.14.4
 
-[Using JHipster in development]: http://www.jhipster.tech/documentation-archive/v4.14.2/development/
-[Service Discovery and Configuration with the JHipster-Registry]: http://www.jhipster.tech/documentation-archive/v4.14.2/microservices-architecture/#jhipster-registry
-[Using Docker and Docker-Compose]: http://www.jhipster.tech/documentation-archive/v4.14.2/docker-compose
-[Using JHipster in production]: http://www.jhipster.tech/documentation-archive/v4.14.2/production/
-[Running tests page]: http://www.jhipster.tech/documentation-archive/v4.14.2/running-tests/
-[Setting up Continuous Integration]: http://www.jhipster.tech/documentation-archive/v4.14.2/setting-up-ci/
+[Using JHipster in development]: http://www.jhipster.tech/documentation-archive/v4.14.4/development/
+[Service Discovery and Configuration with the JHipster-Registry]: http://www.jhipster.tech/documentation-archive/v4.14.4/microservices-architecture/#jhipster-registry
+[Using Docker and Docker-Compose]: http://www.jhipster.tech/documentation-archive/v4.14.4/docker-compose
+[Using JHipster in production]: http://www.jhipster.tech/documentation-archive/v4.14.4/production/
+[Running tests page]: http://www.jhipster.tech/documentation-archive/v4.14.4/running-tests/
+[Setting up Continuous Integration]: http://www.jhipster.tech/documentation-archive/v4.14.4/setting-up-ci/
 
 
 [Node.js]: https://nodejs.org/
