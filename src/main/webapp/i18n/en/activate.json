@@ -1,6 +1,6 @@
 {
     "activate": {
-        "titleHeader": "SoLocked account activation | SoLocked",
+        "titleHeader": "SoLocked account activation",
         "title": "SoLocked account activation:",
         "messages": {
             "success": "<strong>Your user account has been activated.</strong> Please ",

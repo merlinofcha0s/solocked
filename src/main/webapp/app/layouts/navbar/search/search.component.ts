@@ -1,11 +1,11 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {AccountsService} from '../../../shared/account/accounts.service';
 import {Account} from '../../../shared/account/account.model';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
 import {MatAutocompleteSelectedEvent} from '@angular/material';
-import {Event, NavigationEnd, NavigationStart, Router} from '@angular/router';
+import {Event, NavigationEnd, Router} from '@angular/router';
 import {SearchService} from '../../../shared/search/search.service';
 import {SessionStorageService} from 'ngx-webstorage';
 import {LAST_SEARCH} from '../../../shared/index';
@@ -93,7 +93,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         // We enforce that is a string, since the valueToSearch can be an account
         if (typeof(valueToSearch) === 'string' || valueToSearch instanceof String) {
             this.sessionStorage.store(LAST_SEARCH, valueToSearch);
-            this.router.navigate(['/accounts']);
+            this.router.navigate(['/' + AccountsHomeRouteName]);
         } else {
             this.router.navigate(['/accounts/edit', valueToSearch.id]);
         }
@@ -108,7 +108,7 @@ export class SearchComponent implements OnInit, OnDestroy {
             this.searchControl.setValue(this.sessionStorage.retrieve(LAST_SEARCH));
         }
 
-       this.routerSub = this.router.events.subscribe((event: Event) => {
+        this.routerSub = this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationEnd) {
                 if (event.url === '/' + AccountsHomeRouteName) {
                     this.showSearch = false;

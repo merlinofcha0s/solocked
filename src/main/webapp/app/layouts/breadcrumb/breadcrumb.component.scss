@@ -1,0 +1,10 @@
+@import '../../../content/scss/custom-variables';
+
+.active-link {
+    color: $solocked-primary-color;
+}
+
+.active-link:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}

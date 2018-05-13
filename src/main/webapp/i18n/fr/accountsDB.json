@@ -32,7 +32,7 @@
             "user": "User",
             "title": "Accounts",
             "add": {
-                "header": "Ajout d'un compte | SoLocked",
+                "header": "Ajout d'un compte",
                 "title": "Ajouter un compte.",
                 "loading": "Création du nouveau compte...",
                 "name": "Nom",
@@ -52,7 +52,7 @@
                 "button": "Ajouter un compte"
             },
             "update": {
-                "header": "Mise à jour d'un compte | SoLocked",
+                "header": "Mise à jour d'un compte",
                 "title": "Mise à jour d'un compte.",
                 "button": "Mise à jour du compte"
             },

@@ -34,6 +34,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {WarnBrowserComponent} from './layouts/main/warn-browser/warn-browser.component';
 import {NgxJsonLdModule} from 'ngx-json-ld';
 import {SearchComponent} from './layouts/navbar/search/search.component';
+import {BreadcrumbComponent} from './layouts/breadcrumb/breadcrumb.component';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
@@ -63,6 +64,7 @@ import {SearchComponent} from './layouts/navbar/search/search.component';
         SearchComponent,
         SafeStateComponent,
         WarnBrowserComponent,
+        BreadcrumbComponent
     ],
     providers: [
         ProfileService,

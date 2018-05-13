@@ -1,13 +1,12 @@
 <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
         <h1 id="title-accounts" jhiTranslate="import.title">Import data from another service</h1>
         <h3 id="title-select-type" jhiTranslate="import.subtitle1">Select your service</h3>
         <form [formGroup]="importForm" (ngSubmit)="onSubmitImport()">
             <mat-radio-group [formControl]="importType">
                 <div class="row">
-                    <div class="d-none d-xl-block col-xl-1"></div>
-                    <div class="col-lg-4 col-xl-2 mt-1">
+                    <div class="col-lg-4 mt-1">
                         <mat-card class="type-card-height">
                             <mat-card-content>
                                 <div class="d-flex justify-content-center align-items-center flex-column">
@@ -20,7 +19,7 @@
                             </mat-card-content>
                         </mat-card>
                     </div>
-                    <div class="col-lg-4 col-xl-2 mt-1">
+                    <div class="col-lg-4 mt-1">
                         <mat-card class="type-card-height">
                             <mat-card-content>
                                 <div class="d-flex justify-content-center align-items-center flex-column">
@@ -33,7 +32,7 @@
                             </mat-card-content>
                         </mat-card>
                     </div>
-                    <div class="col-lg-4 col-xl-2 mt-1">
+                    <div class="col-lg-4 mt-1">
                         <mat-card class="type-card-height">
                             <mat-card-content>
                                 <div class="d-flex justify-content-center align-items-center flex-column">
@@ -46,7 +45,7 @@
                             </mat-card-content>
                         </mat-card>
                     </div>
-                    <div class="col-lg-4 col-xl-2 mt-1">
+                    <div class="col-lg-4 mt-1">
                         <mat-card class="type-card-height">
                             <mat-card-content>
                                 <div class="d-flex justify-content-center align-items-center flex-column">
@@ -59,7 +58,7 @@
                             </mat-card-content>
                         </mat-card>
                     </div>
-                    <div class="col-lg-4 col-xl-2 mt-1">
+                    <div class="col-lg-4 mt-1">
                         <mat-card class="type-card-height">
                             <mat-card-content>
                                 <div class="d-flex justify-content-center align-items-center flex-column">
@@ -72,7 +71,6 @@
                             </mat-card-content>
                         </mat-card>
                     </div>
-                    <div class="d-none d-xl-block col-xl-1"></div>
                 </div>
             </mat-radio-group>
             <div class="row mt-4 information-format" [hidden]="!displayCSVInformation">
@@ -121,5 +119,5 @@
             </div>
         </form>
     </div>
-    <div class="col-md-2"></div>
+    <div class="col-md-3"></div>
 </div>

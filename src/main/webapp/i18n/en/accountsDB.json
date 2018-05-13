@@ -32,9 +32,9 @@
             "initializationVector": "Initialization Vector",
             "database": "Database",
             "user": "User",
-            "title": "Personal safe | SoLocked",
+            "title": "Personal safe",
             "add": {
-                "header": "Add account | SoLocked",
+                "header": "Add account",
                 "title": "Add account.",
                 "loading": "Creating account...",
                 "name": "Name",
@@ -63,7 +63,7 @@
                 "toomanyAccount": "Limit reached. Go to settings for more info"
             },
             "update": {
-                "header": "Update account | SoLocked",
+                "header": "Update account",
                 "title": "Update account.",
                 "button": "Update account",
                 "error": "Error during the account update",
