@@ -31,7 +31,15 @@ export class CryptoUtilsService {
     }
 
     getRandomNumber(): string {
-        return Math.floor((Math.random() * 10000000000000000000000) + 1).toString();
+        const array = new Uint32Array(10);
+        window.crypto.getRandomValues(array);
+
+        let randomNumber = '';
+        for (let i = 0; i < array.length; i++) {
+            randomNumber += array[i] + '';
+        }
+
+        return randomNumber;
     }
 
     b64toBlob(b64Data, contentType, sliceSize): Blob {
