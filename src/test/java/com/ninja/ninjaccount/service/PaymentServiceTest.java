@@ -1,13 +1,11 @@
 package com.ninja.ninjaccount.service;
 
-import com.netflix.discovery.converters.Auto;
 import com.ninja.ninjaccount.NinjaccountApp;
 import com.ninja.ninjaccount.domain.Payment;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import com.ninja.ninjaccount.repository.PaymentRepository;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
-import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import org.junit.Test;
