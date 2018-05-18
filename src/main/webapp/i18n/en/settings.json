@@ -48,7 +48,8 @@
                     "confirmation": "Are you sure?",
                     "cancel": "Cancel",
                     "ok": "Export all my accounts"
-                }
+                },
+                "success": "Successfuly exporting {{nbExportedAccount}} accounts"
             },
             "delete": {
                 "title": "Delete your SoLocked account",

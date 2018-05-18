@@ -75,6 +75,7 @@ export class ExportAllAccountsComponent implements OnInit, OnDestroy {
             const blob = new Blob([lines], {type: 'text/csv'});
             importedSaveAs(blob, 'export-accounts.csv');
             this.dialogRef.close('export over');
+            this.snackUtil.openSnackBar('settings.danger.export.success', 5000, 'fa-check-circle', {nbExportedAccount: accounts.length});
         } else {
             this.snackUtil.openSnackBar('settings.danger.export.nodata', 5000, 'fa-exclamation-triangle');
         }
