@@ -56,6 +56,8 @@ export class NavbarComponent implements OnInit {
                 } else {
                     this.defaultColor = false;
                 }
+
+                this.isNavbarCollapsed = true;
             }
         });
     }
