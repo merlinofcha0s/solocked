@@ -1,7 +1,7 @@
 {
     "register": {
-        "titleHeader": "Sign up for your SoLocked account",
-        "title": "Sign up for your SoLocked account.",
+        "titleHeader": "Sign up for your account",
+        "title": "Sign up for your account.",
         "form": {
             "button": "Sign up",
             "loading": "Generating your key, please wait ",
