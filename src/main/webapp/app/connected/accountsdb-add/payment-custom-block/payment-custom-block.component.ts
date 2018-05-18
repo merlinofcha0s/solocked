@@ -24,7 +24,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
 
     @Input() payments: Array<Payment>;
     @Input() readOnlyMode: boolean;
-    @Input() expanded: boolean;
+
     @Output() onSyncPayments = new EventEmitter<Array<Payment>>();
     @Output() suppressPaymentBlock = new EventEmitter<boolean>();
 
@@ -33,7 +33,9 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     _placeholderNotes: string;
 
     average = '0';
-    total = 0;
+    total = '0';
+
+    expanded: boolean;
 
     accordionOpened: boolean;
     lastPayment: Payment;
@@ -48,6 +50,8 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.computeAverageAndTotal();
+        this.updateLastPayment();
+        this.expandIfPayments();
     }
 
     ngOnDestroy(): void {
@@ -58,6 +62,8 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
             , this._placeholderCode, this._placeholderNotes);
 
         this.payments.unshift(newPayment);
+        this.updateLastPayment();
+
         this.onSyncPayments.emit(this.payments);
     }
 
@@ -117,20 +123,28 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
             const totalNotRounded = this.payments.map((payment) => payment.amount)
                 .reduce((a, b) => (Number(a) + Number(b)));
             const averageNotRounded = totalNotRounded / this.payments.length;
-            const precision = Math.pow(10, 2);
-            this.total = Math.round(totalNotRounded * precision) / precision;
-            this.average = Math.round(averageNotRounded * precision) / precision + '';
+            this.total = Number(totalNotRounded).toFixed(2);
+            this.average = averageNotRounded.toFixed(2);
         }
     }
 
     onClose() {
-        if (this.payments.length > 0) {
-            this.lastPayment = this.payments[this.payments.length - 1];
-        }
         this.accordionOpened = false;
     }
 
     onOpen() {
         this.accordionOpened = true;
+    }
+
+    updateLastPayment() {
+        if (this.payments.length > 0) {
+            this.lastPayment = this.payments[this.payments.length - 1];
+        }
+    }
+
+    expandIfPayments() {
+        if (this.payments.length === 0) {
+            this.expanded = true;
+        }
     }
 }

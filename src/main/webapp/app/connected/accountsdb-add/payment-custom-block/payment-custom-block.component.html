@@ -6,10 +6,10 @@
               <div *ngIf="!accordionOpened && payments.length > 0"  class="lastpayment-container">
                   <div jhiTranslate="ninjaccountApp.accountsDB.paymentblock.paymentCustomBlock.lastPayment">Last payment</div>
                   <div  class="d-flex justify-content-center align-content-center lastpayment-infos">
-                      <div>{{ lastPayment.date | date:'M/d/yyyy' }}</div>
-                      <div>{{ lastPayment.amount | currency }}</div>
-                      <div>{{ lastPayment.method }}</div>
-                      <div>{{ lastPayment.code }}</div>
+                      <div>{{ lastPayment?.date | date:'M/d/yyyy' }}</div>
+                      <div>{{ lastPayment?.amount | currency }}</div>
+                      <div>{{ lastPayment?.method }}</div>
+                      <div>{{ lastPayment?.code }}</div>
                   </div>
               </div>
               <i class="fas fa-trash suppress mr-3" *ngIf="!readOnlyMode" (click)="onSuppressPaymentBlock()"></i>

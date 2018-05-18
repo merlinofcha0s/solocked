@@ -109,7 +109,7 @@
                   <jhi-custom-fields [customs$]="customs$"></jhi-custom-fields>
               </div>
               <div *ngFor="let paymentBlock of customBlockCounter.paymentBlocks">
-                 <jhi-payment-custom-block [payments]="payments" [expanded]="true" (onSyncPayments)="onSyncPayments($event)"
+                 <jhi-payment-custom-block [payments]="payments" (onSyncPayments)="onSyncPayments($event)"
                                            (suppressPaymentBlock)="onSuppressPaymentblock($event)"></jhi-payment-custom-block>
               </div>
               <div class="d-flex flex-column align-items-center justify-content-center buttonContainer">
