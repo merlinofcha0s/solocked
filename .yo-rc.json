@@ -18,7 +18,7 @@
     "prodDatabaseType": "postgresql",
     "searchEngine": false,
     "messageBroker": false,
-    "serviceDiscoveryType": "eureka",
+    "serviceDiscoveryType": false,
     "buildTool": "maven",
     "enableSocialSignIn": true,
     "jwtSecretKey": "cb5e6878c2d03ba9cd32beec3507cf69bf80feb7",

@@ -24,7 +24,6 @@ import java.util.Collection;
 @ComponentScan
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
 @EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
-@EnableDiscoveryClient
 public class NinjaccountApp {
 
     private static final Logger log = LoggerFactory.getLogger(NinjaccountApp.class);

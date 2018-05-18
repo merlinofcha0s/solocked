@@ -19,13 +19,6 @@ logging:
         com.ninja.ninjaccount: INFO
         io.github.jhipster: INFO
 
-eureka:
-    instance:
-        prefer-ip-address: true
-    client:
-        service-url:
-            defaultZone: https://admin:G5E6C4FzTMxpSpMp@jhipsterregistry.solocked.com:8761/eureka
-
 spring:
     devtools:
         restart:
@@ -63,12 +56,6 @@ spring:
               ssl.trust: smtp.mailgun.org
     thymeleaf:
         cache: true
-    zipkin: # Use the "zipkin" Maven profile to have the Spring Cloud Zipkin dependencies
-        base-url: http://localhost:9411
-        enabled: false
-        locator:
-            discovery:
-                enabled: true
 
 liquibase:
     contexts: prod
