@@ -82,7 +82,7 @@ liquibase:
 #        enabled-protocols: TLSv1.2
 # ===================================================================
 server:
-    port: 443
+    port: 8080
     use-forward-headers: true
     ssl:
         key-store: classpath:keystore-prod.p12

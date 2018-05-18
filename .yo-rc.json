@@ -38,5 +38,11 @@
     ],
     "cacheProvider": "hazelcast",
     "enableHibernateCache": true
+  },
+  "generator-jhipster-clevercloud": {
+    "promptValues": {
+      "user": "orga_e3a354da-1727-419a-8318-58dd64e615a2",
+      "region": "us"
+    }
   }
 }
