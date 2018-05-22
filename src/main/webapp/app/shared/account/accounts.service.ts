@@ -49,6 +49,20 @@ export class AccountsService {
         if (this._dataStore.accounts.accounts.length === 0) {
             this.accountTech.synchroDB().subscribe((accountsFromDB) => {
                 this._dataStore.accounts = accountsFromDB;
+
+                this._dataStore.accounts.accounts.sort((accountA, accountB) => {
+                    const nameA = accountA.name.toLowerCase();
+                    const nameB = accountB.name.toLowerCase();
+                    if (nameA < nameB) {
+                        // sort string ascending
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0; // default return value (no sorting)
+                });
+
                 this.accounts$.next(this._dataStore.accounts.accounts);
             });
         } else {

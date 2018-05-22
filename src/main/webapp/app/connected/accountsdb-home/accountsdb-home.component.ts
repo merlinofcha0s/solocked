@@ -24,8 +24,6 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
     counter: number;
     pageSize = 10;
 
-    seeAll = false;
-
     filteredAccounts: Array<Account>;
 
     displayLoadMore: boolean;
@@ -33,6 +31,8 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
     lastSearchTerms: string;
 
     nbResults: number;
+
+    displayAll: boolean;
 
     constructor(private accountsService: AccountsService,
                 private paymentService: PaymentService,
@@ -104,7 +104,19 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
         // (https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4)
         Promise.resolve(null).then(() => this.nbResults = this.filteredAccounts.length);
 
-        this.filteredAccounts = this.searchService.filter(filterTerms, this.accounts);
+        if (this.displayAll) {
+            this.filteredAccounts = this.accounts;
+        } else {
+            this.filteredAccounts = this.searchService.filter(filterTerms, this.accounts);
+        }
+
         this.getNextPage();
+    }
+
+    onDisplayAll(displayAll) {
+        this.displayAll = displayAll;
+        if (displayAll) {
+            this.onFilter('');
+        }
     }
 }

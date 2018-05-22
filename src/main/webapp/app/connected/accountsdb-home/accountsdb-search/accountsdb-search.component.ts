@@ -16,9 +16,9 @@ export class AccountsdbSearchComponent implements OnInit, OnDestroy {
 
     @Input() nbResults: number;
     @Output() filterTerms = new EventEmitter<string>();
+    @Output() displayAll = new EventEmitter<boolean>();
 
     accountsSub: Subscription;
-    accounts: Array<Account>;
 
     searchForm: FormGroup;
     searchControl: FormControl;
@@ -47,6 +47,7 @@ export class AccountsdbSearchComponent implements OnInit, OnDestroy {
 
         this.searchControl.valueChanges.subscribe((value) => {
             if (value || value === '') {
+                this.displayAll.emit(false);
                 this.filterTerms.emit(value);
             }
         });
@@ -72,7 +73,10 @@ export class AccountsdbSearchComponent implements OnInit, OnDestroy {
         this.searchControl.setValue('');
     }
 
-    search() {
+    search() {}
 
+    onClickAllAccounts() {
+        this.searchControl.setValue('');
+        this.displayAll.emit(true);
     }
 }
