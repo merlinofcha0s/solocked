@@ -16,7 +16,7 @@ node {
     }
 
     stage('packaging app') {
-        sh "./mvnw clean package -Ptest -Dmaven.test.skip=true"
+        sh "./mvnw clean package -Pprod -Dmaven.test.skip=true"
     }
 
     stage('deploy on boxfuse test env') {
