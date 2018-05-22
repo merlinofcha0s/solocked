@@ -62,9 +62,7 @@ export class SearchComponent implements OnInit, OnDestroy {
             this.filteredAccounts = this.searchControl.valueChanges.map((value) => {
                 // Means that it's an account : it happened when the user click on an item on the autocomplete
                 // So we extract the name of the account
-                if (value instanceof Object) {
-                    this.sessionStorage.store(LAST_SEARCH, value.name);
-                } else {
+                if (value instanceof Object === false) {
                     this.sessionStorage.store(LAST_SEARCH, value);
                 }
 
@@ -81,6 +79,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
 
     onAccountSelected(matAutocompleteSelectedEvent: MatAutocompleteSelectedEvent) {
+        this.searchControl.setValue(this.sessionStorage.retrieve(LAST_SEARCH));
         this.router.navigate(['/accounts/edit', matAutocompleteSelectedEvent.option.value.id]);
     }
 

@@ -12,6 +12,7 @@
             </mat-form-field>
             <i class="ml-2 fas fa-search search" (click)="onHomePageSearch(searchControl.value)"></i>
             <i class="ml-2 fas fa-times cross" [class.hide]="searchControl.value.length == 0" (click)="clearSearch()"></i>
+            <span class="ml-2 placeholder-cross"  [class.hide]="searchControl.value.length != 0"></span>
         </div>
     </form>
 </div>
