@@ -2,6 +2,7 @@ import { UserRouteAccessService } from './../shared/auth/user-route-access-servi
 import { AccountsdbAddComponent } from './accountsdb-add/accountsdb-add.component';
 import { Routes } from '@angular/router';
 import { AccountsdbHomeComponent } from './accountsdb-home/accountsdb-home.component';
+import {SubscriptionComponent} from './subscription/subscription.component';
 
 export const AccountsHomeRouteName = 'accounts';
 
@@ -31,6 +32,15 @@ export const ACCOUNTSDB_ROUTES: Routes = [
             pageTitle: 'ninjaccountApp.accountsDB.update.header'
         },
         component: AccountsdbAddComponent,
+        canActivate: [UserRouteAccessService],
+    },
+    {
+        path: 'subscription',
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'subscription.title'
+        },
+        component: SubscriptionComponent,
         canActivate: [UserRouteAccessService],
     }
 ];

@@ -19,6 +19,7 @@ import {AccountsdbSearchComponent} from './accountsdb-home/accountsdb-search/acc
 import {AccountsdbDeleteComponent} from './accountsdb-delete/accountsdb-delete.component';
 import {CopyClipboardComponent} from './accountsdb-add/copy-clipboard/copy-clipboard.component';
 import {CustomFieldsComponent} from './accountsdb-add/custom-field/custom-fields.component';
+import {SubscriptionComponent} from './subscription/subscription.component';
 
 @NgModule({
     imports: [
@@ -43,7 +44,8 @@ import {CustomFieldsComponent} from './accountsdb-add/custom-field/custom-fields
         EditDateInlineTileComponent,
         DeletePaymentLineComponent,
         CopyClipboardComponent,
-        CustomFieldsComponent
+        CustomFieldsComponent,
+        SubscriptionComponent
     ],
     entryComponents: [AccountsdbDeleteComponent, AddCustomBlockComponent, DeletePaymentLineComponent],
 })
