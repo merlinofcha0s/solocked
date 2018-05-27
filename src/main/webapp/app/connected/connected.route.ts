@@ -2,7 +2,7 @@ import { UserRouteAccessService } from './../shared/auth/user-route-access-servi
 import { AccountsdbAddComponent } from './accountsdb-add/accountsdb-add.component';
 import { Routes } from '@angular/router';
 import { AccountsdbHomeComponent } from './accountsdb-home/accountsdb-home.component';
-import {SubscriptionComponent} from './subscription/subscription.component';
+import {BillingComponent} from './subscription/billing.component';
 
 export const AccountsHomeRouteName = 'accounts';
 
@@ -40,7 +40,7 @@ export const ACCOUNTSDB_ROUTES: Routes = [
             authorities: ['ROLE_USER'],
             pageTitle: 'subscription.title'
         },
-        component: SubscriptionComponent,
+        component: BillingComponent,
         canActivate: [UserRouteAccessService],
     }
 ];

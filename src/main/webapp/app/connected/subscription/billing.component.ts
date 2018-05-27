@@ -3,11 +3,11 @@ import {Component, OnInit} from '@angular/core';
 declare var $crisp: any;
 
 @Component({
-    selector: 'jhi-subscription',
-    templateUrl: './subscription.component.html',
-    styleUrls: ['./subscription.component.scss']
+    selector: 'jhi-billing',
+    templateUrl: './billing.component.html',
+    styleUrls: ['./billing.component.scss']
 })
-export class SubscriptionComponent implements OnInit {
+export class BillingComponent implements OnInit {
 
     constructor() {
     }
