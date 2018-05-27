@@ -19,7 +19,7 @@ import {AccountsdbSearchComponent} from './accountsdb-home/accountsdb-search/acc
 import {AccountsdbDeleteComponent} from './accountsdb-delete/accountsdb-delete.component';
 import {CopyClipboardComponent} from './accountsdb-add/copy-clipboard/copy-clipboard.component';
 import {CustomFieldsComponent} from './accountsdb-add/custom-field/custom-fields.component';
-import {BillingComponent} from './subscription/billing.component';
+import {BillingComponent} from './billing/billing.component';
 
 @NgModule({
     imports: [

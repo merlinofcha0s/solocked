@@ -1,0 +1,46 @@
+@import './../../../../content/scss/custom-variables';
+
+.billing-card {
+    border: 1px solid $font-color-primary;
+    border-radius: 20px;
+    height: 200px;
+    width: 170px;
+    cursor: pointer;
+
+    .billing-card-title {
+        text-align: center;
+        margin-top: 10px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .separator {
+        border-top: 1px solid $font-color-primary;
+        margin: 0 10px;
+    }
+
+    .content {
+        font-size: 0.9rem;
+        margin-top: 10px;
+    }
+
+    .year-price {
+        font-size: 1.6rem;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .month-price {
+        font-size: 1.0rem;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 15px;
+    }
+}
+
+.selected {
+    background-color: $font-color-primary !important;
+    color: white !important;
+}
+
+

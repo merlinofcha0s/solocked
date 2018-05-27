@@ -1,7 +1,7 @@
 <div>
     <div class="row justify-content-center">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
             <h1 jhiTranslate="register.title">Create a new account</h1>
 
             <div class="alert alert-success" id="success" *ngIf="success" jhiTranslate="register.messages.success">
@@ -32,11 +32,11 @@
                 The password and its confirmation do not match!
             </div>
         </div>
-        <div class="col-md-3"></div>
+        <div class="col-lg-3"></div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
             <form name="form" role="form" (ngSubmit)="register()" #registerForm="ngForm" *ngIf="!success">
                     <mat-form-field class="registerInput">
                         <input matInput type="text" [(ngModel)]="registerAccount.login" id="login" name="login"
@@ -152,6 +152,7 @@
                         </mat-error>
                 </mat-form-field>
 
+                <jhi-choose-plan></jhi-choose-plan>
 
                 <div class="d-flex align-items-center justify-content-center m-3">
                     <button mat-raised-button color="primary" type="submit" id="validate" [disabled]="registerForm.form.invalid"
@@ -168,7 +169,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-md-3">
+        <div class="col-lg-3">
               <!--<br/>-->
               <!--<jhi-social provider="google"></jhi-social>-->
               <!--<jhi-social provider="facebook"></jhi-social>-->

@@ -1,0 +1,46 @@
+<div class="mb-5 mt-3">
+    <h2 jhiTranslate="billing.choose" class="mb-3">Choose your plan</h2>
+    <div class="row align-items-center mt-4">
+        <div class="col-sm-4">
+            <div class="billing-card mr-auto ml-auto ml-sm-0 mb-3 mb-sm-0" [class.selected]="free" (click)="onChoosePlan(PlanType.FREE)">
+                <div class="billing-card-title">Free</div>
+                <div class="separator"></div>
+                <div class="content">
+                    <ul>
+                        <li>10 accounts</li>
+                        <div style="height: 21px;"></div>
+                    </ul>
+                </div>
+                <div class="year-price">$0</div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="billing-card mr-auto ml-auto mb-3 mb-sm-0" [class.selected]="premiumY" (click)="onChoosePlan(PlanType.PREMIUMYEAR)">
+                <div class="billing-card-title">Premium</div>
+                <div class="separator"></div>
+                <div class="content">
+                    <ul>
+                        <li>1000 accounts</li>
+                        <li>Billed yearly</li>
+                    </ul>
+                </div>
+                <div class="year-price">$20</div>
+                <div class="month-price">per year</div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="billing-card ml-auto mr-auto mr-sm-0 mb-3 mb-sm-0" [class.selected]="premiumM" (click)="onChoosePlan(PlanType.PREMIUMMONTH)">
+                <div class="billing-card-title">Premium</div>
+                <div class="separator"></div>
+                <div class="content">
+                    <ul>
+                        <li>1000 accounts</li>
+                        <li>Billed monthly</li>
+                    </ul>
+                </div>
+                <div class="year-price">$2</div>
+                <div class="month-price">per month</div>
+            </div>
+        </div>
+    </div>
+</div>
