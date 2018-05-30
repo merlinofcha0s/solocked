@@ -5,6 +5,7 @@ import {JhiLanguageService} from 'ng-jhipster';
 import {Register} from './register.service';
 import {EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE, LoginModalService} from '../../shared';
 import {HttpErrorResponse} from '@angular/common/http';
+import {PlanType} from '../../entities/payment';
 
 @Component({
     selector: 'jhi-register',
@@ -26,6 +27,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
     maxPassword = 50;
 
+    signUpLabel: string;
+
     constructor(private languageService: JhiLanguageService,
                 private loginModalService: LoginModalService,
                 private registerService: Register,
@@ -38,6 +41,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         this.success = false;
         this.loading = false;
         this.registerAccount = {};
+        this.signUpLabel = 'register.form.button';
     }
 
     ngAfterViewInit() {
@@ -82,5 +86,17 @@ export class RegisterComponent implements OnInit, AfterViewInit {
             this.error = 'ERROR';
             this.loading = false;
         }
+    }
+
+    onChoosePlan(planType: PlanType) {
+        switch (planType){
+            case PlanType.FREE:
+                this.signUpLabel = 'register.form.buttonFree';
+                break;
+            case PlanType.PREMIUMMONTH:
+            case PlanType.PREMIUMYEAR:
+                this.signUpLabel = 'register.form.buttonPayed';
+        }
+        this.registerAccount.planType = planType;
     }
 }

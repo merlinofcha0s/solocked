@@ -4,6 +4,8 @@
         "title": "Sign up for your account.",
         "form": {
             "button": "Sign up",
+            "buttonFree": "Sign up for free",
+            "buttonPayed": "Sign up and go to paypal",
             "loading": "Generating your key, please wait ",
             "cancel": "Cancel"
         },

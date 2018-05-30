@@ -152,11 +152,11 @@
                         </mat-error>
                 </mat-form-field>
 
-                <jhi-choose-plan></jhi-choose-plan>
+                <jhi-choose-plan (planChoosed)="onChoosePlan($event)"></jhi-choose-plan>
 
                 <div class="d-flex align-items-center justify-content-center m-3">
-                    <button mat-raised-button color="primary" type="submit" id="validate" [disabled]="registerForm.form.invalid"
-                            class="buttonRegistration default-validation-button">{{'register.form.button' | translate}}</button>
+                    <button mat-raised-button color="primary" type="submit" id="validate" [disabled]="registerForm.form.invalid || !this.registerAccount.planType"
+                            class="buttonRegistration default-validation-button">{{ signUpLabel | translate}}</button>
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
                     <a [routerLink]="['/']" mat-button id="cancel" class="m-4 text-center cancel">{{'register.form.cancel' | translate}}</a>

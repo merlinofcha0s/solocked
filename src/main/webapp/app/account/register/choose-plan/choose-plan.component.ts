@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {PlanType} from '../../../entities/payment';
 
 @Component({
@@ -7,6 +7,8 @@ import {PlanType} from '../../../entities/payment';
     styleUrls: ['./choose-plan.component.scss']
 })
 export class ChoosePlanComponent implements OnInit {
+
+    @Output() planChoosed = new EventEmitter<PlanType>();
 
     free: boolean;
     premiumY: boolean;
@@ -38,5 +40,6 @@ export class ChoosePlanComponent implements OnInit {
                 this.premiumY = false;
                 break;
         }
+        this.planChoosed.emit(planType);
     }
 }
