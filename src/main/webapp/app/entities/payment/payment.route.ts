@@ -1,10 +1,10 @@
-import {Routes} from '@angular/router';
+import { Routes } from '@angular/router';
 
-import {UserRouteAccessService} from '../../shared';
-import {PaymentComponent} from './payment.component';
-import {PaymentDetailComponent} from './payment-detail.component';
-import {PaymentPopupComponent} from './payment-dialog.component';
-import {PaymentDeletePopupComponent} from './payment-delete-dialog.component';
+import { UserRouteAccessService } from '../../shared';
+import { PaymentComponent } from './payment.component';
+import { PaymentDetailComponent } from './payment-detail.component';
+import { PaymentPopupComponent } from './payment-dialog.component';
+import { PaymentDeletePopupComponent } from './payment-delete-dialog.component';
 
 export const paymentRoute: Routes = [
     {

@@ -54,10 +54,13 @@ public class PaymentResourceIntTest {
     private static final Integer UPDATED_PRICE = 2;
 
     private static final PlanType DEFAULT_PLAN_TYPE = PlanType.FREE;
-    private static final PlanType UPDATED_PLAN_TYPE = PlanType.PREMIUM;
+    private static final PlanType UPDATED_PLAN_TYPE = PlanType.PREMIUMYEAR;
 
     private static final Boolean DEFAULT_PAID = false;
     private static final Boolean UPDATED_PAID = true;
+
+    private static final String DEFAULT_PAYER_ID = "AAAAAAAAAA";
+    private static final String UPDATED_PAYER_ID = "BBBBBBBBBB";
 
     @Autowired
     private PaymentRepository paymentRepository;
@@ -109,7 +112,8 @@ public class PaymentResourceIntTest {
             .subscriptionDate(DEFAULT_SUBSCRIPTION_DATE)
             .price(DEFAULT_PRICE)
             .planType(DEFAULT_PLAN_TYPE)
-            .paid(DEFAULT_PAID);
+            .paid(DEFAULT_PAID)
+            .payerId(DEFAULT_PAYER_ID);
         return payment;
     }
 
@@ -138,6 +142,7 @@ public class PaymentResourceIntTest {
         assertThat(testPayment.getPrice()).isEqualTo(DEFAULT_PRICE);
         assertThat(testPayment.getPlanType()).isEqualTo(DEFAULT_PLAN_TYPE);
         assertThat(testPayment.isPaid()).isEqualTo(DEFAULT_PAID);
+        assertThat(testPayment.getPayerId()).isEqualTo(DEFAULT_PAYER_ID);
     }
 
     @Test
@@ -250,7 +255,8 @@ public class PaymentResourceIntTest {
             .andExpect(jsonPath("$.[*].subscriptionDate").value(hasItem(DEFAULT_SUBSCRIPTION_DATE.toString())))
             .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE)))
             .andExpect(jsonPath("$.[*].planType").value(hasItem(DEFAULT_PLAN_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.booleanValue())));
+            .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.booleanValue())))
+            .andExpect(jsonPath("$.[*].payerId").value(hasItem(DEFAULT_PAYER_ID.toString())));
     }
 
     @Test
@@ -267,7 +273,8 @@ public class PaymentResourceIntTest {
             .andExpect(jsonPath("$.subscriptionDate").value(DEFAULT_SUBSCRIPTION_DATE.toString()))
             .andExpect(jsonPath("$.price").value(DEFAULT_PRICE))
             .andExpect(jsonPath("$.planType").value(DEFAULT_PLAN_TYPE.toString()))
-            .andExpect(jsonPath("$.paid").value(DEFAULT_PAID.booleanValue()));
+            .andExpect(jsonPath("$.paid").value(DEFAULT_PAID.booleanValue()))
+            .andExpect(jsonPath("$.payerId").value(DEFAULT_PAYER_ID.toString()));
     }
 
     @Test
@@ -293,7 +300,8 @@ public class PaymentResourceIntTest {
             .subscriptionDate(UPDATED_SUBSCRIPTION_DATE)
             .price(UPDATED_PRICE)
             .planType(UPDATED_PLAN_TYPE)
-            .paid(UPDATED_PAID);
+            .paid(UPDATED_PAID)
+            .payerId(UPDATED_PAYER_ID);
         PaymentDTO paymentDTO = paymentMapper.toDto(updatedPayment);
 
         restPaymentMockMvc.perform(put("/api/payments")
@@ -309,6 +317,7 @@ public class PaymentResourceIntTest {
         assertThat(testPayment.getPrice()).isEqualTo(UPDATED_PRICE);
         assertThat(testPayment.getPlanType()).isEqualTo(UPDATED_PLAN_TYPE);
         assertThat(testPayment.isPaid()).isEqualTo(UPDATED_PAID);
+        assertThat(testPayment.getPayerId()).isEqualTo(UPDATED_PAYER_ID);
     }
 
     @Test

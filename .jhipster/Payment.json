@@ -39,6 +39,10 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "payerId",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20170919063205",

@@ -4,6 +4,8 @@ import com.ninja.ninjaccount.domain.Payment;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import com.ninja.ninjaccount.repository.PaymentRepository;
+import com.ninja.ninjaccount.service.billing.PaypalService;
+import com.ninja.ninjaccount.service.dto.CompletePaymentDTO;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
@@ -15,9 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -33,9 +33,12 @@ public class PaymentService {
 
     private final PaymentMapper paymentMapper;
 
-    public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper) {
+    private final PaypalService paypalService;
+
+    public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper, PaypalService paypalService) {
         this.paymentRepository = paymentRepository;
         this.paymentMapper = paymentMapper;
+        this.paypalService = paypalService;
     }
 
     /**
@@ -111,9 +114,9 @@ public class PaymentService {
     public PaymentDTO createRegistrationPaymentForUser(User user) {
         PaymentDTO paymentDTO = new PaymentDTO();
         paymentDTO.setPaid(false);
-        paymentDTO.setPlanType(PlanType.BETA);
-        paymentDTO.setSubscriptionDate(LocalDate.now().plusMonths(1));
-        paymentDTO.setPrice(10);
+        paymentDTO.setPlanType(PlanType.FREE);
+        paymentDTO.setSubscriptionDate(LocalDate.now());
+        paymentDTO.setPrice(PlanType.FREE.getPrice());
         paymentDTO.setUserId(user.getId());
         paymentDTO.setUserLogin(user.getLogin());
         return save(paymentDTO);
@@ -135,6 +138,28 @@ public class PaymentService {
         } else {
             return actual;
         }
+    }
+
+    public Optional<Map<String, String>> initPaymentWorkflow(PlanType planType, String login) {
+
+        Optional<Map<String, String>> results = Optional.empty();
+
+        if (planType == PlanType.PREMIUMYEAR) {
+            results = Optional.of(paypalService.createPayment(PlanType.PREMIUMYEAR.getPrice().toString()));
+        }
+
+        Optional<Payment> payment = paymentRepository.findOneByUserLogin(login);
+
+        if (payment.isPresent() && results.isPresent()) {
+            payment.get().setPayerId(results.get().get("id"));
+            paymentRepository.save(payment.get());
+        }
+
+        return results;
+    }
+
+    public Optional<Map<String, String>> completePaymentWorkflow(CompletePaymentDTO completePaymentDTO) {
+        return Optional.of(paypalService.completePaymentWorkflow(completePaymentDTO));
     }
 
 }

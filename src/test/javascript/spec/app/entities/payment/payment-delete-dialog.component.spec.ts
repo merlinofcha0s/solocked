@@ -1,12 +1,12 @@
 /* tslint:disable max-line-length */
-import {async, ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {Observable} from 'rxjs/Observable';
-import {JhiEventManager} from 'ng-jhipster';
+import { ComponentFixture, TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs/Observable';
+import { JhiEventManager } from 'ng-jhipster';
 
-import {NinjaccountTestModule} from '../../../test.module';
-import {PaymentDeleteDialogComponent} from '../../../../../../main/webapp/app/entities/payment/payment-delete-dialog.component';
-import {PaymentService} from '../../../../../../main/webapp/app/entities/payment/payment.service';
+import { NinjaccountTestModule } from '../../../test.module';
+import { PaymentDeleteDialogComponent } from '../../../../../../main/webapp/app/entities/payment/payment-delete-dialog.component';
+import { PaymentService } from '../../../../../../main/webapp/app/entities/payment/payment.service';
 
 describe('Component Tests', () => {
 

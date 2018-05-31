@@ -20,6 +20,7 @@
             "price": "Price",
             "planType": "Plan Type",
             "paid": "Paid",
+            "payerId": "Payer Id",
             "user": "User"
         }
     }

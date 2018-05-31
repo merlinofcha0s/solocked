@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpResponse} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
-import {SERVER_API_URL} from '../../app.constants';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { SERVER_API_URL } from '../../app.constants';
 
-import {JhiDateUtils} from 'ng-jhipster';
+import { JhiDateUtils } from 'ng-jhipster';
 
 import {Payment} from './payment.model';
 import {createRequestOption} from '../../shared';
@@ -14,7 +14,7 @@ export type EntityResponseType = HttpResponse<Payment>;
 @Injectable()
 export class PaymentService {
 
-    private resourceUrl = SERVER_API_URL + 'api/payments';
+    private resourceUrl =  SERVER_API_URL + 'api/payments';
 
     payment$: BehaviorSubject<Payment>;
 
@@ -29,29 +29,29 @@ export class PaymentService {
 
     create(payment: Payment): Observable<EntityResponseType> {
         const copy = this.convert(payment);
-        return this.http.post<Payment>(this.resourceUrl, copy, {observe: 'response'})
+        return this.http.post<Payment>(this.resourceUrl, copy, { observe: 'response' })
             .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
     update(payment: Payment): Observable<EntityResponseType> {
         const copy = this.convert(payment);
-        return this.http.put<Payment>(this.resourceUrl, copy, {observe: 'response'})
+        return this.http.put<Payment>(this.resourceUrl, copy, { observe: 'response' })
             .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
     find(id: number): Observable<EntityResponseType> {
-        return this.http.get<Payment>(`${this.resourceUrl}/${id}`, {observe: 'response'})
+        return this.http.get<Payment>(`${this.resourceUrl}/${id}`, { observe: 'response'})
             .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
     query(req?: any): Observable<HttpResponse<Payment[]>> {
         const options = createRequestOption(req);
-        return this.http.get<Payment[]>(this.resourceUrl, {params: options, observe: 'response'})
+        return this.http.get<Payment[]>(this.resourceUrl, { params: options, observe: 'response' })
             .map((res: HttpResponse<Payment[]>) => this.convertArrayResponse(res));
     }
 
     delete(id: number): Observable<HttpResponse<any>> {
-        return this.http.delete<any>(`${this.resourceUrl}/${id}`, {observe: 'response'});
+        return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response'});
     }
 
     private convertResponse(res: EntityResponseType): EntityResponseType {

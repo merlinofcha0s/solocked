@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, Renderer} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Inject, OnInit, Renderer} from '@angular/core';
 import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {JhiLanguageService} from 'ng-jhipster';
 
@@ -6,6 +6,9 @@ import {Register} from './register.service';
 import {EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE, LoginModalService} from '../../shared';
 import {HttpErrorResponse} from '@angular/common/http';
 import {PlanType} from '../../entities/payment';
+import {DOCUMENT} from '@angular/common';
+import {ActivatedRoute} from '@angular/router';
+import {isUndefined} from 'util';
 
 @Component({
     selector: 'jhi-register',
@@ -33,7 +36,9 @@ export class RegisterComponent implements OnInit, AfterViewInit {
                 private loginModalService: LoginModalService,
                 private registerService: Register,
                 private elementRef: ElementRef,
-                private renderer: Renderer) {
+                private renderer: Renderer,
+                @Inject(DOCUMENT) private document: any,
+                private route: ActivatedRoute) {
 
     }
 
@@ -42,6 +47,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         this.loading = false;
         this.registerAccount = {};
         this.signUpLabel = 'register.form.button';
+
+        this.completePayment();
     }
 
     ngAfterViewInit() {
@@ -59,10 +66,14 @@ export class RegisterComponent implements OnInit, AfterViewInit {
             this.loading = true;
             this.languageService.getCurrent().then((key) => {
                 this.registerAccount.langKey = key;
-                this.registerService.save(this.registerAccount).subscribe(() => {
-                    this.loading = true;
-                    this.success = true;
-                }, (response: HttpErrorResponse) => this.processError(response));
+                this.registerService.save(this.registerAccount)
+                    .flatMap(() => this.registerService.initPaymentWorkflow(this.registerAccount.planType, this.registerAccount.login))
+                    .subscribe((response) => {
+                        this.loading = true;
+                        // this.success = true;
+                        console.log('response : ' + response.body);
+                        this.document.location.href = response.body['redirect_url'];
+                    }, (response: HttpErrorResponse) => this.processError(response));
             });
         }
     }
@@ -89,7 +100,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     }
 
     onChoosePlan(planType: PlanType) {
-        switch (planType){
+        switch (planType) {
             case PlanType.FREE:
                 this.signUpLabel = 'register.form.buttonFree';
                 break;
@@ -98,5 +109,19 @@ export class RegisterComponent implements OnInit, AfterViewInit {
                 this.signUpLabel = 'register.form.buttonPayed';
         }
         this.registerAccount.planType = planType;
+    }
+
+    completePayment() {
+        const payerId = this.route.snapshot.queryParams['PayerID'];
+        const paymentId = this.route.snapshot.queryParams['paymentId'];
+        if (!isUndefined(payerId) && !isUndefined(paymentId)) {
+            console.log('paypal mode');
+            console.log('payerId : ' + payerId);
+            console.log('paymentId : ' + paymentId);
+            this.registerService.completePaymentWorkflow(paymentId, payerId)
+                .subscribe((response) => {
+                    console.log('body completed : ' + response.body);
+                });
+        }
     }
 }

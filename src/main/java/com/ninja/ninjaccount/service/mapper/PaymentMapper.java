@@ -1,9 +1,9 @@
 package com.ninja.ninjaccount.service.mapper;
 
-import com.ninja.ninjaccount.domain.Payment;
+import com.ninja.ninjaccount.domain.*;
 import com.ninja.ninjaccount.service.dto.PaymentDTO;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+
+import org.mapstruct.*;
 
 /**
  * Mapper for the entity Payment and its DTO PaymentDTO.

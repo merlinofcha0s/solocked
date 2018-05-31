@@ -1,5 +1,5 @@
-import {browser, by, element} from 'protractor';
-import {NavBarPage} from './../page-objects/jhi-page-objects';
+import { browser, element, by } from 'protractor';
+import { NavBarPage } from './../page-objects/jhi-page-objects';
 
 describe('Payment e2e test', () => {
 
@@ -47,6 +47,8 @@ describe('Payment e2e test', () => {
                 expect(paymentDialogPage.getPaidInput().isSelected()).toBeTruthy();
             }
         });
+        paymentDialogPage.setPayerIdInput('payerId');
+        expect(paymentDialogPage.getPayerIdInput()).toMatch('payerId');
         paymentDialogPage.userSelectLastOption();
         paymentDialogPage.save();
         expect(paymentDialogPage.getSaveButton().isPresent()).toBeFalsy();
@@ -78,6 +80,7 @@ export class PaymentDialogPage {
     priceInput = element(by.css('input#field_price'));
     planTypeSelect = element(by.css('select#field_planType'));
     paidInput = element(by.css('input#field_paid'));
+    payerIdInput = element(by.css('input#field_payerId'));
     userSelect = element(by.css('select#field_user'));
 
     getModalTitle() {
@@ -114,6 +117,14 @@ export class PaymentDialogPage {
     getPaidInput = function() {
         return this.paidInput;
     };
+    setPayerIdInput = function(payerId) {
+        this.payerIdInput.sendKeys(payerId);
+    };
+
+    getPayerIdInput = function() {
+        return this.payerIdInput.getAttribute('value');
+    };
+
     userSelectLastOption = function() {
         this.userSelect.all(by.tagName('option')).last().click();
     };

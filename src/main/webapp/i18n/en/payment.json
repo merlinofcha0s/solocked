@@ -20,9 +20,8 @@
             "price": "Price",
             "planType": "Plan Type",
             "paid": "Paid",
-            "user": "User",
-            "warning": "Your account is in readonly mode, please check your invoice",
-            "linkInvoice": "here"
+            "payerId": "Payer Id",
+            "user": "User"
         }
     }
 }

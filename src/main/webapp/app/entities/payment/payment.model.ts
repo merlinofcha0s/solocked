@@ -1,4 +1,4 @@
-import {BaseEntity} from '../../shared';
+import { BaseEntity } from './../../shared';
 
 export enum PlanType {
     FREE = 'FREE',
@@ -20,6 +20,7 @@ export class Payment implements BaseEntity {
         public price?: number,
         public planType?: PlanType,
         public paid?: boolean,
+        public payerId?: string,
         public userLogin?: string,
         public userId?: number,
     ) {

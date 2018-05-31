@@ -1,14 +1,16 @@
 package com.ninja.ninjaccount.domain;
 
-import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
+
+import com.ninja.ninjaccount.domain.enumeration.PlanType;
 
 /**
  * A Payment.
@@ -41,6 +43,9 @@ public class Payment implements Serializable {
     @NotNull
     @Column(name = "paid", nullable = false)
     private Boolean paid;
+
+    @Column(name = "payer_id")
+    private String payerId;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -107,6 +112,19 @@ public class Payment implements Serializable {
         this.paid = paid;
     }
 
+    public String getPayerId() {
+        return payerId;
+    }
+
+    public Payment payerId(String payerId) {
+        this.payerId = payerId;
+        return this;
+    }
+
+    public void setPayerId(String payerId) {
+        this.payerId = payerId;
+    }
+
     public User getUser() {
         return user;
     }
@@ -149,6 +167,7 @@ public class Payment implements Serializable {
             ", price=" + getPrice() +
             ", planType='" + getPlanType() + "'" +
             ", paid='" + isPaid() + "'" +
+            ", payerId='" + getPayerId() + "'" +
             "}";
     }
 }

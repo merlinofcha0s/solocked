@@ -1,12 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {JhiEventManager} from 'ng-jhipster';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { JhiEventManager } from 'ng-jhipster';
 
-import {Payment} from './payment.model';
-import {PaymentPopupService} from './payment-popup.service';
-import {PaymentService} from './payment.service';
+import { Payment } from './payment.model';
+import { PaymentPopupService } from './payment-popup.service';
+import { PaymentService } from './payment.service';
 
 @Component({
     selector: 'jhi-payment-delete-dialog',

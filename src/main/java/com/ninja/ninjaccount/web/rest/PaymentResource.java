@@ -1,21 +1,30 @@
 package com.ninja.ninjaccount.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.PaymentService;
+import com.ninja.ninjaccount.service.dto.CompletePaymentDTO;
+import com.ninja.ninjaccount.service.dto.InitPaymentDTO;
 import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.web.rest.errors.BadRequestAlertException;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
+import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.util.Pair;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -135,5 +144,33 @@ public class PaymentResource {
             log.error("REST request to get payment method without login !!!!!");
         }
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(paymentDTO));
+    }
+
+    @PostMapping("/init-payment")
+    @Timed
+    public ResponseEntity<Map<String, String>> initPaymentWorkflow(@Valid @RequestBody InitPaymentDTO initPaymentDTO) {
+        Optional<Map<String, String>> results;
+
+        results = paymentService.initPaymentWorkflow(PlanType.valueOf(initPaymentDTO.getPlanType().toString()), initPaymentDTO.getLogin());
+
+        if (results.isPresent()) {
+            return ResponseEntity.ok(results.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PostMapping("/complete-payment")
+    @Timed
+    public ResponseEntity<Map<String, String>> initPaymentWorkflow(@Valid @RequestBody CompletePaymentDTO completePaymentDTO) {
+        Optional<Map<String, String>> results;
+
+        results = paymentService.completePaymentWorkflow(completePaymentDTO);
+
+        if (results.isPresent()) {
+            return ResponseEntity.ok(results.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

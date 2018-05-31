@@ -9,7 +9,8 @@ public final class PaymentUtil {
 
     public static Integer getMaxAccountByPlanType(PlanType planType) {
         switch (planType) {
-            case PREMIUM:
+            case PREMIUMMONTH:
+            case PREMIUMYEAR:
                 return PaymentConstant.MAX_ACCOUNTS_PREMIUM;
             case FREE:
                 return PaymentConstant.MAX_ACCOUNTS_FREE;

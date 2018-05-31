@@ -36,6 +36,10 @@
             <column name="paid" type="boolean">
                 <constraints nullable="false" />
             </column>
+
+            <column name="payer_id" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="user_id" type="bigint">
                 <constraints unique="true" nullable="true" />
             </column>
