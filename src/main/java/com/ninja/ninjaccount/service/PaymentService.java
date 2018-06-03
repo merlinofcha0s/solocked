@@ -5,7 +5,8 @@ import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import com.ninja.ninjaccount.repository.PaymentRepository;
 import com.ninja.ninjaccount.service.billing.PaypalService;
-import com.ninja.ninjaccount.service.dto.CompletePaymentDTO;
+import com.ninja.ninjaccount.service.billing.dto.CompletePaymentDTO;
+import com.ninja.ninjaccount.service.billing.dto.ReturnPaymentDTO;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
@@ -140,22 +141,22 @@ public class PaymentService {
         }
     }
 
-    public Optional<Map<String, String>> initPaymentWorkflow(PlanType planType, String login) {
+    public ReturnPaymentDTO initPaymentWorkflow(PlanType planType, String login) {
 
-        Optional<Map<String, String>> results = Optional.empty();
+        ReturnPaymentDTO returnPaymentDTO = null;
 
         if (planType == PlanType.PREMIUMYEAR) {
-            results = Optional.of(paypalService.createPayment(PlanType.PREMIUMYEAR.getPrice().toString()));
+            returnPaymentDTO = paypalService.createPayment(PlanType.PREMIUMYEAR.getPrice().toString(), login);
         }
 
         Optional<Payment> payment = paymentRepository.findOneByUserLogin(login);
 
-        if (payment.isPresent() && results.isPresent()) {
-            payment.get().setPayerId(results.get().get("id"));
+        if (payment.isPresent() && returnPaymentDTO != null && returnPaymentDTO.getStatus().equals("success")) {
+            payment.get().setPayerId(returnPaymentDTO.getId());
             paymentRepository.save(payment.get());
         }
 
-        return results;
+        return returnPaymentDTO;
     }
 
     public Optional<Map<String, String>> completePaymentWorkflow(CompletePaymentDTO completePaymentDTO) {

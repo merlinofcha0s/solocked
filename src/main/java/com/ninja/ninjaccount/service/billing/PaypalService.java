@@ -1,9 +1,13 @@
 package com.ninja.ninjaccount.service.billing;
 
-import com.ninja.ninjaccount.service.dto.CompletePaymentDTO;
+import com.ninja.ninjaccount.service.PaymentService;
+import com.ninja.ninjaccount.service.billing.dto.CompletePaymentDTO;
+import com.ninja.ninjaccount.service.billing.dto.ReturnPaymentDTO;
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +23,10 @@ public class PaypalService {
     @Value("${application.paypal.mode}")
     private String mode;
 
-    public Map<String, String> createPayment(String sum) {
-        Map<String, String> response = new HashMap<>();
+    private final Logger log = LoggerFactory.getLogger(PaypalService.class);
+
+    public ReturnPaymentDTO createPayment(String sum, String login) {
+        ReturnPaymentDTO returnPaymentDTO = new ReturnPaymentDTO();
         Amount amount = new Amount();
         amount.setCurrency("USD");
         amount.setTotal(sum);
@@ -43,25 +49,26 @@ public class PaypalService {
         payment.setRedirectUrls(redirectUrls);
         Payment createdPayment;
         try {
-            String redirectUrl = "";
             APIContext context = new APIContext(clientId, clientSecret, mode);
             createdPayment = payment.create(context);
             if (createdPayment != null) {
-                List<Links> links = createdPayment.getLinks();
-                for (Links link : links) {
-                    if (link.getRel().equals("approval_url")) {
-                        redirectUrl = link.getHref();
-                        break;
-                    }
+                Optional<String> redirectUrl = createdPayment.getLinks().stream()
+                    .filter(links -> links.getRel().equalsIgnoreCase("approval_url"))
+                    .map(Links::getRel).findFirst();
+
+                if (redirectUrl.isPresent()) {
+                    returnPaymentDTO.setStatus("success");
+                    returnPaymentDTO.setReturnUrl(redirectUrl.get());
+                    returnPaymentDTO.setId(createdPayment.getId());
+                } else {
+                    returnPaymentDTO.setStatus("failure");
+                    log.error("No redirect url present in the paypal response id paypal : {}", createdPayment.getId());
                 }
-                response.put("status", "success");
-                response.put("redirect_url", redirectUrl);
-                response.put("id", createdPayment.getId());
             }
         } catch (PayPalRESTException e) {
-            System.out.println("Error happened during payment creation!");
+            log.error("Error when calling paypal, login : {}", login, e);
         }
-        return response;
+        return returnPaymentDTO;
     }
 
     public Map<String, String> completePaymentWorkflow(CompletePaymentDTO completePaymentDTO) {

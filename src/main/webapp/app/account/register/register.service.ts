@@ -8,7 +8,7 @@ import {HttpClient} from '@angular/common/http';
 import {PlanType} from '../../entities/payment';
 import {HttpResponse} from '@angular/common/http/src/response';
 import {InitPayment} from './dto/init-payment.model';
-import {CompletePayment} from "./dto/complete-payment.model";
+import {CompletePayment} from './dto/complete-payment.model';
 
 @Injectable()
 export class Register {

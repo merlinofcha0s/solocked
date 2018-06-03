@@ -164,7 +164,7 @@
                 <div class="d-flex align-items-center justify-content-center">
                     <div *ngIf="loading" class="loadingContainer">
                         <mat-spinner color="primary" diameter="50" mode="indeterminate"></mat-spinner>
-                        <div class="loadingMessage" jhiTranslate="register.form.loading">Generating your key</div>
+                        <div class="loadingMessage" jhiTranslate="{{ loadingLabel }}">Generating your key</div>
                     </div>
                 </div>
             </form>

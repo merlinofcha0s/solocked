@@ -26,6 +26,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     success: boolean;
     modalRef: NgbModalRef;
     loading: boolean;
+    loadingLabel: string;
     passwordMatch: boolean;
 
     maxPassword = 50;
@@ -47,6 +48,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         this.loading = false;
         this.registerAccount = {};
         this.signUpLabel = 'register.form.button';
+        this.loadingLabel = 'register.form.loading';
 
         this.completePayment();
     }
@@ -66,16 +68,31 @@ export class RegisterComponent implements OnInit, AfterViewInit {
             this.loading = true;
             this.languageService.getCurrent().then((key) => {
                 this.registerAccount.langKey = key;
-                this.registerService.save(this.registerAccount)
-                    .flatMap(() => this.registerService.initPaymentWorkflow(this.registerAccount.planType, this.registerAccount.login))
-                    .subscribe((response) => {
-                        this.loading = true;
-                        // this.success = true;
-                        console.log('response : ' + response.body);
-                        this.document.location.href = response.body['redirect_url'];
-                    }, (response: HttpErrorResponse) => this.processError(response));
+                if (this.registerAccount.planType === PlanType.FREE) {
+                    this.saveForFree();
+                } else {
+                    this.saveWithPayment();
+                }
             });
         }
+    }
+
+    saveForFree() {
+        this.registerService.save(this.registerAccount).subscribe((response) => {
+            this.loading = false;
+            this.success = true;
+        }, (response: HttpErrorResponse) => this.processError(response));
+    }
+
+    saveWithPayment() {
+        this.registerService.save(this.registerAccount)
+            .flatMap(() => {
+                this.loadingLabel = 'register.form.loadingpayment';
+                return this.registerService.initPaymentWorkflow(this.registerAccount.planType, this.registerAccount.login);
+            }).subscribe((response) => {
+            this.loading = false;
+            this.document.location.href = response.body['redirect_url'];
+        }, (response: HttpErrorResponse) => this.processError(response));
     }
 
     openLogin() {
@@ -121,6 +138,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
             this.registerService.completePaymentWorkflow(paymentId, payerId)
                 .subscribe((response) => {
                     console.log('body completed : ' + response.body);
+                    this.success = true;
                 });
         }
     }

@@ -1,4 +1,4 @@
-package com.ninja.ninjaccount.service.dto;
+package com.ninja.ninjaccount.service.billing.dto;
 
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
 
