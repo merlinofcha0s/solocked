@@ -8,7 +8,8 @@
             "buttonPayed": "Sign up and pay",
             "loading": "Generating your key, please wait ",
             "loadingpayment": "Redirecting to the payment page",
-            "cancel": "Cancel"
+            "cancel": "Cancel",
+            "waitingcompletepayment": "Finalizing your order"
         },
         "messages": {
             "validate": {

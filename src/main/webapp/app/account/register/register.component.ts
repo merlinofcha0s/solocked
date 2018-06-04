@@ -9,6 +9,8 @@ import {PlanType} from '../../entities/payment';
 import {DOCUMENT} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 import {isUndefined} from 'util';
+import {WaiterComponent} from '../../shared/waiter/waiter.component';
+import {MatDialog, MatDialogRef} from '@angular/material';
 
 @Component({
     selector: 'jhi-register',
@@ -33,14 +35,16 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
     signUpLabel: string;
 
+    finalizingPaymentDialogRef: MatDialogRef<WaiterComponent>;
+
     constructor(private languageService: JhiLanguageService,
                 private loginModalService: LoginModalService,
                 private registerService: Register,
                 private elementRef: ElementRef,
                 private renderer: Renderer,
                 @Inject(DOCUMENT) private document: any,
-                private route: ActivatedRoute) {
-
+                private route: ActivatedRoute,
+                public dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -132,12 +136,17 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         const payerId = this.route.snapshot.queryParams['PayerID'];
         const paymentId = this.route.snapshot.queryParams['paymentId'];
         if (!isUndefined(payerId) && !isUndefined(paymentId)) {
+            this.finalizingPaymentDialogRef = this.dialog.open(WaiterComponent, {
+                disableClose: true,
+                data: {keyMessage: 'register.form.waitingcompletepayment'}
+            });
             this.registerService.completePaymentWorkflow(paymentId, payerId)
                 .subscribe((response) => {
                     const returnPayment = response.body;
 
                     if (returnPayment.status === 'success') {
                         this.success = true;
+                        this.finalizingPaymentDialogRef.close();
                     } else {
                         this.error = 'Problem when payment occurs';
                     }

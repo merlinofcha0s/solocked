@@ -7,7 +7,7 @@ import {SettingsComponent} from '../../../../../../main/webapp/app/account/setti
 
 describe('Component Tests', () => {
 
-    describe('SettingsComponent', () => {
+    describe('WaiterComponent', () => {
 
         let comp: SettingsComponent;
         let fixture: ComponentFixture<SettingsComponent>;

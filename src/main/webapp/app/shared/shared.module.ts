@@ -21,6 +21,7 @@ import {
 } from './';
 import {CryptoService} from './crypto/crypto.service';
 import {
+    ErrorStateMatcher,
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
@@ -36,11 +37,12 @@ import {
     MatNativeDateModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
+    MatRadioModule,
     MatSelectModule,
     MatSnackBarModule,
     MatTabsModule,
     MatTooltipModule,
-    MatRadioModule, ErrorStateMatcher, ShowOnDirtyErrorStateMatcher
+    ShowOnDirtyErrorStateMatcher
 } from '@angular/material';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -53,6 +55,7 @@ import {AccountsTechService} from './account/accounts-tech.service';
 import {SnackUtilService} from './snack/snack-util.service';
 import {SearchService} from './search/search.service';
 import {AutofocusDirective} from './validation/autofocus.directive';
+import {WaiterComponent} from './waiter/waiter.component';
 
 @NgModule({
     imports: [
@@ -85,6 +88,7 @@ import {AutofocusDirective} from './validation/autofocus.directive';
         JhiSocialComponent,
         JhiLoginModalComponent,
         SnackComponent,
+        WaiterComponent,
         HasAnyAuthorityDirective,
         PasswordMatchValidatorDirective,
         DateValidatorDirective,
@@ -113,7 +117,7 @@ import {AutofocusDirective} from './validation/autofocus.directive';
         SearchService,
         {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}
     ],
-    entryComponents: [JhiLoginModalComponent, SnackComponent],
+    entryComponents: [JhiLoginModalComponent, SnackComponent, WaiterComponent],
     exports: [
         NinjaccountSharedCommonModule,
         JhiSocialComponent,
@@ -136,7 +140,6 @@ import {AutofocusDirective} from './validation/autofocus.directive';
         MatProgressBarModule,
         SnackComponent,
         MatMenuModule,
-        SnackComponent,
         MatProgressBarModule,
         MatButtonToggleModule,
         MatCardModule,
@@ -146,7 +149,8 @@ import {AutofocusDirective} from './validation/autofocus.directive';
         MatExpansionModule,
         MatAutocompleteModule,
         MatRadioModule,
-        AutofocusDirective
+        AutofocusDirective,
+        WaiterComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
