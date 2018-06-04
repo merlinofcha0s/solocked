@@ -5,13 +5,17 @@ import com.ninja.ninjaccount.domain.Payment;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import com.ninja.ninjaccount.repository.PaymentRepository;
+import com.ninja.ninjaccount.service.billing.PaypalService;
+import com.ninja.ninjaccount.service.billing.dto.ReturnPaymentDTO;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +23,8 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = NinjaccountApp.class)
@@ -33,6 +39,9 @@ public class PaymentServiceTest {
 
     @Autowired
     private PaymentRepository paymentRepository;
+
+    @MockBean
+    private PaypalService paypalService;
 
     @Test
     public void testCreatePaymentWhenRegister() {
@@ -116,4 +125,33 @@ public class PaymentServiceTest {
         assertThat(nbAccounts).isNotNull();
         assertThat(nbAccounts).isEqualTo(1);
     }
+
+    @Test
+    public void testInitPaymentWorkflowYearShouldWork() throws MaxAccountsException {
+        User user = new User();
+        user.setEmail("lol@lol.com");
+        user.setLogin("lol");
+        user.setActivated(true);
+        user.setPassword("loooool");
+        user = userService.createUser(new UserDTO(user));
+
+        ReturnPaymentDTO returnPaymentDTOMock = new ReturnPaymentDTO();
+        returnPaymentDTOMock.setStatus("success");
+        returnPaymentDTOMock.setReturnUrl("http://getrich.com");
+        returnPaymentDTOMock.setPaymentId("PAY-LOL");
+
+        Mockito.when(paypalService.createPayment(any(PlanType.class), eq(user.getLogin()))).thenReturn(returnPaymentDTOMock);
+
+        paymentService.createRegistrationPaymentForUser(user);
+
+        Optional<ReturnPaymentDTO> returnPaymentDTO = paymentService.initPaymentWorkflow(PlanType.PREMIUMYEAR, user.getLogin());
+
+        Optional<Payment> payment = paymentRepository.findOneByUserLogin(user.getLogin());
+
+        assertThat(returnPaymentDTO).isPresent();
+        assertThat(payment).isPresent();
+        assertThat(payment.get().getPaymentId()).isEqualTo(returnPaymentDTOMock.getPaymentId());
+    }
+
+
 }
