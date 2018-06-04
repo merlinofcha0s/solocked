@@ -3,33 +3,16 @@
         <div class="col-lg-3"></div>
         <div class="col-lg-6">
             <h1 jhiTranslate="register.title">Create a new account</h1>
-
             <div class="alert alert-success" id="success" *ngIf="success" jhiTranslate="register.messages.success">
                 <strong>Registration saved!</strong> Please check your email for confirmation.
             </div>
 
-             <div *ngIf="success" class="d-flex m-4 justify-content-center align-items-center">
-                     <button mat-raised-button color="primary" class="default-validation-button"
-                             [routerLink]="['/']"
-                             id="signin">
-                         {{ 'global.messages.info.authenticated.link' | translate}}
-                    </button>
-             </div>
-
-            <div class="alert alert-danger" *ngIf="error" jhiTranslate="register.messages.error.fail">
-                <strong>Registration failed!</strong> Please try again later.
-            </div>
-
-            <div class="alert alert-danger" id="errorUserExists" *ngIf="errorUserExists" jhiTranslate="register.messages.error.userexists">
-                <strong>Login name already registered!</strong> Please choose another one.
-            </div>
-
-            <div class="alert alert-danger" id="errorEmailExists" *ngIf="errorEmailExists" jhiTranslate="register.messages.error.emailexists">
-                <strong>Email is already in use!</strong> Please choose another one.
-            </div>
-
-            <div class="alert alert-danger" *ngIf="doNotMatch" jhiTranslate="global.messages.error.dontmatch">
-                The password and its confirmation do not match!
+            <div *ngIf="success" class="d-flex m-4 justify-content-center align-items-center">
+                <button mat-raised-button color="primary" class="default-validation-button"
+                        [routerLink]="['/']"
+                        id="signin">
+                    {{ 'global.messages.info.authenticated.link' | translate}}
+                </button>
             </div>
         </div>
         <div class="col-lg-3"></div>
@@ -152,7 +135,27 @@
                         </mat-error>
                 </mat-form-field>
 
-                <jhi-choose-plan (planChoosed)="onChoosePlan($event)"></jhi-choose-plan>
+                <div class="mb-3 mt-3">
+                    <jhi-choose-plan (planChoosed)="onChoosePlan($event)"></jhi-choose-plan>
+                </div>
+
+                <div class="alert alert-danger" *ngIf="error" jhiTranslate="register.messages.error.fail">
+                    <strong>Registration failed!</strong> Please try again later.
+                </div>
+
+                <div class="alert alert-danger" id="errorUserExists" *ngIf="errorUserExists"
+                     jhiTranslate="register.messages.error.userexists">
+                    <strong>Login name already registered!</strong> Please choose another one.
+                </div>
+
+                <div class="alert alert-danger" id="errorEmailExists" *ngIf="errorEmailExists"
+                     jhiTranslate="register.messages.error.emailexists">
+                    <strong>Email is already in use!</strong> Please choose another one.
+                </div>
+
+                <div class="alert alert-danger" *ngIf="doNotMatch" jhiTranslate="global.messages.error.dontmatch">
+                    The password and its confirmation do not match!
+                </div>
 
                 <div class="d-flex align-items-center justify-content-center m-3">
                     <button mat-raised-button color="primary" type="submit" id="validate" [disabled]="registerForm.form.invalid || !this.registerAccount.planType"

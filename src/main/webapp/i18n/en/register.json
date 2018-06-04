@@ -5,7 +5,7 @@
         "form": {
             "button": "Sign up",
             "buttonFree": "Sign up for free",
-            "buttonPayed": "Sign up and go to paypal",
+            "buttonPayed": "Sign up and pay",
             "loading": "Generating your key, please wait ",
             "loadingpayment": "Redirecting to the payment page",
             "cancel": "Cancel"
