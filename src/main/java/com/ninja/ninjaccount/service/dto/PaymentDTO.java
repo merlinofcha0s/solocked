@@ -1,13 +1,12 @@
 package com.ninja.ninjaccount.service.dto;
 
 
-import java.time.LocalDate;
-import javax.validation.constraints.*;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Objects;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * A DTO for the Payment entity.
@@ -28,7 +27,9 @@ public class PaymentDTO implements Serializable {
     @NotNull
     private Boolean paid;
 
-    private String payerId;
+    private String paymentId;
+
+    private LocalDate validUntil;
 
     private Long userId;
 
@@ -74,12 +75,20 @@ public class PaymentDTO implements Serializable {
         this.paid = paid;
     }
 
-    public String getPayerId() {
-        return payerId;
+    public String getPaymentId() {
+        return paymentId;
     }
 
-    public void setPayerId(String payerId) {
-        this.payerId = payerId;
+    public void setPaymentId(String paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    public LocalDate getValidUntil() {
+        return validUntil;
+    }
+
+    public void setValidUntil(LocalDate validUntil) {
+        this.validUntil = validUntil;
     }
 
     public Long getUserId() {
@@ -127,7 +136,8 @@ public class PaymentDTO implements Serializable {
             ", price=" + getPrice() +
             ", planType='" + getPlanType() + "'" +
             ", paid='" + isPaid() + "'" +
-            ", payerId='" + getPayerId() + "'" +
+            ", paymentId='" + getPaymentId() + "'" +
+            ", validUntil='" + getValidUntil() + "'" +
             "}";
     }
 }

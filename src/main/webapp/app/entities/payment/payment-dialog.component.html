@@ -68,9 +68,23 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.payerId" for="field_payerId">Payer Id</label>
-            <input type="text" class="form-control" name="payerId" id="field_payerId"
-                [(ngModel)]="payment.payerId" />
+            <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.paymentId" for="field_paymentId">Payment
+                Id</label>
+            <input type="text" class="form-control" name="paymentId" id="field_paymentId"
+                   [(ngModel)]="payment.paymentId"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.validUntil" for="field_validUntil">Valid
+                Until</label>
+            <div class="input-group">
+                <input id="field_validUntil" type="text" class="form-control" name="validUntil" ngbDatepicker
+                       #validUntilDp="ngbDatepicker" [(ngModel)]="payment.validUntil"
+                />
+                <span class="input-group-append">
+                    <button type="button" class="btn btn-secondary" (click)="validUntilDp.toggle()"><i
+                        class="fa fa-calendar"></i></button>
+                </span>
+            </div>
         </div>
 
         <div class="form-group">

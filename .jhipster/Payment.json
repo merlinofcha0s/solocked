@@ -41,8 +41,12 @@
             ]
         },
         {
-            "fieldName": "payerId",
+            "fieldName": "paymentId",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "validUntil",
+            "fieldType": "LocalDate"
         }
     ],
     "changelogDate": "20170919063205",

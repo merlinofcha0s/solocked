@@ -1,9 +1,9 @@
-import { Injectable, Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { HttpResponse } from '@angular/common/http';
-import { Payment } from './payment.model';
-import { PaymentService } from './payment.service';
+import {Component, Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {HttpResponse} from '@angular/common/http';
+import {Payment} from './payment.model';
+import {PaymentService} from './payment.service';
 
 @Injectable()
 export class PaymentPopupService {
@@ -34,6 +34,13 @@ export class PaymentPopupService {
                                 year: payment.subscriptionDate.getFullYear(),
                                 month: payment.subscriptionDate.getMonth() + 1,
                                 day: payment.subscriptionDate.getDate()
+                            };
+                        }
+                        if (payment.validUntil) {
+                            payment.validUntil = {
+                                year: payment.validUntil.getFullYear(),
+                                month: payment.validUntil.getMonth() + 1,
+                                day: payment.validUntil.getDate()
                             };
                         }
                         this.ngbModalRef = this.paymentModalRef(component, payment);

@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { SERVER_API_URL } from '../../app.constants';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpResponse} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import {SERVER_API_URL} from '../../app.constants';
 
-import { JhiDateUtils } from 'ng-jhipster';
+import {JhiDateUtils} from 'ng-jhipster';
 
 import {Payment} from './payment.model';
 import {createRequestOption} from '../../shared';
@@ -75,6 +75,8 @@ export class PaymentService {
         const copy: Payment = Object.assign({}, payment);
         copy.subscriptionDate = this.dateUtils
             .convertLocalDateFromServer(payment.subscriptionDate);
+        copy.validUntil = this.dateUtils
+            .convertLocalDateFromServer(payment.validUntil);
         return copy;
     }
 
@@ -85,6 +87,8 @@ export class PaymentService {
         const copy: Payment = Object.assign({}, payment);
         copy.subscriptionDate = this.dateUtils
             .convertLocalDateToServer(payment.subscriptionDate);
+        copy.validUntil = this.dateUtils
+            .convertLocalDateToServer(payment.validUntil);
         return copy;
     }
 

@@ -145,12 +145,12 @@ public class PaymentService {
 
     public Optional<ReturnPaymentDTO> initPaymentWorkflow(PlanType planType, String login) {
 
-        ReturnPaymentDTO returnPaymentDTO = paypalService.createPayment(planType.getPrice().toString(), login);
+        ReturnPaymentDTO returnPaymentDTO = paypalService.createPayment(planType, login);
 
         Optional<Payment> payment = paymentRepository.findOneByUserLogin(login);
 
         if (payment.isPresent() && returnPaymentDTO.getStatus().equals("success")) {
-            payment.get().setPayerId(returnPaymentDTO.getId());
+            payment.get().setPaymentId(returnPaymentDTO.getPaymentId());
             paymentRepository.save(payment.get());
         }
 
@@ -162,7 +162,30 @@ public class PaymentService {
     }
 
     public Optional<ReturnPaymentDTO> completePaymentWorkflow(CompletePaymentDTO completePaymentDTO) {
-        return paypalService.completePaymentWorkflow(completePaymentDTO);
+        Optional<ReturnPaymentDTO> returnPaymentDTOOpt = paypalService.completePaymentWorkflow(completePaymentDTO);
+
+        if (returnPaymentDTOOpt.isPresent() && returnPaymentDTOOpt.get().getStatus().equals("success")) {
+            ReturnPaymentDTO returnPaymentDTO = returnPaymentDTOOpt.get();
+            Optional<Payment> paymentToComplete = paymentRepository.findOneByPaymentId(returnPaymentDTO.getPaymentId());
+
+            if (paymentToComplete.isPresent()) {
+                PlanType planType = returnPaymentDTO.getPlanType();
+                Payment payment = paymentToComplete.get();
+                payment.setPaid(true);
+                payment.setPlanType(planType);
+                payment.setSubscriptionDate(LocalDate.now());
+                payment.setPrice(planType.getPrice());
+                payment.setValidUntil(LocalDate.now().plus(planType.getUnitAmountValidity(), planType.getUnit()));
+                paymentRepository.save(payment);
+            } else {
+                return Optional.empty();
+            }
+
+        } else {
+            return Optional.empty();
+        }
+
+        return returnPaymentDTOOpt;
     }
 
 }

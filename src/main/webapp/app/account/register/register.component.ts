@@ -136,21 +136,29 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         const payerId = this.route.snapshot.queryParams['PayerID'];
         const paymentId = this.route.snapshot.queryParams['paymentId'];
         if (!isUndefined(payerId) && !isUndefined(paymentId)) {
-            this.finalizingPaymentDialogRef = this.dialog.open(WaiterComponent, {
-                disableClose: true,
-                data: {keyMessage: 'register.form.waitingcompletepayment'}
-            });
-            this.registerService.completePaymentWorkflow(paymentId, payerId)
-                .subscribe((response) => {
-                    const returnPayment = response.body;
-
-                    if (returnPayment.status === 'success') {
-                        this.success = true;
-                        this.finalizingPaymentDialogRef.close();
-                    } else {
-                        this.error = 'Problem when payment occurs';
-                    }
-                });
+            this.openWaiterFinalizer();
+            this.completePaymentService(paymentId, payerId);
         }
+    }
+
+    private completePaymentService(paymentId, payerId) {
+        this.registerService.completePaymentWorkflow(paymentId, payerId)
+            .subscribe((response) => {
+                const returnPayment = response.body;
+
+                if (returnPayment.status === 'success') {
+                    this.success = true;
+                    this.finalizingPaymentDialogRef.close();
+                } else {
+                    this.error = 'Problem when payment occurs';
+                }
+            });
+    }
+
+    private openWaiterFinalizer() {
+        this.finalizingPaymentDialogRef = this.dialog.open(WaiterComponent, {
+            disableClose: true,
+            data: {keyMessage: 'register.form.waitingcompletepayment'}
+        });
     }
 }

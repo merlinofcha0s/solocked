@@ -1,13 +1,16 @@
 package com.ninja.ninjaccount.service.billing.dto;
 
+import com.ninja.ninjaccount.domain.enumeration.PlanType;
+
 public class ReturnPaymentDTO {
 
     private String status;
 
     private String returnUrl;
 
-    private String id;
+    private String paymentId;
 
+    private PlanType planType;
 
     public String getStatus() {
         return status;
@@ -25,12 +28,20 @@ public class ReturnPaymentDTO {
         this.returnUrl = returnUrl;
     }
 
-    public String getId() {
-        return id;
+    public String getPaymentId() {
+        return paymentId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPaymentId(String paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    public PlanType getPlanType() {
+        return planType;
+    }
+
+    public void setPlanType(PlanType planType) {
+        this.planType = planType;
     }
 
     @Override
@@ -38,7 +49,7 @@ public class ReturnPaymentDTO {
         return "ReturnPaymentDTO{" +
             "status='" + status + '\'' +
             ", returnUrl='" + returnUrl + '\'' +
-            ", id='" + id + '\'' +
+            ", id='" + paymentId + '\'' +
             '}';
     }
 }

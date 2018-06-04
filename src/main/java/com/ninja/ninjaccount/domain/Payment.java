@@ -1,16 +1,14 @@
 package com.ninja.ninjaccount.domain;
 
+import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
-
-import com.ninja.ninjaccount.domain.enumeration.PlanType;
 
 /**
  * A Payment.
@@ -44,8 +42,11 @@ public class Payment implements Serializable {
     @Column(name = "paid", nullable = false)
     private Boolean paid;
 
-    @Column(name = "payer_id")
-    private String payerId;
+    @Column(name = "payment_id")
+    private String paymentId;
+
+    @Column(name = "valid_until")
+    private LocalDate validUntil;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -112,17 +113,30 @@ public class Payment implements Serializable {
         this.paid = paid;
     }
 
-    public String getPayerId() {
-        return payerId;
+    public String getPaymentId() {
+        return paymentId;
     }
 
-    public Payment payerId(String payerId) {
-        this.payerId = payerId;
+    public Payment paymentId(String paymentId) {
+        this.paymentId = paymentId;
         return this;
     }
 
-    public void setPayerId(String payerId) {
-        this.payerId = payerId;
+    public void setPaymentId(String paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    public LocalDate getValidUntil() {
+        return validUntil;
+    }
+
+    public Payment validUntil(LocalDate validUntil) {
+        this.validUntil = validUntil;
+        return this;
+    }
+
+    public void setValidUntil(LocalDate validUntil) {
+        this.validUntil = validUntil;
     }
 
     public User getUser() {
@@ -167,7 +181,8 @@ public class Payment implements Serializable {
             ", price=" + getPrice() +
             ", planType='" + getPlanType() + "'" +
             ", paid='" + isPaid() + "'" +
-            ", payerId='" + getPayerId() + "'" +
+            ", paymentId='" + getPaymentId() + "'" +
+            ", validUntil='" + getValidUntil() + "'" +
             "}";
     }
 }

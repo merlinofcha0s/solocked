@@ -1,5 +1,5 @@
-import { browser, element, by } from 'protractor';
-import { NavBarPage } from './../page-objects/jhi-page-objects';
+import {browser, by, element} from 'protractor';
+import {NavBarPage} from './../page-objects/jhi-page-objects';
 
 describe('Payment e2e test', () => {
 
@@ -47,8 +47,10 @@ describe('Payment e2e test', () => {
                 expect(paymentDialogPage.getPaidInput().isSelected()).toBeTruthy();
             }
         });
-        paymentDialogPage.setPayerIdInput('payerId');
-        expect(paymentDialogPage.getPayerIdInput()).toMatch('payerId');
+        paymentDialogPage.setPaymentIdInput('paymentId');
+        expect(paymentDialogPage.getPaymentIdInput()).toMatch('paymentId');
+        paymentDialogPage.setValidUntilInput('2000-12-31');
+        expect(paymentDialogPage.getValidUntilInput()).toMatch('2000-12-31');
         paymentDialogPage.userSelectLastOption();
         paymentDialogPage.save();
         expect(paymentDialogPage.getSaveButton().isPresent()).toBeFalsy();
@@ -80,7 +82,8 @@ export class PaymentDialogPage {
     priceInput = element(by.css('input#field_price'));
     planTypeSelect = element(by.css('select#field_planType'));
     paidInput = element(by.css('input#field_paid'));
-    payerIdInput = element(by.css('input#field_payerId'));
+    paymentIdInput = element(by.css('input#field_paymentId'));
+    validUntilInput = element(by.css('input#field_validUntil'));
     userSelect = element(by.css('select#field_user'));
 
     getModalTitle() {
@@ -117,12 +120,20 @@ export class PaymentDialogPage {
     getPaidInput = function() {
         return this.paidInput;
     };
-    setPayerIdInput = function(payerId) {
-        this.payerIdInput.sendKeys(payerId);
+    setPaymentIdInput = function (paymentId) {
+        this.paymentIdInput.sendKeys(paymentId);
     };
 
-    getPayerIdInput = function() {
-        return this.payerIdInput.getAttribute('value');
+    getPaymentIdInput = function () {
+        return this.paymentIdInput.getAttribute('value');
+    };
+
+    setValidUntilInput = function (validUntil) {
+        this.validUntilInput.sendKeys(validUntil);
+    };
+
+    getValidUntilInput = function () {
+        return this.validUntilInput.getAttribute('value');
     };
 
     userSelectLastOption = function() {

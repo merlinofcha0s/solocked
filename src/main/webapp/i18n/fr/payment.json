@@ -20,7 +20,8 @@
             "price": "Price",
             "planType": "Plan Type",
             "paid": "Paid",
-            "payerId": "Payer Id",
+            "paymentId": "Payment Id",
+            "validUntil": "Valid Until",
             "user": "User"
         }
     }

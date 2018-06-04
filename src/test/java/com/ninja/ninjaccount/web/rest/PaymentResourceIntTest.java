@@ -59,8 +59,11 @@ public class PaymentResourceIntTest {
     private static final Boolean DEFAULT_PAID = false;
     private static final Boolean UPDATED_PAID = true;
 
-    private static final String DEFAULT_PAYER_ID = "AAAAAAAAAA";
-    private static final String UPDATED_PAYER_ID = "BBBBBBBBBB";
+    private static final String DEFAULT_PAYMENT_ID = "AAAAAAAAAA";
+    private static final String UPDATED_PAYMENT_ID = "BBBBBBBBBB";
+
+    private static final LocalDate DEFAULT_VALID_UNTIL = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_VALID_UNTIL = LocalDate.now(ZoneId.systemDefault());
 
     @Autowired
     private PaymentRepository paymentRepository;
@@ -113,7 +116,8 @@ public class PaymentResourceIntTest {
             .price(DEFAULT_PRICE)
             .planType(DEFAULT_PLAN_TYPE)
             .paid(DEFAULT_PAID)
-            .payerId(DEFAULT_PAYER_ID);
+            .paymentId(DEFAULT_PAYMENT_ID)
+            .validUntil(DEFAULT_VALID_UNTIL);
         return payment;
     }
 
@@ -142,7 +146,8 @@ public class PaymentResourceIntTest {
         assertThat(testPayment.getPrice()).isEqualTo(DEFAULT_PRICE);
         assertThat(testPayment.getPlanType()).isEqualTo(DEFAULT_PLAN_TYPE);
         assertThat(testPayment.isPaid()).isEqualTo(DEFAULT_PAID);
-        assertThat(testPayment.getPayerId()).isEqualTo(DEFAULT_PAYER_ID);
+        assertThat(testPayment.getPaymentId()).isEqualTo(DEFAULT_PAYMENT_ID);
+        assertThat(testPayment.getValidUntil()).isEqualTo(DEFAULT_VALID_UNTIL);
     }
 
     @Test
@@ -256,7 +261,8 @@ public class PaymentResourceIntTest {
             .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE)))
             .andExpect(jsonPath("$.[*].planType").value(hasItem(DEFAULT_PLAN_TYPE.toString())))
             .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.booleanValue())))
-            .andExpect(jsonPath("$.[*].payerId").value(hasItem(DEFAULT_PAYER_ID.toString())));
+            .andExpect(jsonPath("$.[*].paymentId").value(hasItem(DEFAULT_PAYMENT_ID.toString())))
+            .andExpect(jsonPath("$.[*].validUntil").value(hasItem(DEFAULT_VALID_UNTIL.toString())));
     }
 
     @Test
@@ -274,7 +280,8 @@ public class PaymentResourceIntTest {
             .andExpect(jsonPath("$.price").value(DEFAULT_PRICE))
             .andExpect(jsonPath("$.planType").value(DEFAULT_PLAN_TYPE.toString()))
             .andExpect(jsonPath("$.paid").value(DEFAULT_PAID.booleanValue()))
-            .andExpect(jsonPath("$.payerId").value(DEFAULT_PAYER_ID.toString()));
+            .andExpect(jsonPath("$.paymentId").value(DEFAULT_PAYMENT_ID.toString()))
+            .andExpect(jsonPath("$.validUntil").value(DEFAULT_VALID_UNTIL.toString()));
     }
 
     @Test
@@ -301,7 +308,8 @@ public class PaymentResourceIntTest {
             .price(UPDATED_PRICE)
             .planType(UPDATED_PLAN_TYPE)
             .paid(UPDATED_PAID)
-            .payerId(UPDATED_PAYER_ID);
+            .paymentId(UPDATED_PAYMENT_ID)
+            .validUntil(UPDATED_VALID_UNTIL);
         PaymentDTO paymentDTO = paymentMapper.toDto(updatedPayment);
 
         restPaymentMockMvc.perform(put("/api/payments")
@@ -317,7 +325,8 @@ public class PaymentResourceIntTest {
         assertThat(testPayment.getPrice()).isEqualTo(UPDATED_PRICE);
         assertThat(testPayment.getPlanType()).isEqualTo(UPDATED_PLAN_TYPE);
         assertThat(testPayment.isPaid()).isEqualTo(UPDATED_PAID);
-        assertThat(testPayment.getPayerId()).isEqualTo(UPDATED_PAYER_ID);
+        assertThat(testPayment.getPaymentId()).isEqualTo(UPDATED_PAYMENT_ID);
+        assertThat(testPayment.getValidUntil()).isEqualTo(UPDATED_VALID_UNTIL);
     }
 
     @Test

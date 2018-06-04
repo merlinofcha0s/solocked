@@ -20,9 +20,13 @@
         <dd>
             <span>{{payment.paid}}</span>
         </dd>
-        <dt><span jhiTranslate="ninjaccountApp.payment.payerId">Payer Id</span></dt>
+        <dt><span jhiTranslate="ninjaccountApp.payment.paymentId">Payment Id</span></dt>
         <dd>
-            <span>{{payment.payerId}}</span>
+            <span>{{payment.paymentId}}</span>
+        </dd>
+        <dt><span jhiTranslate="ninjaccountApp.payment.validUntil">Valid Until</span></dt>
+        <dd>
+            <span>{{payment.validUntil | date:'mediumDate'}}</span>
         </dd>
         <dt><span jhiTranslate="ninjaccountApp.payment.user">User</span></dt>
         <dd>
