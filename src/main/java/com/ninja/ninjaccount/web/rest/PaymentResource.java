@@ -6,6 +6,7 @@ import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.PaymentService;
 import com.ninja.ninjaccount.service.billing.dto.CompletePaymentDTO;
 import com.ninja.ninjaccount.service.billing.dto.InitPaymentDTO;
+import com.ninja.ninjaccount.service.billing.dto.ReturnPaymentDTO;
 import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.web.rest.errors.BadRequestAlertException;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
@@ -19,9 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -145,10 +144,9 @@ public class PaymentResource {
 
     @PostMapping("/init-payment")
     @Timed
-    public ResponseEntity<Map<String, String>> initPaymentWorkflow(@Valid @RequestBody InitPaymentDTO initPaymentDTO) {
-        Optional<Map<String, String>> results;
+    public ResponseEntity<ReturnPaymentDTO> initPaymentWorkflow(@Valid @RequestBody InitPaymentDTO initPaymentDTO) {
 
-        results = paymentService.initPaymentWorkflow(PlanType.valueOf(initPaymentDTO.getPlanType().toString()), initPaymentDTO.getLogin());
+        Optional<ReturnPaymentDTO> results = paymentService.initPaymentWorkflow(PlanType.valueOf(initPaymentDTO.getPlanType().toString()), initPaymentDTO.getLogin());
 
         if (results.isPresent()) {
             return ResponseEntity.ok(results.get());
@@ -159,10 +157,9 @@ public class PaymentResource {
 
     @PostMapping("/complete-payment")
     @Timed
-    public ResponseEntity<Map<String, String>> initPaymentWorkflow(@Valid @RequestBody CompletePaymentDTO completePaymentDTO) {
-        Optional<Map<String, String>> results;
+    public ResponseEntity<ReturnPaymentDTO> initPaymentWorkflow(@Valid @RequestBody CompletePaymentDTO completePaymentDTO) {
 
-        results = paymentService.completePaymentWorkflow(completePaymentDTO);
+        Optional<ReturnPaymentDTO> results = paymentService.completePaymentWorkflow(completePaymentDTO);
 
         if (results.isPresent()) {
             return ResponseEntity.ok(results.get());

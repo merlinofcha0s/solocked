@@ -91,7 +91,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
                 return this.registerService.initPaymentWorkflow(this.registerAccount.planType, this.registerAccount.login);
             }).subscribe((response) => {
             this.loading = false;
-            this.document.location.href = response.body['redirect_url'];
+            this.document.location.href = response.body.returnUrl;
         }, (response: HttpErrorResponse) => this.processError(response));
     }
 
@@ -132,13 +132,15 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         const payerId = this.route.snapshot.queryParams['PayerID'];
         const paymentId = this.route.snapshot.queryParams['paymentId'];
         if (!isUndefined(payerId) && !isUndefined(paymentId)) {
-            console.log('paypal mode');
-            console.log('payerId : ' + payerId);
-            console.log('paymentId : ' + paymentId);
             this.registerService.completePaymentWorkflow(paymentId, payerId)
                 .subscribe((response) => {
-                    console.log('body completed : ' + response.body);
-                    this.success = true;
+                    const returnPayment = response.body;
+
+                    if (returnPayment.status === 'success') {
+                        this.success = true;
+                    } else {
+                        this.error = 'Problem when payment occurs';
+                    }
                 });
         }
     }

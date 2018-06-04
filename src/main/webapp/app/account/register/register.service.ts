@@ -9,6 +9,7 @@ import {PlanType} from '../../entities/payment';
 import {HttpResponse} from '@angular/common/http/src/response';
 import {InitPayment} from './dto/init-payment.model';
 import {CompletePayment} from './dto/complete-payment.model';
+import {ReturnPayment} from './dto/return-payment.model';
 
 @Injectable()
 export class Register {
@@ -41,13 +42,13 @@ export class Register {
             });
     }
 
-    initPaymentWorkflow(planType: PlanType, login: string): Observable<HttpResponse<Object>> {
+    initPaymentWorkflow(planType: PlanType, login: string): Observable<HttpResponse<ReturnPayment>> {
         const initPaymentDTO = new InitPayment(planType, login);
-        return this.http.post('api/init-payment', initPaymentDTO, {observe: 'response'});
+        return this.http.post<ReturnPayment>('api/init-payment', initPaymentDTO, {observe: 'response'});
     }
 
-    completePaymentWorkflow(paymentId: string, payerId: string): Observable<HttpResponse<Object>> {
+    completePaymentWorkflow(paymentId: string, payerId: string): Observable<HttpResponse<ReturnPayment>> {
         const completePaymentDTO = new CompletePayment(paymentId, payerId);
-        return this.http.post('api/complete-payment', completePaymentDTO, {observe: 'response'});
+        return this.http.post<ReturnPayment>('api/complete-payment', completePaymentDTO, {observe: 'response'});
     }
 }

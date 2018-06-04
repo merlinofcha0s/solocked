@@ -18,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -141,26 +143,26 @@ public class PaymentService {
         }
     }
 
-    public ReturnPaymentDTO initPaymentWorkflow(PlanType planType, String login) {
+    public Optional<ReturnPaymentDTO> initPaymentWorkflow(PlanType planType, String login) {
 
-        ReturnPaymentDTO returnPaymentDTO = null;
-
-        if (planType == PlanType.PREMIUMYEAR) {
-            returnPaymentDTO = paypalService.createPayment(PlanType.PREMIUMYEAR.getPrice().toString(), login);
-        }
+        ReturnPaymentDTO returnPaymentDTO = paypalService.createPayment(planType.getPrice().toString(), login);
 
         Optional<Payment> payment = paymentRepository.findOneByUserLogin(login);
 
-        if (payment.isPresent() && returnPaymentDTO != null && returnPaymentDTO.getStatus().equals("success")) {
+        if (payment.isPresent() && returnPaymentDTO.getStatus().equals("success")) {
             payment.get().setPayerId(returnPaymentDTO.getId());
             paymentRepository.save(payment.get());
         }
 
-        return returnPaymentDTO;
+        if (returnPaymentDTO.getStatus().equals("failure")) {
+            return Optional.empty();
+        }
+
+        return Optional.of(returnPaymentDTO);
     }
 
-    public Optional<Map<String, String>> completePaymentWorkflow(CompletePaymentDTO completePaymentDTO) {
-        return Optional.of(paypalService.completePaymentWorkflow(completePaymentDTO));
+    public Optional<ReturnPaymentDTO> completePaymentWorkflow(CompletePaymentDTO completePaymentDTO) {
+        return paypalService.completePaymentWorkflow(completePaymentDTO);
     }
 
 }

@@ -1,6 +1,5 @@
 package com.ninja.ninjaccount.service.billing;
 
-import com.ninja.ninjaccount.service.PaymentService;
 import com.ninja.ninjaccount.service.billing.dto.CompletePaymentDTO;
 import com.ninja.ninjaccount.service.billing.dto.ReturnPaymentDTO;
 import com.paypal.api.payments.*;
@@ -11,7 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PaypalService {
@@ -54,7 +55,7 @@ public class PaypalService {
             if (createdPayment != null) {
                 Optional<String> redirectUrl = createdPayment.getLinks().stream()
                     .filter(links -> links.getRel().equalsIgnoreCase("approval_url"))
-                    .map(Links::getRel).findFirst();
+                    .map(Links::getHref).findFirst();
 
                 if (redirectUrl.isPresent()) {
                     returnPaymentDTO.setStatus("success");
@@ -66,13 +67,13 @@ public class PaypalService {
                 }
             }
         } catch (PayPalRESTException e) {
-            log.error("Error when calling paypal, login : {}", login, e);
+            log.error("Error when initiating paypal payment, login : {}", login, e);
         }
         return returnPaymentDTO;
     }
 
-    public Map<String, String> completePaymentWorkflow(CompletePaymentDTO completePaymentDTO) {
-        Map<String, String> response = new HashMap<>();
+    public Optional<ReturnPaymentDTO> completePaymentWorkflow(CompletePaymentDTO completePaymentDTO) {
+        ReturnPaymentDTO returnPaymentDTO = new ReturnPaymentDTO();
         Payment payment = new Payment();
         payment.setId(completePaymentDTO.getPaymentId());
 
@@ -82,12 +83,14 @@ public class PaypalService {
             APIContext context = new APIContext(clientId, clientSecret, "sandbox");
             Payment createdPayment = payment.execute(context, paymentExecution);
             if (createdPayment != null) {
-                response.put("status", "success");
+                returnPaymentDTO.setStatus("success");
+                returnPaymentDTO.setId(createdPayment.getId());
             }
         } catch (PayPalRESTException e) {
-            System.err.println(e.getDetails());
+            log.error("Error when completing paypal payment, payerId : {}", completePaymentDTO.getPayerId(), e);
+            return Optional.empty();
         }
-        return response;
+        return Optional.of(returnPaymentDTO);
     }
 
 }
