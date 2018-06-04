@@ -8,9 +8,9 @@ import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
-import com.ninja.ninjaccount.service.util.PaymentConstant;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
+import com.ninja.ninjaccount.service.util.PaymentConstant;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -154,7 +154,7 @@ public class AccountDBServiceTest {
         assertThat(actualAndMax.getFirst()).isNotNull();
         assertThat(actualAndMax.getFirst()).isEqualTo(1);
         assertThat(actualAndMax.getSecond()).isNotNull();
-        assertThat(actualAndMax.getSecond()).isEqualTo(PaymentConstant.MAX_ACCOUNTS_BETA);
+        assertThat(actualAndMax.getSecond()).isEqualTo(PaymentConstant.MAX_ACCOUNTS_FREE);
     }
 
     @Test

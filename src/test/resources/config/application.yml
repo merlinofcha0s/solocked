@@ -113,3 +113,7 @@ jhipster:
 # ===================================================================
 
 application:
+    paypal:
+        client-id: itsanid
+        client-secret: itsasecret
+        mode: sandbox
