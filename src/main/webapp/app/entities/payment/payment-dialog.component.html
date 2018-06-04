@@ -47,7 +47,8 @@
             <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.planType" for="field_planType">Plan Type</label>
             <select class="form-control" name="planType" [(ngModel)]="payment.planType" id="field_planType"  required>
                 <option value="FREE">{{'ninjaccountApp.PlanType.FREE' | translate}}</option>
-                <option value="PREMIUM">{{'ninjaccountApp.PlanType.PREMIUM' | translate}}</option>
+                <option value="PREMIUMYEAR">{{'ninjaccountApp.PlanType.PREMIUMYEAR' | translate}}</option>
+                <option value="PREMIUMMONTH">{{'ninjaccountApp.PlanType.PREMIUMMONTH' | translate}}</option>
             </select>
             <div [hidden]="!(editForm.controls.planType?.dirty && editForm.controls.planType?.invalid)">
                 <small class="form-text text-danger"

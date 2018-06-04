@@ -48,7 +48,7 @@ public class PaymentServiceTest {
         Optional<Payment> payment = paymentRepository.findOneByUserLogin("lol");
 
         assertThat(payment.isPresent()).isTrue();
-        assertThat(payment.get().getPlanType()).isEqualTo(PlanType.BETA);
+        assertThat(payment.get().getPlanType()).isEqualTo(PlanType.FREE);
         assertThat(payment.get().isPaid()).isFalse();
         assertThat(payment.get().getSubscriptionDate()).isEqualTo(LocalDate.now().plusMonths(1));
     }

@@ -14,8 +14,6 @@ public final class PaymentUtil {
                 return PaymentConstant.MAX_ACCOUNTS_PREMIUM;
             case FREE:
                 return PaymentConstant.MAX_ACCOUNTS_FREE;
-            case BETA:
-                return PaymentConstant.MAX_ACCOUNTS_BETA;
             default:
                 return -1;
         }

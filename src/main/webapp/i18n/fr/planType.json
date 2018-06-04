@@ -3,7 +3,8 @@
         "PlanType" : {
             "null": "",
             "FREE": "FREE",
-            "PREMIUM": "PREMIUM"
+            "PREMIUMYEAR": "PREMIUMYEAR",
+            "PREMIUMMONTH": "PREMIUMMONTH"
         }
     }
 }

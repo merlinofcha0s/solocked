@@ -9,7 +9,6 @@ export enum PlanType {
 
 export const enum MaxAccountPlanType {
     MAX_ACCOUNTS_PREMIUM = 1000,
-    MAX_ACCOUNTS_BETA = 1000,
     MAX_ACCOUNTS_FREE = 10
 }
 

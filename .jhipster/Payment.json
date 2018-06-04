@@ -28,7 +28,7 @@
         {
             "fieldName": "planType",
             "fieldType": "PlanType",
-            "fieldValues": "FREE, PREMIUM",
+            "fieldValues": "FREE, PREMIUMYEAR, PREMIUMMONTH",
             "fieldValidateRules": [
                 "required"
             ]

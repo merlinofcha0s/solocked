@@ -8,8 +8,7 @@ import java.time.temporal.ChronoUnit;
 public enum PlanType {
     FREE(0, 9999999, ChronoUnit.YEARS),
     PREMIUMYEAR(20, 1, ChronoUnit.YEARS),
-    PREMIUMMONTH(2, 1, ChronoUnit.MONTHS),
-    BETA(0, 999999, ChronoUnit.YEARS);
+    PREMIUMMONTH(2, 1, ChronoUnit.MONTHS);
 
     Integer price;
 
