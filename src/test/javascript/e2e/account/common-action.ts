@@ -24,6 +24,7 @@ export class CommonAction {
         this.registerPage.passwordInput.sendKeys(password);
         this.registerPage.confirmationPassword.click();
         this.registerPage.confirmationPassword.sendKeys(password);
+        this.registerPage.freeAccount.click();
         this.registerPage.validation.click();
 
         browser.driver.sleep(2000);
@@ -72,6 +73,7 @@ export class RegisterPage {
     private _emailInput = element(by.id('email'));
     private _passwordInput = element(by.id('password'));
     private _confirmationPassword = element(by.id('confirmPassword'));
+    private _freeAccount = element(by.id('plant-type-free'));
     private _validation = element(by.id('validate'));
 
 
@@ -89,6 +91,10 @@ export class RegisterPage {
 
     get confirmationPassword(): ElementFinder {
         return this._confirmationPassword;
+    }
+
+    get freeAccount(): ElementFinder {
+        return this._freeAccount;
     }
 
     get validation(): ElementFinder {
