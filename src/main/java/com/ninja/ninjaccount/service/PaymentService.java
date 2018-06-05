@@ -189,7 +189,9 @@ public class PaymentService {
 
         } else if (returnPaymentDTOOpt.isPresent() && returnPaymentDTOOpt.get().getStatus().equals("failure")) {
             Optional<Payment> paymentToComplete = paymentRepository.findOneByPaymentId(completePaymentDTO.getPaymentId());
-            userService.destroyUserAccount(paymentToComplete.get().getUser().getLogin());
+            paymentToComplete.map(payment -> payment.getUser().getId())
+                .flatMap(userService::getUserWithAuthorities)
+                .ifPresent(user -> userService.destroyUserAccount(user.getLogin()));
             return Optional.empty();
         }
 

@@ -228,5 +228,50 @@ public class PaymentServiceTest {
             .plus(PlanType.PREMIUMYEAR.getUnitAmountValidity(), PlanType.PREMIUMYEAR.getUnit()));
     }
 
+    @Test
+    public void testCompletePaymentShouldFail() {
+        String paymentId = "PAY-ID";
+
+        User user = new User();
+        user.setEmail("lol@lol.com");
+        user.setLogin("lol");
+        user.setActivated(true);
+        user.setPassword("loooool");
+        user = userService.createUser(new UserDTO(user));
+
+        PaymentDTO paymentDTO = new PaymentDTO();
+        paymentDTO.setPaid(false);
+        paymentDTO.setPlanType(PlanType.FREE);
+        paymentDTO.setSubscriptionDate(LocalDate.now());
+        paymentDTO.setPrice(PlanType.FREE.getPrice());
+        paymentDTO.setUserId(user.getId());
+        paymentDTO.setUserLogin(user.getLogin());
+        paymentDTO.setPaymentId(paymentId);
+
+        paymentService.save(paymentDTO);
+
+        //Create the mock object for the paypal call
+        ReturnPaymentDTO returnPaymentDTOMock = new ReturnPaymentDTO();
+        returnPaymentDTOMock.setStatus("failure");
+        returnPaymentDTOMock.setPaymentId(paymentId);
+        returnPaymentDTOMock.setPlanType(PlanType.PREMIUMYEAR);
+
+        //Mock the call
+        Mockito.when(paypalService.completePaymentWorkflow(any(CompletePaymentDTO.class))).thenReturn(Optional.of(returnPaymentDTOMock));
+
+        CompletePaymentDTO completePaymentDTO = new CompletePaymentDTO();
+        completePaymentDTO.setPayerId("PAY-BLABLA");
+        completePaymentDTO.setPaymentId(paymentId);
+
+        Optional<ReturnPaymentDTO> returnPaymentDTO = paymentService.completePaymentWorkflow(completePaymentDTO);
+
+        Optional<Payment> payment = paymentRepository.findOneByUserLogin(user.getLogin());
+
+        Optional<User> userWithAuthoritiesByLogin = userService.getUserWithAuthoritiesByLogin(user.getLogin());
+
+        assertThat(userWithAuthoritiesByLogin).isNotPresent();
+        assertThat(returnPaymentDTO).isNotPresent();
+        assertThat(payment).isNotPresent();
+    }
 
 }
