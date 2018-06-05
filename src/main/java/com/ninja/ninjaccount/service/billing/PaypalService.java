@@ -108,7 +108,7 @@ public class PaypalService {
                 item.ifPresent(item1 -> returnPaymentDTO.setPlanType(PlanType.valueOf(item1.getName())));
             }
         } catch (PayPalRESTException e) {
-            log.error("Error when completing paypal payment, payerId : {}", completePaymentDTO.getPayerId(), e);
+            log.error("Error when completing paypal payment, payerId : {} reason : {}", completePaymentDTO.getPayerId(), e.getDetails().getMessage(), e);
             return Optional.empty();
         }
         return Optional.of(returnPaymentDTO);

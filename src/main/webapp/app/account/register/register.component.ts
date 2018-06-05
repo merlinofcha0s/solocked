@@ -3,7 +3,12 @@ import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {JhiLanguageService} from 'ng-jhipster';
 
 import {Register} from './register.service';
-import {EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE, LoginModalService} from '../../shared';
+import {
+    EMAIL_ALREADY_USED_TYPE,
+    LOGIN_ALREADY_USED_TYPE,
+    LoginModalService,
+    PAYPAL_COMMUNICATION_PROBLEM_TYPE
+} from '../../shared';
 import {HttpErrorResponse} from '@angular/common/http';
 import {PlanType} from '../../entities/payment';
 import {DOCUMENT} from '@angular/common';
@@ -24,6 +29,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     error: string;
     errorEmailExists: string;
     errorUserExists: string;
+    errorInitPaypal: string;
+    errorCompletePaypal: string;
     registerAccount: any;
     success: boolean;
     modalRef: NgbModalRef;
@@ -35,6 +42,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
     signUpLabel: string;
 
+    modeFinalizingPayment: boolean;
     finalizingPaymentDialogRef: MatDialogRef<WaiterComponent>;
 
     constructor(private languageService: JhiLanguageService,
@@ -53,11 +61,10 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         this.registerAccount = {};
         this.signUpLabel = 'register.form.button';
         this.loadingLabel = 'register.form.loading';
-
-        this.completePayment();
     }
 
     ngAfterViewInit() {
+        this.completePayment();
         // this.renderer.invokeElementMethod(this.elementRef.nativeElement.querySelector('#login'), 'focus', []);
     }
 
@@ -94,7 +101,6 @@ export class RegisterComponent implements OnInit, AfterViewInit {
                 this.loadingLabel = 'register.form.loadingpayment';
                 return this.registerService.initPaymentWorkflow(this.registerAccount.planType, this.registerAccount.login);
             }).subscribe((response) => {
-            this.loading = false;
             this.document.location.href = response.body.returnUrl;
         }, (response: HttpErrorResponse) => this.processError(response));
     }
@@ -107,17 +113,21 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         this.success = null;
         if (response.status === 400 && response.error.type === LOGIN_ALREADY_USED_TYPE) {
             this.errorUserExists = 'ERROR';
-            this.loading = false;
         } else if (response.status === 400 && response.error.type === EMAIL_ALREADY_USED_TYPE) {
             this.errorEmailExists = 'ERROR';
-            this.loading = false;
         } else if (response.status === 417) {
             this.errorEmailExists = 'ERROR';
-            this.loading = false;
+        } else if (response.status === 503 && response.error.type === PAYPAL_COMMUNICATION_PROBLEM_TYPE) {
+            if (this.modeFinalizingPayment) {
+                this.errorCompletePaypal = 'ERROR';
+                this.finalizingPaymentDialogRef.close();
+            } else {
+                this.errorInitPaypal = 'ERROR';
+            }
         } else {
             this.error = 'ERROR';
-            this.loading = false;
         }
+        this.loading = false;
     }
 
     onChoosePlan(planType: PlanType) {
@@ -136,6 +146,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         const payerId = this.route.snapshot.queryParams['PayerID'];
         const paymentId = this.route.snapshot.queryParams['paymentId'];
         if (!isUndefined(payerId) && !isUndefined(paymentId)) {
+            this.modeFinalizingPayment = true;
             this.openWaiterFinalizer();
             this.completePaymentService(paymentId, payerId);
         }
@@ -152,7 +163,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
                 } else {
                     this.error = 'Problem when payment occurs';
                 }
-            });
+            }, (response: HttpErrorResponse) => this.processError(response));
     }
 
     private openWaiterFinalizer() {

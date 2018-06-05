@@ -9,11 +9,11 @@ import com.ninja.ninjaccount.service.billing.dto.InitPaymentDTO;
 import com.ninja.ninjaccount.service.billing.dto.ReturnPaymentDTO;
 import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.web.rest.errors.BadRequestAlertException;
+import com.ninja.ninjaccount.web.rest.errors.PaypalCommunicationException;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -151,7 +151,7 @@ public class PaymentResource {
         if (results.isPresent()) {
             return ResponseEntity.ok(results.get());
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            throw new PaypalCommunicationException();
         }
     }
 
@@ -164,7 +164,7 @@ public class PaymentResource {
         if (results.isPresent()) {
             return ResponseEntity.ok(results.get());
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            throw new PaypalCommunicationException();
         }
     }
 }

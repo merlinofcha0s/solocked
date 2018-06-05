@@ -174,11 +174,11 @@ public class PaymentServiceTest {
         Optional<ReturnPaymentDTO> returnPaymentDTO = paymentService.initPaymentWorkflow(PlanType.PREMIUMYEAR, user.getLogin());
 
         Optional<Payment> payment = paymentRepository.findOneByUserLogin(user.getLogin());
+        Optional<User> userWithAuthoritiesByLogin = userService.getUserWithAuthoritiesByLogin(user.getLogin());
 
+        assertThat(userWithAuthoritiesByLogin).isNotPresent();
         assertThat(returnPaymentDTO).isNotPresent();
-        assertThat(payment).isPresent();
-        assertThat(payment.get().getPaymentId()).isNullOrEmpty();
-        assertThat(payment.get().getPlanType()).isEqualTo(PlanType.FREE);
+        assertThat(payment).isNotPresent();
     }
 
     @Test

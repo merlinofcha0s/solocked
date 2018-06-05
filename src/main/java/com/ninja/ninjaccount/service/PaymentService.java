@@ -38,10 +38,14 @@ public class PaymentService {
 
     private final PaypalService paypalService;
 
-    public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper, PaypalService paypalService) {
+    private final UserService userService;
+
+    public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper,
+                          PaypalService paypalService, UserService userService) {
         this.paymentRepository = paymentRepository;
         this.paymentMapper = paymentMapper;
         this.paypalService = paypalService;
+        this.userService = userService;
     }
 
     /**
@@ -155,6 +159,8 @@ public class PaymentService {
         }
 
         if (returnPaymentDTO.getStatus().equals("failure")) {
+            // Rollback
+            userService.destroyUserAccount(login);
             return Optional.empty();
         }
 
@@ -178,10 +184,12 @@ public class PaymentService {
                 payment.setValidUntil(LocalDate.now().plus(planType.getUnitAmountValidity(), planType.getUnit()));
                 paymentRepository.save(payment);
             } else {
-                return Optional.empty();
+                log.error("BIG PROBLEM !!! No payment found for the payment ID {} ", completePaymentDTO.getPaymentId());
             }
 
-        } else {
+        } else if (returnPaymentDTOOpt.isPresent() && returnPaymentDTOOpt.get().getStatus().equals("failure")) {
+            Optional<Payment> paymentToComplete = paymentRepository.findOneByPaymentId(completePaymentDTO.getPaymentId());
+            userService.destroyUserAccount(paymentToComplete.get().getUser().getLogin());
             return Optional.empty();
         }
 
