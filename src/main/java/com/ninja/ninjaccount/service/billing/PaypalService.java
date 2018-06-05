@@ -84,6 +84,7 @@ public class PaypalService {
             }
         } catch (PayPalRESTException e) {
             log.error("Error when initiating paypal payment, login : {}", login, e);
+            returnPaymentDTO.setStatus("failure");
         }
         return returnPaymentDTO;
     }

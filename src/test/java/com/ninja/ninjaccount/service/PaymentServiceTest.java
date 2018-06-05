@@ -6,8 +6,10 @@ import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import com.ninja.ninjaccount.repository.PaymentRepository;
 import com.ninja.ninjaccount.service.billing.PaypalService;
+import com.ninja.ninjaccount.service.billing.dto.CompletePaymentDTO;
 import com.ninja.ninjaccount.service.billing.dto.ReturnPaymentDTO;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
+import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import org.junit.Test;
@@ -151,6 +153,79 @@ public class PaymentServiceTest {
         assertThat(returnPaymentDTO).isPresent();
         assertThat(payment).isPresent();
         assertThat(payment.get().getPaymentId()).isEqualTo(returnPaymentDTOMock.getPaymentId());
+    }
+
+    @Test
+    public void testInitPaymentWorkflowYearShouldFail() {
+        User user = new User();
+        user.setEmail("lol@lol.com");
+        user.setLogin("lol");
+        user.setActivated(true);
+        user.setPassword("loooool");
+        user = userService.createUser(new UserDTO(user));
+
+        ReturnPaymentDTO returnPaymentDTOMock = new ReturnPaymentDTO();
+        returnPaymentDTOMock.setStatus("failure");
+
+        Mockito.when(paypalService.createPayment(any(PlanType.class), eq(user.getLogin()))).thenReturn(returnPaymentDTOMock);
+
+        paymentService.createRegistrationPaymentForUser(user);
+
+        Optional<ReturnPaymentDTO> returnPaymentDTO = paymentService.initPaymentWorkflow(PlanType.PREMIUMYEAR, user.getLogin());
+
+        Optional<Payment> payment = paymentRepository.findOneByUserLogin(user.getLogin());
+
+        assertThat(returnPaymentDTO).isNotPresent();
+        assertThat(payment).isPresent();
+        assertThat(payment.get().getPaymentId()).isNullOrEmpty();
+        assertThat(payment.get().getPlanType()).isEqualTo(PlanType.FREE);
+    }
+
+    @Test
+    public void testCompletePaymentShouldWork() {
+        String paymentId = "PAY-ID";
+
+        User user = new User();
+        user.setEmail("lol@lol.com");
+        user.setLogin("lol");
+        user.setActivated(true);
+        user.setPassword("loooool");
+        user = userService.createUser(new UserDTO(user));
+
+        PaymentDTO paymentDTO = new PaymentDTO();
+        paymentDTO.setPaid(false);
+        paymentDTO.setPlanType(PlanType.FREE);
+        paymentDTO.setSubscriptionDate(LocalDate.now());
+        paymentDTO.setPrice(PlanType.FREE.getPrice());
+        paymentDTO.setUserId(user.getId());
+        paymentDTO.setUserLogin(user.getLogin());
+        paymentDTO.setPaymentId(paymentId);
+
+        paymentService.save(paymentDTO);
+
+        //Create the mock object for the paypal call
+        ReturnPaymentDTO returnPaymentDTOMock = new ReturnPaymentDTO();
+        returnPaymentDTOMock.setStatus("success");
+        returnPaymentDTOMock.setPaymentId(paymentId);
+        returnPaymentDTOMock.setPlanType(PlanType.PREMIUMYEAR);
+
+        //Mock the call
+        Mockito.when(paypalService.completePaymentWorkflow(any(CompletePaymentDTO.class))).thenReturn(Optional.of(returnPaymentDTOMock));
+
+        CompletePaymentDTO completePaymentDTO = new CompletePaymentDTO();
+        completePaymentDTO.setPayerId("PAY-BLABLA");
+        completePaymentDTO.setPaymentId(paymentId);
+
+        Optional<ReturnPaymentDTO> returnPaymentDTO = paymentService.completePaymentWorkflow(completePaymentDTO);
+
+        Optional<Payment> payment = paymentRepository.findOneByUserLogin(user.getLogin());
+
+        assertThat(returnPaymentDTO).isPresent();
+        assertThat(payment).isPresent();
+        assertThat(payment.get().getPlanType()).isEqualTo(PlanType.PREMIUMYEAR);
+        assertThat(payment.get().getPrice()).isEqualTo(PlanType.PREMIUMYEAR.getPrice());
+        assertThat(payment.get().getValidUntil()).isEqualTo(LocalDate.now()
+            .plus(PlanType.PREMIUMYEAR.getUnitAmountValidity(), PlanType.PREMIUMYEAR.getUnit()));
     }
 
 
