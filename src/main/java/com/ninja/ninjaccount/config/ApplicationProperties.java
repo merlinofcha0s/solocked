@@ -1,6 +1,5 @@
 package com.ninja.ninjaccount.config;
 
-import io.github.jhipster.config.JHipsterProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -13,6 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ApplicationProperties {
 
     private final ApplicationProperties.Paypal paypal = new ApplicationProperties.Paypal();
+    private final ApplicationProperties.Base base = new ApplicationProperties.Base();
 
     public ApplicationProperties() {
     }
@@ -50,7 +50,26 @@ public class ApplicationProperties {
         }
     }
 
+    public static class Base {
+        private String url;
+
+        public Base() {
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+    }
+
     public Paypal getPaypal() {
         return paypal;
+    }
+
+    public Base getBase() {
+        return base;
     }
 }

@@ -46,7 +46,6 @@ export class FooterComponent implements OnInit, OnDestroy {
 
     isInPaymentWarning(payment: Payment): boolean {
         return this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])
-            && payment.planType.toString() !== PlanType.BETA
             && (!payment.paid || payment.planType.toString() === PlanType.FREE);
     }
 }

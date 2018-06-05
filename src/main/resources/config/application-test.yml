@@ -12,13 +12,11 @@
 # Full reference is available at:
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
-
-eureka:
-    instance:
-        prefer-ip-address: true
-    client:
-        service-url:
-            defaultZone: https://admin:G5E6C4FzTMxpSpMp@jhipsterregistry-test.solocked.com:8761/eureka
+logging:
+    level:
+        ROOT: INFO
+        com.ninja.ninjaccount: INFO
+        io.github.jhipster: INFO
 
 spring:
     devtools:
@@ -28,9 +26,9 @@ spring:
             enabled: false
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://${POSTGRESQL_ADDON_HOST}:${POSTGRESQL_ADDON_PORT}/${POSTGRESQL_ADDON_DB}
-        username: ${POSTGRESQL_ADDON_USER}
-        password: ${POSTGRESQL_ADDON_PASSWORD}
+        url: jdbc:postgresql://localhost:5432/ninjaccount
+        username: ninjaccount
+        password:
     jpa:
         database-platform: io.github.jhipster.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL
@@ -148,3 +146,9 @@ jhipster:
 # https://jhipster.github.io/common-application-properties/
 # ===================================================================
 application:
+    paypal:
+        client-id: AfdfOU54rzJzWHXc9OVkkmimug8WYbPfL2SFNzsk6VxQQCbZZ5F10RoEXgO38mEJuf4zoZFifMepbAKi
+        client-secret: EEtVyWCnKNziihhyuueonwWQ77_yNjMXz9xrUvic7Cu7YTaIrc6BtpLHqHCdMsfAa4Q3iOlqOJg8yNye
+        mode: sandbox
+    base:
+        url: https://test.solocked.com

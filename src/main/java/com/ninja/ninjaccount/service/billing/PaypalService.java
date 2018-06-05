@@ -24,6 +24,8 @@ public class PaypalService {
     private String clientSecret;
     @Value("${application.paypal.mode}")
     private String mode;
+    @Value("${application.base.url}")
+    private String url;
 
     private final Logger log = LoggerFactory.getLogger(PaypalService.class);
 
@@ -61,8 +63,8 @@ public class PaypalService {
         payment.setTransactions(transactions);
 
         RedirectUrls redirectUrls = new RedirectUrls();
-        redirectUrls.setCancelUrl("http://localhost:9000/#/cancel");
-        redirectUrls.setReturnUrl("http://localhost:9000/#/register");
+        redirectUrls.setCancelUrl(url + "/#/cancel");
+        redirectUrls.setReturnUrl(url + "/#/register");
         payment.setRedirectUrls(redirectUrls);
         Payment createdPayment;
         try {
