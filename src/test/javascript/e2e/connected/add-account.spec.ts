@@ -1,5 +1,6 @@
 import {browser, element, by, ExpectedConditions} from 'protractor';
 import {CommonAction} from "../account/common-action";
+import {WebElement} from "selenium-webdriver";
 
 describe('Adding account', function () {
 
@@ -28,6 +29,8 @@ describe('Adding account', function () {
         element(by.css("*[id='username']")).sendKeys(username);
         element(by.css("*[id='password']")).sendKeys('looolmdr');
         element(by.css("*[id='password']")).click();
+
+        browser.executeScript('window.scrollTo(0,1000);');
         element(by.css("*[id='addEditAccount']")).click();
 
         browser.wait(ExpectedConditions.presenceOf(element(by.id('searchField'))));
