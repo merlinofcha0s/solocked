@@ -18,6 +18,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     Integer deletePaymentByUserLogin(String login);
 
-    Optional<Payment> findOneByPaymentId(String paymentId);
+    Optional<Payment> findOneByLastPaymentId(String lastPaymentId);
 
 }

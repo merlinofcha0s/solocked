@@ -10,6 +10,8 @@ public class ReturnPaymentDTO {
 
     private String paymentId;
 
+    private String payerId;
+
     private PlanType planType;
 
     public String getStatus() {
@@ -42,6 +44,14 @@ public class ReturnPaymentDTO {
 
     public void setPlanType(PlanType planType) {
         this.planType = planType;
+    }
+
+    public String getPayerId() {
+        return payerId;
+    }
+
+    public void setPayerId(String payerId) {
+        this.payerId = payerId;
     }
 
     @Override

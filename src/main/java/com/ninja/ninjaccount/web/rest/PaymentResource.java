@@ -157,7 +157,7 @@ public class PaymentResource {
 
     @PostMapping("/complete-payment")
     @Timed
-    public ResponseEntity<ReturnPaymentDTO> initPaymentWorkflow(@Valid @RequestBody CompletePaymentDTO completePaymentDTO) {
+    public ResponseEntity<ReturnPaymentDTO> completePaymentWorkflow(@Valid @RequestBody CompletePaymentDTO completePaymentDTO) {
 
         Optional<ReturnPaymentDTO> results = paymentService.completePaymentWorkflow(completePaymentDTO);
 

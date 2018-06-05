@@ -59,11 +59,14 @@ public class PaymentResourceIntTest {
     private static final Boolean DEFAULT_PAID = false;
     private static final Boolean UPDATED_PAID = true;
 
-    private static final String DEFAULT_PAYMENT_ID = "AAAAAAAAAA";
-    private static final String UPDATED_PAYMENT_ID = "BBBBBBBBBB";
-
     private static final LocalDate DEFAULT_VALID_UNTIL = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_VALID_UNTIL = LocalDate.now(ZoneId.systemDefault());
+
+    private static final String DEFAULT_LAST_PAYMENT_ID = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_PAYMENT_ID = "BBBBBBBBBB";
+
+    private static final String DEFAULT_LAST_PAYER_ID = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_PAYER_ID = "BBBBBBBBBB";
 
     @Autowired
     private PaymentRepository paymentRepository;
@@ -116,8 +119,9 @@ public class PaymentResourceIntTest {
             .price(DEFAULT_PRICE)
             .planType(DEFAULT_PLAN_TYPE)
             .paid(DEFAULT_PAID)
-            .paymentId(DEFAULT_PAYMENT_ID)
-            .validUntil(DEFAULT_VALID_UNTIL);
+            .validUntil(DEFAULT_VALID_UNTIL)
+            .lastPaymentId(DEFAULT_LAST_PAYMENT_ID)
+            .lastPayerId(DEFAULT_LAST_PAYER_ID);
         return payment;
     }
 
@@ -146,8 +150,9 @@ public class PaymentResourceIntTest {
         assertThat(testPayment.getPrice()).isEqualTo(DEFAULT_PRICE);
         assertThat(testPayment.getPlanType()).isEqualTo(DEFAULT_PLAN_TYPE);
         assertThat(testPayment.isPaid()).isEqualTo(DEFAULT_PAID);
-        assertThat(testPayment.getPaymentId()).isEqualTo(DEFAULT_PAYMENT_ID);
         assertThat(testPayment.getValidUntil()).isEqualTo(DEFAULT_VALID_UNTIL);
+        assertThat(testPayment.getLastPaymentId()).isEqualTo(DEFAULT_LAST_PAYMENT_ID);
+        assertThat(testPayment.getLastPayerId()).isEqualTo(DEFAULT_LAST_PAYER_ID);
     }
 
     @Test
@@ -261,8 +266,9 @@ public class PaymentResourceIntTest {
             .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE)))
             .andExpect(jsonPath("$.[*].planType").value(hasItem(DEFAULT_PLAN_TYPE.toString())))
             .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.booleanValue())))
-            .andExpect(jsonPath("$.[*].paymentId").value(hasItem(DEFAULT_PAYMENT_ID.toString())))
-            .andExpect(jsonPath("$.[*].validUntil").value(hasItem(DEFAULT_VALID_UNTIL.toString())));
+            .andExpect(jsonPath("$.[*].validUntil").value(hasItem(DEFAULT_VALID_UNTIL.toString())))
+            .andExpect(jsonPath("$.[*].lastPaymentId").value(hasItem(DEFAULT_LAST_PAYMENT_ID.toString())))
+            .andExpect(jsonPath("$.[*].lastPayerId").value(hasItem(DEFAULT_LAST_PAYER_ID.toString())));
     }
 
     @Test
@@ -280,8 +286,9 @@ public class PaymentResourceIntTest {
             .andExpect(jsonPath("$.price").value(DEFAULT_PRICE))
             .andExpect(jsonPath("$.planType").value(DEFAULT_PLAN_TYPE.toString()))
             .andExpect(jsonPath("$.paid").value(DEFAULT_PAID.booleanValue()))
-            .andExpect(jsonPath("$.paymentId").value(DEFAULT_PAYMENT_ID.toString()))
-            .andExpect(jsonPath("$.validUntil").value(DEFAULT_VALID_UNTIL.toString()));
+            .andExpect(jsonPath("$.validUntil").value(DEFAULT_VALID_UNTIL.toString()))
+            .andExpect(jsonPath("$.lastPaymentId").value(DEFAULT_LAST_PAYMENT_ID.toString()))
+            .andExpect(jsonPath("$.lastPayerId").value(DEFAULT_LAST_PAYER_ID.toString()));
     }
 
     @Test
@@ -308,8 +315,9 @@ public class PaymentResourceIntTest {
             .price(UPDATED_PRICE)
             .planType(UPDATED_PLAN_TYPE)
             .paid(UPDATED_PAID)
-            .paymentId(UPDATED_PAYMENT_ID)
-            .validUntil(UPDATED_VALID_UNTIL);
+            .validUntil(UPDATED_VALID_UNTIL)
+            .lastPaymentId(UPDATED_LAST_PAYMENT_ID)
+            .lastPayerId(UPDATED_LAST_PAYER_ID);
         PaymentDTO paymentDTO = paymentMapper.toDto(updatedPayment);
 
         restPaymentMockMvc.perform(put("/api/payments")
@@ -325,8 +333,9 @@ public class PaymentResourceIntTest {
         assertThat(testPayment.getPrice()).isEqualTo(UPDATED_PRICE);
         assertThat(testPayment.getPlanType()).isEqualTo(UPDATED_PLAN_TYPE);
         assertThat(testPayment.isPaid()).isEqualTo(UPDATED_PAID);
-        assertThat(testPayment.getPaymentId()).isEqualTo(UPDATED_PAYMENT_ID);
         assertThat(testPayment.getValidUntil()).isEqualTo(UPDATED_VALID_UNTIL);
+        assertThat(testPayment.getLastPaymentId()).isEqualTo(UPDATED_LAST_PAYMENT_ID);
+        assertThat(testPayment.getLastPayerId()).isEqualTo(UPDATED_LAST_PAYER_ID);
     }
 
     @Test

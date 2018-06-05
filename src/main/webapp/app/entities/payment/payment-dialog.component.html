@@ -69,12 +69,6 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.paymentId" for="field_paymentId">Payment
-                Id</label>
-            <input type="text" class="form-control" name="paymentId" id="field_paymentId"
-                   [(ngModel)]="payment.paymentId"/>
-        </div>
-        <div class="form-group">
             <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.validUntil" for="field_validUntil">Valid
                 Until</label>
             <div class="input-group">
@@ -86,6 +80,18 @@
                         class="fa fa-calendar"></i></button>
                 </span>
             </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.lastPaymentId"
+                   for="field_lastPaymentId">Last Payment Id</label>
+            <input type="text" class="form-control" name="lastPaymentId" id="field_lastPaymentId"
+                   [(ngModel)]="payment.lastPaymentId"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.lastPayerId" for="field_lastPayerId">Last
+                Payer Id</label>
+            <input type="text" class="form-control" name="lastPayerId" id="field_lastPayerId"
+                   [(ngModel)]="payment.lastPayerId"/>
         </div>
 
         <div class="form-group">

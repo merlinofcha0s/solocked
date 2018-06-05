@@ -5,6 +5,7 @@ import com.ninja.ninjaccount.domain.Payment;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import com.ninja.ninjaccount.repository.PaymentRepository;
+import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.service.billing.PaypalService;
 import com.ninja.ninjaccount.service.billing.dto.CompletePaymentDTO;
 import com.ninja.ninjaccount.service.billing.dto.ReturnPaymentDTO;
@@ -44,6 +45,9 @@ public class PaymentServiceTest {
 
     @MockBean
     private PaypalService paypalService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     public void testCreatePaymentWhenRegister() {
@@ -137,6 +141,9 @@ public class PaymentServiceTest {
         user.setPassword("loooool");
         user = userService.createUser(new UserDTO(user));
 
+        user.setActivated(false);
+        userRepository.save(user);
+
         ReturnPaymentDTO returnPaymentDTOMock = new ReturnPaymentDTO();
         returnPaymentDTOMock.setStatus("success");
         returnPaymentDTOMock.setReturnUrl("http://getrich.com");
@@ -152,7 +159,7 @@ public class PaymentServiceTest {
 
         assertThat(returnPaymentDTO).isPresent();
         assertThat(payment).isPresent();
-        assertThat(payment.get().getPaymentId()).isEqualTo(returnPaymentDTOMock.getPaymentId());
+        assertThat(payment.get().getLastPaymentId()).isEqualTo(returnPaymentDTOMock.getPaymentId());
     }
 
     @Test
@@ -160,9 +167,12 @@ public class PaymentServiceTest {
         User user = new User();
         user.setEmail("lol@lol.com");
         user.setLogin("lol");
-        user.setActivated(true);
+        user.setActivated(false);
         user.setPassword("loooool");
         user = userService.createUser(new UserDTO(user));
+
+        user.setActivated(false);
+        userRepository.save(user);
 
         ReturnPaymentDTO returnPaymentDTOMock = new ReturnPaymentDTO();
         returnPaymentDTOMock.setStatus("failure");
@@ -188,9 +198,12 @@ public class PaymentServiceTest {
         User user = new User();
         user.setEmail("lol@lol.com");
         user.setLogin("lol");
-        user.setActivated(true);
+        user.setActivated(false);
         user.setPassword("loooool");
         user = userService.createUser(new UserDTO(user));
+
+        user.setActivated(false);
+        user = userRepository.save(user);
 
         PaymentDTO paymentDTO = new PaymentDTO();
         paymentDTO.setPaid(false);
@@ -199,7 +212,7 @@ public class PaymentServiceTest {
         paymentDTO.setPrice(PlanType.FREE.getPrice());
         paymentDTO.setUserId(user.getId());
         paymentDTO.setUserLogin(user.getLogin());
-        paymentDTO.setPaymentId(paymentId);
+        paymentDTO.setLastPaymentId(paymentId);
 
         paymentService.save(paymentDTO);
 
@@ -235,9 +248,12 @@ public class PaymentServiceTest {
         User user = new User();
         user.setEmail("lol@lol.com");
         user.setLogin("lol");
-        user.setActivated(true);
+        user.setActivated(false);
         user.setPassword("loooool");
         user = userService.createUser(new UserDTO(user));
+
+        user.setActivated(false);
+        user = userRepository.save(user);
 
         PaymentDTO paymentDTO = new PaymentDTO();
         paymentDTO.setPaid(false);
@@ -246,7 +262,7 @@ public class PaymentServiceTest {
         paymentDTO.setPrice(PlanType.FREE.getPrice());
         paymentDTO.setUserId(user.getId());
         paymentDTO.setUserLogin(user.getLogin());
-        paymentDTO.setPaymentId(paymentId);
+        paymentDTO.setLastPaymentId(paymentId);
 
         paymentService.save(paymentDTO);
 

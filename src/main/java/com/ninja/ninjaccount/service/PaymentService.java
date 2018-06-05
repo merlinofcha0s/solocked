@@ -154,13 +154,14 @@ public class PaymentService {
         Optional<Payment> payment = paymentRepository.findOneByUserLogin(login);
 
         if (payment.isPresent() && returnPaymentDTO.getStatus().equals("success")) {
-            payment.get().setPaymentId(returnPaymentDTO.getPaymentId());
+            payment.get().setLastPaymentId(returnPaymentDTO.getPaymentId());
+            payment.get().setLastPaymentId(returnPaymentDTO.getPaymentId());
             paymentRepository.save(payment.get());
         }
 
         if (returnPaymentDTO.getStatus().equals("failure")) {
             // Rollback
-            userService.destroyUserAccount(login);
+            userService.destroyUserByLoginNotActivated(login);
             return Optional.empty();
         }
 
@@ -172,7 +173,7 @@ public class PaymentService {
 
         if (returnPaymentDTOOpt.isPresent() && returnPaymentDTOOpt.get().getStatus().equals("success")) {
             ReturnPaymentDTO returnPaymentDTO = returnPaymentDTOOpt.get();
-            Optional<Payment> paymentToComplete = paymentRepository.findOneByPaymentId(returnPaymentDTO.getPaymentId());
+            Optional<Payment> paymentToComplete = paymentRepository.findOneByLastPaymentId(returnPaymentDTO.getPaymentId());
 
             if (paymentToComplete.isPresent()) {
                 PlanType planType = returnPaymentDTO.getPlanType();
@@ -188,10 +189,10 @@ public class PaymentService {
             }
 
         } else if (returnPaymentDTOOpt.isPresent() && returnPaymentDTOOpt.get().getStatus().equals("failure")) {
-            Optional<Payment> paymentToComplete = paymentRepository.findOneByPaymentId(completePaymentDTO.getPaymentId());
+            Optional<Payment> paymentToComplete = paymentRepository.findOneByLastPaymentId(completePaymentDTO.getPaymentId());
             paymentToComplete.map(payment -> payment.getUser().getId())
                 .flatMap(userService::getUserWithAuthorities)
-                .ifPresent(user -> userService.destroyUserAccount(user.getLogin()));
+                .ifPresent(user -> userService.destroyUserByLoginNotActivated(user.getLogin()));
             return Optional.empty();
         }
 

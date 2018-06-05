@@ -47,10 +47,12 @@ describe('Payment e2e test', () => {
                 expect(paymentDialogPage.getPaidInput().isSelected()).toBeTruthy();
             }
         });
-        paymentDialogPage.setPaymentIdInput('paymentId');
-        expect(paymentDialogPage.getPaymentIdInput()).toMatch('paymentId');
         paymentDialogPage.setValidUntilInput('2000-12-31');
         expect(paymentDialogPage.getValidUntilInput()).toMatch('2000-12-31');
+        paymentDialogPage.setLastPaymentIdInput('lastPaymentId');
+        expect(paymentDialogPage.getLastPaymentIdInput()).toMatch('lastPaymentId');
+        paymentDialogPage.setLastPayerIdInput('lastPayerId');
+        expect(paymentDialogPage.getLastPayerIdInput()).toMatch('lastPayerId');
         paymentDialogPage.userSelectLastOption();
         paymentDialogPage.save();
         expect(paymentDialogPage.getSaveButton().isPresent()).toBeFalsy();
@@ -82,8 +84,9 @@ export class PaymentDialogPage {
     priceInput = element(by.css('input#field_price'));
     planTypeSelect = element(by.css('select#field_planType'));
     paidInput = element(by.css('input#field_paid'));
-    paymentIdInput = element(by.css('input#field_paymentId'));
     validUntilInput = element(by.css('input#field_validUntil'));
+    lastPaymentIdInput = element(by.css('input#field_lastPaymentId'));
+    lastPayerIdInput = element(by.css('input#field_lastPayerId'));
     userSelect = element(by.css('select#field_user'));
 
     getModalTitle() {
@@ -120,20 +123,28 @@ export class PaymentDialogPage {
     getPaidInput = function() {
         return this.paidInput;
     };
-    setPaymentIdInput = function (paymentId) {
-        this.paymentIdInput.sendKeys(paymentId);
-    };
-
-    getPaymentIdInput = function () {
-        return this.paymentIdInput.getAttribute('value');
-    };
-
     setValidUntilInput = function (validUntil) {
         this.validUntilInput.sendKeys(validUntil);
     };
 
     getValidUntilInput = function () {
         return this.validUntilInput.getAttribute('value');
+    };
+
+    setLastPaymentIdInput = function (lastPaymentId) {
+        this.lastPaymentIdInput.sendKeys(lastPaymentId);
+    };
+
+    getLastPaymentIdInput = function () {
+        return this.lastPaymentIdInput.getAttribute('value');
+    };
+
+    setLastPayerIdInput = function (lastPayerId) {
+        this.lastPayerIdInput.sendKeys(lastPayerId);
+    };
+
+    getLastPayerIdInput = function () {
+        return this.lastPayerIdInput.getAttribute('value');
     };
 
     userSelectLastOption = function() {

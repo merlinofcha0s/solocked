@@ -204,7 +204,7 @@ public class UserServiceIntTest {
 
         assertThat(userRepository.findOneByLogin("johndoe")).isPresent();
 
-        boolean succeed = userService.destroyUserAccount(SecurityUtils.getCurrentUserLogin().get());
+        boolean succeed = userService.destroyUserAccountByLogin(SecurityUtils.getCurrentUserLogin().get());
 
         assertThat(succeed).isTrue();
         assertThat(userRepository.findOneByLogin("johndoe")).isNotPresent();
@@ -218,7 +218,7 @@ public class UserServiceIntTest {
         securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("johndoe", "johndoe", authorities));
         SecurityContextHolder.setContext(securityContext);
 
-        boolean succeed = userService.destroyUserAccount(SecurityUtils.getCurrentUserLogin().get());
+        boolean succeed = userService.destroyUserAccountByLogin(SecurityUtils.getCurrentUserLogin().get());
 
         assertThat(succeed).isFalse();
     }

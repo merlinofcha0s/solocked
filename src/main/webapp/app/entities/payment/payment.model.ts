@@ -3,8 +3,7 @@ import {BaseEntity} from './../../shared';
 export enum PlanType {
     FREE = 'FREE',
     PREMIUMMONTH = 'PREMIUMMONTH',
-    PREMIUMYEAR = 'PREMIUMYEAR',
-    BETA = 'BETA'
+    PREMIUMYEAR = 'PREMIUMYEAR'
 }
 
 export const enum MaxAccountPlanType {
@@ -19,8 +18,9 @@ export class Payment implements BaseEntity {
         public price?: number,
         public planType?: PlanType,
         public paid?: boolean,
-        public paymentId?: string,
         public validUntil?: any,
+        public lastPaymentId?: string,
+        public lastPayerId?: string,
         public userLogin?: string,
         public userId?: number,
     ) {

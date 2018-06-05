@@ -42,11 +42,14 @@ public class Payment implements Serializable {
     @Column(name = "paid", nullable = false)
     private Boolean paid;
 
-    @Column(name = "payment_id")
-    private String paymentId;
-
     @Column(name = "valid_until")
     private LocalDate validUntil;
+
+    @Column(name = "last_payment_id")
+    private String lastPaymentId;
+
+    @Column(name = "last_payer_id")
+    private String lastPayerId;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -113,19 +116,6 @@ public class Payment implements Serializable {
         this.paid = paid;
     }
 
-    public String getPaymentId() {
-        return paymentId;
-    }
-
-    public Payment paymentId(String paymentId) {
-        this.paymentId = paymentId;
-        return this;
-    }
-
-    public void setPaymentId(String paymentId) {
-        this.paymentId = paymentId;
-    }
-
     public LocalDate getValidUntil() {
         return validUntil;
     }
@@ -137,6 +127,32 @@ public class Payment implements Serializable {
 
     public void setValidUntil(LocalDate validUntil) {
         this.validUntil = validUntil;
+    }
+
+    public String getLastPaymentId() {
+        return lastPaymentId;
+    }
+
+    public Payment lastPaymentId(String lastPaymentId) {
+        this.lastPaymentId = lastPaymentId;
+        return this;
+    }
+
+    public void setLastPaymentId(String lastPaymentId) {
+        this.lastPaymentId = lastPaymentId;
+    }
+
+    public String getLastPayerId() {
+        return lastPayerId;
+    }
+
+    public Payment lastPayerId(String lastPayerId) {
+        this.lastPayerId = lastPayerId;
+        return this;
+    }
+
+    public void setLastPayerId(String lastPayerId) {
+        this.lastPayerId = lastPayerId;
     }
 
     public User getUser() {
@@ -181,8 +197,9 @@ public class Payment implements Serializable {
             ", price=" + getPrice() +
             ", planType='" + getPlanType() + "'" +
             ", paid='" + isPaid() + "'" +
-            ", paymentId='" + getPaymentId() + "'" +
             ", validUntil='" + getValidUntil() + "'" +
+            ", lastPaymentId='" + getLastPaymentId() + "'" +
+            ", lastPayerId='" + getLastPayerId() + "'" +
             "}";
     }
 }

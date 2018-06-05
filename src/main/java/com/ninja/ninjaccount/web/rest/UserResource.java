@@ -203,7 +203,7 @@ public class UserResource {
     public ResponseEntity<Boolean> destroyUserAccount() {
         Optional<String> login = SecurityUtils.getCurrentUserLogin();
         if (login.isPresent()) {
-            boolean succeed = userService.destroyUserAccount(login.get());
+            boolean succeed = userService.destroyUserAccountByLogin(login.get());
             return ResponseUtil.wrapOrNotFound(Optional.of(succeed));
         } else {
             return ResponseUtil.wrapOrNotFound(Optional.of(false));

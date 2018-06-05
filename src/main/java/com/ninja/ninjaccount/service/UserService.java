@@ -168,10 +168,10 @@ public class UserService {
      * Update basic information (first name, last name, email, language) for the current user.
      *
      * @param firstName first name of user
-     * @param lastName last name of user
-     * @param email email id of user
-     * @param langKey language key
-     * @param imageUrl image URL of user
+     * @param lastName  last name of user
+     * @param email     email id of user
+     * @param langKey   language key
+     * @param imageUrl  image URL of user
      */
     public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
         SecurityUtils.getCurrentUserLogin()
@@ -270,7 +270,7 @@ public class UserService {
         List<User> users = userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(Instant.now().minus(3, ChronoUnit.DAYS));
         for (User user : users) {
             log.debug("Deleting not activated user {}", user.getLogin());
-            destroyUserAccount(user.getLogin());
+            destroyUserAccountByLogin(user.getLogin());
             cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLogin());
             cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).evict(user.getEmail());
         }
@@ -283,18 +283,22 @@ public class UserService {
         return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
     }
 
-    public boolean destroyUserAccount(String login) {
+    public boolean destroyUserAccountByLogin(String login) {
         Optional<User> user = userRepository.findOneByLogin(login);
-        if (user.isPresent()) {
-            accountsDBRepository.deleteAccountsDBByUserLogin(user.get().getLogin());
-            paymentRepository.deletePaymentByUserLogin(user.get().getLogin());
-            deleteUser(user.get().getLogin());
-            cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.get().getLogin());
-            cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).evict(user.get().getEmail());
-            return true;
-        } else {
-            return false;
-        }
+        return user.map(this::destroyUserAccount).isPresent();
     }
 
+    public boolean destroyUserAccount(User user) {
+        accountsDBRepository.deleteAccountsDBByUserLogin(user.getLogin());
+        paymentRepository.deletePaymentByUserLogin(user.getLogin());
+        deleteUser(user.getLogin());
+        cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLogin());
+        cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).evict(user.getEmail());
+        return true;
+    }
+
+    public boolean destroyUserByLoginNotActivated(String login) {
+        Optional<User> user = userRepository.findOneByLoginAndActivatedFalse(login);
+        return user.map(this::destroyUserAccount).isPresent();
+    }
 }

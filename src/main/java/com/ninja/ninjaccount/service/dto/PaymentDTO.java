@@ -27,9 +27,11 @@ public class PaymentDTO implements Serializable {
     @NotNull
     private Boolean paid;
 
-    private String paymentId;
-
     private LocalDate validUntil;
+
+    private String lastPaymentId;
+
+    private String lastPayerId;
 
     private Long userId;
 
@@ -75,20 +77,28 @@ public class PaymentDTO implements Serializable {
         this.paid = paid;
     }
 
-    public String getPaymentId() {
-        return paymentId;
-    }
-
-    public void setPaymentId(String paymentId) {
-        this.paymentId = paymentId;
-    }
-
     public LocalDate getValidUntil() {
         return validUntil;
     }
 
     public void setValidUntil(LocalDate validUntil) {
         this.validUntil = validUntil;
+    }
+
+    public String getLastPaymentId() {
+        return lastPaymentId;
+    }
+
+    public void setLastPaymentId(String lastPaymentId) {
+        this.lastPaymentId = lastPaymentId;
+    }
+
+    public String getLastPayerId() {
+        return lastPayerId;
+    }
+
+    public void setLastPayerId(String lastPayerId) {
+        this.lastPayerId = lastPayerId;
     }
 
     public Long getUserId() {
@@ -136,8 +146,9 @@ public class PaymentDTO implements Serializable {
             ", price=" + getPrice() +
             ", planType='" + getPlanType() + "'" +
             ", paid='" + isPaid() + "'" +
-            ", paymentId='" + getPaymentId() + "'" +
             ", validUntil='" + getValidUntil() + "'" +
+            ", lastPaymentId='" + getLastPaymentId() + "'" +
+            ", lastPayerId='" + getLastPayerId() + "'" +
             "}";
     }
 }

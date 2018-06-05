@@ -99,13 +99,15 @@ public class PaypalService {
         try {
             APIContext context = new APIContext(clientId, clientSecret, "sandbox");
             Payment createdPayment = payment.execute(context, paymentExecution);
-            if (createdPayment != null) {
+            if (createdPayment != null && createdPayment.getState().equals("approved")) {
                 returnPaymentDTO.setStatus("success");
                 returnPaymentDTO.setPaymentId(createdPayment.getId());
                 Optional<Transaction> transactionForExtractPlanType = createdPayment.getTransactions().stream().findFirst();
                 Optional<List<Item>> itemsFromTransaction = transactionForExtractPlanType.map(transaction -> transaction.getItemList().getItems());
                 Optional<Item> item = itemsFromTransaction.flatMap(items -> items.stream().findFirst());
                 item.ifPresent(item1 -> returnPaymentDTO.setPlanType(PlanType.valueOf(item1.getName())));
+            } else {
+                returnPaymentDTO.setStatus("failure");
             }
         } catch (PayPalRESTException e) {
             log.error("Error when completing paypal payment, payerId : {} reason : {}", completePaymentDTO.getPayerId(), e.getDetails().getMessage(), e);
