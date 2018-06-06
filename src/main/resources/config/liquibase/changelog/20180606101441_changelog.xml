@@ -1,0 +1,28 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="raiden (generated)" id="1528280108899-1">
+        <addColumn tableName="payment">
+            <column name="last_payer_id" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="raiden (generated)" id="1528280108899-2">
+        <addColumn tableName="payment">
+            <column name="last_payment_id" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="raiden (generated)" id="1528280108899-3">
+        <addColumn tableName="payment">
+            <column name="valid_until" type="bytea"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="raiden (generated)" id="1528280108899-4">
+        <dropUniqueConstraint constraintName="jhi_social_user_connection_user_id_provider_id_provider_use_key"
+                              tableName="jhi_social_user_connection"/>
+    </changeSet>
+    <changeSet author="raiden (generated)" id="1528280108899-5">
+        <dropUniqueConstraint constraintName="jhi_social_user_connection_user_id_provider_id_rank_key"
+                              tableName="jhi_social_user_connection"/>
+    </changeSet>
+</databaseChangeLog>
