@@ -13,13 +13,6 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
-eureka:
-    client:
-        enabled: true
-    instance:
-        appname: ninjaccount
-        instanceId: ninjaccount:${spring.application.instance-id:${random.value}}
-
 spring:
     application:
         name: ninjaccount
@@ -117,3 +110,5 @@ application:
         client-id: itsanid
         client-secret: itsasecret
         mode: sandbox
+    base:
+        url: localhost

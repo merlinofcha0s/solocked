@@ -151,4 +151,4 @@ application:
         client-secret: EEtVyWCnKNziihhyuueonwWQ77_yNjMXz9xrUvic7Cu7YTaIrc6BtpLHqHCdMsfAa4Q3iOlqOJg8yNye
         mode: sandbox
     base:
-        url: https://test.solocked.com
+        url: test.solocked.com

@@ -169,4 +169,4 @@ application:
         client-secret: EEtVyWCnKNziihhyuueonwWQ77_yNjMXz9xrUvic7Cu7YTaIrc6BtpLHqHCdMsfAa4Q3iOlqOJg8yNye
         mode: sandbox
     base:
-        url: http://localhost:9000
+        url: localhost

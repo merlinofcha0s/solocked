@@ -26,6 +26,10 @@ public class PaypalService {
     private String mode;
     @Value("${application.base.url}")
     private String url;
+    @Value("${server.ssl.key-store:null}")
+    private String keystore;
+    @Value("${server.port}")
+    private String port;
 
     private final Logger log = LoggerFactory.getLogger(PaypalService.class);
 
@@ -63,8 +67,20 @@ public class PaypalService {
         payment.setTransactions(transactions);
 
         RedirectUrls redirectUrls = new RedirectUrls();
-        redirectUrls.setCancelUrl(url + "/#/cancel");
-        redirectUrls.setReturnUrl(url + "/#/register");
+        StringBuilder urlBuilder = new StringBuilder();
+
+        String protocol = "http";
+        if (keystore != null && !keystore.equals("null")) {
+            protocol = "https";
+        }
+
+        urlBuilder.append(protocol).append("://").append(url);
+        if (!port.equals("80") && !port.equals("443")) {
+            urlBuilder.append(":").append(port);
+        }
+
+        redirectUrls.setCancelUrl(urlBuilder.toString() + "/#/cancel");
+        redirectUrls.setReturnUrl(urlBuilder.toString() + "/#/register");
         payment.setRedirectUrls(redirectUrls);
         Payment createdPayment;
         try {
