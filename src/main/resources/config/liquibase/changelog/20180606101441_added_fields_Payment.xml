@@ -17,12 +17,4 @@
             <column name="valid_until" type="bytea"/>
         </addColumn>
     </changeSet>
-    <changeSet author="raiden (generated)" id="1528280108899-4">
-        <dropUniqueConstraint constraintName="jhi_social_user_connection_user_id_provider_id_provider_use_key"
-                              tableName="jhi_social_user_connection"/>
-    </changeSet>
-    <changeSet author="raiden (generated)" id="1528280108899-5">
-        <dropUniqueConstraint constraintName="jhi_social_user_connection_user_id_provider_id_rank_key"
-                              tableName="jhi_social_user_connection"/>
-    </changeSet>
 </databaseChangeLog>
