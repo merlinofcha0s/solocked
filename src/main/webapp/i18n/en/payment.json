@@ -23,7 +23,9 @@
             "validUntil": "Valid Until",
             "lastPaymentId": "Last Payment Id",
             "lastPayerId": "Last Payer Id",
-            "user": "User"
+            "user": "User",
+            "warning": "Your account is in free mode, if you want to upgrade",
+            "linkInvoice": "click here"
         }
     }
 }
