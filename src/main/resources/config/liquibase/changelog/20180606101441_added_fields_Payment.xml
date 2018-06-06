@@ -14,7 +14,7 @@
     </changeSet>
     <changeSet author="raiden (generated)" id="1528280108899-3">
         <addColumn tableName="payment">
-            <column name="valid_until" type="bytea"/>
+            <column name="valid_until" type="date"/>
         </addColumn>
     </changeSet>
 </databaseChangeLog>
