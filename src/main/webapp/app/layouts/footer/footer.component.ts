@@ -1,8 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Payment, PaymentService, PlanType} from '../../entities/payment';
+import {PaymentService} from '../../entities/payment';
 import {Principal} from '../../shared';
 import {Subscription} from 'rxjs/Subscription';
 import {NavigationEnd, Router} from '@angular/router';
+import {PaymentWarning} from "../../entities/payment/payment-warning.model";
 
 @Component({
     selector: 'jhi-footer',
@@ -11,16 +12,13 @@ import {NavigationEnd, Router} from '@angular/router';
 })
 export class FooterComponent implements OnInit, OnDestroy {
 
-    payment: Payment;
+    paymentWarning: PaymentWarning;
     paymentSub: Subscription;
     displayPaymentIssue: boolean;
-    isInFreemode: boolean;
-    isNotPaid: boolean;
-    warningMessage: string;
 
     constructor(private paymentService: PaymentService,
-                private principal: Principal,
-                private router: Router) {
+                private router: Router,
+                private principal: Principal) {
         this.displayPaymentIssue = false;
     }
 
@@ -41,34 +39,16 @@ export class FooterComponent implements OnInit, OnDestroy {
     }
 
     initPaymentService() {
-        this.paymentSub = this.paymentService.payment$.subscribe((payment) => {
-            this.payment = payment;
-            this.displayPaymentIssue = this.isInPaymentWarning(payment);
-        });
-    }
-
-    isInPaymentWarning(payment: Payment): boolean {
-        let isInPaymentWarning = false;
-        const isAuthenticatedAndNotAdmin = this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN']);
-        if (isAuthenticatedAndNotAdmin) {
-            if (payment.planType.toString() === PlanType.FREE) {
-                isInPaymentWarning = true;
-                this.isInFreemode = true;
-                this.isNotPaid = false;
-                this.warningMessage = 'ninjaccountApp.payment.warningfreemode';
-            } else if (!payment.paid || this.accountNotValidUntil()) {
-                isInPaymentWarning = true;
-                this.isNotPaid = true;
-                this.isInFreemode = false;
-                this.warningMessage = 'ninjaccountApp.payment.warningnotpaidmode';
+        this.paymentSub = this.paymentService.paymentWarning$.subscribe((paymentWarning) => {
+            this.paymentWarning = paymentWarning;
+            if (this.isAuthenticatedAndNotAdmin() && (this.paymentWarning.isInFreeMode || !this.paymentWarning.isValid || !this.paymentWarning.isPaid)) {
+                this.displayPaymentIssue = true;
             }
-        }
-
-        return isInPaymentWarning;
+        });
+        this.paymentService.isInPaymentWarning();
     }
 
-    accountNotValidUntil(): boolean {
-        const validUntil = new Date(this.payment.validUntil);
-        return validUntil < new Date();
+    isAuthenticatedAndNotAdmin(): boolean {
+        return this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])
     }
 }

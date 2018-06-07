@@ -56,6 +56,8 @@ import {SnackUtilService} from './snack/snack-util.service';
 import {SearchService} from './search/search.service';
 import {AutofocusDirective} from './validation/autofocus.directive';
 import {WaiterComponent} from './waiter/waiter.component';
+import {CheckBillingDirective} from './account/check-billing.directive';
+import {BillingRouteAccessService} from './auth/billing-route-access.service';
 
 @NgModule({
     imports: [
@@ -92,7 +94,8 @@ import {WaiterComponent} from './waiter/waiter.component';
         HasAnyAuthorityDirective,
         PasswordMatchValidatorDirective,
         DateValidatorDirective,
-        AutofocusDirective
+        AutofocusDirective,
+        CheckBillingDirective
     ],
     providers: [
         LoginService,
@@ -112,6 +115,7 @@ import {WaiterComponent} from './waiter/waiter.component';
         UserRouteAccessIsConnectedService,
         AutolockService,
         SnackUtilService,
+        BillingRouteAccessService,
         // {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
         // {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
         SearchService,
@@ -150,7 +154,8 @@ import {WaiterComponent} from './waiter/waiter.component';
         MatAutocompleteModule,
         MatRadioModule,
         AutofocusDirective,
-        WaiterComponent
+        WaiterComponent,
+        CheckBillingDirective
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

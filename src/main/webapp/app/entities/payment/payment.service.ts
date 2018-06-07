@@ -6,52 +6,60 @@ import {SERVER_API_URL} from '../../app.constants';
 import {JhiDateUtils} from 'ng-jhipster';
 
 import {Payment} from './payment.model';
-import {createRequestOption} from '../../shared';
+import {createRequestOption, Principal} from '../../shared';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {PaymentWarning} from "./payment-warning.model";
+import {PlanType} from "./index";
 
 export type EntityResponseType = HttpResponse<Payment>;
 
 @Injectable()
 export class PaymentService {
 
-    private resourceUrl =  SERVER_API_URL + 'api/payments';
+    private resourceUrl = SERVER_API_URL + 'api/payments';
 
     payment$: BehaviorSubject<Payment>;
+    paymentWarning$: BehaviorSubject<PaymentWarning>;
 
     private _dataStore: {
-        payment: Payment
+        payment: Payment,
+        paymentWarning: PaymentWarning;
     };
 
-    constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
-        this._dataStore = {payment: new Payment()};
+    constructor(private http: HttpClient, private dateUtils: JhiDateUtils, private principal: Principal) {
+        this._dataStore = {
+            payment: new Payment(), paymentWarning: new PaymentWarning(false, true,
+                true, '', false)
+        };
         this.payment$ = new BehaviorSubject<Payment>(this._dataStore.payment);
+        this.paymentWarning$ = new BehaviorSubject<PaymentWarning>(this._dataStore.paymentWarning);
     }
 
     create(payment: Payment): Observable<EntityResponseType> {
         const copy = this.convert(payment);
-        return this.http.post<Payment>(this.resourceUrl, copy, { observe: 'response' })
+        return this.http.post<Payment>(this.resourceUrl, copy, {observe: 'response'})
             .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
     update(payment: Payment): Observable<EntityResponseType> {
         const copy = this.convert(payment);
-        return this.http.put<Payment>(this.resourceUrl, copy, { observe: 'response' })
+        return this.http.put<Payment>(this.resourceUrl, copy, {observe: 'response'})
             .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
     find(id: number): Observable<EntityResponseType> {
-        return this.http.get<Payment>(`${this.resourceUrl}/${id}`, { observe: 'response'})
+        return this.http.get<Payment>(`${this.resourceUrl}/${id}`, {observe: 'response'})
             .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
     query(req?: any): Observable<HttpResponse<Payment[]>> {
         const options = createRequestOption(req);
-        return this.http.get<Payment[]>(this.resourceUrl, { params: options, observe: 'response' })
+        return this.http.get<Payment[]>(this.resourceUrl, {params: options, observe: 'response'})
             .map((res: HttpResponse<Payment[]>) => this.convertArrayResponse(res));
     }
 
     delete(id: number): Observable<HttpResponse<any>> {
-        return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response'});
+        return this.http.delete<any>(`${this.resourceUrl}/${id}`, {observe: 'response'});
     }
 
     private convertResponse(res: EntityResponseType): EntityResponseType {
@@ -93,11 +101,56 @@ export class PaymentService {
     }
 
     getPaymentByLogin() {
-        this.http.get(this.resourceUrl + '-by-login', {observe: 'response'})
-            .map((res: HttpResponse<Payment>) => res.body)
-            .subscribe((payment: Payment) => {
-                this._dataStore.payment = payment;
-                this.payment$.next(this._dataStore.payment);
+        if (this.isAuthenticatedAndNotAdmin()) {
+            this.http.get(this.resourceUrl + '-by-login', {observe: 'response'})
+                .map((res: HttpResponse<Payment>) => res.body)
+                .subscribe((payment: Payment) => {
+                    this._dataStore.payment = payment;
+                    this.payment$.next(this._dataStore.payment);
+                });
+        }
+    }
+
+    isInPaymentWarning() {
+        if (this.isAuthenticatedAndNotAdmin()) {
+            this.payment$.subscribe((payment) => {
+                if (payment.id != undefined) {
+                    let isInFreeMode = false;
+                    let isPaid = true;
+                    let isValid = true;
+                    let warningMessage = '';
+                    let hasToBeForbidden = false;
+                    const isAuthenticatedAndNotAdmin = this.isAuthenticatedAndNotAdmin();
+                    if (isAuthenticatedAndNotAdmin) {
+                        if (payment.planType.toString() === PlanType.FREE) {
+                            isInFreeMode = true;
+                            isPaid = true;
+                            isValid = true;
+                            warningMessage = 'ninjaccountApp.payment.warningfreemode';
+                        } else if (!payment.paid || this.accountNotValidUntil(payment)) {
+                            isPaid = false;
+                            isInFreeMode = false;
+                            isValid = false;
+                            hasToBeForbidden = true;
+                            warningMessage = 'ninjaccountApp.payment.warningnotpaidmode';
+                        }
+                    }
+                    const paymentWarning = new PaymentWarning(isInFreeMode, isPaid, isValid, warningMessage, hasToBeForbidden);
+                    this._dataStore.paymentWarning = paymentWarning;
+                    this.paymentWarning$.next(paymentWarning);
+                } else {
+                    this.getPaymentByLogin();
+                }
             });
+        }
+    }
+
+    accountNotValidUntil(payment: Payment): boolean {
+        const validUntil = new Date(payment.validUntil);
+        return validUntil < new Date();
+    }
+
+    isAuthenticatedAndNotAdmin(): boolean {
+        return this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN']);
     }
 }

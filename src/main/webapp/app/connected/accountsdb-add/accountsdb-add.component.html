@@ -129,12 +129,17 @@
                         </button>
                     </div>
                 </div>
-                <button type="submit" mat-raised-button type="submit" color="primary" class="default-validation-button" [disabled]="!accountForm.valid || loading" id="addEditAccount">
+                  <button type="submit" mat-raised-button jhiCheckBilling type="submit" color="primary"
+                          class="default-validation-button" [disabled]="!accountForm.valid || loading"
+                          id="addEditAccount">
                      <div *ngIf="updateMode;then updateBtn else createBtn"></div>
                      <ng-template #createBtn>{{'ninjaccountApp.accountsDB.add.button' | translate}}</ng-template>
                      <ng-template #updateBtn>{{'ninjaccountApp.accountsDB.update.button' | translate}}</ng-template>
                 </button>
-                  <button type="button" mat-raised-button color="warn" *ngIf="updateMode" class="delete-button" (click)="openConfirmationDeleteDialog()">{{ "ninjaccountApp.accountsDB.details.delete" | translate }}</button>
+                  <button type="button" mat-raised-button jhiCheckBilling color="warn" *ngIf="updateMode"
+                          class="delete-button" (click)="openConfirmationDeleteDialog()">{{
+                      "ninjaccountApp.accountsDB.details.delete" | translate }}
+                  </button>
                  <div class="d-flex align-items-center justify-content-center">
                     <a [routerLink]="['/accounts']" mat-button class="m-4 text-center cancel">{{'register.form.cancel' | translate}}</a>
                 </div>

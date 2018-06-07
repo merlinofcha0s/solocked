@@ -2,6 +2,7 @@ import {Route} from '@angular/router';
 
 import {UserRouteAccessService} from '../../shared';
 import {ImportComponent} from './import.component';
+import {BillingRouteAccessService} from "../../shared/auth/billing-route-access.service";
 
 export const importRoute: Route = {
     path: 'import',
@@ -10,5 +11,5 @@ export const importRoute: Route = {
         authorities: ['ROLE_USER'],
         pageTitle: 'global.menu.account.import'
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService, BillingRouteAccessService]
 };

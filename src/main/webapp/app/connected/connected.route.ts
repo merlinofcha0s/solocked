@@ -3,6 +3,7 @@ import {AccountsdbAddComponent} from './accountsdb-add/accountsdb-add.component'
 import {Routes} from '@angular/router';
 import {AccountsdbHomeComponent} from './accountsdb-home/accountsdb-home.component';
 import {BillingComponent} from './billing/billing.component';
+import {BillingRouteAccessService} from "../shared/auth/billing-route-access.service";
 
 export const AccountsHomeRouteName = 'accounts';
 
@@ -23,7 +24,7 @@ export const ACCOUNTSDB_ROUTES: Routes = [
             pageTitle: 'ninjaccountApp.accountsDB.add.header'
         },
         component: AccountsdbAddComponent,
-        canActivate: [UserRouteAccessService],
+        canActivate: [UserRouteAccessService, BillingRouteAccessService],
     },
     {
         path: 'accounts/edit/:id',

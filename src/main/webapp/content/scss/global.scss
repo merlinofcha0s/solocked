@@ -154,6 +154,7 @@ entity tables helpers
         }
     }
 }
+
 @include no-padding("left");
 @include no-padding("right");
 @include no-padding("top");
@@ -295,6 +296,10 @@ Social button
 
 .width-max {
     width: 100%;
+}
+
+.disable-button {
+    display: none !important;
 }
 
 /* ==========================================================================
