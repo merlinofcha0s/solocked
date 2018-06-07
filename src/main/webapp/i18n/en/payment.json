@@ -24,8 +24,9 @@
             "lastPaymentId": "Last Payment Id",
             "lastPayerId": "Last Payer Id",
             "user": "User",
-            "warning": "Your account is in free mode, if you want to upgrade",
-            "linkInvoice": "click here"
+            "warningfreemode": "Your account is in free mode, if you want to upgrade click",
+            "warningnotpaidmode": "Your subscription has ended. <br/> Your account is in read only mode, if you want to upgrade click",
+            "linkInvoice": "here"
         }
     }
 }

@@ -14,6 +14,9 @@ export class FooterComponent implements OnInit, OnDestroy {
     payment: Payment;
     paymentSub: Subscription;
     displayPaymentIssue: boolean;
+    isInFreemode: boolean;
+    isNotPaid: boolean;
+    warningMessage: string;
 
     constructor(private paymentService: PaymentService,
                 private principal: Principal,
@@ -45,7 +48,27 @@ export class FooterComponent implements OnInit, OnDestroy {
     }
 
     isInPaymentWarning(payment: Payment): boolean {
-        return this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])
-            && (!payment.paid || payment.planType.toString() === PlanType.FREE);
+        let isInPaymentWarning = false;
+        const isAuthenticatedAndNotAdmin = this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN']);
+        if (isAuthenticatedAndNotAdmin) {
+            if (payment.planType.toString() === PlanType.FREE) {
+                isInPaymentWarning = true;
+                this.isInFreemode = true;
+                this.isNotPaid = false;
+                this.warningMessage = 'ninjaccountApp.payment.warningfreemode';
+            } else if (!payment.paid || this.accountNotValidUntil()) {
+                isInPaymentWarning = true;
+                this.isNotPaid = true;
+                this.isInFreemode = false;
+                this.warningMessage = 'ninjaccountApp.payment.warningnotpaidmode';
+            }
+        }
+
+        return isInPaymentWarning;
+    }
+
+    accountNotValidUntil(): boolean {
+        const validUntil = new Date(this.payment.validUntil);
+        return validUntil < new Date();
     }
 }
