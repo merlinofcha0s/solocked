@@ -9,6 +9,7 @@ import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import com.ninja.ninjaccount.service.mapper.AccountsDBMapper;
 import com.ninja.ninjaccount.service.util.PaymentUtil;
+import com.ninja.ninjaccount.web.rest.errors.CantUpdateDBCausePaymentException;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -146,11 +147,12 @@ public class AccountsDBService {
      * @param accountsDBDTO The new accountDB
      * @return the account db updated or null
      */
-    public AccountsDBDTO updateAccountDBForUserConnected(AccountsDBDTO accountsDBDTO) throws MaxAccountsException {
+    public AccountsDBDTO updateAccountDBForUserConnected(AccountsDBDTO accountsDBDTO) throws MaxAccountsException, CantUpdateDBCausePaymentException {
         Optional<String> login = SecurityUtils.getCurrentUserLogin();
 
         if (login.isPresent()) {
             final String userLogin = login.get();
+
             AccountsDBDTO accountsDBDTOToUpdate = findByUsernameLogin(userLogin);
 
             accountsDBDTOToUpdate.setDatabase(accountsDBDTO.getDatabase());
@@ -162,6 +164,10 @@ public class AccountsDBService {
                 , accountsDBDTO.getOperationAccountType(), accountsDBDTOToUpdate.getNbAccounts());
 
             accountsDBDTOToUpdate.setNbAccounts(nbAccounts);
+
+            if (!paymentService.checkIfCanUpdateDB()) {
+                throw new CantUpdateDBCausePaymentException();
+            }
 
             return checkSumAndSave(accountsDBDTOToUpdate);
         } else {

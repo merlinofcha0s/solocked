@@ -8,8 +8,8 @@ import {JhiDateUtils} from 'ng-jhipster';
 import {Payment} from './payment.model';
 import {createRequestOption, Principal} from '../../shared';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {PaymentWarning} from "./payment-warning.model";
-import {PlanType} from "./index";
+import {PaymentWarning} from './payment-warning.model';
+import {PlanType} from './index';
 
 export type EntityResponseType = HttpResponse<Payment>;
 
@@ -114,7 +114,7 @@ export class PaymentService {
     isInPaymentWarning() {
         if (this.isAuthenticatedAndNotAdmin()) {
             this.payment$.subscribe((payment) => {
-                if (payment.id != undefined) {
+                if (payment.id !== undefined) {
                     let isInFreeMode = false;
                     let isPaid = true;
                     let isValid = true;
@@ -152,5 +152,14 @@ export class PaymentService {
 
     isAuthenticatedAndNotAdmin(): boolean {
         return this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN']);
+    }
+
+    clean(): void {
+        this._dataStore = {
+            payment: new Payment(), paymentWarning: new PaymentWarning(false, true,
+                true, '', false)
+        };
+        this.payment$.next(this._dataStore.payment);
+        this.paymentWarning$.next(this._dataStore.paymentWarning);
     }
 }

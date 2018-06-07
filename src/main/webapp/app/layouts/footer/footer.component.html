@@ -1,13 +1,11 @@
 <div [class.footer-with-payment]="displayPaymentIssue">
-    <div *ngIf="displayPaymentIssue">
-        <div class="d-flex justify-content-center align-items-center no-payment"
-             [class.not-paid]="!paymentWarning.isPaid || !paymentWarning.isValid"
-             [class.free-mode]="paymentWarning.isInFreeMode">
-            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-            <div class="warning">
-                <span jhiTranslate="{{ paymentWarning.warningMessage }}"></span>
-                <a [routerLink]="['/billing']" jhiTranslate="ninjaccountApp.payment.linkInvoice"></a>
-            </div>
+    <div *ngIf="displayPaymentIssue" class="d-flex justify-content-center align-items-center no-payment"
+         [class.not-paid]="!paymentWarning.isPaid || !paymentWarning.isValid"
+         [class.free-mode]="paymentWarning.isInFreeMode">
+        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+        <div class="warning">
+            <span jhiTranslate="{{ paymentWarning.warningMessage }}"></span>
+            <a [routerLink]="['/billing']" jhiTranslate="ninjaccountApp.payment.linkInvoice"></a>
         </div>
     </div>
 </div>

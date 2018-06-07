@@ -3,15 +3,20 @@ package com.ninja.ninjaccount.service;
 import com.ninja.ninjaccount.NinjaccountApp;
 import com.ninja.ninjaccount.domain.AccountsDB;
 import com.ninja.ninjaccount.domain.User;
+import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
 import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
+import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import com.ninja.ninjaccount.service.util.PaymentConstant;
+import com.ninja.ninjaccount.web.rest.data.PaymentData;
+import com.ninja.ninjaccount.web.rest.errors.CantUpdateDBCausePaymentException;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +33,10 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
@@ -54,6 +63,9 @@ public class AccountDBServiceTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PaymentData paymentData;
 
     private User userJohn;
 
@@ -212,5 +224,53 @@ public class AccountDBServiceTest {
 
         assertThat(newActualNumber).isEqualTo(20);
         assertThat(accountsDBDTOToVerify.getNbAccounts()).isEqualTo(20);
+    }
+
+    @Test(expected = CantUpdateDBCausePaymentException.class)
+    @WithMockUser("johndoe")
+    public void testUpdateAccountsByUserconnectedWithoutPaidAccount() throws MaxAccountsException {
+        String example = "This is an example";
+        byte[] bytes = example.getBytes();
+        String uuid = UUID.randomUUID().toString();
+
+        User user = userRepository.saveAndFlush(userJohn);
+        accountsDBService.createNewAccountDB(bytes, uuid, user);
+        paymentData.createRegistrationPaymentForUser(user, PlanType.PREMIUMYEAR, false, LocalDate.now().plus(100, ChronoUnit.DAYS));
+
+        String updatedExample = "This is an updated example";
+        byte[] updatedBytes = updatedExample.getBytes();
+        String updatedUuid = UUID.randomUUID().toString();
+
+        AccountsDBDTO newAccountsDBDTO = new AccountsDBDTO();
+        newAccountsDBDTO.setDatabase(updatedBytes);
+        newAccountsDBDTO.setInitializationVector(updatedUuid);
+        newAccountsDBDTO.setSum(accountsDBService.calculateSum(updatedBytes));
+        newAccountsDBDTO.setOperationAccountType(OperationAccountType.CREATE);
+
+        accountsDBService.updateAccountDBForUserConnected(newAccountsDBDTO);
+    }
+
+    @Test(expected = CantUpdateDBCausePaymentException.class)
+    @WithMockUser("johndoe")
+    public void testUpdateAccountsByUserconnectedWithDateNotValidUntil() throws MaxAccountsException {
+        String example = "This is an example";
+        byte[] bytes = example.getBytes();
+        String uuid = UUID.randomUUID().toString();
+
+        User user = userRepository.saveAndFlush(userJohn);
+        accountsDBService.createNewAccountDB(bytes, uuid, user);
+        paymentData.createRegistrationPaymentForUser(user, PlanType.PREMIUMYEAR, true, LocalDate.now().minus(100, ChronoUnit.DAYS));
+
+        String updatedExample = "This is an updated example";
+        byte[] updatedBytes = updatedExample.getBytes();
+        String updatedUuid = UUID.randomUUID().toString();
+
+        AccountsDBDTO newAccountsDBDTO = new AccountsDBDTO();
+        newAccountsDBDTO.setDatabase(updatedBytes);
+        newAccountsDBDTO.setInitializationVector(updatedUuid);
+        newAccountsDBDTO.setSum(accountsDBService.calculateSum(updatedBytes));
+        newAccountsDBDTO.setOperationAccountType(OperationAccountType.CREATE);
+
+        accountsDBService.updateAccountDBForUserConnected(newAccountsDBDTO);
     }
 }

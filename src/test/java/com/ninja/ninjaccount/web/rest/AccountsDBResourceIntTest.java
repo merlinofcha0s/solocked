@@ -2,12 +2,17 @@ package com.ninja.ninjaccount.web.rest;
 
 import com.ninja.ninjaccount.NinjaccountApp;
 import com.ninja.ninjaccount.domain.AccountsDB;
+import com.ninja.ninjaccount.domain.User;
+import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
+import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.service.mapper.AccountsDBMapper;
+import com.ninja.ninjaccount.web.rest.data.PaymentData;
+import com.ninja.ninjaccount.web.rest.data.UserData;
 import com.ninja.ninjaccount.web.rest.errors.ExceptionTranslator;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +28,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -30,9 +36,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import static com.ninja.ninjaccount.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -84,9 +93,19 @@ public class AccountsDBResourceIntTest {
     @Autowired
     private EntityManager em;
 
+    @Autowired
+    private PaymentData paymentData;
+
+    @Autowired
+    private UserData userData;
+
+    @Autowired
+    private UserRepository userRepository;
+
     private MockMvc restAccountsDBMockMvc;
 
     private AccountsDB accountsDB;
+
 
     @Before
     public void setup() {
@@ -362,5 +381,91 @@ public class AccountsDBResourceIntTest {
     public void testEntityFromId() {
         assertThat(accountsDBMapper.fromId(42L).getId()).isEqualTo(42);
         assertThat(accountsDBMapper.fromId(null)).isNull();
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser("johndoe")
+    public void updateAccountsDBWithoutValidPayment() throws Exception {
+        // Initialize the database
+        String example = "This is an example";
+        byte[] bytes = example.getBytes();
+        String uuid = UUID.randomUUID().toString();
+
+        User user = userData.createUserJohnDoe();
+        AccountsDBDTO newAccountDB = accountsDBService.createNewAccountDB(bytes, uuid, user);
+        paymentData.createRegistrationPaymentForUser(user, PlanType.PREMIUMYEAR, true, LocalDate.now().minus(100, ChronoUnit.DAYS));
+        int databaseSizeBeforeUpdate = accountsDBRepository.findAll().size();
+
+        // Update the accountsDB
+        AccountsDB updatedAccountsDB = accountsDBRepository.findOne(newAccountDB.getId());
+        // Disconnect from session so that the updates on updatedAccountsDB are not directly saved in db
+        em.detach(updatedAccountsDB);
+        updatedAccountsDB
+            .initializationVector(UPDATED_INITIALIZATION_VECTOR)
+            .database(UPDATED_DATABASE)
+            .databaseContentType(UPDATED_DATABASE_CONTENT_TYPE)
+            .nbAccounts(UPDATED_NB_ACCOUNTS)
+            .sum(accountsDBService.calculateSum(UPDATED_DATABASE));
+        AccountsDBDTO accountsDBDTO = accountsDBMapper.toDto(updatedAccountsDB);
+        accountsDBDTO.setOperationAccountType(OperationAccountType.CREATE);
+
+        restAccountsDBMockMvc.perform(put("/api/accounts-dbs/updateDbUserConnected")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(accountsDBDTO)))
+            .andExpect(status().isExpectationFailed());
+
+        // Validate the AccountsDB in the database
+        List<AccountsDB> accountsDBList = accountsDBRepository.findAll();
+        assertThat(accountsDBList).hasSize(databaseSizeBeforeUpdate);
+        AccountsDB testAccountsDB = accountsDBList.get(accountsDBList.size() - 1);
+        assertThat(testAccountsDB.getInitializationVector()).isEqualTo(uuid);
+        assertThat(testAccountsDB.getDatabase()).isEqualTo(bytes);
+        assertThat(testAccountsDB.getDatabaseContentType()).isEqualTo(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        assertThat(testAccountsDB.getNbAccounts()).isEqualTo(newAccountDB.getNbAccounts());
+        assertThat(testAccountsDB.getSum()).isEqualTo(accountsDBService.calculateSum(bytes));
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser("johndoe")
+    public void updateAccountsDBWithValidPayment() throws Exception {
+        // Initialize the database
+        String example = "This is an example";
+        byte[] bytes = example.getBytes();
+        String uuid = UUID.randomUUID().toString();
+
+        User user = userData.createUserJohnDoe();
+        AccountsDBDTO newAccountDB = accountsDBService.createNewAccountDB(bytes, uuid, user);
+        paymentData.createRegistrationPaymentForUser(user, PlanType.PREMIUMYEAR, true, LocalDate.now().plus(100, ChronoUnit.DAYS));
+        int databaseSizeBeforeUpdate = accountsDBRepository.findAll().size();
+
+        // Update the accountsDB
+        AccountsDB updatedAccountsDB = accountsDBRepository.findOne(newAccountDB.getId());
+        // Disconnect from session so that the updates on updatedAccountsDB are not directly saved in db
+        em.detach(updatedAccountsDB);
+        updatedAccountsDB
+            .initializationVector(UPDATED_INITIALIZATION_VECTOR)
+            .database(UPDATED_DATABASE)
+            .databaseContentType(UPDATED_DATABASE_CONTENT_TYPE)
+            .nbAccounts(UPDATED_NB_ACCOUNTS)
+            .sum(accountsDBService.calculateSum(UPDATED_DATABASE));
+        AccountsDBDTO accountsDBDTO = accountsDBMapper.toDto(updatedAccountsDB);
+        accountsDBDTO.setOperationAccountType(OperationAccountType.CREATE);
+
+        restAccountsDBMockMvc.perform(put("/api/accounts-dbs/updateDbUserConnected")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(accountsDBDTO)))
+            .andExpect(status().isOk());
+
+        // Validate the AccountsDB in the database
+        List<AccountsDB> accountsDBList = accountsDBRepository.findAll();
+        assertThat(accountsDBList).hasSize(databaseSizeBeforeUpdate);
+        AccountsDB testAccountsDB = accountsDBList.get(accountsDBList.size() - 1);
+        assertThat(testAccountsDB.getInitializationVector()).isEqualTo(UPDATED_INITIALIZATION_VECTOR);
+        assertThat(testAccountsDB.getDatabase()).isEqualTo(UPDATED_DATABASE);
+        assertThat(testAccountsDB.getDatabaseContentType()).isEqualTo(UPDATED_DATABASE_CONTENT_TYPE);
+        assertThat(testAccountsDB.getNbAccounts()).isEqualTo(UPDATED_NB_ACCOUNTS);
+        assertThat(testAccountsDB.getSum()).isEqualTo(accountsDBService.calculateSum(UPDATED_DATABASE));
     }
 }

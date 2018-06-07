@@ -4,6 +4,7 @@ import com.ninja.ninjaccount.domain.Payment;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import com.ninja.ninjaccount.repository.PaymentRepository;
+import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.billing.PaypalService;
 import com.ninja.ninjaccount.service.billing.dto.CompletePaymentDTO;
 import com.ninja.ninjaccount.service.billing.dto.ReturnPaymentDTO;
@@ -197,6 +198,24 @@ public class PaymentService {
         }
 
         return returnPaymentDTOOpt;
+    }
+
+    public boolean checkIfCanUpdateDB() {
+        boolean canUpdate = false;
+        Optional<String> login = SecurityUtils.getCurrentUserLogin();
+
+        if (login.isPresent()) {
+            PaymentDTO paymentByLogin = findPaymentByLogin(login.get());
+            if (!paymentByLogin.getPlanType().equals(PlanType.FREE)) {
+                if (paymentByLogin.isPaid() && paymentByLogin.getValidUntil().isAfter(LocalDate.now())) {
+                    canUpdate = true;
+                }
+            } else {
+                canUpdate = true;
+            }
+        }
+
+        return canUpdate;
     }
 
 }

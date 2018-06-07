@@ -12,7 +12,7 @@ export class BillingRouteAccessService implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
         return this.paymentService.paymentWarning$
             .flatMap((paymentWarning) => {
-                return Observable.create(observer => {
+                return Observable.create((observer) => {
                     observer.next(paymentWarning.isValid || paymentWarning.isPaid);
                 });
             });

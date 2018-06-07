@@ -1,12 +1,15 @@
 @import '../../../content/scss/custom-variables';
 
+
+$height-footer-payment: 90px;
+
 .footer-with-payment {
-    height: 50px;
+    height: $height-footer-payment;
 }
 
 .no-payment {
     width: 100%;
-    height: 100px;
+    height: $height-footer-payment;
     bottom: 0px;
     left: 0px;
     position: fixed;

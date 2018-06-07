@@ -6,6 +6,7 @@ import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import com.ninja.ninjaccount.web.rest.errors.BadRequestAlertException;
+import com.ninja.ninjaccount.web.rest.errors.CantUpdateDBCausePaymentException;
 import com.ninja.ninjaccount.web.rest.errors.CustomParameterizedException;
 import com.ninja.ninjaccount.web.rest.errors.InvalidChecksumException;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
@@ -169,7 +170,7 @@ public class AccountsDBResource {
      */
     @PutMapping("/accounts-dbs/updateDbUserConnected")
     @Timed
-    public ResponseEntity<AccountsDBDTO> updateAccountsDBForUserConnected(@RequestBody AccountsDBDTO accountsDBDTO) throws URISyntaxException {
+    public ResponseEntity<AccountsDBDTO> updateAccountsDBForUserConnected(@RequestBody AccountsDBDTO accountsDBDTO) {
         try {
             AccountsDBDTO result = accountsDBService.updateAccountDBForUserConnected(accountsDBDTO);
             if (result == null) {
@@ -181,17 +182,6 @@ public class AccountsDBResource {
         } catch (MaxAccountsException e) {
             log.error("Too many accounts on your database, userID : {}", accountsDBDTO.getUserId());
             throw new CustomParameterizedException("Too many accounts", e.getActual().toString(), e.getMax().toString());
-        } catch (InvalidChecksumException e) {
-            Optional<String> login = SecurityUtils.getCurrentUserLogin();
-            if (login.isPresent()) {
-                log.error("Problem with the checksum with this user when registration : {} ", login.get());
-            } else {
-                log.error("Problem with the checksum with this user when registration : USER NOT CONNECTED");
-            }
-            throw new InvalidChecksumException();
-        } catch (Exception e) {
-            log.error("Error when updating db for userID : {}", accountsDBDTO.getUserId());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 

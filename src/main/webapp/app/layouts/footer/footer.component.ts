@@ -3,7 +3,7 @@ import {PaymentService} from '../../entities/payment';
 import {Principal} from '../../shared';
 import {Subscription} from 'rxjs/Subscription';
 import {NavigationEnd, Router} from '@angular/router';
-import {PaymentWarning} from "../../entities/payment/payment-warning.model";
+import {PaymentWarning} from '../../entities/payment/payment-warning.model';
 
 @Component({
     selector: 'jhi-footer',
@@ -49,6 +49,6 @@ export class FooterComponent implements OnInit, OnDestroy {
     }
 
     isAuthenticatedAndNotAdmin(): boolean {
-        return this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])
+        return this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN']);
     }
 }

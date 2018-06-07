@@ -15,6 +15,7 @@ public final class ErrorConstants {
     public static final URI LOGIN_ALREADY_USED_TYPE = URI.create(PROBLEM_BASE_URL + "/login-already-used");
     public static final URI EMAIL_NOT_FOUND_TYPE = URI.create(PROBLEM_BASE_URL + "/email-not-found");
     public static final URI PAYPAL_COMMUNICATION_PROBLEM = URI.create(PROBLEM_BASE_URL + "/paypal-comunication-problem");
+    public static final URI NO_PAID_SUBSCRIPTION = URI.create(PROBLEM_BASE_URL + "/no-paid-customer");
 
     private ErrorConstants() {
     }
