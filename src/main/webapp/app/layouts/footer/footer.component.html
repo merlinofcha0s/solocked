@@ -1,5 +1,5 @@
-<div [class.footer-with-payment]="displayPaymentIssue">
-    <div *ngIf="displayPaymentIssue" class="d-flex justify-content-center align-items-center no-payment"
+<div class="row" [class.footer-with-payment]="displayPaymentIssue">
+    <div *ngIf="displayPaymentIssue" class="d-flex justify-content-center align-items-center no-payment col-12"
          [class.not-paid]="!paymentWarning.isPaid || !paymentWarning.isValid"
          [class.free-mode]="paymentWarning.isInFreeMode">
         <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
