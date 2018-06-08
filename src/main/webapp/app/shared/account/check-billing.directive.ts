@@ -16,6 +16,6 @@ export class CheckBillingDirective {
             }
         });
 
-        this.paymentService.isInPaymentWarning();
+        this.paymentService.getPaymentByLogin();
     }
 }

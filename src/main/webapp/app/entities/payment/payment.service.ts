@@ -107,44 +107,41 @@ export class PaymentService {
                 .subscribe((payment: Payment) => {
                     this._dataStore.payment = payment;
                     this.payment$.next(this._dataStore.payment);
+                    this.isInPaymentWarning();
                 });
         }
     }
 
     isInPaymentWarning() {
-        if (this.isAuthenticatedAndNotAdmin()) {
-            this.payment$.subscribe((payment) => {
-                if (payment.id !== undefined) {
-                    let isInFreeMode = false;
-                    let isPaid = true;
-                    let isValid = true;
-                    let warningMessage = '';
-                    let hasToBeForbidden = false;
-                    const isAuthenticatedAndNotAdmin = this.isAuthenticatedAndNotAdmin();
-                    if (isAuthenticatedAndNotAdmin) {
-                        if (payment.planType.toString() === PlanType.FREE) {
-                            isInFreeMode = true;
-                            isPaid = true;
-                            isValid = true;
-                            warningMessage = 'ninjaccountApp.payment.warningfreemode';
-                        } else if (!payment.paid || this.accountNotValidUntil(payment)) {
-                            isPaid = false;
-                            isInFreeMode = false;
-                            isValid = false;
-                            hasToBeForbidden = true;
-                            warningMessage = 'ninjaccountApp.payment.warningnotpaidmode';
-                        }
-                    }
-                    const paymentWarning = new PaymentWarning(isInFreeMode, isPaid, isValid, warningMessage, hasToBeForbidden);
-                    this._dataStore.paymentWarning = paymentWarning;
-                    this.paymentWarning$.next(paymentWarning);
-                } else {
-                    if (this.isAuthenticatedAndNotAdmin()) {
-                        this.getPaymentByLogin();
-                    }
+        const payment = this._dataStore.payment;
+        if (payment.id !== undefined) {
+            let isInFreeMode = false;
+            let isPaid = true;
+            let isValid = true;
+            let warningMessage = '';
+            let hasToBeForbidden = false;
+            const isAuthenticatedAndNotAdmin = this.isAuthenticatedAndNotAdmin();
+            if (isAuthenticatedAndNotAdmin) {
+                if (payment.planType.toString() === PlanType.FREE) {
+                    isInFreeMode = true;
+                    isPaid = true;
+                    isValid = true;
+                    warningMessage = 'ninjaccountApp.payment.warningfreemode';
+                } else if (!payment.paid || this.accountNotValidUntil(payment)) {
+                    isPaid = false;
+                    isInFreeMode = false;
+                    isValid = false;
+                    hasToBeForbidden = true;
+                    warningMessage = 'ninjaccountApp.payment.warningnotpaidmode';
                 }
-            });
+            }
+            const paymentWarning = new PaymentWarning(isInFreeMode, isPaid, isValid, warningMessage, hasToBeForbidden);
+            this._dataStore.paymentWarning = paymentWarning;
+            this.paymentWarning$.next(paymentWarning);
+        } else {
+            this.getPaymentByLogin();
         }
+
     }
 
     accountNotValidUntil(payment: Payment): boolean {
@@ -159,7 +156,7 @@ export class PaymentService {
     clean(): void {
         const newPayment = new Payment();
         newPayment.id = 0;
-        newPayment.planType = PlanType.PREMIUMYEAR;
+        newPayment.planType = PlanType.UNKNOWN;
 
         this._dataStore = {
             payment: newPayment, paymentWarning: new PaymentWarning(false, true,

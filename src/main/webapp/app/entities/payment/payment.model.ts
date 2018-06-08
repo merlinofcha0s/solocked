@@ -3,7 +3,8 @@ import {BaseEntity} from './../../shared';
 export enum PlanType {
     FREE = 'FREE',
     PREMIUMMONTH = 'PREMIUMMONTH',
-    PREMIUMYEAR = 'PREMIUMYEAR'
+    PREMIUMYEAR = 'PREMIUMYEAR',
+    UNKNOWN = 'UNKNOWN'
 }
 
 export const enum MaxAccountPlanType {
