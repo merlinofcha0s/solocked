@@ -5,11 +5,11 @@ import {SERVER_API_URL} from '../../app.constants';
 
 import {JhiDateUtils} from 'ng-jhipster';
 
-import {Payment} from './payment.model';
-import {createRequestOption, Principal} from '../../shared';
+import {Payment, PlanType} from './payment.model';
+import {Principal} from '../../shared/auth/principal.service';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {PaymentWarning} from './payment-warning.model';
-import {PlanType} from './index';
+import {createRequestOption} from '../../shared';
 
 export type EntityResponseType = HttpResponse<Payment>;
 
@@ -139,7 +139,9 @@ export class PaymentService {
                     this._dataStore.paymentWarning = paymentWarning;
                     this.paymentWarning$.next(paymentWarning);
                 } else {
-                    this.getPaymentByLogin();
+                    if (this.isAuthenticatedAndNotAdmin()) {
+                        this.getPaymentByLogin();
+                    }
                 }
             });
         }
@@ -155,8 +157,12 @@ export class PaymentService {
     }
 
     clean(): void {
+        const newPayment = new Payment();
+        newPayment.id = 0;
+        newPayment.planType = PlanType.PREMIUMYEAR;
+
         this._dataStore = {
-            payment: new Payment(), paymentWarning: new PaymentWarning(false, true,
+            payment: newPayment, paymentWarning: new PaymentWarning(false, true,
                 true, '', false)
         };
         this.payment$.next(this._dataStore.payment);

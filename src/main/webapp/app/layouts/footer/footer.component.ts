@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PaymentService} from '../../entities/payment';
+import {PaymentService} from '../../entities/payment/payment.service';
 import {Principal} from '../../shared';
 import {Subscription} from 'rxjs/Subscription';
 import {NavigationEnd, Router} from '@angular/router';

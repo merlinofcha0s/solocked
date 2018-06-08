@@ -9,7 +9,8 @@ import {JhiAlertService, JhiEventManager} from 'ng-jhipster';
 import {Payment} from './payment.model';
 import {PaymentPopupService} from './payment-popup.service';
 import {PaymentService} from './payment.service';
-import {User, UserService} from '../../shared';
+import {UserService} from '../../shared/user/user.service';
+import {User} from '../../shared/user/user.model';
 
 @Component({
     selector: 'jhi-payment-dialog',

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {PlanType} from '../../../entities/payment';
+import {PlanType} from '../../../entities/payment/payment.model';
 
 @Component({
     selector: 'jhi-choose-plan',

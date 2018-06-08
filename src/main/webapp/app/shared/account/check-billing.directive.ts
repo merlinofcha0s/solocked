@@ -1,5 +1,5 @@
 import {Directive, ElementRef, Renderer2} from '@angular/core';
-import {PaymentService} from '../../entities/payment';
+import {PaymentService} from '../../entities/payment/payment.service';
 
 @Directive({
     selector: '[jhiCheckBilling]'

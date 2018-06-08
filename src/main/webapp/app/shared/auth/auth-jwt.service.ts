@@ -5,13 +5,15 @@ import {LocalStorageService, SessionStorageService} from 'ngx-webstorage';
 import {SERVER_API_URL} from '../../app.constants';
 import {AccountsService} from '../account/accounts.service';
 import {KEY, LAST_SEARCH} from '../constants/session-storage.constants';
+import {PaymentService} from '../../entities/payment/payment.service';
 
 @Injectable()
 export class AuthServerProvider {
     constructor(private http: HttpClient,
                 private $localStorage: LocalStorageService,
                 private $sessionStorage: SessionStorageService,
-                private $accountService: AccountsService
+                private $accountService: AccountsService,
+                private $paymentService: PaymentService
     ) {}
 
     getToken() {
@@ -55,13 +57,13 @@ export class AuthServerProvider {
     }
 
     logout(): Observable<any> {
-
         return new Observable((observer) => {
             this.$localStorage.clear('authenticationToken');
             this.$sessionStorage.clear('authenticationToken');
             this.$sessionStorage.clear(KEY);
             this.$sessionStorage.clear(LAST_SEARCH);
             this.$accountService.clean();
+            this.$paymentService.clean();
             observer.complete();
         });
     }

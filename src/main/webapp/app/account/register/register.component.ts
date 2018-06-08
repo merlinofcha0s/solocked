@@ -10,7 +10,7 @@ import {
     PAYPAL_COMMUNICATION_PROBLEM_TYPE
 } from '../../shared';
 import {HttpErrorResponse} from '@angular/common/http';
-import {PlanType} from '../../entities/payment';
+import {PlanType} from '../../entities/payment/payment.model';
 import {DOCUMENT} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 import {isUndefined} from 'util';

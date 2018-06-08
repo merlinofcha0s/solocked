@@ -5,7 +5,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {AccountsService} from '../../shared/account/accounts.service';
 import {HttpClient} from '@angular/common/http';
-import {PlanType} from '../../entities/payment';
+import {PlanType} from '../../entities/payment/payment.model';
 import {HttpResponse} from '@angular/common/http/src/response';
 import {InitPayment} from './dto/init-payment.model';
 import {CompletePayment} from './dto/complete-payment.model';

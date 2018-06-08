@@ -1,7 +1,7 @@
 import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {PaymentService} from '../../entities/payment';
+import {PaymentService} from '../../entities/payment/payment.service';
 
 @Injectable()
 export class BillingRouteAccessService implements CanActivate {

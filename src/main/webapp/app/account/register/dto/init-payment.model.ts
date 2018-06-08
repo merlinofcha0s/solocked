@@ -1,4 +1,4 @@
-import {PlanType} from '../../../entities/payment';
+import {PlanType} from '../../../entities/payment/payment.model';
 
 export class InitPayment {
     constructor(
