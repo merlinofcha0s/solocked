@@ -1,6 +1,8 @@
 {
     "billing": {
         "title": "Billing",
-        "choose": "Choose your plan"
+        "choose": "Choose your plan",
+        "upgrade": "Upgrade your plan",
+        "infotitle": "Informations"
     }
 }

@@ -10,6 +10,7 @@ import {
     JhiLanguageHelper,
     NinjaccountSharedLibsModule
 } from './';
+import {ChoosePlanComponent} from '../account/register/choose-plan/choose-plan.component';
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import {
     declarations: [
         FindLanguageFromKeyPipe,
         JhiAlertComponent,
-        JhiAlertErrorComponent
+        JhiAlertErrorComponent,
+        ChoosePlanComponent
     ],
     providers: [
         JhiLanguageHelper,
@@ -32,7 +34,8 @@ import {
         NinjaccountSharedLibsModule,
         FindLanguageFromKeyPipe,
         JhiAlertComponent,
-        JhiAlertErrorComponent
+        JhiAlertErrorComponent,
+        ChoosePlanComponent
     ]
 })
 export class NinjaccountSharedCommonModule {

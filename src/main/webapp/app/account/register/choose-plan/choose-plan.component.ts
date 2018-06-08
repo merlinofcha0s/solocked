@@ -1,13 +1,14 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {PlanType} from '../../../entities/payment/payment.model';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Payment, PlanType} from '../../../entities/payment/payment.model';
 
 @Component({
     selector: 'jhi-choose-plan',
     templateUrl: './choose-plan.component.html',
     styleUrls: ['./choose-plan.component.scss']
 })
-export class ChoosePlanComponent implements OnInit {
+export class ChoosePlanComponent implements OnInit, OnChanges {
 
+    @Input() actualPayment: Payment;
     @Output() planChoosed = new EventEmitter<PlanType>();
 
     free: boolean;
@@ -20,6 +21,12 @@ export class ChoosePlanComponent implements OnInit {
     }
 
     ngOnInit() {
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (this.actualPayment !== undefined) {
+            this.onChoosePlan(this.actualPayment.planType);
+        }
     }
 
     onChoosePlan(planType: PlanType) {

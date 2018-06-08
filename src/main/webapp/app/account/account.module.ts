@@ -26,7 +26,6 @@ import {ImportComponent} from './import/import.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NumberValidator} from './register/validator/number.validator';
 import {UpperValidator} from './register/validator/upper.validator';
-import {ChoosePlanComponent} from './register/choose-plan/choose-plan.component';
 
 @NgModule({
     imports: [
@@ -48,8 +47,7 @@ import {ChoosePlanComponent} from './register/choose-plan/choose-plan.component'
         DeleteAllAccountsComponent,
         ImportComponent,
         NumberValidator,
-        UpperValidator,
-        ChoosePlanComponent
+        UpperValidator
     ],
     providers: [
         Register,
