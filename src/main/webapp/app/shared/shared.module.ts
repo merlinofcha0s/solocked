@@ -32,7 +32,7 @@ import {
     MatDialogModule,
     MatFormFieldModule,
     MatGridListModule,
-    MatInputModule,
+    MatInputModule, MatListModule,
     MatMenuModule,
     MatNativeDateModule,
     MatProgressBarModule,
@@ -84,7 +84,8 @@ import {BillingRouteAccessService} from './auth/billing-route-access.service';
         MatGridListModule,
         MatExpansionModule,
         MatAutocompleteModule,
-        MatRadioModule
+        MatRadioModule,
+        MatListModule
     ],
     declarations: [
         JhiSocialComponent,
@@ -155,7 +156,8 @@ import {BillingRouteAccessService} from './auth/billing-route-access.service';
         MatRadioModule,
         AutofocusDirective,
         WaiterComponent,
-        CheckBillingDirective
+        CheckBillingDirective,
+        MatListModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

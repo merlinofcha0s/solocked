@@ -20,6 +20,7 @@ import {AccountsdbDeleteComponent} from './accountsdb-delete/accountsdb-delete.c
 import {CopyClipboardComponent} from './accountsdb-add/copy-clipboard/copy-clipboard.component';
 import {CustomFieldsComponent} from './accountsdb-add/custom-field/custom-fields.component';
 import {BillingComponent} from './billing/billing.component';
+import {PopupChoosePlanComponent} from './billing/popup-choose-plan/popup-choose-plan.component';
 
 @NgModule({
     imports: [
@@ -45,9 +46,10 @@ import {BillingComponent} from './billing/billing.component';
         DeletePaymentLineComponent,
         CopyClipboardComponent,
         CustomFieldsComponent,
-        BillingComponent
+        BillingComponent,
+        PopupChoosePlanComponent
     ],
-    entryComponents: [AccountsdbDeleteComponent, AddCustomBlockComponent, DeletePaymentLineComponent],
+    entryComponents: [AccountsdbDeleteComponent, AddCustomBlockComponent, DeletePaymentLineComponent, PopupChoosePlanComponent],
 })
 export class NinjaccountConnectedModule {
 }

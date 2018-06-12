@@ -1,0 +1,7 @@
+<h2 jhiTranslate="billing.change"></h2>
+<jhi-choose-plan [actualPayment]="currentPayment" (planChoosed)="onChoosePlan($event)"></jhi-choose-plan>
+<div *ngIf="loading" class="loadingContainer justify-content-center mt-3">
+    <mat-spinner color="primary" diameter="50" mode="indeterminate"></mat-spinner>
+    <div class="loadingMessage"
+         jhiTranslate="register.form.loadingpayment">Please wait....</div>
+</div>

@@ -2,7 +2,7 @@
     "billing": {
         "title": "Billing",
         "choose": "Choose your plan",
-        "upgrade": "Upgrade your plan",
+        "change": "Change your plan",
         "infotitle": "Informations"
     }
 }
