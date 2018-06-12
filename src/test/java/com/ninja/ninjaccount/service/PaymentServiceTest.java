@@ -149,11 +149,11 @@ public class PaymentServiceTest {
         returnPaymentDTOMock.setReturnUrl("http://getrich.com");
         returnPaymentDTOMock.setPaymentId("PAY-LOL");
 
-        Mockito.when(paypalService.createPayment(any(PlanType.class), eq(user.getLogin()))).thenReturn(returnPaymentDTOMock);
+        Mockito.when(paypalService.createOneTimePayment(any(PlanType.class), eq(user.getLogin()))).thenReturn(returnPaymentDTOMock);
 
         paymentService.createRegistrationPaymentForUser(user);
 
-        Optional<ReturnPaymentDTO> returnPaymentDTO = paymentService.initPaymentWorkflow(PlanType.PREMIUMYEAR, user.getLogin());
+        Optional<ReturnPaymentDTO> returnPaymentDTO = paymentService.initOneTimePaymentWorkflow(PlanType.PREMIUMYEAR, user.getLogin());
 
         Optional<Payment> payment = paymentRepository.findOneByUserLogin(user.getLogin());
 
@@ -177,11 +177,11 @@ public class PaymentServiceTest {
         ReturnPaymentDTO returnPaymentDTOMock = new ReturnPaymentDTO();
         returnPaymentDTOMock.setStatus("failure");
 
-        Mockito.when(paypalService.createPayment(any(PlanType.class), eq(user.getLogin()))).thenReturn(returnPaymentDTOMock);
+        Mockito.when(paypalService.createOneTimePayment(any(PlanType.class), eq(user.getLogin()))).thenReturn(returnPaymentDTOMock);
 
         paymentService.createRegistrationPaymentForUser(user);
 
-        Optional<ReturnPaymentDTO> returnPaymentDTO = paymentService.initPaymentWorkflow(PlanType.PREMIUMYEAR, user.getLogin());
+        Optional<ReturnPaymentDTO> returnPaymentDTO = paymentService.initOneTimePaymentWorkflow(PlanType.PREMIUMYEAR, user.getLogin());
 
         Optional<Payment> payment = paymentRepository.findOneByUserLogin(user.getLogin());
         Optional<User> userWithAuthoritiesByLogin = userService.getUserWithAuthoritiesByLogin(user.getLogin());
@@ -229,7 +229,7 @@ public class PaymentServiceTest {
         completePaymentDTO.setPayerId("PAY-BLABLA");
         completePaymentDTO.setPaymentId(paymentId);
 
-        Optional<ReturnPaymentDTO> returnPaymentDTO = paymentService.completePaymentWorkflow(completePaymentDTO);
+        Optional<ReturnPaymentDTO> returnPaymentDTO = paymentService.completeOneTimePaymentWorkflow(completePaymentDTO);
 
         Optional<Payment> payment = paymentRepository.findOneByUserLogin(user.getLogin());
 
@@ -279,7 +279,7 @@ public class PaymentServiceTest {
         completePaymentDTO.setPayerId("PAY-BLABLA");
         completePaymentDTO.setPaymentId(paymentId);
 
-        Optional<ReturnPaymentDTO> returnPaymentDTO = paymentService.completePaymentWorkflow(completePaymentDTO);
+        Optional<ReturnPaymentDTO> returnPaymentDTO = paymentService.completeOneTimePaymentWorkflow(completePaymentDTO);
 
         Optional<Payment> payment = paymentRepository.findOneByUserLogin(user.getLogin());
 

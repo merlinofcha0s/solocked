@@ -142,11 +142,11 @@ public class PaymentResource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(paymentDTO));
     }
 
-    @PostMapping("/init-payment")
+    @PostMapping("/init-one-time-payment")
     @Timed
-    public ResponseEntity<ReturnPaymentDTO> initPaymentWorkflow(@Valid @RequestBody InitPaymentDTO initPaymentDTO) {
+    public ResponseEntity<ReturnPaymentDTO> initPaymentOneTimeWorkflow(@Valid @RequestBody InitPaymentDTO initPaymentDTO) {
 
-        Optional<ReturnPaymentDTO> results = paymentService.initPaymentWorkflow(PlanType.valueOf(initPaymentDTO.getPlanType().toString()), initPaymentDTO.getLogin());
+        Optional<ReturnPaymentDTO> results = paymentService.initOneTimePaymentWorkflow(PlanType.valueOf(initPaymentDTO.getPlanType().toString()), initPaymentDTO.getLogin());
 
         if (results.isPresent()) {
             return ResponseEntity.ok(results.get());
@@ -155,11 +155,24 @@ public class PaymentResource {
         }
     }
 
-    @PostMapping("/complete-payment")
+    @PostMapping("/complete-one-time-payment")
     @Timed
-    public ResponseEntity<ReturnPaymentDTO> completePaymentWorkflow(@Valid @RequestBody CompletePaymentDTO completePaymentDTO) {
+    public ResponseEntity<ReturnPaymentDTO> completeOneTimePaymentWorkflow(@Valid @RequestBody CompletePaymentDTO completePaymentDTO) {
 
-        Optional<ReturnPaymentDTO> results = paymentService.completePaymentWorkflow(completePaymentDTO);
+        Optional<ReturnPaymentDTO> results = paymentService.completeOneTimePaymentWorkflow(completePaymentDTO);
+
+        if (results.isPresent()) {
+            return ResponseEntity.ok(results.get());
+        } else {
+            throw new PaypalCommunicationException();
+        }
+    }
+
+    @PostMapping("/init-recurring-payment")
+    @Timed
+    public ResponseEntity<ReturnPaymentDTO> initRecurringPaymentWorkflow(@Valid @RequestBody InitPaymentDTO initPaymentDTO) {
+
+        Optional<ReturnPaymentDTO> results = paymentService.initRecurringPaymentWorkflow(PlanType.valueOf(initPaymentDTO.getPlanType().toString()), initPaymentDTO.getLogin());
 
         if (results.isPresent()) {
             return ResponseEntity.ok(results.get());

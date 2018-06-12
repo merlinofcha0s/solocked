@@ -10,6 +10,9 @@ import {Principal} from '../../shared/auth/principal.service';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {PaymentWarning} from './payment-warning.model';
 import {createRequestOption} from '../../shared';
+import {CompletePayment} from '../../account/register/dto/complete-payment.model';
+import {ReturnPayment} from '../../account/register/dto/return-payment.model';
+import {InitPayment} from '../../account/register/dto/init-payment.model';
 
 export type EntityResponseType = HttpResponse<Payment>;
 
@@ -165,4 +168,20 @@ export class PaymentService {
         this.payment$.next(this._dataStore.payment);
         this.paymentWarning$.next(this._dataStore.paymentWarning);
     }
+
+    initOneTimePaymentWorkflow(planType: PlanType, login: string): Observable<HttpResponse<ReturnPayment>> {
+        const initPaymentDTO = new InitPayment(planType, login);
+        return this.http.post<ReturnPayment>('api/init-one-time-payment', initPaymentDTO, {observe: 'response'});
+    }
+
+    completeOneTimePaymentWorkflow(paymentId: string, payerId: string): Observable<HttpResponse<ReturnPayment>> {
+        const completePaymentDTO = new CompletePayment(paymentId, payerId);
+        return this.http.post<ReturnPayment>('api/complete-one-time-payment', completePaymentDTO, {observe: 'response'});
+    }
+
+    initRecurringPaymentWorkflow(planType: PlanType, login: string): Observable<HttpResponse<ReturnPayment>> {
+        const initPaymentDTO = new InitPayment(planType, login);
+        return this.http.post<ReturnPayment>('api/init-recurring-payment', initPaymentDTO, {observe: 'response'});
+    }
+
 }

@@ -31,10 +31,6 @@ export class BillingComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
     }
 
-    onChoosePlan() {
-        // TODO REST POINT PAYPAL
-    }
-
     openChangePlan() {
         this.customBlockDialog = this.dialog.open(PopupChoosePlanComponent, {
             data: {currentPayment: this.payment},

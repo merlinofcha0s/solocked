@@ -148,14 +148,13 @@ public class PaymentService {
         }
     }
 
-    public Optional<ReturnPaymentDTO> initPaymentWorkflow(PlanType planType, String login) {
+    public Optional<ReturnPaymentDTO> initOneTimePaymentWorkflow(PlanType planType, String login) {
 
-        ReturnPaymentDTO returnPaymentDTO = paypalService.createPayment(planType, login);
+        ReturnPaymentDTO returnPaymentDTO = paypalService.createOneTimePayment(planType, login);
 
         Optional<Payment> payment = paymentRepository.findOneByUserLogin(login);
 
         if (payment.isPresent() && returnPaymentDTO.getStatus().equals("success")) {
-            payment.get().setLastPaymentId(returnPaymentDTO.getPaymentId());
             payment.get().setLastPaymentId(returnPaymentDTO.getPaymentId());
             paymentRepository.save(payment.get());
         }
@@ -169,7 +168,7 @@ public class PaymentService {
         return Optional.of(returnPaymentDTO);
     }
 
-    public Optional<ReturnPaymentDTO> completePaymentWorkflow(CompletePaymentDTO completePaymentDTO) {
+    public Optional<ReturnPaymentDTO> completeOneTimePaymentWorkflow(CompletePaymentDTO completePaymentDTO) {
         Optional<ReturnPaymentDTO> returnPaymentDTOOpt = paypalService.completePaymentWorkflow(completePaymentDTO);
 
         if (returnPaymentDTOOpt.isPresent() && returnPaymentDTOOpt.get().getStatus().equals("success")) {
@@ -216,6 +215,24 @@ public class PaymentService {
         }
 
         return canUpdate;
+    }
+
+    public Optional<ReturnPaymentDTO> initRecurringPaymentWorkflow(PlanType planType, String login) {
+
+        ReturnPaymentDTO returnPaymentDTO = paypalService.createRecurringPayment(planType, login);
+
+        Optional<Payment> payment = paymentRepository.findOneByUserLogin(login);
+
+        if (payment.isPresent() && returnPaymentDTO.getStatus().equals("success")) {
+            payment.get().setLastPaymentId(returnPaymentDTO.getPaymentId());
+            paymentRepository.save(payment.get());
+        }
+
+        if (returnPaymentDTO.getStatus().equals("failure")) {
+            return Optional.empty();
+        }
+
+        return Optional.of(returnPaymentDTO);
     }
 
 }

@@ -41,14 +41,4 @@ export class Register {
                 return this.http.post('api/register', account, {observe: 'response'});
             });
     }
-
-    initPaymentWorkflow(planType: PlanType, login: string): Observable<HttpResponse<ReturnPayment>> {
-        const initPaymentDTO = new InitPayment(planType, login);
-        return this.http.post<ReturnPayment>('api/init-payment', initPaymentDTO, {observe: 'response'});
-    }
-
-    completePaymentWorkflow(paymentId: string, payerId: string): Observable<HttpResponse<ReturnPayment>> {
-        const completePaymentDTO = new CompletePayment(paymentId, payerId);
-        return this.http.post<ReturnPayment>('api/complete-payment', completePaymentDTO, {observe: 'response'});
-    }
 }

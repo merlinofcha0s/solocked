@@ -16,6 +16,7 @@ import {ActivatedRoute} from '@angular/router';
 import {isUndefined} from 'util';
 import {WaiterComponent} from '../../shared/waiter/waiter.component';
 import {MatDialog, MatDialogRef} from '@angular/material';
+import {PaymentService} from '../../entities/payment/payment.service';
 
 @Component({
     selector: 'jhi-register',
@@ -52,7 +53,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
                 private renderer: Renderer,
                 @Inject(DOCUMENT) private document: any,
                 private route: ActivatedRoute,
-                public dialog: MatDialog) {
+                private dialog: MatDialog,
+                private paymentService: PaymentService) {
     }
 
     ngOnInit() {
@@ -99,7 +101,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         this.registerService.save(this.registerAccount)
             .flatMap(() => {
                 this.loadingLabel = 'register.form.loadingpayment';
-                return this.registerService.initPaymentWorkflow(this.registerAccount.planType, this.registerAccount.login);
+                return this.paymentService.initOneTimePaymentWorkflow(this.registerAccount.planType, this.registerAccount.login);
             }).subscribe((response) => {
             this.document.location.href = response.body.returnUrl;
         }, (response: HttpErrorResponse) => this.processError(response));
@@ -153,7 +155,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     }
 
     private completePaymentService(paymentId, payerId) {
-        this.registerService.completePaymentWorkflow(paymentId, payerId)
+        this.paymentService.completeOneTimePaymentWorkflow(paymentId, payerId)
             .subscribe((response) => {
                 const returnPayment = response.body;
 
