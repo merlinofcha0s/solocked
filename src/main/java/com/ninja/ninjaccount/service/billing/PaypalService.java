@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.time.Instant;
@@ -40,7 +41,14 @@ public class PaypalService {
     @Value("${server.port}")
     private String port;
 
+    private APIContext context;
+
     private final Logger log = LoggerFactory.getLogger(PaypalService.class);
+
+    @PostConstruct
+    private void initContext() {
+        context = new APIContext(clientId, clientSecret, mode);
+    }
 
     public ReturnPaymentDTO createOneTimePayment(PlanType planType, String login) {
         ReturnPaymentDTO returnPaymentDTO = new ReturnPaymentDTO();
@@ -93,7 +101,6 @@ public class PaypalService {
         payment.setRedirectUrls(redirectUrls);
         Payment createdPayment;
         try {
-            APIContext context = new APIContext(clientId, clientSecret, mode);
             createdPayment = payment.create(context);
             if (createdPayment != null) {
                 returnPaymentDTO = handlePaypalResponse(returnPaymentDTO, createdPayment.getId(), createdPayment.getLinks(), true);
@@ -123,7 +130,7 @@ public class PaypalService {
         return returnPaymentDTO;
     }
 
-    public Optional<ReturnPaymentDTO> completePaymentWorkflow(CompletePaymentDTO completePaymentDTO) {
+    public Optional<ReturnPaymentDTO> completeOneTimePaymentWorkflow(CompletePaymentDTO completePaymentDTO) {
         ReturnPaymentDTO returnPaymentDTO = new ReturnPaymentDTO();
         Payment payment = new Payment();
         payment.setId(completePaymentDTO.getPaymentId());
@@ -131,7 +138,6 @@ public class PaypalService {
         PaymentExecution paymentExecution = new PaymentExecution();
         paymentExecution.setPayerId(completePaymentDTO.getPayerId());
         try {
-            APIContext context = new APIContext(clientId, clientSecret, mode);
             Payment createdPayment = payment.execute(context, paymentExecution);
             if (createdPayment != null && createdPayment.getState().equals("approved")) {
                 returnPaymentDTO.setStatus("success");
@@ -179,12 +185,32 @@ public class PaypalService {
         agreement.setPayer(payer);
 
         try {
-            APIContext context = new APIContext(clientId, clientSecret, mode);
             agreement = agreement.create(context);
             returnPaymentDTO = handlePaypalResponse(returnPaymentDTO, agreement.getId(), agreement.getLinks(), true);
             returnPaymentDTO.setTokenForRecurring(agreement.getToken());
             returnPaymentDTO.setBillingPlanId(plan.getId());
         } catch (UnsupportedEncodingException | PayPalRESTException | MalformedURLException e) {
+            log.error("Error when initiating paypal payment, login : {}", login, e);
+            returnPaymentDTO.setStatus("failure");
+        }
+
+        return returnPaymentDTO;
+    }
+
+    public ReturnPaymentDTO completeRecurringPaymentWorkflow(String token, String login) {
+        ReturnPaymentDTO returnPaymentDTO = new ReturnPaymentDTO();
+        returnPaymentDTO.setRecurring(true);
+
+        Agreement agreement = new Agreement();
+        agreement.setToken(token);
+
+        try {
+            Agreement activeAgreement = Agreement.execute(context, agreement.getToken());
+            if (activeAgreement != null && activeAgreement.getState().equals("Active")) {
+                returnPaymentDTO.setStatus("success");
+                returnPaymentDTO.setPaymentId(activeAgreement.getId());
+            }
+        } catch (PayPalRESTException e) {
             log.error("Error when initiating paypal payment, login : {}", login, e);
             returnPaymentDTO.setStatus("failure");
         }

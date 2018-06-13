@@ -182,4 +182,17 @@ public class PaymentResource {
             throw new PaypalCommunicationException();
         }
     }
+
+    @PostMapping("/complete-recurring-payment")
+    @Timed
+    public ResponseEntity<ReturnPaymentDTO> completeRecurringPaymentWorkflow(@Valid @RequestBody CompletePaymentDTO completePaymentDTO) {
+
+        Optional<ReturnPaymentDTO> results = paymentService.completeRecurringPaymentWorkflow(completePaymentDTO);
+
+        if (results.isPresent()) {
+            return ResponseEntity.ok(results.get());
+        } else {
+            throw new PaypalCommunicationException();
+        }
+    }
 }

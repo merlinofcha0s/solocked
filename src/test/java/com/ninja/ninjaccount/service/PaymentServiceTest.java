@@ -223,7 +223,7 @@ public class PaymentServiceTest {
         returnPaymentDTOMock.setPlanType(PlanType.PREMIUMYEAR);
 
         //Mock the call
-        Mockito.when(paypalService.completePaymentWorkflow(any(CompletePaymentDTO.class))).thenReturn(Optional.of(returnPaymentDTOMock));
+        Mockito.when(paypalService.completeOneTimePaymentWorkflow(any(CompletePaymentDTO.class))).thenReturn(Optional.of(returnPaymentDTOMock));
 
         CompletePaymentDTO completePaymentDTO = new CompletePaymentDTO();
         completePaymentDTO.setPayerId("PAY-BLABLA");
@@ -273,7 +273,7 @@ public class PaymentServiceTest {
         returnPaymentDTOMock.setPlanType(PlanType.PREMIUMYEAR);
 
         //Mock the call
-        Mockito.when(paypalService.completePaymentWorkflow(any(CompletePaymentDTO.class))).thenReturn(Optional.of(returnPaymentDTOMock));
+        Mockito.when(paypalService.completeOneTimePaymentWorkflow(any(CompletePaymentDTO.class))).thenReturn(Optional.of(returnPaymentDTOMock));
 
         CompletePaymentDTO completePaymentDTO = new CompletePaymentDTO();
         completePaymentDTO.setPayerId("PAY-BLABLA");

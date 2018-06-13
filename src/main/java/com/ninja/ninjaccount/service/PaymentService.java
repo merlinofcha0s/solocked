@@ -15,6 +15,7 @@ import com.ninja.ninjaccount.service.mapper.PaymentMapper;
 import com.ninja.ninjaccount.service.util.PaymentUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +41,11 @@ public class PaymentService {
     private final PaypalService paypalService;
 
     private final UserService userService;
+
+    @Value("${application.paypal.id-year-plan}")
+    private String idYearPlan;
+    @Value("${application.paypal.id-month-plan}")
+    private String idMonthPlan;
 
     public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper,
                           PaypalService paypalService, UserService userService) {
@@ -169,7 +175,7 @@ public class PaymentService {
     }
 
     public Optional<ReturnPaymentDTO> completeOneTimePaymentWorkflow(CompletePaymentDTO completePaymentDTO) {
-        Optional<ReturnPaymentDTO> returnPaymentDTOOpt = paypalService.completePaymentWorkflow(completePaymentDTO);
+        Optional<ReturnPaymentDTO> returnPaymentDTOOpt = paypalService.completeOneTimePaymentWorkflow(completePaymentDTO);
 
         if (returnPaymentDTOOpt.isPresent() && returnPaymentDTOOpt.get().getStatus().equals("success")) {
             ReturnPaymentDTO returnPaymentDTO = returnPaymentDTOOpt.get();
@@ -226,6 +232,7 @@ public class PaymentService {
         if (payment.isPresent() && returnPaymentDTO.getStatus().equals("success")) {
             payment.get().setRecurring(true);
             payment.get().setTokenRecurring(returnPaymentDTO.getTokenForRecurring());
+            payment.get().setBillingPlanId(returnPaymentDTO.getBillingPlanId());
             paymentRepository.save(payment.get());
         }
 
@@ -234,6 +241,44 @@ public class PaymentService {
         }
 
         return Optional.of(returnPaymentDTO);
+    }
+
+    public Optional<ReturnPaymentDTO> completeRecurringPaymentWorkflow(CompletePaymentDTO completePaymentDTO) {
+        Optional<String> login = SecurityUtils.getCurrentUserLogin();
+        if (login.isPresent()) {
+
+            ReturnPaymentDTO returnPaymentDTO = paypalService.completeRecurringPaymentWorkflow(completePaymentDTO.getToken(), login.get());
+
+            if (returnPaymentDTO.getStatus().equals("success")) {
+                Optional<Payment> paymentToComplete = paymentRepository.findOneByTokenRecurringAndUserLogin(completePaymentDTO.getToken(), login.get());
+
+                if (paymentToComplete.isPresent()) {
+                    PlanType planType;
+                    if (paymentToComplete.get().getBillingPlanId().equals(idYearPlan)) {
+                        planType = PlanType.PREMIUMYEAR;
+                    } else if (paymentToComplete.get().getBillingPlanId().equals(idYearPlan)) {
+                        planType = PlanType.PREMIUMMONTH;
+                    } else {
+                        log.error("BIG PROBLEM !!! the id of the plan is not known plan id : {} login: {}  ", paymentToComplete.get().getBillingPlanId(), login.get());
+                        return Optional.empty();
+                    }
+
+                    Payment payment = paymentToComplete.get();
+                    payment.setPaid(true);
+                    payment.setPlanType(planType);
+                    payment.setSubscriptionDate(LocalDate.now());
+                    payment.setPrice(planType.getPrice());
+                    payment.setValidUntil(LocalDate.now().plus(planType.getUnitAmountValidity(), planType.getUnit()));
+                    paymentRepository.save(payment);
+                } else {
+                    log.error("BIG PROBLEM !!! No payment found for the payment ID {} ", completePaymentDTO.getPaymentId());
+                }
+            }
+
+            return Optional.of(returnPaymentDTO);
+        } else {
+            return Optional.empty();
+        }
     }
 
 }

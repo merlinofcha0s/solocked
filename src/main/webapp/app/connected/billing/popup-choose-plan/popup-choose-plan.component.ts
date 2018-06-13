@@ -16,6 +16,8 @@ export class PopupChoosePlanComponent implements OnInit, OnDestroy {
     currentPayment: Payment;
     loading: boolean;
 
+    loadingMessage: string;
+
     constructor(@Inject(MAT_DIALOG_DATA) private data: any,
                 private paymentService: PaymentService,
                 private principal: Principal,
@@ -31,10 +33,12 @@ export class PopupChoosePlanComponent implements OnInit, OnDestroy {
 
     onChoosePlan(planType: PlanType) {
         if (this.currentPayment.planType !== planType) {
+            this.loadingMessage = 'billing.loadingchangeplan';
             this.loading = true;
             Observable.fromPromise(this.principal.identity())
                 .flatMap((account) => this.paymentService.initRecurringPaymentWorkflow(planType, account.login))
                 .subscribe((response) => {
+                    this.loadingMessage = 'register.form.loadingpayment';
                     this.document.location.href = response.body.returnUrl;
                 });
         }

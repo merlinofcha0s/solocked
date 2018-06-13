@@ -10,6 +10,9 @@ public class CompletePaymentDTO {
     @NotNull
     private String payerId;
 
+    @NotNull
+    private String token;
+
     public String getPaymentId() {
         return paymentId;
     }
@@ -24,6 +27,14 @@ public class CompletePaymentDTO {
 
     public void setPayerId(String payerId) {
         this.payerId = payerId;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Override

@@ -3,6 +3,7 @@
         "title": "Billing",
         "choose": "Choose your plan",
         "change": "Change your plan",
-        "infotitle": "Informations"
+        "infotitle": "Informations",
+        "loadingchangeplan": "Changing your plan...."
     }
 }

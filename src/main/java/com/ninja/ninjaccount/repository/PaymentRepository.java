@@ -20,4 +20,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     Optional<Payment> findOneByLastPaymentId(String lastPaymentId);
 
+    Optional<Payment> findOneByTokenRecurringAndUserLogin(String tokenRecurring, String login);
+
 }
