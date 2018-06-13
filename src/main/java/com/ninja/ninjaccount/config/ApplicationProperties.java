@@ -21,8 +21,6 @@ public class ApplicationProperties {
         private String clientId;
         private String clientSecret;
         private String mode;
-        private String idYearPlan;
-        private String idMonthPlan;
 
         public Paypal() {
         }
@@ -49,22 +47,6 @@ public class ApplicationProperties {
 
         public void setClientSecret(String clientSecret) {
             this.clientSecret = clientSecret;
-        }
-
-        public String getIdYearPlan() {
-            return idYearPlan;
-        }
-
-        public void setIdYearPlan(String idYearPlan) {
-            this.idYearPlan = idYearPlan;
-        }
-
-        public String getIdMonthPlan() {
-            return idMonthPlan;
-        }
-
-        public void setIdMonthPlan(String idMonthPlan) {
-            this.idMonthPlan = idMonthPlan;
         }
     }
 

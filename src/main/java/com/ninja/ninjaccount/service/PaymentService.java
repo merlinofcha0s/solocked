@@ -42,11 +42,6 @@ public class PaymentService {
 
     private final UserService userService;
 
-    @Value("${application.paypal.id-year-plan}")
-    private String idYearPlan;
-    @Value("${application.paypal.id-month-plan}")
-    private String idMonthPlan;
-
     public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper,
                           PaypalService paypalService, UserService userService) {
         this.paymentRepository = paymentRepository;
@@ -253,16 +248,7 @@ public class PaymentService {
                 Optional<Payment> paymentToComplete = paymentRepository.findOneByTokenRecurringAndUserLogin(completePaymentDTO.getToken(), login.get());
 
                 if (paymentToComplete.isPresent()) {
-                    PlanType planType;
-                    if (paymentToComplete.get().getBillingPlanId().equals(idYearPlan)) {
-                        planType = PlanType.PREMIUMYEAR;
-                    } else if (paymentToComplete.get().getBillingPlanId().equals(idYearPlan)) {
-                        planType = PlanType.PREMIUMMONTH;
-                    } else {
-                        log.error("BIG PROBLEM !!! the id of the plan is not known plan id : {} login: {}  ", paymentToComplete.get().getBillingPlanId(), login.get());
-                        return Optional.empty();
-                    }
-
+                    PlanType planType = returnPaymentDTO.getPlanType();
                     Payment payment = paymentToComplete.get();
                     payment.setPaid(true);
                     payment.setPlanType(planType);

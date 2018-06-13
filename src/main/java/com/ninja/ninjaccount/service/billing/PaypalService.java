@@ -4,6 +4,7 @@ import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import com.ninja.ninjaccount.service.billing.dto.CompletePaymentDTO;
 import com.ninja.ninjaccount.service.billing.dto.ReturnPaymentDTO;
 import com.paypal.api.payments.*;
+import com.paypal.api.payments.Currency;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
 import org.slf4j.Logger;
@@ -14,11 +15,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.time.Instant;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PaypalService {
@@ -29,10 +28,6 @@ public class PaypalService {
     private String clientSecret;
     @Value("${application.paypal.mode}")
     private String mode;
-    @Value("${application.paypal.id-year-plan}")
-    private String idYearPlan;
-    @Value("${application.paypal.id-month-plan}")
-    private String idMonthPlan;
 
     @Value("${application.base.url}")
     private String url;
@@ -41,14 +36,8 @@ public class PaypalService {
     @Value("${server.port}")
     private String port;
 
-    private APIContext context;
-
     private final Logger log = LoggerFactory.getLogger(PaypalService.class);
 
-    @PostConstruct
-    private void initContext() {
-        context = new APIContext(clientId, clientSecret, mode);
-    }
 
     public ReturnPaymentDTO createOneTimePayment(PlanType planType, String login) {
         ReturnPaymentDTO returnPaymentDTO = new ReturnPaymentDTO();
@@ -84,8 +73,28 @@ public class PaypalService {
         payment.setTransactions(transactions);
 
         RedirectUrls redirectUrls = new RedirectUrls();
-        StringBuilder urlBuilder = new StringBuilder();
 
+        StringBuilder urlBuilder = getCurrentUrl();
+
+        redirectUrls.setCancelUrl(urlBuilder.toString() + "/#/cancel");
+        redirectUrls.setReturnUrl(urlBuilder.toString() + "/#/register");
+        payment.setRedirectUrls(redirectUrls);
+        Payment createdPayment;
+        try {
+            APIContext context = new APIContext(clientId, clientSecret, mode);
+            createdPayment = payment.create(context);
+            if (createdPayment != null) {
+                returnPaymentDTO = handlePaypalResponse(returnPaymentDTO, createdPayment.getId(), createdPayment.getLinks(), true);
+            }
+        } catch (PayPalRESTException e) {
+            log.error("Error when initiating paypal payment, login : {}", login, e);
+            returnPaymentDTO.setStatus("failure");
+        }
+        return returnPaymentDTO;
+    }
+
+    private StringBuilder getCurrentUrl() {
+        StringBuilder urlBuilder = new StringBuilder();
         String protocol = "http";
         if (keystore != null && !keystore.equals("null")) {
             protocol = "https";
@@ -96,20 +105,7 @@ public class PaypalService {
             urlBuilder.append(":").append(port);
         }
 
-        redirectUrls.setCancelUrl(urlBuilder.toString() + "/#/cancel");
-        redirectUrls.setReturnUrl(urlBuilder.toString() + "/#/register");
-        payment.setRedirectUrls(redirectUrls);
-        Payment createdPayment;
-        try {
-            createdPayment = payment.create(context);
-            if (createdPayment != null) {
-                returnPaymentDTO = handlePaypalResponse(returnPaymentDTO, createdPayment.getId(), createdPayment.getLinks(), true);
-            }
-        } catch (PayPalRESTException e) {
-            log.error("Error when initiating paypal payment, login : {}", login, e);
-            returnPaymentDTO.setStatus("failure");
-        }
-        return returnPaymentDTO;
+        return urlBuilder;
     }
 
     private ReturnPaymentDTO handlePaypalResponse(ReturnPaymentDTO returnPaymentDTO, String paymentId, List<Links> paypalReturnLinks, boolean recurring) {
@@ -138,6 +134,7 @@ public class PaypalService {
         PaymentExecution paymentExecution = new PaymentExecution();
         paymentExecution.setPayerId(completePaymentDTO.getPayerId());
         try {
+            APIContext context = new APIContext(clientId, clientSecret, mode);
             Payment createdPayment = payment.execute(context, paymentExecution);
             if (createdPayment != null && createdPayment.getState().equals("approved")) {
                 returnPaymentDTO.setStatus("success");
@@ -159,24 +156,113 @@ public class PaypalService {
     public ReturnPaymentDTO createRecurringPayment(PlanType planType, String login) {
         ReturnPaymentDTO returnPaymentDTO = new ReturnPaymentDTO();
 
-        Agreement agreement = new Agreement();
-        agreement.setName("Yearly Solocked agreement");
-        agreement.setDescription("Yearly Solocked agreement");
+        Plan plan = createBillingPlan(planType);
 
-        Instant instant = Instant.now().plus(25, ChronoUnit.HOURS).truncatedTo(ChronoUnit.MINUTES);
+        returnPaymentDTO = activateRecurringPlan(plan, returnPaymentDTO, login);
+        returnPaymentDTO = activateAgreement(planType, login, returnPaymentDTO);
+
+        return returnPaymentDTO;
+    }
+
+    private Plan createBillingPlan(PlanType planType) {
+        Plan plan = new Plan();
+        plan.setName(planType.name());
+        plan.setDescription(planType.getPlanDescription());
+        plan.setType("INFINITE");
+
+        // Payment_definitions
+        PaymentDefinition paymentDefinition = new PaymentDefinition();
+        paymentDefinition.setName("Regular Payments");
+        paymentDefinition.setType("REGULAR");
+
+        if (planType.getUnit().equals(ChronoUnit.YEARS)) {
+            paymentDefinition.setFrequency("YEAR");
+        } else {
+            paymentDefinition.setFrequency("MONTH");
+        }
+
+        paymentDefinition.setFrequencyInterval(planType.getFrequency());
+        // Cycle 0 = Infinity
+        paymentDefinition.setCycles("0");
+
+        // Currency
+        Currency currency = new Currency();
+        currency.setCurrency("USD");
+        currency.setValue(planType.getPrice().toString());
+        paymentDefinition.setAmount(currency);
+
+
+        // Charge_models
+        ChargeModels chargeModels = new ChargeModels();
+        chargeModels.setType("SHIPPING");
+        chargeModels.setAmount(currency);
+        List<ChargeModels> chargeModelsList = new ArrayList<>();
+        chargeModelsList.add(chargeModels);
+        paymentDefinition.setChargeModels(chargeModelsList);
+
+        // Payment_definition
+        List<PaymentDefinition> paymentDefinitionList = new ArrayList<>();
+        paymentDefinitionList.add(paymentDefinition);
+        plan.setPaymentDefinitions(paymentDefinitionList);
+
+        // Merchant_preferences
+        MerchantPreferences merchantPreferences = new MerchantPreferences();
+        merchantPreferences.setSetupFee(currency);
+
+
+        StringBuilder currentURL = getCurrentUrl();
+
+        merchantPreferences.setCancelUrl(currentURL.toString() + "/#/billing/cancel");
+        merchantPreferences.setReturnUrl(currentURL.toString() + "/#/billing");
+        merchantPreferences.setMaxFailAttempts("5");
+        merchantPreferences.setAutoBillAmount("YES");
+        merchantPreferences.setInitialFailAmountAction("CONTINUE");
+        plan.setMerchantPreferences(merchantPreferences);
+        return plan;
+    }
+
+    private ReturnPaymentDTO activateRecurringPlan(Plan plan, ReturnPaymentDTO returnPaymentDTO, String login) {
+        try {
+            APIContext context = new APIContext(clientId, clientSecret, mode);
+            // Create payment
+            Plan createdPlan = plan.create(context);
+
+            // Set up plan activate PATCH request
+            List<Patch> patchRequestList = new ArrayList<>();
+            Map<String, String> value = new HashMap<>();
+            value.put("state", "ACTIVE");
+
+            // Create update object to activate plan
+            Patch patch = new Patch();
+            patch.setPath("/");
+            patch.setValue(value);
+            patch.setOp("replace");
+            patchRequestList.add(patch);
+
+            // Activate plan
+            createdPlan.update(context, patchRequestList);
+            returnPaymentDTO.setStatus("success");
+            returnPaymentDTO.setBillingPlanId(createdPlan.getId());
+        } catch (PayPalRESTException e) {
+            log.error("Error when initiating paypal payment, login : {}", login, e);
+            returnPaymentDTO.setStatus("failure");
+        }
+
+        return returnPaymentDTO;
+    }
+
+    private ReturnPaymentDTO activateAgreement(PlanType planType, String login, ReturnPaymentDTO returnPaymentDTO) {
+        Agreement agreement = new Agreement();
+        agreement.setName(planType.getPlanDescription() + " Agreement");
+        agreement.setDescription(planType.name());
+
+        Instant instant = LocalDateTime.now().plus(planType.getUnitAmountValidity(), planType.getUnit()).toInstant(ZoneOffset.UTC).truncatedTo(ChronoUnit.MINUTES);
 
         agreement.setStartDate(instant.toString());
 
         // Set plan ID
         Plan plan = new Plan();
-        switch (planType) {
-            case PREMIUMYEAR:
-                plan.setId(idYearPlan);
-                break;
-            case PREMIUMMONTH:
-                plan.setId(idMonthPlan);
-                break;
-        }
+        plan.setId(returnPaymentDTO.getBillingPlanId());
         agreement.setPlan(plan);
 
         // Add payer details
@@ -185,6 +271,7 @@ public class PaypalService {
         agreement.setPayer(payer);
 
         try {
+            APIContext context = new APIContext(clientId, clientSecret, mode);
             agreement = agreement.create(context);
             returnPaymentDTO = handlePaypalResponse(returnPaymentDTO, agreement.getId(), agreement.getLinks(), true);
             returnPaymentDTO.setTokenForRecurring(agreement.getToken());
@@ -193,7 +280,6 @@ public class PaypalService {
             log.error("Error when initiating paypal payment, login : {}", login, e);
             returnPaymentDTO.setStatus("failure");
         }
-
         return returnPaymentDTO;
     }
 
@@ -205,10 +291,12 @@ public class PaypalService {
         agreement.setToken(token);
 
         try {
+            APIContext context = new APIContext(clientId, clientSecret, mode);
             Agreement activeAgreement = Agreement.execute(context, agreement.getToken());
             if (activeAgreement != null && activeAgreement.getState().equals("Active")) {
                 returnPaymentDTO.setStatus("success");
                 returnPaymentDTO.setPaymentId(activeAgreement.getId());
+                returnPaymentDTO.setPlanType(PlanType.valueOf(activeAgreement.getDescription()));
             }
         } catch (PayPalRESTException e) {
             log.error("Error when initiating paypal payment, login : {}", login, e);

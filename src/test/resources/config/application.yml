@@ -110,7 +110,5 @@ application:
         client-id: itsanid
         client-secret: itsasecret
         mode: sandbox
-        id-year-plan: P-97R39885S928420106VL7WYY
-        id-month-plan: P-6B857961CH185162E6V647AQ
     base:
         url: localhost
