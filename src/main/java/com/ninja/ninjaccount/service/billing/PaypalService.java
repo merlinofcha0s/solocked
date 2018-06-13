@@ -105,7 +105,7 @@ public class PaypalService {
         return returnPaymentDTO;
     }
 
-    private ReturnPaymentDTO handlePaypalResponse(ReturnPaymentDTO returnPaymentDTO, String paymentId, List<Links> paypalReturnLinks, boolean recurring) {
+    private ReturnPaymentDTO handlePaypalResponse(ReturnPaymentDTO returnPaymentDTO, String paymentOrTokenId, List<Links> paypalReturnLinks, boolean recurring) {
         Optional<String> redirectUrl = paypalReturnLinks.stream()
             .filter(links -> links.getRel().equalsIgnoreCase("approval_url"))
             .map(Links::getHref).findFirst();
@@ -114,14 +114,15 @@ public class PaypalService {
             returnPaymentDTO.setStatus("success");
             returnPaymentDTO.setReturnUrl(redirectUrl.get());
             if (recurring) {
-
+                returnPaymentDTO.setRecurring(true);
+                returnPaymentDTO.setTokenForRecurring(paymentOrTokenId);
             } else {
-                returnPaymentDTO.setPaymentId(paymentId);
+                returnPaymentDTO.setPaymentId(paymentOrTokenId);
             }
 
         } else {
             returnPaymentDTO.setStatus("failure");
-            log.error("No redirect url present in the paypal response id paypal : {}", paymentId);
+            log.error("No redirect url present in the paypal response id paypal : {}", paymentOrTokenId);
         }
 
         return returnPaymentDTO;

@@ -1,4 +1,4 @@
-import {BaseEntity} from './../../shared';
+import { BaseEntity } from './../../shared';
 
 export enum PlanType {
     FREE = 'FREE',
@@ -21,10 +21,12 @@ export class Payment implements BaseEntity {
         public paid?: boolean,
         public validUntil?: any,
         public lastPaymentId?: string,
-        public lastPayerId?: string,
+        public recurring?: boolean,
+        public billingPlanId?: string,
         public userLogin?: string,
         public userId?: number,
     ) {
         this.paid = false;
+        this.recurring = false;
     }
 }

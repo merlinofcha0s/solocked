@@ -49,7 +49,11 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "lastPayerId",
+            "fieldName": "recurring",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "billingPlanId",
             "fieldType": "String"
         }
     ],

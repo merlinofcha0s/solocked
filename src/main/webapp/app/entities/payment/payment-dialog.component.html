@@ -69,29 +69,29 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.validUntil" for="field_validUntil">Valid
-                Until</label>
+            <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.validUntil" for="field_validUntil">Valid Until</label>
             <div class="input-group">
-                <input id="field_validUntil" type="text" class="form-control" name="validUntil" ngbDatepicker
-                       #validUntilDp="ngbDatepicker" [(ngModel)]="payment.validUntil"
+                <input id="field_validUntil" type="text" class="form-control" name="validUntil" ngbDatepicker  #validUntilDp="ngbDatepicker" [(ngModel)]="payment.validUntil"
                 />
                 <span class="input-group-append">
-                    <button type="button" class="btn btn-secondary" (click)="validUntilDp.toggle()"><i
-                        class="fa fa-calendar"></i></button>
+                    <button type="button" class="btn btn-secondary" (click)="validUntilDp.toggle()"><i class="fa fa-calendar"></i></button>
                 </span>
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.lastPaymentId"
-                   for="field_lastPaymentId">Last Payment Id</label>
+            <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.lastPaymentId" for="field_lastPaymentId">Last Payment Id</label>
             <input type="text" class="form-control" name="lastPaymentId" id="field_lastPaymentId"
-                   [(ngModel)]="payment.lastPaymentId"/>
+                [(ngModel)]="payment.lastPaymentId" />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.lastPayerId" for="field_lastPayerId">Last
-                Payer Id</label>
-            <input type="text" class="form-control" name="lastPayerId" id="field_lastPayerId"
-                   [(ngModel)]="payment.lastPayerId"/>
+            <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.recurring" for="field_recurring">Recurring</label>
+            <input type="checkbox" class="form-control" name="recurring" id="field_recurring"
+                [(ngModel)]="payment.recurring" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.billingPlanId" for="field_billingPlanId">Billing Plan Id</label>
+            <input type="text" class="form-control" name="billingPlanId" id="field_billingPlanId"
+                [(ngModel)]="payment.billingPlanId" />
         </div>
 
         <div class="form-group">

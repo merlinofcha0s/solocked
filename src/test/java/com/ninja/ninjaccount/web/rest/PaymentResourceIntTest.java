@@ -1,6 +1,7 @@
 package com.ninja.ninjaccount.web.rest;
 
 import com.ninja.ninjaccount.NinjaccountApp;
+
 import com.ninja.ninjaccount.domain.Payment;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
@@ -11,6 +12,7 @@ import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.mapper.PaymentMapper;
 import com.ninja.ninjaccount.web.rest.errors.ExceptionTranslator;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,6 +40,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import com.ninja.ninjaccount.domain.enumeration.PlanType;
 /**
  * Test class for the PaymentResource REST controller.
  *
@@ -65,8 +69,11 @@ public class PaymentResourceIntTest {
     private static final String DEFAULT_LAST_PAYMENT_ID = "AAAAAAAAAA";
     private static final String UPDATED_LAST_PAYMENT_ID = "BBBBBBBBBB";
 
-    private static final String DEFAULT_LAST_PAYER_ID = "AAAAAAAAAA";
-    private static final String UPDATED_LAST_PAYER_ID = "BBBBBBBBBB";
+    private static final Boolean DEFAULT_RECURRING = false;
+    private static final Boolean UPDATED_RECURRING = true;
+
+    private static final String DEFAULT_BILLING_PLAN_ID = "AAAAAAAAAA";
+    private static final String UPDATED_BILLING_PLAN_ID = "BBBBBBBBBB";
 
     @Autowired
     private PaymentRepository paymentRepository;
@@ -121,7 +128,8 @@ public class PaymentResourceIntTest {
             .paid(DEFAULT_PAID)
             .validUntil(DEFAULT_VALID_UNTIL)
             .lastPaymentId(DEFAULT_LAST_PAYMENT_ID)
-            .lastPayerId(DEFAULT_LAST_PAYER_ID);
+            .recurring(DEFAULT_RECURRING)
+            .billingPlanId(DEFAULT_BILLING_PLAN_ID);
         return payment;
     }
 
@@ -152,7 +160,8 @@ public class PaymentResourceIntTest {
         assertThat(testPayment.isPaid()).isEqualTo(DEFAULT_PAID);
         assertThat(testPayment.getValidUntil()).isEqualTo(DEFAULT_VALID_UNTIL);
         assertThat(testPayment.getLastPaymentId()).isEqualTo(DEFAULT_LAST_PAYMENT_ID);
-        assertThat(testPayment.getLastPayerId()).isEqualTo(DEFAULT_LAST_PAYER_ID);
+        assertThat(testPayment.isRecurring()).isEqualTo(DEFAULT_RECURRING);
+        assertThat(testPayment.getBillingPlanId()).isEqualTo(DEFAULT_BILLING_PLAN_ID);
     }
 
     @Test
@@ -268,7 +277,8 @@ public class PaymentResourceIntTest {
             .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.booleanValue())))
             .andExpect(jsonPath("$.[*].validUntil").value(hasItem(DEFAULT_VALID_UNTIL.toString())))
             .andExpect(jsonPath("$.[*].lastPaymentId").value(hasItem(DEFAULT_LAST_PAYMENT_ID.toString())))
-            .andExpect(jsonPath("$.[*].lastPayerId").value(hasItem(DEFAULT_LAST_PAYER_ID.toString())));
+            .andExpect(jsonPath("$.[*].recurring").value(hasItem(DEFAULT_RECURRING.booleanValue())))
+            .andExpect(jsonPath("$.[*].billingPlanId").value(hasItem(DEFAULT_BILLING_PLAN_ID.toString())));
     }
 
     @Test
@@ -288,7 +298,8 @@ public class PaymentResourceIntTest {
             .andExpect(jsonPath("$.paid").value(DEFAULT_PAID.booleanValue()))
             .andExpect(jsonPath("$.validUntil").value(DEFAULT_VALID_UNTIL.toString()))
             .andExpect(jsonPath("$.lastPaymentId").value(DEFAULT_LAST_PAYMENT_ID.toString()))
-            .andExpect(jsonPath("$.lastPayerId").value(DEFAULT_LAST_PAYER_ID.toString()));
+            .andExpect(jsonPath("$.recurring").value(DEFAULT_RECURRING.booleanValue()))
+            .andExpect(jsonPath("$.billingPlanId").value(DEFAULT_BILLING_PLAN_ID.toString()));
     }
 
     @Test
@@ -317,7 +328,8 @@ public class PaymentResourceIntTest {
             .paid(UPDATED_PAID)
             .validUntil(UPDATED_VALID_UNTIL)
             .lastPaymentId(UPDATED_LAST_PAYMENT_ID)
-            .lastPayerId(UPDATED_LAST_PAYER_ID);
+            .recurring(UPDATED_RECURRING)
+            .billingPlanId(UPDATED_BILLING_PLAN_ID);
         PaymentDTO paymentDTO = paymentMapper.toDto(updatedPayment);
 
         restPaymentMockMvc.perform(put("/api/payments")
@@ -335,7 +347,8 @@ public class PaymentResourceIntTest {
         assertThat(testPayment.isPaid()).isEqualTo(UPDATED_PAID);
         assertThat(testPayment.getValidUntil()).isEqualTo(UPDATED_VALID_UNTIL);
         assertThat(testPayment.getLastPaymentId()).isEqualTo(UPDATED_LAST_PAYMENT_ID);
-        assertThat(testPayment.getLastPayerId()).isEqualTo(UPDATED_LAST_PAYER_ID);
+        assertThat(testPayment.isRecurring()).isEqualTo(UPDATED_RECURRING);
+        assertThat(testPayment.getBillingPlanId()).isEqualTo(UPDATED_BILLING_PLAN_ID);
     }
 
     @Test

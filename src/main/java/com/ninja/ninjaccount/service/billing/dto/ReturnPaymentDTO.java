@@ -14,6 +14,10 @@ public class ReturnPaymentDTO {
 
     private PlanType planType;
 
+    private Boolean recurring;
+
+    private String tokenForRecurring;
+
     public String getStatus() {
         return status;
     }
@@ -52,6 +56,22 @@ public class ReturnPaymentDTO {
 
     public void setPayerId(String payerId) {
         this.payerId = payerId;
+    }
+
+    public Boolean getRecurring() {
+        return recurring;
+    }
+
+    public void setRecurring(Boolean recurring) {
+        this.recurring = recurring;
+    }
+
+    public String getTokenForRecurring() {
+        return tokenForRecurring;
+    }
+
+    public void setTokenForRecurring(String tokenForRecurring) {
+        this.tokenForRecurring = tokenForRecurring;
     }
 
     @Override

@@ -1,14 +1,16 @@
 package com.ninja.ninjaccount.domain;
 
-import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
+
+import com.ninja.ninjaccount.domain.enumeration.PlanType;
 
 /**
  * A Payment.
@@ -48,8 +50,11 @@ public class Payment implements Serializable {
     @Column(name = "last_payment_id")
     private String lastPaymentId;
 
-    @Column(name = "last_payer_id")
-    private String lastPayerId;
+    @Column(name = "recurring")
+    private Boolean recurring;
+
+    @Column(name = "billing_plan_id")
+    private String billingPlanId;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -142,17 +147,30 @@ public class Payment implements Serializable {
         this.lastPaymentId = lastPaymentId;
     }
 
-    public String getLastPayerId() {
-        return lastPayerId;
+    public Boolean isRecurring() {
+        return recurring;
     }
 
-    public Payment lastPayerId(String lastPayerId) {
-        this.lastPayerId = lastPayerId;
+    public Payment recurring(Boolean recurring) {
+        this.recurring = recurring;
         return this;
     }
 
-    public void setLastPayerId(String lastPayerId) {
-        this.lastPayerId = lastPayerId;
+    public void setRecurring(Boolean recurring) {
+        this.recurring = recurring;
+    }
+
+    public String getBillingPlanId() {
+        return billingPlanId;
+    }
+
+    public Payment billingPlanId(String billingPlanId) {
+        this.billingPlanId = billingPlanId;
+        return this;
+    }
+
+    public void setBillingPlanId(String billingPlanId) {
+        this.billingPlanId = billingPlanId;
     }
 
     public User getUser() {
@@ -199,7 +217,8 @@ public class Payment implements Serializable {
             ", paid='" + isPaid() + "'" +
             ", validUntil='" + getValidUntil() + "'" +
             ", lastPaymentId='" + getLastPaymentId() + "'" +
-            ", lastPayerId='" + getLastPayerId() + "'" +
+            ", recurring='" + isRecurring() + "'" +
+            ", billingPlanId='" + getBillingPlanId() + "'" +
             "}";
     }
 }

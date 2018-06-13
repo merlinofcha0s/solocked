@@ -1,20 +1,20 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
-import {RouterModule} from '@angular/router';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
-import {NinjaccountSharedModule} from '../../shared';
-import {NinjaccountAdminModule} from '../../admin/admin.module';
+import { NinjaccountSharedModule } from '../../shared';
+import { NinjaccountAdminModule } from '../../admin/admin.module';
 import {
+    PaymentService,
+    PaymentPopupService,
     PaymentComponent,
-    PaymentDeleteDialogComponent,
-    PaymentDeletePopupComponent,
     PaymentDetailComponent,
     PaymentDialogComponent,
     PaymentPopupComponent,
-    paymentPopupRoute,
-    PaymentPopupService,
+    PaymentDeletePopupComponent,
+    PaymentDeleteDialogComponent,
     paymentRoute,
+    paymentPopupRoute,
 } from './';
-import {PaymentService} from './payment.service';
 
 const ENTITY_STATES = [
     ...paymentRoute,

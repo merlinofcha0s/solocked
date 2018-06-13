@@ -1,5 +1,5 @@
-import {browser, by, element} from 'protractor';
-import {NavBarPage} from './../page-objects/jhi-page-objects';
+import { browser, element, by } from 'protractor';
+import { NavBarPage } from './../page-objects/jhi-page-objects';
 
 describe('Payment e2e test', () => {
 
@@ -51,8 +51,17 @@ describe('Payment e2e test', () => {
         expect(paymentDialogPage.getValidUntilInput()).toMatch('2000-12-31');
         paymentDialogPage.setLastPaymentIdInput('lastPaymentId');
         expect(paymentDialogPage.getLastPaymentIdInput()).toMatch('lastPaymentId');
-        paymentDialogPage.setLastPayerIdInput('lastPayerId');
-        expect(paymentDialogPage.getLastPayerIdInput()).toMatch('lastPayerId');
+        paymentDialogPage.getRecurringInput().isSelected().then((selected) => {
+            if (selected) {
+                paymentDialogPage.getRecurringInput().click();
+                expect(paymentDialogPage.getRecurringInput().isSelected()).toBeFalsy();
+            } else {
+                paymentDialogPage.getRecurringInput().click();
+                expect(paymentDialogPage.getRecurringInput().isSelected()).toBeTruthy();
+            }
+        });
+        paymentDialogPage.setBillingPlanIdInput('billingPlanId');
+        expect(paymentDialogPage.getBillingPlanIdInput()).toMatch('billingPlanId');
         paymentDialogPage.userSelectLastOption();
         paymentDialogPage.save();
         expect(paymentDialogPage.getSaveButton().isPresent()).toBeFalsy();
@@ -86,7 +95,8 @@ export class PaymentDialogPage {
     paidInput = element(by.css('input#field_paid'));
     validUntilInput = element(by.css('input#field_validUntil'));
     lastPaymentIdInput = element(by.css('input#field_lastPaymentId'));
-    lastPayerIdInput = element(by.css('input#field_lastPayerId'));
+    recurringInput = element(by.css('input#field_recurring'));
+    billingPlanIdInput = element(by.css('input#field_billingPlanId'));
     userSelect = element(by.css('select#field_user'));
 
     getModalTitle() {
@@ -123,28 +133,31 @@ export class PaymentDialogPage {
     getPaidInput = function() {
         return this.paidInput;
     };
-    setValidUntilInput = function (validUntil) {
+    setValidUntilInput = function(validUntil) {
         this.validUntilInput.sendKeys(validUntil);
     };
 
-    getValidUntilInput = function () {
+    getValidUntilInput = function() {
         return this.validUntilInput.getAttribute('value');
     };
 
-    setLastPaymentIdInput = function (lastPaymentId) {
+    setLastPaymentIdInput = function(lastPaymentId) {
         this.lastPaymentIdInput.sendKeys(lastPaymentId);
     };
 
-    getLastPaymentIdInput = function () {
+    getLastPaymentIdInput = function() {
         return this.lastPaymentIdInput.getAttribute('value');
     };
 
-    setLastPayerIdInput = function (lastPayerId) {
-        this.lastPayerIdInput.sendKeys(lastPayerId);
+    getRecurringInput = function() {
+        return this.recurringInput;
+    };
+    setBillingPlanIdInput = function(billingPlanId) {
+        this.billingPlanIdInput.sendKeys(billingPlanId);
     };
 
-    getLastPayerIdInput = function () {
-        return this.lastPayerIdInput.getAttribute('value');
+    getBillingPlanIdInput = function() {
+        return this.billingPlanIdInput.getAttribute('value');
     };
 
     userSelectLastOption = function() {

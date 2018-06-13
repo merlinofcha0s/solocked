@@ -22,7 +22,8 @@
             "paid": "Paid",
             "validUntil": "Valid Until",
             "lastPaymentId": "Last Payment Id",
-            "lastPayerId": "Last Payer Id",
+            "recurring": "Recurring",
+            "billingPlanId": "Billing Plan Id",
             "user": "User"
         }
     }

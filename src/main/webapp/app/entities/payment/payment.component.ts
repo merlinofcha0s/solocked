@@ -1,18 +1,18 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {Subscription} from 'rxjs/Subscription';
-import {JhiAlertService, JhiEventManager} from 'ng-jhipster';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs/Subscription';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
-import {Payment} from './payment.model';
-import {Principal} from '../../shared/auth/principal.service';
-import {PaymentService} from './payment.service';
+import { Payment } from './payment.model';
+import { PaymentService } from './payment.service';
+import { Principal } from '../../shared';
 
 @Component({
     selector: 'jhi-payment',
     templateUrl: './payment.component.html'
 })
 export class PaymentComponent implements OnInit, OnDestroy {
-    payments: Payment[];
+payments: Payment[];
     currentAccount: any;
     eventSubscriber: Subscription;
 
@@ -32,7 +32,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
             (res: HttpErrorResponse) => this.onError(res.message)
         );
     }
-
     ngOnInit() {
         this.loadAll();
         this.principal.identity().then((account) => {
@@ -48,7 +47,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
     trackId(index: number, item: Payment) {
         return item.id;
     }
-
     registerChangeInPayments() {
         this.eventSubscriber = this.eventManager.subscribe('paymentListModification', (response) => this.loadAll());
     }

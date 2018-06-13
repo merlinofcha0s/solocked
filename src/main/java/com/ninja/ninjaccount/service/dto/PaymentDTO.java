@@ -1,12 +1,13 @@
 package com.ninja.ninjaccount.service.dto;
 
 
-import com.ninja.ninjaccount.domain.enumeration.PlanType;
-
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.time.LocalDate;
+import javax.validation.constraints.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
+import com.ninja.ninjaccount.domain.enumeration.PlanType;
 
 /**
  * A DTO for the Payment entity.
@@ -31,7 +32,9 @@ public class PaymentDTO implements Serializable {
 
     private String lastPaymentId;
 
-    private String lastPayerId;
+    private Boolean recurring;
+
+    private String billingPlanId;
 
     private Long userId;
 
@@ -93,12 +96,20 @@ public class PaymentDTO implements Serializable {
         this.lastPaymentId = lastPaymentId;
     }
 
-    public String getLastPayerId() {
-        return lastPayerId;
+    public Boolean isRecurring() {
+        return recurring;
     }
 
-    public void setLastPayerId(String lastPayerId) {
-        this.lastPayerId = lastPayerId;
+    public void setRecurring(Boolean recurring) {
+        this.recurring = recurring;
+    }
+
+    public String getBillingPlanId() {
+        return billingPlanId;
+    }
+
+    public void setBillingPlanId(String billingPlanId) {
+        this.billingPlanId = billingPlanId;
     }
 
     public Long getUserId() {
@@ -148,7 +159,8 @@ public class PaymentDTO implements Serializable {
             ", paid='" + isPaid() + "'" +
             ", validUntil='" + getValidUntil() + "'" +
             ", lastPaymentId='" + getLastPaymentId() + "'" +
-            ", lastPayerId='" + getLastPayerId() + "'" +
+            ", recurring='" + isRecurring() + "'" +
+            ", billingPlanId='" + getBillingPlanId() + "'" +
             "}";
     }
 }

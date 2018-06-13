@@ -1,3 +1,4 @@
+
 {
     "ninjaccountApp": {
         "payment" : {
@@ -21,7 +22,8 @@
             "paid": "Paid",
             "validUntil": "Valid Until",
             "lastPaymentId": "Last Payment Id",
-            "lastPayerId": "Last Payer Id",
+            "recurring": "Recurring",
+            "billingPlanId": "Billing Plan Id",
             "user": "User",
             "warningfreemode": "Your account is in free mode, if you want to upgrade click",
             "warningnotpaidmode": "Your subscription has ended. <br/> Your account is in read only mode, if you want to upgrade click",

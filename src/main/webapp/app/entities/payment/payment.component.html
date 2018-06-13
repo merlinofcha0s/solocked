@@ -21,9 +21,10 @@
             <th><span jhiTranslate="ninjaccountApp.payment.price">Price</span></th>
             <th><span jhiTranslate="ninjaccountApp.payment.planType">Plan Type</span></th>
             <th><span jhiTranslate="ninjaccountApp.payment.paid">Paid</span></th>
-                <th><span jhiTranslate="ninjaccountApp.payment.validUntil">Valid Until</span></th>
-                <th><span jhiTranslate="ninjaccountApp.payment.lastPaymentId">Last Payment Id</span></th>
-                <th><span jhiTranslate="ninjaccountApp.payment.lastPayerId">Last Payer Id</span></th>
+            <th><span jhiTranslate="ninjaccountApp.payment.validUntil">Valid Until</span></th>
+            <th><span jhiTranslate="ninjaccountApp.payment.lastPaymentId">Last Payment Id</span></th>
+            <th><span jhiTranslate="ninjaccountApp.payment.recurring">Recurring</span></th>
+            <th><span jhiTranslate="ninjaccountApp.payment.billingPlanId">Billing Plan Id</span></th>
             <th><span jhiTranslate="ninjaccountApp.payment.user">User</span></th>
             <th></th>
             </tr>
@@ -37,7 +38,8 @@
                 <td>{{payment.paid}}</td>
                 <td>{{payment.validUntil | date:'mediumDate'}}</td>
                 <td>{{payment.lastPaymentId}}</td>
-                <td>{{payment.lastPayerId}}</td>
+                <td>{{payment.recurring}}</td>
+                <td>{{payment.billingPlanId}}</td>
                 <td>
                     {{payment.userLogin}}
                 </td>
