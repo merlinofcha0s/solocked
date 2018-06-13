@@ -93,6 +93,11 @@
             <input type="text" class="form-control" name="billingPlanId" id="field_billingPlanId"
                 [(ngModel)]="payment.billingPlanId" />
         </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.tokenRecurring" for="field_tokenRecurring">Token Recurring</label>
+            <input type="text" class="form-control" name="tokenRecurring" id="field_tokenRecurring"
+                [(ngModel)]="payment.tokenRecurring" />
+        </div>
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.user" for="field_user">User</label>

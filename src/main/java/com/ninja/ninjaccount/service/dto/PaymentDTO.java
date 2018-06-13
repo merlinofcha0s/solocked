@@ -36,6 +36,8 @@ public class PaymentDTO implements Serializable {
 
     private String billingPlanId;
 
+    private String tokenRecurring;
+
     private Long userId;
 
     private String userLogin;
@@ -112,6 +114,14 @@ public class PaymentDTO implements Serializable {
         this.billingPlanId = billingPlanId;
     }
 
+    public String getTokenRecurring() {
+        return tokenRecurring;
+    }
+
+    public void setTokenRecurring(String tokenRecurring) {
+        this.tokenRecurring = tokenRecurring;
+    }
+
     public Long getUserId() {
         return userId;
     }
@@ -161,6 +171,7 @@ public class PaymentDTO implements Serializable {
             ", lastPaymentId='" + getLastPaymentId() + "'" +
             ", recurring='" + isRecurring() + "'" +
             ", billingPlanId='" + getBillingPlanId() + "'" +
+            ", tokenRecurring='" + getTokenRecurring() + "'" +
             "}";
     }
 }

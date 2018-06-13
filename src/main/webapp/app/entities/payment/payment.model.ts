@@ -23,6 +23,7 @@ export class Payment implements BaseEntity {
         public lastPaymentId?: string,
         public recurring?: boolean,
         public billingPlanId?: string,
+        public tokenRecurring?: string,
         public userLogin?: string,
         public userId?: number,
     ) {

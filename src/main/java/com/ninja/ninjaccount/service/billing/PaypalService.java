@@ -105,7 +105,7 @@ public class PaypalService {
         return returnPaymentDTO;
     }
 
-    private ReturnPaymentDTO handlePaypalResponse(ReturnPaymentDTO returnPaymentDTO, String paymentOrTokenId, List<Links> paypalReturnLinks, boolean recurring) {
+    private ReturnPaymentDTO handlePaypalResponse(ReturnPaymentDTO returnPaymentDTO, String paymentId, List<Links> paypalReturnLinks, boolean recurring) {
         Optional<String> redirectUrl = paypalReturnLinks.stream()
             .filter(links -> links.getRel().equalsIgnoreCase("approval_url"))
             .map(Links::getHref).findFirst();
@@ -113,16 +113,11 @@ public class PaypalService {
         if (redirectUrl.isPresent()) {
             returnPaymentDTO.setStatus("success");
             returnPaymentDTO.setReturnUrl(redirectUrl.get());
-            if (recurring) {
-                returnPaymentDTO.setRecurring(true);
-                returnPaymentDTO.setTokenForRecurring(paymentOrTokenId);
-            } else {
-                returnPaymentDTO.setPaymentId(paymentOrTokenId);
-            }
-
+            returnPaymentDTO.setRecurring(recurring);
+            returnPaymentDTO.setPaymentId(paymentId);
         } else {
             returnPaymentDTO.setStatus("failure");
-            log.error("No redirect url present in the paypal response id paypal : {}", paymentOrTokenId);
+            log.error("No redirect url present in the paypal response id paypal : {}", paymentId);
         }
 
         return returnPaymentDTO;
@@ -186,7 +181,9 @@ public class PaypalService {
         try {
             APIContext context = new APIContext(clientId, clientSecret, mode);
             agreement = agreement.create(context);
-            returnPaymentDTO = handlePaypalResponse(returnPaymentDTO, agreement.getToken(), agreement.getLinks(), true);
+            returnPaymentDTO = handlePaypalResponse(returnPaymentDTO, agreement.getId(), agreement.getLinks(), true);
+            returnPaymentDTO.setTokenForRecurring(agreement.getToken());
+            returnPaymentDTO.setBillingPlanId(plan.getId());
         } catch (UnsupportedEncodingException | PayPalRESTException | MalformedURLException e) {
             log.error("Error when initiating paypal payment, login : {}", login, e);
             returnPaymentDTO.setStatus("failure");

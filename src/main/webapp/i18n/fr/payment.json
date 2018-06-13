@@ -24,6 +24,7 @@
             "lastPaymentId": "Last Payment Id",
             "recurring": "Recurring",
             "billingPlanId": "Billing Plan Id",
+            "tokenRecurring": "Token Recurring",
             "user": "User"
         }
     }

@@ -18,6 +18,8 @@ public class ReturnPaymentDTO {
 
     private String tokenForRecurring;
 
+    private String billingPlanId;
+
     public String getStatus() {
         return status;
     }
@@ -72,6 +74,14 @@ public class ReturnPaymentDTO {
 
     public void setTokenForRecurring(String tokenForRecurring) {
         this.tokenForRecurring = tokenForRecurring;
+    }
+
+    public String getBillingPlanId() {
+        return billingPlanId;
+    }
+
+    public void setBillingPlanId(String billingPlanId) {
+        this.billingPlanId = billingPlanId;
     }
 
     @Override

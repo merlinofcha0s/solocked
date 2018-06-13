@@ -56,6 +56,9 @@ public class Payment implements Serializable {
     @Column(name = "billing_plan_id")
     private String billingPlanId;
 
+    @Column(name = "token_recurring")
+    private String tokenRecurring;
+
     @OneToOne
     @JoinColumn(unique = true)
     private User user;
@@ -173,6 +176,19 @@ public class Payment implements Serializable {
         this.billingPlanId = billingPlanId;
     }
 
+    public String getTokenRecurring() {
+        return tokenRecurring;
+    }
+
+    public Payment tokenRecurring(String tokenRecurring) {
+        this.tokenRecurring = tokenRecurring;
+        return this;
+    }
+
+    public void setTokenRecurring(String tokenRecurring) {
+        this.tokenRecurring = tokenRecurring;
+    }
+
     public User getUser() {
         return user;
     }
@@ -219,6 +235,7 @@ public class Payment implements Serializable {
             ", lastPaymentId='" + getLastPaymentId() + "'" +
             ", recurring='" + isRecurring() + "'" +
             ", billingPlanId='" + getBillingPlanId() + "'" +
+            ", tokenRecurring='" + getTokenRecurring() + "'" +
             "}";
     }
 }

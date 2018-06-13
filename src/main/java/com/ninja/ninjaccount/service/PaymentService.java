@@ -224,7 +224,8 @@ public class PaymentService {
         Optional<Payment> payment = paymentRepository.findOneByUserLogin(login);
 
         if (payment.isPresent() && returnPaymentDTO.getStatus().equals("success")) {
-            payment.get().setLastPaymentId(returnPaymentDTO.getPaymentId());
+            payment.get().setRecurring(true);
+            payment.get().setTokenRecurring(returnPaymentDTO.getTokenForRecurring());
             paymentRepository.save(payment.get());
         }
 

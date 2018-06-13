@@ -75,6 +75,9 @@ public class PaymentResourceIntTest {
     private static final String DEFAULT_BILLING_PLAN_ID = "AAAAAAAAAA";
     private static final String UPDATED_BILLING_PLAN_ID = "BBBBBBBBBB";
 
+    private static final String DEFAULT_TOKEN_RECURRING = "AAAAAAAAAA";
+    private static final String UPDATED_TOKEN_RECURRING = "BBBBBBBBBB";
+
     @Autowired
     private PaymentRepository paymentRepository;
 
@@ -129,7 +132,8 @@ public class PaymentResourceIntTest {
             .validUntil(DEFAULT_VALID_UNTIL)
             .lastPaymentId(DEFAULT_LAST_PAYMENT_ID)
             .recurring(DEFAULT_RECURRING)
-            .billingPlanId(DEFAULT_BILLING_PLAN_ID);
+            .billingPlanId(DEFAULT_BILLING_PLAN_ID)
+            .tokenRecurring(DEFAULT_TOKEN_RECURRING);
         return payment;
     }
 
@@ -162,6 +166,7 @@ public class PaymentResourceIntTest {
         assertThat(testPayment.getLastPaymentId()).isEqualTo(DEFAULT_LAST_PAYMENT_ID);
         assertThat(testPayment.isRecurring()).isEqualTo(DEFAULT_RECURRING);
         assertThat(testPayment.getBillingPlanId()).isEqualTo(DEFAULT_BILLING_PLAN_ID);
+        assertThat(testPayment.getTokenRecurring()).isEqualTo(DEFAULT_TOKEN_RECURRING);
     }
 
     @Test
@@ -278,7 +283,8 @@ public class PaymentResourceIntTest {
             .andExpect(jsonPath("$.[*].validUntil").value(hasItem(DEFAULT_VALID_UNTIL.toString())))
             .andExpect(jsonPath("$.[*].lastPaymentId").value(hasItem(DEFAULT_LAST_PAYMENT_ID.toString())))
             .andExpect(jsonPath("$.[*].recurring").value(hasItem(DEFAULT_RECURRING.booleanValue())))
-            .andExpect(jsonPath("$.[*].billingPlanId").value(hasItem(DEFAULT_BILLING_PLAN_ID.toString())));
+            .andExpect(jsonPath("$.[*].billingPlanId").value(hasItem(DEFAULT_BILLING_PLAN_ID.toString())))
+            .andExpect(jsonPath("$.[*].tokenRecurring").value(hasItem(DEFAULT_TOKEN_RECURRING.toString())));
     }
 
     @Test
@@ -299,7 +305,8 @@ public class PaymentResourceIntTest {
             .andExpect(jsonPath("$.validUntil").value(DEFAULT_VALID_UNTIL.toString()))
             .andExpect(jsonPath("$.lastPaymentId").value(DEFAULT_LAST_PAYMENT_ID.toString()))
             .andExpect(jsonPath("$.recurring").value(DEFAULT_RECURRING.booleanValue()))
-            .andExpect(jsonPath("$.billingPlanId").value(DEFAULT_BILLING_PLAN_ID.toString()));
+            .andExpect(jsonPath("$.billingPlanId").value(DEFAULT_BILLING_PLAN_ID.toString()))
+            .andExpect(jsonPath("$.tokenRecurring").value(DEFAULT_TOKEN_RECURRING.toString()));
     }
 
     @Test
@@ -329,7 +336,8 @@ public class PaymentResourceIntTest {
             .validUntil(UPDATED_VALID_UNTIL)
             .lastPaymentId(UPDATED_LAST_PAYMENT_ID)
             .recurring(UPDATED_RECURRING)
-            .billingPlanId(UPDATED_BILLING_PLAN_ID);
+            .billingPlanId(UPDATED_BILLING_PLAN_ID)
+            .tokenRecurring(UPDATED_TOKEN_RECURRING);
         PaymentDTO paymentDTO = paymentMapper.toDto(updatedPayment);
 
         restPaymentMockMvc.perform(put("/api/payments")
@@ -349,6 +357,7 @@ public class PaymentResourceIntTest {
         assertThat(testPayment.getLastPaymentId()).isEqualTo(UPDATED_LAST_PAYMENT_ID);
         assertThat(testPayment.isRecurring()).isEqualTo(UPDATED_RECURRING);
         assertThat(testPayment.getBillingPlanId()).isEqualTo(UPDATED_BILLING_PLAN_ID);
+        assertThat(testPayment.getTokenRecurring()).isEqualTo(UPDATED_TOKEN_RECURRING);
     }
 
     @Test

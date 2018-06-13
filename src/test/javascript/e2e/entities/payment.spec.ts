@@ -62,6 +62,8 @@ describe('Payment e2e test', () => {
         });
         paymentDialogPage.setBillingPlanIdInput('billingPlanId');
         expect(paymentDialogPage.getBillingPlanIdInput()).toMatch('billingPlanId');
+        paymentDialogPage.setTokenRecurringInput('tokenRecurring');
+        expect(paymentDialogPage.getTokenRecurringInput()).toMatch('tokenRecurring');
         paymentDialogPage.userSelectLastOption();
         paymentDialogPage.save();
         expect(paymentDialogPage.getSaveButton().isPresent()).toBeFalsy();
@@ -97,6 +99,7 @@ export class PaymentDialogPage {
     lastPaymentIdInput = element(by.css('input#field_lastPaymentId'));
     recurringInput = element(by.css('input#field_recurring'));
     billingPlanIdInput = element(by.css('input#field_billingPlanId'));
+    tokenRecurringInput = element(by.css('input#field_tokenRecurring'));
     userSelect = element(by.css('select#field_user'));
 
     getModalTitle() {
@@ -158,6 +161,14 @@ export class PaymentDialogPage {
 
     getBillingPlanIdInput = function() {
         return this.billingPlanIdInput.getAttribute('value');
+    };
+
+    setTokenRecurringInput = function(tokenRecurring) {
+        this.tokenRecurringInput.sendKeys(tokenRecurring);
+    };
+
+    getTokenRecurringInput = function() {
+        return this.tokenRecurringInput.getAttribute('value');
     };
 
     userSelectLastOption = function() {

@@ -55,6 +55,10 @@
         {
             "fieldName": "billingPlanId",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "tokenRecurring",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20170919063205",

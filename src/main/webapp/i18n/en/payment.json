@@ -24,6 +24,7 @@
             "lastPaymentId": "Last Payment Id",
             "recurring": "Recurring",
             "billingPlanId": "Billing Plan Id",
+            "tokenRecurring": "Token Recurring",
             "user": "User",
             "warningfreemode": "Your account is in free mode, if you want to upgrade click",
             "warningnotpaidmode": "Your subscription has ended. <br/> Your account is in read only mode, if you want to upgrade click",

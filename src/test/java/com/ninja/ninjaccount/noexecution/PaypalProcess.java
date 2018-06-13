@@ -134,7 +134,6 @@ public class PaypalProcess {
         params.put("status", "ACTIVE");
         params.put("page_size", "20");
         params.put("total_required", "yes");
-        params.put("total_required", "yes");
 
         PlanList plans =  Plan.list(context, params);
         System.out.println(plans.toJSON());
@@ -152,7 +151,6 @@ public class PaypalProcess {
         Map<String, String> value = new HashMap<>();
 //        value.put("cancel_url", "http://localhost:8080/#/billing/cancel");
 //        value.put("return-url", "http://localhost:8080/#/billing/");
-        value.put("status", "INACTIVE");
 //        value.put("name", "Premium month");
 //        value.put("description", "Month billed solocked payment");
 
