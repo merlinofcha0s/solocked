@@ -33,8 +33,8 @@ public class PaypalProcess {
     @Test
     public void createNewYearBillingPlan() {
         Plan plan = new Plan();
-        plan.setName("Premium year");
-        plan.setDescription("Years billed solocked payment");
+        plan.setName("Premium year local");
+        plan.setDescription("Yearly billed solocked payment local v2");
         plan.setType("INFINITE");
 
         // Payment_definitions
@@ -68,8 +68,8 @@ public class PaypalProcess {
         // Merchant_preferences
         MerchantPreferences merchantPreferences = new MerchantPreferences();
         merchantPreferences.setSetupFee(currency);
-        merchantPreferences.setCancelUrl("https://solocked.com/billing/cancel");
-        merchantPreferences.setReturnUrl("https://solocked.com/billing");
+        merchantPreferences.setCancelUrl("http://localhost:8080/#/billing/cancel");
+        merchantPreferences.setReturnUrl("http://localhost:8080/#/billing");
         merchantPreferences.setMaxFailAttempts("0");
         merchantPreferences.setAutoBillAmount("YES");
         merchantPreferences.setInitialFailAmountAction("CONTINUE");
@@ -81,8 +81,8 @@ public class PaypalProcess {
     @Test
     public void createNewMonthBillingPlan() {
         Plan plan = new Plan();
-        plan.setName("Premium year");
-        plan.setDescription("Years billed solocked payment");
+        plan.setName("Premium month v2");
+        plan.setDescription("Monthly billed solocked payment local v2");
         plan.setType("INFINITE");
 
         // Payment_definitions
@@ -116,14 +116,54 @@ public class PaypalProcess {
         // Merchant_preferences
         MerchantPreferences merchantPreferences = new MerchantPreferences();
         merchantPreferences.setSetupFee(currency);
-        merchantPreferences.setCancelUrl("https://solocked.com/billing/cancel");
-        merchantPreferences.setReturnUrl("https://solocked.com/billing");
+        merchantPreferences.setCancelUrl("http://localhost:8080/#/billing/cancel");
+        merchantPreferences.setReturnUrl("http://localhost:8080/#/billing");
         merchantPreferences.setMaxFailAttempts("0");
         merchantPreferences.setAutoBillAmount("YES");
         merchantPreferences.setInitialFailAmountAction("CONTINUE");
         plan.setMerchantPreferences(merchantPreferences);
 
         activatePlan(plan);
+    }
+
+    @Test
+    public void listAllActivePlan() throws PayPalRESTException {
+        APIContext context = new APIContext(clientId, clientSecret, mode);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("status", "ACTIVE");
+        params.put("page_size", "20");
+        params.put("total_required", "yes");
+        params.put("total_required", "yes");
+
+        PlanList plans =  Plan.list(context, params);
+        System.out.println(plans.toJSON());
+    }
+
+    @Test
+    public void updatePlan() throws PayPalRESTException {
+
+        APIContext context = new APIContext(clientId, clientSecret, mode);
+
+        Plan plan =  Plan.get(context, "P-74K781695E173574X7DQILSI");
+        System.out.println(plan.toJSON());
+
+        List<Patch> patchRequestList = new ArrayList<>();
+        Map<String, String> value = new HashMap<>();
+//        value.put("cancel_url", "http://localhost:8080/#/billing/cancel");
+//        value.put("return-url", "http://localhost:8080/#/billing/");
+        value.put("status", "INACTIVE");
+//        value.put("name", "Premium month");
+//        value.put("description", "Month billed solocked payment");
+
+        Patch patch = new Patch();
+        patch.setPath("/merchant_preferences");
+        patch.setValue(value);
+        patch.setOp("replace");
+        patchRequestList.add(patch);
+
+        // Activate plan
+        plan.update(context, patchRequestList);
     }
 
     private void activatePlan(Plan plan){
@@ -153,5 +193,7 @@ public class PaypalProcess {
             System.err.println(e.getDetails());
         }
     }
+
+
 
 }

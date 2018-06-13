@@ -14,13 +14,10 @@ import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.time.Instant;
-import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
 @Service
 public class PaypalService {
@@ -99,7 +96,7 @@ public class PaypalService {
             APIContext context = new APIContext(clientId, clientSecret, mode);
             createdPayment = payment.create(context);
             if (createdPayment != null) {
-                returnPaymentDTO = handlePaypalResponse(returnPaymentDTO, createdPayment.getId(), createdPayment.getLinks());
+                returnPaymentDTO = handlePaypalResponse(returnPaymentDTO, createdPayment.getId(), createdPayment.getLinks(), true);
             }
         } catch (PayPalRESTException e) {
             log.error("Error when initiating paypal payment, login : {}", login, e);
@@ -108,7 +105,7 @@ public class PaypalService {
         return returnPaymentDTO;
     }
 
-    private ReturnPaymentDTO handlePaypalResponse(ReturnPaymentDTO returnPaymentDTO, String paymentId, List<Links> paypalReturnLinks) {
+    private ReturnPaymentDTO handlePaypalResponse(ReturnPaymentDTO returnPaymentDTO, String paymentId, List<Links> paypalReturnLinks, boolean recurring) {
         Optional<String> redirectUrl = paypalReturnLinks.stream()
             .filter(links -> links.getRel().equalsIgnoreCase("approval_url"))
             .map(Links::getHref).findFirst();
@@ -116,7 +113,12 @@ public class PaypalService {
         if (redirectUrl.isPresent()) {
             returnPaymentDTO.setStatus("success");
             returnPaymentDTO.setReturnUrl(redirectUrl.get());
-            returnPaymentDTO.setPaymentId(paymentId);
+            if (recurring) {
+
+            } else {
+                returnPaymentDTO.setPaymentId(paymentId);
+            }
+
         } else {
             returnPaymentDTO.setStatus("failure");
             log.error("No redirect url present in the paypal response id paypal : {}", paymentId);
@@ -133,7 +135,7 @@ public class PaypalService {
         PaymentExecution paymentExecution = new PaymentExecution();
         paymentExecution.setPayerId(completePaymentDTO.getPayerId());
         try {
-            APIContext context = new APIContext(clientId, clientSecret, "sandbox");
+            APIContext context = new APIContext(clientId, clientSecret, mode);
             Payment createdPayment = payment.execute(context, paymentExecution);
             if (createdPayment != null && createdPayment.getState().equals("approved")) {
                 returnPaymentDTO.setStatus("success");
@@ -159,7 +161,7 @@ public class PaypalService {
         agreement.setName("Yearly Solocked agreement");
         agreement.setDescription("Yearly Solocked agreement");
 
-        Instant instant = Instant.now().plus(25, ChronoUnit.HOURS).truncatedTo( ChronoUnit.MINUTES ) ;
+        Instant instant = Instant.now().plus(25, ChronoUnit.HOURS).truncatedTo(ChronoUnit.MINUTES);
 
         agreement.setStartDate(instant.toString());
 
@@ -183,7 +185,7 @@ public class PaypalService {
         try {
             APIContext context = new APIContext(clientId, clientSecret, mode);
             agreement = agreement.create(context);
-            returnPaymentDTO = handlePaypalResponse(returnPaymentDTO, agreement.getId(), agreement.getLinks());
+            returnPaymentDTO = handlePaypalResponse(returnPaymentDTO, agreement.getToken(), agreement.getLinks(), true);
         } catch (UnsupportedEncodingException | PayPalRESTException | MalformedURLException e) {
             log.error("Error when initiating paypal payment, login : {}", login, e);
             returnPaymentDTO.setStatus("failure");
