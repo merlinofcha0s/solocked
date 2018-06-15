@@ -241,6 +241,8 @@ public class PaymentService {
             if (returnPaymentDTO.getStatus().equals(PaypalStatus.SUCCESS.getName())) {
                 Optional<Payment> paymentToComplete = paymentRepository.findOneByTokenRecurringAndUserLogin(completePaymentDTO.getToken(), login.get());
                 if (paymentToComplete.isPresent()) {
+                    //The agreement ID
+                    paymentToComplete.get().setLastPaymentId(returnPaymentDTO.getPaymentId());
                     upgradePlan(returnPaymentDTO.getPlanType(), paymentToComplete.get());
                 } else {
                     log.error("BIG PROBLEM !!! No payment found for the payment ID {} ", completePaymentDTO.getPaymentId());
