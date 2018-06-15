@@ -7,7 +7,7 @@ import {Observable} from 'rxjs/Observable';
 import {DOCUMENT} from '@angular/common';
 
 @Component({
-    selector: 'jhi-billing',
+    selector: 'jhi-choose-plan-popup',
     templateUrl: './popup-choose-plan.component.html',
     styleUrls: ['./popup-choose-plan.component.scss']
 })

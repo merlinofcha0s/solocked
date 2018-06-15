@@ -10,6 +10,12 @@
             "error": "An unexpected error occured, please try again or contact us",
             "errorComunicationPaypal": "Error when communicating with the payment API, please try again or contact us",
             "errorPendingPayment": "Error your payment is in pending state, please contact us"
+        },
+        "cancel": "Cancel your subscription",
+        "cancelpopup":{
+            "title": "Cancel your subscription",
+            "text": "Are you sure?",
+            "loadingcancel": "Canceling your subscription..."
         }
     }
 }

@@ -2,20 +2,27 @@
     <div class="col-md-3"></div>
     <div class="col-md-6">
         <h1 id="title" jhiTranslate="billing.title">Billing</h1>
-        <div class="d-flex align-items-center container-infos mb-2">
+        <div class="row ml-0 mr-0 align-items-center container-infos mb-2 ">
             <div>Subscription date :</div>
             <div>{{ payment.subscriptionDate }}</div>
         </div>
-        <div class="d-flex align-items-center container-infos mb-2">
-            <div>Plan type :</div>
-            <div>{{ payment.planType }}</div>
-            <button class="change-plan ml-5" type="button" mat-raised-button color="primary" (click)="openChangePlan()">
-                {{"billing.change" | translate }}
-            </button>
+        <div class="row ml-0 mr-0 align-items-center container-infos mb-2">
+                <div class="d-flex w-100">
+                    <div>Plan type :</div>
+                    <div>{{ payment.planType }}</div>
+                </div>
         </div>
-        <div *ngIf="payment.validUntil" class="d-flex align-items-center container-infos mb-2">
+        <div *ngIf="payment.validUntil" class="row ml-0 mr-0 align-items-center container-infos mb-2">
             <div>Valid until :</div>
             <div>{{ payment.validUntil }}</div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-12 d-flex align-items-center justify-content-center flex-column">
+                <button class="default-validation-button mb-3" type="button" mat-raised-button color="primary" (click)="openChangePlan()">
+                    {{"billing.change" | translate }}
+                </button>
+                <a mat-button class="mr-2" *ngIf="payment.recurring && payment.lastPaymentId" (click)="onCancelSubscription()">{{'billing.cancel' | translate}}</a>
+            </div>
         </div>
     </div>
 </div>

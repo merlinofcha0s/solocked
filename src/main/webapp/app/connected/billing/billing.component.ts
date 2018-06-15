@@ -4,17 +4,15 @@ import {Payment} from '../../entities/payment/payment.model';
 import {Subscription} from 'rxjs/Subscription';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {PopupChoosePlanComponent} from './popup-choose-plan/popup-choose-plan.component';
-import {isUndefined} from 'util';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {WaiterComponent} from '../../shared/waiter/waiter.component';
 import {
-    EMAIL_ALREADY_USED_TYPE,
-    LOGIN_ALREADY_USED_TYPE,
     PAYMENT_PENDING,
     PAYPAL_COMMUNICATION_PROBLEM_TYPE
 } from '../../shared';
-import {SnackUtilService} from "../../shared/snack/snack-util.service";
+import {SnackUtilService} from '../../shared/snack/snack-util.service';
+import {PopupCancelPlanComponent} from "./popup-cancel-plan/popup-cancel-plan.component";
 
 @Component({
     selector: 'jhi-billing',
@@ -28,7 +26,8 @@ export class BillingComponent implements OnInit, OnDestroy, AfterViewInit {
 
     modeFinalizingPayment: boolean;
 
-    private customBlockDialog: MatDialogRef<PopupChoosePlanComponent>;
+    private choosePlanDialog: MatDialogRef<PopupChoosePlanComponent>;
+    private cancelPlanDialog: MatDialogRef<PopupCancelPlanComponent>;
     private finalizingPaymentDialogRef: MatDialogRef<WaiterComponent>;
     private success: boolean;
     private error: string;
@@ -36,7 +35,7 @@ export class BillingComponent implements OnInit, OnDestroy, AfterViewInit {
     constructor(private paymentService: PaymentService,
                 private dialog: MatDialog,
                 private route: ActivatedRoute,
-                private snackUtil: SnackUtilService,) {
+                private snackUtil: SnackUtilService) {
     }
 
     ngAfterViewInit() {
@@ -54,7 +53,7 @@ export class BillingComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     openChangePlan() {
-        this.customBlockDialog = this.dialog.open(PopupChoosePlanComponent, {
+        this.choosePlanDialog = this.dialog.open(PopupChoosePlanComponent, {
             data: {currentPayment: this.payment},
         });
     }
@@ -95,6 +94,13 @@ export class BillingComponent implements OnInit, OnDestroy, AfterViewInit {
         this.finalizingPaymentDialogRef = this.dialog.open(WaiterComponent, {
             disableClose: true,
             data: {keyMessage: 'register.form.waitingcompletepayment'}
+        });
+    }
+
+    onCancelSubscription(){
+        this.cancelPlanDialog = this.dialog.open(PopupCancelPlanComponent, {
+            disableClose: true,
+            data: {currentPayment: this.payment},
         });
     }
 }

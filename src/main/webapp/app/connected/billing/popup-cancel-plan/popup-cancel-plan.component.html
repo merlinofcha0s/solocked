@@ -1,0 +1,12 @@
+<h2 mat-dialog-title jhiTranslate="billing.cancelpopup.title"></h2>
+<mat-dialog-content class="d-flex justify-content-center align-content-center" jhiTranslate="billing.cancelpopup.text">Are you sure?</mat-dialog-content>
+<mat-dialog-actions class="d-flex justify-content-center align-content-center">
+    <button mat-button mat-dialog-close>{{ "ninjaccountApp.accountsDB.details.deletePopup.no" | translate }}</button>
+    <button mat-button color="warn" (click)="onCancel()">{{ "ninjaccountApp.accountsDB.details.deletePopup.yes" | translate }}</button>
+</mat-dialog-actions>
+<div *ngIf="loading" class="loadingContainer justify-content-center mt-4">
+    <mat-spinner color="primary" diameter="50" mode="indeterminate"></mat-spinner>
+    <div class="loadingMessage"
+         jhiTranslate="{{ loadingMessage }}">Please wait....
+    </div>
+</div>

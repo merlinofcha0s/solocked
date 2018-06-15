@@ -21,6 +21,7 @@ import {CopyClipboardComponent} from './accountsdb-add/copy-clipboard/copy-clipb
 import {CustomFieldsComponent} from './accountsdb-add/custom-field/custom-fields.component';
 import {BillingComponent} from './billing/billing.component';
 import {PopupChoosePlanComponent} from './billing/popup-choose-plan/popup-choose-plan.component';
+import {PopupCancelPlanComponent} from './billing/popup-cancel-plan/popup-cancel-plan.component';
 
 @NgModule({
     imports: [
@@ -47,9 +48,10 @@ import {PopupChoosePlanComponent} from './billing/popup-choose-plan/popup-choose
         CopyClipboardComponent,
         CustomFieldsComponent,
         BillingComponent,
-        PopupChoosePlanComponent
+        PopupChoosePlanComponent,
+        PopupCancelPlanComponent
     ],
-    entryComponents: [AccountsdbDeleteComponent, AddCustomBlockComponent, DeletePaymentLineComponent, PopupChoosePlanComponent],
+    entryComponents: [AccountsdbDeleteComponent, AddCustomBlockComponent, DeletePaymentLineComponent, PopupChoosePlanComponent, PopupCancelPlanComponent],
 })
 export class NinjaccountConnectedModule {
 }
