@@ -8,6 +8,7 @@ import com.ninja.ninjaccount.repository.PaymentRepository;
 import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.service.billing.PaypalService;
 import com.ninja.ninjaccount.service.billing.dto.CompletePaymentDTO;
+import com.ninja.ninjaccount.service.billing.dto.PaypalStatus;
 import com.ninja.ninjaccount.service.billing.dto.ReturnPaymentDTO;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.service.dto.PaymentDTO;
@@ -19,6 +20,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 
 @RunWith(SpringRunner.class)
@@ -133,7 +136,7 @@ public class PaymentServiceTest {
     }
 
     @Test
-    public void testInitPaymentWorkflowYearShouldWork() throws MaxAccountsException {
+    public void testInitPaymentOneTimeWorkflowYearShouldWork() throws MaxAccountsException {
         User user = new User();
         user.setEmail("lol@lol.com");
         user.setLogin("lol");
@@ -163,7 +166,7 @@ public class PaymentServiceTest {
     }
 
     @Test
-    public void testInitPaymentWorkflowYearShouldFail() {
+    public void testInitOneTimePaymentWorkflowYearShouldFail() {
         User user = new User();
         user.setEmail("lol@lol.com");
         user.setLogin("lol");
@@ -192,7 +195,7 @@ public class PaymentServiceTest {
     }
 
     @Test
-    public void testCompletePaymentShouldWork() {
+    public void testCompleteOneTimePaymentShouldWork() {
         String paymentId = "PAY-ID";
 
         User user = new User();
@@ -242,7 +245,7 @@ public class PaymentServiceTest {
     }
 
     @Test
-    public void testCompletePaymentShouldFail() {
+    public void testCompleteOneTimePaymentShouldFail() {
         String paymentId = "PAY-ID";
 
         User user = new User();
@@ -290,4 +293,160 @@ public class PaymentServiceTest {
         assertThat(payment).isNotPresent();
     }
 
+    @Test
+    public void testInitPaymentRecurringWorkflowYearShouldWork() throws MaxAccountsException {
+        User user = new User();
+        user.setEmail("lol@lol.com");
+        user.setLogin("lol");
+        user.setActivated(true);
+        user.setPassword("loooool");
+        user = userService.createUser(new UserDTO(user));
+
+        user.setActivated(false);
+        userRepository.save(user);
+
+        ReturnPaymentDTO returnPaymentDTOMock = new ReturnPaymentDTO();
+        returnPaymentDTOMock.setStatus(PaypalStatus.SUCCESS.getName());
+        returnPaymentDTOMock.setReturnUrl("http://getrich.com");
+        returnPaymentDTOMock.setTokenForRecurring("TOKEN-LOL");
+        returnPaymentDTOMock.setBillingPlanId("45456454454654");
+
+        Mockito.when(paypalService.createRecurringPayment(any(PlanType.class), eq(user.getLogin()))).thenReturn(returnPaymentDTOMock);
+
+        paymentService.createRegistrationPaymentForUser(user);
+
+        Optional<ReturnPaymentDTO> returnPaymentDTO = paymentService.initRecurringPaymentWorkflow(PlanType.PREMIUMYEAR, user.getLogin());
+
+        Optional<Payment> payment = paymentRepository.findOneByUserLogin(user.getLogin());
+
+        assertThat(returnPaymentDTO).isPresent();
+        assertThat(payment).isPresent();
+        assertThat(payment.get().isRecurring()).isTrue();
+        assertThat(payment.get().getTokenRecurring()).isEqualTo(returnPaymentDTOMock.getTokenForRecurring());
+        assertThat(payment.get().getBillingPlanId()).isEqualTo(returnPaymentDTOMock.getBillingPlanId());
+    }
+
+    @Test
+    public void testInitPaymentRecurringWorkflowYearShouldFail() throws MaxAccountsException {
+        User user = new User();
+        user.setEmail("lol@lol.com");
+        user.setLogin("lol");
+        user.setActivated(true);
+        user.setPassword("loooool");
+        user = userService.createUser(new UserDTO(user));
+
+        user.setActivated(false);
+        userRepository.save(user);
+
+        ReturnPaymentDTO returnPaymentDTOMock = new ReturnPaymentDTO();
+        returnPaymentDTOMock.setStatus(PaypalStatus.FAILURE.getName());
+
+        Mockito.when(paypalService.createRecurringPayment(any(PlanType.class), eq(user.getLogin()))).thenReturn(returnPaymentDTOMock);
+
+        paymentService.createRegistrationPaymentForUser(user);
+
+        Optional<ReturnPaymentDTO> returnPaymentDTO = paymentService.initRecurringPaymentWorkflow(PlanType.PREMIUMYEAR, user.getLogin());
+
+        assertThat(returnPaymentDTO).isNotPresent();
+    }
+
+    @Test
+    @WithMockUser("lol")
+    public void testCompleteRecurringPaymentShouldWork() {
+        String paymentId = "PAY-ID";
+        String token = "UNTOKEN";
+
+        User user = new User();
+        user.setEmail("lol@lol.com");
+        user.setLogin("lol");
+        user.setActivated(false);
+        user.setPassword("loooool");
+        user = userService.createUser(new UserDTO(user));
+
+        user.setActivated(false);
+        user = userRepository.save(user);
+
+        PaymentDTO paymentDTO = new PaymentDTO();
+        paymentDTO.setPaid(false);
+        paymentDTO.setPlanType(PlanType.FREE);
+        paymentDTO.setSubscriptionDate(LocalDate.now());
+        paymentDTO.setPrice(PlanType.FREE.getPrice());
+        paymentDTO.setUserId(user.getId());
+        paymentDTO.setUserLogin(user.getLogin());
+        paymentDTO.setLastPaymentId(paymentId);
+        paymentDTO.setTokenRecurring(token);
+        paymentDTO.setRecurring(true);
+
+        paymentService.save(paymentDTO);
+
+        //Create the mock object for the paypal call
+        ReturnPaymentDTO returnPaymentDTOMock = new ReturnPaymentDTO();
+        returnPaymentDTOMock.setStatus(PaypalStatus.SUCCESS.getName());
+        returnPaymentDTOMock.setPaymentId(paymentId);
+        returnPaymentDTOMock.setTokenForRecurring(token);
+        returnPaymentDTOMock.setPlanType(PlanType.PREMIUMYEAR);
+
+        //Mock the call
+        Mockito.when(paypalService.completeRecurringPaymentWorkflow(anyString(), anyString())).thenReturn(returnPaymentDTOMock);
+
+        CompletePaymentDTO completePaymentDTO = new CompletePaymentDTO();
+        completePaymentDTO.setToken(token);
+
+        Optional<ReturnPaymentDTO> returnPaymentDTO = paymentService.completeRecurringPaymentWorkflow(completePaymentDTO);
+
+        Optional<Payment> payment = paymentRepository.findOneByUserLogin(user.getLogin());
+
+        assertThat(returnPaymentDTO).isPresent();
+        assertThat(payment).isPresent();
+        assertThat(payment.get().getPlanType()).isEqualTo(PlanType.PREMIUMYEAR);
+        assertThat(payment.get().getPrice()).isEqualTo(PlanType.PREMIUMYEAR.getPrice());
+        assertThat(payment.get().getValidUntil()).isEqualTo(LocalDate.now()
+            .plus(PlanType.PREMIUMYEAR.getUnitAmountValidity(), PlanType.PREMIUMYEAR.getUnit()));
+        assertThat(payment.get().isRecurring()).isTrue();
+    }
+
+    @Test
+    @WithMockUser("lol")
+    public void testCompleteRecurringPaymentShouldFail() {
+        String paymentId = "PAY-ID";
+        String token = "UNTOKEN";
+
+        User user = new User();
+        user.setEmail("lol@lol.com");
+        user.setLogin("lol");
+        user.setActivated(false);
+        user.setPassword("loooool");
+        user = userService.createUser(new UserDTO(user));
+
+        user.setActivated(false);
+        user = userRepository.save(user);
+
+        PaymentDTO paymentDTO = new PaymentDTO();
+        paymentDTO.setPaid(false);
+        paymentDTO.setPlanType(PlanType.FREE);
+        paymentDTO.setSubscriptionDate(LocalDate.now());
+        paymentDTO.setPrice(PlanType.FREE.getPrice());
+        paymentDTO.setUserId(user.getId());
+        paymentDTO.setUserLogin(user.getLogin());
+        paymentDTO.setLastPaymentId(paymentId);
+        paymentDTO.setTokenRecurring(token);
+        paymentDTO.setRecurring(true);
+
+        paymentService.save(paymentDTO);
+
+        //Create the mock object for the paypal call
+        ReturnPaymentDTO returnPaymentDTOMock = new ReturnPaymentDTO();
+        returnPaymentDTOMock.setStatus(PaypalStatus.FAILURE.getName());
+
+        //Mock the call
+        Mockito.when(paypalService.completeRecurringPaymentWorkflow(anyString(), anyString())).thenReturn(returnPaymentDTOMock);
+
+        CompletePaymentDTO completePaymentDTO = new CompletePaymentDTO();
+        completePaymentDTO.setToken(token);
+
+        Optional<ReturnPaymentDTO> returnPaymentDTO = paymentService.completeRecurringPaymentWorkflow(completePaymentDTO);
+
+        assertThat(returnPaymentDTO).isPresent();
+        assertThat(returnPaymentDTO.get().getStatus()).isEqualTo(PaypalStatus.FAILURE.getName());
+    }
 }

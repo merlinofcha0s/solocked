@@ -7,6 +7,7 @@ import com.ninja.ninjaccount.repository.PaymentRepository;
 import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.billing.PaypalService;
 import com.ninja.ninjaccount.service.billing.dto.CompletePaymentDTO;
+import com.ninja.ninjaccount.service.billing.dto.PaypalStatus;
 import com.ninja.ninjaccount.service.billing.dto.ReturnPaymentDTO;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.service.dto.PaymentDTO;
@@ -177,14 +178,7 @@ public class PaymentService {
             Optional<Payment> paymentToComplete = paymentRepository.findOneByLastPaymentId(returnPaymentDTO.getPaymentId());
 
             if (paymentToComplete.isPresent()) {
-                PlanType planType = returnPaymentDTO.getPlanType();
-                Payment payment = paymentToComplete.get();
-                payment.setPaid(true);
-                payment.setPlanType(planType);
-                payment.setSubscriptionDate(LocalDate.now());
-                payment.setPrice(planType.getPrice());
-                payment.setValidUntil(LocalDate.now().plus(planType.getUnitAmountValidity(), planType.getUnit()));
-                paymentRepository.save(payment);
+                upgradePlan(returnPaymentDTO.getPlanType(), paymentToComplete.get());
             } else {
                 log.error("BIG PROBLEM !!! No payment found for the payment ID {} ", completePaymentDTO.getPaymentId());
             }
@@ -224,14 +218,14 @@ public class PaymentService {
 
         Optional<Payment> payment = paymentRepository.findOneByUserLogin(login);
 
-        if (payment.isPresent() && returnPaymentDTO.getStatus().equals("success")) {
+        if (payment.isPresent() && returnPaymentDTO.getStatus().equals(PaypalStatus.SUCCESS.getName())) {
             payment.get().setRecurring(true);
             payment.get().setTokenRecurring(returnPaymentDTO.getTokenForRecurring());
             payment.get().setBillingPlanId(returnPaymentDTO.getBillingPlanId());
             paymentRepository.save(payment.get());
         }
 
-        if (returnPaymentDTO.getStatus().equals("failure")) {
+        if (returnPaymentDTO.getStatus().equals(PaypalStatus.FAILURE.getName())) {
             return Optional.empty();
         }
 
@@ -244,18 +238,10 @@ public class PaymentService {
 
             ReturnPaymentDTO returnPaymentDTO = paypalService.completeRecurringPaymentWorkflow(completePaymentDTO.getToken(), login.get());
 
-            if (returnPaymentDTO.getStatus().equals("success")) {
+            if (returnPaymentDTO.getStatus().equals(PaypalStatus.SUCCESS.getName())) {
                 Optional<Payment> paymentToComplete = paymentRepository.findOneByTokenRecurringAndUserLogin(completePaymentDTO.getToken(), login.get());
-
                 if (paymentToComplete.isPresent()) {
-                    PlanType planType = returnPaymentDTO.getPlanType();
-                    Payment payment = paymentToComplete.get();
-                    payment.setPaid(true);
-                    payment.setPlanType(planType);
-                    payment.setSubscriptionDate(LocalDate.now());
-                    payment.setPrice(planType.getPrice());
-                    payment.setValidUntil(LocalDate.now().plus(planType.getUnitAmountValidity(), planType.getUnit()));
-                    paymentRepository.save(payment);
+                    upgradePlan(returnPaymentDTO.getPlanType(), paymentToComplete.get());
                 } else {
                     log.error("BIG PROBLEM !!! No payment found for the payment ID {} ", completePaymentDTO.getPaymentId());
                 }
@@ -267,4 +253,13 @@ public class PaymentService {
         }
     }
 
+    private void upgradePlan(PlanType planType, Payment paymentToComplete) {
+        paymentToComplete.setPaid(true);
+        paymentToComplete.setPlanType(planType);
+        paymentToComplete.setSubscriptionDate(LocalDate.now());
+        paymentToComplete.setPrice(planType.getPrice());
+        paymentToComplete.setValidUntil(LocalDate.now().plus(planType.getUnitAmountValidity(), planType.getUnit()));
+        paymentRepository.save(paymentToComplete);
+
+    }
 }

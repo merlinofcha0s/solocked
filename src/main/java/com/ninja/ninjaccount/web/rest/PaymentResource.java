@@ -6,17 +6,22 @@ import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.PaymentService;
 import com.ninja.ninjaccount.service.billing.dto.CompletePaymentDTO;
 import com.ninja.ninjaccount.service.billing.dto.InitPaymentDTO;
+import com.ninja.ninjaccount.service.billing.dto.PaypalStatus;
 import com.ninja.ninjaccount.service.billing.dto.ReturnPaymentDTO;
 import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.web.rest.errors.BadRequestAlertException;
+import com.ninja.ninjaccount.web.rest.errors.CompletePaymentException;
+import com.ninja.ninjaccount.web.rest.errors.ErrorConstants;
 import com.ninja.ninjaccount.web.rest.errors.PaypalCommunicationException;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
 import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.zalando.problem.Status;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -94,7 +99,7 @@ public class PaymentResource {
     public List<PaymentDTO> getAllPayments() {
         log.debug("REST request to get all Payments");
         return paymentService.findAll();
-        }
+    }
 
     /**
      * GET  /payments/:id : get the "id" payment.
@@ -190,9 +195,17 @@ public class PaymentResource {
         Optional<ReturnPaymentDTO> results = paymentService.completeRecurringPaymentWorkflow(completePaymentDTO);
 
         if (results.isPresent()) {
-            return ResponseEntity.ok(results.get());
-        } else {
-            throw new PaypalCommunicationException();
+            if (results.get().getStatus().equals(PaypalStatus.SUCCESS.getName())) {
+                return ResponseEntity.ok(results.get());
+            } else if (results.get().getStatus().equals(PaypalStatus.FAILURE.getName())) {
+                throw new CompletePaymentException(ErrorConstants.PAYPAL_COMMUNICATION_PROBLEM, "Problem when communicating with paypal", Status.SERVICE_UNAVAILABLE);
+            } else if (results.get().getStatus().equals(PaypalStatus.PAYMENT_PENDING.getName())) {
+                throw new CompletePaymentException(ErrorConstants.PAYMENT_PENDING, "Your agreeement is in pending state", Status.NOT_ACCEPTABLE);
+            } else {
+                log.error("No status from paypal, payment id {}", completePaymentDTO.getPaymentId());
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
         }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 }

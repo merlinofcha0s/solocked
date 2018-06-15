@@ -2,6 +2,7 @@ package com.ninja.ninjaccount.service.billing;
 
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import com.ninja.ninjaccount.service.billing.dto.CompletePaymentDTO;
+import com.ninja.ninjaccount.service.billing.dto.PaypalStatus;
 import com.ninja.ninjaccount.service.billing.dto.ReturnPaymentDTO;
 import com.paypal.api.payments.*;
 import com.paypal.api.payments.Currency;
@@ -294,13 +295,17 @@ public class PaypalService {
             APIContext context = new APIContext(clientId, clientSecret, mode);
             Agreement activeAgreement = Agreement.execute(context, agreement.getToken());
             if (activeAgreement != null && activeAgreement.getState().equals("Active")) {
-                returnPaymentDTO.setStatus("success");
+                returnPaymentDTO.setStatus(PaypalStatus.SUCCESS.getName());
                 returnPaymentDTO.setPaymentId(activeAgreement.getId());
                 returnPaymentDTO.setPlanType(PlanType.valueOf(activeAgreement.getDescription()));
+            } else if (activeAgreement != null && activeAgreement.getState().equals("pending")){
+                returnPaymentDTO.setStatus(PaypalStatus.PAYMENT_PENDING.getName());
+            } else {
+                returnPaymentDTO.setStatus(PaypalStatus.FAILURE.getName());
             }
         } catch (PayPalRESTException e) {
             log.error("Error when initiating paypal payment, login : {}", login, e);
-            returnPaymentDTO.setStatus("failure");
+            returnPaymentDTO.setStatus(PaypalStatus.FAILURE.getName());
         }
 
         return returnPaymentDTO;
