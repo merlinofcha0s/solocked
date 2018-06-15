@@ -398,6 +398,7 @@ public class PaymentServiceTest {
 
         assertThat(returnPaymentDTO).isPresent();
         assertThat(payment).isPresent();
+        assertThat(payment.get().getLastPaymentId()).isEqualTo(paymentId);
         assertThat(payment.get().getPlanType()).isEqualTo(PlanType.PREMIUMYEAR);
         assertThat(payment.get().getPrice()).isEqualTo(PlanType.PREMIUMYEAR.getPrice());
         assertThat(payment.get().getValidUntil()).isEqualTo(LocalDate.now()
