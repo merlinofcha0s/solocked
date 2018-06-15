@@ -4,10 +4,17 @@ import {Payment} from '../../entities/payment/payment.model';
 import {Subscription} from 'rxjs/Subscription';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {PopupChoosePlanComponent} from './popup-choose-plan/popup-choose-plan.component';
-import {isUndefined} from "util";
-import {HttpErrorResponse} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
-import {WaiterComponent} from "../../shared/waiter/waiter.component";
+import {isUndefined} from 'util';
+import {HttpErrorResponse} from '@angular/common/http';
+import {ActivatedRoute} from '@angular/router';
+import {WaiterComponent} from '../../shared/waiter/waiter.component';
+import {
+    EMAIL_ALREADY_USED_TYPE,
+    LOGIN_ALREADY_USED_TYPE,
+    PAYMENT_PENDING,
+    PAYPAL_COMMUNICATION_PROBLEM_TYPE
+} from '../../shared';
+import {SnackUtilService} from "../../shared/snack/snack-util.service";
 
 @Component({
     selector: 'jhi-billing',
@@ -28,7 +35,8 @@ export class BillingComponent implements OnInit, OnDestroy, AfterViewInit {
 
     constructor(private paymentService: PaymentService,
                 private dialog: MatDialog,
-                private route: ActivatedRoute) {
+                private route: ActivatedRoute,
+                private snackUtil: SnackUtilService,) {
     }
 
     ngAfterViewInit() {
@@ -63,16 +71,24 @@ export class BillingComponent implements OnInit, OnDestroy, AfterViewInit {
     private completePaymentService(token) {
         this.paymentService.completeRecurringPaymentWorkflow(token)
             .subscribe((response) => {
-                const returnPayment = response.body;
+                this.success = true;
+                this.finalizingPaymentDialogRef.close();
+                this.paymentService.getPaymentByLogin();
+                this.snackUtil.openSnackBar('billing.success', 10000, 'fa-check-circle');
+            }, (response: HttpErrorResponse) => this.processError(response));
+    }
 
-                if (returnPayment.status === 'success') {
-                    this.success = true;
-                    this.finalizingPaymentDialogRef.close();
-                    this.paymentService.getPaymentByLogin();
-                } else {
-                    this.error = 'Problem when payment occurs';
-                }
-            }/*, (response: HttpErrorResponse) => this.processError(response)*/);
+    private processError(response: HttpErrorResponse) {
+        this.success = null;
+        if (response.status === 503 && response.error.type === PAYPAL_COMMUNICATION_PROBLEM_TYPE) {
+            this.error = 'billing.error.errorComunicationPaypal';
+        } else if (response.status === 406 && response.error.type === PAYMENT_PENDING) {
+            this.error = 'billing.error.errorPendingPayment';
+        } else {
+            this.error = 'billing.error.error';
+        }
+        this.finalizingPaymentDialogRef.close();
+        this.snackUtil.openSnackBar(this.error, 60000, 'fa-times');
     }
 
     private openWaiterFinalizer() {

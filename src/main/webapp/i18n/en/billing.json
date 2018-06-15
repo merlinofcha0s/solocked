@@ -4,6 +4,12 @@
         "choose": "Choose your plan",
         "change": "Change your plan",
         "infotitle": "Informations",
-        "loadingchangeplan": "Changing your plan...."
+        "loadingchangeplan": "Changing your plan....",
+        "success": "Your plan was upgraded",
+        "error":{
+            "error": "An unexpected error occured, please try again or contact us",
+            "errorComunicationPaypal": "Error when communicating with the payment API, please try again or contact us",
+            "errorPendingPayment": "Error your payment is in pending state, please contact us"
+        }
     }
 }
