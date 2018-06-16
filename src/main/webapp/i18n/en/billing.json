@@ -19,8 +19,8 @@
             "cancelsuccess": "Subscription canceled successfuly",
             "back": "Abort",
             "error": {
-                "errorcancelpayment": "Error when canceling your subscription, try again later or contact us",
-                "errorinternalcancelpayment": "Internal error when canceling your subscription, try again later or contact us"
+                "errorcancelpayment": "Error when canceling your subscription, please try again later or contact us",
+                "errorinternalcancelpayment": "Internal error when canceling your subscription, please try again later or contact us"
             }
         }
     }

@@ -42,9 +42,9 @@ export class PopupCancelPlanComponent implements OnInit, OnDestroy {
     private processError(response: HttpErrorResponse) {
         let error = '';
         if (response.status === 400 && response.error.type === PARAMETERIZED_TYPE) {
-            error = 'billing.error.errorcancelpayment';
+            error = 'billing.cancelpopup.error.errorcancelpayment';
         } else {
-            error = 'billing.error.errorinternalcancelpayment';
+            error = 'billing.cancelpopup.error.errorinternalcancelpayment';
         }
 
         this.dialogRef.close('error');

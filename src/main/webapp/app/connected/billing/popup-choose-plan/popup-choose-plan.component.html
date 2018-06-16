@@ -1,5 +1,5 @@
 <h2 mat-dialog-title jhiTranslate="billing.change"></h2>
-<jhi-choose-plan [actualPayment]="currentPayment" (planChoosed)="onChoosePlan($event)"></jhi-choose-plan>
+<jhi-choose-plan [hideFreePlan]="true" (planChoosed)="onChoosePlan($event)"></jhi-choose-plan>
 <mat-dialog-actions class="d-flex justify-content-center align-content-center">
     <button mat-button mat-dialog-close *ngIf="!loading">{{ "billing.cancelpopup.back" | translate }}</button>
 </mat-dialog-actions>
