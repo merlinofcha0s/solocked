@@ -9,10 +9,7 @@ import com.ninja.ninjaccount.service.billing.dto.InitPaymentDTO;
 import com.ninja.ninjaccount.service.billing.dto.PaypalStatus;
 import com.ninja.ninjaccount.service.billing.dto.ReturnPaymentDTO;
 import com.ninja.ninjaccount.service.dto.PaymentDTO;
-import com.ninja.ninjaccount.web.rest.errors.BadRequestAlertException;
-import com.ninja.ninjaccount.web.rest.errors.CompletePaymentException;
-import com.ninja.ninjaccount.web.rest.errors.ErrorConstants;
-import com.ninja.ninjaccount.web.rest.errors.PaypalCommunicationException;
+import com.ninja.ninjaccount.web.rest.errors.*;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
 import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -207,5 +204,21 @@ public class PaymentResource {
             }
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+
+    @PostMapping("/cancel-recurring-payment")
+    @Timed
+    public ResponseEntity<ReturnPaymentDTO> cancelRecurringPaymentWorkflow() {
+        Optional<String> login = SecurityUtils.getCurrentUserLogin();
+        if (login.isPresent()) {
+            Optional<ReturnPaymentDTO> results = paymentService.cancelRecurringPaymentWorkflow(login.get());
+            if (results.isPresent()) {
+                return ResponseEntity.ok(results.get());
+            } else {
+                throw new CustomParameterizedException("Problem when canceling payment", login.get());
+            }
+        } else {
+            throw new CustomParameterizedException("Not connected");
+        }
     }
 }

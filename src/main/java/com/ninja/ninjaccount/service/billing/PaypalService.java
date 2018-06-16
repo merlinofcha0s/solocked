@@ -298,11 +298,33 @@ public class PaypalService {
                 returnPaymentDTO.setStatus(PaypalStatus.SUCCESS.getName());
                 returnPaymentDTO.setPaymentId(activeAgreement.getId());
                 returnPaymentDTO.setPlanType(PlanType.valueOf(activeAgreement.getDescription()));
-            } else if (activeAgreement != null && activeAgreement.getState().equals("pending")){
+            } else if (activeAgreement != null && activeAgreement.getState().equals("pending")) {
                 returnPaymentDTO.setStatus(PaypalStatus.PAYMENT_PENDING.getName());
             } else {
                 returnPaymentDTO.setStatus(PaypalStatus.FAILURE.getName());
             }
+        } catch (PayPalRESTException e) {
+            log.error("Error when initiating paypal payment, login : {}", login, e);
+            returnPaymentDTO.setStatus(PaypalStatus.FAILURE.getName());
+        }
+
+        return returnPaymentDTO;
+    }
+
+    public ReturnPaymentDTO cancelRecurringPayment(String agreementId, String login) {
+        ReturnPaymentDTO returnPaymentDTO = new ReturnPaymentDTO();
+
+        try {
+            APIContext context = new APIContext(clientId, clientSecret, mode);
+
+            AgreementStateDescriptor agreementStateDescriptor = new AgreementStateDescriptor();
+            agreementStateDescriptor.setNote(new StringBuilder("User cancelation : ").append(login).toString());
+
+            Agreement agreementToCancel = new Agreement();
+            agreementToCancel.setId(agreementId);
+            agreementToCancel.cancel(context, agreementStateDescriptor);
+
+            returnPaymentDTO.setStatus(PaypalStatus.SUCCESS.getName());
         } catch (PayPalRESTException e) {
             log.error("Error when initiating paypal payment, login : {}", login, e);
             returnPaymentDTO.setStatus(PaypalStatus.FAILURE.getName());

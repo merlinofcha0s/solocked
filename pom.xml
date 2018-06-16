@@ -469,9 +469,6 @@
                 <configuration>
                     <!-- Force alphabetical order to have a reproducible build -->
                     <runOrder>alphabetical</runOrder>
-                    <excludes>
-                        <exclude>com.ninja.ninjaccount.noexecution.*</exclude>
-                    </excludes>
                 </configuration>
             </plugin>
             <plugin>

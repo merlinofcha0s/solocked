@@ -262,6 +262,19 @@ public class PaymentService {
         paymentToComplete.setPrice(planType.getPrice());
         paymentToComplete.setValidUntil(LocalDate.now().plus(planType.getUnitAmountValidity(), planType.getUnit()));
         paymentRepository.save(paymentToComplete);
+    }
 
+    public Optional<ReturnPaymentDTO> cancelRecurringPaymentWorkflow(String login) {
+        ReturnPaymentDTO returnPaymentDTO = null;
+        Optional<Payment> paymentToCancel = paymentRepository.findOneByUserLogin(login);
+        if (paymentToCancel.isPresent()) {
+            returnPaymentDTO = paypalService.cancelRecurringPayment(paymentToCancel.get().getLastPaymentId(), login);
+            if (returnPaymentDTO.getStatus().equals(PaypalStatus.SUCCESS.getName())) {
+                paymentToCancel.get().setRecurring(false);
+                paymentRepository.save(paymentToCancel.get());
+            }
+            returnPaymentDTO.setPaymentId(paymentToCancel.get().getLastPaymentId());
+        }
+        return Optional.ofNullable(returnPaymentDTO);
     }
 }

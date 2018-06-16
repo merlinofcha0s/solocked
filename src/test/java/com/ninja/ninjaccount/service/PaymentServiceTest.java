@@ -450,4 +450,99 @@ public class PaymentServiceTest {
         assertThat(returnPaymentDTO).isPresent();
         assertThat(returnPaymentDTO.get().getStatus()).isEqualTo(PaypalStatus.FAILURE.getName());
     }
+
+    @Test
+    @WithMockUser("lol")
+    public void testCancelRecurringPaymentShouldWork() {
+        String paymentId = "PAY-ID";
+        String token = "UNTOKEN";
+
+        User user = new User();
+        user.setEmail("lol@lol.com");
+        user.setLogin("lol");
+        user.setActivated(false);
+        user.setPassword("loooool");
+        user = userService.createUser(new UserDTO(user));
+
+        user.setActivated(false);
+        user = userRepository.save(user);
+
+        PaymentDTO paymentDTO = new PaymentDTO();
+        paymentDTO.setPaid(true);
+        paymentDTO.setPlanType(PlanType.PREMIUMYEAR);
+        paymentDTO.setSubscriptionDate(LocalDate.now());
+        paymentDTO.setPrice(PlanType.PREMIUMYEAR.getPrice());
+        paymentDTO.setUserId(user.getId());
+        paymentDTO.setUserLogin(user.getLogin());
+        paymentDTO.setLastPaymentId(paymentId);
+        paymentDTO.setTokenRecurring(token);
+        paymentDTO.setRecurring(true);
+
+        paymentService.save(paymentDTO);
+
+        //Create the mock object for the paypal call
+        ReturnPaymentDTO returnPaymentDTOMock = new ReturnPaymentDTO();
+        returnPaymentDTOMock.setStatus(PaypalStatus.SUCCESS.getName());
+        returnPaymentDTOMock.setPaymentId(paymentId);
+
+        //Mock the call
+        Mockito.when(paypalService.cancelRecurringPayment(anyString(), anyString())).thenReturn(returnPaymentDTOMock);
+
+        Optional<ReturnPaymentDTO> returnPaymentDTO = paymentService.cancelRecurringPaymentWorkflow(user.getLogin());
+
+        Optional<Payment> payment = paymentRepository.findOneByUserLogin(user.getLogin());
+
+        assertThat(returnPaymentDTO).isPresent();
+        assertThat(returnPaymentDTO.get().getStatus()).isEqualTo(PaypalStatus.SUCCESS.getName());
+        assertThat(returnPaymentDTO.get().getPaymentId()).isEqualTo(paymentId);
+        assertThat(payment).isPresent();
+        assertThat(payment.get().isRecurring()).isFalse();
+    }
+
+    @Test
+    @WithMockUser("lol")
+    public void testCancelRecurringPaymentShouldFail() {
+        String paymentId = "PAY-ID";
+        String token = "UNTOKEN";
+
+        User user = new User();
+        user.setEmail("lol@lol.com");
+        user.setLogin("lol");
+        user.setActivated(false);
+        user.setPassword("loooool");
+        user = userService.createUser(new UserDTO(user));
+
+        user.setActivated(false);
+        user = userRepository.save(user);
+
+        PaymentDTO paymentDTO = new PaymentDTO();
+        paymentDTO.setPaid(true);
+        paymentDTO.setPlanType(PlanType.PREMIUMYEAR);
+        paymentDTO.setSubscriptionDate(LocalDate.now());
+        paymentDTO.setPrice(PlanType.PREMIUMYEAR.getPrice());
+        paymentDTO.setUserId(user.getId());
+        paymentDTO.setUserLogin(user.getLogin());
+        paymentDTO.setLastPaymentId(paymentId);
+        paymentDTO.setTokenRecurring(token);
+        paymentDTO.setRecurring(true);
+
+        paymentService.save(paymentDTO);
+
+        //Create the mock object for the paypal call
+        ReturnPaymentDTO returnPaymentDTOMock = new ReturnPaymentDTO();
+        returnPaymentDTOMock.setStatus(PaypalStatus.FAILURE.getName());
+
+        //Mock the call
+        Mockito.when(paypalService.cancelRecurringPayment(anyString(), anyString())).thenReturn(returnPaymentDTOMock);
+
+        Optional<ReturnPaymentDTO> returnPaymentDTO = paymentService.cancelRecurringPaymentWorkflow(user.getLogin());
+
+        Optional<Payment> payment = paymentRepository.findOneByUserLogin(user.getLogin());
+
+        assertThat(returnPaymentDTO).isPresent();
+        assertThat(returnPaymentDTO.get().getStatus()).isEqualTo(PaypalStatus.FAILURE.getName());
+        assertThat(returnPaymentDTO.get().getPaymentId()).isEqualTo(paymentId);
+        assertThat(payment).isPresent();
+        assertThat(payment.get().isRecurring()).isTrue();
+    }
 }

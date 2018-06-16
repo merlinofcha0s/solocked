@@ -1,7 +1,7 @@
 package com.ninja.ninjaccount.service.billing.dto;
 
 public enum PaypalStatus {
-    SUCCESS("success"), FAILURE("failure"), PAYMENT_PENDING("pending");
+    SUCCESS("success"), FAILURE("failure"), PAYMENT_PENDING("pending"), ACTIVE("Active");
 
     String name;
 
