@@ -179,14 +179,18 @@ export class PaymentService {
         return this.http.post<ReturnPayment>('api/complete-one-time-payment', completePaymentDTO, {observe: 'response'});
     }
 
-    initRecurringPaymentWorkflow(planType: PlanType, login: string): Observable<HttpResponse<ReturnPayment>> {
-        const initPaymentDTO = new InitPayment(planType, login);
+    initRecurringPaymentWorkflow(planType: PlanType): Observable<HttpResponse<ReturnPayment>> {
+        const initPaymentDTO = new InitPayment(planType);
         return this.http.post<ReturnPayment>('api/init-recurring-payment', initPaymentDTO, {observe: 'response'});
     }
 
     completeRecurringPaymentWorkflow(token: string): Observable<HttpResponse<ReturnPayment>> {
         const completePaymentDTO = new CompletePayment('', '', token);
         return this.http.post<ReturnPayment>('api/complete-recurring-payment', completePaymentDTO, {observe: 'response'});
+    }
+
+    cancelRecurringPaymentWorkflow(): Observable<HttpResponse<ReturnPayment>> {
+        return this.http.post<ReturnPayment>('api/cancel-recurring-payment', null, {observe: 'response'});
     }
 
 }

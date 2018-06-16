@@ -11,7 +11,6 @@ import com.ninja.ninjaccount.service.billing.dto.ReturnPaymentDTO;
 import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.web.rest.errors.*;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
-import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -175,8 +174,9 @@ public class PaymentResource {
     @PostMapping("/init-recurring-payment")
     @Timed
     public ResponseEntity<ReturnPaymentDTO> initRecurringPaymentWorkflow(@Valid @RequestBody InitPaymentDTO initPaymentDTO) {
-
-        Optional<ReturnPaymentDTO> results = paymentService.initRecurringPaymentWorkflow(PlanType.valueOf(initPaymentDTO.getPlanType().toString()), initPaymentDTO.getLogin());
+        Optional<String> loginOpt = SecurityUtils.getCurrentUserLogin();
+        Optional<ReturnPaymentDTO> results = loginOpt
+            .flatMap((login) -> paymentService.initRecurringPaymentWorkflow(PlanType.valueOf(initPaymentDTO.getPlanType().toString()), login));
 
         if (results.isPresent()) {
             return ResponseEntity.ok(results.get());

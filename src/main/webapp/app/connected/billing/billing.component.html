@@ -16,6 +16,13 @@
             <div>Valid until :</div>
             <div>{{ payment.validUntil }}</div>
         </div>
+        <div class="row ml-0 mr-0 align-items-center container-infos mb-2">
+            <div>Recurring payment :</div>
+            <div *ngIf="payment.recurring;else deactivate">
+                Activated
+            </div>
+            <ng-template #deactivate>Deactivated</ng-template>
+        </div>
         <div class="row mt-5">
             <div class="col-12 d-flex align-items-center justify-content-center flex-column">
                 <button class="default-validation-button mb-3" type="button" mat-raised-button color="primary" (click)="openChangePlan()">

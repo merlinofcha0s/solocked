@@ -77,7 +77,7 @@ public class PaypalService {
 
         StringBuilder urlBuilder = getCurrentUrl();
 
-        redirectUrls.setCancelUrl(urlBuilder.toString() + "/#/cancel");
+        redirectUrls.setCancelUrl(urlBuilder.toString() + "/#/");
         redirectUrls.setReturnUrl(urlBuilder.toString() + "/#/register");
         payment.setRedirectUrls(redirectUrls);
         Payment createdPayment;
@@ -213,7 +213,7 @@ public class PaypalService {
 
         StringBuilder currentURL = getCurrentUrl();
 
-        merchantPreferences.setCancelUrl(currentURL.toString() + "/#/billing/cancel");
+        merchantPreferences.setCancelUrl(currentURL.toString() + "/#/accounts");
         merchantPreferences.setReturnUrl(currentURL.toString() + "/#/billing");
         merchantPreferences.setMaxFailAttempts("5");
         merchantPreferences.setAutoBillAmount("YES");

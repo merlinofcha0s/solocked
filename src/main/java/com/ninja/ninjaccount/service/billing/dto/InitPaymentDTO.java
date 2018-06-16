@@ -8,7 +8,7 @@ public class InitPaymentDTO {
 
     @NotNull
     private PlanType planType;
-    @NotNull
+
     private String login;
 
     public PlanType getPlanType() {

@@ -6,16 +6,22 @@
         "infotitle": "Informations",
         "loadingchangeplan": "Changing your plan....",
         "success": "Your plan was upgraded",
-        "error":{
+        "error": {
             "error": "An unexpected error occured, please try again or contact us",
             "errorComunicationPaypal": "Error when communicating with the payment API, please try again or contact us",
             "errorPendingPayment": "Error your payment is in pending state, please contact us"
         },
         "cancel": "Cancel your subscription",
-        "cancelpopup":{
+        "cancelpopup": {
             "title": "Cancel your subscription",
             "text": "Are you sure?",
-            "loadingcancel": "Canceling your subscription..."
+            "loadingcancel": "Canceling your subscription...",
+            "cancelsuccess": "Subscription canceled successfuly",
+            "back": "Abort",
+            "error": {
+                "errorcancelpayment": "Error when canceling your subscription, try again later or contact us",
+                "errorinternalcancelpayment": "Internal error when canceling your subscription, try again later or contact us"
+            }
         }
     }
 }

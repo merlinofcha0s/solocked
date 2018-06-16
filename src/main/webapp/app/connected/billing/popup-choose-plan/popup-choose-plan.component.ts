@@ -1,9 +1,8 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Payment, PlanType} from '../../../entities/payment/payment.model';
 import {PaymentService} from '../../../entities/payment/payment.service';
 import {Principal} from '../../../shared';
-import {Observable} from 'rxjs/Observable';
 import {DOCUMENT} from '@angular/common';
 
 @Component({
@@ -23,6 +22,7 @@ export class PopupChoosePlanComponent implements OnInit, OnDestroy {
                 private principal: Principal,
                 @Inject(DOCUMENT) private document: any) {
         this.currentPayment = this.data.currentPayment;
+        this.loading = false;
     }
 
     ngOnInit() {
@@ -35,8 +35,7 @@ export class PopupChoosePlanComponent implements OnInit, OnDestroy {
         if (this.currentPayment.planType !== planType) {
             this.loadingMessage = 'billing.loadingchangeplan';
             this.loading = true;
-            Observable.fromPromise(this.principal.identity())
-                .flatMap((account) => this.paymentService.initRecurringPaymentWorkflow(planType, account.login))
+            this.paymentService.initRecurringPaymentWorkflow(planType)
                 .subscribe((response) => {
                     this.loadingMessage = 'register.form.loadingpayment';
                     this.document.location.href = response.body.returnUrl;

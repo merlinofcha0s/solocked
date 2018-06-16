@@ -12,7 +12,7 @@ import {
     PAYPAL_COMMUNICATION_PROBLEM_TYPE
 } from '../../shared';
 import {SnackUtilService} from '../../shared/snack/snack-util.service';
-import {PopupCancelPlanComponent} from "./popup-cancel-plan/popup-cancel-plan.component";
+import {PopupCancelPlanComponent} from './popup-cancel-plan/popup-cancel-plan.component';
 
 @Component({
     selector: 'jhi-billing',
@@ -54,6 +54,7 @@ export class BillingComponent implements OnInit, OnDestroy, AfterViewInit {
 
     openChangePlan() {
         this.choosePlanDialog = this.dialog.open(PopupChoosePlanComponent, {
+            disableClose: true,
             data: {currentPayment: this.payment},
         });
     }
@@ -97,10 +98,16 @@ export class BillingComponent implements OnInit, OnDestroy, AfterViewInit {
         });
     }
 
-    onCancelSubscription(){
+    onCancelSubscription() {
         this.cancelPlanDialog = this.dialog.open(PopupCancelPlanComponent, {
             disableClose: true,
             data: {currentPayment: this.payment},
+        });
+
+        this.cancelPlanDialog.afterClosed().subscribe((result) => {
+            if (result === 'success') {
+                this.paymentService.getPaymentByLogin();
+            }
         });
     }
 }

@@ -219,7 +219,6 @@ public class PaymentService {
         Optional<Payment> payment = paymentRepository.findOneByUserLogin(login);
 
         if (payment.isPresent() && returnPaymentDTO.getStatus().equals(PaypalStatus.SUCCESS.getName())) {
-            payment.get().setRecurring(true);
             payment.get().setTokenRecurring(returnPaymentDTO.getTokenForRecurring());
             payment.get().setBillingPlanId(returnPaymentDTO.getBillingPlanId());
             paymentRepository.save(payment.get());
@@ -242,6 +241,7 @@ public class PaymentService {
                 Optional<Payment> paymentToComplete = paymentRepository.findOneByTokenRecurringAndUserLogin(completePaymentDTO.getToken(), login.get());
                 if (paymentToComplete.isPresent()) {
                     //The agreement ID
+                    paymentToComplete.get().setRecurring(true);
                     paymentToComplete.get().setLastPaymentId(returnPaymentDTO.getPaymentId());
                     upgradePlan(returnPaymentDTO.getPlanType(), paymentToComplete.get());
                 } else {

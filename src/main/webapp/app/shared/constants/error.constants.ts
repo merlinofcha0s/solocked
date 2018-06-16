@@ -5,3 +5,4 @@ export const EMAIL_NOT_FOUND_TYPE = PROBLEM_BASE_URL + '/email-not-found';
 export const PAYPAL_COMMUNICATION_PROBLEM_TYPE = PROBLEM_BASE_URL + '/paypal-comunication-problem';
 export const NO_PAID_SUBSCRIPTION = PROBLEM_BASE_URL + '/no-paid-subscription';
 export const PAYMENT_PENDING = PROBLEM_BASE_URL + '/pending-reccuring-payment';
+export const PARAMETERIZED_TYPE = PROBLEM_BASE_URL + '/parameterized';
