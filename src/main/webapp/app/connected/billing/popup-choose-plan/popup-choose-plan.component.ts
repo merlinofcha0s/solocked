@@ -32,14 +32,12 @@ export class PopupChoosePlanComponent implements OnInit, OnDestroy {
     }
 
     onChoosePlan(planType: PlanType) {
-        if (this.currentPayment.planType !== planType) {
-            this.loadingMessage = 'billing.loadingchangeplan';
-            this.loading = true;
-            this.paymentService.initRecurringPaymentWorkflow(planType)
-                .subscribe((response) => {
-                    this.loadingMessage = 'register.form.loadingpayment';
-                    this.document.location.href = response.body.returnUrl;
-                });
-        }
+        this.loadingMessage = 'billing.loadingchangeplan';
+        this.loading = true;
+        this.paymentService.initRecurringPaymentWorkflow(planType)
+            .subscribe((response) => {
+                this.loadingMessage = 'register.form.loadingpayment';
+                this.document.location.href = response.body.returnUrl;
+            });
     }
 }

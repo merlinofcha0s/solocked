@@ -14,17 +14,22 @@ import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cglib.core.Local;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -311,7 +316,7 @@ public class PaymentServiceTest {
         returnPaymentDTOMock.setTokenForRecurring("TOKEN-LOL");
         returnPaymentDTOMock.setBillingPlanId("45456454454654");
 
-        Mockito.when(paypalService.createRecurringPayment(any(PlanType.class), eq(user.getLogin()))).thenReturn(returnPaymentDTOMock);
+        Mockito.when(paypalService.createRecurringPayment(any(PlanType.class), eq(user.getLogin()), any(LocalDate.class), any(Boolean.class))).thenReturn(returnPaymentDTOMock);
 
         paymentService.createRegistrationPaymentForUser(user);
 
@@ -321,7 +326,6 @@ public class PaymentServiceTest {
 
         assertThat(returnPaymentDTO).isPresent();
         assertThat(payment).isPresent();
-        assertThat(payment.get().isRecurring()).isTrue();
         assertThat(payment.get().getTokenRecurring()).isEqualTo(returnPaymentDTOMock.getTokenForRecurring());
         assertThat(payment.get().getBillingPlanId()).isEqualTo(returnPaymentDTOMock.getBillingPlanId());
     }
@@ -341,7 +345,7 @@ public class PaymentServiceTest {
         ReturnPaymentDTO returnPaymentDTOMock = new ReturnPaymentDTO();
         returnPaymentDTOMock.setStatus(PaypalStatus.FAILURE.getName());
 
-        Mockito.when(paypalService.createRecurringPayment(any(PlanType.class), eq(user.getLogin()))).thenReturn(returnPaymentDTOMock);
+        Mockito.when(paypalService.createRecurringPayment(any(PlanType.class), eq(user.getLogin()), any(LocalDate.class), any(Boolean.class))).thenReturn(returnPaymentDTOMock);
 
         paymentService.createRegistrationPaymentForUser(user);
 
@@ -544,5 +548,92 @@ public class PaymentServiceTest {
         assertThat(returnPaymentDTO.get().getPaymentId()).isEqualTo(paymentId);
         assertThat(payment).isPresent();
         assertThat(payment.get().isRecurring()).isTrue();
+    }
+
+    @Test
+    @WithMockUser("lol")
+    public void testComputeStartDateShoulWorkWithoutValidateUntil() {
+        String paymentId = "PAY-ID";
+        String token = "UNTOKEN";
+
+        User user = new User();
+        user.setEmail("lol@lol.com");
+        user.setLogin("lol");
+        user.setActivated(false);
+        user.setPassword("loooool");
+        user = userService.createUser(new UserDTO(user));
+
+        user.setActivated(false);
+        user = userRepository.save(user);
+
+        PaymentDTO paymentDTO = new PaymentDTO();
+        paymentDTO.setPaid(true);
+        paymentDTO.setPlanType(PlanType.FREE);
+        paymentDTO.setSubscriptionDate(LocalDate.now());
+        paymentDTO.setPrice(PlanType.FREE.getPrice());
+        paymentDTO.setUserId(user.getId());
+        paymentDTO.setUserLogin(user.getLogin());
+        paymentDTO.setLastPaymentId(paymentId);
+        paymentDTO.setTokenRecurring(token);
+        paymentDTO.setRecurring(true);
+
+        paymentService.save(paymentDTO);
+
+        Optional<Payment> payment = paymentRepository.findOneByUserLogin(user.getLogin());
+
+        PlanType planType = PlanType.PREMIUMYEAR;
+
+        LocalDate startDate = paymentService.computeStartDate(payment.get(), planType);
+
+        LocalDate now = LocalDate.now().plus(planType.getUnitAmountValidity(), planType.getUnit());
+
+        assertThat(startDate.getDayOfMonth()).isEqualTo(now.getDayOfMonth());
+        assertThat(startDate.get(ChronoField.MONTH_OF_YEAR)).isEqualTo(now.get(ChronoField.MONTH_OF_YEAR));
+        assertThat(startDate.get(ChronoField.YEAR)).isEqualTo(now.get(ChronoField.YEAR));
+
+    }
+
+    @Test
+    @WithMockUser("lol")
+    public void testComputeStartDateShoulWorkWithValidateUntil() {
+        String paymentId = "PAY-ID";
+        String token = "UNTOKEN";
+
+        User user = new User();
+        user.setEmail("lol@lol.com");
+        user.setLogin("lol");
+        user.setActivated(false);
+        user.setPassword("loooool");
+        user = userService.createUser(new UserDTO(user));
+
+        user.setActivated(false);
+        user = userRepository.save(user);
+
+        PaymentDTO paymentDTO = new PaymentDTO();
+        paymentDTO.setPaid(true);
+        paymentDTO.setPlanType(PlanType.FREE);
+        paymentDTO.setSubscriptionDate(LocalDate.now());
+        paymentDTO.setPrice(PlanType.FREE.getPrice());
+        paymentDTO.setUserId(user.getId());
+        paymentDTO.setUserLogin(user.getLogin());
+        paymentDTO.setLastPaymentId(paymentId);
+        paymentDTO.setTokenRecurring(token);
+        paymentDTO.setRecurring(true);
+        paymentDTO.setValidUntil(LocalDate.now().plus(2, ChronoUnit.MONTHS));
+
+        paymentService.save(paymentDTO);
+
+        Optional<Payment> payment = paymentRepository.findOneByUserLogin(user.getLogin());
+
+        PlanType planType = PlanType.PREMIUMMONTH;
+
+        LocalDate startDate = paymentService.computeStartDate(payment.get(), planType);
+
+        LocalDate correctDate = LocalDate.now().plus(2, planType.getUnit());
+
+        assertThat(startDate.getDayOfMonth()).isEqualTo(correctDate.getDayOfMonth());
+        assertThat(startDate.get(ChronoField.MONTH_OF_YEAR)).isEqualTo(correctDate.get(ChronoField.MONTH_OF_YEAR));
+        assertThat(startDate.get(ChronoField.YEAR)).isEqualTo(correctDate.get(ChronoField.YEAR));
+
     }
 }

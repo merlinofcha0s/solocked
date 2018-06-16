@@ -14,13 +14,16 @@ import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import com.ninja.ninjaccount.service.mapper.PaymentMapper;
 import com.ninja.ninjaccount.service.util.PaymentUtil;
+import com.paypal.api.payments.Plan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -213,22 +216,27 @@ public class PaymentService {
     }
 
     public Optional<ReturnPaymentDTO> initRecurringPaymentWorkflow(PlanType planType, String login) {
-
-        ReturnPaymentDTO returnPaymentDTO = paypalService.createRecurringPayment(planType, login);
-
+        ReturnPaymentDTO returnPaymentDTO = null;
         Optional<Payment> payment = paymentRepository.findOneByUserLogin(login);
 
-        if (payment.isPresent() && returnPaymentDTO.getStatus().equals(PaypalStatus.SUCCESS.getName())) {
-            payment.get().setTokenRecurring(returnPaymentDTO.getTokenForRecurring());
-            payment.get().setBillingPlanId(returnPaymentDTO.getBillingPlanId());
-            paymentRepository.save(payment.get());
+        if (payment.isPresent()) {
+
+            LocalDate startDate = computeStartDate(payment.get(), planType);
+            boolean billImmediately = payment.get().getValidUntil() == null;
+            returnPaymentDTO = paypalService.createRecurringPayment(planType, login, startDate, billImmediately);
+
+            if (returnPaymentDTO.getStatus().equals(PaypalStatus.SUCCESS.getName())) {
+                payment.get().setTokenRecurring(returnPaymentDTO.getTokenForRecurring());
+                payment.get().setBillingPlanId(returnPaymentDTO.getBillingPlanId());
+                paymentRepository.save(payment.get());
+            }
+
+            if (returnPaymentDTO.getStatus().equals(PaypalStatus.FAILURE.getName())) {
+                return Optional.empty();
+            }
         }
 
-        if (returnPaymentDTO.getStatus().equals(PaypalStatus.FAILURE.getName())) {
-            return Optional.empty();
-        }
-
-        return Optional.of(returnPaymentDTO);
+        return Optional.ofNullable(returnPaymentDTO);
     }
 
     public Optional<ReturnPaymentDTO> completeRecurringPaymentWorkflow(CompletePaymentDTO completePaymentDTO) {
@@ -260,7 +268,7 @@ public class PaymentService {
         paymentToComplete.setPlanType(planType);
         paymentToComplete.setSubscriptionDate(LocalDate.now());
         paymentToComplete.setPrice(planType.getPrice());
-        paymentToComplete.setValidUntil(LocalDate.now().plus(planType.getUnitAmountValidity(), planType.getUnit()));
+        paymentToComplete.setValidUntil(computeStartDate(paymentToComplete, planType));
         paymentRepository.save(paymentToComplete);
     }
 
@@ -276,5 +284,13 @@ public class PaymentService {
             returnPaymentDTO.setPaymentId(paymentToCancel.get().getLastPaymentId());
         }
         return Optional.ofNullable(returnPaymentDTO);
+    }
+
+    public LocalDate computeStartDate(Payment payment, PlanType planType) {
+        if (payment.getValidUntil() == null) {
+            return LocalDate.now().plus(planType.getUnitAmountValidity(), planType.getUnit());
+        } else {
+            return payment.getValidUntil();
+        }
     }
 }

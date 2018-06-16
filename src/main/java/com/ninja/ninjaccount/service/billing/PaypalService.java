@@ -154,18 +154,18 @@ public class PaypalService {
         return Optional.of(returnPaymentDTO);
     }
 
-    public ReturnPaymentDTO createRecurringPayment(PlanType planType, String login) {
+    public ReturnPaymentDTO createRecurringPayment(PlanType planType, String login, LocalDate startDate, Boolean billImmediately) {
         ReturnPaymentDTO returnPaymentDTO = new ReturnPaymentDTO();
 
-        Plan plan = createBillingPlan(planType);
+        Plan plan = createBillingPlan(planType, billImmediately);
 
         returnPaymentDTO = activateRecurringPlan(plan, returnPaymentDTO, login);
-        returnPaymentDTO = activateAgreement(planType, login, returnPaymentDTO);
+        returnPaymentDTO = activateAgreement(planType, login, returnPaymentDTO, startDate);
 
         return returnPaymentDTO;
     }
 
-    private Plan createBillingPlan(PlanType planType) {
+    private Plan createBillingPlan(PlanType planType, boolean billImmediately) {
         Plan plan = new Plan();
         plan.setName(planType.name());
         plan.setDescription(planType.getPlanDescription());
@@ -185,30 +185,24 @@ public class PaypalService {
         paymentDefinition.setFrequencyInterval(planType.getFrequency());
         // Cycle 0 = Infinity
         paymentDefinition.setCycles("0");
-
         // Currency
         Currency currency = new Currency();
         currency.setCurrency("USD");
         currency.setValue(planType.getPrice().toString());
         paymentDefinition.setAmount(currency);
 
+        // Merchant_preferences
+        MerchantPreferences merchantPreferences = new MerchantPreferences();
 
-        // Charge_models
-        ChargeModels chargeModels = new ChargeModels();
-        chargeModels.setType("SHIPPING");
-        chargeModels.setAmount(currency);
-        List<ChargeModels> chargeModelsList = new ArrayList<>();
-        chargeModelsList.add(chargeModels);
-        paymentDefinition.setChargeModels(chargeModelsList);
+        if (billImmediately) {
+            merchantPreferences.setSetupFee(currency);
+        }
 
         // Payment_definition
         List<PaymentDefinition> paymentDefinitionList = new ArrayList<>();
         paymentDefinitionList.add(paymentDefinition);
         plan.setPaymentDefinitions(paymentDefinitionList);
 
-        // Merchant_preferences
-        MerchantPreferences merchantPreferences = new MerchantPreferences();
-        merchantPreferences.setSetupFee(currency);
 
 
         StringBuilder currentURL = getCurrentUrl();
@@ -252,12 +246,12 @@ public class PaypalService {
         return returnPaymentDTO;
     }
 
-    private ReturnPaymentDTO activateAgreement(PlanType planType, String login, ReturnPaymentDTO returnPaymentDTO) {
+    private ReturnPaymentDTO activateAgreement(PlanType planType, String login, ReturnPaymentDTO returnPaymentDTO, LocalDate startDate) {
         Agreement agreement = new Agreement();
         agreement.setName(planType.getPlanDescription() + " Agreement");
         agreement.setDescription(planType.name());
 
-        Instant instant = LocalDateTime.now().plus(planType.getUnitAmountValidity(), planType.getUnit()).toInstant(ZoneOffset.UTC).truncatedTo(ChronoUnit.MINUTES);
+        Instant instant = startDate.atStartOfDay().toInstant(ZoneOffset.UTC).truncatedTo(ChronoUnit.MINUTES);
 
         agreement.setStartDate(instant.toString());
 
