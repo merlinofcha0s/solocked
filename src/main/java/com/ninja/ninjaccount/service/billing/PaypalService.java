@@ -89,7 +89,7 @@ public class PaypalService {
             }
         } catch (PayPalRESTException e) {
             log.error("Error when initiating paypal payment, login : {}", login, e);
-            returnPaymentDTO.setStatus("failure");
+            returnPaymentDTO.setStatus(PaypalStatus.FAILURE.getName());
         }
         return returnPaymentDTO;
     }
@@ -115,12 +115,12 @@ public class PaypalService {
             .map(Links::getHref).findFirst();
 
         if (redirectUrl.isPresent()) {
-            returnPaymentDTO.setStatus("success");
+            returnPaymentDTO.setStatus(PaypalStatus.SUCCESS.getName());
             returnPaymentDTO.setReturnUrl(redirectUrl.get());
             returnPaymentDTO.setRecurring(recurring);
             returnPaymentDTO.setPaymentId(paymentId);
         } else {
-            returnPaymentDTO.setStatus("failure");
+            returnPaymentDTO.setStatus(PaypalStatus.FAILURE.getName());
             log.error("No redirect url present in the paypal response id paypal : {}", paymentId);
         }
 
@@ -138,14 +138,14 @@ public class PaypalService {
             APIContext context = new APIContext(clientId, clientSecret, mode);
             Payment createdPayment = payment.execute(context, paymentExecution);
             if (createdPayment != null && createdPayment.getState().equals("approved")) {
-                returnPaymentDTO.setStatus("success");
+                returnPaymentDTO.setStatus(PaypalStatus.SUCCESS.getName());
                 returnPaymentDTO.setPaymentId(createdPayment.getId());
                 Optional<Transaction> transactionForExtractPlanType = createdPayment.getTransactions().stream().findFirst();
                 Optional<List<Item>> itemsFromTransaction = transactionForExtractPlanType.map(transaction -> transaction.getItemList().getItems());
                 Optional<Item> item = itemsFromTransaction.flatMap(items -> items.stream().findFirst());
                 item.ifPresent(item1 -> returnPaymentDTO.setPlanType(PlanType.valueOf(item1.getName())));
             } else {
-                returnPaymentDTO.setStatus("failure");
+                returnPaymentDTO.setStatus(PaypalStatus.FAILURE.getName());
             }
         } catch (PayPalRESTException e) {
             log.error("Error when completing paypal payment, payerId : {} reason : {}", completePaymentDTO.getPayerId(), e.getDetails().getMessage(), e);
@@ -235,11 +235,11 @@ public class PaypalService {
 
             // Activate plan
             createdPlan.update(context, patchRequestList);
-            returnPaymentDTO.setStatus("success");
+            returnPaymentDTO.setStatus(PaypalStatus.SUCCESS.getName());
             returnPaymentDTO.setBillingPlanId(createdPlan.getId());
         } catch (PayPalRESTException e) {
             log.error("Error when initiating paypal payment, login : {}", login, e);
-            returnPaymentDTO.setStatus("failure");
+            returnPaymentDTO.setStatus(PaypalStatus.FAILURE.getName());
         }
 
         return returnPaymentDTO;
@@ -272,7 +272,7 @@ public class PaypalService {
             returnPaymentDTO.setBillingPlanId(plan.getId());
         } catch (UnsupportedEncodingException | PayPalRESTException | MalformedURLException e) {
             log.error("Error when initiating paypal payment, login : {}", login, e);
-            returnPaymentDTO.setStatus("failure");
+            returnPaymentDTO.setStatus(PaypalStatus.FAILURE.getName());
         }
         return returnPaymentDTO;
     }

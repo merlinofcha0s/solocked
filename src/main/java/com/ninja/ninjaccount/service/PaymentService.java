@@ -163,12 +163,12 @@ public class PaymentService {
 
         Optional<Payment> payment = paymentRepository.findOneByUserLogin(login);
 
-        if (payment.isPresent() && returnPaymentDTO.getStatus().equals("success")) {
+        if (payment.isPresent() && returnPaymentDTO.getStatus().equals(PaypalStatus.SUCCESS.getName())) {
             payment.get().setLastPaymentId(returnPaymentDTO.getPaymentId());
             paymentRepository.save(payment.get());
         }
 
-        if (returnPaymentDTO.getStatus().equals("failure")) {
+        if (returnPaymentDTO.getStatus().equals(PaypalStatus.FAILURE.getName())) {
             // Rollback
             userService.destroyUserByLoginNotActivated(login);
             return Optional.empty();
@@ -180,7 +180,7 @@ public class PaymentService {
     public Optional<ReturnPaymentDTO> completeOneTimePaymentWorkflow(CompletePaymentDTO completePaymentDTO) {
         Optional<ReturnPaymentDTO> returnPaymentDTOOpt = paypalService.completeOneTimePaymentWorkflow(completePaymentDTO);
 
-        if (returnPaymentDTOOpt.isPresent() && returnPaymentDTOOpt.get().getStatus().equals("success")) {
+        if (returnPaymentDTOOpt.isPresent() && returnPaymentDTOOpt.get().getStatus().equals(PaypalStatus.SUCCESS.getName())) {
             ReturnPaymentDTO returnPaymentDTO = returnPaymentDTOOpt.get();
             Optional<Payment> paymentToComplete = paymentRepository.findOneByLastPaymentId(returnPaymentDTO.getPaymentId());
 
@@ -190,7 +190,7 @@ public class PaymentService {
                 log.error("BIG PROBLEM !!! No payment found for the payment ID {} ", completePaymentDTO.getPaymentId());
             }
 
-        } else if (returnPaymentDTOOpt.isPresent() && returnPaymentDTOOpt.get().getStatus().equals("failure")) {
+        } else if (returnPaymentDTOOpt.isPresent() && returnPaymentDTOOpt.get().getStatus().equals(PaypalStatus.FAILURE.getName())) {
             Optional<Payment> paymentToComplete = paymentRepository.findOneByLastPaymentId(completePaymentDTO.getPaymentId());
             paymentToComplete.map(payment -> payment.getUser().getId())
                 .flatMap(userService::getUserWithAuthorities)
