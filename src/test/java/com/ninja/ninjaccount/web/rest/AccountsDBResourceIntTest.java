@@ -11,8 +11,8 @@ import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.service.mapper.AccountsDBMapper;
-import com.ninja.ninjaccount.web.rest.data.PaymentData;
-import com.ninja.ninjaccount.web.rest.data.UserData;
+import com.ninja.ninjaccount.data.PaymentData;
+import com.ninja.ninjaccount.data.UserData;
 import com.ninja.ninjaccount.web.rest.errors.ExceptionTranslator;
 import org.junit.Before;
 import org.junit.Test;
@@ -394,7 +394,7 @@ public class AccountsDBResourceIntTest {
 
         User user = userData.createUserJohnDoe();
         AccountsDBDTO newAccountDB = accountsDBService.createNewAccountDB(bytes, uuid, user);
-        paymentData.createRegistrationPaymentForUser(user, PlanType.PREMIUMYEAR, true, LocalDate.now().minus(100, ChronoUnit.DAYS));
+        paymentData.createRegistrationPaymentForUser(user, PlanType.PREMIUMYEAR, true, LocalDate.now().minus(100, ChronoUnit.DAYS), false);
         int databaseSizeBeforeUpdate = accountsDBRepository.findAll().size();
 
         // Update the accountsDB
@@ -437,7 +437,7 @@ public class AccountsDBResourceIntTest {
 
         User user = userData.createUserJohnDoe();
         AccountsDBDTO newAccountDB = accountsDBService.createNewAccountDB(bytes, uuid, user);
-        paymentData.createRegistrationPaymentForUser(user, PlanType.PREMIUMYEAR, true, LocalDate.now().plus(100, ChronoUnit.DAYS));
+        paymentData.createRegistrationPaymentForUser(user, PlanType.PREMIUMYEAR, true, LocalDate.now().plus(100, ChronoUnit.DAYS), false);
         int databaseSizeBeforeUpdate = accountsDBRepository.findAll().size();
 
         // Update the accountsDB

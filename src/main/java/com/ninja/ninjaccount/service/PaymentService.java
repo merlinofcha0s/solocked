@@ -1,6 +1,7 @@
 package com.ninja.ninjaccount.service;
 
 import com.ninja.ninjaccount.domain.Payment;
+import com.ninja.ninjaccount.domain.PersistentAuditEvent;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import com.ninja.ninjaccount.repository.PaymentRepository;
@@ -14,18 +15,18 @@ import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import com.ninja.ninjaccount.service.mapper.PaymentMapper;
 import com.ninja.ninjaccount.service.util.PaymentUtil;
-import com.paypal.api.payments.Plan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cglib.core.Local;
+import org.springframework.boot.actuate.audit.AuditEventRepository;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -46,12 +47,15 @@ public class PaymentService {
 
     private final UserService userService;
 
+    private final AuditEventRepository auditEventRepository;
+
     public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper,
-                          PaypalService paypalService, UserService userService) {
+                          PaypalService paypalService, UserService userService, AuditEventRepository auditEventRepository) {
         this.paymentRepository = paymentRepository;
         this.paymentMapper = paymentMapper;
         this.paypalService = paypalService;
         this.userService = userService;
+        this.auditEventRepository = auditEventRepository;
     }
 
     /**
@@ -278,8 +282,7 @@ public class PaymentService {
         if (paymentToCancel.isPresent()) {
             returnPaymentDTO = paypalService.cancelRecurringPayment(paymentToCancel.get().getLastPaymentId(), login);
             if (returnPaymentDTO.getStatus().equals(PaypalStatus.SUCCESS.getName())) {
-                paymentToCancel.get().setRecurring(false);
-                paymentRepository.save(paymentToCancel.get());
+                deactivateRecurring(paymentToCancel.get());
             }
             returnPaymentDTO.setPaymentId(paymentToCancel.get().getLastPaymentId());
         }
@@ -292,5 +295,29 @@ public class PaymentService {
         } else {
             return payment.getValidUntil();
         }
+    }
+
+    @Scheduled(cron = "0 0 2 * * ?")
+    public void checkSubscriptionFromPaypal() {
+        List<Payment> paymentsRecurring = paymentRepository.findAllByRecurringTrue();
+        log.info("Payment to check : " + paymentsRecurring.size());
+
+        List<Payment> paymentNotActivateOrPending = paymentsRecurring.stream()
+            .filter(this::excludePaymentActiveAndPending)
+            .collect(Collectors.toList());
+
+        log.info("Payment to deactivate : " + paymentNotActivateOrPending.size());
+
+        paymentNotActivateOrPending.forEach(this::deactivateRecurring);
+    }
+
+    private boolean excludePaymentActiveAndPending(Payment payment) {
+        PaypalStatus paypalStatus = paypalService.checkAgreementStillActive(payment.getLastPaymentId());
+        return paypalStatus != PaypalStatus.ACTIVE && paypalStatus != PaypalStatus.PAYMENT_PENDING;
+    }
+
+    private void deactivateRecurring(Payment payment) {
+        payment.setRecurring(false);
+        paymentRepository.save(payment);
     }
 }

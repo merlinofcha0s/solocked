@@ -1,6 +1,8 @@
 package com.ninja.ninjaccount.service;
 
 import com.ninja.ninjaccount.NinjaccountApp;
+import com.ninja.ninjaccount.data.PaymentData;
+import com.ninja.ninjaccount.data.UserData;
 import com.ninja.ninjaccount.domain.Payment;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
@@ -56,6 +58,12 @@ public class PaymentServiceTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserData userData;
+
+    @Autowired
+    private PaymentData paymentData;
 
     @Test
     public void testCreatePaymentWhenRegister() {
@@ -634,6 +642,33 @@ public class PaymentServiceTest {
         assertThat(startDate.getDayOfMonth()).isEqualTo(correctDate.getDayOfMonth());
         assertThat(startDate.get(ChronoField.MONTH_OF_YEAR)).isEqualTo(correctDate.get(ChronoField.MONTH_OF_YEAR));
         assertThat(startDate.get(ChronoField.YEAR)).isEqualTo(correctDate.get(ChronoField.YEAR));
+    }
 
+    @Test
+    public void testCheckSubscriptionFromPaypalShouldDeactivate() {
+        User user = userData.createUserJohnDoe();
+        paymentData.createRegistrationPaymentForUser(user, PlanType.PREMIUMYEAR, true, LocalDate.now(), true);
+
+        //Mock the call
+        Mockito.when(paypalService.checkAgreementStillActive(anyString())).thenReturn(PaypalStatus.CANCELED);
+
+        paymentService.checkSubscriptionFromPaypal();
+        Optional<Payment> paymentToVerify = paymentRepository.findOneByUserLogin(user.getLogin());
+
+        assertThat(paymentToVerify.get().isRecurring()).isFalse();
+    }
+
+    @Test
+    public void testCheckSubscriptionFromPaypalShouldDoNothing() {
+        User user = userData.createUserJohnDoe();
+        paymentData.createRegistrationPaymentForUser(user, PlanType.PREMIUMYEAR, true, LocalDate.now(), true);
+
+        //Mock the call
+        Mockito.when(paypalService.checkAgreementStillActive(anyString())).thenReturn(PaypalStatus.ACTIVE);
+
+        paymentService.checkSubscriptionFromPaypal();
+        Optional<Payment> paymentToVerify = paymentRepository.findOneByUserLogin(user.getLogin());
+
+        assertThat(paymentToVerify.get().isRecurring()).isTrue();
     }
 }

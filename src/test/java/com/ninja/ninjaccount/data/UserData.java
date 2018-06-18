@@ -1,4 +1,4 @@
-package com.ninja.ninjaccount.web.rest.data;
+package com.ninja.ninjaccount.data;
 
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.UserRepository;

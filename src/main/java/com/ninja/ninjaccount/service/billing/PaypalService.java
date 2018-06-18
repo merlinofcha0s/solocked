@@ -204,7 +204,6 @@ public class PaypalService {
         plan.setPaymentDefinitions(paymentDefinitionList);
 
 
-
         StringBuilder currentURL = getCurrentUrl();
 
         merchantPreferences.setCancelUrl(currentURL.toString() + "/#/accounts");
@@ -325,6 +324,39 @@ public class PaypalService {
         }
 
         return returnPaymentDTO;
+    }
+
+    public PaypalStatus checkAgreementStillActive(String agreementId) {
+        PaypalStatus actualStatus = null;
+        ;
+        APIContext context = new APIContext(clientId, clientSecret, mode);
+        try {
+            Agreement agreement = Agreement.get(context, agreementId);
+            switch (agreement.getState()) {
+                case "Pending":
+                    actualStatus = PaypalStatus.PAYMENT_PENDING;
+                    break;
+                case "Active":
+                    actualStatus = PaypalStatus.ACTIVE;
+                    break;
+                case "Suspended":
+                    actualStatus = PaypalStatus.SUSPENDED;
+                    break;
+                case "Cancelled":
+                    actualStatus = PaypalStatus.CANCELED;
+                    break;
+                case "Expired":
+                    actualStatus = PaypalStatus.EXPIRED;
+                    break;
+                default:
+                    actualStatus = PaypalStatus.UNDEFINED;
+            }
+        } catch (PayPalRESTException e) {
+            actualStatus = PaypalStatus.UNDEFINED;
+            log.error("Error when checking agreement id, id : {}", agreementId, e);
+        }
+
+        return actualStatus;
     }
 
 }

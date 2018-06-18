@@ -9,14 +9,12 @@ import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
-import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import com.ninja.ninjaccount.service.util.PaymentConstant;
-import com.ninja.ninjaccount.web.rest.data.PaymentData;
+import com.ninja.ninjaccount.data.PaymentData;
 import com.ninja.ninjaccount.web.rest.errors.CantUpdateDBCausePaymentException;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,8 +33,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
@@ -235,7 +231,7 @@ public class AccountDBServiceTest {
 
         User user = userRepository.saveAndFlush(userJohn);
         accountsDBService.createNewAccountDB(bytes, uuid, user);
-        paymentData.createRegistrationPaymentForUser(user, PlanType.PREMIUMYEAR, false, LocalDate.now().plus(100, ChronoUnit.DAYS));
+        paymentData.createRegistrationPaymentForUser(user, PlanType.PREMIUMYEAR, false, LocalDate.now().plus(100, ChronoUnit.DAYS), false);
 
         String updatedExample = "This is an updated example";
         byte[] updatedBytes = updatedExample.getBytes();
@@ -259,7 +255,7 @@ public class AccountDBServiceTest {
 
         User user = userRepository.saveAndFlush(userJohn);
         accountsDBService.createNewAccountDB(bytes, uuid, user);
-        paymentData.createRegistrationPaymentForUser(user, PlanType.PREMIUMYEAR, true, LocalDate.now().minus(100, ChronoUnit.DAYS));
+        paymentData.createRegistrationPaymentForUser(user, PlanType.PREMIUMYEAR, true, LocalDate.now().minus(100, ChronoUnit.DAYS), false);
 
         String updatedExample = "This is an updated example";
         byte[] updatedBytes = updatedExample.getBytes();

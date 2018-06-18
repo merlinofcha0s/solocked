@@ -1,4 +1,4 @@
-package com.ninja.ninjaccount.web.rest.data;
+package com.ninja.ninjaccount.data;
 
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
@@ -15,7 +15,7 @@ public class PaymentData {
     @Autowired
     private PaymentService paymentService;
 
-    public PaymentDTO createRegistrationPaymentForUser(User user, PlanType planType, boolean isPaid, LocalDate validUntil) {
+    public PaymentDTO createRegistrationPaymentForUser(User user, PlanType planType, boolean isPaid, LocalDate validUntil, boolean recurring) {
         PaymentDTO paymentDTO = new PaymentDTO();
         paymentDTO.setPaid(isPaid);
         paymentDTO.setPlanType(planType);
@@ -24,6 +24,7 @@ public class PaymentData {
         paymentDTO.setUserId(user.getId());
         paymentDTO.setUserLogin(user.getLogin());
         paymentDTO.setValidUntil(validUntil);
+        paymentDTO.setRecurring(recurring);
         return paymentService.save(paymentDTO);
     }
 
