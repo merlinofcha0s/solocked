@@ -110,7 +110,9 @@
               </div>
               <div *ngFor="let paymentBlock of customBlockCounter.paymentBlocks">
                  <jhi-payment-custom-block [payments]="payments" (onSyncPayments)="onSyncPayments($event)"
-                                           (suppressPaymentBlock)="onSuppressPaymentblock($event)"></jhi-payment-custom-block>
+                                           (suppressPaymentBlock)="onSuppressPaymentblock($event)"
+                                           [expanded]="paymentExpanded"
+                                           (expandedEvent)="onExpandedPayment($event)"></jhi-payment-custom-block>
               </div>
               <div class="d-flex flex-column align-items-center justify-content-center buttonContainer">
                 <div class="row no-margin align-content-center justify-content-center" style="width: 100%;">

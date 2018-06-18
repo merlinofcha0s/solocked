@@ -35,7 +35,8 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     average = '0';
     total = '0';
 
-    expanded: boolean;
+    @Input() expanded: boolean;
+    @Output() expandedEvent = new EventEmitter<boolean>();
 
     accordionOpened: boolean;
     lastPayment: Payment;
@@ -145,6 +146,11 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     expandIfPayments() {
         if (this.payments.length === 0) {
             this.expanded = true;
+            this.onExpanded();
         }
+    }
+
+    onExpanded() {
+        this.expandedEvent.emit(this.expanded);
     }
 }

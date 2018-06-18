@@ -60,6 +60,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     private customBlockDialog: MatDialogRef<AddCustomBlockComponent>;
     private deletePaymentBlock: MatDialogRef<DeletePaymentLineComponent>;
     payments: Array<Payment>;
+    paymentExpanded: boolean;
 
     customBlockCounter: {
         paymentBlocks: Array<number>;
@@ -205,6 +206,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
             newAccount.id = this.id;
             this.accountsService.updateAccount(newAccount);
             this.loading = false;
+            this.paymentExpanded = false;
             this.snackUtil.openSnackBar('ninjaccountApp.accountsDB.update.successful', 3000, 'fa-check-circle');
         } else {
             this.accountsService.saveNewAccount(newAccount)
@@ -329,6 +331,10 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
             newPassword += this.possible.charAt(Math.floor(Math.random() * this.possible.length));
         }
         this.password.setValue(newPassword);
+    }
+
+    onExpandedPayment(expanded: boolean) {
+        this.paymentExpanded = !expanded;
     }
 
 }
