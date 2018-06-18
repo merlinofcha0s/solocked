@@ -36,18 +36,6 @@
             <column name="paid" type="boolean">
                 <constraints nullable="false" />
             </column>
-
-            <column name="recurring" type="boolean">
-                <constraints nullable="true" />
-            </column>
-
-            <column name="billing_plan_id" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-
-            <column name="token_recurring" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
             <column name="user_id" type="bigint">
                 <constraints unique="true" nullable="true" />
             </column>
