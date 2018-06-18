@@ -41,9 +41,9 @@ export class FooterComponent implements OnInit, OnDestroy {
     initPaymentService() {
         this.paymentSub = this.paymentService.paymentWarning$.subscribe((paymentWarning) => {
             this.paymentWarning = paymentWarning;
-            if (this.isAuthenticatedAndNotAdmin() && (this.paymentWarning.isInFreeMode || !this.paymentWarning.isValid || !this.paymentWarning.isPaid)) {
-                this.displayPaymentIssue = true;
-            }
+
+            this.displayPaymentIssue = this.isAuthenticatedAndNotAdmin() && (this.paymentWarning.isInFreeMode || !this.paymentWarning.isValid || !this.paymentWarning.isPaid);
+
         });
         this.paymentService.getPaymentByLogin();
     }
