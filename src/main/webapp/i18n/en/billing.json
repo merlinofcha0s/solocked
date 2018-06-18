@@ -6,6 +6,14 @@
         "infotitle": "Informations",
         "loadingchangeplan": "Changing your plan....",
         "success": "Your plan was upgraded",
+        "label":{
+            "subscriptiondate": "Subscription date :",
+            "validuntil": "Valid until :",
+            "plantype": "Plan type :",
+            "recurring": "Recurring payment :",
+            "recurringtrue": "Activated",
+            "recurringfalse": "Deactivated"
+        },
         "error": {
             "error": "An unexpected error occured, please try again or contact us",
             "errorComunicationPaypal": "Error when communicating with the payment API, please try again or contact us",
@@ -21,6 +29,27 @@
             "error": {
                 "errorcancelpayment": "Error when canceling your subscription, please try again later or contact us",
                 "errorinternalcancelpayment": "Internal error when canceling your subscription, please try again later or contact us"
+            }
+        },
+        "chooseplan": {
+            "free": {
+                "title": "Free",
+                "highlight1": "10 accounts",
+                "price": "$0"
+            },
+            "premiumyear":{
+                "title": "Premium",
+                "highlight1": "1000 accounts",
+                "highlight2": "Billed yearly",
+                "price": "$20",
+                "frequency": "per year"
+            },
+            "premiummonth":{
+                "title": "Premium",
+                "highlight1": "1000 accounts",
+                "highlight2": "Billed monthly",
+                "price": "$2",
+                "frequency": "per month"
             }
         }
     }
