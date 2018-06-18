@@ -142,10 +142,9 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 });
 
                 this.tags.setValue(tagsValue.slice(0, -2));
-
+                this.clearAllPaymentBlock();
                 if (account.payments.length !== 0) {
                     this.payments = account.payments;
-                    this.clearAllPaymentBlock();
                     this.addNewPaymentBlock(false);
                 }
             }

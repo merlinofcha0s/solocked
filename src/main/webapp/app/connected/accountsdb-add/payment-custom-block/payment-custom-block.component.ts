@@ -138,7 +138,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
 
     updateLastPayment() {
         if (this.payments.length > 0) {
-            this.lastPayment = this.payments[this.payments.length - 1];
+            this.lastPayment = this.payments[0];
         }
     }
 
