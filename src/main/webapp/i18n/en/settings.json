@@ -49,7 +49,7 @@
                     "cancel": "Cancel",
                     "ok": "Export all my accounts"
                 },
-                "success": "Successfuly exporting {{nbExportedAccount}} accounts"
+                "success": "Successfuly exported {{nbExportedAccount}} accounts"
             },
             "delete": {
                 "title": "Delete your SoLocked account",
