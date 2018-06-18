@@ -64,22 +64,9 @@ export class ImportComponent implements OnInit {
         this.importTypeValue = this.importType.value;
         if (this.importTypeValue === this.importTypeValueGuess) {
             const nbActualAccount = this.accountService.getAccountsListInstant().length;
-            this.accountsDBService.getActualMaxAccount().concatMap((actualAndMax) => {
-                if (actualAndMax.first + this.newAccounts.length <= actualAndMax.second) {
-                    return this.accountService.saveNewAccount(this.newAccounts);
-                } else {
-                    this.snackUtil.openSnackBar('import.error.toomanyaccount', 10000, 'fa-exclamation-triangle'
-                        , {
-                            actual: actualAndMax.first,
-                            nbOfNewAccount: this.newAccounts.length,
-                            max: actualAndMax.second
-                        });
-                    this.loading = false;
-                    return Observable.empty();
-                }
-            }).flatMap((account) => {
-                return this.accountsDBService.updateActualNumberAccount(nbActualAccount + this.newAccounts.length);
-            }).subscribe((response) => {
+            this.accountsDBService.getActualMaxAccount()
+                .concatMap((actualAndMax) => this.accountService.saveNewAccount(this.newAccounts))
+                .flatMap((account) => this.accountsDBService.updateActualNumberAccount(nbActualAccount + this.newAccounts.length)).subscribe((response) => {
                 this.snackUtil.openSnackBar('import.success', 5000, 'fa-check-circle', {nbImportedAccount: this.newAccounts.length});
                 this.loading = false;
             });
@@ -99,7 +86,6 @@ export class ImportComponent implements OnInit {
             reader.readAsText(file);
             reader.onload = () => {
                 this.prepareImport(reader.result);
-                this.preloadOk = true;
             };
         }
     }
@@ -107,24 +93,39 @@ export class ImportComponent implements OnInit {
     prepareImport(importFile: string) {
         this.importTypeValueGuess = this.verifyImportType(importFile);
         if (this.importTypeValueGuess !== TypeImport.NONE) {
-            const lines = this.extract(importFile);
-            switch (this.importTypeValueGuess) {
-                case TypeImport.LASTPASS:
-                    this.newAccounts = this.createAccountFromLastPass(lines);
-                    break;
-                case TypeImport.ONEPASSWORD:
-                    this.newAccounts = this.createAccountFromOnePassword(lines);
-                    break;
-                case TypeImport.DASHLANE:
-                    this.newAccounts = this.createAccountFromDashLane(lines);
-                    break;
-                case TypeImport.CSV:
-                    this.newAccounts = this.createAccountFromCSV(lines);
-                    break;
-                case TypeImport.KEEPASS2:
-                    this.newAccounts = this.createAccountFromKeepass2(lines);
-                    break;
-            }
+            this.accountsDBService.getActualMaxAccount().subscribe((actualAndMax) => {
+                const lines = this.extract(importFile);
+                switch (this.importTypeValueGuess) {
+                    case TypeImport.LASTPASS:
+                        this.newAccounts = this.createAccountFromLastPass(lines);
+                        break;
+                    case TypeImport.ONEPASSWORD:
+                        this.newAccounts = this.createAccountFromOnePassword(lines);
+                        break;
+                    case TypeImport.DASHLANE:
+                        this.newAccounts = this.createAccountFromDashLane(lines);
+                        break;
+                    case TypeImport.CSV:
+                        this.newAccounts = this.createAccountFromCSV(lines);
+                        break;
+                    case TypeImport.KEEPASS2:
+                        this.newAccounts = this.createAccountFromKeepass2(lines);
+                        break;
+                }
+
+                if (actualAndMax.first + this.newAccounts.length <= actualAndMax.second) {
+                    this.preloadOk = true;
+                } else {
+                    this.snackUtil.openSnackBar('import.error.toomanyaccount', 10000, 'fa-exclamation-triangle'
+                        , {
+                            actual: actualAndMax.first,
+                            nbOfNewAccount: this.newAccounts.length,
+                            max: actualAndMax.second
+                        });
+                    this.preloadOk = false;
+                }
+            });
+
         } else {
             this.snackUtil.openSnackBar('import.error.formatunknown', 5000, 'fa-exclamation-triangle');
         }
