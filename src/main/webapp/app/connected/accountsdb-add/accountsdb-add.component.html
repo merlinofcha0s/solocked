@@ -6,7 +6,7 @@
           <ng-template #create><h1 jhiTranslate="ninjaccountApp.accountsDB.add.title">Create a new account.</h1></ng-template>
           <ng-template #update>
               <h1 class="d-flex align-items-center edit-title">
-                  <span >{{accountName.value}}</span>
+                  {{accountName.value}}
               </h1>
           </ng-template>
           <form [formGroup]="accountForm" (ngSubmit)="onSubmitNewAccount()">
