@@ -31,12 +31,12 @@ export class JhiLanguageHelper {
      * 2. $state.$current.data.pageTitle (current state page title)
      * 3. 'global.title'
      */
-    updateTitle(titleKey?: string) {
+    updateTitle(titleKey?: string, data?: any) {
         if (!titleKey) {
              titleKey = this.getPageTitle(this.router.routerState.snapshot.root);
         }
 
-        this.translateService.get(titleKey).subscribe((title) => {
+        this.translateService.get(titleKey, data).subscribe((title) => {
             this.titleService.setTitle(title + ' | SoLocked');
         });
     }

@@ -30,7 +30,7 @@ export const ACCOUNTSDB_ROUTES: Routes = [
         path: 'accounts/edit/:id',
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'ninjaccountApp.accountsDB.update.header'
+            pageTitle: 'ninjaccountApp.accountsDB.update.title'
         },
         component: AccountsdbAddComponent,
         canActivate: [UserRouteAccessService],

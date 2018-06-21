@@ -63,7 +63,7 @@
                 "toomanyAccount": "Limit reached. Go to settings for more info"
             },
             "update": {
-                "header": "Update account",
+                "header": "{{ name }}",
                 "title": "Update account.",
                 "button": "Update account",
                 "error": "Error during the account update",

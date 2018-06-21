@@ -16,6 +16,7 @@ import {PaymentCustomBlockConstant} from './payment-custom-block.constant';
 import {DeletePaymentLineComponent} from './payment-custom-block/delete-payment-line/delete-payment-line.component';
 import {AccountsdbDeleteComponent} from '../accountsdb-delete/accountsdb-delete.component';
 import {SnackUtilService} from '../../shared/snack/snack-util.service';
+import {JhiLanguageHelper} from '../../shared';
 
 @Component({
     selector: 'jhi-accountsdb-add',
@@ -75,6 +76,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 private snackUtil: SnackUtilService,
                 private translateService: TranslateService,
                 private dialog: MatDialog,
+                private jhiLanguageHelper: JhiLanguageHelper,
     ) {
         this.customBlockCounter = {paymentBlocks: []};
     }
@@ -148,6 +150,8 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                     this.payments = account.payments;
                     this.addNewPaymentBlock(false);
                 }
+
+                this.jhiLanguageHelper.updateTitle('ninjaccountApp.accountsDB.update.header', {name: account.name});
             }
         });
         this.accountsService.getAccount(idAccount);
