@@ -11,6 +11,7 @@ import {ExportAllAccountsComponent} from './export-all-accounts/export-all-accou
 import {DeleteAllAccountsComponent} from './delete-all-accounts/delete-all-accounts.component';
 import {SnackUtilService} from '../../shared/snack/snack-util.service';
 import {AccountsService} from '../../shared/account/accounts.service';
+import {ResetAllAccountsComponent} from './reset-all-accounts/reset-all-accounts.component';
 
 @Component({
     selector: 'jhi-settings',
@@ -130,5 +131,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     openDeleteAccountsPopup() {
         this.dialog.open(DeleteAllAccountsComponent, {});
+    }
+
+    openResetAllAccountsPopup() {
+        this.dialog.open(ResetAllAccountsComponent, {});
     }
 }

@@ -152,6 +152,8 @@ public class PaymentService {
             }
         } else if (operationAccountType.equals(OperationAccountType.DELETE)) {
             return actual - 1;
+        } else if (operationAccountType.equals(OperationAccountType.DELETE_ALL)) {
+            return 0;
         } else {
             return actual;
         }

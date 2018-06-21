@@ -1,0 +1,15 @@
+<h2 mat-dialog-title class="text-center"><i class="fa fa-exclamation-triangle warning-export-icon" aria-hidden="true"></i>
+    <span class="title" jhiTranslate="settings.danger.reset.popup.title">Reset all the account</span></h2>
+<mat-dialog-content class="d-flex justify-content-center align-content-center flex-column">
+    <div class="content" jhiTranslate="settings.danger.reset.popup.content">
+        Reset your <strong class='font-weight-bold'>entire</strong> solocked database including
+        <strong class='font-weight-bold'>all data</strong><br/> <strong class='font-weight-bold'>This operation is irreversible</strong><br/>
+    </div>
+    <div class="text-center content" jhiTranslate="settings.danger.reset.popup.confirmation">Are you sure ?</div>
+</mat-dialog-content>
+<mat-dialog-actions class="d-flex justify-content-center align-content-center">
+    <button mat-button mat-dialog-close>{{'settings.danger.reset.popup.cancel' | translate}}</button>
+    <button mat-raised-button [mat-dialog-close]="true"
+            class="default-mat-background-button" color="warn"
+            (click)="onReset()">{{'settings.danger.reset.popup.ok' | translate}}</button>
+</mat-dialog-actions>

@@ -26,6 +26,7 @@ import {ImportComponent} from './import/import.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NumberValidator} from './register/validator/number.validator';
 import {UpperValidator} from './register/validator/upper.validator';
+import {ResetAllAccountsComponent} from './settings/reset-all-accounts/reset-all-accounts.component';
 
 @NgModule({
     imports: [
@@ -45,6 +46,7 @@ import {UpperValidator} from './register/validator/upper.validator';
         SettingsComponent,
         ExportAllAccountsComponent,
         DeleteAllAccountsComponent,
+        ResetAllAccountsComponent,
         ImportComponent,
         NumberValidator,
         UpperValidator
@@ -57,7 +59,7 @@ import {UpperValidator} from './register/validator/upper.validator';
         PasswordResetFinishService,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    entryComponents: [ExportAllAccountsComponent, DeleteAllAccountsComponent]
+    entryComponents: [ExportAllAccountsComponent, DeleteAllAccountsComponent, ResetAllAccountsComponent]
 })
 export class NinjaccountAccountModule {
 }

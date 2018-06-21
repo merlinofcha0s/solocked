@@ -63,6 +63,19 @@
                     "cancel": "Cancel",
                     "ok": "Delete all my accounts"
                 }
+            },
+            "reset": {
+                "title": "Reset the accounts database",
+                "content": "Reset your <span class='font-weight-bold'> personal safe </span>containing all your accounts.<br/> This operation is <span class='font-weight-bold'>irreversible</span>",
+                "action": "Reset the  database",
+                "popup": {
+                    "title": "Reset the accounts database",
+                    "content": "Reset your <strong class='font-weight-bold'>entire</strong> solocked database including <strong class='font-weight-bold'>all data</strong><br/> <strong class='font-weight-bold'>This operation is irreversible</strong><br/>",
+                    "contentUsername": "Enter your username to confirm :",
+                    "confirmation": "Reset the database?",
+                    "cancel": "Cancel",
+                    "ok": "Reset the database"
+                }
             }
         }
     }

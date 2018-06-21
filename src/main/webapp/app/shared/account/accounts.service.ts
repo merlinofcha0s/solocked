@@ -204,4 +204,20 @@ export class AccountsService {
         config.data = {icon: 'fa-exclamation-triangle', text: message};
         this.snackBar.openFromComponent(SnackComponent, config);
     }
+
+    resetEntireDB() {
+        const initVector = this.cryptoUtils.getRandomNumber();
+        this.accountTech.synchroDB()
+            .flatMap((accounts: Accounts) => {
+                accounts.accounts.splice(0, accounts.accounts.length);
+                accounts.operationAccountType = OperationAccountType.DELETE_ALL;
+                this._dataStore.accounts = accounts;
+                return this.accountTech.saveEncryptedDB(accounts, initVector);
+            }).subscribe((accountDB: AccountsDB) => {
+                this.saveOnBrowser(this._dataStore.accounts);
+            },
+            (error) => {
+                this.errorSnack('ninjaccountApp.accountsDB.delete.error');
+            });
+    }
 }

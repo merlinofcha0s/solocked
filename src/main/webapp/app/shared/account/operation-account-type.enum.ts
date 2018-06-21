@@ -1,5 +1,6 @@
 export enum OperationAccountType {
     CREATE,
     UPDATE,
-    DELETE
+    DELETE,
+    DELETE_ALL
 }
