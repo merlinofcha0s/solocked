@@ -17,6 +17,7 @@ import {DeletePaymentLineComponent} from './payment-custom-block/delete-payment-
 import {AccountsdbDeleteComponent} from '../accountsdb-delete/accountsdb-delete.component';
 import {SnackUtilService} from '../../shared/snack/snack-util.service';
 import {JhiLanguageHelper} from '../../shared';
+import {AccountsDBService} from '../../entities/accounts-db/accounts-db.service';
 
 @Component({
     selector: 'jhi-accountsdb-add',
@@ -68,6 +69,8 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     };
 
     private possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    private actualMaxSubscription: Subscription;
+    private exceedLimitAccount: boolean;
 
     constructor(private fb: FormBuilder,
                 private accountsService: AccountsService,
@@ -77,6 +80,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 private translateService: TranslateService,
                 private dialog: MatDialog,
                 private jhiLanguageHelper: JhiLanguageHelper,
+                private accountDbService: AccountsDBService
     ) {
         this.customBlockCounter = {paymentBlocks: []};
     }
@@ -84,6 +88,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.initForm();
         this.initPasswordHideDisplay();
+        this.checkActualAndMax();
         this.routeSubscription = this.route.params.subscribe((params) => {
 
             if (params['id'] !== undefined) {
@@ -338,7 +343,20 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     }
 
     onExpandedPayment(expanded: boolean) {
-       this.paymentExpanded = expanded;
+        this.paymentExpanded = expanded;
     }
 
+    checkActualAndMax() {
+        this.actualMaxSubscription = this.accountDbService.getActualMaxAccount().subscribe((actualAndMax) => {
+            const actual = actualAndMax.first;
+            const max = actualAndMax.second;
+
+            if (actual >= max && !this.updateMode) {
+                this.exceedLimitAccount = true;
+            } else {
+                this.exceedLimitAccount = false;
+            }
+        });
+        this.accountDbService.getActualMaxAccount();
+    }
 }

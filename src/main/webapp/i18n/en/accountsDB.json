@@ -139,7 +139,8 @@
                     "total": "Total"
                 }
             },
-            "generatepassword": "Generate a strong password"
+            "generatepassword": "Generate a strong password",
+            "exceedlimitaccount": "You have reach the limit number of accounts in your personal safe. <br/> Upgrade <a href='/#/billing'>here</a> to extends the limit"
         }
     }
 }

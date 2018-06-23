@@ -9,6 +9,9 @@
                   {{accountName.value}}
               </h1>
           </ng-template>
+          <div class="alert alert-danger" id="exceedLimitAccount" *ngIf="exceedLimitAccount" jhiTranslate="ninjaccountApp.accountsDB.exceedlimitaccount">
+              You have reach the limit number of accounts in your personal safe. <br/> Upgrade <a href='/#/billing'>here</a> to extends the limit
+          </div>
           <form [formGroup]="accountForm" (ngSubmit)="onSubmitNewAccount()">
               <div class="d-flex align-items-center">
                 <mat-form-field class="addAccountInput">
@@ -132,7 +135,7 @@
                     </div>
                 </div>
                   <button type="submit" mat-raised-button jhiCheckBilling type="submit" color="primary"
-                          class="default-validation-button" [disabled]="!accountForm.valid || loading"
+                          class="default-validation-button" [disabled]="!accountForm.valid || loading || (!updateMode && exceedLimitAccount)"
                           id="addEditAccount">
                      <div *ngIf="updateMode;then updateBtn else createBtn"></div>
                      <ng-template #createBtn>{{'ninjaccountApp.accountsDB.add.button' | translate}}</ng-template>

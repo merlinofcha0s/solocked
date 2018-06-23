@@ -152,7 +152,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
             this.modeFinalizingPayment = true;
             this.openWaiterFinalizer();
             this.completePaymentService(paymentId, payerId);
-        } else if (token != undefined) {
+        } else if (token !== undefined) {
             this.errorCompletePaypal = 'ERROR';
         }
     }
