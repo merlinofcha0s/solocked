@@ -36,6 +36,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
     maxFirstname = 50;
     maxEmail = 100;
 
+    private resetAllAccountsPopup: MatDialogRef<ResetAllAccountsComponent>;
+
     constructor(private account: AccountService,
                 private principal: Principal,
                 private languageService: JhiLanguageService,
@@ -94,6 +96,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
 
     initActualAndMaxAccount() {
+        if (this.actualMaxSubscription) {
+            this.actualMaxSubscription.unsubscribe();
+        }
         this.actualMaxSubscription = this.accountDbService.getActualMaxAccount().subscribe((actualAndMax) => {
             this.actual = actualAndMax.first;
             this.max = actualAndMax.second;
@@ -134,6 +139,13 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
 
     openResetAllAccountsPopup() {
-        this.dialog.open(ResetAllAccountsComponent, {});
+        this.resetAllAccountsPopup = this.dialog.open(ResetAllAccountsComponent, {});
+
+        this.resetAllAccountsPopup.afterClosed().subscribe((result) => {
+            if (result === 'success') {
+                this.initActualAndMaxAccount();
+                this.snackUtil.openSnackBar('settings.danger.reset.success', 5000, 'fa-check-circle');
+            }
+        });
     }
 }

@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AccountsService} from '../../../shared/account/accounts.service';
 import {MatDialogRef} from '@angular/material';
-import {SnackUtilService} from '../../../shared/snack/snack-util.service';
 
 @Component({
     selector: 'jhi-reset-all-accounts',
@@ -10,11 +9,8 @@ import {SnackUtilService} from '../../../shared/snack/snack-util.service';
 })
 export class ResetAllAccountsComponent implements OnInit, OnDestroy {
 
-    separator = '","';
-
     constructor(private accountsService: AccountsService,
-                private dialogRef: MatDialogRef<ResetAllAccountsComponent>,
-                private snackUtil: SnackUtilService) {
+                private dialogRef: MatDialogRef<ResetAllAccountsComponent>) {
     }
 
     ngOnInit() {
@@ -25,6 +21,6 @@ export class ResetAllAccountsComponent implements OnInit, OnDestroy {
 
     onReset() {
         this.accountsService.resetEntireDB();
-        this.dialogRef.close('reset over');
+        this.dialogRef.close('success');
     }
 }
