@@ -278,6 +278,7 @@ public class PaymentServiceTest {
         paymentDTO.setUserId(user.getId());
         paymentDTO.setUserLogin(user.getLogin());
         paymentDTO.setLastPaymentId(paymentId);
+        paymentDTO.setRecurring(false);
 
         paymentService.save(paymentDTO);
 

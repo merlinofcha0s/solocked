@@ -136,6 +136,7 @@ public class PaymentService {
         paymentDTO.setPrice(PlanType.FREE.getPrice());
         paymentDTO.setUserId(user.getId());
         paymentDTO.setUserLogin(user.getLogin());
+        paymentDTO.setRecurring(false);
         return save(paymentDTO);
     }
 

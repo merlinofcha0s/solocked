@@ -70,7 +70,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
     private possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     private actualMaxSubscription: Subscription;
-    private exceedLimitAccount: boolean;
+    exceedLimitAccount: boolean;
 
     constructor(private fb: FormBuilder,
                 private accountsService: AccountsService,
