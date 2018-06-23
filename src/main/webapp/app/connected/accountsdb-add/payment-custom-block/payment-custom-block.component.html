@@ -1,4 +1,4 @@
-<mat-expansion-panel [@appear] class="payment-custom-card" (click)="onExpanded()" [expanded]="expanded" (closed)="onClose()" (opened)="onOpen()">
+<mat-expansion-panel [@appear] class="payment-custom-card" [expanded]="expanded" (closed)="onClose()" (opened)="onOpen()">
   <mat-expansion-panel-header>
           <mat-panel-title class="title d-flex align-items-center" style="width: 100%;">
               <i class="fas fa-money-bill-alt payment-block-icons" aria-hidden="true"></i>
@@ -8,8 +8,6 @@
                   <div  class="d-flex justify-content-center align-content-center lastpayment-infos">
                       <div>{{ lastPayment?.date | date:'M/d/yyyy' }}</div>
                       <div>{{ lastPayment?.amount | currency }}</div>
-                      <div>{{ lastPayment?.method }}</div>
-                      <div>{{ lastPayment?.code }}</div>
                   </div>
               </div>
               <i class="fas fa-trash suppress mr-3" *ngIf="!readOnlyMode" (click)="onSuppressPaymentBlock()"></i>

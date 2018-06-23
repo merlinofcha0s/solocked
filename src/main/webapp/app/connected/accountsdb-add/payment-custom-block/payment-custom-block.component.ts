@@ -1,4 +1,14 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChanges,
+    ViewChild
+} from '@angular/core';
 import {Payment} from '../../../shared/account/payment-block.model';
 import {MatDatepicker, MatDialog, MatDialogRef} from '@angular/material';
 import {PaymentCustomBlockConstant} from '../payment-custom-block.constant';
@@ -18,7 +28,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
         ])
     ]
 })
-export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
+export class PaymentCustomBlockComponent implements OnInit, OnDestroy, OnChanges {
 
     @ViewChild(MatDatepicker) picker;
 
@@ -58,13 +68,15 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
     }
 
+    ngOnChanges(changes: SimpleChanges): void {
+        this.updateLastPayment();
+    }
+
     onAddPayment() {
         const newPayment = new Payment(new Date(), 0, this._placeholderMethod
             , this._placeholderCode, this._placeholderNotes);
 
         this.payments.unshift(newPayment);
-        this.updateLastPayment();
-
         this.onSyncPayments.emit(this.payments);
     }
 
@@ -131,10 +143,12 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
 
     onClose() {
         this.accordionOpened = false;
+        this.expandedEvent.emit(this.accordionOpened);
     }
 
     onOpen() {
         this.accordionOpened = true;
+        this.expandedEvent.emit(this.accordionOpened);
     }
 
     updateLastPayment() {
@@ -146,11 +160,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy {
     expandIfPayments() {
         if (this.payments.length === 0) {
             this.expanded = true;
-            this.onExpanded();
+            this.expandedEvent.emit(this.accordionOpened);
         }
-    }
-
-    onExpanded() {
-        this.expandedEvent.emit(this.expanded);
     }
 }

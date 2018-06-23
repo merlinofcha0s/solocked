@@ -338,7 +338,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     }
 
     onExpandedPayment(expanded: boolean) {
-        this.paymentExpanded = !expanded;
+       this.paymentExpanded = expanded;
     }
 
 }
