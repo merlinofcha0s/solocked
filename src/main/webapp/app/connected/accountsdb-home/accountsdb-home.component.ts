@@ -58,7 +58,6 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
     }
 
     initAccountsList() {
-        this.accountsService.getAccountsList();
         this.accountsSub = this.accountsService.accounts$.subscribe((accounts) => {
             this.accounts = accounts;
 

@@ -13,7 +13,7 @@ export class Accounts {
         accounts?: Array<Account>,
         authenticationKey?: string
     ) {
-        this.accounts = accounts ? accounts : new Array<Account>();
+        this.accounts = accounts ? accounts : [];
         this.authenticationKey = authenticationKey ? authenticationKey : '';
         this.nbAccounts = 0;
     }

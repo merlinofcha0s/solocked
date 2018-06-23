@@ -22,6 +22,8 @@ export class AccountsService {
         accounts: Accounts
     };
 
+    hasToSort: boolean;
+
     constructor(private cryptoUtils: CryptoUtilsService,
                 private accountTech: AccountsTechService,
                 private translateService: TranslateService,
@@ -49,25 +51,27 @@ export class AccountsService {
         if (this._dataStore.accounts.accounts.length === 0) {
             this.accountTech.synchroDB().subscribe((accountsFromDB) => {
                 this._dataStore.accounts = accountsFromDB;
-
-                this._dataStore.accounts.accounts.sort((accountA, accountB) => {
-                    const nameA = accountA.name.toLowerCase();
-                    const nameB = accountB.name.toLowerCase();
-                    if (nameA < nameB) {
-                        // sort string ascending
-                        return -1;
-                    }
-                    if (nameA > nameB) {
-                        return 1;
-                    }
-                    return 0; // default return value (no sorting)
-                });
-
+                this.sortAccountByName();
                 this.accounts$.next(this._dataStore.accounts.accounts);
             });
         } else {
             this.accounts$.next(this._dataStore.accounts.accounts);
         }
+    }
+
+    private sortAccountByName() {
+        this._dataStore.accounts.accounts.sort((accountA, accountB) => {
+            const nameA = accountA.name.toLowerCase();
+            const nameB = accountB.name.toLowerCase();
+            if (nameA < nameB) {
+                // sort string ascending
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+            return 0; // default return value (no sorting)
+        });
     }
 
     getAccountsListInstant(): Array<Account> {
@@ -121,6 +125,7 @@ export class AccountsService {
                     for (const newAccount of account) {
                         newAccount.id = this.seqNextVal(this._dataStore.accounts);
                         this._dataStore.accounts.accounts.push(newAccount);
+                        this.sortAccountByName();
                         accounts.accounts.push(newAccount);
                     }
                 }
@@ -145,6 +150,7 @@ export class AccountsService {
                 accounts.operationAccountType = OperationAccountType.UPDATE;
                 return this.accountTech.saveEncryptedDB(accounts, initVector);
             }).subscribe((accountDB: AccountsDB) => {
+                this.sortAccountByName();
                 this.accounts$.next(this._dataStore.accounts.accounts);
             },
             (error) => {
