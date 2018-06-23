@@ -147,10 +147,13 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     completePayment() {
         const payerId = this.route.snapshot.queryParams['PayerID'];
         const paymentId = this.route.snapshot.queryParams['paymentId'];
+        const token = this.route.snapshot.queryParams['token'];
         if (!isUndefined(payerId) && !isUndefined(paymentId)) {
             this.modeFinalizingPayment = true;
             this.openWaiterFinalizer();
             this.completePaymentService(paymentId, payerId);
+        } else if (token != undefined) {
+            this.errorCompletePaypal = 'ERROR';
         }
     }
 

@@ -77,7 +77,7 @@ public class PaypalService {
 
         StringBuilder urlBuilder = getCurrentUrl();
 
-        redirectUrls.setCancelUrl(urlBuilder.toString() + "/#/");
+        redirectUrls.setCancelUrl(urlBuilder.toString() + "/#/register");
         redirectUrls.setReturnUrl(urlBuilder.toString() + "/#/register");
         payment.setRedirectUrls(redirectUrls);
         Payment createdPayment;
