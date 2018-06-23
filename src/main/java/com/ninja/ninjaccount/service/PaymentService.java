@@ -281,7 +281,7 @@ public class PaymentService {
     public Optional<ReturnPaymentDTO> cancelRecurringPaymentWorkflow(String login) {
         ReturnPaymentDTO returnPaymentDTO = null;
         Optional<Payment> paymentToCancel = paymentRepository.findOneByUserLogin(login);
-        if (paymentToCancel.isPresent()) {
+        if (paymentToCancel.isPresent() && paymentToCancel.get().isRecurring()) {
             returnPaymentDTO = paypalService.cancelRecurringPayment(paymentToCancel.get().getLastPaymentId(), login);
             if (returnPaymentDTO.getStatus().equals(PaypalStatus.SUCCESS.getName())) {
                 deactivateRecurring(paymentToCancel.get());

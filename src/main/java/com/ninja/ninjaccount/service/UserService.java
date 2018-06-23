@@ -14,6 +14,7 @@ import com.ninja.ninjaccount.service.util.RandomUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -52,11 +53,17 @@ public class UserService {
 
     private final PaymentRepository paymentRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder
-        , SocialService socialService, AuthorityRepository authorityRepository
-        , CacheManager cacheManager
-        , AccountsDBRepository accountsDBRepository
-        , PaymentRepository paymentRepository) {
+    private final PaymentService paymentService;
+
+    public UserService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder,
+                       SocialService socialService,
+                       AuthorityRepository authorityRepository,
+                       CacheManager cacheManager,
+                       AccountsDBRepository accountsDBRepository,
+                       PaymentRepository paymentRepository,
+                       //Avoid circular dependencies
+                       @Lazy PaymentService paymentService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.socialService = socialService;
@@ -64,6 +71,7 @@ public class UserService {
         this.cacheManager = cacheManager;
         this.paymentRepository = paymentRepository;
         this.accountsDBRepository = accountsDBRepository;
+        this.paymentService = paymentService;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -290,6 +298,7 @@ public class UserService {
 
     public boolean destroyUserAccount(User user) {
         accountsDBRepository.deleteAccountsDBByUserLogin(user.getLogin());
+        paymentService.cancelRecurringPaymentWorkflow(user.getLogin());
         paymentRepository.deletePaymentByUserLogin(user.getLogin());
         deleteUser(user.getLogin());
         cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLogin());
