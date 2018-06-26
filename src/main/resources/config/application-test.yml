@@ -147,8 +147,8 @@ jhipster:
 # ===================================================================
 application:
     paypal:
-        client-id: AfdfOU54rzJzWHXc9OVkkmimug8WYbPfL2SFNzsk6VxQQCbZZ5F10RoEXgO38mEJuf4zoZFifMepbAKi
-        client-secret: EEtVyWCnKNziihhyuueonwWQ77_yNjMXz9xrUvic7Cu7YTaIrc6BtpLHqHCdMsfAa4Q3iOlqOJg8yNye
+        client-id: ARiJ2lFmbMvXtZoFzDSnXWG_miPiHsL2t7F-o1tMsL_oppTjOybZRzgWVk4AR_h4dneyJi3Kf_kdOwFj
+        client-secret: ECoSYPsRcOt9hQZwU4L-QjURUSg0etRd7epcbqsCL4RmoxOQs0TiezSKGKP3z2TkM7zrZq165SpjnpaT
         mode: sandbox
     base:
         url: test.solocked.com

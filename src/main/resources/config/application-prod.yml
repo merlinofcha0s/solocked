@@ -158,8 +158,8 @@ jhipster:
 
 application:
     paypal:
-        client-id: AfdfOU54rzJzWHXc9OVkkmimug8WYbPfL2SFNzsk6VxQQCbZZ5F10RoEXgO38mEJuf4zoZFifMepbAKi
-        client-secret: EEtVyWCnKNziihhyuueonwWQ77_yNjMXz9xrUvic7Cu7YTaIrc6BtpLHqHCdMsfAa4Q3iOlqOJg8yNye
-        mode: sandbox
+        client-id: AW98mU1TV-uNSPdzKsNGZ2a9vPDXyoV7UzPWB0qFyq5KF3f_wH5ckLOKyV6nVd2jIEv3rjPS7Dg-Bbzq
+        client-secret: ECxeCDhtPlfggBVZc7c4KzfRoVL7MaEQyQszuswBU4DhgUt6lt8R-2LpBHnQ0h_-c_1dgAgkYQYtpz28
+        mode: live
     base:
         url: solocked.com
