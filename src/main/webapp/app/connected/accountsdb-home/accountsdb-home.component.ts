@@ -1,15 +1,11 @@
 import {AccountsService} from './../../shared/account/accounts.service';
 import {Account} from '../../shared/account/account.model';
-import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PaymentService} from '../../entities/payment/payment.service';
 import {Subscription} from 'rxjs/Subscription';
 import {LAST_SEARCH, Principal} from '../../shared';
-import {Observable} from 'rxjs/Observable';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {SearchService} from '../../shared/search/search.service';
 import {SessionStorageService} from 'ngx-webstorage';
-
-declare var $crisp: any;
 
 @Component({
     selector: 'jhi-accountdb-home',
@@ -49,7 +45,6 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.initAccountsList();
         this.paymentService.getPaymentByLogin();
-        this.initCrispData();
     }
 
     ngOnDestroy(): void {
@@ -85,14 +80,6 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
         }
         this.counter += offset;
         this.displayLoadMore = this.counter < this.filteredAccounts.length;
-    }
-
-    initCrispData() {
-        this.principal.identity(true).then((account) => {
-            if (typeof $crisp !== 'undefined') {
-                $crisp.push(['set', 'user:nickname', account.login]);
-            }
-        });
     }
 
     onFilter(filterTerms) {

@@ -95,34 +95,12 @@ export class JhiMainComponent implements OnInit {
                 document.getElementsByTagName('head')[0].appendChild(matomoScript);
             }
 
-            if (inTest) {
-                const crispScript = document.createElement("script");
-                crispScript.type = "text/javascript";
-                crispScript.innerHTML = "window.$crisp = [];\n" +
-                    "  window.CRISP_WEBSITE_ID = \"3805f1d2-26b3-4732-93e9-03df5b14cf50\";\n" +
-                    " (function () {\n" +
-                    "  d = document;\n" +
-                    "  s = d.createElement(\"script\");\n" +
-                    "  s.src = \"https://client.crisp.chat/l.js\";\n" +
-                    "  s.async = 1;\n" +
-                    "  d.getElementsByTagName(\"head\")[0].appendChild(s);" +
-                    "  })();";
-                document.getElementsByTagName('head')[0].appendChild(crispScript);
-            }
-
-            if (this.inProduction) {
-                const crispScript = document.createElement("script");
-                crispScript.type = "text/javascript";
-                crispScript.innerHTML = "window.$crisp = [];\n" +
-                    "  window.CRISP_WEBSITE_ID = \"2c9882e7-06bf-4f8c-9881-06a59390b9ae\";\n" +
-                    " (function () {\n" +
-                    "  d = document;\n" +
-                    "  s = d.createElement(\"script\");\n" +
-                    "  s.src = \"https://client.crisp.chat/l.js\";\n" +
-                    "  s.async = 1;\n" +
-                    "  d.getElementsByTagName(\"head\")[0].appendChild(s);" +
-                    "  })();";
-                document.getElementsByTagName('head')[0].appendChild(crispScript);
+            if (inTest || this.inProduction) {
+                const livezillaScript = document.createElement("script");
+                livezillaScript.type = "text/javascript";
+                livezillaScript.id = "31202250e6742ed22a4e18316a5c66c0"
+                livezillaScript.src = "https://support.solocked.com/script.php?id=31202250e6742ed22a4e18316a5c66c0";
+                document.getElementsByTagName('head')[0].appendChild(livezillaScript);
             }
         });
     }
