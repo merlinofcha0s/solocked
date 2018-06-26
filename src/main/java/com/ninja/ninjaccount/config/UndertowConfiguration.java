@@ -35,7 +35,7 @@ public class UndertowConfiguration {
 
         if (isHttpsActive && isProdLikeProfileActive) {
             log.info("Adding listener to port 80");
-//            factory.addBuilderCustomizers(builder -> builder.addHttpListener(80, "0.0.0.0"));
+            factory.addBuilderCustomizers(builder -> builder.addHttpListener(80, "0.0.0.0"));
             if(userCipherPresent){
                 log.info("Setting user cipher suite order to true");
                 factory.addBuilderCustomizers(builder -> builder.setSocketOption(UndertowOptions.SSL_USER_CIPHER_SUITES_ORDER, Boolean.TRUE));
