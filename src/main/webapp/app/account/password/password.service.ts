@@ -21,7 +21,7 @@ export class PasswordService {
     save(newPassword: string): Observable<any> {
         let accountsSynchro = null;
         if (this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
-            return this.http.post('api/account/change_password', newPassword);
+            return this.http.post('api/account/change-password', newPassword);
         } else {
             return this.accountTech.synchroDB()
                 .flatMap((accounts: Accounts) => {
