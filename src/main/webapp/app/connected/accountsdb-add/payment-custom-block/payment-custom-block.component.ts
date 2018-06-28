@@ -80,11 +80,12 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy, OnChanges
         this.onSyncPayments.emit(this.payments);
     }
 
-    onRemovePayment(index: number) {
+    onRemovePayment(paymentToRemove: Payment, index: number) {
         this.deleteLinePayment = this.dialog.open(DeletePaymentLineComponent, {
             data: {
-                title: 'ninjaccountApp.accountsDB.paymentblock.deletelinepopup.title'
-                , snackMessage: 'ninjaccountApp.accountsDB.paymentblock.deletelinepopup.snack'
+                title: 'ninjaccountApp.accountsDB.paymentblock.deletelinepopup.title',
+                snackMessage: 'ninjaccountApp.accountsDB.paymentblock.deletelinepopup.snack',
+                date: paymentToRemove.date
             }
         });
 

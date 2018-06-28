@@ -124,7 +124,7 @@
                     "code": "Code"
                 },
                 "deletelinepopup": {
-                    "title": "Delele this line",
+                    "title": "Delele the payment on {{ date }}",
                     "text": "Are you sure ?",
                     "yes": "yes",
                     "no": "no",

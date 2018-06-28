@@ -11,12 +11,14 @@ export class DeletePaymentLineComponent implements OnInit {
 
     title: string;
     snackMessage: string;
+    datePayment: string;
 
     constructor(@Inject(MAT_DIALOG_DATA) private data: any,
                 private snackBar: MatSnackBar,
                 private translateService: TranslateService) {
         this.title = this.data.title;
         this.snackMessage = this.data.snackMessage;
+        this.datePayment = this.data.date;
     }
 
     ngOnInit() {

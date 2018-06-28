@@ -45,7 +45,9 @@
                           <mat-grid-tile colspan="4" [class.odd]="odd" class="notes-add-payment">
                               <div *ngIf="!readOnlyMode" class="add-payments" [class.add-payments-grid]="!last" [class.add-payments-bottom]="last">
                                   <div class="d-flex justify-content-center container-btn-payment">
-                                      <button mat-mini-fab class="btn-payment" type="button" (click)="onRemovePayment(i)">-</button>
+                                      <button mat-mini-fab class="btn-payment" type="button"
+                                              (click)="onRemovePayment(payment, i)">-
+                                      </button>
                                   </div>
                               </div>
                           </mat-grid-tile>

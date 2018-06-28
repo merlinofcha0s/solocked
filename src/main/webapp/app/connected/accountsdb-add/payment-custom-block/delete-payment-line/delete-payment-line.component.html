@@ -1,5 +1,7 @@
-<h2 mat-dialog-title jhiTranslate="{{ title }}">Delete this account</h2>
-<mat-dialog-content class="d-flex justify-content-center align-content-center" jhiTranslate="ninjaccountApp.accountsDB.paymentblock.deletelinepopup.text">Are you sure?</mat-dialog-content>
+<h2 mat-dialog-title jhiTranslate="{{ title }}" translateValues="{date: '{{ datePayment }}'}">Delete this payment</h2>
+<mat-dialog-content class="d-flex justify-content-center align-content-center"
+                    jhiTranslate="ninjaccountApp.accountsDB.paymentblock.deletelinepopup.text">Are you sure?
+</mat-dialog-content>
 <mat-dialog-actions class="d-flex justify-content-center align-content-center">
     <button mat-button mat-dialog-close>{{ "ninjaccountApp.accountsDB.paymentblock.deletelinepopup.no" | translate }}</button>
     <button mat-button [mat-dialog-close]="true" color="warn" (click)="onDelete()">{{ "ninjaccountApp.accountsDB.paymentblock.deletelinepopup.yes" | translate }}</button>
