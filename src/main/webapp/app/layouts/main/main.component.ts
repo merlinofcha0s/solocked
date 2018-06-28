@@ -77,10 +77,10 @@ export class JhiMainComponent implements OnInit {
             const inTest = profileInfo.inTest;
             if (inTest) {
                 // document.write('<script type="text/javascript">// ProductionAnalyticsCodeHere</script>');
-            } else if (!inTest && this.inProduction) {
+            } /*else if (!inTest && this.inProduction) {*/
                 const matomoScript = document.createElement("script");
                 matomoScript.type = "text/javascript";
-                matomoScript.innerHTML = "let _paq = _paq || [];\n" +
+                matomoScript.innerHTML = "var _paq = _paq || [];\n" +
                     "  /* tracker methods like \"setCustomDimension\" should be called before \"trackPageView\" */\n" +
                     "  _paq.push(['trackPageView']);\n" +
                     "  _paq.push(['enableLinkTracking']);\n" +
@@ -93,7 +93,7 @@ export class JhiMainComponent implements OnInit {
                     "  })();";
 
                 document.getElementsByTagName('head')[0].appendChild(matomoScript);
-            }
+           // }
 
             if (inTest || this.inProduction) {
                 const livezillaScript = document.createElement("script");
