@@ -100,10 +100,14 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
             minimize: true,
             debug: false
         }),
-        new WorkboxPlugin.InjectManifest({
+        /*new WorkboxPlugin.InjectManifest({
             importWorkboxFrom: 'local',
             swSrc: 'src/main/webapp/src-service-worker.js',
             swDest: 'service-worker.js'
+        })*/
+        new WorkboxPlugin.GenerateSW({
+            clientsClaim: true,
+            skipWaiting: true,
         })
     ]
 });
