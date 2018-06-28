@@ -70,7 +70,7 @@
                 "action": "Reset your personal safe",
                 "popup": {
                     "title": "Reset your personal safe",
-                    "content": "Reset your <strong class='font-weight-bold'>entire</strong> solocked database including <strong class='font-weight-bold'>all data</strong><br/> <strong class='font-weight-bold'>This operation is irreversible</strong><br/>",
+                    "content": "Reset your <strong class='font-weight-bold'>entire</strong> personal safe by permanently deleting all of its accounts <br/> <strong class='font-weight-bold'>This operation is irreversible</strong><br/>",
                     "contentUsername": "Enter your username to confirm :",
                     "confirmation": "Reset your personal safe?",
                     "cancel": "Cancel",
