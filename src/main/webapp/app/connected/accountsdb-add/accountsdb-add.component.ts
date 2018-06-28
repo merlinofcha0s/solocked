@@ -8,7 +8,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {Account} from '../../shared/account/account.model';
 import {isUndefined} from 'util';
 import {Custom} from '../../shared/account/custom-account.model';
-import {MatDialog, MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
+import {MatDialog, MatDialogRef, MatSnackBarConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {AddCustomBlockComponent} from './add-custom-block/add-custom-block.component';
 import {Payment} from '../../shared/account/payment-block.model';
@@ -71,6 +71,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     private possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     private actualMaxSubscription: Subscription;
     exceedLimitAccount: boolean;
+    private maxAccounts: number;
 
     constructor(private fb: FormBuilder,
                 private accountsService: AccountsService,
@@ -349,9 +350,9 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     checkActualAndMax() {
         this.actualMaxSubscription = this.accountDbService.getActualMaxAccount().subscribe((actualAndMax) => {
             const actual = actualAndMax.first;
-            const max = actualAndMax.second;
+            this.maxAccounts = actualAndMax.second;
 
-            if (actual >= max && !this.updateMode) {
+            if (actual >= this.maxAccounts && !this.updateMode) {
                 this.exceedLimitAccount = true;
             } else {
                 this.exceedLimitAccount = false;

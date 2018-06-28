@@ -9,7 +9,9 @@
                   {{accountName.value}}
               </h1>
           </ng-template>
-          <div class="alert alert-danger" id="exceedLimitAccount" *ngIf="exceedLimitAccount" jhiTranslate="ninjaccountApp.accountsDB.exceedlimitaccount">
+      <div class="alert alert-danger" id="exceedLimitAccount" *ngIf="exceedLimitAccount"
+           jhiTranslate="ninjaccountApp.accountsDB.exceedlimitaccount"
+           translateValues="{max: '{{ maxAccounts }}'}">
               You have reach the limit number of accounts in your personal safe. <br/> Upgrade <a href='/#/billing'>here</a> to extends the limit
           </div>
           <form [formGroup]="accountForm" (ngSubmit)="onSubmitNewAccount()">
