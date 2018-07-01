@@ -11,6 +11,7 @@ import {OperationAccountType} from './operation-account-type.enum';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {SnackComponent} from '../snack/snack.component';
 import {TranslateService} from '@ngx-translate/core';
+import {AccountsDBService} from '../../entities/accounts-db/accounts-db.service';
 
 @Injectable()
 export class AccountsService {
@@ -27,7 +28,8 @@ export class AccountsService {
     constructor(private cryptoUtils: CryptoUtilsService,
                 private accountTech: AccountsTechService,
                 private translateService: TranslateService,
-                private snackBar: MatSnackBar) {
+                private snackBar: MatSnackBar,
+                private accountDbService: AccountsDBService) {
         this._dataStore = {accounts: new Accounts()};
 
         this.accounts$ = new BehaviorSubject<Array<Account>>(this._dataStore.accounts.accounts);
@@ -220,6 +222,7 @@ export class AccountsService {
                 this._dataStore.accounts = accounts;
                 return this.accountTech.saveEncryptedDB(accounts, initVector);
             }).subscribe((accountDB: AccountsDB) => {
+                this.accountDbService.getActualMaxAccount();
                 this.saveOnBrowser(this._dataStore.accounts);
             },
             (error) => {

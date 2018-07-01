@@ -73,6 +73,8 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     exceedLimitAccount: boolean;
     private maxAccounts: number;
 
+    actualAndMaxNumber$: BehaviorSubject<any>;
+
     constructor(private fb: FormBuilder,
                 private accountsService: AccountsService,
                 private router: Router,
@@ -83,6 +85,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 private jhiLanguageHelper: JhiLanguageHelper,
                 private accountDbService: AccountsDBService
     ) {
+        this.actualAndMaxNumber$ = this.accountDbService.actualAndMaxNumber$;
         this.customBlockCounter = {paymentBlocks: []};
     }
 
@@ -348,7 +351,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     }
 
     checkActualAndMax() {
-        this.actualMaxSubscription = this.accountDbService.getActualMaxAccount().subscribe((actualAndMax) => {
+        this.actualMaxSubscription = this.actualAndMaxNumber$.subscribe((actualAndMax) => {
             const actual = actualAndMax.first;
             this.maxAccounts = actualAndMax.second;
 

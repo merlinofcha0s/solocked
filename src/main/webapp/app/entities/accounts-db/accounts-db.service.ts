@@ -5,15 +5,28 @@ import {SERVER_API_URL} from '../../app.constants';
 
 import {AccountsDB} from './accounts-db.model';
 import {createRequestOption} from '../../shared';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 export type EntityResponseType = HttpResponse<AccountsDB>;
 
 @Injectable()
 export class AccountsDBService {
 
-    private resourceUrl =  SERVER_API_URL + 'api/accounts-dbs';
+    private resourceUrl = SERVER_API_URL + 'api/accounts-dbs';
+
+    actualAndMaxNumber$: BehaviorSubject<any>;
+
+    private _dataStore: {
+        actualNunberAccount: number;
+        maxNumberAccount: number;
+    };
 
     constructor(private http: HttpClient) {
+        this._dataStore = {
+            actualNunberAccount: 0,
+            maxNumberAccount: 10
+        };
+        this.actualAndMaxNumber$ = new BehaviorSubject<any>({first: 0, second: 10});
     }
 
     create(accountsDB: AccountsDB): Observable<EntityResponseType> {
@@ -92,8 +105,14 @@ export class AccountsDBService {
             });
     }
 
-    getActualMaxAccount(): Observable<any> {
-        return this.http.get(SERVER_API_URL + 'api/accounts-dbs/get-actual-max-account', {observe: 'response'}).map((res: EntityResponseType) => this.convertResponse(res).body);
+    getActualMaxAccount() {
+        this.http.get(SERVER_API_URL + 'api/accounts-dbs/get-actual-max-account', {observe: 'response'})
+            .map((res: EntityResponseType) => this.convertResponse(res).body)
+            .subscribe((actualAndMax: any) => {
+                this._dataStore.actualNunberAccount = actualAndMax.first;
+                this._dataStore.maxNumberAccount = actualAndMax.second;
+                this.actualAndMaxNumber$.next(actualAndMax);
+            });
     }
 
     updateActualNumberAccount(newActualNumberAccount: number): Observable<EntityResponseType> {

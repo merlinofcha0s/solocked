@@ -12,6 +12,7 @@ import {DeleteAllAccountsComponent} from './delete-all-accounts/delete-all-accou
 import {SnackUtilService} from '../../shared/snack/snack-util.service';
 import {AccountsService} from '../../shared/account/accounts.service';
 import {ResetAllAccountsComponent} from './reset-all-accounts/reset-all-accounts.component';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Component({
     selector: 'jhi-settings',
@@ -38,6 +39,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     private resetAllAccountsPopup: MatDialogRef<ResetAllAccountsComponent>;
 
+    actualAndMaxNumber$: BehaviorSubject<any>;
+
     constructor(private account: AccountService,
                 private principal: Principal,
                 private languageService: JhiLanguageService,
@@ -48,6 +51,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
                 public dialog: MatDialog,
                 private accountsService: AccountsService,
                 private snackUtil: SnackUtilService) {
+        this.actualAndMaxNumber$ = this.accountDbService.actualAndMaxNumber$;
     }
 
     ngOnInit() {
@@ -99,7 +103,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         if (this.actualMaxSubscription) {
             this.actualMaxSubscription.unsubscribe();
         }
-        this.actualMaxSubscription = this.accountDbService.getActualMaxAccount().subscribe((actualAndMax) => {
+        this.actualMaxSubscription = this.actualAndMaxNumber$.subscribe((actualAndMax) => {
             this.actual = actualAndMax.first;
             this.max = actualAndMax.second;
             this.actualPercentage = (this.actual / this.max) * 100;
@@ -140,12 +144,5 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     openResetAllAccountsPopup() {
         this.resetAllAccountsPopup = this.dialog.open(ResetAllAccountsComponent, {});
-
-        this.resetAllAccountsPopup.afterClosed().subscribe((result) => {
-            if (result === 'success') {
-                this.initActualAndMaxAccount();
-                this.snackUtil.openSnackBar('settings.danger.reset.success', 5000, 'fa-check-circle');
-            }
-        });
     }
 }

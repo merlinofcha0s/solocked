@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {TypeImport} from './model/type-import.enum';
 import {Account} from '../../shared/account/account.model';
@@ -6,14 +6,15 @@ import {AccountsService} from '../../shared/account/accounts.service';
 import {SnackUtilService} from '../../shared/snack/snack-util.service';
 import {AccountsDBService} from '../../entities/accounts-db';
 import {Custom} from '../../shared/account/custom-account.model';
-import {Observable} from 'rxjs/Observable';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
     selector: 'jhi-import',
     templateUrl: './import.component.html',
     styleUrls: ['./import.component.scss']
 })
-export class ImportComponent implements OnInit {
+export class ImportComponent implements OnInit, OnDestroy {
 
     TypeImport: typeof TypeImport = TypeImport;
 
@@ -39,14 +40,29 @@ export class ImportComponent implements OnInit {
 
     displayCSVInformation: boolean;
 
+    actualAndMaxNumber$: BehaviorSubject<any>;
+    actualAndMaxNumberOnSubmitSub: Subscription;
+    actualAndMaxNumberOnExportSub: Subscription;
+
     constructor(private formBuilder: FormBuilder,
                 private accountService: AccountsService,
                 private snackUtil: SnackUtilService,
                 private accountsDBService: AccountsDBService) {
+        this.actualAndMaxNumber$ = this.accountsDBService.actualAndMaxNumber$;
     }
 
     ngOnInit() {
         this.initForm();
+    }
+
+    ngOnDestroy(): void {
+        if (this.actualAndMaxNumberOnSubmitSub) {
+            this.actualAndMaxNumberOnSubmitSub.unsubscribe();
+        }
+
+        if (this.actualAndMaxNumberOnExportSub) {
+            this.actualAndMaxNumberOnExportSub.unsubscribe();
+        }
     }
 
     initForm() {
@@ -64,13 +80,12 @@ export class ImportComponent implements OnInit {
         this.importTypeValue = this.importType.value;
         if (this.importTypeValue === this.importTypeValueGuess) {
             const nbActualAccount = this.accountService.getAccountsListInstant().length;
-            this.accountsDBService.getActualMaxAccount()
+            this.actualAndMaxNumberOnSubmitSub = this.actualAndMaxNumber$
                 .concatMap((actualAndMax) => this.accountService.saveNewAccount(this.newAccounts))
                 .flatMap((account) => this.accountsDBService.updateActualNumberAccount(nbActualAccount + this.newAccounts.length)).subscribe((response) => {
-                this.snackUtil.openSnackBar('import.success', 5000, 'fa-check-circle', {nbImportedAccount: this.newAccounts.length});
-                this.loading = false;
-            });
-
+                    this.snackUtil.openSnackBar('import.success', 5000, 'fa-check-circle', {nbImportedAccount: this.newAccounts.length});
+                    this.loading = false;
+                });
         } else {
             this.loading = false;
             this.snackUtil.openSnackBar('import.error.wrongchoiceformat', 5000, 'fa-exclamation-triangle');
@@ -93,7 +108,7 @@ export class ImportComponent implements OnInit {
     prepareImport(importFile: string) {
         this.importTypeValueGuess = this.verifyImportType(importFile);
         if (this.importTypeValueGuess !== TypeImport.NONE) {
-            this.accountsDBService.getActualMaxAccount().subscribe((actualAndMax) => {
+            this.actualAndMaxNumberOnExportSub = this.actualAndMaxNumber$.subscribe((actualAndMax) => {
                 const lines = this.extract(importFile);
                 switch (this.importTypeValueGuess) {
                     case TypeImport.LASTPASS:
