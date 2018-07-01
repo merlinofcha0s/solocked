@@ -140,7 +140,7 @@
                 }
             },
             "generatepassword": "Generate a strong password",
-            "exceedlimitaccount": "Your personal safe is limited to {{ max }} accounts. <br/> Upgrade <a href='/#/billing'>here</a> to extends the limit"
+            "exceedlimitaccount": "Your personal safe is limited to {{ max }} accounts. <br/> Upgrade <a href='/#/billing'>here</a>"
         }
     }
 }
