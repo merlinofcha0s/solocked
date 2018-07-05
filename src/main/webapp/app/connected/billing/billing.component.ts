@@ -1,12 +1,14 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {PaymentService} from '../../entities/payment/payment.service';
-import {Payment} from '../../entities/payment/payment.model';
+import {Payment, PlanType} from '../../entities/payment/payment.model';
 import {Subscription} from 'rxjs/Subscription';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {PopupChoosePlanComponent} from './popup-choose-plan/popup-choose-plan.component';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {WaiterComponent} from '../../shared/waiter/waiter.component';
+import {TranslateService} from '@ngx-translate/core';
+
 import {
     PAYMENT_PENDING,
     PAYPAL_COMMUNICATION_PROBLEM_TYPE
@@ -32,10 +34,13 @@ export class BillingComponent implements OnInit, OnDestroy, AfterViewInit {
     private success: boolean;
     private error: string;
 
+    private planTypeLabel: string;
+
     constructor(private paymentService: PaymentService,
                 private dialog: MatDialog,
                 private route: ActivatedRoute,
-                private snackUtil: SnackUtilService) {
+                private snackUtil: SnackUtilService,
+                private translateService: TranslateService) {
     }
 
     ngAfterViewInit() {
@@ -45,6 +50,27 @@ export class BillingComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnInit() {
         this.paymentSub = this.paymentService.payment$.subscribe((payment) => {
             this.payment = payment;
+
+            let keyPlanType = '';
+            switch (this.payment.planType) {
+                case PlanType.FREE:
+                    keyPlanType = 'billing.plantype.free';
+                    break;
+                case PlanType.PREMIUMYEAR:
+                    keyPlanType = 'billing.plantype.year';
+                    break;
+                case PlanType.PREMIUMMONTH:
+                    keyPlanType = 'billing.plantype.month';
+                    break;
+                case PlanType.UNKNOWN:
+                    keyPlanType = 'billing.plantype.unknown';
+                    break;
+            }
+
+            this.translateService.get(keyPlanType).subscribe((label) => {
+                this.planTypeLabel = label;
+            });
+
         });
         this.paymentService.getPaymentByLogin();
     }

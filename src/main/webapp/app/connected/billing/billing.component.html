@@ -4,17 +4,17 @@
         <h1 id="title" jhiTranslate="billing.title">Billing</h1>
         <div class="row ml-0 mr-0 align-items-center container-infos mb-2 ">
             <div jhiTranslate="billing.label.subscriptiondate">Subscription date :</div>
-            <div>{{ payment.subscriptionDate }}</div>
+            <div>{{ payment.subscriptionDate | date: 'mediumDate' }}</div>
         </div>
         <div class="row ml-0 mr-0 align-items-center container-infos mb-2">
                 <div class="d-flex w-100">
                     <div jhiTranslate="billing.label.plantype">Plan type :</div>
-                    <div>{{ payment.planType }}</div>
+                    <div>{{ planTypeLabel }}</div>
                 </div>
         </div>
         <div *ngIf="payment.validUntil" class="row ml-0 mr-0 align-items-center container-infos mb-2">
             <div jhiTranslate="billing.label.validuntil">Valid until :</div>
-            <div>{{ payment.validUntil }}</div>
+            <div>{{ payment.validUntil | date: 'mediumDate' }}</div>
         </div>
         <div class="row ml-0 mr-0 align-items-center container-infos mb-2">
             <div jhiTranslate="billing.label.recurring">Recurring payment :</div>

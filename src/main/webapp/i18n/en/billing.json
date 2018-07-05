@@ -11,8 +11,8 @@
             "validuntil": "Valid until :",
             "plantype": "Plan type :",
             "recurring": "Recurring payment :",
-            "recurringtrue": "Activated",
-            "recurringfalse": "Deactivated"
+            "recurringtrue": "Yes",
+            "recurringfalse": "No"
         },
         "error": {
             "error": "An unexpected error occured, please try again or contact us",
@@ -25,7 +25,7 @@
             "text": "Are you sure?",
             "loadingcancel": "Canceling your subscription...",
             "cancelsuccess": "Subscription canceled successfuly",
-            "back": "Abort",
+            "back": "Cancel",
             "error": {
                 "errorcancelpayment": "Error when canceling your subscription, please try again later or contact us",
                 "errorinternalcancelpayment": "Internal error when canceling your subscription, please try again later or contact us"
@@ -53,6 +53,12 @@
                 "frequency": "per month",
                 "onetime": "for one month"
             }
+        },
+        "plantype": {
+            "free": "Free",
+            "month": "Premium month",
+            "year": "Premium year",
+            "unknown": "Unknown"
         }
     }
 }
