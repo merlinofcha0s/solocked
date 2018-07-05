@@ -52,25 +52,25 @@ export class BillingComponent implements OnInit, OnDestroy, AfterViewInit {
             this.payment = payment;
 
             let keyPlanType = '';
-            switch (this.payment.planType) {
-                case PlanType.FREE:
-                    keyPlanType = 'billing.plantype.free';
-                    break;
-                case PlanType.PREMIUMYEAR:
-                    keyPlanType = 'billing.plantype.year';
-                    break;
-                case PlanType.PREMIUMMONTH:
-                    keyPlanType = 'billing.plantype.month';
-                    break;
-                case PlanType.UNKNOWN:
-                    keyPlanType = 'billing.plantype.unknown';
-                    break;
+            if (this.payment.planType) {
+                switch (this.payment.planType) {
+                    case PlanType.FREE:
+                        keyPlanType = 'billing.plantype.free';
+                        break;
+                    case PlanType.PREMIUMYEAR:
+                        keyPlanType = 'billing.plantype.year';
+                        break;
+                    case PlanType.PREMIUMMONTH:
+                        keyPlanType = 'billing.plantype.month';
+                        break;
+                    case PlanType.UNKNOWN:
+                        keyPlanType = 'billing.plantype.unknown';
+                        break;
+                }
+                this.translateService.get(keyPlanType).subscribe((label) => {
+                    this.planTypeLabel = label;
+                });
             }
-
-            this.translateService.get(keyPlanType).subscribe((label) => {
-                this.planTypeLabel = label;
-            });
-
         });
         this.paymentService.getPaymentByLogin();
     }
