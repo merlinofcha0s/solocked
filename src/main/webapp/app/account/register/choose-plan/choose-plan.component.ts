@@ -9,7 +9,7 @@ import {Payment, PlanType} from '../../../entities/payment/payment.model';
 export class ChoosePlanComponent implements OnInit, OnChanges {
 
     @Input() actualPayment: Payment;
-    @Input() hideFreePlan: boolean;
+    @Input() modeBilling: boolean;
     @Output() planChoosed = new EventEmitter<PlanType>();
 
     free: boolean;

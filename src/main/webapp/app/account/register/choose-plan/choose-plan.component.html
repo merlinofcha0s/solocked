@@ -1,5 +1,5 @@
 <div class="row align-items-center mt-4">
-    <div *ngIf="!hideFreePlan" class="col-sm-4">
+    <div *ngIf="!modeBilling" class="col-sm-4">
         <div class="billing-card mr-auto ml-auto ml-sm-0 mb-3 mb-sm-0" [class.selected]="free"
              (click)="onChoosePlan(PlanType.FREE)" id="plant-type-free">
             <div class="billing-card-title" jhiTranslate="billing.chooseplan.free.title">Free</div>
@@ -7,13 +7,13 @@
             <div class="content">
                 <ul>
                     <li jhiTranslate="billing.chooseplan.free.highlight1">10 accounts</li>
-                    <div style="height: 21px;"></div>
+                    <div  style="height: 21px;"></div>
                 </ul>
             </div>
             <div class="year-price" jhiTranslate="billing.chooseplan.free.price">$0</div>
         </div>
     </div>
-    <div [class.col-sm-4]="!hideFreePlan" [class.col-sm-6]="hideFreePlan">
+    <div [class.col-sm-4]="!modeBilling" [class.col-sm-6]="modeBilling">
         <div class="billing-card mr-auto ml-auto mb-3 mb-sm-0" [class.selected]="premiumY"
              (click)="onChoosePlan(PlanType.PREMIUMYEAR)">
             <div class="billing-card-title" jhiTranslate="billing.chooseplan.premiumyear.title">Premium</div>
@@ -21,14 +21,16 @@
             <div class="content">
                 <ul>
                     <li jhiTranslate="billing.chooseplan.premiumyear.highlight1">1000 accounts</li>
-                    <li jhiTranslate="billing.chooseplan.premiumyear.highlight2">Billed yearly</li>
+                    <li *ngIf="modeBilling" jhiTranslate="billing.chooseplan.premiumyear.highlight2">Billed yearly</li>
+                    <div *ngIf="!modeBilling" style="height: 21px;"></div>
                 </ul>
             </div>
             <div class="year-price" jhiTranslate="billing.chooseplan.premiumyear.price">$20</div>
-            <div class="month-price" jhiTranslate="billing.chooseplan.premiumyear.frequency">per year</div>
+            <div *ngIf="modeBilling" class="month-price" jhiTranslate="billing.chooseplan.premiumyear.frequency">per year</div>
+            <div *ngIf="!modeBilling" class="month-price" jhiTranslate="billing.chooseplan.premiumyear.onetime">for one year</div>
         </div>
     </div>
-    <div [class.col-sm-4]="!hideFreePlan" [class.col-sm-6]="hideFreePlan">
+    <div [class.col-sm-4]="!modeBilling" [class.col-sm-6]="modeBilling">
         <div class="billing-card ml-auto mr-auto mr-sm-0 mb-3 mb-sm-0" [class.selected]="premiumM"
              (click)="onChoosePlan(PlanType.PREMIUMMONTH)">
             <div class="billing-card-title" jhiTranslate="billing.chooseplan.premiummonth.title">Premium</div>
@@ -36,11 +38,20 @@
             <div class="content">
                 <ul>
                     <li jhiTranslate="billing.chooseplan.premiummonth.highlight1">1000 accounts</li>
-                    <li jhiTranslate="billing.chooseplan.premiummonth.highlight2">Billed monthly</li>
+                    <li *ngIf="modeBilling" jhiTranslate="billing.chooseplan.premiummonth.highlight2">Billed monthly</li>
+                    <div *ngIf="!modeBilling" style="height: 21px;"></div>
                 </ul>
             </div>
             <div class="year-price" jhiTranslate="billing.chooseplan.premiummonth.price">$2</div>
-            <div class="month-price" jhiTranslate="billing.chooseplan.premiummonth.frequency">per month</div>
+            <div *ngIf="modeBilling" class="month-price" jhiTranslate="billing.chooseplan.premiummonth.frequency">per month</div>
+            <div *ngIf="!modeBilling" class="month-price" jhiTranslate="billing.chooseplan.premiummonth.onetime">for one month</div>
         </div>
     </div>
+</div>
+<div class="row align-items-center mt-3 justify-content-center payment-icon">
+    <i class="fab fa-cc-paypal mr-2"></i>
+    <i class="fab fa-cc-visa mr-2"></i>
+    <i class="fab fa-cc-discover mr-2"></i>
+    <i class="fab fa-cc-mastercard mr-2"></i>
+    <i class="fab fa-cc-amex"></i>
 </div>

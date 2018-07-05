@@ -26,7 +26,8 @@
                 "userexists": "<strong>Login name already taken!</strong> Please choose another one.",
                 "emailexists": "<strong>Email already in use!</strong> Please choose another one.",
                 "errorinitpaypal": "<strong>Problem communicating with paypal :( </strong> Please try again later or contact us.",
-                "errorcompletepaypal": "<strong>Problem when finalizing the payment with paypal :( </strong> <br/> No payment was issued. <br/> Please try again later or contact us <br/> Your account has been created, you have to check your email in order to login"
+                "errorcompletepaypal": "You either cancelled from Paypal or there was a technical issue. <br/> Don't worry, no payment was issued. <br/> If it's a technical issue please try again, contact us in the live chat or send us message.",
+                "errorsuccesscompletepaypal": "Your account has been created, you have to check your email in order to login."
             }
         }
     }
