@@ -34,7 +34,7 @@ export class BillingComponent implements OnInit, OnDestroy, AfterViewInit {
     private success: boolean;
     private error: string;
 
-    private planTypeLabel: string;
+    planTypeLabel: string;
 
     constructor(private paymentService: PaymentService,
                 private dialog: MatDialog,
