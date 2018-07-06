@@ -56,8 +56,8 @@
         },
         "plantype": {
             "free": "Free",
-            "month": "Premium month",
-            "year": "Premium year",
+            "month": "Premium Month",
+            "year": "Premium Year",
             "unknown": "Unknown"
         }
     }
