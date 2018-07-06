@@ -6,6 +6,7 @@
         "citation2": "If I can do it, so can you!",
         "text": "Lorem ipsum",
         "more": "What's this?",
+        "status": "Servers status",
         "logged": {
             "message": "You are logged in as user \"{{username}}\"."
         },
