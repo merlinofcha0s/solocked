@@ -20,6 +20,6 @@ node {
     }
 
     stage('deploy on boxfuse prod env') {
-        sh "/home/raiden/tools/boxfuse/boxfuse run -env=prod -envvars.SPRING_PROFILES_ACTIVE=prod -envvars.SERVER_SSL_KEY_STORE=classpath:keystore-prod.p12 -envvars.SERVER_SSL_KEY_STORE_PASSWORD=S58J29Q9HhP84s1sQEYrsbYvRD9v2har -envvars.SERVER_SSL_KEYSTORETYPE=PKCS12 -envvars.SERVER_SSL_KEYALIAS=ninjaccount-prod -jvm.args='-Djdk.tls.ephemeralDHKeySize=2048' -ports.https=443 -ports.http=80"
+        sh "/home/ubuntu/tools/boxfuse/boxfuse run -env=prod -envvars.SPRING_PROFILES_ACTIVE=prod -envvars.SERVER_SSL_KEY_STORE=classpath:keystore-prod.p12 -envvars.SERVER_SSL_KEY_STORE_PASSWORD=S58J29Q9HhP84s1sQEYrsbYvRD9v2har -envvars.SERVER_SSL_KEYSTORETYPE=PKCS12 -envvars.SERVER_SSL_KEYALIAS=ninjaccount-prod -jvm.args='-Djdk.tls.ephemeralDHKeySize=2048' -ports.https=443 -ports.http=80"
     }
 }
