@@ -24,7 +24,7 @@ node {
     }
 
     stage('packaging app') {
-        sh "./mvnw clean package -Pprod -Dmaven.test.skip=true"
+        sh "./mvnw clean com.github.eirslett:frontend-maven-plugin:yarn -Dfrontend.yarn.arguments=webpack:prod package -Pprod -Dmaven.test.skip=true"
     }
 
     stage('deploy on boxfuse test env') {
