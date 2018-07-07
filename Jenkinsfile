@@ -20,8 +20,7 @@ node {
     }
 
     stage('yarn install') {
-        sh "./mvnw com.github.eirslett:frontend-maven-plugin:yarn -Dfrontend.yarn.arguments='cache clean'"
-        sh "./mvnw com.github.eirslett:frontend-maven-plugin:yarn -Dfrontend.yarn.arguments='install --force'"
+        sh "./mvnw com.github.eirslett:frontend-maven-plugin:yarn"
     }
 
     stage('backend tests') {
