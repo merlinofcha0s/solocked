@@ -15,6 +15,14 @@ node {
         sh "./mvnw clean"
     }
 
+    stage('install tools') {
+        sh "./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-yarn -DnodeVersion=v8.11.3 -DyarnVersion=v1.7.0"
+    }
+
+    stage('yarn install') {
+        sh "./mvnw com.github.eirslett:frontend-maven-plugin:yarn"
+    }
+
     stage('packaging app') {
         sh "./mvnw clean package -Pprod -Dmaven.test.skip=true"
     }
