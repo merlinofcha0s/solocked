@@ -20,7 +20,7 @@ node {
     }
 
     stage('yarn install') {
-        sh "./mvnw com.github.eirslett:frontend-maven-plugin:yarn"
+        sh "./mvnw com.github.eirslett:frontend-maven-plugin:yarn -Dfrontend.yarn.arguments=--force"
     }
 
     stage('backend tests') {
