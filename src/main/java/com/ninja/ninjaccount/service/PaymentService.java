@@ -6,13 +6,14 @@ import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.service.mapper.PaymentMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
-
 /**
  * Service Implementation for managing Payment.
  */
@@ -57,6 +58,7 @@ public class PaymentService {
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
+
     /**
      * Get one payment by id.
      *
@@ -64,10 +66,10 @@ public class PaymentService {
      * @return the entity
      */
     @Transactional(readOnly = true)
-    public PaymentDTO findOne(Long id) {
+    public Optional<PaymentDTO> findOne(Long id) {
         log.debug("Request to get Payment : {}", id);
-        Payment payment = paymentRepository.findOne(id);
-        return paymentMapper.toDto(payment);
+        return paymentRepository.findById(id)
+            .map(paymentMapper::toDto);
     }
 
     /**
@@ -77,6 +79,6 @@ public class PaymentService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Payment : {}", id);
-        paymentRepository.delete(id);
+        paymentRepository.deleteById(id);
     }
 }

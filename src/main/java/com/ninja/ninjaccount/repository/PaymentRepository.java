@@ -1,13 +1,12 @@
 package com.ninja.ninjaccount.repository;
 
 import com.ninja.ninjaccount.domain.Payment;
-import org.springframework.stereotype.Repository;
-
 import org.springframework.data.jpa.repository.*;
+import org.springframework.stereotype.Repository;
 
 
 /**
- * Spring Data JPA repository for the Payment entity.
+ * Spring Data  repository for the Payment entity.
  */
 @SuppressWarnings("unused")
 @Repository

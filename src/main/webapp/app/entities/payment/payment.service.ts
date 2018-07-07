@@ -1,84 +1,76 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { SERVER_API_URL } from '../../app.constants';
+import { Observable } from 'rxjs';
+import * as moment from 'moment';
+import { DATE_FORMAT } from 'app/shared/constants/input.constants';
+import { map } from 'rxjs/operators';
 
-import { JhiDateUtils } from 'ng-jhipster';
+import { SERVER_API_URL } from 'app/app.constants';
+import { createRequestOption } from 'app/shared';
+import { IPayment } from 'app/shared/model/payment.model';
 
-import { Payment } from './payment.model';
-import { createRequestOption } from '../../shared';
+type EntityResponseType = HttpResponse<IPayment>;
+type EntityArrayResponseType = HttpResponse<IPayment[]>;
 
-export type EntityResponseType = HttpResponse<Payment>;
-
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class PaymentService {
+    private resourceUrl = SERVER_API_URL + 'api/payments';
 
-    private resourceUrl =  SERVER_API_URL + 'api/payments';
+    constructor(private http: HttpClient) {}
 
-    constructor(private http: HttpClient, private dateUtils: JhiDateUtils) { }
-
-    create(payment: Payment): Observable<EntityResponseType> {
-        const copy = this.convert(payment);
-        return this.http.post<Payment>(this.resourceUrl, copy, { observe: 'response' })
-            .map((res: EntityResponseType) => this.convertResponse(res));
+    create(payment: IPayment): Observable<EntityResponseType> {
+        const copy = this.convertDateFromClient(payment);
+        return this.http
+            .post<IPayment>(this.resourceUrl, copy, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
-    update(payment: Payment): Observable<EntityResponseType> {
-        const copy = this.convert(payment);
-        return this.http.put<Payment>(this.resourceUrl, copy, { observe: 'response' })
-            .map((res: EntityResponseType) => this.convertResponse(res));
+    update(payment: IPayment): Observable<EntityResponseType> {
+        const copy = this.convertDateFromClient(payment);
+        return this.http
+            .put<IPayment>(this.resourceUrl, copy, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
     find(id: number): Observable<EntityResponseType> {
-        return this.http.get<Payment>(`${this.resourceUrl}/${id}`, { observe: 'response'})
-            .map((res: EntityResponseType) => this.convertResponse(res));
+        return this.http
+            .get<IPayment>(`${this.resourceUrl}/${id}`, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
-    query(req?: any): Observable<HttpResponse<Payment[]>> {
+    query(req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
-        return this.http.get<Payment[]>(this.resourceUrl, { params: options, observe: 'response' })
-            .map((res: HttpResponse<Payment[]>) => this.convertArrayResponse(res));
+        return this.http
+            .get<IPayment[]>(this.resourceUrl, { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
     delete(id: number): Observable<HttpResponse<any>> {
-        return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response'});
+        return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
-    private convertResponse(res: EntityResponseType): EntityResponseType {
-        const body: Payment = this.convertItemFromServer(res.body);
-        return res.clone({body});
-    }
-
-    private convertArrayResponse(res: HttpResponse<Payment[]>): HttpResponse<Payment[]> {
-        const jsonResponse: Payment[] = res.body;
-        const body: Payment[] = [];
-        for (let i = 0; i < jsonResponse.length; i++) {
-            body.push(this.convertItemFromServer(jsonResponse[i]));
-        }
-        return res.clone({body});
-    }
-
-    /**
-     * Convert a returned JSON object to Payment.
-     */
-    private convertItemFromServer(payment: Payment): Payment {
-        const copy: Payment = Object.assign({}, payment);
-        copy.subscriptionDate = this.dateUtils
-            .convertLocalDateFromServer(payment.subscriptionDate);
-        copy.validUntil = this.dateUtils
-            .convertLocalDateFromServer(payment.validUntil);
+    private convertDateFromClient(payment: IPayment): IPayment {
+        const copy: IPayment = Object.assign({}, payment, {
+            subscriptionDate:
+                payment.subscriptionDate != null && payment.subscriptionDate.isValid()
+                    ? payment.subscriptionDate.format(DATE_FORMAT)
+                    : null,
+            validUntil: payment.validUntil != null && payment.validUntil.isValid() ? payment.validUntil.format(DATE_FORMAT) : null
+        });
         return copy;
     }
 
-    /**
-     * Convert a Payment to a JSON which can be sent to the server.
-     */
-    private convert(payment: Payment): Payment {
-        const copy: Payment = Object.assign({}, payment);
-        copy.subscriptionDate = this.dateUtils
-            .convertLocalDateToServer(payment.subscriptionDate);
-        copy.validUntil = this.dateUtils
-            .convertLocalDateToServer(payment.validUntil);
-        return copy;
+    private convertDateFromServer(res: EntityResponseType): EntityResponseType {
+        res.body.subscriptionDate = res.body.subscriptionDate != null ? moment(res.body.subscriptionDate) : null;
+        res.body.validUntil = res.body.validUntil != null ? moment(res.body.validUntil) : null;
+        return res;
+    }
+
+    private convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
+        res.body.forEach((payment: IPayment) => {
+            payment.subscriptionDate = payment.subscriptionDate != null ? moment(payment.subscriptionDate) : null;
+            payment.validUntil = payment.validUntil != null ? moment(payment.validUntil) : null;
+        });
+        return res;
     }
 }

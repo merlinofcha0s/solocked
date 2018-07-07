@@ -1,18 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs/Subscription';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
-import { AccountsDB } from './accounts-db.model';
+import { IAccountsDB } from 'app/shared/model/accounts-db.model';
+import { Principal } from 'app/core';
 import { AccountsDBService } from './accounts-db.service';
-import { Principal } from '../../shared';
 
 @Component({
     selector: 'jhi-accounts-db',
     templateUrl: './accounts-db.component.html'
 })
 export class AccountsDBComponent implements OnInit, OnDestroy {
-accountsDBS: AccountsDB[];
+    accountsDBS: IAccountsDB[];
     currentAccount: any;
     eventSubscriber: Subscription;
 
@@ -22,20 +22,20 @@ accountsDBS: AccountsDB[];
         private dataUtils: JhiDataUtils,
         private eventManager: JhiEventManager,
         private principal: Principal
-    ) {
-    }
+    ) {}
 
     loadAll() {
         this.accountsDBService.query().subscribe(
-            (res: HttpResponse<AccountsDB[]>) => {
+            (res: HttpResponse<IAccountsDB[]>) => {
                 this.accountsDBS = res.body;
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
     }
+
     ngOnInit() {
         this.loadAll();
-        this.principal.identity().then((account) => {
+        this.principal.identity().then(account => {
             this.currentAccount = account;
         });
         this.registerChangeInAccountsDBS();
@@ -45,7 +45,7 @@ accountsDBS: AccountsDB[];
         this.eventManager.destroy(this.eventSubscriber);
     }
 
-    trackId(index: number, item: AccountsDB) {
+    trackId(index: number, item: IAccountsDB) {
         return item.id;
     }
 
@@ -56,11 +56,12 @@ accountsDBS: AccountsDB[];
     openFile(contentType, field) {
         return this.dataUtils.openFile(contentType, field);
     }
+
     registerChangeInAccountsDBS() {
-        this.eventSubscriber = this.eventManager.subscribe('accountsDBListModification', (response) => this.loadAll());
+        this.eventSubscriber = this.eventManager.subscribe('accountsDBListModification', response => this.loadAll());
     }
 
-    private onError(error) {
-        this.jhiAlertService.error(error.message, null, null);
+    private onError(errorMessage: string) {
+        this.jhiAlertService.error(errorMessage, null, null);
     }
 }

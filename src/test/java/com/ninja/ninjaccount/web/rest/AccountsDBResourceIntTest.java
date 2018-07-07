@@ -27,6 +27,7 @@ import org.springframework.util.Base64Utils;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+
 import static com.ninja.ninjaccount.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -59,8 +60,10 @@ public class AccountsDBResourceIntTest {
     @Autowired
     private AccountsDBRepository accountsDBRepository;
 
+
     @Autowired
     private AccountsDBMapper accountsDBMapper;
+    
 
     @Autowired
     private AccountsDBService accountsDBService;
@@ -192,6 +195,7 @@ public class AccountsDBResourceIntTest {
             .andExpect(jsonPath("$.[*].nbAccounts").value(hasItem(DEFAULT_NB_ACCOUNTS)))
             .andExpect(jsonPath("$.[*].sum").value(hasItem(DEFAULT_SUM.toString())));
     }
+    
 
     @Test
     @Transactional
@@ -210,7 +214,6 @@ public class AccountsDBResourceIntTest {
             .andExpect(jsonPath("$.nbAccounts").value(DEFAULT_NB_ACCOUNTS))
             .andExpect(jsonPath("$.sum").value(DEFAULT_SUM.toString()));
     }
-
     @Test
     @Transactional
     public void getNonExistingAccountsDB() throws Exception {
@@ -224,10 +227,11 @@ public class AccountsDBResourceIntTest {
     public void updateAccountsDB() throws Exception {
         // Initialize the database
         accountsDBRepository.saveAndFlush(accountsDB);
+
         int databaseSizeBeforeUpdate = accountsDBRepository.findAll().size();
 
         // Update the accountsDB
-        AccountsDB updatedAccountsDB = accountsDBRepository.findOne(accountsDB.getId());
+        AccountsDB updatedAccountsDB = accountsDBRepository.findById(accountsDB.getId()).get();
         // Disconnect from session so that the updates on updatedAccountsDB are not directly saved in db
         em.detach(updatedAccountsDB);
         updatedAccountsDB
@@ -266,11 +270,11 @@ public class AccountsDBResourceIntTest {
         restAccountsDBMockMvc.perform(put("/api/accounts-dbs")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(accountsDBDTO)))
-            .andExpect(status().isCreated());
+            .andExpect(status().isBadRequest());
 
         // Validate the AccountsDB in the database
         List<AccountsDB> accountsDBList = accountsDBRepository.findAll();
-        assertThat(accountsDBList).hasSize(databaseSizeBeforeUpdate + 1);
+        assertThat(accountsDBList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
@@ -278,6 +282,7 @@ public class AccountsDBResourceIntTest {
     public void deleteAccountsDB() throws Exception {
         // Initialize the database
         accountsDBRepository.saveAndFlush(accountsDB);
+
         int databaseSizeBeforeDelete = accountsDBRepository.findAll().size();
 
         // Get the accountsDB

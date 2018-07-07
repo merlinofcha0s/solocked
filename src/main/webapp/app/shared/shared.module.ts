@@ -1,54 +1,15 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 
-import {
-    NinjaccountSharedLibsModule,
-    NinjaccountSharedCommonModule,
-    CSRFService,
-    AuthServerProvider,
-    AccountService,
-    UserService,
-    StateStorageService,
-    LoginService,
-    LoginModalService,
-    JhiLoginModalComponent,
-    Principal,
-    HasAnyAuthorityDirective,
-    JhiSocialComponent,
-    SocialService,
-} from './';
+import { NgbDateMomentAdapter } from './util/datepicker-adapter';
+import { NinjaccountSharedLibsModule, NinjaccountSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective } from './';
 
 @NgModule({
-    imports: [
-        NinjaccountSharedLibsModule,
-        NinjaccountSharedCommonModule
-    ],
-    declarations: [
-        JhiSocialComponent,
-        JhiLoginModalComponent,
-        HasAnyAuthorityDirective
-    ],
-    providers: [
-        LoginService,
-        LoginModalService,
-        AccountService,
-        StateStorageService,
-        Principal,
-        CSRFService,
-        AuthServerProvider,
-        SocialService,
-        UserService,
-        DatePipe
-    ],
+    imports: [NinjaccountSharedLibsModule, NinjaccountSharedCommonModule],
+    declarations: [JhiLoginModalComponent, HasAnyAuthorityDirective],
+    providers: [{ provide: NgbDateAdapter, useClass: NgbDateMomentAdapter }],
     entryComponents: [JhiLoginModalComponent],
-    exports: [
-        NinjaccountSharedCommonModule,
-        JhiSocialComponent,
-        JhiLoginModalComponent,
-        HasAnyAuthorityDirective,
-        DatePipe
-    ],
+    exports: [NinjaccountSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
-
 })
 export class NinjaccountSharedModule {}

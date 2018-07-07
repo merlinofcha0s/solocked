@@ -1,11 +1,8 @@
 package com.ninja.ninjaccount.service.dto;
 
-
 import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
 
@@ -148,7 +145,7 @@ public class PaymentDTO implements Serializable {
         }
 
         PaymentDTO paymentDTO = (PaymentDTO) o;
-        if(paymentDTO.getId() == null || getId() == null) {
+        if (paymentDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), paymentDTO.getId());
@@ -172,6 +169,8 @@ public class PaymentDTO implements Serializable {
             ", recurring='" + isRecurring() + "'" +
             ", billingPlanId='" + getBillingPlanId() + "'" +
             ", tokenRecurring='" + getTokenRecurring() + "'" +
+            ", user=" + getUserId() +
+            ", user='" + getUserLogin() + "'" +
             "}";
     }
 }

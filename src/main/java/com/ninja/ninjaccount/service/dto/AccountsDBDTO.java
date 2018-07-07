@@ -1,10 +1,7 @@
 package com.ninja.ninjaccount.service.dto;
 
-
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 import javax.persistence.Lob;
 
@@ -105,7 +102,7 @@ public class AccountsDBDTO implements Serializable {
         }
 
         AccountsDBDTO accountsDBDTO = (AccountsDBDTO) o;
-        if(accountsDBDTO.getId() == null || getId() == null) {
+        if (accountsDBDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), accountsDBDTO.getId());
@@ -124,6 +121,8 @@ public class AccountsDBDTO implements Serializable {
             ", database='" + getDatabase() + "'" +
             ", nbAccounts=" + getNbAccounts() +
             ", sum='" + getSum() + "'" +
+            ", user=" + getUserId() +
+            ", user='" + getUserLogin() + "'" +
             "}";
     }
 }

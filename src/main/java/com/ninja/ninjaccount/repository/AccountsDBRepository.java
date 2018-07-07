@@ -1,13 +1,12 @@
 package com.ninja.ninjaccount.repository;
 
 import com.ninja.ninjaccount.domain.AccountsDB;
-import org.springframework.stereotype.Repository;
-
 import org.springframework.data.jpa.repository.*;
+import org.springframework.stereotype.Repository;
 
 
 /**
- * Spring Data JPA repository for the AccountsDB entity.
+ * Spring Data  repository for the AccountsDB entity.
  */
 @SuppressWarnings("unused")
 @Repository
