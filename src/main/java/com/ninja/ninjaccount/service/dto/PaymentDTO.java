@@ -1,10 +1,11 @@
 package com.ninja.ninjaccount.service.dto;
 
-import java.time.LocalDate;
-import javax.validation.constraints.*;
-import java.io.Serializable;
-import java.util.Objects;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * A DTO for the Payment entity.

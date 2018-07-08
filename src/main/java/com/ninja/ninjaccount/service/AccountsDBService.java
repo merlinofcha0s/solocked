@@ -10,14 +10,15 @@ import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import com.ninja.ninjaccount.service.mapper.AccountsDBMapper;
 import com.ninja.ninjaccount.service.util.PaymentUtil;
 import com.ninja.ninjaccount.web.rest.errors.CantUpdateDBCausePaymentException;
-import org.apache.commons.codec.binary.Base64;
+import com.paypal.base.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.data.util.Pair;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.token.Sha512DigestUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -71,9 +72,8 @@ public class AccountsDBService {
     }
 
     public String calculateSum(byte[] db) {
-        ShaPasswordEncoder shaPasswordEncoder = new ShaPasswordEncoder(256);
         byte[] baseByte64 = Base64.encodeBase64(db);
-        return shaPasswordEncoder.encodePassword(new String(baseByte64, StandardCharsets.UTF_8), null);
+        return Sha512DigestUtils.shaHex(baseByte64);
     }
 
     /**
@@ -134,7 +134,7 @@ public class AccountsDBService {
         newAccountsDBDTO.setUserId(newUser.getId());
         newAccountsDBDTO.setUserLogin(newUser.getLogin());
         newAccountsDBDTO.setNbAccounts(0);
-        newAccountsDBDTO.setSum("c026ff12a9bee39a00dd883ae925b79054a7b86799d4dfa4dd03a13b9d2c6bce");
+        newAccountsDBDTO.setSum("ebf28ef82ea6c73775860d36f681801426dc32abb6647a6552a601e84b2cb38a5110b91aade1f26ee440f71c64ca2577cdf6da66adcff46905bf8b8f125c863d");
 
         return checkSumAndSave(newAccountsDBDTO);
     }

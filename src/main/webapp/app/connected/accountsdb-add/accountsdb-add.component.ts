@@ -1,32 +1,30 @@
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Subscription} from 'rxjs/Rx';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AccountsDB} from '../../entities/accounts-db';
-import {AccountsService} from '../../shared/account/accounts.service';
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Account} from '../../shared/account/account.model';
-import {isUndefined} from 'util';
-import {Custom} from '../../shared/account/custom-account.model';
-import {MatDialog, MatDialogRef, MatSnackBarConfig} from '@angular/material';
-import {TranslateService} from '@ngx-translate/core';
-import {AddCustomBlockComponent} from './add-custom-block/add-custom-block.component';
-import {Payment} from '../../shared/account/payment-block.model';
-import {PaymentCustomBlockConstant} from './payment-custom-block.constant';
-import {DeletePaymentLineComponent} from './payment-custom-block/delete-payment-line/delete-payment-line.component';
-import {AccountsdbDeleteComponent} from '../accountsdb-delete/accountsdb-delete.component';
-import {SnackUtilService} from '../../shared/snack/snack-util.service';
-import {JhiLanguageHelper} from '../../shared';
-import {AccountsDBService} from '../../entities/accounts-db/accounts-db.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscription } from 'rxjs/Rx';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { isUndefined } from 'util';
+import { MatDialog, MatDialogRef, MatSnackBarConfig } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
+import { AddCustomBlockComponent } from 'app/connected/accountsdb-add/add-custom-block/add-custom-block.component';
+import { DeletePaymentLineComponent } from 'app/connected/accountsdb-add/payment-custom-block/delete-payment-line/delete-payment-line.component';
+import { AccountsService } from 'app/shared/account/accounts.service';
+import { SnackUtilService } from 'app/shared/snack/snack-util.service';
+import { JhiLanguageHelper } from 'app/core';
+import { AccountsDBService } from 'app/entities/accounts-db';
+import { PaymentCustomBlockConstant } from 'app/connected/accountsdb-add/payment-custom-block.constant';
+import { Custom } from 'app/shared/account/custom-account.model';
+import { AccountsdbDeleteComponent } from 'app/connected/accountsdb-delete/accountsdb-delete.component';
+import { Account } from 'app/shared/account/account.model';
+import { Payment } from 'app/shared/account/payment-block.model';
+import { AccountsDB } from 'app/shared/model/accounts-db.model';
 
 @Component({
     selector: 'jhi-accountsdb-add',
     templateUrl: './accountsdb-add.component.html',
     styleUrls: ['./accountsdb-add.component.scss']
 })
-
 export class AccountsdbAddComponent implements OnInit, OnDestroy {
-
     accountForm: FormGroup;
     accountName: FormControl;
     accountNumber: FormControl;
@@ -75,26 +73,26 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
     actualAndMaxNumber$: BehaviorSubject<any>;
 
-    constructor(private fb: FormBuilder,
-                private accountsService: AccountsService,
-                private router: Router,
-                private route: ActivatedRoute,
-                private snackUtil: SnackUtilService,
-                private translateService: TranslateService,
-                private dialog: MatDialog,
-                private jhiLanguageHelper: JhiLanguageHelper,
-                private accountDbService: AccountsDBService
+    constructor(
+        private fb: FormBuilder,
+        private accountsService: AccountsService,
+        private router: Router,
+        private route: ActivatedRoute,
+        private snackUtil: SnackUtilService,
+        private translateService: TranslateService,
+        private dialog: MatDialog,
+        private jhiLanguageHelper: JhiLanguageHelper,
+        private accountDbService: AccountsDBService
     ) {
         this.actualAndMaxNumber$ = this.accountDbService.actualAndMaxNumber$;
-        this.customBlockCounter = {paymentBlocks: []};
+        this.customBlockCounter = { paymentBlocks: [] };
     }
 
     ngOnInit() {
         this.initForm();
         this.initPasswordHideDisplay();
         this.checkActualAndMax();
-        this.routeSubscription = this.route.params.subscribe((params) => {
-
+        this.routeSubscription = this.route.params.subscribe(params => {
             if (params['id'] !== undefined) {
                 this.id = +params['id'];
                 this.updateMode = true;
@@ -117,7 +115,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         this.password = this.fb.control('', Validators.compose([Validators.maxLength(this.maxPassword)]));
         this.notes = this.fb.control('', Validators.maxLength(this.maxNotes));
         this.tags = this.fb.control('', Validators.maxLength(this.maxTags));
-        this.url = this.fb.control('', Validators.pattern('\.+[.].+'));
+        this.url = this.fb.control('', Validators.pattern('.+[.].+'));
         this.customs = this.fb.array([]);
         this.customs$ = new BehaviorSubject<FormArray>(this.customs);
 
@@ -145,10 +143,10 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 this.url.setValue(account.url);
 
                 this.customs.controls.splice(0, this.customs.controls.length);
-                account.customs.forEach((custom) => this.addCustomField(custom.key, custom.value));
+                account.customs.forEach(custom => this.addCustomField(custom.key, custom.value));
 
                 let tagsValue = '';
-                const accountTagsWithoutName = account.tags.filter((tag) => tag !== account.name);
+                const accountTagsWithoutName = account.tags.filter(tag => tag !== account.name);
                 accountTagsWithoutName.forEach((tag: string) => {
                     tagsValue = tagsValue.concat(tag + ', ');
                 });
@@ -160,7 +158,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                     this.addNewPaymentBlock(false);
                 }
 
-                this.jhiLanguageHelper.updateTitle('ninjaccountApp.accountsDB.update.header', {name: account.name});
+                this.jhiLanguageHelper.updateTitle('ninjaccountApp.accountsDB.update.header', { name: account.name });
             }
         });
         this.accountsService.getAccount(idAccount);
@@ -174,7 +172,6 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         newAccount.notes = this.notes.value;
         if (!isUndefined(this.payments) && this.payments.length !== 0) {
             this.payments.forEach((payment, index) => {
-
                 if (payment.notes === PaymentCustomBlockConstant.placeholderNotes) {
                     payment.notes = '';
                 }
@@ -191,7 +188,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
             });
 
             // Sorting to the most recent
-            this.payments.sort((a: Payment, b: Payment) => new Date(a.date).getTime() < new Date(b.date).getTime() ? 1 : -1);
+            this.payments.sort((a: Payment, b: Payment) => (new Date(a.date).getTime() < new Date(b.date).getTime() ? 1 : -1));
 
             newAccount.payments = this.payments;
         }
@@ -202,7 +199,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         }
 
         // Regex to keep the space between word and delete the outer one
-        newAccount.tags.forEach((tag, index) => newAccount.tags[index] = tag.replace(/^\s+|\s+$|\s+(?=\s)/g, ''));
+        newAccount.tags.forEach((tag, index) => (newAccount.tags[index] = tag.replace(/^\s+|\s+$|\s+(?=\s)/g, '')));
 
         this.customs.controls.forEach((group: FormGroup) => {
             const key = group.get('keyField').value;
@@ -222,36 +219,37 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
             this.paymentExpanded = false;
             this.snackUtil.openSnackBar('ninjaccountApp.accountsDB.update.successful', 3000, 'fa-check-circle');
         } else {
-            this.accountsService.saveNewAccount(newAccount)
-                .subscribe((accountsUpdated: AccountsDB) => {
-                        this.snackUtil.openSnackBar('ninjaccountApp.accountsDB.add.successful', 3000, 'fa-check-circle');
-                        this.loading = false;
-                        this.router.navigate(['accounts']);
-                    },
-                    (error) => {
-                        let message;
-                        let urlSettings;
-                        let actionSettings;
-                        if (!error.ok && error.status === 400) {
-                            message = this.translateService.instant('ninjaccountApp.accountsDB.add.toomanyAccount');
-                            urlSettings = '/settings';
-                            actionSettings = 'Settings';
-                        } else {
-                            message = this.translateService.instant('ninjaccountApp.accountsDB.add.error');
-                        }
-                        this.loading = false;
-                        this.accountsService.rollingAddedAccount(newAccount);
-                        const config = new MatSnackBarConfig();
-                        config.verticalPosition = 'top';
-                        config.duration = 15000;
-                        config.data = {
-                            icon: 'fa-exclamation-triangle',
-                            text: message,
-                            url: urlSettings,
-                            action: actionSettings
-                        };
-                        this.snackUtil.openSnackBarWithConfig(config);
-                    });
+            this.accountsService.saveNewAccount(newAccount).subscribe(
+                (accountsUpdated: AccountsDB) => {
+                    this.snackUtil.openSnackBar('ninjaccountApp.accountsDB.add.successful', 3000, 'fa-check-circle');
+                    this.loading = false;
+                    this.router.navigate(['accounts']);
+                },
+                error => {
+                    let message;
+                    let urlSettings;
+                    let actionSettings;
+                    if (!error.ok && error.status === 400) {
+                        message = this.translateService.instant('ninjaccountApp.accountsDB.add.toomanyAccount');
+                        urlSettings = '/settings';
+                        actionSettings = 'Settings';
+                    } else {
+                        message = this.translateService.instant('ninjaccountApp.accountsDB.add.error');
+                    }
+                    this.loading = false;
+                    this.accountsService.rollingAddedAccount(newAccount);
+                    const config = new MatSnackBarConfig();
+                    config.verticalPosition = 'top';
+                    config.duration = 15000;
+                    config.data = {
+                        icon: 'fa-exclamation-triangle',
+                        text: message,
+                        url: urlSettings,
+                        action: actionSettings
+                    };
+                    this.snackUtil.openSnackBarWithConfig(config);
+                }
+            );
         }
     }
 
@@ -282,13 +280,13 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
     openCustomBlock() {
         this.customBlockDialog = this.dialog.open(AddCustomBlockComponent, {
-            data: {customBlockCounter: this.customBlockCounter},
+            data: { customBlockCounter: this.customBlockCounter }
         });
         this.onCloseCustomBlockPopup();
     }
 
     onCloseCustomBlockPopup() {
-        this.customBlockDialog.afterClosed().subscribe((blockToAdd) => {
+        this.customBlockDialog.afterClosed().subscribe(blockToAdd => {
             if (!isUndefined(blockToAdd)) {
                 if (blockToAdd.paymentBlocks) {
                     this.addNewPaymentBlock(true);
@@ -316,12 +314,12 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     onSuppressPaymentblock(suppress: boolean) {
         this.deletePaymentBlock = this.dialog.open(DeletePaymentLineComponent, {
             data: {
-                title: 'ninjaccountApp.accountsDB.paymentblock.deleteblock.title'
-                , snackMessage: 'ninjaccountApp.accountsDB.paymentblock.deleteblock.snack'
+                title: 'ninjaccountApp.accountsDB.paymentblock.deleteblock.title',
+                snackMessage: 'ninjaccountApp.accountsDB.paymentblock.deleteblock.snack'
             }
         });
 
-        this.deletePaymentBlock.afterClosed().subscribe((result) => {
+        this.deletePaymentBlock.afterClosed().subscribe(result => {
             if (!isUndefined(result) && result) {
                 this.customBlockCounter.paymentBlocks.splice(0, this.customBlockCounter.paymentBlocks.length);
                 this.payments.splice(0, this.payments.length);
@@ -351,7 +349,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     }
 
     checkActualAndMax() {
-        this.actualMaxSubscription = this.actualAndMaxNumber$.subscribe((actualAndMax) => {
+        this.actualMaxSubscription = this.actualAndMaxNumber$.subscribe(actualAndMax => {
             const actual = actualAndMax.first;
             this.maxAccounts = actualAndMax.second;
 

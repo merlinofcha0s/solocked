@@ -1,11 +1,12 @@
-import {AccountsService} from './../../shared/account/accounts.service';
-import {Account} from '../../shared/account/account.model';
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PaymentService} from '../../entities/payment/payment.service';
-import {Subscription} from 'rxjs/Subscription';
-import {LAST_SEARCH, Principal} from '../../shared';
-import {SearchService} from '../../shared/search/search.service';
-import {SessionStorageService} from 'ngx-webstorage';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { SessionStorageService } from 'ngx-webstorage';
+import { AccountsService } from 'app/shared/account/accounts.service';
+import { PaymentService } from 'app/entities/payment';
+import { Principal } from 'app/core';
+import { SearchService } from 'app/shared/search/search.service';
+import { LAST_SEARCH } from 'app/shared/constants/session-storage.constants';
+import { Account } from 'app/shared/account/account.model';
 
 @Component({
     selector: 'jhi-accountdb-home',
@@ -13,7 +14,6 @@ import {SessionStorageService} from 'ngx-webstorage';
     styleUrls: ['./accountsdb-home.component.scss']
 })
 export class AccountsdbHomeComponent implements OnInit, OnDestroy {
-
     accountsSub: Subscription;
     accounts: Array<Account>;
     allAccountsPaginated: Array<Account>;
@@ -30,11 +30,13 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
 
     displayAll: boolean;
 
-    constructor(private accountsService: AccountsService,
-                private paymentService: PaymentService,
-                private principal: Principal,
-                private searchService: SearchService,
-                private sessionStorage: SessionStorageService) {
+    constructor(
+        private accountsService: AccountsService,
+        private paymentService: PaymentService,
+        private principal: Principal,
+        private searchService: SearchService,
+        private sessionStorage: SessionStorageService
+    ) {
         this.counter = 0;
         this.lastSearchTerms = '';
         this.allAccountsPaginated = [];
@@ -53,7 +55,7 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
     }
 
     initAccountsList() {
-        this.accountsSub = this.accountsService.accounts$.subscribe((accounts) => {
+        this.accountsSub = this.accountsService.accounts$.subscribe(accounts => {
             this.accounts = accounts;
 
             if (this.accounts.length !== 0) {
@@ -88,7 +90,7 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
         this.allAccountsPaginated.splice(0, this.allAccountsPaginated.length);
         // Avoiding the problem of change detection when angular runs it !
         // (https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4)
-        Promise.resolve(null).then(() => this.nbResults = this.filteredAccounts.length);
+        Promise.resolve(null).then(() => (this.nbResults = this.filteredAccounts.length));
 
         if (this.displayAll) {
             this.filteredAccounts = this.accounts;

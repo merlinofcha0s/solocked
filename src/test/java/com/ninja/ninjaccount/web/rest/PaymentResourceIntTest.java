@@ -1,7 +1,6 @@
 package com.ninja.ninjaccount.web.rest;
 
 import com.ninja.ninjaccount.NinjaccountApp;
-
 import com.ninja.ninjaccount.domain.Payment;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
@@ -12,7 +11,6 @@ import com.ninja.ninjaccount.service.dto.PaymentDTO;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.mapper.PaymentMapper;
 import com.ninja.ninjaccount.web.rest.errors.ExceptionTranslator;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,14 +33,11 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-
 import static com.ninja.ninjaccount.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import com.ninja.ninjaccount.domain.enumeration.PlanType;
 /**
  * Test class for the PaymentResource REST controller.
  *
@@ -85,7 +80,7 @@ public class PaymentResourceIntTest {
 
     @Autowired
     private PaymentMapper paymentMapper;
-    
+
 
     @Autowired
     private PaymentService paymentService;
@@ -289,7 +284,7 @@ public class PaymentResourceIntTest {
             .andExpect(jsonPath("$.[*].billingPlanId").value(hasItem(DEFAULT_BILLING_PLAN_ID.toString())))
             .andExpect(jsonPath("$.[*].tokenRecurring").value(hasItem(DEFAULT_TOKEN_RECURRING.toString())));
     }
-    
+
 
     @Test
     @Transactional

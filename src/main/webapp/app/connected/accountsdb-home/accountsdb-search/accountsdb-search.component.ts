@@ -1,11 +1,10 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {LAST_SEARCH} from '../../../shared';
-import {SessionStorageService} from 'ngx-webstorage';
-import {isUndefined} from 'util';
-import {Subscription} from 'rxjs/Subscription';
-import {Account} from '../../../shared/account/account.model';
-import {AccountsService} from '../../../shared/account/accounts.service';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { SessionStorageService } from 'ngx-webstorage';
+import { isUndefined } from 'util';
+import { Subscription } from 'rxjs/Subscription';
+import { AccountsService } from 'app/shared/account/accounts.service';
+import { LAST_SEARCH } from 'app/shared/constants/session-storage.constants';
 
 @Component({
     selector: 'jhi-accountsdb-search',
@@ -13,7 +12,6 @@ import {AccountsService} from '../../../shared/account/accounts.service';
     styleUrls: ['./accountsdb-search.component.scss']
 })
 export class AccountsdbSearchComponent implements OnInit, OnDestroy {
-
     @Input() nbResults: number;
     @Output() filterTerms = new EventEmitter<string>();
     @Output() displayAll = new EventEmitter<boolean>();
@@ -25,10 +23,7 @@ export class AccountsdbSearchComponent implements OnInit, OnDestroy {
 
     totalNumberAccount: number;
 
-    constructor(private fb: FormBuilder,
-                private sessionStorage: SessionStorageService,
-                private accountsService: AccountsService) {
-    }
+    constructor(private fb: FormBuilder, private sessionStorage: SessionStorageService, private accountsService: AccountsService) {}
 
     ngOnInit() {
         this.initForm();
@@ -42,17 +37,17 @@ export class AccountsdbSearchComponent implements OnInit, OnDestroy {
     initForm() {
         this.searchControl = this.fb.control('');
         this.searchForm = this.fb.group({
-            searchControl: this.searchControl,
+            searchControl: this.searchControl
         });
 
-        this.searchControl.valueChanges.subscribe((value) => {
+        this.searchControl.valueChanges.subscribe(value => {
             if (value || value === '') {
                 this.displayAll.emit(false);
                 this.filterTerms.emit(value);
             }
         });
 
-        this.accountsSub = this.accountsService.accounts$.subscribe((accounts) => {
+        this.accountsSub = this.accountsService.accounts$.subscribe(accounts => {
             this.totalNumberAccount = accounts.length;
         });
     }

@@ -1,9 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PaymentService} from '../../entities/payment/payment.service';
-import {Principal} from '../../shared';
-import {Subscription} from 'rxjs/Subscription';
-import {NavigationEnd, Router} from '@angular/router';
-import {PaymentWarning} from '../../entities/payment/payment-warning.model';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { NavigationEnd, Router } from '@angular/router';
+import { PaymentWarning } from 'app/entities/payment/payment-warning.model';
+import { PaymentService } from 'app/entities/payment';
+import { Principal } from 'app/core';
 
 @Component({
     selector: 'jhi-footer',
@@ -11,21 +11,18 @@ import {PaymentWarning} from '../../entities/payment/payment-warning.model';
     styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit, OnDestroy {
-
     paymentWarning: PaymentWarning;
     paymentSub: Subscription;
     displayPaymentIssue: boolean;
 
-    constructor(private paymentService: PaymentService,
-                private router: Router,
-                private principal: Principal) {
+    constructor(private paymentService: PaymentService, private router: Router, private principal: Principal) {
         this.displayPaymentIssue = false;
     }
 
     ngOnInit(): void {
         this.initPaymentService();
 
-        this.router.events.subscribe((event) => {
+        this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
                 if (event.url === '/') {
                     this.displayPaymentIssue = false;
@@ -39,11 +36,12 @@ export class FooterComponent implements OnInit, OnDestroy {
     }
 
     initPaymentService() {
-        this.paymentSub = this.paymentService.paymentWarning$.subscribe((paymentWarning) => {
+        this.paymentSub = this.paymentService.paymentWarning$.subscribe(paymentWarning => {
             this.paymentWarning = paymentWarning;
 
-            this.displayPaymentIssue = this.isAuthenticatedAndNotAdmin() && (this.paymentWarning.isInFreeMode || !this.paymentWarning.isValid || !this.paymentWarning.isPaid);
-
+            this.displayPaymentIssue =
+                this.isAuthenticatedAndNotAdmin() &&
+                (this.paymentWarning.isInFreeMode || !this.paymentWarning.isValid || !this.paymentWarning.isPaid);
         });
         this.paymentService.getPaymentByLogin();
     }

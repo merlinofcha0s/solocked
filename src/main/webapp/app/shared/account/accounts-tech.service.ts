@@ -1,22 +1,18 @@
-import {CryptoService} from './../crypto/crypto.service';
-import {CryptoUtilsService} from './../crypto/crypto-utils.service';
-import {AccountsDBService} from './../../entities/accounts-db/accounts-db.service';
-import {AccountsDB} from './../../entities/accounts-db/accounts-db.model';
-import {Accounts} from './accounts.model';
-import {Observable} from 'rxjs/Rx';
-import {Injectable} from '@angular/core';
+import { Accounts } from './accounts.model';
+import { Observable } from 'rxjs/Rx';
+import { Injectable } from '@angular/core';
+import { AccountsDBService } from 'app/entities/accounts-db';
+import { CryptoUtilsService } from 'app/shared/crypto/crypto-utils.service';
+import { CryptoService } from 'app/shared/crypto/crypto.service';
+import { AccountsDB } from 'app/shared/model/accounts-db.model';
 
 @Injectable()
 export class AccountsTechService {
-
-    constructor(private accountsDBService: AccountsDBService,
-        private cryptoUtils: CryptoUtilsService,
-        private crypto: CryptoService) {
-
-    }
+    constructor(private accountsDBService: AccountsDBService, private cryptoUtils: CryptoUtilsService, private crypto: CryptoService) {}
 
     synchroDB(): Observable<Accounts> {
-        return this.accountsDBService.getDbUserConnected()
+        return this.accountsDBService
+            .getDbUserConnected()
             .flatMap((accountDbDto: AccountsDB) => this.decryptWithKeyInStorage(accountDbDto))
             .flatMap((accounts: Accounts) => Observable.of(accounts));
     }
@@ -24,14 +20,17 @@ export class AccountsTechService {
     saveEncryptedDB(accounts: Accounts, initVector: string): Observable<AccountsDB> {
         const accountDBDTO = new AccountsDB();
         return this.encryptWithKeyInStorage(accounts, initVector)
-            .flatMap((accountDB: ArrayBuffer) => this.cryptoUtils.toBase64Promise(new Blob([new Uint8Array(accountDB)], { type: 'application/octet-stream' })))
+            .flatMap((accountDB: ArrayBuffer) =>
+                this.cryptoUtils.toBase64Promise(new Blob([new Uint8Array(accountDB)], { type: 'application/octet-stream' }))
+            )
             .flatMap((accountDBbase64: string) => {
                 accountDBDTO.database = accountDBbase64;
                 accountDBDTO.databaseContentType = 'application/octet-stream';
                 accountDBDTO.initializationVector = initVector;
                 accountDBDTO.operationAccountType = accounts.operationAccountType;
                 return this.crypto.generateChecksum(accountDBDTO.database);
-            }).flatMap((sum) => {
+            })
+            .flatMap(sum => {
                 accountDBDTO.sum = sum;
                 return this.accountsDBService.updateDBUserConnected(accountDBDTO);
             });
@@ -39,10 +38,9 @@ export class AccountsTechService {
 
     decryptWithKeyInStorage(accountDbDto: AccountsDB): Observable<Accounts> {
         let accountDBArrayBufferOut = null;
-        return Observable
-            .of(this.cryptoUtils.b64toBlob(accountDbDto.database, 'application/octet-stream', 2048))
+        return Observable.of(this.cryptoUtils.b64toBlob(accountDbDto.database, 'application/octet-stream', 2048))
             .flatMap((accountDBBlob: Blob) => this.cryptoUtils.blobToArrayBuffer(accountDBBlob))
-            .flatMap((accountDBArrayBuffer) => {
+            .flatMap(accountDBArrayBuffer => {
                 accountDBArrayBufferOut = accountDBArrayBuffer;
                 return this.crypto.getCryptoKeyInStorage();
             })
@@ -55,8 +53,8 @@ export class AccountsTechService {
     }
 
     encryptWithKeyInStorage(accounts: Accounts, initVector: string): Observable<ArrayBuffer> {
-        return this.crypto.getCryptoKeyInStorage()
+        return this.crypto
+            .getCryptoKeyInStorage()
             .flatMap((cryptoKey: CryptoKey) => this.crypto.cryptingDB(initVector, accounts, cryptoKey));
     }
-
 }

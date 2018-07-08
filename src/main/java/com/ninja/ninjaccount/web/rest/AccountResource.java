@@ -9,6 +9,7 @@ import com.ninja.ninjaccount.service.MailService;
 import com.ninja.ninjaccount.service.PaymentService;
 import com.ninja.ninjaccount.service.UserService;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
+import com.ninja.ninjaccount.service.dto.PasswordChangeDTO;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.web.rest.errors.*;
 import com.ninja.ninjaccount.web.rest.vm.KeyAndPasswordVM;
@@ -24,8 +25,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
-import com.ninja.ninjaccount.service.dto.PasswordChangeDTO;
-import java.util.*;
 
 /**
  * REST controller for managing the current user's account.
@@ -159,7 +158,7 @@ public class AccountResource {
             throw new InvalidPasswordException();
         }
         userService.changePassword(passwordChangeDto.getCurrentPassword(), passwordChangeDto.getNewPassword());
-   }
+    }
 
     /**
      * POST   /account/reset-password/init : Send an email to reset the password of the user

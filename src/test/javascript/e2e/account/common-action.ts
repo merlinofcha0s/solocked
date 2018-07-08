@@ -1,7 +1,6 @@
-import {browser, by, element, ElementFinder, ExpectedConditions} from "protractor";
+import { browser, by, element, ElementFinder, ExpectedConditions } from 'protractor';
 
 export class CommonAction {
-
     registerPage: RegisterPage;
     homePage: HomePage;
     navbar: Navbar;
@@ -15,7 +14,7 @@ export class CommonAction {
     }
 
     registerUser(username: string, password: string, email: string) {
-        element(by.id("register")).click();
+        element(by.id('register')).click();
         this.registerPage.loginInput.click();
         this.registerPage.loginInput.sendKeys(username);
         this.registerPage.emailInput.click();
@@ -33,7 +32,7 @@ export class CommonAction {
     activateUser(username: string) {
         this.login('admin', 'admin');
         browser.driver.sleep(2000);
-        expect<any>(browser.getTitle()).toBe('Users | SoLocked');
+        expect(browser.getTitle()).toBe('Users | SoLocked');
 
         element(by.id(username + '-deactivation')).click();
         this.logout();
@@ -45,7 +44,7 @@ export class CommonAction {
         browser.driver.sleep(1000);
         browser.wait(ExpectedConditions.presenceOf(this.navbar.logout));
         this.navbar.logout.click();
-        this.homePage.title.isPresent().then((value) => {
+        this.homePage.title.isPresent().then(value => {
             expect(value).toBe(true);
         });
     }
@@ -59,11 +58,15 @@ export class CommonAction {
         this.homePage.validate.click();
         browser.waitForAngular();
         //await browser.driver.sleep(2000);
-        if(checkMyAccounts){
+        if (checkMyAccounts) {
             browser.driver.sleep(2000);
-            element.all(by.id('title-accounts')).first().isPresent().then((value) => {
-                expect(value).toEqual(true);
-            });
+            element
+                .all(by.id('title-accounts'))
+                .first()
+                .isPresent()
+                .then(value => {
+                    expect(value).toEqual(true);
+                });
         }
     }
 }
@@ -75,7 +78,6 @@ export class RegisterPage {
     private _confirmationPassword = element(by.id('confirmPassword'));
     private _freeAccount = element(by.id('plant-type-free'));
     private _validation = element(by.id('validate'));
-
 
     get loginInput(): ElementFinder {
         return this._loginInput;
@@ -150,7 +152,3 @@ export class MyAccounts {
         return this._title;
     }
 }
-
-
-
-

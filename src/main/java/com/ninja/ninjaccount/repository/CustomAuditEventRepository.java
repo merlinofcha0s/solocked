@@ -3,7 +3,6 @@ package com.ninja.ninjaccount.repository;
 import com.ninja.ninjaccount.config.Constants;
 import com.ninja.ninjaccount.config.audit.AuditEventConverter;
 import com.ninja.ninjaccount.domain.PersistentAuditEvent;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.audit.AuditEvent;
@@ -13,7 +12,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * An implementation of Spring Boot's AuditEventRepository.

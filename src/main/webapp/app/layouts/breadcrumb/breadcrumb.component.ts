@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
-import {Breadcrumb} from './breadcrumb.model';
-import {TranslateService} from '@ngx-translate/core';
-import {Principal} from '../../shared';
-import {AccountsHomeRouteName} from '../../connected';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Breadcrumb } from 'app/layouts/breadcrumb/breadcrumb.model';
+import { Principal } from 'app/core';
+import { AccountsHomeRouteName } from 'app/connected';
 
 @Component({
     selector: 'jhi-breadcrumb',
@@ -12,25 +12,22 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
     styleUrls: ['./breadcrumb.component.scss'],
     animations: [
         trigger('appear', [
-            state('void', style({opacity: 0.0})),
-            state('*', style({opacity: 1})),
+            state('void', style({ opacity: 0.0 })),
+            state('*', style({ opacity: 1 })),
             transition('void => *, * => void', animate('500ms  ease-in-out'))
         ])
     ]
 })
 export class BreadcrumbComponent implements OnInit {
-
     breadcrumbSteps: Array<Breadcrumb>;
 
-    constructor(private router: Router,
-                private translateService: TranslateService,
-                private principal: Principal) {
+    constructor(private router: Router, private translateService: TranslateService, private principal: Principal) {
         this.breadcrumbSteps = [];
     }
 
     ngOnInit() {
         this.router.events
-            .filter((event) => event instanceof NavigationEnd)
+            .filter(event => event instanceof NavigationEnd)
             .distinctUntilChanged()
             .subscribe((event: NavigationEnd) => {
                 if (this.breadcrumbSteps.length === 0 && event.url !== AccountsHomeRouteName) {
@@ -75,7 +72,7 @@ export class BreadcrumbComponent implements OnInit {
     }
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot): string {
-        let title: string = (routeSnapshot.data && routeSnapshot.data['pageTitle']) ? routeSnapshot.data['pageTitle'] : 'ninjaccountApp';
+        let title: string = routeSnapshot.data && routeSnapshot.data['pageTitle'] ? routeSnapshot.data['pageTitle'] : 'ninjaccountApp';
         if (routeSnapshot.firstChild) {
             title = this.getPageTitle(routeSnapshot.firstChild) || title;
         }
@@ -94,7 +91,7 @@ export class BreadcrumbComponent implements OnInit {
         const labelKey = this.getPageTitle(routeSnapshot);
         let label = '';
 
-        this.translateService.get(labelKey).subscribe((title) => {
+        this.translateService.get(labelKey).subscribe(title => {
             label = title;
         });
 

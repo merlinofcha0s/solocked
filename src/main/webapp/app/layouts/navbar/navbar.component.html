@@ -1,6 +1,8 @@
 <nav class="navbar fixed-top navbar-expand-md jh-navbar" [class.defaultColor]="defaultColor" [class.background-login]="!defaultColor">
     <div class="jh-logo-container float-left">
-        <a class="jh-navbar-toggler d-lg-none float-right" href="javascript:void(0);" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavbar()">
+        <a class="jh-navbar-toggler d-lg-none float-right" href="javascript:void(0);" data-toggle="collapse"
+           data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+           aria-label="Toggle navigation" (click)="toggleNavbar()">
             <fa-icon [icon]="'bars'"></fa-icon>
         </a>
         <a class="navbar-brand logo float-left" routerLink="/accounts" (click)="collapseNavbar()">
@@ -53,43 +55,50 @@
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu>
                     <li>
-                        <a class="dropdown-item" routerLink="admin/user-management" routerLinkActive="active" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="admin/user-management" routerLinkActive="active"
+                           (click)="collapseNavbar()">
                             <fa-icon [icon]="'user'" [fixedWidth]="true"></fa-icon>
                             <span jhiTranslate="global.menu.admin.userManagement">User management</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="admin/jhi-metrics" routerLinkActive="active" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="admin/jhi-metrics" routerLinkActive="active"
+                           (click)="collapseNavbar()">
                             <fa-icon [icon]="'tachometer-alt'" [fixedWidth]="true"></fa-icon>
                             <span jhiTranslate="global.menu.admin.metrics">Metrics</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="admin/jhi-health" routerLinkActive="active" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="admin/jhi-health" routerLinkActive="active"
+                           (click)="collapseNavbar()">
                             <fa-icon [icon]="'heart'" [fixedWidth]="true"></fa-icon>
                             <span jhiTranslate="global.menu.admin.health">Health</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="admin/jhi-configuration" routerLinkActive="active" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="admin/jhi-configuration" routerLinkActive="active"
+                           (click)="collapseNavbar()">
                             <fa-icon [icon]="'list'" [fixedWidth]="true"></fa-icon>
                             <span jhiTranslate="global.menu.admin.configuration">Configuration</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="admin/audits" routerLinkActive="active" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="admin/audits" routerLinkActive="active"
+                           (click)="collapseNavbar()">
                             <fa-icon [icon]="'bell'" [fixedWidth]="true"></fa-icon>
                             <span jhiTranslate="global.menu.admin.audits">Audits</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="admin/logs" routerLinkActive="active" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="admin/logs" routerLinkActive="active"
+                           (click)="collapseNavbar()">
                             <fa-icon [icon]="'tasks'" [fixedWidth]="true"></fa-icon>
                             <span jhiTranslate="global.menu.admin.logs">Logs</span>
                         </a>
                     </li>
                     <li *ngIf="swaggerEnabled">
-                        <a class="dropdown-item" routerLink="admin/docs" routerLinkActive="active" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="admin/docs" routerLinkActive="active"
+                           (click)="collapseNavbar()">
                             <fa-icon [icon]="'book'" [fixedWidth]="true"></fa-icon>
                             <span jhiTranslate="global.menu.admin.apidocs">API</span>
                         </a>

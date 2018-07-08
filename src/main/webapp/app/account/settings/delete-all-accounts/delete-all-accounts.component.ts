@@ -1,11 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
-import {LoginService, UserService} from '../../../shared/index';
-import {Router} from '@angular/router';
-import {SnackComponent} from '../../../shared/snack/snack.component';
-import {Principal} from '../../../shared/auth/principal.service';
-import {Subscription} from 'rxjs/Subscription';
-import {isUndefined} from 'util';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialogRef, MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { Subscription } from 'rxjs/Subscription';
+import { isUndefined } from 'util';
+import { LoginService, Principal, UserService } from 'app/core';
+import { Router } from '@angular/router';
+import { SnackComponent } from 'app/shared/snack/snack.component';
 
 @Component({
     selector: 'jhi-delete-all-accounts',
@@ -13,20 +12,20 @@ import {isUndefined} from 'util';
     styleUrls: ['./delete-all-accounts.component.scss']
 })
 export class DeleteAllAccountsComponent implements OnInit, OnDestroy {
-
     private config: MatSnackBarConfig;
     private deleteAccountSubscription: Subscription;
 
     username: string;
     maxUsername = 50;
 
-    constructor(private userService: UserService
-        , private loginService: LoginService
-        , private dialogRef: MatDialogRef<DeleteAllAccountsComponent>
-        , private router: Router
-        , private snackBar: MatSnackBar
-        , private principal: Principal) {
-    }
+    constructor(
+        private userService: UserService,
+        private loginService: LoginService,
+        private dialogRef: MatDialogRef<DeleteAllAccountsComponent>,
+        private router: Router,
+        private snackBar: MatSnackBar,
+        private principal: Principal
+    ) {}
 
     ngOnInit() {
         this.config = new MatSnackBarConfig();
@@ -41,26 +40,24 @@ export class DeleteAllAccountsComponent implements OnInit, OnDestroy {
     }
 
     onDeleteAll() {
-        this.principal.identity().then((account) => {
+        this.principal.identity().then(account => {
             if (account.login === this.username) {
-                this.deleteAccountSubscription = this.userService.destroyEntireUser().subscribe((success) => {
+                this.deleteAccountSubscription = this.userService.destroyEntireUser().subscribe(success => {
                     if (success) {
                         this.dialogRef.close();
                         this.loginService.logout();
                         this.router.navigate(['/']);
                     } else {
                         const message = 'An error occured when deleting your account, please retry !!';
-                        this.config.data = {icon: 'fa-exclamation-circle', text: message};
+                        this.config.data = { icon: 'fa-exclamation-circle', text: message };
                         this.snackBar.openFromComponent(SnackComponent, this.config);
                     }
                 });
             } else {
                 const message = 'Not the right username';
-                this.config.data = {icon: 'fa-exclamation-circle', text: message};
+                this.config.data = { icon: 'fa-exclamation-circle', text: message };
                 this.snackBar.openFromComponent(SnackComponent, this.config);
             }
         });
-
     }
-
 }

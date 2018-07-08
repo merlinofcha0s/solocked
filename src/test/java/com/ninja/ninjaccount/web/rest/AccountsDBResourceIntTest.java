@@ -1,6 +1,8 @@
 package com.ninja.ninjaccount.web.rest;
 
 import com.ninja.ninjaccount.NinjaccountApp;
+import com.ninja.ninjaccount.data.PaymentData;
+import com.ninja.ninjaccount.data.UserData;
 import com.ninja.ninjaccount.domain.AccountsDB;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
@@ -11,8 +13,6 @@ import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.service.mapper.AccountsDBMapper;
-import com.ninja.ninjaccount.data.PaymentData;
-import com.ninja.ninjaccount.data.UserData;
 import com.ninja.ninjaccount.web.rest.errors.ExceptionTranslator;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +43,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-
 import static com.ninja.ninjaccount.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -71,7 +70,7 @@ public class AccountsDBResourceIntTest {
     private static final Integer UPDATED_NB_ACCOUNTS = 1;
 
     private static final String DEFAULT_SUM = "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d";
-    private static final String UPDATED_SUM = "e30cfeca4494f089d22d545c04f90cb28c2518bb6590e1d8c952af15d91bf663";
+    private String UPDATED_SUM = "";
 
     @Autowired
     private AccountsDBRepository accountsDBRepository;
@@ -119,6 +118,8 @@ public class AccountsDBResourceIntTest {
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
             .setMessageConverters(jacksonMessageConverter).build();
+
+        UPDATED_SUM = accountsDBService.calculateSum(UPDATED_DATABASE);
     }
 
     /**
@@ -403,7 +404,7 @@ public class AccountsDBResourceIntTest {
         int databaseSizeBeforeUpdate = accountsDBRepository.findAll().size();
 
         // Update the accountsDB
-        AccountsDB updatedAccountsDB = accountsDBRepository.findOne(newAccountDB.getId());
+        AccountsDB updatedAccountsDB = accountsDBRepository.getOne(newAccountDB.getId());
         // Disconnect from session so that the updates on updatedAccountsDB are not directly saved in db
         em.detach(updatedAccountsDB);
         updatedAccountsDB
@@ -446,7 +447,7 @@ public class AccountsDBResourceIntTest {
         int databaseSizeBeforeUpdate = accountsDBRepository.findAll().size();
 
         // Update the accountsDB
-        AccountsDB updatedAccountsDB = accountsDBRepository.findOne(newAccountDB.getId());
+        AccountsDB updatedAccountsDB = accountsDBRepository.getOne(newAccountDB.getId());
         // Disconnect from session so that the updates on updatedAccountsDB are not directly saved in db
         em.detach(updatedAccountsDB);
         updatedAccountsDB

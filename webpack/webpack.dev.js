@@ -13,7 +13,9 @@ const commonConfig = require('./webpack.common.js');
 
 const ENV = 'development';
 
-module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
+module.exports = (options) =
+>
+webpackMerge(commonConfig({env: ENV}), {
     devtool: 'eval-source-map',
     devServer: {
         contentBase: './target/www',
@@ -29,7 +31,7 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
             ],
             target: 'http://127.0.0.1:8080',
             secure: false,
-            headers: { host: 'localhost:9000' }
+            headers: {host: 'localhost:9000'}
         }],
         stats: options.stats,
         watchOptions: {
@@ -56,8 +58,8 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
         {
             test: /\.ts$/,
             use: [
-                { loader: 'angular2-template-loader' },
-                { loader: 'cache-loader' },
+                {loader: 'angular2-template-loader'},
+                {loader: 'cache-loader'},
                 {
                     loader: 'thread-loader',
                     options: {
@@ -72,7 +74,7 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
                         happyPackMode: true
                     }
                 },
-                { loader: 'angular-router-loader' }
+                {loader: 'angular-router-loader'}
             ],
             exclude: ['node_modules']
         },

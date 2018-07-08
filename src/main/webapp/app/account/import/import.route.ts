@@ -1,8 +1,8 @@
-import {Route} from '@angular/router';
+import { Route } from '@angular/router';
 
-import {UserRouteAccessService} from '../../shared';
-import {ImportComponent} from './import.component';
-import {BillingRouteAccessService} from '../../shared/auth/billing-route-access.service';
+import { UserRouteAccessService } from 'app/core';
+import { BillingRouteAccessService } from 'app/shared/auth/billing-route-access.service';
+import { ImportComponent } from 'app/account/import/import.component';
 
 export const importRoute: Route = {
     path: 'import',

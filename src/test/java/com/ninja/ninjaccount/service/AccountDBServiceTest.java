@@ -1,6 +1,7 @@
 package com.ninja.ninjaccount.service;
 
 import com.ninja.ninjaccount.NinjaccountApp;
+import com.ninja.ninjaccount.data.PaymentData;
 import com.ninja.ninjaccount.domain.AccountsDB;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
@@ -12,7 +13,6 @@ import com.ninja.ninjaccount.service.dto.OperationAccountType;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import com.ninja.ninjaccount.service.util.PaymentConstant;
-import com.ninja.ninjaccount.data.PaymentData;
 import com.ninja.ninjaccount.web.rest.errors.CantUpdateDBCausePaymentException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
@@ -216,10 +216,10 @@ public class AccountDBServiceTest {
 
         int newActualNumber = accountsDBService.updateNumberActualAccount("johndoe", 20);
 
-        AccountsDBDTO accountsDBDTOToVerify = accountsDBService.findOne(accountsDBDTO.getId());
+        Optional<AccountsDBDTO> accountsDBDTOToVerify = accountsDBService.findOne(accountsDBDTO.getId());
 
         assertThat(newActualNumber).isEqualTo(20);
-        assertThat(accountsDBDTOToVerify.getNbAccounts()).isEqualTo(20);
+        assertThat(accountsDBDTOToVerify.get().getNbAccounts()).isEqualTo(20);
     }
 
     @Test(expected = CantUpdateDBCausePaymentException.class)

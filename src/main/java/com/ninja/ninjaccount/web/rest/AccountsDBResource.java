@@ -6,7 +6,6 @@ import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.exceptions.MaxAccountsException;
 import com.ninja.ninjaccount.web.rest.errors.BadRequestAlertException;
-import com.ninja.ninjaccount.web.rest.errors.CantUpdateDBCausePaymentException;
 import com.ninja.ninjaccount.web.rest.errors.CustomParameterizedException;
 import com.ninja.ninjaccount.web.rest.errors.InvalidChecksumException;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
@@ -14,7 +13,6 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.util.Pair;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,75 +1,90 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-accounts-db-heading" jhiTranslate="ninjaccountApp.accountsDB.home.createOrEditLabel">Create or edit a Accounts DB</h2>
+            <h2 id="jhi-accounts-db-heading" jhiTranslate="ninjaccountApp.accountsDB.home.createOrEditLabel">Create or
+                edit a Accounts DB</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!accountsDB.id">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="accountsDB.id" readonly />
+                           [(ngModel)]="accountsDB.id" readonly/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="ninjaccountApp.accountsDB.initializationVector" for="field_initializationVector">Initialization Vector</label>
+                    <label class="form-control-label" jhiTranslate="ninjaccountApp.accountsDB.initializationVector"
+                           for="field_initializationVector">Initialization Vector</label>
                     <input type="text" class="form-control" name="initializationVector" id="field_initializationVector"
-                        [(ngModel)]="accountsDB.initializationVector" />
+                           [(ngModel)]="accountsDB.initializationVector"/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="ninjaccountApp.accountsDB.database" for="field_database">Database</label>
+                    <label class="form-control-label" jhiTranslate="ninjaccountApp.accountsDB.database"
+                           for="field_database">Database</label>
                     <div>
                         <div *ngIf="accountsDB.database" class="form-text text-danger clearfix">
-                            <a class="pull-left" (click)="openFile(accountsDB.databaseContentType, accountsDB.database)" jhiTranslate="entity.action.open">open</a><br>
+                            <a class="pull-left" (click)="openFile(accountsDB.databaseContentType, accountsDB.database)"
+                               jhiTranslate="entity.action.open">open</a><br>
                             <span class="pull-left">{{accountsDB.databaseContentType}}, {{byteSize(accountsDB.database)}}</span>
-                            <button type="button" (click)="accountsDB.database=null;accountsDB.databaseContentType=null;"
+                            <button type="button"
+                                    (click)="accountsDB.database=null;accountsDB.databaseContentType=null;"
                                     class="btn btn-secondary btn-xs pull-right">
                                 <fa-icon [icon]="'times'"></fa-icon>
                             </button>
                         </div>
-                        <input type="file" id="file_database" (change)="setFileData($event, accountsDB, 'database', false)" jhiTranslate="entity.action.addblob"/>
+                        <input type="file" id="file_database"
+                               (change)="setFileData($event, accountsDB, 'database', false)"
+                               jhiTranslate="entity.action.addblob"/>
                     </div>
                     <input type="hidden" class="form-control" name="database" id="field_database"
-                        [(ngModel)]="accountsDB.database" />
+                           [(ngModel)]="accountsDB.database"/>
                     <input type="hidden" class="form-control" name="databaseContentType" id="field_databaseContentType"
-                        [(ngModel)]="accountsDB.databaseContentType" />
+                           [(ngModel)]="accountsDB.databaseContentType"/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="ninjaccountApp.accountsDB.nbAccounts" for="field_nbAccounts">Nb Accounts</label>
+                    <label class="form-control-label" jhiTranslate="ninjaccountApp.accountsDB.nbAccounts"
+                           for="field_nbAccounts">Nb Accounts</label>
                     <input type="number" class="form-control" name="nbAccounts" id="field_nbAccounts"
-                        [(ngModel)]="accountsDB.nbAccounts" required min="0" jhiMin="0"/>
+                           [(ngModel)]="accountsDB.nbAccounts" required min="0" jhiMin="0"/>
                     <div [hidden]="!(editForm.controls.nbAccounts?.dirty && editForm.controls.nbAccounts?.invalid)">
                         <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.nbAccounts?.errors?.required" jhiTranslate="entity.validation.required">
-                        This field is required.
+                               [hidden]="!editForm.controls.nbAccounts?.errors?.required"
+                               jhiTranslate="entity.validation.required">
+                            This field is required.
                         </small>
                         <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.nbAccounts?.errors?.min" jhiTranslate="entity.validation.min" translateValues="{ min: 0 }">
+                               [hidden]="!editForm.controls.nbAccounts?.errors?.min"
+                               jhiTranslate="entity.validation.min" translateValues="{ min: 0 }">
                             This field should be at least 0.
                         </small>
                         <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.nbAccounts?.errors?.number" jhiTranslate="entity.validation.number">
+                               [hidden]="!editForm.controls.nbAccounts?.errors?.number"
+                               jhiTranslate="entity.validation.number">
                             This field should be a number.
                         </small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="ninjaccountApp.accountsDB.sum" for="field_sum">Sum</label>
+                    <label class="form-control-label" jhiTranslate="ninjaccountApp.accountsDB.sum"
+                           for="field_sum">Sum</label>
                     <input type="text" class="form-control" name="sum" id="field_sum"
-                        [(ngModel)]="accountsDB.sum" />
+                           [(ngModel)]="accountsDB.sum"/>
                 </div>
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="ninjaccountApp.accountsDB.user" for="field_user">User</label>
-                    <select class="form-control" id="field_user" name="user" [(ngModel)]="accountsDB.userId" >
+                    <select class="form-control" id="field_user" name="user" [(ngModel)]="accountsDB.userId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
+                        <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">
+                            {{userOption.login}}
+                        </option>
                     </select>
                 </div>
             </div>
             <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
+                        class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
                 </button>
             </div>

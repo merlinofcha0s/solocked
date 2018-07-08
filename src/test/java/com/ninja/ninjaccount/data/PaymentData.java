@@ -25,6 +25,7 @@ public class PaymentData {
         paymentDTO.setUserLogin(user.getLogin());
         paymentDTO.setValidUntil(validUntil);
         paymentDTO.setRecurring(recurring);
+        paymentDTO.setLastPaymentId("LOOOOOOOL");
         return paymentService.save(paymentDTO);
     }
 

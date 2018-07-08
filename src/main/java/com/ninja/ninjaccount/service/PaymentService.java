@@ -1,7 +1,6 @@
 package com.ninja.ninjaccount.service;
 
 import com.ninja.ninjaccount.domain.Payment;
-import com.ninja.ninjaccount.domain.PersistentAuditEvent;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import com.ninja.ninjaccount.repository.PaymentRepository;
@@ -17,18 +16,14 @@ import com.ninja.ninjaccount.service.mapper.PaymentMapper;
 import com.ninja.ninjaccount.service.util.PaymentUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.boot.actuate.audit.AuditEventRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 /**

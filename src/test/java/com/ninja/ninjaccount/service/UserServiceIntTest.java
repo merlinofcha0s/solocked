@@ -28,11 +28,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.List;
-import java.util.Optional;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;

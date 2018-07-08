@@ -11,6 +11,7 @@ import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.util.RandomUtil;
+import com.ninja.ninjaccount.web.rest.errors.InvalidPasswordException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
@@ -19,16 +20,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import com.ninja.ninjaccount.web.rest.errors.InvalidPasswordException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -306,6 +303,7 @@ public class UserService {
         Optional<User> user = userRepository.findOneByLoginAndActivatedFalse(login);
         return user.map(this::destroyUserAccount).isPresent();
     }
+
     private void clearUserCaches(User user) {
         Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
         Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());

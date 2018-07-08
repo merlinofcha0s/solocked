@@ -1,7 +1,6 @@
 package com.ninja.ninjaccount.config.audit;
 
 import com.ninja.ninjaccount.domain.PersistentAuditEvent;
-
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;

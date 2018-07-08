@@ -14,8 +14,8 @@ import com.ninja.ninjaccount.service.MailService;
 import com.ninja.ninjaccount.service.PaymentService;
 import com.ninja.ninjaccount.service.UserService;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
-import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.dto.PasswordChangeDTO;
+import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.web.rest.errors.ExceptionTranslator;
 import com.ninja.ninjaccount.web.rest.vm.KeyAndPasswordVM;
 import com.ninja.ninjaccount.web.rest.vm.ManagedUserVM;
@@ -42,10 +42,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import java.util.*;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -182,7 +179,7 @@ public class AccountResourceIntTest {
         AccountsDBDTO accountsDBDTO = new AccountsDBDTO();
         accountsDBDTO.setInitializationVector("87978687326873626");
         accountsDBDTO.setDatabase("some xml".getBytes());
-        accountsDBDTO.setSum("b1c0aaec38071497dd347a4fa056ddcfcfa67724133c49150e60cde3898c7aad");
+        accountsDBDTO.setSum(accountsDBService.calculateSum(accountsDBDTO.getDatabase()));
         accountsDBDTO.setDatabaseContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         accountsDBDTO.setNbAccounts(0);
         ManagedUserVM validUser = new ManagedUserVM();
@@ -331,7 +328,7 @@ public class AccountResourceIntTest {
         AccountsDBDTO accountsDBDTO = new AccountsDBDTO();
         accountsDBDTO.setInitializationVector("87978687326873626");
         accountsDBDTO.setDatabase("some xml".getBytes());
-        accountsDBDTO.setSum("b1c0aaec38071497dd347a4fa056ddcfcfa67724133c49150e60cde3898c7aad");
+        accountsDBDTO.setSum(accountsDBService.calculateSum(accountsDBDTO.getDatabase()));
         accountsDBDTO.setDatabaseContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         accountsDBDTO.setNbAccounts(0);
 
@@ -388,7 +385,7 @@ public class AccountResourceIntTest {
         AccountsDBDTO accountsDBDTO = new AccountsDBDTO();
         accountsDBDTO.setInitializationVector("87978687326873626");
         accountsDBDTO.setDatabase("some xml".getBytes());
-        accountsDBDTO.setSum("b1c0aaec38071497dd347a4fa056ddcfcfa67724133c49150e60cde3898c7aad");
+        accountsDBDTO.setSum(accountsDBService.calculateSum(accountsDBDTO.getDatabase()));
         accountsDBDTO.setDatabaseContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         accountsDBDTO.setNbAccounts(0);
 
@@ -469,7 +466,7 @@ public class AccountResourceIntTest {
         AccountsDBDTO accountsDBDTO = new AccountsDBDTO();
         accountsDBDTO.setInitializationVector("87978687326873626");
         accountsDBDTO.setDatabase("some xml".getBytes());
-        accountsDBDTO.setSum("b1c0aaec38071497dd347a4fa056ddcfcfa67724133c49150e60cde3898c7aad");
+        accountsDBDTO.setSum(accountsDBService.calculateSum(accountsDBDTO.getDatabase()));
         accountsDBDTO.setDatabaseContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         accountsDBDTO.setNbAccounts(0);
 
@@ -684,7 +681,7 @@ public class AccountResourceIntTest {
         userRepository.saveAndFlush(user);
 
         restMvc.perform(post("/api/account/change-password").contentType(TestUtil.APPLICATION_JSON_UTF8)
-        .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO("1"+currentPassword, "new password"))))
+            .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO("1" + currentPassword, "new password"))))
             .andExpect(status().isBadRequest());
 
         User updatedUser = userRepository.findOneByLogin("change-password-wrong-existing-password").orElse(null);
@@ -705,7 +702,7 @@ public class AccountResourceIntTest {
 
         restMvc.perform(post("/api/account/change-password").contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword, "new password"))))
-                .andExpect(status().isOk());
+            .andExpect(status().isOk());
 
         User updatedUser = userRepository.findOneByLogin("change-password").orElse(null);
         assertThat(passwordEncoder.matches("new password", updatedUser.getPassword())).isTrue();
@@ -724,7 +721,7 @@ public class AccountResourceIntTest {
 
         restMvc.perform(post("/api/account/change-password").contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword, "new"))))
-                .andExpect(status().isBadRequest());
+            .andExpect(status().isBadRequest());
 
         User updatedUser = userRepository.findOneByLogin("change-password-too-small").orElse(null);
         assertThat(updatedUser.getPassword()).isEqualTo(user.getPassword());
@@ -743,7 +740,7 @@ public class AccountResourceIntTest {
 
         restMvc.perform(post("/api/account/change-password").contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword, RandomStringUtils.random(101)))))
-                .andExpect(status().isBadRequest());
+            .andExpect(status().isBadRequest());
 
         User updatedUser = userRepository.findOneByLogin("change-password-too-long").orElse(null);
         assertThat(updatedUser.getPassword()).isEqualTo(user.getPassword());

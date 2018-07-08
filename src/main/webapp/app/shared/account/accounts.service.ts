@@ -1,36 +1,37 @@
-import {AccountsTechService} from './accounts-tech.service';
-import {Observable} from 'rxjs/Rx';
-import {CryptoUtilsService} from '../crypto/crypto-utils.service';
-import {AccountsDB} from '../../entities/accounts-db/accounts-db.model';
-import {Account} from './account.model';
-import {Accounts} from './accounts.model';
-import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Version} from './version.enum';
-import {OperationAccountType} from './operation-account-type.enum';
-import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
-import {SnackComponent} from '../snack/snack.component';
-import {TranslateService} from '@ngx-translate/core';
-import {AccountsDBService} from '../../entities/accounts-db/accounts-db.service';
+import { AccountsTechService } from './accounts-tech.service';
+import { Observable } from 'rxjs/Rx';
+import { CryptoUtilsService } from '../crypto/crypto-utils.service';
+import { Account } from 'app/shared/account/account.model';
+import { Accounts } from 'app/shared/account/accounts.model';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Version } from './version.enum';
+import { OperationAccountType } from './operation-account-type.enum';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { SnackComponent } from '../snack/snack.component';
+import { TranslateService } from '@ngx-translate/core';
+import { AccountsDB } from 'app/shared/model/accounts-db.model';
+import { AccountsDBService } from 'app/entities/accounts-db';
 
 @Injectable()
 export class AccountsService {
-
     accounts$: BehaviorSubject<Array<Account>>;
     account$: BehaviorSubject<Account>;
 
     private _dataStore: {
-        accounts: Accounts
+        accounts: Accounts;
     };
 
     hasToSort: boolean;
 
-    constructor(private cryptoUtils: CryptoUtilsService,
-                private accountTech: AccountsTechService,
-                private translateService: TranslateService,
-                private snackBar: MatSnackBar,
-                private accountDbService: AccountsDBService) {
-        this._dataStore = {accounts: new Accounts()};
+    constructor(
+        private cryptoUtils: CryptoUtilsService,
+        private accountTech: AccountsTechService,
+        private translateService: TranslateService,
+        private snackBar: MatSnackBar,
+        private accountDbService: AccountsDBService
+    ) {
+        this._dataStore = { accounts: new Accounts() };
 
         this.accounts$ = new BehaviorSubject<Array<Account>>(this._dataStore.accounts.accounts);
         this.account$ = new BehaviorSubject<Account>(null);
@@ -38,20 +39,20 @@ export class AccountsService {
 
     getAccount(id: number) {
         if (this._dataStore.accounts.accounts.length === 0) {
-            this.accountTech.synchroDB().subscribe((accountsFromDB) => {
+            this.accountTech.synchroDB().subscribe(accountsFromDB => {
                 this._dataStore.accounts = accountsFromDB;
-                const accounts = this._dataStore.accounts.accounts.filter((account) => account.id === id);
+                const accounts = this._dataStore.accounts.accounts.filter(account => account.id === id);
                 this.account$.next(accounts[0]);
             });
         } else {
-            const accounts = this._dataStore.accounts.accounts.filter((account) => account.id === id);
+            const accounts = this._dataStore.accounts.accounts.filter(account => account.id === id);
             this.account$.next(accounts[0]);
         }
     }
 
     getAccountsList() {
         if (this._dataStore.accounts.accounts.length === 0) {
-            this.accountTech.synchroDB().subscribe((accountsFromDB) => {
+            this.accountTech.synchroDB().subscribe(accountsFromDB => {
                 this._dataStore.accounts = accountsFromDB;
                 this.sortAccountByName();
                 this.accounts$.next(this._dataStore.accounts.accounts);
@@ -89,7 +90,7 @@ export class AccountsService {
     }
 
     seqNextVal(accounts: Accounts): number {
-        const accountsIds = accounts.accounts.map((account) => account.id);
+        const accountsIds = accounts.accounts.map(account => account.id);
         if (accountsIds.length === 0) {
             return 1;
         } else {
@@ -115,31 +116,31 @@ export class AccountsService {
     }
 
     saveNewAccount(account: Account | Array<Account>): Observable<AccountsDB> {
-        return this.accountTech.synchroDB()
-            .flatMap((accounts: Accounts) => {
-                const initVector = this.cryptoUtils.getRandomNumber();
-                if (account instanceof Account) {
-                    // Sequence management
-                    account.id = this.seqNextVal(this._dataStore.accounts);
-                    // Adding new account
-                    accounts.accounts.push(account);
-                } else {
-                    for (const newAccount of account) {
-                        newAccount.id = this.seqNextVal(this._dataStore.accounts);
-                        this._dataStore.accounts.accounts.push(newAccount);
-                        this.sortAccountByName();
-                        accounts.accounts.push(newAccount);
-                    }
+        return this.accountTech.synchroDB().flatMap((accounts: Accounts) => {
+            const initVector = this.cryptoUtils.getRandomNumber();
+            if (account instanceof Account) {
+                // Sequence management
+                account.id = this.seqNextVal(this._dataStore.accounts);
+                // Adding new account
+                accounts.accounts.push(account);
+            } else {
+                for (const newAccount of account) {
+                    newAccount.id = this.seqNextVal(this._dataStore.accounts);
+                    this._dataStore.accounts.accounts.push(newAccount);
+                    this.sortAccountByName();
+                    accounts.accounts.push(newAccount);
                 }
-                this.saveOnBrowser(accounts);
-                accounts.operationAccountType = OperationAccountType.CREATE;
-                return this.accountTech.saveEncryptedDB(accounts, initVector);
-            });
+            }
+            this.saveOnBrowser(accounts);
+            accounts.operationAccountType = OperationAccountType.CREATE;
+            return this.accountTech.saveEncryptedDB(accounts, initVector);
+        });
     }
 
     updateAccount(accountUpdated: Account) {
         const initVector = this.cryptoUtils.getRandomNumber();
-        this.accountTech.synchroDB()
+        this.accountTech
+            .synchroDB()
             .flatMap((accounts: Accounts) => {
                 for (let _i = 0; _i < accounts.accounts.length; _i++) {
                     const account = accounts.accounts[_i];
@@ -151,14 +152,16 @@ export class AccountsService {
                 this.saveOnBrowser(accounts);
                 accounts.operationAccountType = OperationAccountType.UPDATE;
                 return this.accountTech.saveEncryptedDB(accounts, initVector);
-            }).subscribe((accountDB: AccountsDB) => {
-                this.sortAccountByName();
-                this.accounts$.next(this._dataStore.accounts.accounts);
-            },
-            (error) => {
-                this.errorSnack('ninjaccountApp.accountsDB.update.error');
-            });
-
+            })
+            .subscribe(
+                (accountDB: AccountsDB) => {
+                    this.sortAccountByName();
+                    this.accounts$.next(this._dataStore.accounts.accounts);
+                },
+                error => {
+                    this.errorSnack('ninjaccountApp.accountsDB.update.error');
+                }
+            );
     }
 
     clean(): void {
@@ -168,22 +171,26 @@ export class AccountsService {
 
     deleteAccount(accountId: number) {
         const initVector = this.cryptoUtils.getRandomNumber();
-        this.accountTech.synchroDB()
+        this.accountTech
+            .synchroDB()
             .flatMap((accounts: Accounts) => {
-                accounts.accounts = accounts.accounts.filter((account) => account.id !== accountId);
+                accounts.accounts = accounts.accounts.filter(account => account.id !== accountId);
                 this.deleteLocalAccount(accountId);
                 accounts.operationAccountType = OperationAccountType.DELETE;
                 return this.accountTech.saveEncryptedDB(accounts, initVector);
-            }).subscribe((accountDB: AccountsDB) => {
-                this.accounts$.next(this._dataStore.accounts.accounts);
-            },
-            (error) => {
-                this.errorSnack('ninjaccountApp.accountsDB.delete.error');
-            });
+            })
+            .subscribe(
+                (accountDB: AccountsDB) => {
+                    this.accounts$.next(this._dataStore.accounts.accounts);
+                },
+                error => {
+                    this.errorSnack('ninjaccountApp.accountsDB.delete.error');
+                }
+            );
     }
 
     deleteLocalAccount(accountId: number) {
-        this._dataStore.accounts.accounts = this._dataStore.accounts.accounts.filter((account) => account.id !== accountId);
+        this._dataStore.accounts.accounts = this._dataStore.accounts.accounts.filter(account => account.id !== accountId);
         this.saveOnBrowser(this._dataStore.accounts);
     }
 
@@ -209,24 +216,28 @@ export class AccountsService {
         const config = new MatSnackBarConfig();
         config.verticalPosition = 'top';
         config.duration = 10000;
-        config.data = {icon: 'fa-exclamation-triangle', text: message};
+        config.data = { icon: 'fa-exclamation-triangle', text: message };
         this.snackBar.openFromComponent(SnackComponent, config);
     }
 
     resetEntireDB() {
         const initVector = this.cryptoUtils.getRandomNumber();
-        this.accountTech.synchroDB()
+        this.accountTech
+            .synchroDB()
             .flatMap((accounts: Accounts) => {
                 accounts.accounts.splice(0, accounts.accounts.length);
                 accounts.operationAccountType = OperationAccountType.DELETE_ALL;
                 this._dataStore.accounts = accounts;
                 return this.accountTech.saveEncryptedDB(accounts, initVector);
-            }).subscribe((accountDB: AccountsDB) => {
-                this.accountDbService.getActualMaxAccount();
-                this.saveOnBrowser(this._dataStore.accounts);
-            },
-            (error) => {
-                this.errorSnack('ninjaccountApp.accountsDB.delete.error');
-            });
+            })
+            .subscribe(
+                (accountDB: AccountsDB) => {
+                    this.accountDbService.getActualMaxAccount();
+                    this.saveOnBrowser(this._dataStore.accounts);
+                },
+                error => {
+                    this.errorSnack('ninjaccountApp.accountsDB.delete.error');
+                }
+            );
     }
 }

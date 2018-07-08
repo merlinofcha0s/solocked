@@ -1,25 +1,9 @@
-import {CryptoUtilsService} from './crypto/crypto-utils.service';
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
-import {DatePipe} from '@angular/common';
-import {AccountsService} from './account/accounts.service';
+import { CryptoUtilsService } from './crypto/crypto-utils.service';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { AccountsService } from './account/accounts.service';
 
-import {
-    AccountService,
-    AuthServerProvider,
-    CSRFService,
-    HasAnyAuthorityDirective,
-    JhiLoginModalComponent,
-    JhiSocialComponent,
-    LoginModalService,
-    LoginService,
-    NinjaccountSharedCommonModule,
-    NinjaccountSharedLibsModule,
-    Principal,
-    SocialService,
-    StateStorageService,
-    UserService
-} from './';
-import {CryptoService} from './crypto/crypto.service';
+import { CryptoService } from './crypto/crypto.service';
 import {
     ErrorStateMatcher,
     MatAutocompleteModule,
@@ -32,7 +16,8 @@ import {
     MatDialogModule,
     MatFormFieldModule,
     MatGridListModule,
-    MatInputModule, MatListModule,
+    MatInputModule,
+    MatListModule,
     MatMenuModule,
     MatNativeDateModule,
     MatProgressBarModule,
@@ -44,20 +29,34 @@ import {
     MatTooltipModule,
     ShowOnDirtyErrorStateMatcher
 } from '@angular/material';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {UserRouteAccessIsConnectedService} from './auth/user-route-is-connected';
-import {PasswordMatchValidatorDirective} from './auth/password-match.directive';
-import {SnackComponent} from './snack/snack.component';
-import {AutolockService} from '../layouts/navbar/autologout/autolock.service';
-import {DateValidatorDirective} from './validation/date-validator.directive';
-import {AccountsTechService} from './account/accounts-tech.service';
-import {SnackUtilService} from './snack/snack-util.service';
-import {SearchService} from './search/search.service';
-import {AutofocusDirective} from './validation/autofocus.directive';
-import {WaiterComponent} from './waiter/waiter.component';
-import {CheckBillingDirective} from './account/check-billing.directive';
-import {BillingRouteAccessService} from './auth/billing-route-access.service';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UserRouteAccessIsConnectedService } from './auth/user-route-is-connected';
+import { PasswordMatchValidatorDirective } from './auth/password-match.directive';
+import { SnackComponent } from './snack/snack.component';
+import { AutolockService } from '../layouts/navbar/autologout/autolock.service';
+import { DateValidatorDirective } from './validation/date-validator.directive';
+import { AccountsTechService } from './account/accounts-tech.service';
+import { SnackUtilService } from './snack/snack-util.service';
+import { SearchService } from './search/search.service';
+import { AutofocusDirective } from './validation/autofocus.directive';
+import { WaiterComponent } from './waiter/waiter.component';
+import { CheckBillingDirective } from './account/check-billing.directive';
+import { BillingRouteAccessService } from './auth/billing-route-access.service';
+import { NinjaccountSharedLibsModule } from 'app/shared/shared-libs.module';
+import { NinjaccountSharedCommonModule } from 'app/shared/shared-common.module';
+import { JhiLoginModalComponent } from 'app/shared/login/login.component';
+import { HasAnyAuthorityDirective } from 'app/shared/auth/has-any-authority.directive';
+import {
+    AccountService,
+    AuthServerProvider,
+    CSRFService,
+    LoginModalService,
+    LoginService,
+    Principal,
+    StateStorageService,
+    UserService
+} from 'app/core';
 
 @NgModule({
     imports: [
@@ -88,7 +87,6 @@ import {BillingRouteAccessService} from './auth/billing-route-access.service';
         MatListModule
     ],
     declarations: [
-        JhiSocialComponent,
         JhiLoginModalComponent,
         SnackComponent,
         WaiterComponent,
@@ -107,7 +105,6 @@ import {BillingRouteAccessService} from './auth/billing-route-access.service';
         Principal,
         CSRFService,
         AuthServerProvider,
-        SocialService,
         UserService,
         DatePipe,
         AccountsService,
@@ -120,12 +117,11 @@ import {BillingRouteAccessService} from './auth/billing-route-access.service';
         // {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
         // {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
         SearchService,
-        {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}
+        { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
     ],
     entryComponents: [JhiLoginModalComponent, SnackComponent, WaiterComponent],
     exports: [
         NinjaccountSharedCommonModule,
-        JhiSocialComponent,
         JhiLoginModalComponent,
         HasAnyAuthorityDirective,
         PasswordMatchValidatorDirective,
@@ -160,7 +156,5 @@ import {BillingRouteAccessService} from './auth/billing-route-access.service';
         MatListModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
-
 })
-export class NinjaccountSharedModule {
-}
+export class NinjaccountSharedModule {}

@@ -1,11 +1,10 @@
 package com.ninja.ninjaccount.security;
 
 import com.ninja.ninjaccount.config.Constants;
-
-import java.util.Optional;
-
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 /**
  * Implementation of AuditorAware based on Spring Security.

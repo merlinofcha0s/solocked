@@ -1,16 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {AccountsService} from '../../../shared/account/accounts.service';
-import {Account} from '../../../shared/account/account.model';
-import {Observable} from 'rxjs/Observable';
-import {Subscription} from 'rxjs/Subscription';
-import {MatAutocompleteSelectedEvent} from '@angular/material';
-import {Event, NavigationEnd, Router} from '@angular/router';
-import {SearchService} from '../../../shared/search/search.service';
-import {SessionStorageService} from 'ngx-webstorage';
-import {LAST_SEARCH} from '../../../shared/index';
-import {AccountsHomeRouteName} from '../../../connected';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { Event, NavigationEnd, Router } from '@angular/router';
+import { SessionStorageService } from 'ngx-webstorage';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { AccountsService } from 'app/shared/account/accounts.service';
+import { SearchService } from 'app/shared/search/search.service';
+import { LAST_SEARCH } from 'app/shared/constants/session-storage.constants';
+import { Account } from 'app/shared/account/account.model';
+import { AccountsHomeRouteName } from 'app/connected';
 
 @Component({
     selector: 'jhi-search',
@@ -18,14 +18,13 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
     styleUrls: ['./search.component.scss'],
     animations: [
         trigger('appear', [
-            state('void', style({opacity: 0.0})),
-            state('*', style({opacity: 1})),
+            state('void', style({ opacity: 0.0 })),
+            state('*', style({ opacity: 1 })),
             transition('void => *, * => void', animate('500ms  ease-in-out'))
         ])
     ]
 })
 export class SearchComponent implements OnInit, OnDestroy {
-
     searchForm: FormGroup;
     searchControl: FormControl;
 
@@ -37,13 +36,13 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     showSearch: boolean;
 
-    constructor(private fb: FormBuilder,
-                private accountsService: AccountsService,
-                private router: Router,
-                private searchService: SearchService,
-                private sessionStorage: SessionStorageService) {
-
-    }
+    constructor(
+        private fb: FormBuilder,
+        private accountsService: AccountsService,
+        private router: Router,
+        private searchService: SearchService,
+        private sessionStorage: SessionStorageService
+    ) {}
 
     ngOnInit() {
         this.initForm();
@@ -57,9 +56,9 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
 
     initAccounts() {
-        this.accountsSub = this.accountsService.accounts$.subscribe((accounts) => {
+        this.accountsSub = this.accountsService.accounts$.subscribe(accounts => {
             this.accounts = accounts;
-            this.filteredAccounts = this.searchControl.valueChanges.map((value) => {
+            this.filteredAccounts = this.searchControl.valueChanges.map(value => {
                 // Means that it's an account : it happened when the user click on an item on the autocomplete
                 // So we extract the name of the account
                 if (value instanceof Object === false) {
@@ -74,7 +73,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     initForm() {
         this.searchControl = this.fb.control('');
         this.searchForm = this.fb.group({
-            searchControl: this.searchControl,
+            searchControl: this.searchControl
         });
     }
 
@@ -97,7 +96,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     onHomePageSearch(valueToSearch: String | Account) {
         // We enforce that is a string, since the valueToSearch can be an account
-        if (typeof(valueToSearch) === 'string' || valueToSearch instanceof String) {
+        if (typeof valueToSearch === 'string' || valueToSearch instanceof String) {
             this.sessionStorage.store(LAST_SEARCH, valueToSearch);
             this.router.navigate(['/' + AccountsHomeRouteName]);
         } else {
