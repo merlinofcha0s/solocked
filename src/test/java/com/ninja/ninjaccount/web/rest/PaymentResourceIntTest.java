@@ -35,6 +35,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
+
 import static com.ninja.ninjaccount.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -81,8 +82,10 @@ public class PaymentResourceIntTest {
     @Autowired
     private PaymentRepository paymentRepository;
 
+
     @Autowired
     private PaymentMapper paymentMapper;
+    
 
     @Autowired
     private PaymentService paymentService;
@@ -286,6 +289,7 @@ public class PaymentResourceIntTest {
             .andExpect(jsonPath("$.[*].billingPlanId").value(hasItem(DEFAULT_BILLING_PLAN_ID.toString())))
             .andExpect(jsonPath("$.[*].tokenRecurring").value(hasItem(DEFAULT_TOKEN_RECURRING.toString())));
     }
+    
 
     @Test
     @Transactional
@@ -308,7 +312,6 @@ public class PaymentResourceIntTest {
             .andExpect(jsonPath("$.billingPlanId").value(DEFAULT_BILLING_PLAN_ID.toString()))
             .andExpect(jsonPath("$.tokenRecurring").value(DEFAULT_TOKEN_RECURRING.toString()));
     }
-
     @Test
     @Transactional
     public void getNonExistingPayment() throws Exception {
@@ -322,10 +325,11 @@ public class PaymentResourceIntTest {
     public void updatePayment() throws Exception {
         // Initialize the database
         paymentRepository.saveAndFlush(payment);
+
         int databaseSizeBeforeUpdate = paymentRepository.findAll().size();
 
         // Update the payment
-        Payment updatedPayment = paymentRepository.findOne(payment.getId());
+        Payment updatedPayment = paymentRepository.findById(payment.getId()).get();
         // Disconnect from session so that the updates on updatedPayment are not directly saved in db
         em.detach(updatedPayment);
         updatedPayment
@@ -372,11 +376,11 @@ public class PaymentResourceIntTest {
         restPaymentMockMvc.perform(put("/api/payments")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(paymentDTO)))
-            .andExpect(status().isCreated());
+            .andExpect(status().isBadRequest());
 
         // Validate the Payment in the database
         List<Payment> paymentList = paymentRepository.findAll();
-        assertThat(paymentList).hasSize(databaseSizeBeforeUpdate + 1);
+        assertThat(paymentList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
@@ -384,6 +388,7 @@ public class PaymentResourceIntTest {
     public void deletePayment() throws Exception {
         // Initialize the database
         paymentRepository.saveAndFlush(payment);
+
         int databaseSizeBeforeDelete = paymentRepository.findAll().size();
 
         // Get the payment

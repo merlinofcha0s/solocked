@@ -1,14 +1,13 @@
-import {async, ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {Observable} from 'rxjs/Observable';
-import {JhiEventManager} from 'ng-jhipster';
+import { async, ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { of } from 'rxjs';
+import { JhiEventManager } from 'ng-jhipster';
 
-import {NinjaccountTestModule} from '../../../test.module';
-import {UserMgmtDeleteDialogComponent} from '../../../../../../main/webapp/app/admin/user-management/user-management-delete-dialog.component';
-import {UserService} from '../../../../../../main/webapp/app/shared';
+import { NinjaccountTestModule } from '../../../test.module';
+import { UserMgmtDeleteDialogComponent } from 'app/admin/user-management/user-management-delete-dialog.component';
+import { UserService } from 'app/core';
 
 describe('Component Tests', () => {
-
     describe('User Management Delete Component', () => {
         let comp: UserMgmtDeleteDialogComponent;
         let fixture: ComponentFixture<UserMgmtDeleteDialogComponent>;
@@ -16,17 +15,16 @@ describe('Component Tests', () => {
         let mockEventManager: any;
         let mockActiveModal: any;
 
-        beforeEach(async(() => {
-            TestBed.configureTestingModule({
-                imports: [NinjaccountTestModule],
-                declarations: [UserMgmtDeleteDialogComponent],
-                providers: [
-                    UserService
-                ]
+        beforeEach(
+            async(() => {
+                TestBed.configureTestingModule({
+                    imports: [NinjaccountTestModule],
+                    declarations: [UserMgmtDeleteDialogComponent]
+                })
+                    .overrideTemplate(UserMgmtDeleteDialogComponent, '')
+                    .compileComponents();
             })
-            .overrideTemplate(UserMgmtDeleteDialogComponent, '')
-            .compileComponents();
-        }));
+        );
 
         beforeEach(() => {
             fixture = TestBed.createComponent(UserMgmtDeleteDialogComponent);
@@ -37,11 +35,13 @@ describe('Component Tests', () => {
         });
 
         describe('confirmDelete', () => {
-            it('Should call delete service on confirmDelete',
-                inject([],
+            it(
+                'Should call delete service on confirmDelete',
+                inject(
+                    [],
                     fakeAsync(() => {
                         // GIVEN
-                        spyOn(service, 'delete').and.returnValue(Observable.of({}));
+                        spyOn(service, 'delete').and.returnValue(of({}));
 
                         // WHEN
                         comp.confirmDelete('user');
@@ -56,5 +56,4 @@ describe('Component Tests', () => {
             );
         });
     });
-
 });

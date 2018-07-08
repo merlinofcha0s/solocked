@@ -9,7 +9,7 @@ import java.util.Optional;
 
 
 /**
- * Spring Data JPA repository for the Payment entity.
+ * Spring Data  repository for the Payment entity.
  */
 @SuppressWarnings("unused")
 @Repository

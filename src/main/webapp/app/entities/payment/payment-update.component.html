@@ -1,0 +1,117 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-payment-heading" jhiTranslate="ninjaccountApp.payment.home.createOrEditLabel">Create or edit a Payment</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!payment.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="payment.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.subscriptionDate" for="field_subscriptionDate">Subscription Date</label>
+                    <div class="input-group">
+                        <input id="field_subscriptionDate" type="text" class="form-control" name="subscriptionDate" ngbDatepicker  #subscriptionDateDp="ngbDatepicker" [(ngModel)]="payment.subscriptionDate"
+                        required/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="subscriptionDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div [hidden]="!(editForm.controls.subscriptionDate?.dirty && editForm.controls.subscriptionDate?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.subscriptionDate?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.price" for="field_price">Price</label>
+                    <input type="number" class="form-control" name="price" id="field_price"
+                        [(ngModel)]="payment.price" required/>
+                    <div [hidden]="!(editForm.controls.price?.dirty && editForm.controls.price?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.price?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.price?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.planType" for="field_planType">Plan Type</label>
+                    <select class="form-control" name="planType" [(ngModel)]="payment.planType" id="field_planType"  required>
+                        <option value="FREE">{{'ninjaccountApp.PlanType.FREE' | translate}}</option>
+                        <option value="PREMIUMYEAR">{{'ninjaccountApp.PlanType.PREMIUMYEAR' | translate}}</option>
+                        <option value="PREMIUMMONTH">{{'ninjaccountApp.PlanType.PREMIUMMONTH' | translate}}</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.planType?.dirty && editForm.controls.planType?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.planType?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.paid" for="field_paid">Paid</label>
+                    <input type="checkbox" class="form-control" name="paid" id="field_paid"
+                        [(ngModel)]="payment.paid" />
+                    <div [hidden]="!(editForm.controls.paid?.dirty && editForm.controls.paid?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.paid?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.validUntil" for="field_validUntil">Valid Until</label>
+                    <div class="input-group">
+                        <input id="field_validUntil" type="text" class="form-control" name="validUntil" ngbDatepicker  #validUntilDp="ngbDatepicker" [(ngModel)]="payment.validUntil"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="validUntilDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.lastPaymentId" for="field_lastPaymentId">Last Payment Id</label>
+                    <input type="text" class="form-control" name="lastPaymentId" id="field_lastPaymentId"
+                        [(ngModel)]="payment.lastPaymentId" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.recurring" for="field_recurring">Recurring</label>
+                    <input type="checkbox" class="form-control" name="recurring" id="field_recurring"
+                        [(ngModel)]="payment.recurring" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.billingPlanId" for="field_billingPlanId">Billing Plan Id</label>
+                    <input type="text" class="form-control" name="billingPlanId" id="field_billingPlanId"
+                        [(ngModel)]="payment.billingPlanId" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.tokenRecurring" for="field_tokenRecurring">Token Recurring</label>
+                    <input type="text" class="form-control" name="tokenRecurring" id="field_tokenRecurring"
+                        [(ngModel)]="payment.tokenRecurring" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ninjaccountApp.payment.user" for="field_user">User</label>
+                    <select class="form-control" id="field_user" name="user" [(ngModel)]="payment.userId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

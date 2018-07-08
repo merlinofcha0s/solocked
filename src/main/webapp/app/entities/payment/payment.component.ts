@@ -1,18 +1,18 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs/Subscription';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 
-import { Payment } from './payment.model';
+import { IPayment } from 'app/shared/model/payment.model';
+import { Principal } from 'app/core';
 import { PaymentService } from './payment.service';
-import { Principal } from '../../shared';
 
 @Component({
     selector: 'jhi-payment',
     templateUrl: './payment.component.html'
 })
 export class PaymentComponent implements OnInit, OnDestroy {
-payments: Payment[];
+    payments: IPayment[];
     currentAccount: any;
     eventSubscriber: Subscription;
 
@@ -21,20 +21,20 @@ payments: Payment[];
         private jhiAlertService: JhiAlertService,
         private eventManager: JhiEventManager,
         private principal: Principal
-    ) {
-    }
+    ) {}
 
     loadAll() {
         this.paymentService.query().subscribe(
-            (res: HttpResponse<Payment[]>) => {
+            (res: HttpResponse<IPayment[]>) => {
                 this.payments = res.body;
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
     }
+
     ngOnInit() {
         this.loadAll();
-        this.principal.identity().then((account) => {
+        this.principal.identity().then(account => {
             this.currentAccount = account;
         });
         this.registerChangeInPayments();
@@ -44,14 +44,15 @@ payments: Payment[];
         this.eventManager.destroy(this.eventSubscriber);
     }
 
-    trackId(index: number, item: Payment) {
+    trackId(index: number, item: IPayment) {
         return item.id;
     }
+
     registerChangeInPayments() {
-        this.eventSubscriber = this.eventManager.subscribe('paymentListModification', (response) => this.loadAll());
+        this.eventSubscriber = this.eventManager.subscribe('paymentListModification', response => this.loadAll());
     }
 
-    private onError(error) {
-        this.jhiAlertService.error(error.message, null, null);
+    private onError(errorMessage: string) {
+        this.jhiAlertService.error(errorMessage, null, null);
     }
 }

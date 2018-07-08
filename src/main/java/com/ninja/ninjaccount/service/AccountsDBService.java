@@ -13,9 +13,7 @@ import com.ninja.ninjaccount.web.rest.errors.CantUpdateDBCausePaymentException;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.util.Pair;
-import org.springframework.http.MediaType;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +22,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 /**
  * Service Implementation for managing AccountsDB.
  */
@@ -92,6 +89,7 @@ public class AccountsDBService {
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
+
     /**
      * Get one accountsDB by id.
      *
@@ -99,10 +97,10 @@ public class AccountsDBService {
      * @return the entity
      */
     @Transactional(readOnly = true)
-    public AccountsDBDTO findOne(Long id) {
+    public Optional<AccountsDBDTO> findOne(Long id) {
         log.debug("Request to get AccountsDB : {}", id);
-        AccountsDB accountsDB = accountsDBRepository.findOne(id);
-        return accountsDBMapper.toDto(accountsDB);
+        return accountsDBRepository.findById(id)
+            .map(accountsDBMapper::toDto);
     }
 
     /**
@@ -125,7 +123,7 @@ public class AccountsDBService {
      */
     public void delete(Long id) {
         log.debug("Request to delete AccountsDB : {}", id);
-        accountsDBRepository.delete(id);
+        accountsDBRepository.deleteById(id);
     }
 
     public AccountsDBDTO createNewAccountDB(byte[] encryptedDB, String initVector, User newUser) {

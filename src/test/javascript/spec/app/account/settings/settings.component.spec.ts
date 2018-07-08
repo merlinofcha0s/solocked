@@ -1,28 +1,28 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {Observable} from 'rxjs/Observable';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { throwError } from 'rxjs';
 
-import {NinjaccountTestModule} from '../../../test.module';
-import {AccountService, Principal} from '../../../../../../main/webapp/app/shared';
-import {SettingsComponent} from '../../../../../../main/webapp/app/account/settings/settings.component';
+import { NinjaccountTestModule } from '../../../test.module';
+import { AccountService, Principal } from 'app/core';
+import { SettingsComponent } from 'app/account/settings/settings.component';
 
 describe('Component Tests', () => {
-
-    describe('WaiterComponent', () => {
-
+    describe('SettingsComponent', () => {
         let comp: SettingsComponent;
         let fixture: ComponentFixture<SettingsComponent>;
         let mockAuth: any;
         let mockPrincipal: any;
 
-        beforeEach(async(() => {
-            TestBed.configureTestingModule({
-                imports: [NinjaccountTestModule],
-                declarations: [SettingsComponent],
-                providers: []
+        beforeEach(
+            async(() => {
+                TestBed.configureTestingModule({
+                    imports: [NinjaccountTestModule],
+                    declarations: [SettingsComponent],
+                    providers: []
+                })
+                    .overrideTemplate(SettingsComponent, '')
+                    .compileComponents();
             })
-                .overrideTemplate(SettingsComponent, '')
-                .compileComponents();
-        }));
+        );
 
         beforeEach(() => {
             fixture = TestBed.createComponent(SettingsComponent);
@@ -72,7 +72,7 @@ describe('Component Tests', () => {
 
         it('should notify of error upon failed save', () => {
             // GIVEN
-            mockAuth.saveSpy.and.returnValue(Observable.throw('ERROR'));
+            mockAuth.saveSpy.and.returnValue(throwError('ERROR'));
 
             // WHEN
             comp.save();

@@ -1,8 +1,16 @@
-<div class="row justify-content-center ">
-        <div *ngIf="authenticationError" id="errorMessage" class="card-warning text-white" jhiTranslate="login.messages.error.authentication">
-            <strong>Failed to sign in!</strong> <span>Please check your credentials and try again.</span>
+<div class="modal-header">
+    <h4 class="modal-title" jhiTranslate="login.title">Sign in</h4>
+    <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="activeModal.dismiss('closed')"><span aria-hidden="true">x</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="alert alert-danger" *ngIf="authenticationError" jhiTranslate="login.messages.error.authentication">
+                <strong>Failed to sign in!</strong> Please check your credentials and try again.
+            </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
             <form class="form" role="form" (ngSubmit)="login()">
                 <mat-form-field class="loginInput">
                     <input type="text" matInput name="username" id="username"
@@ -39,11 +47,4 @@
                 <a href="https://status.solocked.com" mat-button class="understand" target="_blank">{{'home.status' | translate}}</a>
             </div>
         </div>
-        <!--    <div class="col-md-6">
-            <br/>
-            <jhi-social provider="google"></jhi-social>
-            <jhi-social provider="facebook"></jhi-social>
-            <jhi-social provider="twitter"></jhi-social>
-            <!-- jhipster-needle-add-social-button -->
-        <!-- </div> -->
 </div>

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 
 /**
- * Spring Data JPA repository for the AccountsDB entity.
+ * Spring Data  repository for the AccountsDB entity.
  */
 @SuppressWarnings("unused")
 @Repository

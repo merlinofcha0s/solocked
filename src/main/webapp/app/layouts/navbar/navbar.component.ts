@@ -1,20 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {Event, NavigationEnd, Router} from '@angular/router';
-import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {JhiLanguageService} from 'ng-jhipster';
+import { Component, OnInit } from '@angular/core';
+import { Event, NavigationEnd, Router } from '@angular/router';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { JhiLanguageService } from 'ng-jhipster';
 
-import {ProfileService} from '../profiles/profile.service';
-import {JhiLanguageHelper, LoginModalService, Principal} from '../../shared';
-import {LoginService} from './../../shared/login/login.service';
-
-import {VERSION} from '../../app.constants';
+import { VERSION } from 'app/app.constants';
+import { JhiLanguageHelper, LoginModalService, LoginService, Principal } from 'app/core';
+import { ProfileService } from '../profiles/profile.service';
 
 @Component({
     selector: 'jhi-navbar',
     templateUrl: './navbar.component.html',
-    styleUrls: [
-        'navbar.scss'
-    ]
+    styleUrls: ['navbar.scss']
 })
 export class NavbarComponent implements OnInit {
     inProduction: boolean;
@@ -25,24 +21,26 @@ export class NavbarComponent implements OnInit {
     version: string;
     defaultColor: boolean;
 
-    constructor(private loginService: LoginService,
-                private languageService: JhiLanguageService,
-                private languageHelper: JhiLanguageHelper,
-                private principal: Principal,
-                private loginModalService: LoginModalService,
-                private profileService: ProfileService,
-                private router: Router) {
+    constructor(
+        private loginService: LoginService,
+        private languageService: JhiLanguageService,
+        private languageHelper: JhiLanguageHelper,
+        private principal: Principal,
+        private loginModalService: LoginModalService,
+        private profileService: ProfileService,
+        private router: Router
+    ) {
         this.version = VERSION ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
         this.initListenerRouterEvent();
     }
 
     ngOnInit() {
-        this.languageHelper.getAll().then((languages) => {
+        this.languageHelper.getAll().then(languages => {
             this.languages = languages;
         });
 
-        this.profileService.getProfileInfo().then((profileInfo) => {
+        this.profileService.getProfileInfo().then(profileInfo => {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
         });

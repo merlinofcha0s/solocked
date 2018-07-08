@@ -1,24 +1,17 @@
-import {DatePipe} from '@angular/common';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ElementRef, NgModule, Renderer} from '@angular/core';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {
-    JhiAlertService,
-    JhiDataUtils,
-    JhiDateUtils,
-    JhiEventManager,
-    JhiLanguageService,
-    JhiParseLinks
-} from 'ng-jhipster';
+import { DatePipe } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ElementRef, NgModule, Renderer } from '@angular/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { JhiAlertService, JhiDataUtils, JhiDateUtils, JhiEventManager, JhiLanguageService, JhiParseLinks } from 'ng-jhipster';
 
-import {MockLanguageHelper, MockLanguageService} from './helpers/mock-language.service';
-import {AccountService, JhiLanguageHelper, LoginModalService, Principal} from '../../../main/webapp/app/shared';
-import {MockPrincipal} from './helpers/mock-principal.service';
-import {MockAccountService} from './helpers/mock-account.service';
-import {MockActivatedRoute, MockRouter} from './helpers/mock-route.service';
-import {MockActiveModal} from './helpers/mock-active-modal.service';
-import {MockEventManager} from './helpers/mock-event-manager.service';
+import { MockLanguageHelper, MockLanguageService } from './helpers/mock-language.service';
+import { AccountService, JhiLanguageHelper, LoginModalService, Principal } from 'app/core';
+import { MockPrincipal } from './helpers/mock-principal.service';
+import { MockAccountService } from './helpers/mock-account.service';
+import { MockActivatedRoute, MockRouter } from './helpers/mock-route.service';
+import { MockActiveModal } from './helpers/mock-active-modal.service';
+import { MockEventManager } from './helpers/mock-event-manager.service';
 
 @NgModule({
     providers: [
@@ -36,7 +29,7 @@ import {MockEventManager} from './helpers/mock-event-manager.service';
         },
         {
             provide: JhiEventManager,
-            useClass:  MockEventManager
+            useClass: MockEventManager
         },
         {
             provide: NgbActiveModal,
@@ -44,7 +37,7 @@ import {MockEventManager} from './helpers/mock-event-manager.service';
         },
         {
             provide: ActivatedRoute,
-            useValue: new MockActivatedRoute({id: 123})
+            useValue: new MockActivatedRoute({ id: 123 })
         },
         {
             provide: Router,
@@ -77,7 +70,7 @@ import {MockEventManager} from './helpers/mock-event-manager.service';
         {
             provide: NgbModal,
             useValue: null
-        },
+        }
     ],
     imports: [HttpClientTestingModule]
 })

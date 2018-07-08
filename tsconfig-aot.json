@@ -17,10 +17,17 @@
         ],
         "typeRoots": [
             "node_modules/@types"
-        ]
+        ],
+        "baseUrl": "./",
+        "paths": {
+            "app/*": ["src/main/webapp/app/*"]
+        },
+        "importHelpers": true
     },
     "angularCompilerOptions": {
         "genDir": "target/aot",
-        "skipMetadataEmit" : true
+        "skipMetadataEmit" : true,
+        "fullTemplateTypeCheck": true,
+        "preserveWhitespaces": true
     }
 }

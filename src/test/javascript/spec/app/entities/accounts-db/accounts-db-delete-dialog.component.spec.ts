@@ -1,15 +1,14 @@
 /* tslint:disable max-line-length */
-import {async, ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {Observable} from 'rxjs/Observable';
-import {JhiEventManager} from 'ng-jhipster';
+import { ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { of } from 'rxjs';
+import { JhiEventManager } from 'ng-jhipster';
 
-import {NinjaccountTestModule} from '../../../test.module';
-import {AccountsDBDeleteDialogComponent} from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db-delete-dialog.component';
-import {AccountsDBService} from '../../../../../../main/webapp/app/entities/accounts-db/accounts-db.service';
+import { NinjaccountTestModule } from '../../../test.module';
+import { AccountsDBDeleteDialogComponent } from 'app/entities/accounts-db/accounts-db-delete-dialog.component';
+import { AccountsDBService } from 'app/entities/accounts-db/accounts-db.service';
 
 describe('Component Tests', () => {
-
     describe('AccountsDB Management Delete Component', () => {
         let comp: AccountsDBDeleteDialogComponent;
         let fixture: ComponentFixture<AccountsDBDeleteDialogComponent>;
@@ -17,19 +16,13 @@ describe('Component Tests', () => {
         let mockEventManager: any;
         let mockActiveModal: any;
 
-        beforeEach(async(() => {
+        beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [NinjaccountTestModule],
-                declarations: [AccountsDBDeleteDialogComponent],
-                providers: [
-                    AccountsDBService
-                ]
+                declarations: [AccountsDBDeleteDialogComponent]
             })
-            .overrideTemplate(AccountsDBDeleteDialogComponent, '')
-            .compileComponents();
-        }));
-
-        beforeEach(() => {
+                .overrideTemplate(AccountsDBDeleteDialogComponent, '')
+                .compileComponents();
             fixture = TestBed.createComponent(AccountsDBDeleteDialogComponent);
             comp = fixture.componentInstance;
             service = fixture.debugElement.injector.get(AccountsDBService);
@@ -38,11 +31,13 @@ describe('Component Tests', () => {
         });
 
         describe('confirmDelete', () => {
-            it('Should call delete service on confirmDelete',
-                inject([],
+            it(
+                'Should call delete service on confirmDelete',
+                inject(
+                    [],
                     fakeAsync(() => {
                         // GIVEN
-                        spyOn(service, 'delete').and.returnValue(Observable.of({}));
+                        spyOn(service, 'delete').and.returnValue(of({}));
 
                         // WHEN
                         comp.confirmDelete(123);
@@ -57,5 +52,4 @@ describe('Component Tests', () => {
             );
         });
     });
-
 });

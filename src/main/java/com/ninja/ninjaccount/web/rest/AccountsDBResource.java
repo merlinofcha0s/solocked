@@ -90,7 +90,7 @@ public class AccountsDBResource {
     public ResponseEntity<AccountsDBDTO> updateAccountsDB(@Valid @RequestBody AccountsDBDTO accountsDBDTO) throws URISyntaxException {
         log.debug("REST request to update AccountsDB : {}", accountsDBDTO);
         if (accountsDBDTO.getId() == null) {
-            return ResponseEntity.notFound().build();
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         AccountsDBDTO result = accountsDBService.checkSumAndSave(accountsDBDTO);
         return ResponseEntity.ok()
@@ -120,8 +120,8 @@ public class AccountsDBResource {
     @Timed
     public ResponseEntity<AccountsDBDTO> getAccountsDB(@PathVariable Long id) {
         log.debug("REST request to get AccountsDB : {}", id);
-        AccountsDBDTO accountsDBDTO = accountsDBService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(accountsDBDTO));
+        Optional<AccountsDBDTO> accountsDBDTO = accountsDBService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(accountsDBDTO);
     }
 
     /**

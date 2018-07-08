@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {Principal} from '../../shared';
-import {PasswordService} from './password.service';
-import {LoginService} from '../../shared/login/login.service';
-import {Router} from '@angular/router';
+import { LoginService, Principal } from 'app/core';
+import { Router } from '@angular/router';
+import { PasswordService } from 'app/account';
 
 @Component({
     selector: 'jhi-password',
@@ -15,7 +14,8 @@ export class PasswordComponent implements OnInit {
     error: string;
     success: string;
     account: any;
-    password: string;
+    currentPassword: string;
+    newPassword: string;
     confirmPassword: string;
     loading: boolean;
 
@@ -31,29 +31,32 @@ export class PasswordComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.principal.identity().then((account) => {
+        this.principal.identity().then(account => {
             this.account = account;
         });
     }
 
     changePassword() {
-        if (this.password !== this.confirmPassword) {
+        if (this.newPassword !== this.confirmPassword) {
             this.error = null;
             this.success = null;
             this.doNotMatch = 'ERROR';
         } else {
             this.doNotMatch = null;
             this.loading = true;
-            this.passwordService.save(this.password).subscribe(() => {
-                this.error = null;
-                this.success = 'OK';
-                this.loading = false;
-                this.loginService.logout();
-                this.router.navigate(['']);
-            }, () => {
-                this.success = null;
-                this.error = 'ERROR';
-            });
+            this.passwordService.save(this.newPassword).subscribe(
+                () => {
+                    this.error = null;
+                    this.success = 'OK';
+                    this.loading = false;
+                    this.loginService.logout();
+                    this.router.navigate(['']);
+                },
+                () => {
+                    this.success = null;
+                    this.error = 'ERROR';
+                }
+            );
         }
     }
 }

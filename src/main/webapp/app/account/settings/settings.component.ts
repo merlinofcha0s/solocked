@@ -1,18 +1,19 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {JhiLanguageService} from 'ng-jhipster';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { JhiLanguageService } from 'ng-jhipster';
 
-import {AccountService, JhiLanguageHelper, Principal} from '../../shared';
-import {MatDialog, MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
-import {TranslateService} from '@ngx-translate/core';
-import {SnackComponent} from '../../shared/snack/snack.component';
-import {AccountsDBService} from '../../entities/accounts-db/accounts-db.service';
-import {Subscription} from 'rxjs/Subscription';
-import {ExportAllAccountsComponent} from './export-all-accounts/export-all-accounts.component';
-import {DeleteAllAccountsComponent} from './delete-all-accounts/delete-all-accounts.component';
-import {SnackUtilService} from '../../shared/snack/snack-util.service';
-import {AccountsService} from '../../shared/account/accounts.service';
-import {ResetAllAccountsComponent} from './reset-all-accounts/reset-all-accounts.component';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import { MatDialog, MatDialogRef, MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
+
+import { Subscription } from 'rxjs/Subscription';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ResetAllAccountsComponent } from 'app/account/settings/reset-all-accounts/reset-all-accounts.component';
+import { AccountService, JhiLanguageHelper, Principal } from 'app/core';
+import { AccountsDBService } from 'app/entities/accounts-db';
+import { AccountsService } from 'app/shared/account/accounts.service';
+import { SnackUtilService } from 'app/shared/snack/snack-util.service';
+import { SnackComponent } from 'app/shared/snack/snack.component';
+import { ExportAllAccountsComponent } from 'app/account/settings/export-all-accounts/export-all-accounts.component';
+import { DeleteAllAccountsComponent } from 'app/account/settings/delete-all-accounts/delete-all-accounts.component';
 
 @Component({
     selector: 'jhi-settings',
@@ -20,7 +21,6 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
     styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit, OnDestroy {
-
     error: string;
     success: string;
     settingsAccount: any;
@@ -41,24 +41,26 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     actualAndMaxNumber$: BehaviorSubject<any>;
 
-    constructor(private account: AccountService,
-                private principal: Principal,
-                private languageService: JhiLanguageService,
-                private languageHelper: JhiLanguageHelper,
-                private snackBar: MatSnackBar,
-                private translateService: TranslateService,
-                private accountDbService: AccountsDBService,
-                public dialog: MatDialog,
-                private accountsService: AccountsService,
-                private snackUtil: SnackUtilService) {
+    constructor(
+        private account: AccountService,
+        private principal: Principal,
+        private languageService: JhiLanguageService,
+        private languageHelper: JhiLanguageHelper,
+        private snackBar: MatSnackBar,
+        private translateService: TranslateService,
+        private accountDbService: AccountsDBService,
+        public dialog: MatDialog,
+        private accountsService: AccountsService,
+        private snackUtil: SnackUtilService
+    ) {
         this.actualAndMaxNumber$ = this.accountDbService.actualAndMaxNumber$;
     }
 
     ngOnInit() {
-        this.principal.identity().then((account) => {
+        this.principal.identity().then(account => {
             this.settingsAccount = this.copyAccount(account);
         });
-        this.languageHelper.getAll().then((languages) => {
+        this.languageHelper.getAll().then(languages => {
             this.languages = languages;
         });
         this.initActualAndMaxAccount();
@@ -70,43 +72,45 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     save() {
         this.loading = true;
-        this.account.save(this.settingsAccount).subscribe(() => {
-            this.error = null;
-            this.loading = false;
-            this.success = 'OK';
-            this.principal.identity(true).then((account) => {
-                this.settingsAccount = this.copyAccount(account);
-            });
-            this.languageService.getCurrent().then((current) => {
-                if (this.settingsAccount.langKey !== current) {
-                    this.languageService.changeLanguage(this.settingsAccount.langKey);
-                }
-            });
+        this.account.save(this.settingsAccount).subscribe(
+            () => {
+                this.error = null;
+                this.loading = false;
+                this.success = 'OK';
+                this.principal.identity(true).then(account => {
+                    this.settingsAccount = this.copyAccount(account);
+                });
+                this.languageService.getCurrent().then(current => {
+                    if (this.settingsAccount.langKey !== current) {
+                        this.languageService.changeLanguage(this.settingsAccount.langKey);
+                    }
+                });
 
-            // Config and show toast message
-            const config = new MatSnackBarConfig();
-            config.verticalPosition = 'top';
-            config.duration = 3000;
+                // Config and show toast message
+                const config = new MatSnackBarConfig();
+                config.verticalPosition = 'top';
+                config.duration = 3000;
 
-            const message = this.translateService.instant('settings.messages.success');
-            config.data = {icon: 'fa-check-circle', text: message};
-            this.snackBar.openFromComponent(SnackComponent, config);
-
-        }, () => {
-            this.success = null;
-            this.error = 'ERROR';
-            this.loading = false;
-        });
+                const message = this.translateService.instant('settings.messages.success');
+                config.data = { icon: 'fa-check-circle', text: message };
+                this.snackBar.openFromComponent(SnackComponent, config);
+            },
+            () => {
+                this.success = null;
+                this.error = 'ERROR';
+                this.loading = false;
+            }
+        );
     }
 
     initActualAndMaxAccount() {
         if (this.actualMaxSubscription) {
             this.actualMaxSubscription.unsubscribe();
         }
-        this.actualMaxSubscription = this.actualAndMaxNumber$.subscribe((actualAndMax) => {
+        this.actualMaxSubscription = this.actualAndMaxNumber$.subscribe(actualAndMax => {
             this.actual = actualAndMax.first;
             this.max = actualAndMax.second;
-            this.actualPercentage = (this.actual / this.max) * 100;
+            this.actualPercentage = this.actual / this.max * 100;
 
             if (this.actual === this.max) {
                 this.colorActualAccount = 'warn';

@@ -1,14 +1,12 @@
-import {Component, OnInit, Renderer2} from '@angular/core';
-import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
+import { Component, OnInit, Renderer2 } from '@angular/core';
+import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 
-import {JhiLanguageHelper} from '../../shared';
-import {Principal} from '../../shared';
-import {AutolockService} from '../navbar/autologout/autolock.service';
-import {ProfileService} from '../profiles/profile.service';
-import fontawesome from '@fortawesome/fontawesome';
-import {WarnBrowserComponent} from './warn-browser/warn-browser.component';
-import {MatDialog} from '@angular/material';
-import {AccountsService} from '../../shared/account/accounts.service';
+import { JhiLanguageHelper, Principal } from 'app/core';
+import { AutolockService } from 'app/layouts/navbar/autologout/autolock.service';
+import { ProfileService } from 'app/layouts';
+import { AccountsService } from 'app/shared/account/accounts.service';
+import { MatDialog } from '@angular/material';
+import { WarnBrowserComponent } from 'app/layouts/main/warn-browser/warn-browser.component';
 
 @Component({
     selector: 'jhi-main',
@@ -16,37 +14,37 @@ import {AccountsService} from '../../shared/account/accounts.service';
     styleUrls: ['./main.component.scss']
 })
 export class JhiMainComponent implements OnInit {
-
     isLoginPage: boolean;
     schema = {
         '@context': 'http://schema.org',
         '@type': 'Application',
-        'name': 'SoLocked',
-        'url': 'https://solocked.com',
-        'description': 'All your accounts in one place.',
+        name: 'SoLocked',
+        url: 'https://solocked.com',
+        description: 'All your accounts in one place.'
     };
 
     inProduction: boolean;
 
-    constructor(private jhiLanguageHelper: JhiLanguageHelper,
-                private router: Router,
-                private principal: Principal,
-                private autolockService: AutolockService,
-                private profileService: ProfileService,
-                private dialog: MatDialog,
-                private renderer: Renderer2,
-                private accountsService: AccountsService) {
-    }
+    constructor(
+        private jhiLanguageHelper: JhiLanguageHelper,
+        private router: Router,
+        private principal: Principal,
+        private autolockService: AutolockService,
+        private profileService: ProfileService,
+        private dialog: MatDialog,
+        private renderer: Renderer2,
+        private accountsService: AccountsService
+    ) {}
 
     ngOnInit() {
         this.initEventRouter();
         this.initTrackingAndChat();
-        this.initFontAwesome5();
+        //this.initFontAwesome5();
         this.detectEdge();
     }
 
     initEventRouter() {
-        this.router.events.subscribe((event) => {
+        this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
                 this.jhiLanguageHelper.updateTitle(this.getPageTitle(this.router.routerState.snapshot.root));
                 this.isLoginPage = event.url === '/';
@@ -57,7 +55,7 @@ export class JhiMainComponent implements OnInit {
     }
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
-        let title: string = (routeSnapshot.data && routeSnapshot.data['pageTitle']) ? routeSnapshot.data['pageTitle'] : 'ninjaccountApp';
+        let title: string = routeSnapshot.data && routeSnapshot.data['pageTitle'] ? routeSnapshot.data['pageTitle'] : 'ninjaccountApp';
         if (routeSnapshot.firstChild) {
             title = this.getPageTitle(routeSnapshot.firstChild) || title;
         }
@@ -72,45 +70,41 @@ export class JhiMainComponent implements OnInit {
 
     /* tslint:disable */
     initTrackingAndChat() {
-        this.profileService.getProfileInfo().then((profileInfo) => {
+        this.profileService.getProfileInfo().then(profileInfo => {
             this.inProduction = profileInfo.inProduction;
             const inTest = profileInfo.inTest;
             if (inTest) {
                 // document.write('<script type="text/javascript">// ProductionAnalyticsCodeHere</script>');
             } else if (!inTest && this.inProduction) {
-                const matomoScript = document.createElement("script");
-                matomoScript.type = "text/javascript";
-                matomoScript.innerHTML = "var _paq = _paq || [];\n" +
-                    "  /* tracker methods like \"setCustomDimension\" should be called before \"trackPageView\" */\n" +
+                const matomoScript = document.createElement('script');
+                matomoScript.type = 'text/javascript';
+                matomoScript.innerHTML =
+                    'var _paq = _paq || [];\n' +
+                    '  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */\n' +
                     "  _paq.push(['trackPageView']);\n" +
                     "  _paq.push(['enableLinkTracking']);\n" +
-                    "  (function() {\n" +
-                    "    let u=\"//piwik.solocked.com/\";\n" +
+                    '  (function() {\n' +
+                    '    let u="//piwik.solocked.com/";\n' +
                     "    _paq.push(['setTrackerUrl', u+'piwik.php']);\n" +
                     "    _paq.push(['setSiteId', '1']);\n" +
                     "    let d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];\n" +
                     "    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);\n" +
-                    "  })();";
+                    '  })();';
 
                 document.getElementsByTagName('head')[0].appendChild(matomoScript);
-           }
+            }
 
             if (inTest || this.inProduction) {
-                const livezillaScript = document.createElement("script");
-                livezillaScript.type = "text/javascript";
-                livezillaScript.id = "31202250e6742ed22a4e18316a5c66c0"
-                livezillaScript.src = "https://support.solocked.com/script.php?id=31202250e6742ed22a4e18316a5c66c0";
+                const livezillaScript = document.createElement('script');
+                livezillaScript.type = 'text/javascript';
+                livezillaScript.id = '31202250e6742ed22a4e18316a5c66c0';
+                livezillaScript.src = 'https://support.solocked.com/script.php?id=31202250e6742ed22a4e18316a5c66c0';
                 document.getElementsByTagName('head')[0].appendChild(livezillaScript);
             }
         });
     }
 
     /* tslint:enable */
-
-    initFontAwesome5() {
-        const config = fontawesome.config;
-        config.autoReplaceSvg = 'nest';
-    }
 
     detectEdge() {
         // Get IE or Edge browser version

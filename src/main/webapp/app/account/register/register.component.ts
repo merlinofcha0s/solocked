@@ -1,22 +1,17 @@
-import {AfterViewInit, Component, ElementRef, Inject, OnInit, Renderer} from '@angular/core';
-import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {JhiLanguageService} from 'ng-jhipster';
-
-import {Register} from './register.service';
-import {
-    EMAIL_ALREADY_USED_TYPE,
-    LOGIN_ALREADY_USED_TYPE,
-    LoginModalService,
-    PAYPAL_COMMUNICATION_PROBLEM_TYPE
-} from '../../shared';
-import {HttpErrorResponse} from '@angular/common/http';
-import {PlanType} from '../../entities/payment/payment.model';
-import {DOCUMENT} from '@angular/common';
-import {ActivatedRoute} from '@angular/router';
-import {isUndefined} from 'util';
-import {WaiterComponent} from '../../shared/waiter/waiter.component';
-import {MatDialog, MatDialogRef} from '@angular/material';
-import {PaymentService} from '../../entities/payment/payment.service';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, Renderer } from '@angular/core';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { JhiLanguageService } from 'ng-jhipster';
+import { WaiterComponent } from 'app/shared/waiter/waiter.component';
+import { LoginModalService } from 'app/core';
+import { Register } from 'app/account';
+import { ActivatedRoute } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
+import { PaymentService } from 'app/entities/payment';
+import { PlanType } from 'app/shared/model/payment.model';
+import { HttpErrorResponse } from '@angular/common/http';
+import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE, PAYPAL_COMMUNICATION_PROBLEM_TYPE } from 'app/shared';
+import { isUndefined } from 'util';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
     selector: 'jhi-register',
@@ -24,7 +19,6 @@ import {PaymentService} from '../../entities/payment/payment.service';
     styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit, AfterViewInit {
-
     confirmPasswordValue: string;
     doNotMatch: string;
     error: string;
@@ -46,16 +40,17 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     modeFinalizingPayment: boolean;
     finalizingPaymentDialogRef: MatDialogRef<WaiterComponent>;
 
-    constructor(private languageService: JhiLanguageService,
-                private loginModalService: LoginModalService,
-                private registerService: Register,
-                private elementRef: ElementRef,
-                private renderer: Renderer,
-                @Inject(DOCUMENT) private document: any,
-                private route: ActivatedRoute,
-                private dialog: MatDialog,
-                private paymentService: PaymentService) {
-    }
+    constructor(
+        private languageService: JhiLanguageService,
+        private loginModalService: LoginModalService,
+        private registerService: Register,
+        private elementRef: ElementRef,
+        private renderer: Renderer,
+        @Inject(DOCUMENT) private document: any,
+        private route: ActivatedRoute,
+        private dialog: MatDialog,
+        private paymentService: PaymentService
+    ) {}
 
     ngOnInit() {
         this.success = false;
@@ -79,7 +74,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
             this.errorUserExists = null;
             this.errorEmailExists = null;
             this.loading = true;
-            this.languageService.getCurrent().then((key) => {
+            this.languageService.getCurrent().then(key => {
                 this.registerAccount.langKey = key;
                 if (this.registerAccount.planType === PlanType.FREE) {
                     this.saveForFree();
@@ -91,20 +86,28 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     }
 
     saveForFree() {
-        this.registerService.save(this.registerAccount).subscribe((response) => {
-            this.loading = false;
-            this.success = true;
-        }, (response: HttpErrorResponse) => this.processError(response));
+        this.registerService.save(this.registerAccount).subscribe(
+            response => {
+                this.loading = false;
+                this.success = true;
+            },
+            (response: HttpErrorResponse) => this.processError(response)
+        );
     }
 
     saveWithPayment() {
-        this.registerService.save(this.registerAccount)
+        this.registerService
+            .save(this.registerAccount)
             .flatMap(() => {
                 this.loadingLabel = 'register.form.loadingpayment';
                 return this.paymentService.initOneTimePaymentWorkflow(this.registerAccount.planType, this.registerAccount.login);
-            }).subscribe((response) => {
-            this.document.location.href = response.body.returnUrl;
-        }, (response: HttpErrorResponse) => this.processError(response));
+            })
+            .subscribe(
+                response => {
+                    this.document.location.href = response.body.returnUrl;
+                },
+                (response: HttpErrorResponse) => this.processError(response)
+            );
     }
 
     openLogin() {
@@ -158,8 +161,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     }
 
     private completePaymentService(paymentId, payerId) {
-        this.paymentService.completeOneTimePaymentWorkflow(paymentId, payerId)
-            .subscribe((response) => {
+        this.paymentService.completeOneTimePaymentWorkflow(paymentId, payerId).subscribe(
+            response => {
                 const returnPayment = response.body;
 
                 if (returnPayment.status === 'success') {
@@ -168,13 +171,15 @@ export class RegisterComponent implements OnInit, AfterViewInit {
                 } else {
                     this.error = 'Problem when payment occurs';
                 }
-            }, (response: HttpErrorResponse) => this.processError(response));
+            },
+            (response: HttpErrorResponse) => this.processError(response)
+        );
     }
 
     private openWaiterFinalizer() {
         this.finalizingPaymentDialogRef = this.dialog.open(WaiterComponent, {
             disableClose: true,
-            data: {keyMessage: 'register.form.waitingcompletepayment'}
+            data: { keyMessage: 'register.form.waitingcompletepayment' }
         });
     }
 }

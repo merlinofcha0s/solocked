@@ -1,15 +1,14 @@
 /* tslint:disable max-line-length */
-import { ComponentFixture, TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { NinjaccountTestModule } from '../../../test.module';
-import { PaymentDeleteDialogComponent } from '../../../../../../main/webapp/app/entities/payment/payment-delete-dialog.component';
-import { PaymentService } from '../../../../../../main/webapp/app/entities/payment/payment.service';
+import { PaymentDeleteDialogComponent } from 'app/entities/payment/payment-delete-dialog.component';
+import { PaymentService } from 'app/entities/payment/payment.service';
 
 describe('Component Tests', () => {
-
     describe('Payment Management Delete Component', () => {
         let comp: PaymentDeleteDialogComponent;
         let fixture: ComponentFixture<PaymentDeleteDialogComponent>;
@@ -17,19 +16,13 @@ describe('Component Tests', () => {
         let mockEventManager: any;
         let mockActiveModal: any;
 
-        beforeEach(async(() => {
+        beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [NinjaccountTestModule],
-                declarations: [PaymentDeleteDialogComponent],
-                providers: [
-                    PaymentService
-                ]
+                declarations: [PaymentDeleteDialogComponent]
             })
-            .overrideTemplate(PaymentDeleteDialogComponent, '')
-            .compileComponents();
-        }));
-
-        beforeEach(() => {
+                .overrideTemplate(PaymentDeleteDialogComponent, '')
+                .compileComponents();
             fixture = TestBed.createComponent(PaymentDeleteDialogComponent);
             comp = fixture.componentInstance;
             service = fixture.debugElement.injector.get(PaymentService);
@@ -38,11 +31,13 @@ describe('Component Tests', () => {
         });
 
         describe('confirmDelete', () => {
-            it('Should call delete service on confirmDelete',
-                inject([],
+            it(
+                'Should call delete service on confirmDelete',
+                inject(
+                    [],
                     fakeAsync(() => {
                         // GIVEN
-                        spyOn(service, 'delete').and.returnValue(Observable.of({}));
+                        spyOn(service, 'delete').and.returnValue(of({}));
 
                         // WHEN
                         comp.confirmDelete(123);
@@ -57,5 +52,4 @@ describe('Component Tests', () => {
             );
         });
     });
-
 });

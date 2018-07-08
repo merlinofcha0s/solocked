@@ -1,54 +1,40 @@
 /* tslint:disable max-line-length */
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 import { NinjaccountTestModule } from '../../../test.module';
-import { PaymentDetailComponent } from '../../../../../../main/webapp/app/entities/payment/payment-detail.component';
-import { PaymentService } from '../../../../../../main/webapp/app/entities/payment/payment.service';
-import { Payment } from '../../../../../../main/webapp/app/entities/payment/payment.model';
+import { PaymentDetailComponent } from 'app/entities/payment/payment-detail.component';
+import { Payment } from 'app/shared/model/payment.model';
 
 describe('Component Tests', () => {
-
     describe('Payment Management Detail Component', () => {
         let comp: PaymentDetailComponent;
         let fixture: ComponentFixture<PaymentDetailComponent>;
-        let service: PaymentService;
+        const route = ({ data: of({ payment: new Payment(123) }) } as any) as ActivatedRoute;
 
-        beforeEach(async(() => {
+        beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [NinjaccountTestModule],
                 declarations: [PaymentDetailComponent],
-                providers: [
-                    PaymentService
-                ]
+                providers: [{ provide: ActivatedRoute, useValue: route }]
             })
-            .overrideTemplate(PaymentDetailComponent, '')
-            .compileComponents();
-        }));
-
-        beforeEach(() => {
+                .overrideTemplate(PaymentDetailComponent, '')
+                .compileComponents();
             fixture = TestBed.createComponent(PaymentDetailComponent);
             comp = fixture.componentInstance;
-            service = fixture.debugElement.injector.get(PaymentService);
         });
 
         describe('OnInit', () => {
             it('Should call load all on init', () => {
                 // GIVEN
 
-                spyOn(service, 'find').and.returnValue(Observable.of(new HttpResponse({
-                    body: new Payment(123)
-                })));
-
                 // WHEN
                 comp.ngOnInit();
 
                 // THEN
-                expect(service.find).toHaveBeenCalledWith(123);
-                expect(comp.payment).toEqual(jasmine.objectContaining({id: 123}));
+                expect(comp.payment).toEqual(jasmine.objectContaining({ id: 123 }));
             });
         });
     });
-
 });

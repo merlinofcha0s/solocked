@@ -1,22 +1,12 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
-import {RouterModule} from '@angular/router';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
-import {NinjaccountSharedModule} from '../shared';
-
-import {HOME_ROUTE, HomeComponent} from './';
+import { NinjaccountSharedModule } from 'app/shared';
+import { HOME_ROUTE, HomeComponent } from './';
 
 @NgModule({
-    imports: [
-        NinjaccountSharedModule,
-        RouterModule.forChild([ HOME_ROUTE ])
-    ],
-    declarations: [
-        HomeComponent,
-    ],
-    entryComponents: [
-    ],
-    providers: [
-    ],
+    imports: [NinjaccountSharedModule, RouterModule.forChild([HOME_ROUTE])],
+    declarations: [HomeComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class NinjaccountHomeModule {}

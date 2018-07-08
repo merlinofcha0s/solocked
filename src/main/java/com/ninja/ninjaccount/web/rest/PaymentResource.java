@@ -77,7 +77,7 @@ public class PaymentResource {
     public ResponseEntity<PaymentDTO> updatePayment(@Valid @RequestBody PaymentDTO paymentDTO) throws URISyntaxException {
         log.debug("REST request to update Payment : {}", paymentDTO);
         if (paymentDTO.getId() == null) {
-            return createPayment(paymentDTO);
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         PaymentDTO result = paymentService.save(paymentDTO);
         return ResponseEntity.ok()
@@ -107,8 +107,8 @@ public class PaymentResource {
     @Timed
     public ResponseEntity<PaymentDTO> getPayment(@PathVariable Long id) {
         log.debug("REST request to get Payment : {}", id);
-        PaymentDTO paymentDTO = paymentService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(paymentDTO));
+        Optional<PaymentDTO> paymentDTO = paymentService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(paymentDTO);
     }
 
     /**

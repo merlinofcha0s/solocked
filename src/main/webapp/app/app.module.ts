@@ -1,22 +1,19 @@
 import './vendor.ts';
 
-import {Injector, NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {HTTP_INTERCEPTORS} from '@angular/common/http';
-import {LocalStorageService, Ng2Webstorage, SessionStorageService} from 'ngx-webstorage';
-import {JhiEventManager} from 'ng-jhipster';
+import { Injector, NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LocalStorageService, Ng2Webstorage, SessionStorageService } from 'ngx-webstorage';
+import { JhiEventManager } from 'ng-jhipster';
 
-import {AuthInterceptor} from './blocks/interceptor/auth.interceptor';
-import {AuthExpiredInterceptor} from './blocks/interceptor/auth-expired.interceptor';
-import {ErrorHandlerInterceptor} from './blocks/interceptor/errorhandler.interceptor';
-import {NotificationInterceptor} from './blocks/interceptor/notification.interceptor';
-import {NinjaccountSharedModule, UserRouteAccessService} from './shared';
-import {NinjaccountAppRoutingModule} from './app-routing.module';
-import {NinjaccountHomeModule} from './home/home.module';
-import {NinjaccountAdminModule} from './admin/admin.module';
-import {NinjaccountAccountModule} from './account/account.module';
-import {NinjaccountEntityModule} from './entities/entity.module';
-import {PaginationConfig} from './blocks/config/uib-pagination.config';
+import { NinjaccountSharedModule } from 'app/shared';
+import { NinjaccountCoreModule, UserRouteAccessService } from 'app/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NinjaccountAppRoutingModule } from 'app/app-routing.module';
+import { NinjaccountAccountModule } from 'app/account/account.module';
+import { NinjaccountEntityModule } from 'app/entities/entity.module';
+import { NinjaccountConnectedModule } from 'app/connected';
+import { NinjaccountHomeModule } from 'app/home';
 import {
     ActiveMenuDirective,
     ErrorComponent,
@@ -25,16 +22,18 @@ import {
     NavbarComponent,
     PageRibbonComponent,
     ProfileService
-} from './layouts';
-import {NinjaccountConnectedModule} from './connected';
-import {NavbarService} from './layouts/navbar/navbar.service';
-import {AutolockComponent} from './layouts/navbar/autologout/autolock.component';
-import {SafeStateComponent} from './layouts/navbar/safe-state/safe-state.component';
-import {ReactiveFormsModule} from '@angular/forms';
-import {WarnBrowserComponent} from './layouts/main/warn-browser/warn-browser.component';
-import {NgxJsonLdModule} from 'ngx-json-ld';
-import {SearchComponent} from './layouts/navbar/search/search.component';
-import {BreadcrumbComponent} from './layouts/breadcrumb/breadcrumb.component';
+} from 'app/layouts';
+import { AutolockComponent } from 'app/layouts/navbar/autologout/autolock.component';
+import { SearchComponent } from 'app/layouts/navbar/search/search.component';
+import { SafeStateComponent } from 'app/layouts/navbar/safe-state/safe-state.component';
+import { WarnBrowserComponent } from 'app/layouts/main/warn-browser/warn-browser.component';
+import { BreadcrumbComponent } from 'app/layouts/breadcrumb/breadcrumb.component';
+import { PaginationConfig } from 'app/blocks/config/uib-pagination.config';
+import { NavbarService } from 'app/layouts/navbar/navbar.service';
+import { AuthInterceptor } from 'app/blocks/interceptor/auth.interceptor';
+import { AuthExpiredInterceptor } from 'app/blocks/interceptor/auth-expired.interceptor';
+import { ErrorHandlerInterceptor } from 'app/blocks/interceptor/errorhandler.interceptor';
+import { NotificationInterceptor } from 'app/blocks/interceptor/notification.interceptor';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
@@ -43,14 +42,14 @@ import {BreadcrumbComponent} from './layouts/breadcrumb/breadcrumb.component';
         BrowserModule,
         ReactiveFormsModule,
         NinjaccountAppRoutingModule,
-        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
+        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
         NinjaccountSharedModule,
+        NinjaccountCoreModule,
         NinjaccountHomeModule,
-        NinjaccountAdminModule,
         NinjaccountAccountModule,
         NinjaccountEntityModule,
-        NinjaccountConnectedModule,
-        NgxJsonLdModule
+        NinjaccountConnectedModule
+        //NgxJsonLdModule
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [
@@ -75,37 +74,28 @@ import {BreadcrumbComponent} from './layouts/breadcrumb/breadcrumb.component';
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,
             multi: true,
-            deps: [
-                LocalStorageService,
-                SessionStorageService
-            ]
+            deps: [LocalStorageService, SessionStorageService]
         },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthExpiredInterceptor,
             multi: true,
-            deps: [
-                Injector
-            ]
+            deps: [Injector]
         },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: ErrorHandlerInterceptor,
             multi: true,
-            deps: [
-                JhiEventManager
-            ]
+            deps: [JhiEventManager]
         },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: NotificationInterceptor,
             multi: true,
-            deps: [
-                Injector
-            ]
+            deps: [Injector]
         }
     ],
-    entryComponents: [ WarnBrowserComponent ],
-    bootstrap: [ JhiMainComponent ]
+    entryComponents: [WarnBrowserComponent],
+    bootstrap: [JhiMainComponent]
 })
 export class NinjaccountAppModule {}
