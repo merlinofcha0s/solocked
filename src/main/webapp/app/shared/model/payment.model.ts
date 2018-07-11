@@ -1,6 +1,6 @@
 import { Moment } from 'moment';
 
-export const enum PlanType {
+export enum PlanType {
     FREE = 'FREE',
     PREMIUMYEAR = ' PREMIUMYEAR',
     PREMIUMMONTH = ' PREMIUMMONTH',

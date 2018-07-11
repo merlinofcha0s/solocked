@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     constructor(
         private languageService: JhiLanguageService,
         private loginModalService: LoginModalService,
-        private registerService: Register,
+        //private registerService: Register,
         private elementRef: ElementRef,
         private renderer: Renderer,
         @Inject(DOCUMENT) private document: any,

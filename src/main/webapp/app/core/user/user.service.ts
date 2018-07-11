@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
-import { IUser } from './user.model';
+import { IUser } from 'app/core';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -35,5 +35,11 @@ export class UserService {
 
     authorities(): Observable<string[]> {
         return this.http.get<string[]>(SERVER_API_URL + 'api/users/authorities');
+    }
+
+    destroyEntireUser(): Observable<boolean> {
+        return this.http
+            .delete(`${this.resourceUrl}/destroy-user-account`, { observe: 'response' })
+            .map((res: HttpResponse<boolean>) => res.body);
     }
 }

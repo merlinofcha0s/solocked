@@ -15,7 +15,7 @@ export class ChoosePlanComponent implements OnInit, OnChanges {
     premiumY: boolean;
     premiumM: boolean;
 
-    PlanType: typeof PlanType = PlanType;
+    plantype: typeof PlanType = PlanType;
 
     constructor() {}
 

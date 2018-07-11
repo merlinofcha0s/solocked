@@ -1,19 +1,18 @@
-import { AccountsTechService } from './accounts-tech.service';
 import { Observable } from 'rxjs/Rx';
-import { CryptoUtilsService } from '../crypto/crypto-utils.service';
 import { Account } from 'app/shared/account/account.model';
 import { Accounts } from 'app/shared/account/accounts.model';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Version } from './version.enum';
-import { OperationAccountType } from './operation-account-type.enum';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
-import { SnackComponent } from '../snack/snack.component';
 import { TranslateService } from '@ngx-translate/core';
 import { AccountsDB } from 'app/shared/model/accounts-db.model';
 import { AccountsDBService } from 'app/entities/accounts-db';
+import { CryptoService } from 'app/shared/crypto/crypto.service';
+import { Version } from 'app/shared/account/version.enum';
+import { OperationAccountType } from 'app/shared/account/operation-account-type.enum';
+import { SnackComponent } from 'app/shared/snack/snack.component';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AccountsService {
     accounts$: BehaviorSubject<Array<Account>>;
     account$: BehaviorSubject<Account>;
@@ -25,11 +24,10 @@ export class AccountsService {
     hasToSort: boolean;
 
     constructor(
-        private cryptoUtils: CryptoUtilsService,
-        private accountTech: AccountsTechService,
         private translateService: TranslateService,
         private snackBar: MatSnackBar,
-        private accountDbService: AccountsDBService
+        //private accountDbService: AccountsDBService,
+        private crypto: CryptoService
     ) {
         this._dataStore = { accounts: new Accounts() };
 
@@ -39,7 +37,7 @@ export class AccountsService {
 
     getAccount(id: number) {
         if (this._dataStore.accounts.accounts.length === 0) {
-            this.accountTech.synchroDB().subscribe(accountsFromDB => {
+            this.accountDbService.synchroDB().subscribe(accountsFromDB => {
                 this._dataStore.accounts = accountsFromDB;
                 const accounts = this._dataStore.accounts.accounts.filter(account => account.id === id);
                 this.account$.next(accounts[0]);
@@ -52,7 +50,7 @@ export class AccountsService {
 
     getAccountsList() {
         if (this._dataStore.accounts.accounts.length === 0) {
-            this.accountTech.synchroDB().subscribe(accountsFromDB => {
+            this.accountDbService.synchroDB().subscribe(accountsFromDB => {
                 this._dataStore.accounts = accountsFromDB;
                 this.sortAccountByName();
                 this.accounts$.next(this._dataStore.accounts.accounts);
@@ -116,8 +114,8 @@ export class AccountsService {
     }
 
     saveNewAccount(account: Account | Array<Account>): Observable<AccountsDB> {
-        return this.accountTech.synchroDB().flatMap((accounts: Accounts) => {
-            const initVector = this.cryptoUtils.getRandomNumber();
+        return this.accountDbService.synchroDB().flatMap((accounts: Accounts) => {
+            const initVector = this.crypto.getRandomNumber();
             if (account instanceof Account) {
                 // Sequence management
                 account.id = this.seqNextVal(this._dataStore.accounts);
@@ -133,13 +131,13 @@ export class AccountsService {
             }
             this.saveOnBrowser(accounts);
             accounts.operationAccountType = OperationAccountType.CREATE;
-            return this.accountTech.saveEncryptedDB(accounts, initVector);
+            return this.accountDbService.saveEncryptedDB(accounts, initVector);
         });
     }
 
     updateAccount(accountUpdated: Account) {
-        const initVector = this.cryptoUtils.getRandomNumber();
-        this.accountTech
+        const initVector = this.crypto.getRandomNumber();
+        this.accountDbService
             .synchroDB()
             .flatMap((accounts: Accounts) => {
                 for (let _i = 0; _i < accounts.accounts.length; _i++) {
@@ -151,7 +149,7 @@ export class AccountsService {
                 }
                 this.saveOnBrowser(accounts);
                 accounts.operationAccountType = OperationAccountType.UPDATE;
-                return this.accountTech.saveEncryptedDB(accounts, initVector);
+                return this.accountDbService.saveEncryptedDB(accounts, initVector);
             })
             .subscribe(
                 (accountDB: AccountsDB) => {
@@ -170,14 +168,14 @@ export class AccountsService {
     }
 
     deleteAccount(accountId: number) {
-        const initVector = this.cryptoUtils.getRandomNumber();
-        this.accountTech
+        const initVector = this.crypto.getRandomNumber();
+        this.accountDbService
             .synchroDB()
             .flatMap((accounts: Accounts) => {
                 accounts.accounts = accounts.accounts.filter(account => account.id !== accountId);
                 this.deleteLocalAccount(accountId);
                 accounts.operationAccountType = OperationAccountType.DELETE;
-                return this.accountTech.saveEncryptedDB(accounts, initVector);
+                return this.accountDbService.saveEncryptedDB(accounts, initVector);
             })
             .subscribe(
                 (accountDB: AccountsDB) => {
@@ -221,18 +219,18 @@ export class AccountsService {
     }
 
     resetEntireDB() {
-        const initVector = this.cryptoUtils.getRandomNumber();
-        this.accountTech
+        const initVector = this.crypto.getRandomNumber();
+        this.accountDbService
             .synchroDB()
             .flatMap((accounts: Accounts) => {
                 accounts.accounts.splice(0, accounts.accounts.length);
                 accounts.operationAccountType = OperationAccountType.DELETE_ALL;
                 this._dataStore.accounts = accounts;
-                return this.accountTech.saveEncryptedDB(accounts, initVector);
+                return this.accountDbService.saveEncryptedDB(accounts, initVector);
             })
             .subscribe(
                 (accountDB: AccountsDB) => {
-                    this.accountDbService.getActualMaxAccount();
+                    //this.accountDbService.getActualMaxAccount();
                     this.saveOnBrowser(this._dataStore.accounts);
                 },
                 error => {

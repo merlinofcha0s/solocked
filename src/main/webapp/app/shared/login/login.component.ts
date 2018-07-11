@@ -1,10 +1,11 @@
 import { Component, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { JhiEventManager } from 'ng-jhipster';
-import { CryptoUtilsService } from '../crypto/crypto-utils.service';
 import { AccountsService } from '../account/accounts.service';
 import { isUndefined } from 'util';
 import { LoginService, Principal } from 'app/core';
+import { CryptoService } from 'app/shared/crypto/crypto.service';
+import { Accounts } from 'app/shared/account/accounts.model';
 
 @Component({
     selector: 'jhi-login-modal',
@@ -24,10 +25,8 @@ export class JhiLoginModalComponent {
         private eventManager: JhiEventManager,
         private loginService: LoginService,
         private router: Router,
-        private cryptoUtils: CryptoUtilsService,
         private accountService: AccountsService,
-        private principal: Principal,
-        private renderer: Renderer2
+        private principal: Principal
     ) {
         this.credentials = {};
     }
@@ -48,8 +47,7 @@ export class JhiLoginModalComponent {
             this.loginJHI();
         } else {
             this.loginService.prelogin(this.username, this.password).subscribe(
-                (decryptedDB: ArrayBuffer) => {
-                    const accounts = this.cryptoUtils.arrayBufferToAccounts(decryptedDB);
+                (accounts: Accounts) => {
                     if (accounts === null) {
                         this.loading = false;
                         this.authenticationError = true;

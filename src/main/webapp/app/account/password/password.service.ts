@@ -2,19 +2,17 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 
-import { AccountsTechService } from 'app/shared/account/accounts-tech.service';
 import { CryptoService } from 'app/shared/crypto/crypto.service';
-import { CryptoUtilsService } from 'app/shared/crypto/crypto-utils.service';
 import { Principal } from 'app/core';
 import { Accounts } from 'app/shared/account/accounts.model';
 import { OperationAccountType } from 'app/shared/account/operation-account-type.enum';
+import { AccountsDBService } from 'app/entities/accounts-db/accounts-db.service';
 
 @Injectable({ providedIn: 'root' })
 export class PasswordService {
     constructor(
-        private accountTech: AccountsTechService,
+        private accountsService: AccountsDBService,
         private crypto: CryptoService,
-        private cryptoUtils: CryptoUtilsService,
         private http: HttpClient,
         private principal: Principal
     ) {}
@@ -24,7 +22,7 @@ export class PasswordService {
         if (this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
             return this.http.post('api/account/change-password', newPassword);
         } else {
-            return this.accountTech
+            return this.accountsService
                 .synchroDB()
                 .flatMap((accounts: Accounts) => {
                     accountsSynchro = accounts;
@@ -33,8 +31,8 @@ export class PasswordService {
                 })
                 .flatMap((newCryptoKey: CryptoKey) => this.crypto.putCryptoKeyInStorage(newCryptoKey))
                 .flatMap((success: boolean) => {
-                    const initVector = this.cryptoUtils.getRandomNumber();
-                    return this.accountTech.saveEncryptedDB(accountsSynchro, initVector);
+                    const initVector = this.crypto.getRandomNumber();
+                    return this.accountsService.saveEncryptedDB(accountsSynchro, initVector);
                 });
         }
     }

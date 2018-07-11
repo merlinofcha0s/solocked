@@ -15,8 +15,8 @@ export class AuthServerProvider {
         private http: HttpClient,
         private $localStorage: LocalStorageService,
         private $sessionStorage: SessionStorageService,
-        private $accountService: AccountsService,
-        private $paymentService: PaymentService
+        private $paymentService: PaymentService,
+        private $accountService: AccountsService
     ) {}
 
     getToken() {
@@ -64,7 +64,7 @@ export class AuthServerProvider {
             this.$sessionStorage.clear('authenticationToken');
             this.$sessionStorage.clear(KEY);
             this.$sessionStorage.clear(LAST_SEARCH);
-            this.$accountService.clean();
+            //this.$accountService.clean();
             this.$paymentService.clean();
             observer.complete();
         });

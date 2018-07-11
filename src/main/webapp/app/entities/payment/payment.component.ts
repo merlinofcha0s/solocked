@@ -5,7 +5,7 @@ import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 
 import { IPayment } from 'app/shared/model/payment.model';
 import { Principal } from 'app/core';
-import { PaymentService } from './payment.service';
+import { PaymentService } from 'app/entities/payment/payment.service';
 
 @Component({
     selector: 'jhi-payment',
@@ -19,9 +19,9 @@ export class PaymentComponent implements OnInit, OnDestroy {
     constructor(
         private paymentService: PaymentService,
         private jhiAlertService: JhiAlertService,
-        private eventManager: JhiEventManager,
-        private principal: Principal
-    ) {}
+        private eventManager: JhiEventManager
+    ) //private principal: Principal
+    {}
 
     loadAll() {
         this.paymentService.query().subscribe(

@@ -1,4 +1,3 @@
-import { CryptoUtilsService } from './crypto/crypto-utils.service';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { AccountsService } from './account/accounts.service';
@@ -36,7 +35,6 @@ import { PasswordMatchValidatorDirective } from './auth/password-match.directive
 import { SnackComponent } from './snack/snack.component';
 import { AutolockService } from '../layouts/navbar/autologout/autolock.service';
 import { DateValidatorDirective } from './validation/date-validator.directive';
-import { AccountsTechService } from './account/accounts-tech.service';
 import { SnackUtilService } from './snack/snack-util.service';
 import { SearchService } from './search/search.service';
 import { AutofocusDirective } from './validation/autofocus.directive';
@@ -100,7 +98,6 @@ import {
         LoginService,
         LoginModalService,
         AccountService,
-        AccountsTechService,
         StateStorageService,
         Principal,
         CSRFService,
@@ -109,7 +106,6 @@ import {
         DatePipe,
         AccountsService,
         CryptoService,
-        CryptoUtilsService,
         UserRouteAccessIsConnectedService,
         AutolockService,
         SnackUtilService,

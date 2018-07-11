@@ -4,7 +4,6 @@ import { JhiLanguageService } from 'ng-jhipster';
 
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { CryptoService } from 'app/shared/crypto/crypto.service';
-import { CryptoUtilsService } from 'app/shared/crypto/crypto-utils.service';
 import { AccountsDB } from 'app/shared/model/accounts-db.model';
 import { AuthServerProvider, Principal } from 'app/core';
 
@@ -15,8 +14,7 @@ export class LoginService {
         private principal: Principal,
         private authServerProvider: AuthServerProvider,
         private http: HttpClient,
-        private cryptoService: CryptoService,
-        private cryptoUtilsService: CryptoUtilsService
+        private cryptoService: CryptoService
     ) {}
 
     prelogin(username, password): Observable<any> {
@@ -28,9 +26,9 @@ export class LoginService {
             .map((res: HttpResponse<AccountsDB>) => res.body)
             .flatMap((accountDBJSON: AccountsDB) => {
                 accountDBJSONOut = accountDBJSON;
-                return Observable.of(this.cryptoUtilsService.b64toBlob(accountDBJSONOut.database, 'application/octet-stream', 2048));
+                return Observable.of(this.cryptoService.b64toBlob(accountDBJSONOut.database, 'application/octet-stream', 2048));
             })
-            .flatMap((accountDBBlob: Blob) => this.cryptoUtilsService.blobToArrayBuffer(accountDBBlob))
+            .flatMap((accountDBBlob: Blob) => this.cryptoService.blobToArrayBuffer(accountDBBlob))
             .flatMap(accountDBArrayBuffer => {
                 accountDBArrayBufferOut = accountDBArrayBuffer;
                 return this.cryptoService.creatingKey(password);
@@ -41,7 +39,8 @@ export class LoginService {
             })
             .flatMap((success: boolean) =>
                 this.cryptoService.decrypt(accountDBJSONOut.initializationVector, derivedCryptoKeyOut, accountDBArrayBufferOut)
-            );
+            )
+            .flatMap((decryptedDB: ArrayBuffer) => Observable.of(this.cryptoService.arrayBufferToAccounts(decryptedDB)));
     }
 
     login(credentials, callback?) {

@@ -23,7 +23,7 @@ export class PaymentUpdateComponent implements OnInit {
     constructor(
         private jhiAlertService: JhiAlertService,
         private paymentService: PaymentService,
-        private userService: UserService,
+        //private userService: UserService,
         private activatedRoute: ActivatedRoute
     ) {}
 

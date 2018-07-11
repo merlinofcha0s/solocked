@@ -1,20 +1,15 @@
-import {CryptoUtilsService} from './crypto-utils.service';
-import {SessionStorageService} from 'ngx-webstorage';
-import {JhiDataUtils} from 'ng-jhipster';
-import {Observable} from 'rxjs/Rx';
-import {Accounts} from './../account/accounts.model';
-import {Injectable} from '@angular/core';
-import {KEY} from '../constants/session-storage.constants';
+import { SessionStorageService } from 'ngx-webstorage';
+import { JhiDataUtils } from 'ng-jhipster';
+import { Observable } from 'rxjs/Rx';
+import { Injectable } from '@angular/core';
+import { Accounts } from 'app/shared/account/accounts.model';
+import { KEY } from 'app/shared/constants/session-storage.constants';
 
 @Injectable()
 export class CryptoService {
-
     private cryptingAlgorithm = 'AES-GCM';
 
-    constructor(private dataUtils: JhiDataUtils
-        , private sessionStorage: SessionStorageService
-        , private cryptoUtils: CryptoUtilsService) {
-    }
+    constructor(private dataUtils: JhiDataUtils, private sessionStorage: SessionStorageService) {}
 
     /**
      * Create the key from the password
@@ -26,7 +21,7 @@ export class CryptoService {
         // Importing the raw input from the password field to a Cryptokey
         const passwordKey = await this.importKey(passwordArrayBuffer, ['deriveBits', 'deriveKey'], false, 'PBKDF2');
         // Key derivation from the password to a CryptoKey for securing the password
-        return await this.deriveKeyFromPassword(passwordKey, this.cryptoUtils.hexToArrayBuffer('12af0251ae3c818e446f503de25b6e2f'));
+        return await this.deriveKeyFromPassword(passwordKey, this.hexToArrayBuffer('12af0251ae3c818e446f503de25b6e2f'));
     }
 
     /**
@@ -38,7 +33,7 @@ export class CryptoService {
      */
     async importKey(password: Uint8Array, right: Array<string>, exportable: boolean, cryptingAlgorithm: string): Promise<CryptoKey> {
         try {
-            return await crypto.subtle.importKey('raw', password, {name: cryptingAlgorithm}, exportable, right);
+            return await crypto.subtle.importKey('raw', password, { name: cryptingAlgorithm }, exportable, right);
         } catch (e) {
             console.log(e);
         }
@@ -52,13 +47,15 @@ export class CryptoService {
      */
     async deriveKeyFromPassword(passwordKeyToDerived: CryptoKey, saltBuffer: ArrayBuffer): Promise<CryptoKey> {
         try {
-            return await crypto.subtle.deriveKey({
-                    'name': 'PBKDF2',
-                    'salt': saltBuffer,
-                    'iterations': 500000,
-                    'hash': 'SHA-512'
-                }, passwordKeyToDerived,
-                {'name': this.cryptingAlgorithm, 'length': 256},
+            return await crypto.subtle.deriveKey(
+                {
+                    name: 'PBKDF2',
+                    salt: saltBuffer,
+                    iterations: 500000,
+                    hash: 'SHA-512'
+                },
+                passwordKeyToDerived,
+                { name: this.cryptingAlgorithm, length: 256 },
                 // Whether or not the key is extractable (less secure) or not (more secure)
                 // when false, the key can only be passed as a web crypto object, not inspected
                 true,
@@ -90,11 +87,15 @@ export class CryptoService {
 
     async encrypt(initializationVector: ArrayBufferView, key: CryptoKey, dataToEncrypt: ArrayBuffer): Promise<ArrayBuffer> {
         try {
-            return await window.crypto.subtle.encrypt({
-                name: this.cryptingAlgorithm,
-                iv: initializationVector,
-                tagLength: 128
-            }, key, dataToEncrypt);
+            return await window.crypto.subtle.encrypt(
+                {
+                    name: this.cryptingAlgorithm,
+                    iv: initializationVector,
+                    tagLength: 128
+                },
+                key,
+                dataToEncrypt
+            );
         } catch (e) {
             console.log(e);
         }
@@ -103,20 +104,23 @@ export class CryptoService {
     async decrypt(initializationVector: string, key: CryptoKey, encryptedData: ArrayBuffer): Promise<ArrayBuffer> {
         const initVectorArrayBuffer = new TextEncoder('UTF-8').encode(initializationVector);
         try {
-            return await crypto.subtle.decrypt({
-                name: this.cryptingAlgorithm,
-                iv: initVectorArrayBuffer
-            }, key, encryptedData);
+            return await crypto.subtle.decrypt(
+                {
+                    name: this.cryptingAlgorithm,
+                    iv: initVectorArrayBuffer
+                },
+                key,
+                encryptedData
+            );
         } catch (e) {
             console.log('error : ' + e);
         }
     }
 
     putCryptoKeyInStorage(key: CryptoKey): Observable<Boolean> {
-        return Observable
-            .fromPromise(crypto.subtle.exportKey('raw', key))
-            .flatMap((rawKey) => this.cryptoUtils.toBase64Promise(new Blob([new Uint8Array(rawKey)], {type: 'application/octet-stream'})))
-            .flatMap((base64Key) => {
+        return Observable.fromPromise(crypto.subtle.exportKey('raw', key))
+            .flatMap(rawKey => this.toBase64Promise(new Blob([new Uint8Array(rawKey)], { type: 'application/octet-stream' })))
+            .flatMap(base64Key => {
                 this.sessionStorage.store(KEY, base64Key);
                 return Observable.of(true);
             });
@@ -124,9 +128,10 @@ export class CryptoService {
 
     getCryptoKeyInStorage(): Observable<CryptoKey> {
         const keyB64 = this.sessionStorage.retrieve(KEY);
-        const keyBlob = this.cryptoUtils.b64toBlob(keyB64, 'application/octet-stream', 2048);
-        return this.cryptoUtils.blobToArrayBuffer(keyBlob)
-            .flatMap((keyArrayBuffer) => this.importKey(new Uint8Array(keyArrayBuffer), ['encrypt', 'decrypt'], true, this.cryptingAlgorithm));
+        const keyBlob = this.b64toBlob(keyB64, 'application/octet-stream', 2048);
+        return this.blobToArrayBuffer(keyBlob).flatMap(keyArrayBuffer =>
+            this.importKey(new Uint8Array(keyArrayBuffer), ['encrypt', 'decrypt'], true, this.cryptingAlgorithm)
+        );
     }
 
     async generateChecksum(accountDBB64: string): Promise<string> {
@@ -137,6 +142,90 @@ export class CryptoService {
         // convert ArrayBuffer to Array
         const hashArray = Array.from(new Uint8Array(hashBuffer));
         // Join all the hex strings into one
-        return hashArray.map((b) => ('00' + b.toString(16)).slice(-2)).join('');
+        return hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
+    }
+
+    /**
+     * Can be use to translate a hash(always in hex) in a buffer
+     */
+    hexToArrayBuffer(hex): ArrayBuffer {
+        if (typeof hex !== 'string') {
+            throw new TypeError('Expected input to be a string');
+        }
+
+        if (hex.length % 2 !== 0) {
+            throw new RangeError('Expected string to be an even number of characters');
+        }
+
+        const view = new Uint8Array(hex.length / 2);
+
+        for (let i = 0; i < hex.length; i += 2) {
+            view[i / 2] = parseInt(hex.substring(i, i + 2), 16);
+        }
+
+        return view.buffer;
+    }
+
+    getRandomNumber(): string {
+        const array = new Uint32Array(10);
+        window.crypto.getRandomValues(array);
+
+        let randomNumber = '';
+        for (let i = 0; i < array.length; i++) {
+            randomNumber += array[i] + '';
+        }
+
+        return randomNumber;
+    }
+
+    b64toBlob(b64Data, contentType, sliceSize): Blob {
+        contentType = contentType || '';
+        sliceSize = sliceSize || 512;
+
+        const byteCharacters = atob(b64Data);
+        const byteArrays = [];
+
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            const byteArray = new Uint8Array(byteNumbers);
+
+            byteArrays.push(byteArray);
+        }
+
+        return new Blob(byteArrays, { type: contentType });
+    }
+
+    blobToArrayBuffer(blob: Blob): Observable<ArrayBuffer> {
+        return Observable.create(observer => {
+            const reader = new FileReader();
+            reader.onloadend = e => {
+                observer.next(reader.result);
+            };
+            reader.readAsArrayBuffer(blob);
+        });
+    }
+
+    toBase64Promise(blob: Blob): Promise<string> {
+        return new Promise((resolve, reject) => {
+            this.dataUtils.toBase64(new File([blob], 'accountDB'), base64Data => {
+                resolve(base64Data);
+            });
+        });
+    }
+
+    arrayBufferToAccounts(decryptedDB: ArrayBuffer): Accounts {
+        let dbDecrypted: Accounts = null;
+        const decoder = new TextDecoder();
+        const db = decoder.decode(decryptedDB);
+        if (decryptedDB !== undefined) {
+            dbDecrypted = JSON.parse(db);
+        }
+        return dbDecrypted;
     }
 }
