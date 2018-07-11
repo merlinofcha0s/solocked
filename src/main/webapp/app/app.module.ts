@@ -7,29 +7,20 @@ import { LocalStorageService, Ng2Webstorage, SessionStorageService } from 'ngx-w
 import { JhiEventManager } from 'ng-jhipster';
 
 import { NinjaccountSharedModule } from 'app/shared';
-import { NinjaccountCoreModule, UserRouteAccessService } from 'app/core';
+import { NinjaccountCoreModule } from 'app/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NinjaccountAppRoutingModule } from 'app/app-routing.module';
 import { NinjaccountAccountModule } from 'app/account/account.module';
 import { NinjaccountEntityModule } from 'app/entities/entity.module';
 import { NinjaccountConnectedModule } from 'app/connected';
 import { NinjaccountHomeModule } from 'app/home';
-import {
-    ActiveMenuDirective,
-    ErrorComponent,
-    FooterComponent,
-    JhiMainComponent,
-    NavbarComponent,
-    PageRibbonComponent,
-    ProfileService
-} from 'app/layouts';
+import { ActiveMenuDirective, ErrorComponent, FooterComponent, JhiMainComponent, NavbarComponent, PageRibbonComponent } from 'app/layouts';
 import { AutolockComponent } from 'app/layouts/navbar/autologout/autolock.component';
 import { SearchComponent } from 'app/layouts/navbar/search/search.component';
 import { SafeStateComponent } from 'app/layouts/navbar/safe-state/safe-state.component';
 import { WarnBrowserComponent } from 'app/layouts/main/warn-browser/warn-browser.component';
 import { BreadcrumbComponent } from 'app/layouts/breadcrumb/breadcrumb.component';
 import { PaginationConfig } from 'app/blocks/config/uib-pagination.config';
-import { NavbarService } from 'app/layouts/navbar/navbar.service';
 import { AuthInterceptor } from 'app/blocks/interceptor/auth.interceptor';
 import { AuthExpiredInterceptor } from 'app/blocks/interceptor/auth-expired.interceptor';
 import { ErrorHandlerInterceptor } from 'app/blocks/interceptor/errorhandler.interceptor';
@@ -66,10 +57,7 @@ import { NotificationInterceptor } from 'app/blocks/interceptor/notification.int
         BreadcrumbComponent
     ],
     providers: [
-        ProfileService,
         PaginationConfig,
-        NavbarService,
-        UserRouteAccessService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,

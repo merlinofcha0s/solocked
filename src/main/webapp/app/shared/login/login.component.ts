@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { JhiEventManager } from 'ng-jhipster';
 import { AccountsService } from '../account/accounts.service';
 import { isUndefined } from 'util';
-import { LoginService, Principal } from 'app/core';
+import { LoginService } from 'app/core/login/login.service';
 import { CryptoService } from 'app/shared/crypto/crypto.service';
 import { Accounts } from 'app/shared/account/accounts.model';
+import { Principal } from 'app/core';
 
 @Component({
     selector: 'jhi-login-modal',

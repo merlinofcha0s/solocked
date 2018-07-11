@@ -3,7 +3,7 @@ import { DatePipe, registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Title } from '@angular/platform-browser';
 import locale from '@angular/common/locales/en';
-import { AccountsService } from 'app/shared/account/accounts.service';
+import { LoginService } from 'app/core/login/login.service';
 
 @NgModule({
     imports: [HttpClientModule],

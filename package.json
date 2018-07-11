@@ -87,7 +87,6 @@
     "tapable": "1.0.0",
     "thread-loader": "1.1.5",
     "to-string-loader": "1.1.5",
-    "ts-node": "5.0.1",
     "ts-loader": "4.0.1",
     "tslint": "5.9.1",
     "tslint-config-prettier": "1.9.0",

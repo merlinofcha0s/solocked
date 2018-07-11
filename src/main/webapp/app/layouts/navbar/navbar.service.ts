@@ -1,9 +1,8 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class NavbarService {
-
     changeFontColor$: BehaviorSubject<boolean>;
 
     private _dataStore: {
@@ -11,7 +10,7 @@ export class NavbarService {
     };
 
     constructor() {
-        this._dataStore = {changeColor: false};
+        this._dataStore = { changeColor: false };
         this.changeFontColor$ = new BehaviorSubject<boolean>(this._dataStore.changeColor);
     }
 
@@ -19,5 +18,4 @@ export class NavbarService {
         this._dataStore.changeColor = homePage;
         this.changeFontColor$.next(this._dataStore.changeColor);
     }
-
 }

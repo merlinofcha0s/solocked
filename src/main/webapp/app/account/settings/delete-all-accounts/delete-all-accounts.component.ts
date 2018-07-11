@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 import { isUndefined } from 'util';
-import { LoginService, Principal, UserService } from 'app/core';
+import { Principal, UserService } from 'app/core';
+import { LoginService } from 'app/core';
 import { Router } from '@angular/router';
 import { SnackComponent } from 'app/shared/snack/snack.component';
 

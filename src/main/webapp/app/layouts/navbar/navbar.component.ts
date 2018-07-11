@@ -5,7 +5,7 @@ import { JhiLanguageService } from 'ng-jhipster';
 
 import { VERSION } from 'app/app.constants';
 import { JhiLanguageHelper, LoginModalService, LoginService, Principal } from 'app/core';
-import { ProfileService } from 'app/layouts';
+import { ProfileService } from '../../layouts/profiles/profile.service';
 
 @Component({
     selector: 'jhi-navbar',
@@ -25,9 +25,9 @@ export class NavbarComponent implements OnInit {
         private loginService: LoginService,
         private languageService: JhiLanguageService,
         private languageHelper: JhiLanguageHelper,
-        //private principal: Principal,
+        private principal: Principal,
         private loginModalService: LoginModalService,
-        //private profileService: ProfileService,
+        private profileService: ProfileService,
         private router: Router
     ) {
         this.version = VERSION ? 'v' + VERSION : '';

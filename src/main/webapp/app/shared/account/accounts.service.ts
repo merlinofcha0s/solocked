@@ -26,7 +26,7 @@ export class AccountsService {
     constructor(
         private translateService: TranslateService,
         private snackBar: MatSnackBar,
-        //private accountDbService: AccountsDBService,
+        private accountDbService: AccountsDBService,
         private crypto: CryptoService
     ) {
         this._dataStore = { accounts: new Accounts() };

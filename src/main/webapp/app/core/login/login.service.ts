@@ -5,7 +5,8 @@ import { JhiLanguageService } from 'ng-jhipster';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { CryptoService } from 'app/shared/crypto/crypto.service';
 import { AccountsDB } from 'app/shared/model/accounts-db.model';
-import { AuthServerProvider, Principal } from 'app/core';
+import { Principal } from '../auth/principal.service';
+import { AuthServerProvider } from '../auth/auth-jwt.service';
 
 @Injectable({ providedIn: 'root' })
 export class LoginService {

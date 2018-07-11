@@ -4,9 +4,9 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
 import { isUndefined } from 'util';
-import { LoginService } from 'app/core';
+import { LoginService } from '../../../core/login/login.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AutolockService {
     totalTime = 600;
     remainingTime$: BehaviorSubject<number>;
@@ -17,11 +17,7 @@ export class AutolockService {
         remainingTime: number;
     };
 
-    constructor(
-        @Inject(forwardRef(() => LoginService))
-        private loginService: LoginService,
-        private router: Router
-    ) {
+    constructor(private loginService: LoginService, private router: Router) {
         this._dataStore = { remainingTime: this.totalTime };
         this.remainingTime$ = new BehaviorSubject<number>(this._dataStore.remainingTime);
 

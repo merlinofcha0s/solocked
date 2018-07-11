@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Principal } from 'app/core';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class UserRouteAccessIsConnectedService implements CanActivate {
     constructor(private router: Router, private principal: Principal) {}
 

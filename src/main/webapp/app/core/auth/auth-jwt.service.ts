@@ -64,7 +64,7 @@ export class AuthServerProvider {
             this.$sessionStorage.clear('authenticationToken');
             this.$sessionStorage.clear(KEY);
             this.$sessionStorage.clear(LAST_SEARCH);
-            //this.$accountService.clean();
+            this.$accountService.clean();
             this.$paymentService.clean();
             observer.complete();
         });

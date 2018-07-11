@@ -4,7 +4,6 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { Meta } from '@angular/platform-browser';
 import { LoginModalService, Principal } from 'app/core';
-import { ProfileService } from 'app/layouts';
 
 @Component({
     selector: 'jhi-home',
@@ -20,9 +19,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         private principal: Principal,
         private loginModalService: LoginModalService,
         private eventManager: JhiEventManager,
-        private meta: Meta,
-        private profileService: ProfileService
-    ) {}
+        private meta: Meta
+    ) //private profileService: ProfileService
+    {}
 
     ngOnInit() {
         this.principal.identity().then(account => {

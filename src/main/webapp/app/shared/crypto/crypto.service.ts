@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { Accounts } from 'app/shared/account/accounts.model';
 import { KEY } from 'app/shared/constants/session-storage.constants';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CryptoService {
     private cryptingAlgorithm = 'AES-GCM';
 
