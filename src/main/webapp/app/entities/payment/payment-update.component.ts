@@ -6,7 +6,8 @@ import { JhiAlertService } from 'ng-jhipster';
 
 import { IPayment } from 'app/shared/model/payment.model';
 import { PaymentService } from './payment.service';
-import { IUser, UserService } from 'app/core';
+import { IUser } from 'app/core';
+import { UserService } from '../../core/user/user.service';
 
 @Component({
     selector: 'jhi-payment-update',
@@ -23,7 +24,7 @@ export class PaymentUpdateComponent implements OnInit {
     constructor(
         private jhiAlertService: JhiAlertService,
         private paymentService: PaymentService,
-        //private userService: UserService,
+        private userService: UserService,
         private activatedRoute: ActivatedRoute
     ) {}
 

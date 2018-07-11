@@ -3,7 +3,7 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiLanguageService } from 'ng-jhipster';
 import { WaiterComponent } from 'app/shared/waiter/waiter.component';
 import { LoginModalService } from 'app/core';
-import { Register } from 'app/account';
+import { Register } from '../../account/register/register.service';
 import { ActivatedRoute } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { PaymentService } from 'app/entities/payment';
@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     constructor(
         private languageService: JhiLanguageService,
         private loginModalService: LoginModalService,
-        //private registerService: Register,
+        private registerService: Register,
         private elementRef: ElementRef,
         private renderer: Renderer,
         @Inject(DOCUMENT) private document: any,
