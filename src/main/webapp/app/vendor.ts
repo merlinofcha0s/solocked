@@ -2,6 +2,7 @@
 /* tslint:disable */
 import '../content/scss/vendor.scss';
 import 'file-saver/FileSaver.min.js';
+// Imports all fontawesome core and solid icons
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
     faArrowLeft,
@@ -40,8 +41,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faCcPaypal, faCcVisa, faCcDiscover, faCcMastercard, faCcAmex } from '@fortawesome/free-brands-svg-icons';
-
-// Imports all fontawesome core and solid icons
 
 // Adds the SVG icon to the library so you can use it in your page
 library.add(faUser);
