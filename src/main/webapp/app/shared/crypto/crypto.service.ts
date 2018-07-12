@@ -138,7 +138,7 @@ export class CryptoService {
         // encode as UTF-8
         const msgBuffer = new TextEncoder('utf-8').encode(accountDBB64);
         // hash the message
-        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        const hashBuffer = await crypto.subtle.digest('SHA-512', msgBuffer);
         // convert ArrayBuffer to Array
         const hashArray = Array.from(new Uint8Array(hashBuffer));
         // Join all the hex strings into one

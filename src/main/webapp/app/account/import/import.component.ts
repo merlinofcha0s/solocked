@@ -1,13 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {TypeImport} from './model/type-import.enum';
-import {Account} from '../../shared/account/account.model';
-import {AccountsService} from '../../shared/account/accounts.service';
-import {SnackUtilService} from '../../shared/snack/snack-util.service';
-import {AccountsDBService} from '../../entities/accounts-db';
-import {Custom} from '../../shared/account/custom-account.model';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Subscription} from 'rxjs/Subscription';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { TypeImport } from './model/type-import.enum';
+import { Account } from '../../shared/account/account.model';
+import { SnackUtilService } from '../../shared/snack/snack-util.service';
+import { AccountsDBService } from '../../entities/accounts-db';
+import { Custom } from '../../shared/account/custom-account.model';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     selector: 'jhi-import',
@@ -15,7 +14,6 @@ import {Subscription} from 'rxjs/Subscription';
     styleUrls: ['./import.component.scss']
 })
 export class ImportComponent implements OnInit, OnDestroy {
-
     TypeImport: typeof TypeImport = TypeImport;
 
     importForm: FormGroup;
@@ -44,10 +42,7 @@ export class ImportComponent implements OnInit, OnDestroy {
     actualAndMaxNumberOnSubmitSub: Subscription;
     actualAndMaxNumberOnExportSub: Subscription;
 
-    constructor(private formBuilder: FormBuilder,
-                private accountService: AccountsService,
-                private snackUtil: SnackUtilService,
-                private accountsDBService: AccountsDBService) {
+    constructor(private formBuilder: FormBuilder, private snackUtil: SnackUtilService, private accountsDBService: AccountsDBService) {
         this.actualAndMaxNumber$ = this.accountsDBService.actualAndMaxNumber$;
     }
 
@@ -69,7 +64,7 @@ export class ImportComponent implements OnInit, OnDestroy {
         this.importType = this.formBuilder.control('', Validators.required);
 
         this.importForm = this.formBuilder.group({
-            importType: this.importType,
+            importType: this.importType
         });
 
         this.preloadOk = false;
@@ -79,11 +74,12 @@ export class ImportComponent implements OnInit, OnDestroy {
         this.loading = true;
         this.importTypeValue = this.importType.value;
         if (this.importTypeValue === this.importTypeValueGuess) {
-            const nbActualAccount = this.accountService.getAccountsListInstant().length;
+            const nbActualAccount = this.accountsDBService.getAccountsListInstant().length;
             this.actualAndMaxNumberOnSubmitSub = this.actualAndMaxNumber$
-                .concatMap((actualAndMax) => this.accountService.saveNewAccount(this.newAccounts))
-                .flatMap((account) => this.accountsDBService.updateActualNumberAccount(nbActualAccount + this.newAccounts.length)).subscribe((response) => {
-                    this.snackUtil.openSnackBar('import.success', 5000, 'fa-check-circle', {nbImportedAccount: this.newAccounts.length});
+                .concatMap(actualAndMax => this.accountsDBService.saveNewAccount(this.newAccounts))
+                .flatMap(account => this.accountsDBService.updateActualNumberAccount(nbActualAccount + this.newAccounts.length))
+                .subscribe(response => {
+                    this.snackUtil.openSnackBar('import.success', 5000, 'fa-check-circle', { nbImportedAccount: this.newAccounts.length });
                     this.loading = false;
                 });
         } else {
@@ -108,7 +104,7 @@ export class ImportComponent implements OnInit, OnDestroy {
     prepareImport(importFile: string) {
         this.importTypeValueGuess = this.verifyImportType(importFile);
         if (this.importTypeValueGuess !== TypeImport.NONE) {
-            this.actualAndMaxNumberOnExportSub = this.actualAndMaxNumber$.subscribe((actualAndMax) => {
+            this.actualAndMaxNumberOnExportSub = this.actualAndMaxNumber$.subscribe(actualAndMax => {
                 const lines = this.extract(importFile);
                 switch (this.importTypeValueGuess) {
                     case TypeImport.LASTPASS:
@@ -131,16 +127,14 @@ export class ImportComponent implements OnInit, OnDestroy {
                 if (actualAndMax.first + this.newAccounts.length <= actualAndMax.second) {
                     this.preloadOk = true;
                 } else {
-                    this.snackUtil.openSnackBar('import.error.toomanyaccount', 10000, 'fa-exclamation-triangle'
-                        , {
-                            actual: actualAndMax.first,
-                            nbOfNewAccount: this.newAccounts.length,
-                            max: actualAndMax.second
-                        });
+                    this.snackUtil.openSnackBar('import.error.toomanyaccount', 10000, 'fa-exclamation-triangle', {
+                        actual: actualAndMax.first,
+                        nbOfNewAccount: this.newAccounts.length,
+                        max: actualAndMax.second
+                    });
                     this.preloadOk = false;
                 }
             });
-
         } else {
             this.snackUtil.openSnackBar('import.error.formatunknown', 5000, 'fa-exclamation-triangle');
         }
@@ -176,7 +170,7 @@ export class ImportComponent implements OnInit, OnDestroy {
         const newAccounts = [];
         // Remove and return the last row (\n on the 1Password file)
         lines.pop();
-        lines.forEach((line) => {
+        lines.forEach(line => {
             const fields = line.replace(/","/g, ',-').split(',-');
             const notes = fields[5].trim();
             const password = fields[6].trim();
@@ -199,7 +193,7 @@ export class ImportComponent implements OnInit, OnDestroy {
 
     createAccountFromLastPass(lines: Array<string>): Array<Account> {
         const newAccounts = [];
-        lines.forEach((line) => {
+        lines.forEach(line => {
             const fields = line.split(',');
             const url = fields[0].trim();
             const username = fields[1].trim();
@@ -218,9 +212,9 @@ export class ImportComponent implements OnInit, OnDestroy {
 
     createAccountFromDashLane(lines: Array<string>): Array<Account> {
         const newAccounts = [];
-        lines.forEach((line) => {
+        lines.forEach(line => {
             const fields = line.replace(/","/g, ',-').split(',-');
-            let name = fields[0].replace('\"', '').trim();
+            let name = fields[0].replace('"', '').trim();
             name = name.charAt(0).toUpperCase() + name.substring(1);
             const url = fields[1].trim();
             const username = fields[2].trim();
@@ -241,7 +235,7 @@ export class ImportComponent implements OnInit, OnDestroy {
         // Delete the last line, we avoid an empty line, we generate it with \n at the end of the file
         lines.pop();
         this.lineInTotal = lines.length;
-        lines.forEach((line) => {
+        lines.forEach(line => {
             const fields = line.replace(/","/g, ',-').split(',-');
             try {
                 let name = fields[1].trim();
@@ -251,7 +245,7 @@ export class ImportComponent implements OnInit, OnDestroy {
                 const notes = fields[5].trim();
                 const fieldsField = fields[6].trim().split('/');
                 const tags = fields[7].trim().split(' - ');
-                const url = fields[8].trim().replace('\"', '');
+                const url = fields[8].trim().replace('"', '');
 
                 const newAccount = new Account(username, password, name);
                 newAccount.url = url;
@@ -284,14 +278,14 @@ export class ImportComponent implements OnInit, OnDestroy {
         const newAccounts = [];
         // Delete the last line, we avoid an empty line, we generate it with \n at the end of the file
         lines.pop();
-        lines.forEach((line) => {
+        lines.forEach(line => {
             const fields = line.replace(/","/g, ',-').split(',-');
-            let name = fields[0].replace('\"', '').trim();
+            let name = fields[0].replace('"', '').trim();
             name = name.charAt(0).toUpperCase() + name.substring(1);
             const username = fields[1].trim();
             const password = fields[2].trim();
-            const url = fields[3].trim().replace('\"', '');
-            const notes = fields[4].trim().replace('\"', '');
+            const url = fields[3].trim().replace('"', '');
+            const notes = fields[4].trim().replace('"', '');
 
             const newAccount = new Account(username, password, name);
             newAccount.url = url;

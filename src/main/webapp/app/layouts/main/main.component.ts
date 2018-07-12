@@ -4,10 +4,10 @@ import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { JhiLanguageHelper, Principal } from 'app/core';
 import { AutolockService } from 'app/layouts/navbar/autologout/autolock.service';
 import { ProfileService } from '../../layouts/profiles/profile.service';
-import { AccountsService } from 'app/shared/account/accounts.service';
 import { MatDialog } from '@angular/material';
 import { WarnBrowserComponent } from 'app/layouts/main/warn-browser/warn-browser.component';
 import { Title } from '@angular/platform-browser';
+import { AccountsDBService } from 'app/entities/accounts-db';
 
 @Component({
     selector: 'jhi-main',
@@ -34,13 +34,12 @@ export class JhiMainComponent implements OnInit {
         private profileService: ProfileService,
         private dialog: MatDialog,
         private renderer: Renderer2,
-        private accountsService: AccountsService
+        private accountsService: AccountsDBService
     ) {}
 
     ngOnInit() {
         this.initEventRouter();
         this.initTrackingAndChat();
-        //this.initFontAwesome5();
         this.detectEdge();
     }
 

@@ -1,6 +1,6 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AccountsService} from '../../../shared/account/accounts.service';
-import {MatDialogRef} from '@angular/material';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
+import { AccountsDBService } from 'app/entities/accounts-db';
 
 @Component({
     selector: 'jhi-reset-all-accounts',
@@ -8,16 +8,11 @@ import {MatDialogRef} from '@angular/material';
     styleUrls: ['./reset-all-accounts.component.scss']
 })
 export class ResetAllAccountsComponent implements OnInit, OnDestroy {
+    constructor(private accountsService: AccountsDBService, private dialogRef: MatDialogRef<ResetAllAccountsComponent>) {}
 
-    constructor(private accountsService: AccountsService,
-                private dialogRef: MatDialogRef<ResetAllAccountsComponent>) {
-    }
+    ngOnInit() {}
 
-    ngOnInit() {
-    }
-
-    ngOnDestroy(): void {
-    }
+    ngOnDestroy(): void {}
 
     onReset() {
         this.accountsService.resetEntireDB();

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { LoginService, Principal } from 'app/core';
+import { LoginService } from '../../core/login/login.service';
 import { Router } from '@angular/router';
 import { PasswordService } from 'app/account';
+import { Principal } from 'app/core';
 
 @Component({
     selector: 'jhi-password',

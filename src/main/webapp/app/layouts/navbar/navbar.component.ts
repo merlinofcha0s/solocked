@@ -4,8 +4,9 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiLanguageService } from 'ng-jhipster';
 
 import { VERSION } from 'app/app.constants';
-import { JhiLanguageHelper, LoginModalService, LoginService, Principal } from 'app/core';
+import { JhiLanguageHelper, LoginModalService, Principal } from 'app/core';
 import { ProfileService } from '../../layouts/profiles/profile.service';
+import { LoginService } from '../../core/login/login.service';
 
 @Component({
     selector: 'jhi-navbar',
@@ -45,7 +46,7 @@ export class NavbarComponent implements OnInit {
             this.swaggerEnabled = profileInfo.swaggerEnabled;
         });
     }
-
+    //
     initListenerRouterEvent() {
         this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationEnd) {
@@ -71,7 +72,7 @@ export class NavbarComponent implements OnInit {
     isAuthenticated() {
         return this.principal.isAuthenticated();
     }
-
+    //
     login() {
         this.modalRef = this.loginModalService.open();
     }

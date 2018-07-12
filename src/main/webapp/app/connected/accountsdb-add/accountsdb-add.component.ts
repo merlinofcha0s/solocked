@@ -8,7 +8,6 @@ import { MatDialog, MatDialogRef, MatSnackBarConfig } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { AddCustomBlockComponent } from 'app/connected/accountsdb-add/add-custom-block/add-custom-block.component';
 import { DeletePaymentLineComponent } from 'app/connected/accountsdb-add/payment-custom-block/delete-payment-line/delete-payment-line.component';
-import { AccountsService } from 'app/shared/account/accounts.service';
 import { SnackUtilService } from 'app/shared/snack/snack-util.service';
 import { JhiLanguageHelper } from 'app/core';
 import { AccountsDBService } from 'app/entities/accounts-db';
@@ -69,13 +68,12 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     private possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     private actualMaxSubscription: Subscription;
     exceedLimitAccount: boolean;
-    private maxAccounts: number;
+    maxAccounts: number;
 
     actualAndMaxNumber$: BehaviorSubject<any>;
 
     constructor(
         private fb: FormBuilder,
-        private accountsService: AccountsService,
         private router: Router,
         private route: ActivatedRoute,
         private snackUtil: SnackUtilService,
@@ -132,7 +130,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     }
 
     initUpdateMode(idAccount: number) {
-        this.account$ = this.accountsService.account$;
+        this.account$ = this.accountDbService.account$;
         this.accountSubscription = this.account$.subscribe((account: Account) => {
             if (account !== null) {
                 this.accountName.setValue(account.name);
@@ -161,7 +159,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 this.jhiLanguageHelper.updateTitle('ninjaccountApp.accountsDB.update.header', { name: account.name });
             }
         });
-        this.accountsService.getAccount(idAccount);
+        this.accountDbService.getAccount(idAccount);
     }
 
     onSubmitNewAccount() {
@@ -214,12 +212,12 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         this.loading = true;
         if (this.updateMode) {
             newAccount.id = this.id;
-            this.accountsService.updateAccount(newAccount);
+            this.accountDbService.updateAccount(newAccount);
             this.loading = false;
             this.paymentExpanded = false;
             this.snackUtil.openSnackBar('ninjaccountApp.accountsDB.update.successful', 3000, 'fa-check-circle');
         } else {
-            this.accountsService.saveNewAccount(newAccount).subscribe(
+            this.accountDbService.saveNewAccount(newAccount).subscribe(
                 (accountsUpdated: AccountsDB) => {
                     this.snackUtil.openSnackBar('ninjaccountApp.accountsDB.add.successful', 3000, 'fa-check-circle');
                     this.loading = false;
@@ -237,7 +235,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                         message = this.translateService.instant('ninjaccountApp.accountsDB.add.error');
                     }
                     this.loading = false;
-                    this.accountsService.rollingAddedAccount(newAccount);
+                    this.accountDbService.rollingAddedAccount(newAccount);
                     const config = new MatSnackBarConfig();
                     config.verticalPosition = 'top';
                     config.duration = 15000;

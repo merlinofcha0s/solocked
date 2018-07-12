@@ -5,9 +5,9 @@ import { map } from 'rxjs/operators';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 
 import { SERVER_API_URL } from 'app/app.constants';
-import { AccountsService } from 'app/shared/account/accounts.service';
 import { PaymentService } from 'app/entities/payment';
 import { KEY, LAST_SEARCH } from 'app/shared/constants/session-storage.constants';
+import { AccountsDBService } from 'app/entities/accounts-db';
 
 @Injectable({ providedIn: 'root' })
 export class AuthServerProvider {
@@ -16,7 +16,7 @@ export class AuthServerProvider {
         private $localStorage: LocalStorageService,
         private $sessionStorage: SessionStorageService,
         private $paymentService: PaymentService,
-        private $accountService: AccountsService
+        private $accountService: AccountsDBService
     ) {}
 
     getToken() {
@@ -24,6 +24,7 @@ export class AuthServerProvider {
     }
 
     login(credentials): Observable<any> {
+        console.log('loooool');
         const data = {
             username: credentials.username,
             password: credentials.password,

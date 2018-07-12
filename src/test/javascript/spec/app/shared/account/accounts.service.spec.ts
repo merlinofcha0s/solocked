@@ -4,7 +4,6 @@ import { TestBed, async, fakeAsync, inject } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material';
 import { NinjaccountTestModule } from '../../../test.module';
-import { AccountsService } from 'app/shared/account/accounts.service';
 import { AccountsDBService } from 'app/entities/accounts-db';
 import { CryptoService } from 'app/shared/crypto/crypto.service';
 
@@ -16,7 +15,6 @@ describe('Services Tests', () => {
                     imports: [NinjaccountTestModule],
                     declarations: [],
                     providers: [
-                        AccountsService,
                         AccountsDBService,
                         JhiDataUtils,
                         SessionStorageService,
@@ -37,8 +35,8 @@ describe('Services Tests', () => {
         it(
             'return encrypted db with random authentication key',
             inject(
-                [AccountsService],
-                fakeAsync((service: AccountsService) => {
+                [AccountsDBService],
+                fakeAsync((service: AccountsDBService) => {
                     const accounts = service.init();
                     const accountsDB = accounts.accounts;
 

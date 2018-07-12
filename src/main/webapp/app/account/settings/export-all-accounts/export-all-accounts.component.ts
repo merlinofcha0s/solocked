@@ -1,10 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AccountsService} from '../../../shared/account/accounts.service';
-import {Account} from '../../../shared/account/account.model';
-import {MatDialogRef} from '@angular/material';
-import {isUndefined} from 'util';
-import {saveAs as importedSaveAs} from 'file-saver';
-import {SnackUtilService} from '../../../shared/snack/snack-util.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Account } from '../../../shared/account/account.model';
+import { MatDialogRef } from '@angular/material';
+import { isUndefined } from 'util';
+import { saveAs as importedSaveAs } from 'file-saver';
+import { SnackUtilService } from '../../../shared/snack/snack-util.service';
+import { AccountsDBService } from 'app/entities/accounts-db';
 
 @Component({
     selector: 'jhi-export-all-accounts',
@@ -12,19 +12,17 @@ import {SnackUtilService} from '../../../shared/snack/snack-util.service';
     styleUrls: ['./export-all-accounts.component.scss']
 })
 export class ExportAllAccountsComponent implements OnInit, OnDestroy {
-
     separator = '","';
 
-    constructor(private accountsService: AccountsService,
-                private dialogRef: MatDialogRef<ExportAllAccountsComponent>,
-                private snackUtil: SnackUtilService) {
-    }
+    constructor(
+        private accountsService: AccountsDBService,
+        private dialogRef: MatDialogRef<ExportAllAccountsComponent>,
+        private snackUtil: SnackUtilService
+    ) {}
 
-    ngOnInit() {
-    }
+    ngOnInit() {}
 
-    ngOnDestroy(): void {
-    }
+    ngOnDestroy(): void {}
 
     onAllExport() {
         const accounts = this.accountsService.getAccountsListInstant();
@@ -53,13 +51,13 @@ export class ExportAllAccountsComponent implements OnInit, OnDestroy {
                     line += account.notes + this.separator;
                 }
 
-                account.customs.forEach((custom) => line += custom.key + ' - ' + custom.value + ' / ');
+                account.customs.forEach(custom => (line += custom.key + ' - ' + custom.value + ' / '));
                 if (account.customs.length !== 0) {
                     line = line.slice(0, -3);
                 }
                 line += this.separator;
 
-                account.tags.forEach((tag) => line += tag + ' - ');
+                account.tags.forEach(tag => (line += tag + ' - '));
                 if (account.tags.length !== 0) {
                     line = line.slice(0, -3);
                 }
@@ -72,10 +70,10 @@ export class ExportAllAccountsComponent implements OnInit, OnDestroy {
                 lines += line;
             });
 
-            const blob = new Blob([lines], {type: 'text/csv'});
+            const blob = new Blob([lines], { type: 'text/csv' });
             importedSaveAs(blob, 'export-accounts.csv');
             this.dialogRef.close('export over');
-            this.snackUtil.openSnackBar('settings.danger.export.success', 5000, 'fa-check-circle', {nbExportedAccount: accounts.length});
+            this.snackUtil.openSnackBar('settings.danger.export.success', 5000, 'fa-check-circle', { nbExportedAccount: accounts.length });
         } else {
             this.snackUtil.openSnackBar('settings.danger.export.nodata', 5000, 'fa-exclamation-triangle');
         }

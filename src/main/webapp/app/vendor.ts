@@ -35,8 +35,11 @@ import {
     faTrashAlt,
     faUser,
     faUserPlus,
-    faWrench
+    faWrench,
+    faKey
 } from '@fortawesome/free-solid-svg-icons';
+
+import { faCcPaypal, faCcVisa, faCcDiscover, faCcMastercard, faCcAmex } from '@fortawesome/free-brands-svg-icons';
 
 // Imports all fontawesome core and solid icons
 
@@ -73,5 +76,11 @@ library.add(faCalendarAlt);
 library.add(faSearch);
 library.add(faTrashAlt);
 library.add(faAsterisk);
+library.add(faKey);
+library.add(faCcPaypal);
+library.add(faCcVisa);
+library.add(faCcDiscover);
+library.add(faCcMastercard);
+library.add(faCcAmex);
 
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here

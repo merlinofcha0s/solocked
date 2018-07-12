@@ -29,7 +29,6 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.account = account;
         });
         this.registerAuthenticationSuccess();
-
         this.profileService.getProfileInfo().then(profileInfo => {
             this.inProduction = profileInfo.inProduction;
             if (!this.inProduction) {

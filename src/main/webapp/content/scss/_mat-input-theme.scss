@@ -1,18 +1,18 @@
 @import 'custom-variables';
 @mixin mat-input-theme($candy-app-theme) {
     .mat-input-element {
-        color: $font-color-primary;
+        color: $font-color-primary !important;
     }
 
-    .mat-form-field-placeholder {
-        color: $font-color-primary;
+    .mat-form-field-label {
+        color: $font-color-primary !important;
     }
 
-    .mat-focused .mat-form-field-placeholder {
+    .mat-focused .mat-form-field-label {
         color: $font-color-primary;
     }
 
     .mat-form-field-underline {
-        background-color: $font-color-primary;
+        background-color: $font-color-primary !important;
     }
 }

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AccountsService } from 'app/shared/account/accounts.service';
 import { CryptoService } from 'app/shared/crypto/crypto.service';
 import { AccountsDB } from 'app/shared/model/accounts-db.model';
+import { AccountsDBService } from 'app/entities/accounts-db';
 
 @Injectable({ providedIn: 'root' })
 export class Register {
-    constructor(private http: HttpClient, private accountService: AccountsService, private crypto: CryptoService) {}
+    constructor(private http: HttpClient, private accountService: AccountsDBService, private crypto: CryptoService) {}
 
     save(account: any): Observable<any> {
         // Generate the new DB

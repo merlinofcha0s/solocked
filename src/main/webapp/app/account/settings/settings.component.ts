@@ -9,7 +9,6 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ResetAllAccountsComponent } from 'app/account/settings/reset-all-accounts/reset-all-accounts.component';
 import { AccountService, JhiLanguageHelper, Principal } from 'app/core';
 import { AccountsDBService } from 'app/entities/accounts-db';
-import { AccountsService } from 'app/shared/account/accounts.service';
 import { SnackUtilService } from 'app/shared/snack/snack-util.service';
 import { SnackComponent } from 'app/shared/snack/snack.component';
 import { ExportAllAccountsComponent } from 'app/account/settings/export-all-accounts/export-all-accounts.component';
@@ -50,7 +49,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
         private translateService: TranslateService,
         private accountDbService: AccountsDBService,
         public dialog: MatDialog,
-        private accountsService: AccountsService,
         private snackUtil: SnackUtilService
     ) {
         this.actualAndMaxNumber$ = this.accountDbService.actualAndMaxNumber$;
@@ -134,7 +132,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
 
     openExportAccountPopup() {
-        const accounts = this.accountsService.getAccountsListInstant();
+        const accounts = this.accountDbService.getAccountsListInstant();
         if (accounts.length !== 0) {
             this.dialog.open(ExportAllAccountsComponent, {});
         } else {

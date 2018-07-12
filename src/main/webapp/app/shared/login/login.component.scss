@@ -26,19 +26,19 @@ $primary-color: white;
 .loginInput {
     width: 100%;
     /deep/ .mat-input-element {
-        color: $primary-color;
+        color: $primary-color !important;
     }
 
-    /deep/ .mat-form-field-placeholder {
-        color: $primary-color;
+    /deep/ .mat-form-field-label {
+        color: $primary-color !important;
     }
 
-    /deep/ .mat-focused .mat-form-field-placeholder {
-        color: $primary-color;
+    /deep/ .mat-focused .mat-form-field-label {
+        color: $primary-color !important;
     }
 
     /deep/ .mat-form-field-underline {
-        background-color: $primary-color;
+        background-color: $primary-color !important;
     }
 }
 
@@ -63,6 +63,6 @@ $primary-color: white;
     font-size: 20px;
 }
 
-.placeholder-loading{
+.placeholder-loading {
     height: 75px;
 }

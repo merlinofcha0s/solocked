@@ -34,9 +34,11 @@ $border-radius-sm: 0.1rem;
 // Body:
 // Settings for the `<body>` element.
 
-$body-bg: #e4e5e6;
+$body-bg: white;
+$body-color: #555;
 
 // Typography:
 // Font, line-height, and color for body text, headings, and more.
 
 $font-size-base: 1rem;
+$font-family-sans-serif: Montserrat, sans-serif;

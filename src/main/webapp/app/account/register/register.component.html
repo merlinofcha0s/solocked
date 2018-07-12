@@ -42,7 +42,7 @@
         <div class="col-lg-6">
             <form name="form" role="form" (ngSubmit)="register()" #registerForm="ngForm"
                   *ngIf="!success && !errorCompletePaypal">
-                    <mat-form-field class="registerInput">
+                    <mat-form-field class="registerInput" appearance="legacy">
                         <input matInput type="text" [(ngModel)]="registerAccount.login" id="login" name="login"
                                #login="ngModel" placeholder="{{'global.form.username' | translate}}"
                                required minlength="1" maxlength="50" pattern="^[_'.@A-Za-z0-9-]*$" jhiAutofocus>
@@ -64,7 +64,7 @@
                         </mat-error>
                     </mat-form-field>
 
-                <mat-form-field class="registerInput">
+                <mat-form-field class="registerInput" appearance="legacy">
                     <input type="email" matInput id="email" name="email" #email="ngModel"
                            placeholder="{{'global.form.email' | translate}}"
                            [(ngModel)]="registerAccount.email" minlength=5 maxlength=100
@@ -91,7 +91,7 @@
                             Your email cannot be longer than 100 characters.
                         </mat-error>
                 </mat-form-field>
-                <mat-form-field class="registerInput mb-4">
+                <mat-form-field class="registerInput mb-4" appearance="legacy">
                     <input matInput type="password" id="password" name="password"
                            #password="ngModel" jhiPasswordMatch="confirmPassword" reverse="true"
                            placeholder="{{'login.form.password' | translate}}"
@@ -127,7 +127,7 @@
                     </mat-error>
                 </mat-form-field>
                 <jhi-password-strength-bar class="mb-4" [passwordToCheck]="registerAccount.password"></jhi-password-strength-bar>
-                <mat-form-field class="registerInput">
+                <mat-form-field class="registerInput" appearance="legacy">
                     <input matInput type="password" id="confirmPassword" name="confirmPassword"
                            #confirmPassword="ngModel"
                            placeholder="{{'global.form.confirmpassword' | translate}}"

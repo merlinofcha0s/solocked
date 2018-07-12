@@ -1,7 +1,7 @@
 <div class="row align-items-center mt-4">
     <div *ngIf="!modeBilling" class="col-sm-4">
         <div class="billing-card mr-auto ml-auto ml-sm-0 mb-3 mb-sm-0" [class.selected]="free"
-             (click)="onChoosePlan(PlanType.FREE)" id="plant-type-free">
+             (click)="onChoosePlan(plantype.FREE)" id="plant-type-free">
             <div class="billing-card-title" jhiTranslate="billing.chooseplan.free.title">Free</div>
             <div class="separator"></div>
             <div class="content">
@@ -15,7 +15,7 @@
     </div>
     <div [class.col-sm-4]="!modeBilling" [class.col-sm-6]="modeBilling">
         <div class="billing-card mr-auto ml-auto mb-3 mb-sm-0" [class.selected]="premiumY"
-             (click)="onChoosePlan(PlanType.PREMIUMYEAR)">
+             (click)="onChoosePlan(plantype.PREMIUMYEAR)">
             <div class="billing-card-title" jhiTranslate="billing.chooseplan.premiumyear.title">Premium</div>
             <div class="separator"></div>
             <div class="content">
@@ -32,7 +32,7 @@
     </div>
     <div [class.col-sm-4]="!modeBilling" [class.col-sm-6]="modeBilling">
         <div class="billing-card ml-auto mr-auto mr-sm-0 mb-3 mb-sm-0" [class.selected]="premiumM"
-             (click)="onChoosePlan(PlanType.PREMIUMMONTH)">
+             (click)="onChoosePlan(plantype.PREMIUMMONTH)">
             <div class="billing-card-title" jhiTranslate="billing.chooseplan.premiummonth.title">Premium</div>
             <div class="separator"></div>
             <div class="content">
@@ -49,9 +49,9 @@
     </div>
 </div>
 <div class="row align-items-center mt-3 justify-content-center payment-icon">
-    <i class="fab fa-cc-paypal mr-2"></i>
-    <i class="fab fa-cc-visa mr-2"></i>
-    <i class="fab fa-cc-discover mr-2"></i>
-    <i class="fab fa-cc-mastercard mr-2"></i>
-    <i class="fab fa-cc-amex"></i>
+    <fa-icon [icon]="['fab', 'ccPaypal']" class="mr-2"></fa-icon>
+    <fa-icon [icon]="['fab', 'ccvisa']" class="mr-2"></fa-icon>
+    <fa-icon [icon]="['fab', 'ccdiscover']" class="mr-2"></fa-icon>
+    <fa-icon [icon]="['fab', 'ccmastercard']" class="mr-2"></fa-icon>
+    <fa-icon [icon]="['fab', 'ccamex']" class="mr-2"></fa-icon>
 </div>

@@ -1,16 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { SessionStorageService } from 'ngx-webstorage';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AccountsService } from 'app/shared/account/accounts.service';
 import { SearchService } from 'app/shared/search/search.service';
 import { LAST_SEARCH } from 'app/shared/constants/session-storage.constants';
 import { Account } from 'app/shared/account/account.model';
 import { AccountsHomeRouteName } from 'app/connected';
+import { AccountsDBService } from 'app/entities/accounts-db';
 
 @Component({
     selector: 'jhi-search',
@@ -38,7 +38,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     constructor(
         private fb: FormBuilder,
-        private accountsService: AccountsService,
+        private accountsService: AccountsDBService,
         private router: Router,
         private searchService: SearchService,
         private sessionStorage: SessionStorageService

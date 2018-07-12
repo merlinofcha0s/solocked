@@ -3,8 +3,8 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SessionStorageService } from 'ngx-webstorage';
 import { isUndefined } from 'util';
 import { Subscription } from 'rxjs/Subscription';
-import { AccountsService } from 'app/shared/account/accounts.service';
 import { LAST_SEARCH } from 'app/shared/constants/session-storage.constants';
+import { AccountsDBService } from 'app/entities/accounts-db';
 
 @Component({
     selector: 'jhi-accountsdb-search',
@@ -23,7 +23,7 @@ export class AccountsdbSearchComponent implements OnInit, OnDestroy {
 
     totalNumberAccount: number;
 
-    constructor(private fb: FormBuilder, private sessionStorage: SessionStorageService, private accountsService: AccountsService) {}
+    constructor(private fb: FormBuilder, private sessionStorage: SessionStorageService, private accountsService: AccountsDBService) {}
 
     ngOnInit() {
         this.initForm();

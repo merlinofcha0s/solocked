@@ -11,7 +11,7 @@ import { IPayment, Payment, PlanType } from 'app/shared/model/payment.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { PaymentWarning } from 'app/entities/payment/payment-warning.model';
 import { JhiDateUtils } from 'ng-jhipster';
-import { Principal } from 'app/core';
+import { Principal } from '../../core/auth/principal.service';
 import { ReturnPayment } from 'app/account/register/dto/return-payment.model';
 import { InitPayment } from 'app/account/register/dto/init-payment.model';
 import { CompletePayment } from 'app/account/register/dto/complete-payment.model';

@@ -3,7 +3,7 @@ import { MatDialogRef, MatSnackBar, MatSnackBarConfig } from '@angular/material'
 import { Subscription } from 'rxjs/Subscription';
 import { isUndefined } from 'util';
 import { Principal, UserService } from 'app/core';
-import { LoginService } from 'app/core';
+import { LoginService } from '../../../core/login/login.service';
 import { Router } from '@angular/router';
 import { SnackComponent } from 'app/shared/snack/snack.component';
 

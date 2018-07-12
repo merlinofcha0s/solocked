@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { SessionStorageService } from 'ngx-webstorage';
-import { AccountsService } from 'app/shared/account/accounts.service';
 import { PaymentService } from 'app/entities/payment';
 import { Principal } from 'app/core';
 import { SearchService } from 'app/shared/search/search.service';
 import { LAST_SEARCH } from 'app/shared/constants/session-storage.constants';
 import { Account } from 'app/shared/account/account.model';
+import { AccountsDBService } from 'app/entities/accounts-db';
 
 @Component({
     selector: 'jhi-accountdb-home',
@@ -31,7 +31,7 @@ export class AccountsdbHomeComponent implements OnInit, OnDestroy {
     displayAll: boolean;
 
     constructor(
-        private accountsService: AccountsService,
+        private accountsService: AccountsDBService,
         private paymentService: PaymentService,
         private principal: Principal,
         private searchService: SearchService,

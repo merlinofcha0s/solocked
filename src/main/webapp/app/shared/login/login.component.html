@@ -1,18 +1,8 @@
-<div class="modal-header">
-    <h4 class="modal-title" jhiTranslate="login.title">Sign in</h4>
-    <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="activeModal.dismiss('closed')">
-        <span aria-hidden="true">x</span>
-    </button>
-</div>
-<div class="modal-body">
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <div class="alert alert-danger" *ngIf="authenticationError"
-                 jhiTranslate="login.messages.error.authentication">
-                <strong>Failed to sign in!</strong> Please check your credentials and try again.
-            </div>
-        </div>
-        <div class="col-md-6">
+<div class="row justify-content-center ">
+    <div *ngIf="authenticationError" id="errorMessage" class="card-warning text-white" jhiTranslate="login.messages.error.authentication">
+        <strong>Failed to sign in!</strong> <span>Please check your credentials and try again.</span>
+    </div>
+        <div class="col-md-12">
             <form class="form" role="form" (ngSubmit)="login()">
                 <mat-form-field class="loginInput">
                     <input type="text" matInput name="username" id="username"
@@ -29,15 +19,13 @@
                     <button type="submit" id="login" class="buttonLogin" mat-button>
                         <div class="d-flex justify-content-center align-items-center">
                             <span>{{'login.form.button' | translate}}</span>
-                            <i class="fa fa-key loginArrow" aria-hidden="true"></i>
+                            <fa-icon [icon]="['fas', 'key']" class="loginArrow"></fa-icon>
                         </div>
                     </button>
                 </div>
                 <div class="d-flex justify-content-center mt-4 mb-4 align-items-center" *ngIf="loading">
                     <mat-spinner class="spinnerLogin" color="primary" diameter="50" mode="indeterminate"></mat-spinner>
-                    <div class="text-white" jhiTranslate="login.form.loading">Unlocking your personal
-                        safe,
-                        please wait...
+                    <div class="text-white" jhiTranslate="login.form.loading">Unlocking your personal safe, please wait...
                     </div>
                 </div>
                 <div class="placeholder-loading" *ngIf="!loading"></div>
