@@ -71,11 +71,11 @@
                         </mat-error>
                     </mat-form-field>
                   <div (click)="generatePassword()" class="ml-2 mr-2">
-                      <i matTooltip="{{ 'ninjaccountApp.accountsDB.generatepassword' | translate }}" class="fas fa-sync-alt suffixIcon" aria-hidden="true"></i>
+                      <fa-icon [icon]="['fas', 'sync-alt']" matTooltip="{{ 'ninjaccountApp.accountsDB.generatepassword' | translate }}" class="suffixIcon" aria-hidden="true"></fa-icon>
                   </div>
                   <div (click)="onHideDisplayPassword()">
-                      <i matTooltip="{{ 'ninjaccountApp.accountsDB.add.hide' | translate }}" class="fas fa-eye suffixIcon" aria-hidden="true" [class.hideIcon]="passwordType == 'password'"></i>
-                      <i matTooltip="{{ 'ninjaccountApp.accountsDB.add.show' | translate }}" class="fas fa-eye-slash suffixIcon" aria-hidden="true" [class.hideIcon]="passwordType == 'text'"></i>
+                      <fa-icon [icon]="['fas', 'eye']" matTooltip="{{ 'ninjaccountApp.accountsDB.add.hide' | translate }}" class="suffixIcon" aria-hidden="true" [class.hideIcon]="passwordType == 'password'"></fa-icon>
+                      <fa-icon [icon]="['fas', 'eye-slash']" matTooltip="{{ 'ninjaccountApp.accountsDB.add.show' | translate }}" class="suffixIcon" aria-hidden="true" [class.hideIcon]="passwordType == 'text'"></fa-icon>
                   </div>
                   <jhi-copy-clipboard class="suffixIcon" [contentToCopy]="password.value" [keyNameField]="'ninjaccountApp.accountsDB.add.password'"></jhi-copy-clipboard>
               </div>
@@ -91,7 +91,7 @@
                       </mat-error>
                   </mat-form-field>
                   <a class="ml-2" href="{{ url.value.indexOf('http') != -1 ? url.value : 'http://' + url.value }}" matTooltip="{{ 'ninjaccountApp.accountsDB.add.gourl' | translate }}" *ngIf="url.valid && url.value?.length >= 1" target="_blank">
-                      <i class="fas fa-external-link-square-alt suffixIcon url"></i>
+                      <fa-icon [icon]="['fas', 'external-link-square-alt']" class="suffixIcon url"></fa-icon>
                   </a>
                   <jhi-copy-clipboard class="suffixIcon" [contentToCopy]="url.value" [keyNameField]="'ninjaccountApp.accountsDB.add.url'"></jhi-copy-clipboard>
               </div>
@@ -124,14 +124,14 @@
                     <div class="col-12 col-sm-6 pl-sm-0">
                         <button mat-button type="button" class="addCustom" id="addCustomField"
                                 (click)="addCustomField('', '')">
-                            <i class="fas fa-align-justify custom-icons" aria-hidden="true"></i>
+                            <fa-icon [icon]="['fas', 'align-justify']"  class="custom-icons" aria-hidden="true"></fa-icon>
                             <div>{{'ninjaccountApp.accountsDB.add.custom.button' | translate}}</div>
                         </button>
                     </div>
                     <div class="col-12 col-sm-6 pr-sm-0">
                         <button mat-button type="button" class="addCustom" id="addCustomSetFields"
                                 (click)="openCustomBlock()">
-                            <i class="fas fa-th-list custom-icons" aria-hidden="true"></i>
+                            <fa-icon [icon]="['fas', 'th-list']" class="custom-icons" aria-hidden="true"></fa-icon>
                             <div>{{'ninjaccountApp.accountsDB.add.custom.sets.button' | translate}}</div>
                         </button>
                     </div>

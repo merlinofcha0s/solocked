@@ -12,8 +12,8 @@
 
             <mat-hint align="end">{{ cu.get('valueField').value?.length || 0 }} / {{ maxValue }}</mat-hint>
         </mat-form-field>
-        <i class="fas fa-edit suffixIcon ml-2" *ngIf="isKeyFieldHided[i]" (click)="onEditLabel(i)" matTooltip="{{ 'ninjaccountApp.accountsDB.add.custom.editlabel' | translate }}"></i>
-        <i class="fa fa-trash suffixIcon ml-2" (click)="onDeleteCustomField(i)" matTooltip="{{ 'ninjaccountApp.accountsDB.add.custom.delete' | translate }}" aria-hidden="true"></i>
+        <fa-icon [icon]="['fas', 'edit']" class="suffixIcon ml-2" *ngIf="isKeyFieldHided[i]" (click)="onEditLabel(i)" matTooltip="{{ 'ninjaccountApp.accountsDB.add.custom.editlabel' | translate }}"></fa-icon>
+        <fa-icon [icon]="['fas', 'trash']" class="suffixIcon ml-2" (click)="onDeleteCustomField(i)" matTooltip="{{ 'ninjaccountApp.accountsDB.add.custom.delete' | translate }}" aria-hidden="true"></fa-icon>
         <jhi-copy-clipboard class="suffixIcon" [contentToCopy]="cu.get('valueField').value" [keyNameField]="'ninjaccountApp.accountsDB.add.custom.value'"></jhi-copy-clipboard>
     </div>
 </div>

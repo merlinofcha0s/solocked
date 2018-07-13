@@ -1,7 +1,7 @@
 <mat-expansion-panel [@appear] class="payment-custom-card" [expanded]="expanded" (closed)="onClose()" (opened)="onOpen()">
   <mat-expansion-panel-header>
           <mat-panel-title class="title d-flex align-items-center" style="width: 100%;">
-              <i class="fas fa-money-bill-alt payment-block-icons" aria-hidden="true"></i>
+              <fa-icon [icon]="['far', 'money-bill-alt']" class="payment-block-icons" aria-hidden="true"></fa-icon>
               <div jhiTranslate="ninjaccountApp.accountsDB.paymentblock.paymentCustomBlock.title">Payments</div>
               <div *ngIf="!accordionOpened && payments.length > 0"  class="lastpayment-container">
                   <div jhiTranslate="ninjaccountApp.accountsDB.paymentblock.paymentCustomBlock.lastPayment">Last payment</div>
@@ -10,7 +10,7 @@
                       <div>{{ lastPayment?.amount | currency }}</div>
                   </div>
               </div>
-              <i class="fas fa-trash suppress mr-3" *ngIf="!readOnlyMode" (click)="onSuppressPaymentBlock()"></i>
+              <fa-icon  [icon]="['fas', 'trash']" class="suppress mr-3" *ngIf="!readOnlyMode" (click)="onSuppressPaymentBlock()"></fa-icon>
           </mat-panel-title>
   </mat-expansion-panel-header>
     <mat-card class="payments">

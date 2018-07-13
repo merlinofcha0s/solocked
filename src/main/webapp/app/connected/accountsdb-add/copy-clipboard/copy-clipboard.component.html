@@ -1,2 +1,2 @@
-<i matTooltip="{{ 'ninjaccountApp.accountsDB.details.tooltip' | translate }}" class="fas fa-copy ml-2" *ngIf="contentToCopy"
-   aria-hidden="true" ngxClipboard [cbContent]="contentToCopy" (click)="notifyCopyToClipboard(keyNameField)"></i>
+<fa-icon [icon]="['fas', 'copy']" matTooltip="{{ 'ninjaccountApp.accountsDB.details.tooltip' | translate }}" class="ml-2" *ngIf="contentToCopy"
+   aria-hidden="true" ngxClipboard [cbContent]="contentToCopy" (click)="notifyCopyToClipboard(keyNameField)"></fa-icon>
