@@ -332,7 +332,7 @@ export class AccountsDBService {
             })
             .subscribe(
                 (accountDB: AccountsDB) => {
-                    //this.accountDbService.getActualMaxAccount();
+                    this.getActualMaxAccount();
                     this.saveOnBrowser(this._dataStore.accounts);
                 },
                 error => {

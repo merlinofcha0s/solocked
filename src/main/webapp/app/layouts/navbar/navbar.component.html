@@ -5,7 +5,7 @@
            aria-label="Toggle navigation" (click)="toggleNavbar()">
             <fa-icon [icon]="'bars'"></fa-icon>
         </a>
-        <a class="navbar-brand logo float-left" routerLink="/accounts" (click)="collapseNavbar()">
+        <a class="navbar-brand logo float-left" (click)="onClickTitleHeader()">
             <span class="logo-img"></span>
             <span jhiTranslate="global.title" class="navbar-title">Solocked</span> <span class="navbar-version">{{version}}-BETA</span>
         </a>

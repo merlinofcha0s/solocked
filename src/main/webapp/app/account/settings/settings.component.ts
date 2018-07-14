@@ -83,15 +83,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
                         this.languageService.changeLanguage(this.settingsAccount.langKey);
                     }
                 });
-
-                // Config and show toast message
-                const config = new MatSnackBarConfig();
-                config.verticalPosition = 'top';
-                config.duration = 3000;
-
-                const message = this.translateService.instant('settings.messages.success');
-                config.data = { icon: 'fa-check-circle', text: message };
-                this.snackBar.openFromComponent(SnackComponent, config);
+                this.snackUtil.openSnackBar('settings.messages.success', 3000, 'check-circle');
             },
             () => {
                 this.success = null;

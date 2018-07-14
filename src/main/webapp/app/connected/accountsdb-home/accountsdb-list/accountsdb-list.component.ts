@@ -1,16 +1,10 @@
-import {Component, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {Account} from '../../../shared/account/account.model';
-import {MatDialog} from '@angular/material';
+import { Component, HostListener, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Account } from '../../../shared/account/account.model';
+import { MatDialog } from '@angular/material';
 
-import {
-    trigger,
-    state,
-    style,
-    animate,
-    transition
-} from '@angular/animations';
-import {AccountsdbDeleteComponent} from '../../accountsdb-delete/accountsdb-delete.component';
-import {Router} from '@angular/router';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+import { AccountsdbDeleteComponent } from '../../accountsdb-delete/accountsdb-delete.component';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'jhi-accountsdb-list',
@@ -18,19 +12,18 @@ import {Router} from '@angular/router';
     styleUrls: ['./accountsdb-list.component.scss'],
     animations: [
         trigger('appear', [
-            state('void', style({opacity: 0.0, transform: 'translateY(100%)'})),
-            state('*', style({opacity: 1, transform: 'translateY(0)'})),
+            state('void', style({ opacity: 0.0, transform: 'translateY(100%)' })),
+            state('*', style({ opacity: 1, transform: 'translateY(0)' })),
             transition('void => *, * => void', animate('200ms  ease-in-out'))
         ]),
         trigger('noResult', [
-            state('void', style({opacity: 0.0, transform: 'translateX(100%)'})),
-            state('*', style({opacity: 1, transform: 'translateX(0)'})),
+            state('void', style({ opacity: 0.0, transform: 'translateX(100%)' })),
+            state('*', style({ opacity: 1, transform: 'translateX(0)' })),
             transition('void => *, * => void', animate('400ms  ease-in-out'))
         ])
     ]
 })
 export class AccountsdbListComponent implements OnInit, OnChanges {
-
     @Input() accounts: Array<Account>;
     @Input() terms: string;
 
@@ -38,9 +31,7 @@ export class AccountsdbListComponent implements OnInit, OnChanges {
 
     selected: Array<boolean>;
 
-    constructor(public dialog: MatDialog,
-                private router: Router) {
-    }
+    constructor(public dialog: MatDialog, private router: Router) {}
 
     ngOnInit() {
         this.resetSelectorState();
@@ -106,8 +97,13 @@ export class AccountsdbListComponent implements OnInit, OnChanges {
     }
 
     onEnter() {
-        const accountSelected = this.accounts[this.indexKey];
-        this.router.navigate(['/accounts/edit', accountSelected.id]);
+        let hasAtLeastOneSelected = false;
+        this.selected.forEach(isSelected => (isSelected ? (hasAtLeastOneSelected = true) : (hasAtLeastOneSelected = false)));
+
+        if (hasAtLeastOneSelected) {
+            const accountSelected = this.accounts[this.indexKey];
+            this.router.navigate(['/accounts/edit', accountSelected.id]);
+        }
     }
 
     resetSelectorState() {

@@ -65,6 +65,14 @@ export class NavbarComponent implements OnInit {
         this.languageService.changeLanguage(languageKey);
     }
 
+    onClickTitleHeader() {
+        if (this.principal.isAuthenticated()) {
+            this.router.navigate(['/accounts']);
+        }
+
+        this.collapseNavbar();
+    }
+
     collapseNavbar() {
         this.isNavbarCollapsed = true;
     }
