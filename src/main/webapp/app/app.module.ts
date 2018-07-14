@@ -25,6 +25,7 @@ import { AuthInterceptor } from 'app/blocks/interceptor/auth.interceptor';
 import { AuthExpiredInterceptor } from 'app/blocks/interceptor/auth-expired.interceptor';
 import { ErrorHandlerInterceptor } from 'app/blocks/interceptor/errorhandler.interceptor';
 import { NotificationInterceptor } from 'app/blocks/interceptor/notification.interceptor';
+import { NgxJsonLdModule } from 'ngx-json-ld';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
@@ -39,8 +40,8 @@ import { NotificationInterceptor } from 'app/blocks/interceptor/notification.int
         NinjaccountHomeModule,
         NinjaccountAccountModule,
         NinjaccountEntityModule,
-        NinjaccountConnectedModule
-        //NgxJsonLdModule
+        NinjaccountConnectedModule,
+        NgxJsonLdModule
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [

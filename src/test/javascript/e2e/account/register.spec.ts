@@ -1,8 +1,7 @@
 import { browser, element, by } from 'protractor';
-import {CommonAction} from "./common-action";
+import { CommonAction } from './common-action';
 
 describe('account', () => {
-
     let registerHelper: CommonAction;
 
     const password = 'Lolmdr06';
@@ -16,13 +15,21 @@ describe('account', () => {
     it('should register successfuly', () => {
         registerHelper.registerUser('test', password, 'test@test.com');
 
-        element.all(by.id('success')).first().isPresent().then((value) => {
-            expect(value).toEqual(true);
-        });
+        element
+            .all(by.id('success'))
+            .first()
+            .isPresent()
+            .then(value => {
+                expect(value).toEqual(true);
+            });
 
-        element.all(by.id("success")).first().isDisplayed().then((value) => {
-            expect(value).toEqual(true);
-        });
+        element
+            .all(by.id('success'))
+            .first()
+            .isDisplayed()
+            .then(value => {
+                expect(value).toEqual(true);
+            });
     });
 
     it('should not register because email already exist', () => {
@@ -30,13 +37,21 @@ describe('account', () => {
 
         browser.driver.sleep(2000);
 
-        element.all(by.id('errorEmailExists')).first().isPresent().then((value) => {
-            expect(value).toEqual(true);
-        });
+        element
+            .all(by.id('errorEmailExists'))
+            .first()
+            .isPresent()
+            .then(value => {
+                expect(value).toEqual(true);
+            });
 
-        element.all(by.id("errorEmailExists")).first().isDisplayed().then((value) => {
-            expect(value).toEqual(true);
-        });
+        element
+            .all(by.id('errorEmailExists'))
+            .first()
+            .isDisplayed()
+            .then(value => {
+                expect(value).toEqual(true);
+            });
     });
 
     it('should not register because username already exist', () => {
@@ -44,12 +59,20 @@ describe('account', () => {
 
         browser.driver.sleep(2000);
 
-        element.all(by.id('errorUserExists')).first().isPresent().then((value) => {
-            expect(value).toEqual(true);
-        });
+        element
+            .all(by.id('errorUserExists'))
+            .first()
+            .isPresent()
+            .then(value => {
+                expect(value).toEqual(true);
+            });
 
-        element.all(by.id("errorUserExists")).first().isDisplayed().then((value) => {
-            expect(value).toEqual(true);
-        });
+        element
+            .all(by.id('errorUserExists'))
+            .first()
+            .isDisplayed()
+            .then(value => {
+                expect(value).toEqual(true);
+            });
     });
 });

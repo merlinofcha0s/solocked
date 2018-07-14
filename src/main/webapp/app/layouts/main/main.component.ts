@@ -6,7 +6,6 @@ import { AutolockService } from 'app/layouts/navbar/autologout/autolock.service'
 import { ProfileService } from '../../layouts/profiles/profile.service';
 import { MatDialog } from '@angular/material';
 import { WarnBrowserComponent } from 'app/layouts/main/warn-browser/warn-browser.component';
-import { Title } from '@angular/platform-browser';
 import { AccountsDBService } from 'app/entities/accounts-db';
 
 @Component({

@@ -1,20 +1,10 @@
-import {
-    Component,
-    EventEmitter,
-    Input,
-    OnChanges,
-    OnDestroy,
-    OnInit,
-    Output,
-    SimpleChanges,
-    ViewChild
-} from '@angular/core';
-import {Payment} from '../../../shared/account/payment-block.model';
-import {MatDatepicker, MatDialog, MatDialogRef} from '@angular/material';
-import {PaymentCustomBlockConstant} from '../payment-custom-block.constant';
-import {DeletePaymentLineComponent} from './delete-payment-line/delete-payment-line.component';
-import {isUndefined} from 'util';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Payment } from '../../../shared/account/payment-block.model';
+import { MatDatepicker, MatDialog, MatDialogRef } from '@angular/material';
+import { PaymentCustomBlockConstant } from '../payment-custom-block.constant';
+import { DeletePaymentLineComponent } from './delete-payment-line/delete-payment-line.component';
+import { isUndefined } from 'util';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
     selector: 'jhi-payment-custom-block',
@@ -22,14 +12,13 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
     styleUrls: ['./payment-custom-block.component.scss'],
     animations: [
         trigger('appear', [
-            state('void', style({opacity: 0.0})),
-            state('*', style({opacity: 1})),
+            state('void', style({ opacity: 0.0 })),
+            state('*', style({ opacity: 1 })),
             transition('void => *, * => void', animate('500ms  ease-in-out'))
         ])
     ]
 })
 export class PaymentCustomBlockComponent implements OnInit, OnDestroy, OnChanges {
-
     @ViewChild(MatDatepicker) picker;
 
     @Input() payments: Array<Payment>;
@@ -65,16 +54,14 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy, OnChanges
         this.expandIfPayments();
     }
 
-    ngOnDestroy(): void {
-    }
+    ngOnDestroy(): void {}
 
     ngOnChanges(changes: SimpleChanges): void {
         this.updateLastPayment();
     }
 
     onAddPayment() {
-        const newPayment = new Payment(new Date(), 0, this._placeholderMethod
-            , this._placeholderCode, this._placeholderNotes);
+        const newPayment = new Payment(new Date(), 0, this._placeholderMethod, this._placeholderCode, this._placeholderNotes);
 
         this.payments.unshift(newPayment);
         this.onSyncPayments.emit(this.payments);
@@ -89,7 +76,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy, OnChanges
             }
         });
 
-        this.deleteLinePayment.afterClosed().subscribe((result) => {
+        this.deleteLinePayment.afterClosed().subscribe(result => {
             if (!isUndefined(result) && result === true) {
                 this.payments.splice(index, 1);
                 this.onSyncPayments.emit(this.payments);
@@ -134,8 +121,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy, OnChanges
 
     computeAverageAndTotal() {
         if (this.payments.length >= 1) {
-            const totalNotRounded = this.payments.map((payment) => payment.amount)
-                .reduce((a, b) => (Number(a) + Number(b)));
+            const totalNotRounded = this.payments.map(payment => payment.amount).reduce((a, b) => Number(a) + Number(b));
             const averageNotRounded = totalNotRounded / this.payments.length;
             this.total = Number(totalNotRounded).toFixed(2);
             this.average = averageNotRounded.toFixed(2);

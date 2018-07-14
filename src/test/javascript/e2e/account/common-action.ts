@@ -57,7 +57,7 @@ export class CommonAction {
         this.homePage.password.sendKeys(password);
         this.homePage.validate.click();
         browser.waitForAngular();
-        //await browser.driver.sleep(2000);
+        // await browser.driver.sleep(2000);
         if (checkMyAccounts) {
             browser.driver.sleep(2000);
             element

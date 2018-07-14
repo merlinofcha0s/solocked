@@ -1,7 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormArray} from '@angular/forms';
-import {TranslateService} from '@ngx-translate/core';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormArray } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
     selector: 'jhi-custom-fields',
@@ -9,7 +9,6 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
     styleUrls: ['./custom-fields.component.scss']
 })
 export class CustomFieldsComponent implements OnInit {
-
     maxKey = 60;
     maxValue = 100;
 
@@ -24,7 +23,7 @@ export class CustomFieldsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.customs$.subscribe((customs) => {
+        this.customs$.subscribe(customs => {
             this.customs = customs;
             for (let _i = 0; _i < customs.controls.length; _i++) {
                 this.hideKeyField(_i);
