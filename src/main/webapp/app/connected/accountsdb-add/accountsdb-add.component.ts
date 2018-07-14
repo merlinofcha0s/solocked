@@ -215,11 +215,11 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
             this.accountDbService.updateAccount(newAccount);
             this.loading = false;
             this.paymentExpanded = false;
-            this.snackUtil.openSnackBar('ninjaccountApp.accountsDB.update.successful', 3000, 'fa-check-circle');
+            this.snackUtil.openSnackBar('ninjaccountApp.accountsDB.update.successful', 3000, 'check-circle');
         } else {
             this.accountDbService.saveNewAccount(newAccount).subscribe(
                 (accountsUpdated: AccountsDB) => {
-                    this.snackUtil.openSnackBar('ninjaccountApp.accountsDB.add.successful', 3000, 'fa-check-circle');
+                    this.snackUtil.openSnackBar('ninjaccountApp.accountsDB.add.successful', 3000, 'check-circle');
                     this.loading = false;
                     this.router.navigate(['accounts']);
                 },

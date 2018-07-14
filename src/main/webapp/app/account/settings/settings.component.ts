@@ -136,7 +136,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         if (accounts.length !== 0) {
             this.dialog.open(ExportAllAccountsComponent, {});
         } else {
-            this.snackUtil.openSnackBar('settings.danger.export.nodata', 5000, 'fa-exclamation-triangle');
+            this.snackUtil.openSnackBar('settings.danger.export.nodata', 5000, 'exclamation-triangle');
         }
     }
 

@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {SnackUtilService} from '../../../shared/snack/snack-util.service';
-import {TranslateService} from '@ngx-translate/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { SnackUtilService } from '../../../shared/snack/snack-util.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'jhi-copy-clipboard',
@@ -8,20 +8,17 @@ import {TranslateService} from '@ngx-translate/core';
     styleUrls: ['./copy-clipboard.component.scss']
 })
 export class CopyClipboardComponent implements OnInit {
-
     @Input() contentToCopy: string;
     @Input() keyNameField: string;
 
-    constructor(private snackUtilsService: SnackUtilService,
-                private translateService: TranslateService) {
-    }
+    constructor(private snackUtilsService: SnackUtilService, private translateService: TranslateService) {}
 
-    ngOnInit() {
-    }
+    ngOnInit() {}
 
     notifyCopyToClipboard(nameField: string) {
         const nameFieldTrans = this.translateService.instant(nameField);
-        this.snackUtilsService.openSnackBar('ninjaccountApp.accountsDB.details.toastMessage',
-            3000, 'fa-check-circle', {nameField: nameFieldTrans});
+        this.snackUtilsService.openSnackBar('ninjaccountApp.accountsDB.details.toastMessage', 3000, 'check-circle', {
+            nameField: nameFieldTrans
+        });
     }
 }

@@ -79,12 +79,12 @@ export class ImportComponent implements OnInit, OnDestroy {
                 .concatMap(actualAndMax => this.accountsDBService.saveNewAccount(this.newAccounts))
                 .flatMap(account => this.accountsDBService.updateActualNumberAccount(nbActualAccount + this.newAccounts.length))
                 .subscribe(response => {
-                    this.snackUtil.openSnackBar('import.success', 5000, 'fa-check-circle', { nbImportedAccount: this.newAccounts.length });
+                    this.snackUtil.openSnackBar('import.success', 5000, 'check-circle', { nbImportedAccount: this.newAccounts.length });
                     this.loading = false;
                 });
         } else {
             this.loading = false;
-            this.snackUtil.openSnackBar('import.error.wrongchoiceformat', 5000, 'fa-exclamation-triangle');
+            this.snackUtil.openSnackBar('import.error.wrongchoiceformat', 5000, 'exclamation-triangle');
         }
     }
 
@@ -127,7 +127,7 @@ export class ImportComponent implements OnInit, OnDestroy {
                 if (actualAndMax.first + this.newAccounts.length <= actualAndMax.second) {
                     this.preloadOk = true;
                 } else {
-                    this.snackUtil.openSnackBar('import.error.toomanyaccount', 10000, 'fa-exclamation-triangle', {
+                    this.snackUtil.openSnackBar('import.error.toomanyaccount', 10000, 'exclamation-triangle', {
                         actual: actualAndMax.first,
                         nbOfNewAccount: this.newAccounts.length,
                         max: actualAndMax.second
@@ -136,7 +136,7 @@ export class ImportComponent implements OnInit, OnDestroy {
                 }
             });
         } else {
-            this.snackUtil.openSnackBar('import.error.formatunknown', 5000, 'fa-exclamation-triangle');
+            this.snackUtil.openSnackBar('import.error.formatunknown', 5000, 'exclamation-triangle');
         }
     }
 

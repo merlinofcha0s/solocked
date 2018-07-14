@@ -96,7 +96,7 @@ export class BillingComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.success = true;
                 this.finalizingPaymentDialogRef.close();
                 this.paymentService.getPaymentByLogin();
-                this.snackUtil.openSnackBar('billing.success', 10000, 'fa-check-circle');
+                this.snackUtil.openSnackBar('billing.success', 10000, 'check-circle');
             },
             (response: HttpErrorResponse) => this.processError(response)
         );
@@ -112,7 +112,7 @@ export class BillingComponent implements OnInit, OnDestroy, AfterViewInit {
             this.error = 'billing.error.error';
         }
         this.finalizingPaymentDialogRef.close();
-        this.snackUtil.openSnackBar(this.error, 60000, 'fa-times');
+        this.snackUtil.openSnackBar(this.error, 60000, 'times');
     }
 
     private openWaiterFinalizer() {

@@ -48,7 +48,9 @@ import {
     faEdit,
     faTrash,
     faCreditCard,
-    faIdCard
+    faIdCard,
+    faCheckCircle,
+    faExclamationTriangle
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faCcPaypal, faCcVisa, faCcDiscover, faCcMastercard, faCcAmex } from '@fortawesome/free-brands-svg-icons';
@@ -106,5 +108,8 @@ library.add(faTrash);
 library.add(faMoneyBillAlt);
 library.add(faCreditCard);
 library.add(faIdCard);
+library.add(faCheckCircle);
+library.add(faExclamationTriangle);
+library.add(faTimes);
 
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here
