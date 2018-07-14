@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConditionalOnClass({UndertowServletWebServerFactory.class})
-@ConditionalOnProperty({"server.ssl.ciphers", "server.ssl.key-store"})
+@ConditionalOnProperty("server.ssl.ciphers")
 public class UndertowNinjaConfig {
 
     private final UndertowServletWebServerFactory factory;
@@ -27,6 +27,7 @@ public class UndertowNinjaConfig {
         this.log.info("Opening http port");
         this.factory.addBuilderCustomizers((builder) -> {
             builder.addHttpListener(80, "0.0.0.0");
+            builder.setSocketOption(UndertowOptions.SSL_USER_CIPHER_SUITES_ORDER, Boolean.TRUE);
         });
     }
 }
