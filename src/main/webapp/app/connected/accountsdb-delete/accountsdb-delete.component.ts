@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { Router } from '@angular/router';
-import { SnackComponent } from '../../shared/snack/snack.component';
 import { TranslateService } from '@ngx-translate/core';
 import { AccountsDBService } from 'app/entities/accounts-db';
+import { SnackUtilService } from 'app/shared/snack/snack-util.service';
 
 @Component({
     selector: 'jhi-accountsdb-delete',
@@ -15,19 +15,14 @@ export class AccountsdbDeleteComponent implements OnInit {
         private router: Router,
         private snackBar: MatSnackBar,
         private translateService: TranslateService,
-        private accountsService: AccountsDBService
+        private accountsService: AccountsDBService,
+        private snackbarUtils: SnackUtilService
     ) {}
 
     ngOnInit() {}
 
     onDelete() {
-        const message = this.translateService.instant('ninjaccountApp.accountsDB.details.deletePopup.snack');
-        const config = new MatSnackBarConfig();
-        config.verticalPosition = 'top';
-        config.duration = 3000;
-        config.data = { icon: 'fa-check-circle', text: message };
-        this.snackBar.openFromComponent(SnackComponent, config);
-
+        this.snackbarUtils.openSnackBar('ninjaccountApp.accountsDB.details.deletePopup.snack', 3000, 'check-circle');
         this.accountsService.deleteAccount(this.data.id);
         this.router.navigate(['/accounts']);
     }

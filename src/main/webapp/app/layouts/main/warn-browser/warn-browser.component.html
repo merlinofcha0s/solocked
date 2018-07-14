@@ -1,22 +1,24 @@
-<h2 mat-dialog-title class="d-flex align-content-center">{{ "warn-egde.title" | translate }}<i class="icon-title far fa-frown"></i></h2>
+<h2 mat-dialog-title class="d-flex align-content-center">{{ "warn-egde.title" | translate }}
+    <fa-icon [icon]="['far', 'frown']" class="icon-title"></fa-icon>
+</h2>
 <mat-dialog-content class="d-flex flex-column justify-content-center align-content-center">
     <div class="m-1" jhiTranslate="warn-egde.content-1">Solocked is not compatible with Edge right now !</div>
     <div class="m-1" jhiTranslate="warn-egde.content-2">Please use one of the following browser :</div>
     <div class="d-flex justify-content-center align-items-center icons-list">
         <a class="d-flex flex-column justify-content-center align-items-center icon-container" href="https://www.mozilla.org/fr/firefox/" target="_blank">
-            <i class="ff fab fa-firefox"></i>
+            <fa-icon [icon]="['fab', 'firefox']" class="ff"></fa-icon>
             <div>Firefox</div>
         </a>
         <a class="d-flex flex-column justify-content-center align-items-center icon-container" href="https://www.google.fr/chrome/browser/desktop/index.html" target="_blank">
-            <i class="chrome fab fa-chrome"></i>
+            <fa-icon [icon]="['fab', 'chrome']" class="chrome"></fa-icon>
             <div>Chrome</div>
         </a>
         <a class="d-flex flex-column justify-content-center align-items-center icon-container" href="https://www.opera.com/fr" target="_blank">
-            <i class="opera fab fa-opera"></i>
+            <fa-icon [icon]="['fab', 'opera']" class="opera"></fa-icon>
             <div>Opera</div>
         </a>
         <a class="d-flex flex-column justify-content-center align-items-center icon-container" href="https://www.apple.com/fr/safari/" target="_blank">
-            <i class="safari fab fa-safari"></i>
+            <fa-icon [icon]="['fab', 'safari']" class="safari"></fa-icon>
             <div>Safari</div>
         </a>
     </div>

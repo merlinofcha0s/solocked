@@ -2,7 +2,7 @@
     <div *ngIf="displayPaymentIssue" class="d-flex justify-content-center align-items-center no-payment col-12"
          [class.not-paid]="!paymentWarning.isPaid || !paymentWarning.isValid"
          [class.free-mode]="paymentWarning.isInFreeMode">
-        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+        <fa-icon [icon]="['fas', 'exclamation-triangle']" aria-hidden="true"></fa-icon>
         <div class="warning">
             <span jhiTranslate="{{ paymentWarning.warningMessage }}"></span>
             <a [routerLink]="['/billing']" jhiTranslate="ninjaccountApp.payment.linkInvoice"></a>

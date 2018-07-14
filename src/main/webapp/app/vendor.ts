@@ -50,11 +50,25 @@ import {
     faCreditCard,
     faIdCard,
     faCheckCircle,
-    faExclamationTriangle
+    faExclamationTriangle,
+    faChartBar,
+    faMoneyBillAlt,
+    faChevronLeft,
+    faFile
 } from '@fortawesome/free-solid-svg-icons';
 
-import { faCcPaypal, faCcVisa, faCcDiscover, faCcMastercard, faCcAmex } from '@fortawesome/free-brands-svg-icons';
-import { faMoneyBillAlt } from '@fortawesome/free-regular-svg-icons';
+import {
+    faCcPaypal,
+    faCcVisa,
+    faCcDiscover,
+    faCcMastercard,
+    faCcAmex,
+    faFirefox,
+    faChrome,
+    faOpera,
+    faSafari
+} from '@fortawesome/free-brands-svg-icons';
+import { faFrown } from '@fortawesome/free-regular-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
 library.add(faUser);
@@ -111,5 +125,14 @@ library.add(faIdCard);
 library.add(faCheckCircle);
 library.add(faExclamationTriangle);
 library.add(faTimes);
+library.add(faSearch);
+library.add(faFrown);
+library.add(faFirefox);
+library.add(faChrome);
+library.add(faOpera);
+library.add(faSafari);
+library.add(faChartBar);
+library.add(faChevronLeft);
+library.add(faFile);
 
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here

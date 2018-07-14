@@ -1,6 +1,5 @@
 @import '../../../content/scss/custom-variables';
 
-
 $height-footer-payment: 90px;
 
 .footer-with-payment {
@@ -15,9 +14,9 @@ $height-footer-payment: 90px;
     position: fixed;
     z-index: 10;
     color: white;
-    i {
+    fa-icon {
         margin-right: 10px;
-        font-size: 40px
+        font-size: 40px;
     }
     .warning {
         margin-right: 5px;
@@ -29,7 +28,7 @@ $height-footer-payment: 90px;
 }
 
 .not-paid {
-    background-color: #D0021B;
+    background-color: #d0021b;
 }
 
 .free-mode {

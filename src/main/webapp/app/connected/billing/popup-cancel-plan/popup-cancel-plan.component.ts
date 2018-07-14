@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { ExportAllAccountsComponent } from '../../../account/settings/export-all-accounts/export-all-accounts.component';
 import { PaymentService } from '../../../entities/payment/payment.service';
 import { SnackUtilService } from '../../../shared/snack/snack-util.service';
-import { PARAMETERIZED_TYPE, PAYMENT_PENDING, PAYPAL_COMMUNICATION_PROBLEM_TYPE } from '../../../shared';
+import { PARAMETERIZED_TYPE } from '../../../shared';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ReturnPayment } from '../../../account/register/dto/return-payment.model';
 

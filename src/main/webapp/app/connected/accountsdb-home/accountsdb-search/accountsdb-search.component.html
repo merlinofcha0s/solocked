@@ -4,9 +4,9 @@
                placeholder="{{ 'global.menu.search' | translate }}" jhiAutofocus
                autocomplete="off">
         <div matSuffix>
-            <i class="fas fa-search search" [class.hide]="searchControl.value && searchControl.value != ''"></i>
-            <i class="fas fa-times cross" [class.hide]="!searchControl.value || searchControl.value == ''"
-               (click)="clearSearch()"></i>
+            <fa-icon [icon]="['fas', 'search']" class="search" [class.hide]="searchControl.value && searchControl.value != ''"></fa-icon>
+            <fa-icon [icon]="['fas', 'times']" class="cross" [class.hide]="!searchControl.value || searchControl.value == ''"
+               (click)="clearSearch()"></fa-icon>
         </div>
         <mat-hint align="start">
             <div *ngIf="searchControl.value && searchControl.value.length > 1

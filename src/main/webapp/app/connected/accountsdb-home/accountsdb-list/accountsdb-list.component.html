@@ -4,8 +4,8 @@
         <div class="d-none d-sm-block" id="username">{{ account.username }}</div>
     </div>
     <div class="d-flex col-2 actions justify-content-end align-items-center">
-        <i class="fas fa-trash" jhiCheckBilling aria-hidden="true"
-           (click)="openConfirmationDeleteDialog(account.id)"></i>
+        <fa-icon [icon]="['fas', 'trash']" jhiCheckBilling aria-hidden="true"
+           (click)="openConfirmationDeleteDialog(account.id)"></fa-icon>
     </div>
 </div>
 <div class="row" [@noResult] *ngIf="accounts.length == 0 && terms.length > 1">

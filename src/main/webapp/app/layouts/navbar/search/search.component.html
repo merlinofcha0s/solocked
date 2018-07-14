@@ -5,13 +5,13 @@
                 <input type="text" matInput [formControl]="searchControl" placeholder="{{ 'global.menu.search' | translate }}" [matAutocomplete]="auto">
                 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onAccountSelected($event)" [displayWith]="displayFn">
                     <mat-option *ngFor="let account of filteredAccounts | async" [value]="account">
-                        <i class="fas fa-unlock-alt ico-account"></i>
+                        <fa-icon [icon]="['fas', 'unlock-alt']" class="ico-account"></fa-icon>
                         <span>{{ account.name }}</span>
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
-            <i class="ml-2 fas fa-search search" (click)="onHomePageSearch(searchControl.value)"></i>
-            <i class="ml-2 fas fa-times cross" [class.hide]="searchControl.value.length == 0" (click)="clearSearch()"></i>
+            <fa-icon [icon]="['fas', 'search']" class="ml-2 search" (click)="onHomePageSearch(searchControl.value)"></fa-icon>
+            <fa-icon [icon]="['fas', 'times']" class="ml-2 cross" [class.hide]="searchControl.value.length == 0" (click)="clearSearch()"></fa-icon>
             <span class="ml-2 placeholder-cross"  [class.hide]="searchControl.value.length != 0"></span>
         </div>
     </form>

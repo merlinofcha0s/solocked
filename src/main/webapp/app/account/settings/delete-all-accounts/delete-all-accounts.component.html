@@ -1,5 +1,5 @@
 <h2 mat-dialog-title class="text-center">
-    <i class="fa fa-exclamation-triangle warning-export-icon" aria-hidden="true"></i>
+    <fa-icon [icon]="['fas', 'exclamation-triangle']" class="warning-export-icon" aria-hidden="true"></fa-icon>
     <span class="title" jhiTranslate="settings.danger.delete.popup.title">Delete everything</span>
 </h2>
 <form name="form" role="form" (ngSubmit)="onDeleteAll()" #deleteAllForm="ngForm" novalidate>
