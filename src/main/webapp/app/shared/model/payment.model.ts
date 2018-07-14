@@ -2,8 +2,8 @@ import { Moment } from 'moment';
 
 export enum PlanType {
     FREE = 'FREE',
-    PREMIUMYEAR = ' PREMIUMYEAR',
-    PREMIUMMONTH = ' PREMIUMMONTH',
+    PREMIUMYEAR = 'PREMIUMYEAR',
+    PREMIUMMONTH = 'PREMIUMMONTH',
     UNKNOWN = 'UNKNOWN'
 }
 
