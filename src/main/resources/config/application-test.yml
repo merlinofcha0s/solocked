@@ -118,15 +118,8 @@ jhipster:
         from: notification-test@solocked.com
         base-url: https://test.solocked.com # Modify according to your server's URL
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
-        jmx.enabled: true
-        graphite:
-            enabled: false
-            host: localhost
-            port: 2003
-            prefix: ninjaccount
-        prometheus:
-            enabled: false
-            endpoint: /prometheusMetrics
+        jmx:
+            enabled: true
         logs: # Reports Dropwizard metrics in the logs
             enabled: false
             report-frequency: 60 # in seconds
