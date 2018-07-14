@@ -1,3 +1,4 @@
+@import './../../content/scss/custom-variables';
 /* ==========================================================================
 Main page styles
 ========================================================================== */
@@ -21,4 +22,13 @@ Main page styles
         background: url('../../content/images/hipster2x.png') no-repeat center top;
         background-size: contain;
     }
+}
+
+.separator {
+    border-right: 2px solid $primary-color-home;
+}
+
+.understand {
+    color: $primary-color-home;
+    text-decoration: underline;
 }

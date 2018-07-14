@@ -54,7 +54,9 @@ import {
     faChartBar,
     faMoneyBillAlt,
     faChevronLeft,
-    faFile
+    faFile,
+    faExclamationCircle,
+    faLock
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -134,5 +136,7 @@ library.add(faSafari);
 library.add(faChartBar);
 library.add(faChevronLeft);
 library.add(faFile);
+library.add(faExclamationCircle);
+library.add(faLock);
 
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here

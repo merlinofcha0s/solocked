@@ -1,20 +1,22 @@
-<div class="row justify-content-center ">
+<h4 class="text-center text-white mb-3">Already have an account ?</h4>
+<div class="row justify-content-center">
     <div *ngIf="authenticationError" id="errorMessage" class="card-warning text-white" jhiTranslate="login.messages.error.authentication">
         <strong>Failed to sign in!</strong> <span>Please check your credentials and try again.</span>
     </div>
         <div class="col-md-12">
             <form class="form" role="form" (ngSubmit)="login()">
-                <mat-form-field class="loginInput">
-                    <input type="text" matInput name="username" id="username"
-                           placeholder="{{'global.form.username' | translate}}"
-                           [(ngModel)]="username" jhiAutofocus>
-                </mat-form-field>
-                <mat-form-field class="loginInput">
-                    <input matInput type="password" name="password" id="password"
-                           placeholder="{{'login.form.password' | translate}}"
-                           [(ngModel)]="password">
-                </mat-form-field>
-
+                <div class="d-flex align-items-center flex-column">
+                    <mat-form-field class="loginInput">
+                        <input type="text" matInput name="username" id="username"
+                               placeholder="{{'global.form.username' | translate}}"
+                               [(ngModel)]="username" jhiAutofocus>
+                    </mat-form-field>
+                    <mat-form-field class="loginInput">
+                        <input matInput type="password" name="password" id="password"
+                               placeholder="{{'login.form.password' | translate}}"
+                               [(ngModel)]="password">
+                    </mat-form-field>
+                </div>
                 <div class="d-flex justify-content-center">
                     <button type="submit" id="login" class="buttonLogin" mat-button>
                         <div class="d-flex justify-content-center align-items-center">
@@ -30,11 +32,5 @@
                 </div>
                 <div class="placeholder-loading" *ngIf="!loading"></div>
             </form>
-            <div class="d-flex justify-content-center align-items-center flex-column registerContainer">
-                <div class="m-2 text-white" jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</div>
-                <a mat-button class="m-4 registerButton" id="register" (click)="register()">{{'global.messages.info.register.link' | translate}}</a>
-                <a href="https://blog.solocked.com/whats-this/" mat-button class="mt-3 understand" target="_blank">{{'home.more' | translate}}</a>
-                <a href="https://status.solocked.com" mat-button class="understand" target="_blank">{{'home.status' | translate}}</a>
-            </div>
         </div>
 </div>

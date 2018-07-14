@@ -1,57 +1,33 @@
 @import './../../../content/scss/custom-variables';
 
-$primary-color: white;
-
 .loadingContainerCustom {
     margin-left: 10px;
 }
 
-.registerContainer {
-    margin-top: 30px;
-    .registerButton {
-        border-radius: 50px;
-        padding-top: 30px;
-        padding-bottom: 30px;
-        width: 300px;
-        font-size: 20px;
-        border: 1px $primary-color solid;
-        background-color: white;
-        color: $solocked-primary-color;
-    }
-    .registerButton:hover {
-        text-decoration: none;
-    }
-}
-
 .loginInput {
-    width: 100%;
+    width: 70%;
     /deep/ .mat-input-element {
-        color: $primary-color !important;
+        color: $primary-color-home !important;
     }
 
     /deep/ .mat-form-field-label {
-        color: $primary-color !important;
+        color: $primary-color-home !important;
     }
 
     /deep/ .mat-focused .mat-form-field-label {
-        color: $primary-color !important;
+        color: $primary-color-home !important;
     }
 
     /deep/ .mat-form-field-underline {
-        background-color: $primary-color !important;
+        background-color: $primary-color-home !important;
     }
 }
 
 .buttonLogin {
     border-radius: 50px;
-    border: 1px $primary-color solid;
-    color: $primary-color;
+    border: 1px $primary-color-home solid;
+    color: $primary-color-home;
     height: 50px;
-}
-
-.understand {
-    color: $primary-color;
-    text-decoration: underline;
 }
 
 .spinnerLogin {

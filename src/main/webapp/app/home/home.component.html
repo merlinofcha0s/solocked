@@ -1,13 +1,19 @@
 <div class="row">
-    <div class="col-12 col-md-2 col-lg-3"></div>
-    <div class="col-12 col-md-8 col-lg-6">
-        <h3 class="mb-4 text-white text-center">
-            <div jhiTranslate="home.citation1">Chef Chang says:</div>
-            <div jhiTranslate="home.citation2">If I can do it, so can you!</div>
-        </h3>
-        <h2 class="mb-4 text-white text-center" id="title" jhiTranslate="home.subtitle">All your accounts in one
-            place.</h2>
+    <div class="col-12">
+        <h2 class="mb-4 text-white text-center" id="name">Solocked</h2>
+        <h2 class="mb-4 text-white text-center" id="title" jhiTranslate="home.subtitle">All your accounts in one place.</h2>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-12 col-md-6 col-lg-6 separator">
+        <jhi-home-information></jhi-home-information>
+    </div>
+    <div class="col-12 col-md-6 col-lg-6 mt-sm-3 mt-md-0 order-sm-first order-md-last">
         <jhi-login-modal></jhi-login-modal>
     </div>
-    <div class="col-12 col-md-2 col-lg-3"></div>
+</div>
+<div class="row mt-4">
+    <div class="col-12 d-flex align-items-center justify-content-center">
+        <a href="https://status.solocked.com" mat-button class="understand" target="_blank">{{'home.status' | translate}}</a>
+    </div>
 </div>

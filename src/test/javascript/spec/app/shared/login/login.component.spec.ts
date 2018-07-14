@@ -146,7 +146,7 @@ describe('Component Tests', () => {
 
         it('should redirect user when register', () => {
             // WHEN
-            comp.register();
+            // comp.register();
 
             // THEN
             expect(mockActiveModal.dismissSpy).toHaveBeenCalledWith('to state register');

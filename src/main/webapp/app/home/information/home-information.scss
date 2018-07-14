@@ -1,0 +1,30 @@
+@import './../../../content/scss/custom-variables';
+
+.understand {
+    color: $primary-color-home;
+    text-decoration: underline;
+}
+
+.accordion {
+    fa-icon {
+        margin-left: auto;
+        font-size: 15px;
+    }
+}
+
+.registerContainer {
+    margin-top: 30px;
+    .registerButton {
+        border-radius: 50px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        width: 300px;
+        font-size: 20px;
+        border: 1px $primary-color-home solid;
+        background-color: white;
+        color: $solocked-primary-color;
+    }
+    .registerButton:hover {
+        text-decoration: none;
+    }
+}
