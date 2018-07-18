@@ -26,6 +26,7 @@ import { AuthExpiredInterceptor } from 'app/blocks/interceptor/auth-expired.inte
 import { ErrorHandlerInterceptor } from 'app/blocks/interceptor/errorhandler.interceptor';
 import { NotificationInterceptor } from 'app/blocks/interceptor/notification.interceptor';
 import { NgxJsonLdModule } from 'ngx-json-ld';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
@@ -33,6 +34,7 @@ import { NgxJsonLdModule } from 'ngx-json-ld';
     imports: [
         BrowserModule,
         ReactiveFormsModule,
+        BrowserAnimationsModule,
         NinjaccountAppRoutingModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
         NinjaccountSharedModule,

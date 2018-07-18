@@ -79,6 +79,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy, OnChanges
         this.deleteLinePayment.afterClosed().subscribe(result => {
             if (!isUndefined(result) && result === true) {
                 this.payments.splice(index, 1);
+                this.computeAverageAndTotal();
                 this.onSyncPayments.emit(this.payments);
             }
         });

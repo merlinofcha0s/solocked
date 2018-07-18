@@ -27,7 +27,6 @@ import {
     ShowOnDirtyErrorStateMatcher
 } from '@angular/material';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PasswordMatchValidatorDirective } from './auth/password-match.directive';
 import { SnackComponent } from './snack/snack.component';
 import { DateValidatorDirective } from './validation/date-validator.directive';
@@ -43,7 +42,6 @@ import { HasAnyAuthorityDirective } from 'app/shared/auth/has-any-authority.dire
     imports: [
         NinjaccountSharedLibsModule,
         NinjaccountSharedCommonModule,
-        BrowserAnimationsModule,
         MatButtonModule,
         MatCheckboxModule,
         MatFormFieldModule,
@@ -85,7 +83,6 @@ import { HasAnyAuthorityDirective } from 'app/shared/auth/has-any-authority.dire
         HasAnyAuthorityDirective,
         PasswordMatchValidatorDirective,
         DatePipe,
-        BrowserAnimationsModule,
         MatButtonModule,
         MatCheckboxModule,
         MatFormFieldModule,

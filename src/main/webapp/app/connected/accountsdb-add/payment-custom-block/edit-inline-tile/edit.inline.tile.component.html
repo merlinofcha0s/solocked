@@ -3,7 +3,7 @@
      (mouseover)="over=true;" (mouseout)="over=false;">
     <div *ngIf="stringType || currencyType">
         <mat-form-field class="width-max" *ngIf="(edit || over) && !readonlyMode;else valueContainer">
-            <input  matInput class="payment-input" type="getInputType()" (change)="onChangeValue(value)" [(ngModel)]="value" name="value">
+            <input  matInput class="payment-input" type="{{ getInputType() }}" (change)="onChangeValue(value)" [(ngModel)]="value" name="value">
             <span *ngIf="currencyType" matPrefix>$&nbsp;</span>
         </mat-form-field>
     </div>

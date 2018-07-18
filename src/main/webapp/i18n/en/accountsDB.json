@@ -85,19 +85,19 @@
             "validate": {
                 "accountName": {
                     "required": "A name is required",
-                    "max": "Too many character"
+                    "max": "To many character"
                 },
                 "accountNumber": {
                     "pattern": "Enter a number",
-                    "max": "Too many character"
+                    "max": "Too many characters"
                 },
                 "username": {
                     "required": "A username is required",
-                    "max": "Too many character"
+                    "max": "Too many characters"
                 },
                 "password": {
                     "required": "A password is required",
-                    "max": "Too many character"
+                    "max": "Too many characters"
                 },
                 "notes": {
                     "max": "Too many characters"
