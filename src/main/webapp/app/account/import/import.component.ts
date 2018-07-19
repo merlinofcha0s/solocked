@@ -240,6 +240,7 @@ export class ImportComponent implements OnInit, OnDestroy {
             try {
                 let name = fields[1].trim();
                 name = name.charAt(0).toUpperCase() + name.substring(1);
+                const number = fields[2].trim();
                 const username = fields[3].trim();
                 const password = fields[4].trim();
                 const notes = fields[5].trim();
@@ -250,6 +251,7 @@ export class ImportComponent implements OnInit, OnDestroy {
                 const newAccount = new Account(username, password, name);
                 newAccount.url = url;
                 newAccount.notes = notes;
+                newAccount.number = number;
 
                 for (const field of fieldsField) {
                     if (field !== '') {
