@@ -1,25 +1,31 @@
 <h1 mat-dialog-title class="font-weight-bold title" jhiTranslate="ninjaccountApp.accountsDB.paymentblock.addCustomBlock.title">Add a custom block</h1>
 <mat-dialog-content class="d-flex justify-content-center align-content-center">
-    <div class="d-flex justify-content-center align-content-center custom-button-container flex-md-wrap margin-content">
-        <mat-button-toggle (change)="onPaymentFieldSelected()" [attr.disabled]="disablePaymentBlock"
-                           [disabled]="disablePaymentBlock" class="add-custom-block">
-            <div class="d-flex flex-column justify-content-center align-content-center width-max">
-                <fa-icon [icon]="['fas', 'money-bill-alt']" class="custom-block-icons" aria-hidden="true"></fa-icon>
-                <div jhiTranslate="ninjaccountApp.accountsDB.paymentblock.addCustomBlock.payment">Payment fields</div>
-            </div>
-        </mat-button-toggle>
-        <mat-button-toggle disabled class="add-custom-block">
-            <div class="d-flex flex-column justify-content-center align-content-center width-max">
-                <fa-icon [icon]="['fas', 'id-card']" class="custom-block-icons" aria-hidden="true"></fa-icon>
-                <div jhiTranslate="ninjaccountApp.accountsDB.paymentblock.addCustomBlock.contact">Contact fields</div>
-            </div>
-        </mat-button-toggle>
-        <mat-button-toggle disabled class="add-custom-block">
-            <div class="d-flex flex-column justify-content-center align-content-center width-max">
-                <fa-icon [icon]="['fas', 'credit-card']" class="custom-block-icons" aria-hidden="true"></fa-icon>
-                <div jhiTranslate="ninjaccountApp.accountsDB.paymentblock.addCustomBlock.creditcard">Credit Card fields</div>
-            </div>
-        </mat-button-toggle>
+    <div class="row">
+        <div class="col-12 col-md-4 mb-3 mb-md-0">
+            <mat-button-toggle (change)="onPaymentFieldSelected()" [attr.disabled]="disablePaymentBlock"
+                               [disabled]="disablePaymentBlock" class="add-custom-block">
+                <div class="d-flex flex-column justify-content-center align-content-center width-max">
+                    <fa-icon [icon]="['fas', 'money-bill-alt']" class="custom-block-icons" aria-hidden="true"></fa-icon>
+                    <div jhiTranslate="ninjaccountApp.accountsDB.paymentblock.addCustomBlock.payment">Payment fields</div>
+                </div>
+            </mat-button-toggle>
+        </div>
+        <div class="col-12 col-md-4 mb-3 mb-md-0">
+            <mat-button-toggle disabled class="add-custom-block">
+                <div class="d-flex flex-column justify-content-center align-content-center width-max">
+                    <fa-icon [icon]="['fas', 'id-card']" class="custom-block-icons" aria-hidden="true"></fa-icon>
+                    <div jhiTranslate="ninjaccountApp.accountsDB.paymentblock.addCustomBlock.contact">Contact fields</div>
+                </div>
+            </mat-button-toggle>
+        </div>
+        <div class="col-12 col-md-4 mb-3 mb-md-0">
+            <mat-button-toggle disabled class="add-custom-block">
+                <div class="d-flex flex-column justify-content-center align-content-center width-max">
+                    <fa-icon [icon]="['fas', 'credit-card']" class="custom-block-icons" aria-hidden="true"></fa-icon>
+                    <div jhiTranslate="ninjaccountApp.accountsDB.paymentblock.addCustomBlock.creditcard">Credit Card fields</div>
+                </div>
+            </mat-button-toggle>
+        </div>
     </div>
 </mat-dialog-content>
 <mat-dialog-actions class="d-flex justify-content-center align-content-center">
