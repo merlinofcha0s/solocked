@@ -2,6 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormArray } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { isUndefined } from 'util';
+import { DeleteDialogComponent } from 'app/connected/accountsdb-add/payment-custom-block/delete-payment-line/delete-dialog.component';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
     selector: 'jhi-custom-fields',
@@ -18,7 +21,9 @@ export class CustomFieldsComponent implements OnInit {
 
     customs: FormArray;
 
-    constructor(private translateService: TranslateService) {
+    private deleteCustomField: MatDialogRef<DeleteDialogComponent>;
+
+    constructor(private translateService: TranslateService, private dialog: MatDialog) {
         this.isKeyFieldHided = [];
     }
 
@@ -32,8 +37,19 @@ export class CustomFieldsComponent implements OnInit {
     }
 
     onDeleteCustomField(index: number) {
-        this.isKeyFieldHided.splice(index, 1);
-        this.customs.controls.splice(index, 1);
+        this.deleteCustomField = this.dialog.open(DeleteDialogComponent, {
+            data: {
+                title: 'ninjaccountApp.accountsDB.paymentblock.deletecustomfield.title',
+                snackMessage: 'ninjaccountApp.accountsDB.paymentblock.deletecustomfield.snack'
+            }
+        });
+
+        this.deleteCustomField.afterClosed().subscribe(result => {
+            if (!isUndefined(result) && result) {
+                this.isKeyFieldHided.splice(index, 1);
+                this.customs.controls.splice(index, 1);
+            }
+        });
     }
 
     generateValuePlaceholder(index: number) {

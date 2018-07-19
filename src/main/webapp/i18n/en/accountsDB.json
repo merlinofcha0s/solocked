@@ -128,11 +128,15 @@
                     "text": "Are you sure ?",
                     "yes": "yes",
                     "no": "no",
-                    "snack": "Payment line deleted !"
+                    "snack": "Payment line deleted!"
                 },
                 "deleteblock": {
                     "title": "Delete this payment block",
-                    "snack": "Payment block deleted !"
+                    "snack": "Payment block deleted!"
+                },
+                "deletecustomfield": {
+                    "title": "Delete this custom field?",
+                    "snack": "Custom field deleted!"
                 },
                 "calcul":{
                     "average": "Average",

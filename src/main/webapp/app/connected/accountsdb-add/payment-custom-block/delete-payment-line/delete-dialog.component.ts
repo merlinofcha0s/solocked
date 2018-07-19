@@ -6,9 +6,9 @@ import { SnackUtilService } from 'app/shared/snack/snack-util.service';
 
 @Component({
     selector: 'jhi-delete-payment-line.component',
-    templateUrl: './delete-payment-line.component.html'
+    templateUrl: './delete-dialog.component.html'
 })
-export class DeletePaymentLineComponent implements OnInit {
+export class DeleteDialogComponent implements OnInit {
     title: string;
     snackMessage: string;
     datePayment: string;

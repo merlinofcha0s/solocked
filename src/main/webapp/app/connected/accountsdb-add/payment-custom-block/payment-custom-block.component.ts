@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, S
 import { Payment } from '../../../shared/account/payment-block.model';
 import { MatDatepicker, MatDialog, MatDialogRef } from '@angular/material';
 import { PaymentCustomBlockConstant } from '../payment-custom-block.constant';
-import { DeletePaymentLineComponent } from './delete-payment-line/delete-payment-line.component';
+import { DeleteDialogComponent } from './delete-payment-line/delete-dialog.component';
 import { isUndefined } from 'util';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
@@ -40,7 +40,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy, OnChanges
     accordionOpened: boolean;
     lastPayment: Payment;
 
-    private deleteLinePayment: MatDialogRef<DeletePaymentLineComponent>;
+    private deleteLinePayment: MatDialogRef<DeleteDialogComponent>;
 
     constructor(private dialog: MatDialog) {
         this._placeholderMethod = PaymentCustomBlockConstant.placeholderMethod;
@@ -68,7 +68,7 @@ export class PaymentCustomBlockComponent implements OnInit, OnDestroy, OnChanges
     }
 
     onRemovePayment(paymentToRemove: Payment, index: number) {
-        this.deleteLinePayment = this.dialog.open(DeletePaymentLineComponent, {
+        this.deleteLinePayment = this.dialog.open(DeleteDialogComponent, {
             data: {
                 title: 'ninjaccountApp.accountsDB.paymentblock.deletelinepopup.title',
                 snackMessage: 'ninjaccountApp.accountsDB.paymentblock.deletelinepopup.snack',

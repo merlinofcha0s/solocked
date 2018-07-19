@@ -7,7 +7,7 @@ import { isUndefined } from 'util';
 import { MatDialog, MatDialogRef, MatSnackBarConfig } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { AddCustomBlockComponent } from 'app/connected/accountsdb-add/add-custom-block/add-custom-block.component';
-import { DeletePaymentLineComponent } from 'app/connected/accountsdb-add/payment-custom-block/delete-payment-line/delete-payment-line.component';
+import { DeleteDialogComponent } from 'app/connected/accountsdb-add/payment-custom-block/delete-payment-line/delete-dialog.component';
 import { SnackUtilService } from 'app/shared/snack/snack-util.service';
 import { JhiLanguageHelper } from 'app/core';
 import { AccountsDBService } from 'app/entities/accounts-db';
@@ -57,7 +57,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     passwordType: string;
     iconPasswordType: string;
     private customBlockDialog: MatDialogRef<AddCustomBlockComponent>;
-    private deletePaymentBlock: MatDialogRef<DeletePaymentLineComponent>;
+    private deletePaymentBlock: MatDialogRef<DeleteDialogComponent>;
     payments: Array<Payment>;
     paymentExpanded: boolean;
 
@@ -310,7 +310,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
     }
 
     onSuppressPaymentblock(suppress: boolean) {
-        this.deletePaymentBlock = this.dialog.open(DeletePaymentLineComponent, {
+        this.deletePaymentBlock = this.dialog.open(DeleteDialogComponent, {
             data: {
                 title: 'ninjaccountApp.accountsDB.paymentblock.deleteblock.title',
                 snackMessage: 'ninjaccountApp.accountsDB.paymentblock.deleteblock.snack'
