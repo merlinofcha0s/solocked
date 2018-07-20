@@ -100,9 +100,9 @@ export class PaymentService {
         if (this.isAuthenticatedAndNotAdmin()) {
             this.http
                 .get(this.resourceUrl + '-by-login', { observe: 'response' })
-                .map((res: HttpResponse<Payment>) => res.body)
-                .subscribe((payment: Payment) => {
-                    this._dataStore.payment = payment;
+                .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res), map((res: HttpResponse<IPayment>) => res.body)))
+                .subscribe((payment: HttpResponse<IPayment>) => {
+                    this._dataStore.payment = payment.body;
                     this.payment$.next(this._dataStore.payment);
                     this.isInPaymentWarning();
                 });

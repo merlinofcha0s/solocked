@@ -104,7 +104,14 @@ export class AccountsDBService {
     updateActualNumberAccount(newActualNumberAccount: number): Observable<EntityResponseType> {
         return this.http
             .post<IAccountsDB>(`${this.resourceUrl}/update-actual-number-account`, newActualNumberAccount, { observe: 'response' })
-            .map((res: EntityResponseType) => res);
+            .map((res: EntityResponseType) => {
+                let actualAndMax: any = {};
+                actualAndMax.first = newActualNumberAccount;
+                actualAndMax.second = this._dataStore.maxNumberAccount;
+
+                this.actualAndMaxNumber$.next(actualAndMax);
+                return res;
+            });
     }
 
     saveEncryptedDB(accounts: Accounts, initVector: string): Observable<AccountsDB> {

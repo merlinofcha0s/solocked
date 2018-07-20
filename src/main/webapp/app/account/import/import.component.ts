@@ -81,6 +81,7 @@ export class ImportComponent implements OnInit, OnDestroy {
                 .subscribe(response => {
                     this.snackUtil.openSnackBar('import.success', 5000, 'check-circle', { nbImportedAccount: this.newAccounts.length });
                     this.loading = false;
+                    this.preloadOk = false;
                 });
         } else {
             this.loading = false;
