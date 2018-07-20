@@ -105,7 +105,7 @@ export class AccountsDBService {
         return this.http
             .post<IAccountsDB>(`${this.resourceUrl}/update-actual-number-account`, newActualNumberAccount, { observe: 'response' })
             .map((res: EntityResponseType) => {
-                let actualAndMax: any = {};
+                const actualAndMax: any = {};
                 actualAndMax.first = newActualNumberAccount;
                 actualAndMax.second = this._dataStore.maxNumberAccount;
 
