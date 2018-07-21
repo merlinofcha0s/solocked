@@ -13,6 +13,7 @@ import {
     MatDialogModule,
     MatFormFieldModule,
     MatGridListModule,
+    MatIconModule,
     MatInputModule,
     MatListModule,
     MatMenuModule,
@@ -63,7 +64,8 @@ import { HasAnyAuthorityDirective } from 'app/shared/auth/has-any-authority.dire
         MatExpansionModule,
         MatAutocompleteModule,
         MatRadioModule,
-        MatListModule
+        MatListModule,
+        MatIconModule
     ],
     declarations: [
         JhiLoginModalComponent,
@@ -109,7 +111,8 @@ import { HasAnyAuthorityDirective } from 'app/shared/auth/has-any-authority.dire
         AutofocusDirective,
         WaiterComponent,
         CheckBillingDirective,
-        MatListModule
+        MatListModule,
+        MatIconModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -12,7 +12,7 @@
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
-                "main": "Account",
+                "main": "Menu",
                 "settings": "Settings",
                 "password": "Password",
                 "sessions": "Sessions",

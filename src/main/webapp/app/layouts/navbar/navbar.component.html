@@ -124,7 +124,14 @@
                  </a>
             </li>
             <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="d-flex justify-content-center align-items-center">
-             <button id="account" mat-button [class.home]="!defaultColor" [matMenuTriggerFor]="account">{{ 'global.menu.account.main' | translate }}</button>
+             <button id="account" mat-button [class.home]="!defaultColor" [matMenuTriggerFor]="account">
+                 <div class="d-flex align-items-center align-content-center">
+                     <mat-icon class="d-flex align-content-center justify-content-center mat-icon-menu-solocked">
+                         <fa-icon [icon]="['fas', 'cog']" class="icon-menu"></fa-icon>
+                     </mat-icon>
+                     <div>Menu</div>
+                 </div>
+             </button>
                 <mat-menu #account="matMenu">
                     <a *ngSwitchCase="true" routerLink="settings" routerLinkActive="active" mat-menu-item>{{ 'settings.title' | translate }}</a>
                     <a *ngSwitchCase="true" routerLink="password" routerLinkActive="active" mat-menu-item>{{ 'global.menu.account.password' | translate }}</a>
