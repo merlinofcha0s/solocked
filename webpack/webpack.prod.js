@@ -126,8 +126,25 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
             debug: false
         }),
         new JavaScriptObfuscator ({
-            rotateUnicodeArray: true
-        }),
+            compact: true,
+            controlFlowFlattening: true,
+            controlFlowFlatteningThreshold: 0.75,
+            deadCodeInjection: true,
+            deadCodeInjectionThreshold: 0.4,
+            debugProtection: false,
+            debugProtectionInterval: false,
+            disableConsoleOutput: true,
+            identifierNamesGenerator: 'hexadecimal',
+            log: false,
+            renameGlobals: false,
+            rotateStringArray: true,
+            selfDefending: false,
+            stringArray: true,
+            stringArrayEncoding: 'base64',
+            stringArrayThreshold: 0.75,
+            transformObjectKeys: false,
+            unicodeEscapeSequence: false
+        }, ['app/polyfills.**.bundle.js', 'app/global.**.bundle.js', 'app/**.**.chunk.js']),
         /*new WorkboxPlugin.InjectManifest({
             importWorkboxFrom: 'local',
             swSrc: 'src/main/webapp/src-service-worker.js',
