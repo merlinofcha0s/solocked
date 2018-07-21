@@ -5,6 +5,7 @@ const Visualizer = require('webpack-visualizer-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
+const JavaScriptObfuscator = require('webpack-obfuscator');
 const AngularCompilerPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
 const path = require('path');
 
@@ -123,6 +124,9 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
         new webpack.LoaderOptionsPlugin({
             minimize: true,
             debug: false
+        }),
+        new JavaScriptObfuscator ({
+            rotateUnicodeArray: true
         }),
         /*new WorkboxPlugin.InjectManifest({
             importWorkboxFrom: 'local',
