@@ -1,6 +1,6 @@
 {
     "login": {
-        "title": "Sign in",
+        "title": "Unlock your personal safe",
         "form": {
             "password": "Password",
             "password.placeholder": "Your password",

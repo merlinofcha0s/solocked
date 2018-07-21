@@ -56,7 +56,9 @@ import {
     faChevronLeft,
     faFile,
     faExclamationCircle,
-    faLock
+    faLock,
+    faServer,
+    faCog
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -68,7 +70,8 @@ import {
     faFirefox,
     faChrome,
     faOpera,
-    faSafari
+    faSafari,
+    faTwitter
 } from '@fortawesome/free-brands-svg-icons';
 import { faFrown } from '@fortawesome/free-regular-svg-icons';
 
@@ -138,5 +141,8 @@ library.add(faChevronLeft);
 library.add(faFile);
 library.add(faExclamationCircle);
 library.add(faLock);
+library.add(faTwitter);
+library.add(faServer);
+library.add(faCog);
 
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here

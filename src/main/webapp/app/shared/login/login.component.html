@@ -1,4 +1,7 @@
-<h4 class="text-center text-white mb-3">Already have an account ?</h4>
+<h4 class="text-center text-white mb-3">
+    <fa-icon [icon]="['fas', 'lock']"></fa-icon>
+    <span jhiTranslate="login.title">Unlock your personal safe</span>
+</h4>
 <div class="row justify-content-center">
     <div *ngIf="authenticationError" id="errorMessage" class="card-warning text-white" jhiTranslate="login.messages.error.authentication">
         <strong>Failed to sign in!</strong> <span>Please check your credentials and try again.</span>

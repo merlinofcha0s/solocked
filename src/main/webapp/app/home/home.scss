@@ -1,4 +1,5 @@
 @import './../../content/scss/custom-variables';
+
 /* ==========================================================================
 Main page styles
 ========================================================================== */
@@ -31,4 +32,10 @@ Main page styles
 .understand {
     color: $primary-color-home;
     text-decoration: underline;
+}
+
+.twitter {
+    color: $primary-color-home;
+    font-size: 20px;
+    margin-right: 5px;
 }
