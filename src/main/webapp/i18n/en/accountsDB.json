@@ -85,7 +85,7 @@
             "validate": {
                 "accountName": {
                     "required": "A name is required",
-                    "max": "To many character"
+                    "max": "Too many characters"
                 },
                 "accountNumber": {
                     "pattern": "Enter a number",

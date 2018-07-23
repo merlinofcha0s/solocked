@@ -12,6 +12,7 @@ export class DeleteDialogComponent implements OnInit {
     title: string;
     snackMessage: string;
     datePayment: string;
+    customFieldName: string;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) private data: any,
@@ -22,6 +23,7 @@ export class DeleteDialogComponent implements OnInit {
         this.title = this.data.title;
         this.snackMessage = this.data.snackMessage;
         this.datePayment = this.data.date;
+        this.customFieldName = this.data.customFieldname;
     }
 
     ngOnInit() {}
