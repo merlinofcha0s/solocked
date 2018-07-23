@@ -20,10 +20,10 @@
             "10": " Renewal Date - 8/17/2019 / Rep - Kara"
         },
         "error":{
-            "formatunknown": "Unknown format, please check your file",
-            "wrongchoiceformat": "The format selected does not match the file uploaded",
+            "formatunknown": "Unknown format, please check your file.",
+            "wrongchoiceformat": "The format selected does not match the file uploaded.",
             "lineerror": "There are {{lineInError}} line(s) in your file with data errors. Please go to link for possible causes.",
-            "toomanyaccount": "You have {{actual}} accounts and are trying to import {{nbOfNewAccount}} accounts. This would exceed the {{max}} account limit"
+            "toomanyaccount": "You have {{actual}} accounts and are trying to import {{nbOfNewAccount}} accounts. This would exceed the {{max}} account limit."
         }
     }
 }
