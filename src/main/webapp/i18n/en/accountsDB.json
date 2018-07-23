@@ -135,7 +135,7 @@
                     "snack": "Payment block deleted!"
                 },
                 "deletecustomfield": {
-                    "title": "Delete this custom field?",
+                    "title": "Delete the {{ customFieldName }} custom field?",
                     "snack": "Custom field deleted!"
                 },
                 "calcul":{

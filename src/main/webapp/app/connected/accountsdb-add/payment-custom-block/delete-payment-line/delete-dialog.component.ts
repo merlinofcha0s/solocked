@@ -23,7 +23,7 @@ export class DeleteDialogComponent implements OnInit {
         this.title = this.data.title;
         this.snackMessage = this.data.snackMessage;
         this.datePayment = this.data.date;
-        this.customFieldName = this.data.customFieldname;
+        this.customFieldName = this.data.customFieldName;
     }
 
     ngOnInit() {}

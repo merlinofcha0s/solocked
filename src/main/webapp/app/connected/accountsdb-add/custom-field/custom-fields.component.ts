@@ -40,7 +40,8 @@ export class CustomFieldsComponent implements OnInit {
         this.deleteCustomField = this.dialog.open(DeleteDialogComponent, {
             data: {
                 title: 'ninjaccountApp.accountsDB.paymentblock.deletecustomfield.title',
-                snackMessage: 'ninjaccountApp.accountsDB.paymentblock.deletecustomfield.snack'
+                snackMessage: 'ninjaccountApp.accountsDB.paymentblock.deletecustomfield.snack',
+                customFieldName: this.customs.controls[index].get('keyField').value
             }
         });
 
