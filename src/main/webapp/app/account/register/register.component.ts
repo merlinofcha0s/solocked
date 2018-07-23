@@ -4,7 +4,7 @@ import { JhiLanguageService } from 'ng-jhipster';
 import { WaiterComponent } from 'app/shared/waiter/waiter.component';
 import { LoginModalService } from 'app/core';
 import { Register } from '../../account/register/register.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { PaymentService } from 'app/entities/payment';
 import { PlanType } from 'app/shared/model/payment.model';
@@ -24,8 +24,6 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     error: string;
     errorEmailExists: string;
     errorUserExists: string;
-    errorInitPaypal: string;
-    errorCompletePaypal: string;
     registerAccount: any;
     success: boolean;
     modalRef: NgbModalRef;
@@ -49,7 +47,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         @Inject(DOCUMENT) private document: any,
         private route: ActivatedRoute,
         private dialog: MatDialog,
-        private paymentService: PaymentService
+        private paymentService: PaymentService,
+        private router: Router
     ) {}
 
     ngOnInit() {
@@ -124,11 +123,9 @@ export class RegisterComponent implements OnInit, AfterViewInit {
             this.errorEmailExists = 'ERROR';
         } else if (response.status === 503 && response.error.type === PAYPAL_COMMUNICATION_PROBLEM_TYPE) {
             if (this.modeFinalizingPayment) {
-                this.errorCompletePaypal = 'ERROR';
                 this.finalizingPaymentDialogRef.close();
-            } else {
-                this.errorInitPaypal = 'ERROR';
             }
+            this.router.navigate(['/paymenterrorsignup']);
         } else {
             this.error = 'ERROR';
         }
@@ -156,7 +153,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
             this.openWaiterFinalizer();
             this.completePaymentService(paymentId, payerId);
         } else if (token !== undefined) {
-            this.errorCompletePaypal = 'ERROR';
+            this.router.navigate(['/paymenterrorsignup']);
         }
     }
 

@@ -7,26 +7,6 @@
                 <strong>Registration saved!</strong> Please check your email for confirmation.
             </div>
 
-            <div class="alert alert-danger" id="errorCompletePaypal" *ngIf="errorCompletePaypal"
-                 jhiTranslate="register.messages.error.errorcompletepaypal">
-                <strong>Problem when finalizing the payment with paypal :( </strong> Please try again later or contact
-                us.
-            </div>
-
-            <div class="alert alert-success" id="errorSuccessCompletePaypal" *ngIf="errorCompletePaypal"
-                 jhiTranslate="register.messages.error.errorsuccesscompletepaypal">
-                <strong>Problem when finalizing the payment with paypal :( </strong> Please try again later or contact
-                us.
-            </div>
-
-            <div *ngIf="errorCompletePaypal" class="d-flex m-4 justify-content-center align-items-center">
-                <button mat-raised-button color="primary" class="default-validation-button"
-                        [routerLink]="['/register']"
-                        id="register">
-                    {{ 'register.form.button' | translate}}
-                </button>
-            </div>
-
             <div *ngIf="success" class="d-flex m-4 justify-content-center align-items-center">
                 <button mat-raised-button color="primary" class="default-validation-button"
                         [routerLink]="['/']"
@@ -41,7 +21,7 @@
         <div class="col-lg-3"></div>
         <div class="col-lg-6">
             <form name="form" role="form" (ngSubmit)="register()" #registerForm="ngForm"
-                  *ngIf="!success && !errorCompletePaypal">
+                  *ngIf="!success">
                     <mat-form-field class="registerInput" appearance="legacy">
                         <input matInput type="text" [(ngModel)]="registerAccount.login" id="login" name="login"
                                #login="ngModel" placeholder="{{'global.form.username' | translate}}"
@@ -173,11 +153,6 @@
                 <div class="alert alert-danger" id="errorEmailExists" *ngIf="errorEmailExists"
                      jhiTranslate="register.messages.error.emailexists">
                     <strong>Email is already in use!</strong> Please choose another one.
-                </div>
-
-                <div class="alert alert-danger" id="errorInitPaypal" *ngIf="errorInitPaypal"
-                     jhiTranslate="register.messages.error.errorinitpaypal">
-                    <strong>Problem communicating with paypal</strong> Please try again later or contact us.
                 </div>
 
                 <div class="alert alert-danger" *ngIf="doNotMatch" jhiTranslate="global.messages.error.dontmatch">

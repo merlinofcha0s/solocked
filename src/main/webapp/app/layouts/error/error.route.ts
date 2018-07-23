@@ -19,5 +19,28 @@ export const errorRoute: Routes = [
             pageTitle: 'error.title',
             error403: true
         }
+    },
+    {
+        path: 'paymenterrorsignup',
+        component: ErrorComponent,
+        data: {
+            authorities: [],
+            pageTitle: 'error.payment.title',
+            errorMessage: 'error.payment.content',
+            okMessage: 'error.payment.okMessage',
+            actionLabel: 'error.payment.signup.actionlabel',
+            action: '/'
+        }
+    },
+    {
+        path: 'paymenterrorbilling',
+        component: ErrorComponent,
+        data: {
+            authorities: [],
+            pageTitle: 'error.payment.title',
+            errorMessage: 'error.payment.content',
+            actionLabel: 'error.payment.billing.actionlabel',
+            action: '/accounts'
+        }
     }
 ];

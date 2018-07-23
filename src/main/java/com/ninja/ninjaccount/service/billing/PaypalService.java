@@ -206,7 +206,7 @@ public class PaypalService {
 
         StringBuilder currentURL = getCurrentUrl();
 
-        merchantPreferences.setCancelUrl(currentURL.toString() + "/#/accounts");
+        merchantPreferences.setCancelUrl(currentURL.toString() + "/#/paymenterrorbilling");
         merchantPreferences.setReturnUrl(currentURL.toString() + "/#/billing");
         merchantPreferences.setMaxFailAttempts("5");
         merchantPreferences.setAutoBillAmount("YES");

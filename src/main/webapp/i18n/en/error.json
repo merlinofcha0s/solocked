@@ -1,6 +1,6 @@
 {
     "error": {
-        "title": "Error page!",
+        "title": "Error",
         "http": {
             "400": "Bad request.",
             "403": "You are not authorized to access this page.",
@@ -8,6 +8,18 @@
             "500": "Internal server error."
         },
         "concurrencyFailure": "Another user modified this data at the same time as you. Your changes were rejected.",
-        "validation": "Validation error on the server."
+        "validation": "Validation error on the server.",
+        "payment": {
+            "title": "Cancel or problem with the payment process.",
+            "content": "The payment was not processed! <br/> You were not charged. <br/> You may try again",
+            "okMessage": "We created a free account for you, please check your email to login.",
+            "signup":{
+                "actionlabel": "Sign in"
+            },
+            "billing":{
+                "actionlabel": "Back to your personal safe"
+
+            }
+        }
     }
 }
