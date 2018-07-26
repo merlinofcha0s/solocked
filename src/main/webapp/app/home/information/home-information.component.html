@@ -19,7 +19,7 @@
 </div>
 <div class="d-flex justify-content-center align-items-center flex-column registerContainer">
     <a href="https://blog.solocked.com/whats-this/" mat-button class="understand mb-2" target="_blank">{{'home.more' | translate}}</a>
-    <button routerLink="/register" id="login" class="button-home mt-3" mat-button>
+    <button id="register" (click)="register()"  class="button-home mt-3" mat-button>
         <div class="d-flex justify-content-center align-items-center">
             <span>{{'global.messages.info.register.link' | translate}}</span>
             <fa-icon [icon]="['fas', 'user-secret']" class="icon-button-home"></fa-icon>
