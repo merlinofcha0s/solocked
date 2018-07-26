@@ -1,12 +1,12 @@
 {
     "login": {
-        "title": "Unlock your personal safe",
+        "title": "Unlock your safe.",
         "form": {
             "password": "Password",
             "password.placeholder": "Your password",
             "rememberme": "Remember me",
             "button": "UNLOCK",
-            "loading": "Unlocking your personal safe, please wait..."
+            "loading": "Unlocking your safe, please wait..."
         },
         "messages": {
             "error": {

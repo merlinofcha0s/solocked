@@ -309,3 +309,15 @@ ui bootstrap tweaks
 :focus {
     outline: none !important;
 }
+
+.button-home {
+    border-radius: 50px !important;
+    border: 1px $primary-color-home solid !important;
+    color: $primary-color-home !important;
+    height: 50px !important;
+}
+
+.icon-button-home {
+    margin-left: 12px;
+    font-size: 20px;
+}

@@ -12,7 +12,7 @@
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
-                "main": "Menu",
+                "main": "Your account",
                 "settings": "Settings",
                 "password": "Password",
                 "sessions": "Sessions",
@@ -61,8 +61,7 @@
                     "suffix": ", you can try the default accounts:<br/>- Administrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\")."
                 },
                 "register": {
-                    "noaccount": "Ready to jump?",
-                    "link": "Sign up"
+                    "link": "SIGN UP"
                 }
             },
             "error": {
