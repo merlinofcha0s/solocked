@@ -12,6 +12,7 @@ import { Payment, PlanType } from 'app/shared/model/payment.model';
 import { WaiterComponent } from 'app/shared/waiter/waiter.component';
 import { PaymentService } from 'app/entities/payment';
 import { SnackUtilService } from 'app/shared/snack/snack-util.service';
+import { AccountsDBService } from 'app/entities/accounts-db';
 
 @Component({
     selector: 'jhi-billing',
@@ -37,7 +38,8 @@ export class BillingComponent implements OnInit, OnDestroy, AfterViewInit {
         private dialog: MatDialog,
         private route: ActivatedRoute,
         private snackUtil: SnackUtilService,
-        private translateService: TranslateService
+        private translateService: TranslateService,
+        private accountService: AccountsDBService
     ) {}
 
     ngAfterViewInit() {
@@ -96,6 +98,7 @@ export class BillingComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.success = true;
                 this.finalizingPaymentDialogRef.close();
                 this.paymentService.getPaymentByLogin();
+                this.accountService.getActualMaxAccount();
                 this.snackUtil.openSnackBar('billing.success', 10000, 'check-circle');
             },
             (response: HttpErrorResponse) => this.processError(response)
