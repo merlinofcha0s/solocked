@@ -11,7 +11,7 @@
                         "pinned": "Pinned",
                         "notPinned": "Remove from pinned"
                     },
-                    "title": "Personal safe",
+                    "title": "Your safe",
                     "searchList": "All",
                     "pinned": "Pinned",
                     "noPinned": "No pinned accounts yet! :)",
@@ -32,7 +32,7 @@
             "initializationVector": "Initialization Vector",
             "database": "Database",
             "user": "User",
-            "title": "Personal safe",
+            "title": "Your safe",
             "add": {
                 "header": "Add account",
                 "title": "Add account.",
@@ -144,7 +144,7 @@
                 }
             },
             "generatepassword": "Generate a strong password",
-            "exceedlimitaccount": "Your personal safe is limited to {{ max }} accounts. Upgrade <a href='/#/billing'>here.</a>"
+            "exceedlimitaccount": "Your safe is limited to {{ max }} accounts. Upgrade <a href='/#/billing'>here.</a>"
         }
     }
 }

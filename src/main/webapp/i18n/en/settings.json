@@ -32,13 +32,13 @@
             }
         },
         "accountdb": {
-            "title": "Your personal safe",
+            "title": "Your safe",
             "text": "Number of accounts"
         },
         "danger": {
             "zone": "Danger zone",
             "export": {
-                "title": "Export your personal safe",
+                "title": "Export your safe",
                 "content": "Export your entire database in CSV format (comma separated) <br/> You can open it in a spreadsheet or with a text editor",
                 "action": "Export all my accounts",
                 "nodata": "Nothing to export",
@@ -53,7 +53,7 @@
             },
             "delete": {
                 "title": "Delete your SoLocked account",
-                "content": "Delete your SoLocked account including your <span class='font-weight-bold'> personal safe </span>containing all your accounts.<br/> This operation is <span class='font-weight-bold'>irreversible</span>, it will log you out at the end of the process",
+                "content": "Delete your SoLocked account including your <span class='font-weight-bold'> safe </span>containing all your accounts.<br/> This operation is <span class='font-weight-bold'>irreversible</span>, it will log you out at the end of the process",
                 "action": "Delete all my accounts",
                 "popup": {
                     "title": "Delete everything",
@@ -65,18 +65,18 @@
                 }
             },
             "reset": {
-                "title": "Reset your personal safe",
-                "content": "Reset your <span class='font-weight-bold'> personal safe </span>containing all your accounts.<br/> This operation is <span class='font-weight-bold'>irreversible</span>",
-                "action": "Reset your personal safe",
+                "title": "Reset your safe",
+                "content": "Reset your <span class='font-weight-bold'> safe </span>containing all your accounts.<br/> This operation is <span class='font-weight-bold'>irreversible</span>",
+                "action": "Reset your safe",
                 "popup": {
-                    "title": "Reset your personal safe",
-                    "content": "Reset your <strong class='font-weight-bold'>entire</strong> personal safe by permanently deleting all of its accounts <br/> <strong class='font-weight-bold'>This operation is irreversible</strong><br/>",
+                    "title": "Reset your safe",
+                    "content": "Reset your <strong class='font-weight-bold'>entire</strong> safe by permanently deleting all of its accounts <br/> <strong class='font-weight-bold'>This operation is irreversible</strong><br/>",
                     "contentUsername": "Enter your username to confirm :",
-                    "confirmation": "Reset your personal safe?",
+                    "confirmation": "Reset your safe?",
                     "cancel": "Cancel",
-                    "ok": "Reset your personal safe"
+                    "ok": "Reset your safe"
                 },
-                "success": "Successfuly reset your personal safe"
+                "success": "Successfuly reset your safe"
             }
         }
     }

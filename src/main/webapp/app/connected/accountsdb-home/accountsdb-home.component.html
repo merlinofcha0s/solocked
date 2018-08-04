@@ -1,7 +1,7 @@
 <div class="row mb-4">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-        <h1 id="title-accounts" jhiTranslate="ninjaccountApp.accountsDB.home.online.title">Personal safe</h1>
+        <h1 id="title-accounts" jhiTranslate="ninjaccountApp.accountsDB.home.online.title">Your safe</h1>
         <jhi-accountsdb-search [nbResults]="nbResults" (filterTerms)="onFilter($event)" (displayAll)="onDisplayAll($event)"></jhi-accountsdb-search>
         <jhi-accountsdb-list [accounts]="allAccountsPaginated" [terms]="lastSearchTerms"></jhi-accountsdb-list>
         <div class="d-flex justify-content-center" *ngIf="displayLoadMore">

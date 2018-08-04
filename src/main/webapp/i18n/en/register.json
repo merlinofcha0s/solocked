@@ -1,7 +1,7 @@
 {
     "register": {
-        "titleHeader": "Sign up for your account",
-        "title": "Sign up for your account.",
+        "titleHeader": "Sign up",
+        "title": "Sign up",
         "form": {
             "button": "Sign up",
             "buttonFree": "Sign up for free",
