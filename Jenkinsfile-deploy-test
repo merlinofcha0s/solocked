@@ -28,6 +28,6 @@ node {
     }
 
     stage('deploy on boxfuse test env') {
-        sh "/home/ubuntu/tools/boxfuse/boxfuse run -env=test -envvars.SPRING_PROFILES_ACTIVE=test -envvars.SERVER_SSL_KEY_STORE=classpath:keystore-test.p12 -envvars.SERVER_SSL_KEY_STORE_PASSWORD=b57eFf7qfKA7quw64N3SFQ16r33y9ZZAukNjWJt1Rp3N72wX -envvars.SERVER_SSL_KEYSTORETYPE=PKCS12 -envvars.SERVER_SSL_KEYALIAS=ninjaccount-test -jvm.args='-Djdk.tls.ephemeralDHKeySize=2048' -ports.https=443 -ports.http=80"
+        sh "/home/jenkins/boxfuse/boxfuse run -env=test -envvars.SPRING_PROFILES_ACTIVE=test -envvars.SERVER_SSL_KEY_STORE=classpath:keystore-test.p12 -envvars.SERVER_SSL_KEY_STORE_PASSWORD=b57eFf7qfKA7quw64N3SFQ16r33y9ZZAukNjWJt1Rp3N72wX -envvars.SERVER_SSL_KEYSTORETYPE=PKCS12 -envvars.SERVER_SSL_KEYALIAS=ninjaccount-test -jvm.args='-Djdk.tls.ephemeralDHKeySize=2048' -ports.https=443 -ports.http=80"
     }
 }
