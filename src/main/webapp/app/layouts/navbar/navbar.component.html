@@ -123,6 +123,12 @@
                      <span jhiTranslate="global.addAccount"></span>
                  </a>
             </li>
+            <li *ngIf="languages" class="d-flex justify-content-center align-items-center">
+                 <button [class.home]="!defaultColor" *ngIf="languages.length > 1" mat-button [matMenuTriggerFor]="languagesMenu">{{ 'global.menu.language' | translate }}</button>
+
+                  <mat-menu #languagesMenu="matMenu">
+                        <a *ngFor="let language of languages" (click)="changeLanguage(language);collapseNavbar();" mat-menu-item>{{ language | findLanguageFromKey }}</a>
+                  </mat-menu>
             <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="d-flex justify-content-center align-items-center">
              <button id="account" mat-button [class.home]="!defaultColor" [matMenuTriggerFor]="account">
                  <div class="d-flex align-items-center align-content-center">

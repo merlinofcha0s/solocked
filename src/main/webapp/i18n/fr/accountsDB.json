@@ -11,7 +11,7 @@
                         "featured": "Favoris",
                         "notFeatured": "Suppression des favoris"
                     },
-                    "title": "Mes comptes",
+                    "title": "Votre coffre fort",
                     "searchList": "Tous",
                     "pinned": "Favoris",
                     "noPinned": "Pas encore de favoris! :)",
@@ -30,7 +30,7 @@
             "initializationVector": "Initialization Vector",
             "database": "Database",
             "user": "User",
-            "title": "Accounts",
+            "title": "Votre coffre fort",
             "add": {
                 "header": "Ajout d'un compte",
                 "title": "Ajouter un compte.",

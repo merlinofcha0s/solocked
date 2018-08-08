@@ -1,0 +1,64 @@
+{
+    "billing": {
+        "title": "Abonnement",
+        "choose": "Choix du type d'abonnement",
+        "change": "Changer d'abonnement",
+        "infotitle": "Informations",
+        "loadingchangeplan": "Changement de votre abonnement....",
+        "success": "Votre changement d'abonnement a été pris en compte",
+        "label":{
+            "subscriptiondate": "Date de souscription :",
+            "validuntil": "Validité :",
+            "plantype": "Type d'abonnement :",
+            "recurring": "Paiement recurrent :",
+            "recurringtrue": "Oui",
+            "recurringfalse": "Non"
+        },
+        "error": {
+            "error": "Une erreur inattendu s'est produite, merci de réessayer ou contactez nous",
+            "errorComunicationPaypal": "Erreur de communication avec paypal, merci de réessayer ou contactez nous",
+            "errorPendingPayment": "Erreur, votre paiement est en attente, merci de nous contacter"
+        },
+        "cancel": "Annuler votre abonnement",
+        "cancelpopup": {
+            "title": "Annuler votre abonnement",
+            "text": "Êtes vous sûr ?",
+            "loadingcancel": "Annulation de votre abonnement...",
+            "cancelsuccess": "Abonnement annulé avec succés",
+            "back": "Annuler",
+            "error": {
+                "errorcancelpayment": "Error lors de l'annulation de l'abonnement, merci de réessayer ou contactez nous",
+                "errorinternalcancelpayment": "Erreur interne lors de l'annulation de votre abonnement, merci de réessayer ou contactez nous"
+            }
+        },
+        "chooseplan": {
+            "free": {
+                "title": "Gratuit",
+                "highlight1": "10 comptes",
+                "price": "0€"
+            },
+            "premiumyear":{
+                "title": "Premium",
+                "highlight1": "1000 comptes",
+                "highlight2": "Facturation annuel",
+                "price": "20€",
+                "frequency": "par an",
+                "onetime": "pour un an"
+            },
+            "premiummonth":{
+                "title": "Premium",
+                "highlight1": "1000 comptes",
+                "highlight2": "Facturation mensuel",
+                "price": "2€",
+                "frequency": "par mois",
+                "onetime": "pour un mois"
+            }
+        },
+        "plantype": {
+            "free": "Gratuit",
+            "month": "Premium au mois",
+            "year": "Premium à l'année",
+            "unknown": "Inconnu"
+        }
+    }
+}

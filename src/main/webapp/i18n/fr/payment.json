@@ -4,28 +4,31 @@
         "payment" : {
             "home": {
                 "title": "Payments",
-                "createLabel": "Créer un nouveau Payment",
-                "createOrEditLabel": "Créer ou éditer un Payment"
+                "createLabel": "Créer un nouveau paiement",
+                "createOrEditLabel": "Créer ou éditer un paiement"
             },
-            "created": "Un nouveau Payment a été créé avec l'identifiant {{ param }}",
+            "created": "Un nouveau paiement a été créé avec l'identifiant {{ param }}",
             "updated": "Le Payment avec l'identifiant {{ param }} a été mis à jour",
             "deleted": "Le Payment avec l'identifiant {{ param }} a été supprimé",
             "delete": {
                 "question": "Etes-vous certain de vouloir supprimer le Payment {{ id }} ?"
             },
             "detail": {
-                "title": "Payment"
+                "title": "Paiement"
             },
-            "subscriptionDate": "Subscription Date",
-            "price": "Price",
-            "planType": "Plan Type",
-            "paid": "Paid",
-            "validUntil": "Valid Until",
-            "lastPaymentId": "Last Payment Id",
-            "recurring": "Recurring",
-            "billingPlanId": "Billing Plan Id",
-            "tokenRecurring": "Token Recurring",
-            "user": "User"
+            "subscriptionDate": "Date d'abonnement",
+            "price": "Prix",
+            "planType": "Type d'abonnement",
+            "paid": "Payer",
+            "validUntil": "Fin d'abonnement",
+            "lastPaymentId": "Dernier id de paiement",
+            "recurring": "Recurrent",
+            "billingPlanId": "Id abonnement récurrent",
+            "tokenRecurring": "Jeton récurrent",
+            "user": "Utilisateur",
+            "warningfreemode": "Votre compte est en mode gratuit, si vous voulez changer cliquez",
+            "warningnotpaidmode": "Votre abonnement est terminé. <br/> Votre compte est en lecture seule, si vous voulez changer cliquez",
+            "linkInvoice": "ici"
         }
     }
 }
