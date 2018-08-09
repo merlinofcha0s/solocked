@@ -130,7 +130,7 @@
                 }
             },
             "generatepassword": "Générer un mot de passe fort",
-            "exceedlimitaccount": "Votre coffre fort est limité à {{ max }} comptes. Upgrade <a href='/#/billing'>here.</a>"
+            "exceedlimitaccount": "Votre coffre fort est limité à {{ max }} comptes. Augmenter la limite en cliquant <a href='/#/billing'>ici</a>."
         }
     }
 }
