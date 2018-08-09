@@ -4,6 +4,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { Principal } from '../';
 import { LoginModalService } from '../login/login-modal.service';
 import { StateStorageService } from './state-storage.service';
+import { JhiLanguageService } from 'ng-jhipster';
 
 @Injectable({ providedIn: 'root' })
 export class UserRouteAccessService implements CanActivate {
@@ -11,7 +12,8 @@ export class UserRouteAccessService implements CanActivate {
         private router: Router,
         private loginModalService: LoginModalService,
         private principal: Principal,
-        private stateStorageService: StateStorageService
+        private stateStorageService: StateStorageService,
+        private languageService: JhiLanguageService
     ) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Promise<boolean> {
@@ -24,8 +26,10 @@ export class UserRouteAccessService implements CanActivate {
 
     checkLogin(authorities: string[], url: string): Promise<boolean> {
         const principal = this.principal;
+
         return Promise.resolve(
             principal.identity().then(account => {
+                // this.principal.initDefaultLanguage(account);
                 if (!authorities || authorities.length === 0) {
                     return true;
                 }

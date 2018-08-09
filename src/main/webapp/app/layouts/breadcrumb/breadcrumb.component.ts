@@ -5,6 +5,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Breadcrumb } from 'app/layouts/breadcrumb/breadcrumb.model';
 import { Principal } from 'app/core';
 import { AccountsHomeRouteName } from 'app/connected';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'jhi-breadcrumb',
@@ -34,7 +35,9 @@ export class BreadcrumbComponent implements OnInit {
                     // You come from a page reload, or directly accessing a deep page
                     for (const config of this.router.config) {
                         if (config.path === AccountsHomeRouteName) {
-                            this.breadcrumbSteps.push(this.createNewStep('/' + AccountsHomeRouteName, <ActivatedRouteSnapshot>config));
+                            this.createNewStep('/' + AccountsHomeRouteName, <ActivatedRouteSnapshot>config).subscribe(newStep =>
+                                this.breadcrumbSteps.push(newStep)
+                            );
                         }
                     }
                 }
@@ -44,29 +47,29 @@ export class BreadcrumbComponent implements OnInit {
                     this.breadcrumbSteps.splice(0, this.breadcrumbSteps.length);
                 } else {
                     // We are on an authenticated page (accounts, add account, etc)
-                    const newStep = this.createNewStep(event.url, this.router.routerState.snapshot.root);
+                    this.createNewStep(event.url, this.router.routerState.snapshot.root).subscribe(newStep => {
+                        let present = false;
+                        let idPresent = -1;
 
-                    let present = false;
-                    let idPresent = -1;
-
-                    // Analyzing if the steps is present
-                    for (let i = 0; i < this.breadcrumbSteps.length; i++) {
-                        const step = this.breadcrumbSteps[i];
-                        if (step.url === newStep.url) {
-                            present = true;
-                            idPresent = i;
+                        // Analyzing if the steps is present
+                        for (let i = 0; i < this.breadcrumbSteps.length; i++) {
+                            const step = this.breadcrumbSteps[i];
+                            if (step.url === newStep.url) {
+                                present = true;
+                                idPresent = i;
+                            }
                         }
-                    }
 
-                    // If there is more than 2 steps, it's not correct because for now we just manage one level of route
-                    if (this.breadcrumbSteps.length >= 2) {
-                        // We clear the second elements
-                        this.breadcrumbSteps.splice(1, this.breadcrumbSteps.length);
-                    }
+                        // If there is more than 2 steps, it's not correct because for now we just manage one level of route
+                        if (this.breadcrumbSteps.length >= 2) {
+                            // We clear the second elements
+                            this.breadcrumbSteps.splice(1, this.breadcrumbSteps.length);
+                        }
 
-                    if (!present) {
-                        this.breadcrumbSteps.push(newStep);
-                    }
+                        if (!present) {
+                            this.breadcrumbSteps.push(newStep);
+                        }
+                    });
                 }
             });
     }
@@ -87,14 +90,8 @@ export class BreadcrumbComponent implements OnInit {
         return this.principal.hasAnyAuthorityDirect(authorities);
     }
 
-    createNewStep(url: string, routeSnapshot: ActivatedRouteSnapshot): Breadcrumb {
+    createNewStep(url: string, routeSnapshot: ActivatedRouteSnapshot): Observable<Breadcrumb> {
         const labelKey = this.getPageTitle(routeSnapshot);
-        let label = '';
-
-        this.translateService.get(labelKey).subscribe(title => {
-            label = title;
-        });
-
-        return new Breadcrumb(label, url);
+        return this.translateService.get(labelKey).map(title => new Breadcrumb(title, url));
     }
 }

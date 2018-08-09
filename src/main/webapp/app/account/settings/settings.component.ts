@@ -13,6 +13,8 @@ import { SnackUtilService } from 'app/shared/snack/snack-util.service';
 import { SnackComponent } from 'app/shared/snack/snack.component';
 import { ExportAllAccountsComponent } from 'app/account/settings/export-all-accounts/export-all-accounts.component';
 import { DeleteAllAccountsComponent } from 'app/account/settings/delete-all-accounts/delete-all-accounts.component';
+import { LOCALE } from 'app/shared/constants/session-storage.constants';
+import { LocalStorageService } from 'ngx-webstorage';
 
 @Component({
     selector: 'jhi-settings',
@@ -49,7 +51,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
         private translateService: TranslateService,
         private accountDbService: AccountsDBService,
         public dialog: MatDialog,
-        private snackUtil: SnackUtilService
+        private snackUtil: SnackUtilService,
+        private localStorage: LocalStorageService
     ) {
         this.actualAndMaxNumber$ = this.accountDbService.actualAndMaxNumber$;
     }
@@ -80,6 +83,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
                 });
                 this.languageService.getCurrent().then(current => {
                     if (this.settingsAccount.langKey !== current) {
+                        this.localStorage.store(LOCALE, this.settingsAccount.langKey);
                         this.languageService.changeLanguage(this.settingsAccount.langKey);
                     }
                 });

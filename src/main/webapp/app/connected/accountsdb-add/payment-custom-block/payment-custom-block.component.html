@@ -60,12 +60,12 @@
         <div class="d-flex align-items-center">
             <fa-icon [icon]="['fas', 'chart-bar']" class="iconTotalAverage"> </fa-icon>
             <div class="labelAverageTotal" jhiTranslate="ninjaccountApp.accountsDB.paymentblock.calcul.average">Average: </div>
-            <div>${{ average }}</div>
+            <div>{{ average | currency }}</div>
         </div>
         <div class="d-flex align-items-center">
             <fa-icon [icon]="['fas', 'money-bill-alt']" class="iconTotalAverage"> </fa-icon>
             <div class="labelAverageTotal" jhiTranslate="ninjaccountApp.accountsDB.paymentblock.calcul.total">Total: </div>
-            <div>${{ total }}</div>
+            <div>{{ total | currency }}</div>
         </div>
     </div>
 

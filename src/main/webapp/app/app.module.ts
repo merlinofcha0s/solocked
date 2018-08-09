@@ -1,13 +1,13 @@
 import './vendor.ts';
 
-import { Injector, NgModule } from '@angular/core';
+import { Injector, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LocalStorageService, Ng2Webstorage, SessionStorageService } from 'ngx-webstorage';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { NinjaccountSharedModule } from 'app/shared';
-import { NinjaccountCoreModule } from 'app/core';
+import { NinjaccountCoreModule, Principal } from 'app/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NinjaccountAppRoutingModule } from 'app/app-routing.module';
 import { NinjaccountAccountModule } from 'app/account/account.module';
@@ -27,8 +27,13 @@ import { ErrorHandlerInterceptor } from 'app/blocks/interceptor/errorhandler.int
 import { NotificationInterceptor } from 'app/blocks/interceptor/notification.interceptor';
 import { NgxJsonLdModule } from 'ngx-json-ld';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '../../../../node_modules/@angular/common/locales/fr';
+import { LOCALE } from 'app/shared/constants/session-storage.constants';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
+
+registerLocaleData(localeFr, 'fr');
 
 @NgModule({
     imports: [
@@ -84,6 +89,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
             useClass: NotificationInterceptor,
             multi: true,
             deps: [Injector]
+        },
+        {
+            provide: LOCALE_ID,
+            useFactory: (localStorage: LocalStorageService) => {
+                return localStorage.retrieve(LOCALE);
+            },
+            deps: [LocalStorageService]
         }
     ],
     entryComponents: [WarnBrowserComponent],

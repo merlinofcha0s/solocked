@@ -7,6 +7,6 @@
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <ng-template #valueContainer>
-        <div class="text-center width-max payment-value">{{ value | date:'M/d/yyyy' }}</div>
+        <div class="text-center width-max payment-value">{{ value | date:'shortDate' }}</div>
     </ng-template>
 </div>

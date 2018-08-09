@@ -6,7 +6,7 @@
             "password.placeholder": "Votre mot de passe",
             "rememberme": "Garder la session ouverte",
             "button": "DEVERROUILLER",
-            "loading": "Veuillez patienter"
+            "loading": "Déverrouillage de votre coffre, veuillez patienter"
         },
         "messages": {
             "error": {

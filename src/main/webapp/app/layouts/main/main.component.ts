@@ -40,6 +40,8 @@ export class JhiMainComponent implements OnInit {
         this.initEventRouter();
         this.initTrackingAndChat();
         this.detectEdge();
+
+        this.principal.identity(true).then(account => this.principal.initDefaultLanguage(account));
     }
 
     initEventRouter() {

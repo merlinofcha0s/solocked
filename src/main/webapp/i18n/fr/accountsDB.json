@@ -50,14 +50,21 @@
                     "button": "Ajouter un champ",
                     "sets": {
                         "button": "Ajouter un block"
-                    }
+                    },
+                    "editlabel": "Editer le label",
+                    "delete": "Suppression du champ personalisé"
                 },
-                "button": "Ajouter un compte"
+                "button": "Ajouter un compte",
+                "successful": "Compte ajouté avec succés",
+                "error": "Erreur lors de l'ajout du compte, merci de réessayer",
+                "toomanyAccount": "Limite atteinte. Rendez vous dans paramètres pour en savoir plus"
             },
             "update": {
                 "header": "Mise à jour d'un compte",
                 "title": "Mise à jour d'un compte.",
-                "button": "Mise à jour du compte"
+                "button": "Mise à jour du compte",
+                "error": "Erreur lors de la mise à jour du compte",
+                "successful": "Compte mis à jour avec succés"
             },
             "details": {
                 "title": "Détails",
@@ -77,7 +84,8 @@
                     "title": "Supprimer ce compte",
                     "text": "Êtes vous sûr ?",
                     "yes": "oui",
-                    "no": "non"
+                    "no": "non",
+                    "snack": "Supprimé avec succés"
                 }
             },
             "validate": {

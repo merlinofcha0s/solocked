@@ -1,6 +1,9 @@
 import { Observable, Subject } from 'rxjs';
 import { AccountService } from './account.service';
 import { Injectable } from '@angular/core';
+import { JhiLanguageService } from 'ng-jhipster';
+import { LocalStorageService } from 'ngx-webstorage';
+import { LOCALE } from 'app/shared/constants/session-storage.constants';
 
 @Injectable({ providedIn: 'root' })
 export class Principal {
@@ -8,7 +11,7 @@ export class Principal {
     private authenticated = false;
     private authenticationState = new Subject<any>();
 
-    constructor(private account: AccountService) {}
+    constructor(private account: AccountService, private languageService: JhiLanguageService, private localStorage: LocalStorageService) {}
 
     authenticate(identity) {
         this.userIdentity = identity;
@@ -98,5 +101,20 @@ export class Principal {
 
     getImageUrl(): string {
         return this.isIdentityResolved() ? this.userIdentity.imageUrl : null;
+    }
+
+    initDefaultLanguage(account: any) {
+        if (this.isAuthenticated()) {
+            this.languageService.getCurrent().then(langKey => {
+                if (account.langKey !== langKey) {
+                    this.languageService.changeLanguage(account.langKey);
+                    this.localStorage.store(LOCALE, account.langKey);
+                }
+            });
+        } else {
+            const userLang = navigator.language;
+            this.languageService.changeLanguage(userLang.split('-')[0]);
+            this.localStorage.store(LOCALE, userLang.split('-')[0]);
+        }
     }
 }
