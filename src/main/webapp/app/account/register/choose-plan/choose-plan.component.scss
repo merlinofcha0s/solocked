@@ -3,9 +3,10 @@
 .billing-card {
     border: 1px solid $font-color-primary;
     border-radius: 20px;
-    height: 200px;
     width: 170px;
     cursor: pointer;
+    padding-bottom: 10px;
+    min-height: 200px;
 
     .billing-card-title {
         text-align: center;
@@ -31,7 +32,7 @@
     }
 
     .month-price {
-        font-size: 1.0rem;
+        font-size: 1rem;
         font-weight: bold;
         text-align: center;
         margin-top: 15px;

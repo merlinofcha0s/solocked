@@ -17,7 +17,7 @@
                 "fail": "<strong>Une erreur est survenue !</strong> Votre profil n'a pas été sauvegardé.",
                 "emailexists": "<strong>Cet email est déjà utilisé !</strong> Veuillez en choisir un autre."
             },
-            "success": "<strong>Votre profil a été sauvegardé !</strong>",
+            "success": "Votre profil a été sauvegardé !",
             "validate": {
                 "firstname": {
                     "required": "Votre prénom est requis.",
@@ -41,26 +41,42 @@
                 "title": "Exporter votre coffre fort",
                 "content": "Exporte entièrement votre coffre fort au format CSV (avec , comme séparateur) <br/> Vous pourrez l'ouvrir avec Excel ou un editeur de texte",
                 "action": "Exporter tous mes comptes",
+                "nodata": "Rien à exporter",
                 "popup": {
-                    "title": "Exporte tous mes comptes",
-                    "content": "Toute vos données seront <strong class='font-weight-bold'>transférés</strong> en  <strong class='font-weight-bold'>clair sans aucun chiffrement</strong> sur ce periphérique",
+                    "title": "Exporter tous mes comptes",
+                    "content": "Toutes vos données seront <strong class='font-weight-bold'>transférées</strong> en  <strong class='font-weight-bold'>clair sans aucun chiffrement</strong> sur ce periphérique",
                     "confirmation": "Êtes vous sur ?",
                     "cancel": "Annuler",
-                    "ok": "Exporte tous mes comptes"
-                }
+                    "ok": "Exporter tous mes comptes"
+                },
+                "success": "{{nbExportedAccount}} comptes exportés avec succés"
             },
             "delete": {
-                "title": "Supprimer mon compte SoLocked",
-                "content": "Supprime tous mes comptes ainsi que <span class='font-weight-bold'>toutes les informations</span> que nous avons.<br/> Cette opération est <span class='font-weight-bold'>irréversible</span>, nous vous déconnecterons à la fin du processus.",
+                "title": "Supprimer mon compte",
+                "content": "Supprimer tous mes comptes ainsi que <span class='font-weight-bold'>l'ensemble des informations</span> collectées.<br/> Cette opération est <span class='font-weight-bold'>irréversible</span>, nous vous déconnecterons à la fin du processus.",
                 "action": "Supprimer entièrement mon compte",
                 "popup": {
-                    "title": "Tout supprimer",
-                    "content": "Supprime tous mes comptes ainsi que <span class='font-weight-bold'>toutes les informations</span> que nous avons.<br/> Cette opération est <span class='font-weight-bold'>irréversible</span>, nous vous déconnecterons à la fin du processus.",
+                    "title": "Supprimer mon compte",
+                    "content": "Supprimer tous mes comptes ainsi que <span class='font-weight-bold'>toutes les informations</span> collectées.<br/> Cette opération est <span class='font-weight-bold'>irréversible</span>, nous vous déconnecterons à la fin du processus.",
                     "contentUsername": "Entrer votre nom d'utilisateur pour confirmer",
                     "confirmation": "Êtes vous sur ?",
                     "cancel": "Annuler",
-                    "ok": "Tout supprimer"
+                    "ok": "Supprimer mon compte"
                 }
+            },
+            "reset": {
+                "title": "Réinitialiser votre coffre fort",
+                "content": "Réinitialiser mon <span class='font-weight-bold'> coffre </span>contenant tous mes comptes. <br/> <span class='font-weight-bold'>Cette opération est irreversible</span></div>",
+                "action": "Réinitialiser votre coffre fort",
+                "popup": {
+                    "title": "Réinitialiser votre coffre fort",
+                    "content": "Réinitialiser <strong>entièrement</strong> mon coffre fort en effacant définitivement tous mes comptes <br/> <strong>Cette opération est irreversible</strong>",
+                    "contentUsername": "Entrer votre nom d'utilisateur pour confirmer :",
+                    "confirmation": "Réinitialiser votre coffre fort ?",
+                    "cancel": "Annuler",
+                    "ok": "Réinitialiser votre coffre fort"
+                },
+                "success": "Coffre fort réinitialiser avec succés"
             }
         }
     }

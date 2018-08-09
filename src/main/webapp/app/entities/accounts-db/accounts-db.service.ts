@@ -14,6 +14,7 @@ import { Account } from 'app/shared/account/account.model';
 import { OperationAccountType } from 'app/shared/account/operation-account-type.enum';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
+import { SnackUtilService } from 'app/shared/snack/snack-util.service';
 
 type EntityResponseType = HttpResponse<IAccountsDB>;
 type EntityArrayResponseType = HttpResponse<IAccountsDB[]>;
@@ -36,7 +37,8 @@ export class AccountsDBService {
         private http: HttpClient,
         private crypto: CryptoService,
         private translateService: TranslateService,
-        private snackBar: MatSnackBar
+        private snackBar: MatSnackBar,
+        private snackUtil: SnackUtilService
     ) {
         this._dataStore = {
             actualNunberAccount: 0,
@@ -341,6 +343,7 @@ export class AccountsDBService {
                 (accountDB: AccountsDB) => {
                     this.getActualMaxAccount();
                     this.saveOnBrowser(this._dataStore.accounts);
+                    this.snackUtil.openSnackBar('settings.danger.reset.success', 3000, 'check-circle');
                 },
                 error => {
                     this.errorSnack('ninjaccountApp.accountsDB.delete.error');

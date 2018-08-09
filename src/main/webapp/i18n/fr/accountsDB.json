@@ -39,14 +39,17 @@
                 "number": "Numéro",
                 "username": "Utilisateur",
                 "password": "Mot de passe",
+                "show": "Afficher le mot de passe",
+                "hide": "Cacher le mot de passe",
                 "notes": "Notes",
+                "gourl": "Aller à l'adresse",
                 "tags": "Tags (séparé par des virgules)",
                 "custom": {
                     "label": "Nom",
                     "value": "Valeur",
-                    "button": "Ajout d'un champ personnalisé",
+                    "button": "Ajouter un champ",
                     "sets": {
-                        "button": "Ajout d'un block personnalisé"
+                        "button": "Ajouter un block"
                     }
                 },
                 "button": "Ajouter un compte"
@@ -68,8 +71,8 @@
                 "edit": "Editer",
                 "delete": "Supprimer",
                 "cancel": "Annuler",
-                "tooltip": "Cliquer pour copier",
-                "toastMessage": "copier dans le presse papier",
+                "tooltip": "Copier",
+                "toastMessage": "Copier dans le presse papier",
                 "deletePopup": {
                     "title": "Supprimer ce compte",
                     "text": "Êtes vous sûr ?",
@@ -118,14 +121,16 @@
                     "snack": "Ligne de paiement supprimé"
                 },
                 "deleteblock": {
-                    "title": "Supprimer ces champs de paiements",
-                    "snack": "Champs de paiement supprimés !"
+                    "title": "Supprimer les paiements",
+                    "snack": "Paiements supprimés !"
                 },
                 "calcul":{
                     "average": "Moyenne",
                     "total": "Total"
                 }
-            }
+            },
+            "generatepassword": "Générer un mot de passe fort",
+            "exceedlimitaccount": "Votre coffre fort est limité à {{ max }} comptes. Upgrade <a href='/#/billing'>here.</a>"
         }
     }
 }

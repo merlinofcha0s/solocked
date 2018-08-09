@@ -142,5 +142,9 @@
     "autolock":{
         "name" : "Verrouillage",
         "in": "dans"
+    },
+    "safe":{
+        "title" : "Votre coffre",
+        "state": "est ouvert"
     }
 }
