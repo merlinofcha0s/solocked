@@ -10,7 +10,7 @@
                     <div  style="height: 21px;"></div>
                 </ul>
             </div>
-            <div class="year-price" jhiTranslate="billing.chooseplan.free.price">$0</div>
+            <div class="year-price" jhiTranslate="billing.chooseplan.free.price">{{ 0 | currency:'EUR' }}</div>
         </div>
     </div>
     <div [class.col-sm-4]="!modeBilling" [class.col-sm-6]="modeBilling">
@@ -25,7 +25,7 @@
                     <div *ngIf="!modeBilling" style="height: 21px;"></div>
                 </ul>
             </div>
-            <div class="year-price" jhiTranslate="billing.chooseplan.premiumyear.price">$20</div>
+            <div class="year-price" jhiTranslate="billing.chooseplan.premiumyear.price">{{ 20 | currency:'EUR' }}</div>
             <div *ngIf="modeBilling" class="month-price" jhiTranslate="billing.chooseplan.premiumyear.frequency">per year</div>
             <div *ngIf="!modeBilling" class="month-price" jhiTranslate="billing.chooseplan.premiumyear.onetime">for one year</div>
         </div>
@@ -42,7 +42,7 @@
                     <div *ngIf="!modeBilling" style="height: 21px;"></div>
                 </ul>
             </div>
-            <div class="year-price" jhiTranslate="billing.chooseplan.premiummonth.price">$2</div>
+            <div class="year-price" jhiTranslate="billing.chooseplan.premiummonth.price">{{ 2 | currency:'EUR' }}</div>
             <div *ngIf="modeBilling" class="month-price" jhiTranslate="billing.chooseplan.premiummonth.frequency">per month</div>
             <div *ngIf="!modeBilling" class="month-price" jhiTranslate="billing.chooseplan.premiummonth.onetime">for one month</div>
         </div>

@@ -43,12 +43,12 @@ public class PaypalService {
     public ReturnPaymentDTO createOneTimePayment(PlanType planType, String login) {
         ReturnPaymentDTO returnPaymentDTO = new ReturnPaymentDTO();
         Amount amount = new Amount();
-        amount.setCurrency("USD");
+        amount.setCurrency("EUR");
         amount.setTotal(planType.getPrice().toString());
 
         Item item = new Item();
         item.setName(planType.name());
-        item.setCurrency("USD");
+        item.setCurrency("EUR");
         item.setPrice(planType.getPrice().toString());
         item.setQuantity("1");
 
@@ -187,7 +187,7 @@ public class PaypalService {
         paymentDefinition.setCycles("0");
         // Currency
         Currency currency = new Currency();
-        currency.setCurrency("USD");
+        currency.setCurrency("EUR");
         currency.setValue(planType.getPrice().toString());
         paymentDefinition.setAmount(currency);
 

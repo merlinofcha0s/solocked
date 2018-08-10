@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { JhiLanguageService } from 'ng-jhipster';
 
-import { MatDialog, MatDialogRef, MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Subscription } from 'rxjs/Subscription';
@@ -10,7 +10,6 @@ import { ResetAllAccountsComponent } from 'app/account/settings/reset-all-accoun
 import { AccountService, JhiLanguageHelper, Principal } from 'app/core';
 import { AccountsDBService } from 'app/entities/accounts-db';
 import { SnackUtilService } from 'app/shared/snack/snack-util.service';
-import { SnackComponent } from 'app/shared/snack/snack.component';
 import { ExportAllAccountsComponent } from 'app/account/settings/export-all-accounts/export-all-accounts.component';
 import { DeleteAllAccountsComponent } from 'app/account/settings/delete-all-accounts/delete-all-accounts.component';
 import { LOCALE } from 'app/shared/constants/session-storage.constants';
@@ -85,6 +84,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
                     if (this.settingsAccount.langKey !== current) {
                         this.localStorage.store(LOCALE, this.settingsAccount.langKey);
                         this.languageService.changeLanguage(this.settingsAccount.langKey);
+                        location.reload();
                     }
                 });
                 this.snackUtil.openSnackBar('settings.messages.success', 3000, 'check-circle');
