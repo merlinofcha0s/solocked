@@ -1,0 +1,9 @@
+{
+  "build": {
+    "type": "maven",
+    "goal": "-Pprod package -DskipTests"
+  },
+  "deploy": {
+	"jarName": "./target/ninjaccount-0.12.7.war"
+  }
+}
