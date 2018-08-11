@@ -6,28 +6,12 @@ node {
         checkout scm
     }
 
-    stage('check java') {
-        sh "java -version"
+    stage('prepare pushing to test') {
+        fileRenameOperation('.clever-test.json', '.clever.json')
     }
 
-    stage('clean') {
-        sh "chmod +x mvnw"
-        sh "./mvnw clean"
-    }
 
-    stage('install tools') {
-        sh "./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-yarn -DnodeVersion=v8.11.3 -DyarnVersion=v1.7.0"
-    }
-
-    stage('yarn install') {
-        sh "./mvnw com.github.eirslett:frontend-maven-plugin:yarn"
-    }
-
-    stage('packaging app') {
-        sh "./mvnw clean com.github.eirslett:frontend-maven-plugin:yarn -Dfrontend.yarn.arguments=webpack:prod package -Pprod -Dmaven.test.skip=true"
-    }
-
-    stage('deploy on boxfuse test env') {
-        sh "/home/jenkins/boxfuse/boxfuse run -env=test -envvars.SPRING_PROFILES_ACTIVE=test -envvars.SERVER_SSL_KEY_STORE=classpath:keystore-test.p12 -envvars.SERVER_SSL_KEY_STORE_PASSWORD=b57eFf7qfKA7quw64N3SFQ16r33y9ZZAukNjWJt1Rp3N72wX -envvars.SERVER_SSL_KEYSTORETYPE=PKCS12 -envvars.SERVER_SSL_KEYALIAS=ninjaccount-test -jvm.args='-Djdk.tls.ephemeralDHKeySize=2048' -ports.https=443 -ports.http=80"
+    stage('Deploy to clever') {
+        sh 'clever deploy'
     }
 }
