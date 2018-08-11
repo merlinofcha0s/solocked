@@ -126,10 +126,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
             .apply(securityConfigurerAdapter());
 
-        Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
-        if (activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_TEST) || activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_PRODUCTION)){
-            http.requiresChannel().anyRequest().requiresSecure();
-        }
+//        Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
+//        if (activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_TEST) || activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_PRODUCTION)){
+//            http.requiresChannel().anyRequest().requiresSecure();
+//        }
     }
 
     private JWTConfigurer securityConfigurerAdapter() {

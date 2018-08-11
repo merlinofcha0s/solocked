@@ -19,15 +19,15 @@ public class UndertowNinjaConfig {
 
     private final Logger log = LoggerFactory.getLogger(UndertowNinjaConfig.class);
 
-    @Bean
-    public UndertowServletWebServerFactory servletWebServerFactory() {
-        UndertowServletWebServerFactory factory = new UndertowServletWebServerFactory();
-        factory.addBuilderCustomizers((UndertowBuilderCustomizer) builder -> {
-            log.info("listening to http port");
-            builder.addHttpListener(80, "0.0.0.0");
-            log.info("Forcing cipher order");
-            builder.setSocketOption(UndertowOptions.SSL_USER_CIPHER_SUITES_ORDER, Boolean.TRUE);
-        });
-        return factory;
-    }
+//    @Bean
+//    public UndertowServletWebServerFactory servletWebServerFactory() {
+//        UndertowServletWebServerFactory factory = new UndertowServletWebServerFactory();
+//        factory.addBuilderCustomizers((UndertowBuilderCustomizer) builder -> {
+//            log.info("listening to http port");
+//            builder.addHttpListener(80, "0.0.0.0");
+//            log.info("Forcing cipher order");
+//            builder.setSocketOption(UndertowOptions.SSL_USER_CIPHER_SUITES_ORDER, Boolean.TRUE);
+//        });
+//        return factory;
+//    }
 }
