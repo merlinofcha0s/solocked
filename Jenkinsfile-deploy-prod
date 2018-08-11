@@ -7,7 +7,9 @@ node {
     }
 
     stage('prepare pushing to test') {
-        fileRenameOperation('.clever-prod.json', '.clever.json')
+        fileOperations([
+            folderRenameOperation(destination: '.clever.json', source: '.clever-prod.json')
+        ])
     }
 
     stage('Deploy to clever') {
