@@ -3,7 +3,9 @@
         "title": "Accueil",
         "subtitle": "Tous vos comptes au même endroit",
         "text": "Lorem ipsum",
-        "more": "Comprendre",
+        "more": "Plus d'informations",
+        "twitter": "Suivez nous",
+        "status": "Status des serveurs",
         "logged": {
             "message": "Vous êtes connecté en tant que \"{{username}}\"."
         },
@@ -16,6 +18,27 @@
             "follow": "Suivez @java_hipster sur Twitter"
         },
         "like": "Si vous aimez JHipster, donnez nous une étoile sur",
-        "github": "GitHub "
+        "github": "GitHub ",
+        "informations":{
+            "title": "Nouvel utilisateur ?",
+            "what":{
+                "title": "Qu'est ce que Solocked ?",
+                "content": "Solocked est une application qui vous permez de gérer toutes vos informations (EDF, Orange, Facebook,...) et de les avoir au même endroit."
+            },
+            "why":{
+                "title":"Pourquoi SoLocked?",
+                "content": "Nous pensons qu'il est essentiel d'avoir un moyen rapide, efficace et sécurisé permettant d'accéder à vos données à tout instant"
+            },
+            "whatAbout": {
+                "title": "Solocked est il sécurisé ?",
+                "content": "Zero Knowledge.” “Auto logout.” You keep your big bad password safe AND you do not leave your safe open. Want more? Click on read more"
+            }
+        }
+    },
+    "warn-egde": {
+        "title": "C'est embarassant",
+        "content-1": "Solocked n'est pas compatible avec Edge pour le moment",
+        "content-2": "Merci d'utiliser un des navigateurs suivant : ",
+        "close": "Fermer"
     }
 }
