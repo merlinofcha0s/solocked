@@ -3,6 +3,7 @@ package com.ninja.ninjaccount.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.UserRepository;
+import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.MailService;
@@ -18,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -153,11 +155,12 @@ public class AccountResource {
      */
     @PostMapping(path = "/account/change-password")
     @Timed
-    public void changePassword(@RequestBody PasswordChangeDTO passwordChangeDto) {
-        if (!checkPasswordLength(passwordChangeDto.getNewPassword())) {
+    @Secured(AuthoritiesConstants.ADMIN)
+    public void changePassword(@RequestBody String newPassword) {
+        if (!checkPasswordLength(newPassword)) {
             throw new InvalidPasswordException();
         }
-        userService.changePassword(passwordChangeDto.getCurrentPassword(), passwordChangeDto.getNewPassword());
+        userService.changePassword(newPassword);
     }
 
     /**
