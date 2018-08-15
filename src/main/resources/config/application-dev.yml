@@ -156,8 +156,8 @@ jhipster:
 
 application:
     paypal:
-        client-id: AfdfOU54rzJzWHXc9OVkkmimug8WYbPfL2SFNzsk6VxQQCbZZ5F10RoEXgO38mEJuf4zoZFifMepbAKi
-        client-secret: EEtVyWCnKNziihhyuueonwWQ77_yNjMXz9xrUvic7Cu7YTaIrc6BtpLHqHCdMsfAa4Q3iOlqOJg8yNye
+        client-id: AWy1sIDbvMveAcgZdq16SXi_RoMG7cMvVxbK9ab81sMg7GmJwZ9oQyzrToL8O3QbHGLsV_4W0glZ24hh
+        client-secret: EEJueUA58-p3-8VKaY2XVOw93r0RdJl2ZMKvqSUHlgkeBdaxQqQKP_wWU1kDX6sG0ZrIEp6QHRmPm6K8
         mode: sandbox
     base:
         url: localhost
