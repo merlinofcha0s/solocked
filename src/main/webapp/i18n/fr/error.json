@@ -1,6 +1,6 @@
 {
     "error": {
-        "title": "Page d'erreur !",
+        "title": "Erreur",
         "http": {
             "400": "Mauvaise requête.",
             "403": "Vous n'avez pas les droits pour accéder à cette page.",
@@ -8,6 +8,18 @@
             "500": "Erreur interne du serveur."
         },
         "concurrencyFailure": "Un autre utilisateur a modifié ces données en même temps que vous. Vos changements n'ont pas été sauvegardés.",
-        "validation": "Erreur de validation côté serveur."
+        "validation": "Erreur de validation côté serveur.",
+        "payment": {
+            "title": "Annulation ou problème lors du processus de paiement",
+            "content": "La paiement n'a pas été validé <br/> Vous n'avez pas été facturé <br/> Vous pouvez réessayer.",
+            "okMessage": "Votre compte a été créé en mode \"Free\", veuillez consulter vos emails pour vous connecter.",
+            "signup":{
+                "actionlabel": "Se connecter"
+            },
+            "billing":{
+                "actionlabel": "Retour à votre coffre"
+
+            }
+        }
     }
 }
