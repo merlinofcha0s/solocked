@@ -6,3 +6,7 @@ spring:
         password: ${POSTGRESQL_ADDON_PASSWORD}
         hikari:
             maximumPoolSize: 2
+application:
+    paypal:
+        client-id: ${PAYPAL_CLIENT_ID}
+        client-secret: ${PAYPAL_CLIENT_SECRET}
