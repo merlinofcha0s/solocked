@@ -11,3 +11,6 @@ application:
         client-id: ${PAYPAL_CLIENT_ID}
         client-secret: ${PAYPAL_CLIENT_SECRET}
         mode: ${PAYPAL_CLIENT_MODE}
+    base:
+        url: ${BASE_URL}
+

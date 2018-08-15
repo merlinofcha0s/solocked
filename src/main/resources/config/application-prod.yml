@@ -146,4 +146,4 @@ application:
         client-secret: ${PAYPAL_CLIENT_SECRET}
         mode: ${PAYPAL_CLIENT_MODE}
     base:
-        url: www.solocked.com
+        url: ${BASE_URL}
