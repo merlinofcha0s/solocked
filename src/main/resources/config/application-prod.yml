@@ -48,7 +48,7 @@ spring:
     mail:
         host: smtp.mailgun.org
         port: 587
-        username: postmaster@mailgun.solocked.com
+        username: ${MAILGUN_LOGIN}
         password: ${MAILGUN_PASSWORD}
         protocol: smtp
         tls: true

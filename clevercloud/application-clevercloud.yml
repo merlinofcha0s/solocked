@@ -7,6 +7,7 @@ spring:
         hikari:
             maximumPoolSize: 2
     mail:
+        username: ${MAILGUN_LOGIN}
         password: ${MAILGUN_PASSWORD}
 
 jhipster:
