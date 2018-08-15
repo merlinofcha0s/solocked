@@ -73,12 +73,15 @@
                     "required": "Votre mot de passe est requis.",
                     "minlength": "Votre mot de passe doit comporter au moins 5 caractères.",
                     "maxlength": "Votre mot de passe ne doit pas comporter plus de 50 caractères.",
-                    "strength": "Robustesse du mot de passe :"
+                    "strength": "Robustesse du mot de passe :",
+                    "noNumber": "Votre mot de passe doit contenir au moins un nombre",
+                    "noUppercase": "Votre mot de passe doit contenir au moins une lettre majuscule"
                 },
                 "confirmpassword": {
                     "required": "Votre confirmation du mot de passe est requise.",
                     "minlength": "Votre confirmation du mot de passe doit comporter au moins 5 caractères.",
-                    "maxlength": "Votre confirmation du mot de passe ne doit pas comporter plus de 50 caractères."
+                    "maxlength": "Votre confirmation du mot de passe ne doit pas comporter plus de 50 caractères.",
+                    "passwordmatch": "Vos mots de passe ne correspondent pas"
                 },
                 "email": {
                     "required": "Votre email est requis.",
