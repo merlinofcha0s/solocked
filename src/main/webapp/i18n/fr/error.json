@@ -11,7 +11,7 @@
         "validation": "Erreur de validation côté serveur.",
         "payment": {
             "title": "Annulation ou problème lors du processus de paiement",
-            "content": "La paiement n'a pas été validé <br/> Vous n'avez pas été facturé <br/> Vous pouvez réessayer.",
+            "content": "Le paiement n'a pas été validé <br/> Vous n'avez pas été facturé <br/> Vous pouvez réessayer.",
             "okMessage": "Votre compte a été créé en mode \"Free\", veuillez consulter vos emails pour vous connecter.",
             "signup":{
                 "actionlabel": "Se connecter"
