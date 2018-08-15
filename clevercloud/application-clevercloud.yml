@@ -6,6 +6,14 @@ spring:
         password: ${POSTGRESQL_ADDON_PASSWORD}
         hikari:
             maximumPoolSize: 2
+    mail:
+        password: ${MAILGUN_PASSWORD}
+
+jhipster:
+    mail:
+        from: ${MAILGUN_MAIL_FROM}
+        base-url: ${BASE_URL}
+
 application:
     paypal:
         client-id: ${PAYPAL_CLIENT_ID}
@@ -13,4 +21,3 @@ application:
         mode: ${PAYPAL_CLIENT_MODE}
     base:
         url: ${BASE_URL}
-

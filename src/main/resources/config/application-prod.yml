@@ -49,7 +49,7 @@ spring:
         host: smtp.mailgun.org
         port: 587
         username: postmaster@mailgun.solocked.com
-        password: 38c0a920186c2b8acaa002ac93fefca3
+        password: ${MAILGUN_PASSWORD}
         protocol: smtp
         tls: true
         properties.mail.smtp:
@@ -116,8 +116,8 @@ jhipster:
                 token-validity-in-seconds: 86400
                 token-validity-in-seconds-for-remember-me: 2592000
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: notification@solocked.com
-        base-url: https://solocked.com # Modify according to your server's URL
+        from: ${MAILGUN_MAIL_FROM}
+        base-url: ${BASE_URL} # Modify according to your server's URL
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx:
             enabled: true
