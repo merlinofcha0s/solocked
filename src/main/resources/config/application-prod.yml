@@ -142,8 +142,8 @@ jhipster:
 
 application:
     paypal:
-        client-id: AW98mU1TV-uNSPdzKsNGZ2a9vPDXyoV7UzPWB0qFyq5KF3f_wH5ckLOKyV6nVd2jIEv3rjPS7Dg-Bbzq
-        client-secret: ECxeCDhtPlfggBVZc7c4KzfRoVL7MaEQyQszuswBU4DhgUt6lt8R-2LpBHnQ0h_-c_1dgAgkYQYtpz28
+        client-id: ${PAYPAL_CLIENT_ID}
+        client-secret: ${PAYPAL_CLIENT_SECRET}
         mode: live
     base:
-        url: solocked.com
+        url: www.solocked.com
