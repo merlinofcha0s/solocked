@@ -8,9 +8,11 @@ import com.paypal.api.payments.*;
 import com.paypal.api.payments.Currency;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
+import io.github.jhipster.config.JHipsterConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -39,6 +41,11 @@ public class PaypalService {
 
     private final Logger log = LoggerFactory.getLogger(PaypalService.class);
 
+    private Environment env;
+
+    public PaypalService(Environment env) {
+        this.env = env;
+    }
 
     public ReturnPaymentDTO createOneTimePayment(PlanType planType, String login) {
         ReturnPaymentDTO returnPaymentDTO = new ReturnPaymentDTO();
@@ -97,12 +104,14 @@ public class PaypalService {
     private StringBuilder getCurrentUrl() {
         StringBuilder urlBuilder = new StringBuilder();
         String protocol = "http";
-        if (keystore != null && !keystore.equals("null")) {
+
+        Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
+        if (activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_TEST) || activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_PRODUCTION)){
             protocol = "https";
         }
 
         urlBuilder.append(protocol).append("://").append(url);
-        if (!port.equals("80") && !port.equals("443")) {
+        if (!activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_TEST) && !activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_PRODUCTION)) {
             urlBuilder.append(":").append(port);
         }
 
