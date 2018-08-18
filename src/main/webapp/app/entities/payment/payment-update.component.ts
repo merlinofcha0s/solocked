@@ -8,6 +8,7 @@ import { IPayment } from 'app/shared/model/payment.model';
 import { PaymentService } from './payment.service';
 import { IUser } from 'app/core';
 import { UserService } from '../../core/user/user.service';
+import moment = require('moment');
 
 @Component({
     selector: 'jhi-payment-update',
@@ -47,6 +48,14 @@ export class PaymentUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
+        if (this.payment.subscriptionDate) {
+            this.payment.subscriptionDate = moment(this.payment.subscriptionDate);
+        }
+
+        if (this.payment.validUntil) {
+            this.payment.validUntil = moment(this.payment.validUntil);
+        }
+
         if (this.payment.id !== undefined) {
             this.subscribeToSaveResponse(this.paymentService.update(this.payment));
         } else {
