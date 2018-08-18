@@ -37,7 +37,7 @@ export class Payment implements IPayment {
         public userLogin?: string,
         public userId?: number
     ) {
-        this.paid = false;
-        this.recurring = false;
+        this.paid = this.paid || false;
+        this.recurring = this.recurring || false;
     }
 }
