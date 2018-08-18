@@ -23,7 +23,7 @@ exports.config = {
 
     framework: 'jasmine2',
 
-    SELENIUM_PROMISE_MANAGER: false,
+    SELENIUM_PROMISE_MANAGER: true,
 
     jasmineNodeOpts: {
         showColors: true,
