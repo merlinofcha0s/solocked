@@ -701,7 +701,7 @@ public class AccountResourceIntTest {
         userRepository.saveAndFlush(user);
 
         restMvc.perform(post("/api/account/change-password").contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword, "new password"))))
+            .content("new password"))
             .andExpect(status().isOk());
 
         User updatedUser = userRepository.findOneByLogin("change-password").orElse(null);
