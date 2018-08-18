@@ -1,0 +1,48 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.ninja.ninjaccount",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "5.0.2",
+    "baseName": "ninjaccount",
+    "packageName": "com.ninja.ninjaccount",
+    "packageFolder": "com/ninja/ninjaccount",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "hibernateCache": "hazelcast",
+    "clusteredHttpSession": false,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Memory",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSocialSignIn": true,
+    "jwtSecretKey": "cb5e6878c2d03ba9cd32beec3507cf69bf80feb7",
+    "clientFramework": "angularX",
+    "useSass": true,
+    "clientPackageManager": "yarn",
+    "applicationType": "monolith",
+    "testFrameworks": [
+      "protractor"
+    ],
+    "jhiPrefix": "jhi",
+    "enableTranslation": true,
+    "nativeLanguage": "en",
+    "languages": [
+      "en",
+      "fr"
+    ],
+    "cacheProvider": "hazelcast",
+    "enableHibernateCache": true
+  },
+  "generator-jhipster-clevercloud": {
+    "promptValues": {
+      "user": "orga_e3a354da-1727-419a-8318-58dd64e615a2",
+      "region": "eu"
+    }
+  }
+}
