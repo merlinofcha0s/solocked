@@ -1,23 +1,26 @@
 import { forwardRef, Inject, Injectable } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
 import { isUndefined } from 'util';
 import { LoginService } from '../../../core/login/login.service';
+import { AccountsDBService } from 'app/entities/accounts-db';
 
 @Injectable({ providedIn: 'root' })
 export class AutolockService {
-    totalTime = 600;
+    totalTime = 10;
     remainingTime$: BehaviorSubject<number>;
     timer: Observable<number>;
     timerSubscription: Subscription;
+
+    isOnAddAccountPage: boolean;
 
     private _dataStore: {
         remainingTime: number;
     };
 
-    constructor(private loginService: LoginService, private router: Router) {
+    constructor(private loginService: LoginService, private router: Router, private addAccountService: AccountsDBService) {
         this._dataStore = { remainingTime: this.totalTime };
         this.remainingTime$ = new BehaviorSubject<number>(this._dataStore.remainingTime);
 
@@ -29,6 +32,12 @@ export class AutolockService {
                         this.timerSubscription.unsubscribe();
                     }
                 }
+            }
+        });
+
+        this.addAccountService.autoSaveCurrentAccount$.subscribe(state => {
+            if (state === 'end') {
+                this.autoLogout();
             }
         });
     }
@@ -45,10 +54,18 @@ export class AutolockService {
             },
             error => {},
             () => {
-                this.loginService.logout();
-                this.router.navigate(['']);
+                if (this.router.url === '/accounts/add') {
+                    this.addAccountService.autoSaveCurrentAccount$.next('init');
+                } else {
+                    this.autoLogout();
+                }
             }
         );
+    }
+
+    private autoLogout() {
+        this.loginService.logout();
+        this.router.navigate(['']);
     }
 
     resetTimer() {

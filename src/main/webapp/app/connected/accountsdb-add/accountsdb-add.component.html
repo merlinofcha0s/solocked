@@ -14,7 +14,7 @@
            translateValues="{max: '{{ maxAccounts }}'}">
               You have reach the limit number of accounts in your safe. <br/> Upgrade <a href='/#/billing'>here</a> to extends the limit
           </div>
-          <form [formGroup]="accountForm" (ngSubmit)="onSubmitNewAccount()">
+          <form [formGroup]="accountForm" (ngSubmit)="onSubmitNewAccount(false)">
               <div class="d-flex align-items-center">
                 <mat-form-field class="addAccountInput">
                   <input matInput type="text" id="accountName" placeholder="{{'ninjaccountApp.accountsDB.add.name' | translate}}"

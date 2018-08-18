@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 
 import { SERVER_API_URL } from '../../app.constants';
 import { AccountsDB, IAccountsDB } from '../../shared/model/accounts-db.model';
@@ -27,6 +27,8 @@ export class AccountsDBService {
     accounts$: BehaviorSubject<Array<Account>>;
     account$: BehaviorSubject<Account>;
 
+    autoSaveCurrentAccount$: BehaviorSubject<string>;
+
     private _dataStore: {
         actualNunberAccount: number;
         maxNumberAccount: number;
@@ -48,6 +50,7 @@ export class AccountsDBService {
         this.actualAndMaxNumber$ = new BehaviorSubject<any>({ first: 0, second: 10 });
         this.accounts$ = new BehaviorSubject<Array<Account>>(this._dataStore.accounts.accounts);
         this.account$ = new BehaviorSubject<Account>(null);
+        this.autoSaveCurrentAccount$ = new BehaviorSubject<string>('none');
     }
 
     create(accountsDB: IAccountsDB): Observable<EntityResponseType> {

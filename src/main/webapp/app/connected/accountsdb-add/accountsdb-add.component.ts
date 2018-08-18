@@ -49,6 +49,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
 
     private routeSubscription: Subscription;
     private accountSubscription: Subscription;
+    private saveCurrentSubscription: Subscription;
     private id: number;
 
     account$: BehaviorSubject<Account>;
@@ -90,6 +91,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         this.initForm();
         this.initPasswordHideDisplay();
         this.checkActualAndMax();
+        this.initSaveCurrent();
         this.routeSubscription = this.route.params.subscribe(params => {
             if (params['id'] !== undefined) {
                 this.id = +params['id'];
@@ -103,6 +105,8 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         this.routeSubscription.unsubscribe();
         if (this.updateMode) {
             this.accountSubscription.unsubscribe();
+        } else {
+            this.saveCurrentSubscription.unsubscribe();
         }
     }
 
@@ -162,7 +166,7 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
         this.accountDbService.getAccount(idAccount);
     }
 
-    onSubmitNewAccount() {
+    onSubmitNewAccount(autoSave: boolean) {
         // Creating new account
         const newAccount = new Account(this.username.value, this.password.value, this.accountName.value);
         newAccount.url = this.url.value;
@@ -221,7 +225,11 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
                 (accountsUpdated: AccountsDB) => {
                     this.snackUtil.openSnackBar('ninjaccountApp.accountsDB.add.successful', 3000, 'check-circle');
                     this.loading = false;
-                    this.router.navigate(['accounts']);
+                    if (autoSave) {
+                        this.accountDbService.autoSaveCurrentAccount$.next('end');
+                    } else {
+                        this.router.navigate(['accounts']);
+                    }
                 },
                 error => {
                     let message;
@@ -358,5 +366,19 @@ export class AccountsdbAddComponent implements OnInit, OnDestroy {
             }
         });
         this.accountDbService.getActualMaxAccount();
+    }
+
+    initSaveCurrent() {
+        if (!this.updateMode) {
+            this.saveCurrentSubscription = this.accountDbService.autoSaveCurrentAccount$.subscribe(state => {
+                if (state === 'init') {
+                    if (this.accountName.value) {
+                        this.onSubmitNewAccount(true);
+                    } else {
+                        this.accountDbService.autoSaveCurrentAccount$.next('end');
+                    }
+                }
+            });
+        }
     }
 }
