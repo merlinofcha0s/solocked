@@ -1,6 +1,4 @@
-import { browser, element, by, ExpectedConditions } from 'protractor';
-import { NavBarPage, SignInPage, PasswordPage, SettingsPage } from './../page-objects/jhi-page-objects';
-import { setTimeout } from 'timers';
+import { browser, by, element, ExpectedConditions } from 'protractor';
 import { CommonAction, HomePage, MyAccounts } from './common-action';
 
 describe('account', () => {
