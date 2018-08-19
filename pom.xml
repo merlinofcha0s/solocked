@@ -96,6 +96,7 @@
         <sonar.sources>${project.basedir}/src/main/</sonar.sources>
         <sonar.surefire.reportsPath>${project.testresult.directory}/surefire-reports</sonar.surefire.reportsPath>
         <sonar.tests>${project.basedir}/src/test/</sonar.tests>
+        <!--<sonar.host.url>http://192.168.18.129:9000</sonar.host.url>-->
 
         <!-- jhipster-needle-maven-property -->
     </properties>
