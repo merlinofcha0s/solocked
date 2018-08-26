@@ -8,7 +8,7 @@ import { IPayment } from 'app/shared/model/payment.model';
 import { PaymentService } from './payment.service';
 import { IUser } from 'app/core';
 import { UserService } from '../../core/user/user.service';
-import moment = require('moment');
+import * as moment from 'moment';
 
 @Component({
     selector: 'jhi-payment-update',
