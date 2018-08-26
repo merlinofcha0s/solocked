@@ -98,8 +98,8 @@ export class JhiMainComponent implements OnInit {
             if (inTest || this.inProduction) {
                 const livezillaScript = document.createElement('script');
                 livezillaScript.type = 'text/javascript';
-                livezillaScript.id = '31202250e6742ed22a4e18316a5c66c0';
-                livezillaScript.src = 'https://support.solocked.com/script.php?id=31202250e6742ed22a4e18316a5c66c0';
+                livezillaScript.id = '2e41582019ee1eae4f223abddca4d665';
+                livezillaScript.src = 'https://support.solocked.com/script.php?id=2e41582019ee1eae4f223abddca4d665';
                 document.getElementsByTagName('head')[0].appendChild(livezillaScript);
             }
         });
