@@ -1,56 +1,8 @@
-<h4 class="mb-4 text-white text-center mb-3" jhiTranslate="home.informations.title">New user?</h4>
-<div class="mr-auto ml-auto w-75">
-    <mat-accordion class="accordion">
-        <mat-expansion-panel hideToggle class="radius-top">
-            <mat-expansion-panel-header class="radius-top">
-                <mat-panel-title jhiTranslate="home.informations.what.title">
-                    What is SoLocked?
-                </mat-panel-title>
-                <mat-panel-description>
-                    <fa-icon [icon]="'exclamation-circle'"></fa-icon>
-                </mat-panel-description>
-            </mat-expansion-panel-header>
-            <div jhiTranslate="home.informations.what.content">SoLocked is a web application whose purpose is to keep and let you manage the information about your accounts in one place.</div>
-            <mat-action-row>
-                <a href="https://blog.solocked.com/what-is-solocked/" mat-button color="primary" class="mb-2" target="_blank">{{'home.more' | translate}}</a>
-            </mat-action-row>
-        </mat-expansion-panel>
-        <mat-expansion-panel hideToggle>
-            <mat-expansion-panel-header>
-                <mat-panel-title jhiTranslate="home.informations.why.title">
-                    Why SoLocked?
-                </mat-panel-title>
-                <mat-panel-description>
-                    <fa-icon [icon]="'search'"></fa-icon>
-                </mat-panel-description>
-            </mat-expansion-panel-header>
-            <div jhiTranslate="home.informations.why.content">What if the “account specialist” never owns youfont again? What if you always had all information about all your accounts with you, always?</div>
-            <mat-action-row>
-                <a href="https://blog.solocked.com/why-solocked/" mat-button color="primary" class="mb-2" target="_blank">{{'home.more' | translate}}</a>
-            </mat-action-row>
-        </mat-expansion-panel>
-        <mat-expansion-panel hideToggle class="radius-bottom">
-            <mat-expansion-panel-header>
-                <mat-panel-title jhiTranslate="home.informations.whatAbout.title">
-                    What about security?
-                </mat-panel-title>
-                <mat-panel-description>
-                    <fa-icon [icon]="'lock'"></fa-icon>
-                </mat-panel-description>
-            </mat-expansion-panel-header>
-            <div jhiTranslate="home.informations.whatAbout.content">“Zero Knowledge.” “Auto logout.” You keep your big bad password safe AND you do not leave your safe open. Want more? Click on read more</div>
-            <mat-action-row>
-                <a href="https://blog.solocked.com/we-are-fanatic-about-security/" mat-button color="primary" class="mb-2" target="_blank">{{'home.more' | translate}}</a>
-            </mat-action-row>
-        </mat-expansion-panel>
-    </mat-accordion>
-</div>
-<div class="d-flex justify-content-center align-items-center flex-column registerContainer">
-    <a href="https://blog.solocked.com/whats-this/" mat-button class="understand mb-2" target="_blank">{{'home.more' | translate}}</a>
-    <button id="register" (click)="register()"  class="button-home mt-3" mat-button>
-        <div class="d-flex justify-content-center align-items-center">
-            <span>{{'global.messages.info.register.link' | translate}}</span>
-            <fa-icon [icon]="['fas', 'user-secret']" class="icon-button-home"></fa-icon>
-        </div>
-    </button>
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-10">
+        <h2 class="mb-4 title" jhiTranslate="home.informations.title">New user?</h2>
+        <p jhiTranslate="home.content-1"></p>
+        <p jhiTranslate="home.content-2"></p>
+    </div>
 </div>

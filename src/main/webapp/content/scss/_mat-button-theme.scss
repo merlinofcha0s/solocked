@@ -1,13 +1,16 @@
 @import 'custom-variables';
 
-@mixin mat-button-theme($candy-app-theme){
-    button[mat-raised-button]:not([disabled]), a[mat-raised-button]:not([disabled]){
+@mixin mat-button-theme($candy-app-theme) {
+    button[mat-raised-button]:not([disabled]),
+    a[mat-raised-button]:not([disabled]) {
         border-radius: 50px;
         padding: 3px 30px;
         color: white;
+        background-image: linear-gradient(to right, $solocked-primary-color, $solocked-secondary-color);
     }
 
-    button[mat-raised-button]:disabled, a[mat-raised-button]:disabled{
+    button[mat-raised-button]:disabled,
+    a[mat-raised-button]:disabled {
         border-radius: 50px;
         padding: 3px 30px;
         cursor: not-allowed;

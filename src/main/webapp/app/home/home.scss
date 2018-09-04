@@ -25,17 +25,15 @@ Main page styles
     }
 }
 
-.separator {
-    border-right: 2px solid $primary-color-home;
-}
-
 .understand {
-    color: $primary-color-home;
     text-decoration: underline;
 }
 
-.twitter {
-    color: $primary-color-home;
-    font-size: 20px;
-    margin-right: 5px;
+.title-app {
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.version {
+    font-size: 12px;
 }

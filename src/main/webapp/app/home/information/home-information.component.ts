@@ -8,8 +8,4 @@ import { Router } from '@angular/router';
 })
 export class HomeInformationComponent {
     constructor(private router: Router) {}
-
-    register() {
-        this.router.navigate(['/register']);
-    }
 }

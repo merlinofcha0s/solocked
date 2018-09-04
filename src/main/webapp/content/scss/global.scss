@@ -18,6 +18,15 @@ h2,
 h3,
 h4 {
     font-weight: bold !important;
+    color: $solocked-primary-color;
+}
+
+h1 *,
+h2 *,
+h3 *,
+h4 * {
+    font-weight: bold !important;
+    color: $solocked-primary-color;
 }
 
 h1 {
@@ -284,7 +293,7 @@ ui bootstrap tweaks
     width: 300px;
     padding-top: 30px;
     padding-bottom: 30px;
-    height: 100px;
+    height: 70px;
     font-size: 20px !important;
     font-weight: bold !important;
     border-radius: 50px;
@@ -305,15 +314,15 @@ ui bootstrap tweaks
     font-weight: lighter;
 }
 
-//Prevent chrome for highliting in blue when clicking
+//Prevent chrome for highlighting in blue when clicking
 :focus {
     outline: none !important;
 }
 
 .button-home {
     border-radius: 50px !important;
-    border: 1px $primary-color-home solid !important;
-    color: $primary-color-home !important;
+    border: 1px $solocked-primary-color solid !important;
+    color: $solocked-primary-color !important;
     height: 50px !important;
 }
 

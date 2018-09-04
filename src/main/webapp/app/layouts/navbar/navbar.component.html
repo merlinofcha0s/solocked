@@ -1,4 +1,4 @@
-<nav class="navbar fixed-top navbar-expand-md jh-navbar" [class.defaultColor]="defaultColor" [class.background-login]="!defaultColor">
+<nav class="navbar fixed-top navbar-expand-md jh-navbar">
     <div class="jh-logo-container float-left">
         <a class="jh-navbar-toggler d-lg-none float-right" href="javascript:void(0);" data-toggle="collapse"
            data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
@@ -7,7 +7,7 @@
         </a>
         <a class="navbar-brand logo float-left" (click)="onClickTitleHeader()">
             <span class="logo-img"></span>
-            <span jhiTranslate="global.title" class="navbar-title">Solocked</span> <span class="navbar-version">{{version}}-BETA</span>
+            <span jhiTranslate="global.title" class="navbar-title">Solocked</span> <span class="navbar-version">{{version}}</span>
         </a>
     </div>
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
@@ -122,6 +122,11 @@
                     [routerLink]="['/accounts/add']">
                      <span jhiTranslate="global.addAccount"></span>
                  </a>
+             </li>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                class="d-flex justify-content-center align-items-center">
+                <a href="https://status.solocked.com" target="_blank" id="status" mat-button>{{'home.status' |
+                    translate}}</a>
             </li>
             <li *ngIf="languages && !isAuthenticated()" class="d-flex justify-content-center align-items-center">
                  <button [class.home]="!defaultColor" *ngIf="languages.length > 1" mat-button [matMenuTriggerFor]="languagesMenu">{{ 'global.menu.language' | translate }}</button>
@@ -131,12 +136,7 @@
                   </mat-menu>
             <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="d-flex justify-content-center align-items-center">
              <button id="account" mat-button [class.home]="!defaultColor" [matMenuTriggerFor]="account">
-                 <div class="d-flex align-items-center align-content-center">
-                     <mat-icon class="d-flex align-content-center justify-content-center mat-icon-menu-solocked">
-                         <fa-icon [icon]="['fas', 'cog']" class="icon-menu"></fa-icon>
-                     </mat-icon>
-                     <div jhiTranslate="global.menu.account.main">Your account</div>
-                 </div>
+                 <div jhiTranslate="global.menu.account.main">Your account</div>
              </button>
                 <mat-menu #account="matMenu">
                     <a *ngSwitchCase="true" routerLink="settings" routerLinkActive="active" mat-menu-item>{{ 'settings.title' | translate }}</a>
@@ -149,7 +149,6 @@
                     <a id="logout" *ngSwitchCase="true" (click)="logout()" mat-menu-item>{{ 'global.menu.account.logout' | translate }}</a>
                     <a *ngSwitchCase="false"  routerLink="register" mat-menu-item>{{ 'global.menu.account.register' | translate }}</a>
                 </mat-menu>
-                </ul>
             </li>
         </ul>
     </div>

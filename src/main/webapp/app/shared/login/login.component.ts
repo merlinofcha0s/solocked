@@ -1,4 +1,4 @@
-import { Component, Renderer2 } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { JhiEventManager } from 'ng-jhipster';
 import { isUndefined } from 'util';
@@ -118,5 +118,9 @@ export class JhiLoginModalComponent {
     requestResetPassword() {
         // this.activeModal.dismiss('to state requestReset');
         this.router.navigate(['/reset', 'request']);
+    }
+
+    register() {
+        this.router.navigate(['/register']);
     }
 }

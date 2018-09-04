@@ -6,7 +6,6 @@ Navbar
 
 .navbar-version {
     font-size: 10px;
-    color: $loginColor;
 }
 
 .jh-navbar {
@@ -62,11 +61,6 @@ Navbar
 .navbar-title {
     display: inline-block;
     vertical-align: middle;
-    color: $loginColor;
-}
-
-.nav-link {
-    color: $loginColor;
 }
 
 /* ==========================================================================
@@ -97,10 +91,6 @@ Custom solocked
     box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.24), 0 0px 0px 0 rgba(0, 0, 0, 0.12) !important;
 }
 
-.home {
-    color: $loginColor;
-}
-
 .search {
     margin-right: 22px;
     height: 46px;
@@ -121,7 +111,7 @@ Custom solocked
 }
 
 .background-login {
-    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
     background-color: $solocked-secondary-color;
 }
 

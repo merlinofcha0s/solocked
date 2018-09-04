@@ -49,7 +49,6 @@ export class JhiMainComponent implements OnInit {
             if (event instanceof NavigationEnd) {
                 this.jhiLanguageHelper.updateTitle(this.getPageTitle(this.router.routerState.snapshot.root));
                 this.isLoginPage = event.url === '/';
-                this.backgroundBodyManagement();
                 this.cacheDB();
             }
         });
@@ -124,14 +123,6 @@ export class JhiMainComponent implements OnInit {
         }
         // other browser
         return false;
-    }
-
-    backgroundBodyManagement() {
-        if (this.isLoginPage) {
-            this.renderer.addClass(document.body, 'background-offline');
-        } else {
-            this.renderer.removeClass(document.body, 'background-offline');
-        }
     }
 
     private cacheDB() {

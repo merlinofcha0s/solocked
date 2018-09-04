@@ -20,7 +20,6 @@ export class NavbarComponent implements OnInit {
     swaggerEnabled: boolean;
     modalRef: NgbModalRef;
     version: string;
-    defaultColor: boolean;
 
     constructor(
         private loginService: LoginService,
@@ -50,12 +49,6 @@ export class NavbarComponent implements OnInit {
     initListenerRouterEvent() {
         this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationEnd) {
-                if (event.url !== '/') {
-                    this.defaultColor = true;
-                } else {
-                    this.defaultColor = false;
-                }
-
                 this.isNavbarCollapsed = true;
             }
         });

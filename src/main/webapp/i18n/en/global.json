@@ -61,7 +61,8 @@
                     "suffix": ", you can try the default accounts:<br/>- Administrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\")."
                 },
                 "register": {
-                    "link": "SIGN UP"
+                    "noaccount": "Don't have an account yet ?",
+                    "link": "Start my free trial"
                 }
             },
             "error": {

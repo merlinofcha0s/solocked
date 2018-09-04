@@ -1,34 +1,22 @@
 <div class="row">
-    <div class="col-12">
-        <h2 class="mb-4 text-white text-center d-none d-sm-block" id="name"></h2>
-        <h2 class="mb-4 text-white text-center" id="title" jhiTranslate="home.subtitle">All your accounts in one place.</h2>
+    <div class="col-1"></div>
+    <div class="col-5 d-flex align-items-center">
+        <img width="70" src="../../content/images/icon.svg"/>
+        <div class="ml-2">
+            <div class="title-app">SoLocked</div>
+            <div class="version">{{ version }}</div>
+        </div>
+    </div>
+    <div class="col-6 d-flex" style="padding-right: 0;">
+        <img style="margin-left: auto;" src="../../content/images/home/could2.svg"/>
     </div>
 </div>
 <div class="row mt-4">
-    <div class="col-12 col-md-12 col-lg-6 separator">
+    <div class="col-12 col-md-12 col-lg-6">
         <jhi-home-information></jhi-home-information>
     </div>
     <div class="col-12 col-md-12 col-lg-6 mt-sm-3 mt-md-0 order-first order-lg-last">
+        <img width="70" class="position-absolute" src="../../content/images/home/cloud1.svg"/>
         <jhi-login-modal></jhi-login-modal>
-    </div>
-</div>
-<div class="row mt-4">
-    <div class="col-12 d-flex align-items-center justify-content-center">
-        <a href="https://status.solocked.com" mat-button class="understand" target="_blank"> <div class="d-flex">
-            <div>
-                <fa-icon [icon]="['fas', 'server']" class="twitter"></fa-icon>
-            </div>
-            <span>{{'home.status' | translate}}</span>
-        </div></a>
-    </div>
-    <div class="col-12 d-flex align-items-center justify-content-center">
-        <a href="https://twitter.com/Sol0cked" mat-button class="understand" target="_blank">
-            <div class="d-flex">
-                <div>
-                    <fa-icon [icon]="['fab', 'twitter']" class="twitter"></fa-icon>
-                </div>
-                <span>{{'home.twitter' | translate}}</span>
-            </div>
-        </a>
     </div>
 </div>
