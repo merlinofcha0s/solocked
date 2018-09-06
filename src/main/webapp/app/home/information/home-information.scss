@@ -1,1 +1,17 @@
 @import './../../../content/scss/custom-variables';
+
+.dot {
+    background: $linear-gradient;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot-regular {
+    height: 50px;
+    width: 50px;
+}
+
+.dot-xl {
+    height: 70px;
+    width: 70px;
+}

@@ -62,7 +62,7 @@
                 },
                 "register": {
                     "noaccount": "Vous n'avez pas encore de compte ?",
-                    "link": "Essayer gratuitement"
+                    "link": "Créer un compte gratuit"
                 }
             },
             "error": {
@@ -143,7 +143,12 @@
         "idexists": "Une nouvelle entité {{entityName}} ne peut pas avoir d'ID !",
         "idnull": "Invalid ID"
     },
-    "footer": "Ceci est votre pied de page",
+    "footer": {
+        "copyright": {
+            "copyright-1": "© 2018 SoLocked. Tous droits réservés.",
+            "copyright-2": "Tous les textes, éléments graphiques, fichiers audio, code, matériels téléchargeables, et autres travaux présent sur ce site sont sous le copyright de SoLocked."
+        }
+    },
     "autolock":{
         "name" : "Verrouillage",
         "in": "dans"

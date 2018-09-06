@@ -62,7 +62,7 @@
                 },
                 "register": {
                     "noaccount": "Don't have an account yet ?",
-                    "link": "Start my free trial"
+                    "link": "Create a free account"
                 }
             },
             "error": {
@@ -144,7 +144,12 @@
         "idexists": "A new {{ entityName }} cannot already have an ID",
         "idnull": "Invalid ID"
     },
-    "footer": "This is your footer",
+    "footer": {
+        "copyright": {
+            "copyright-1": "© 2018 SoLocked. All right reserved.",
+            "copyright-2": "All text, graphics, audio files, code, downloadable material, and other works on this web site are the copyrighted works of SoLocked."
+        }
+    },
     "autolock":{
         "name" : "Autolock",
         "in": "in"

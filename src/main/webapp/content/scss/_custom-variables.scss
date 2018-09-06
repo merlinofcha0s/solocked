@@ -6,7 +6,7 @@ $font-color-warning: rgb(244, 67, 54);
 
 $solocked-primary-color: #6039b6;
 $solocked-secondary-color: #bf69d3;
-$linear-gradient: radial-gradient(circle at center, $solocked-primary-color 0, #164944, $solocked-secondary-color 100%);
+$linear-gradient: linear-gradient(to right, $solocked-primary-color, $solocked-secondary-color);
 
 /**
 Navbar
