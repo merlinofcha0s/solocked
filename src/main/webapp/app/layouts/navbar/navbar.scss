@@ -12,7 +12,6 @@ Navbar
     z-index: 11;
     background-color: white;
     padding: 0.2em 1em;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.08);
     .profile-image {
         margin: -10px 0px;
         height: 40px;
@@ -72,11 +71,10 @@ Logo styles
         .logo-img {
             height: 45px;
             width: 70px;
-            //display: inline-block;
+            display: inline-block;
             vertical-align: middle;
-            background: url('../../../content/images/lock.svg') no-repeat center center;
+            background: url('../../../content/images/icon.svg') no-repeat center center;
             background-size: contain;
-            display: none;
         }
     }
 }
@@ -122,4 +120,10 @@ Custom solocked
 
 .mat-icon-menu-solocked {
     margin-right: 3px;
+}
+
+.infos-button {
+    /deep/ a {
+        margin-right: 15px;
+    }
 }

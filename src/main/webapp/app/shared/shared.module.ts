@@ -38,6 +38,9 @@ import { NinjaccountSharedLibsModule } from 'app/shared/shared-libs.module';
 import { NinjaccountSharedCommonModule } from 'app/shared/shared-common.module';
 import { JhiLoginModalComponent } from 'app/shared/login/login.component';
 import { HasAnyAuthorityDirective } from 'app/shared/auth/has-any-authority.directive';
+import { ScrollDirective } from 'app/shared/util/scroll.directive';
+import { InfosButtonComponent } from 'app/home/information/infos-button/infos-button.component';
+import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 @NgModule({
     imports: [
@@ -65,7 +68,8 @@ import { HasAnyAuthorityDirective } from 'app/shared/auth/has-any-authority.dire
         MatAutocompleteModule,
         MatRadioModule,
         MatListModule,
-        MatIconModule
+        MatIconModule,
+        ScrollToModule.forRoot()
     ],
     declarations: [
         JhiLoginModalComponent,
@@ -75,7 +79,9 @@ import { HasAnyAuthorityDirective } from 'app/shared/auth/has-any-authority.dire
         PasswordMatchValidatorDirective,
         DateValidatorDirective,
         AutofocusDirective,
-        CheckBillingDirective
+        CheckBillingDirective,
+        ScrollDirective,
+        InfosButtonComponent
     ],
     providers: [DatePipe, { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }],
     entryComponents: [JhiLoginModalComponent, SnackComponent, WaiterComponent],
@@ -112,7 +118,9 @@ import { HasAnyAuthorityDirective } from 'app/shared/auth/has-any-authority.dire
         WaiterComponent,
         CheckBillingDirective,
         MatListModule,
-        MatIconModule
+        MatIconModule,
+        ScrollDirective,
+        InfosButtonComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

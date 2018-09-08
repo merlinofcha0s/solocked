@@ -7,11 +7,50 @@ import { VERSION } from 'app/app.constants';
 import { JhiLanguageHelper, LoginModalService, Principal } from 'app/core';
 import { ProfileService } from '../../layouts/profiles/profile.service';
 import { LoginService } from '../../core/login/login.service';
+import { ScrollEvent } from 'app/shared/util/scroll.directive';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
     selector: 'jhi-navbar',
     templateUrl: './navbar.component.html',
-    styleUrls: ['navbar.scss']
+    styleUrls: ['navbar.scss'],
+    animations: [
+        trigger('sticky', [
+            state(
+                'true',
+                style({
+                    position: 'fixed',
+                    top: '0',
+                    right: '0',
+                    left: '0',
+                    transform: 'translate(0px, 0px)',
+                    'box-shadow': '0 2px 12px 0 rgba(0, 0, 0, 0.08)'
+                })
+            ),
+            state(
+                'intermediate',
+                style({
+                    position: 'fixed',
+                    top: '0',
+                    right: '0',
+                    left: '0',
+                    transform: 'translate(0px, -100px)'
+                })
+            ),
+            state(
+                'false',
+                style({
+                    position: 'absolute',
+                    top: '0',
+                    right: '0',
+                    left: '0',
+                    transform: 'translate(0px, 0px)'
+                })
+            ),
+            transition('intermediate => false, false => intermediate', animate('0.3s  ease-in-out')),
+            transition('intermediate => true, true => intermediate', animate('0.3s  ease-in-out'))
+        ])
+    ]
 })
 export class NavbarComponent implements OnInit {
     inProduction: boolean;
@@ -20,6 +59,10 @@ export class NavbarComponent implements OnInit {
     swaggerEnabled: boolean;
     modalRef: NgbModalRef;
     version: string;
+
+    activateStickyMenu: string;
+    homePageMode: boolean;
+    offsetScroll: string;
 
     constructor(
         private loginService: LoginService,
@@ -33,6 +76,8 @@ export class NavbarComponent implements OnInit {
         this.version = VERSION ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
         this.initListenerRouterEvent();
+
+        this.activateStickyMenu = 'false';
     }
 
     ngOnInit() {
@@ -45,11 +90,17 @@ export class NavbarComponent implements OnInit {
             this.swaggerEnabled = profileInfo.swaggerEnabled;
         });
     }
-    //
+
     initListenerRouterEvent() {
         this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationEnd) {
                 this.isNavbarCollapsed = true;
+                this.homePageMode = event.url === '/';
+                if (this.homePageMode) {
+                    this.offsetScroll = '-750';
+                } else {
+                    this.offsetScroll = '-100';
+                }
             }
         });
     }
@@ -73,6 +124,7 @@ export class NavbarComponent implements OnInit {
     isAuthenticated() {
         return this.principal.isAuthenticated();
     }
+
     //
     login() {
         this.modalRef = this.loginModalService.open();
@@ -94,5 +146,21 @@ export class NavbarComponent implements OnInit {
 
     hasAnyAuthorityDirect(authorities: string[]): boolean {
         return this.principal.hasAnyAuthorityDirect(authorities);
+    }
+
+    public handleScroll(event: ScrollEvent) {
+        if (event.isReachingBottom && this.activateStickyMenu !== 'true') {
+            this.activateStickyMenu = 'intermediate';
+            setTimeout(() => {
+                this.activateStickyMenu = 'true';
+            }, 300);
+        }
+
+        if (event.isReachingTop && this.activateStickyMenu !== 'false') {
+            this.activateStickyMenu = 'intermediate';
+            setTimeout(() => {
+                this.activateStickyMenu = 'false';
+            }, 300);
+        }
     }
 }

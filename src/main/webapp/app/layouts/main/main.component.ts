@@ -105,7 +105,6 @@ export class JhiMainComponent implements OnInit {
     }
 
     /* tslint:enable */
-
     detectEdge() {
         // Get IE or Edge browser version
         const version = this.isEdge();
