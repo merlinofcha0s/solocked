@@ -14,6 +14,7 @@ export class FooterComponent implements OnInit, OnDestroy {
     paymentWarning: PaymentWarning;
     paymentSub: Subscription;
     displayPaymentIssue: boolean;
+    invertColor: boolean;
 
     constructor(private paymentService: PaymentService, private router: Router, private principal: Principal) {
         this.displayPaymentIssue = false;
@@ -24,6 +25,7 @@ export class FooterComponent implements OnInit, OnDestroy {
 
         this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
+                this.invertColor = event.url === '/register';
                 if (event.url === '/') {
                     this.displayPaymentIssue = false;
                 }

@@ -43,3 +43,7 @@ $primary-color: white;
 /deep/ mat-error {
     color: $primary-color !important;
 }
+
+.inverted-loading-message {
+    color: $primary-color;
+}
