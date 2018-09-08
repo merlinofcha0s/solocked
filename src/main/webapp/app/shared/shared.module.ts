@@ -41,6 +41,7 @@ import { HasAnyAuthorityDirective } from 'app/shared/auth/has-any-authority.dire
 import { ScrollDirective } from 'app/shared/util/scroll.directive';
 import { InfosButtonComponent } from 'app/home/information/infos-button/infos-button.component';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
+import { ChoosePlanComponent } from 'app/account/register/choose-plan/choose-plan.component';
 
 @NgModule({
     imports: [
@@ -81,7 +82,8 @@ import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
         AutofocusDirective,
         CheckBillingDirective,
         ScrollDirective,
-        InfosButtonComponent
+        InfosButtonComponent,
+        ChoosePlanComponent
     ],
     providers: [DatePipe, { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }],
     entryComponents: [JhiLoginModalComponent, SnackComponent, WaiterComponent],
@@ -120,7 +122,8 @@ import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
         MatListModule,
         MatIconModule,
         ScrollDirective,
-        InfosButtonComponent
+        InfosButtonComponent,
+        ChoosePlanComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

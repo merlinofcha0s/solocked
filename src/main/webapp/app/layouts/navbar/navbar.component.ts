@@ -24,7 +24,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
                     right: '0',
                     left: '0',
                     transform: 'translate(0px, 0px)',
-                    'box-shadow': '0 2px 12px 0 rgba(0, 0, 0, 0.08)'
+                    'box-shadow': '0 2px 12px 0 rgba(0, 0, 0, 0.08)',
+                    'background-color': 'white'
                 })
             ),
             state(
@@ -44,7 +45,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
                     top: '0',
                     right: '0',
                     left: '0',
-                    transform: 'translate(0px, 0px)'
+                    transform: 'translate(0px, 0px)',
+                    'background-color': 'transparent'
                 })
             ),
             transition('intermediate => false, false => intermediate', animate('0.3s  ease-in-out')),
@@ -63,6 +65,8 @@ export class NavbarComponent implements OnInit {
     activateStickyMenu: string;
     homePageMode: boolean;
     offsetScroll: string;
+
+    invertColor: boolean;
 
     constructor(
         private loginService: LoginService,
@@ -96,6 +100,7 @@ export class NavbarComponent implements OnInit {
             if (event instanceof NavigationEnd) {
                 this.isNavbarCollapsed = true;
                 this.homePageMode = event.url === '/';
+                this.invertColor = event.url === '/register';
                 if (this.homePageMode) {
                     this.offsetScroll = '-750';
                 } else {
@@ -112,6 +117,8 @@ export class NavbarComponent implements OnInit {
     onClickTitleHeader() {
         if (this.principal.isAuthenticated()) {
             this.router.navigate(['/accounts']);
+        } else {
+            this.router.navigate(['/']);
         }
 
         this.collapseNavbar();

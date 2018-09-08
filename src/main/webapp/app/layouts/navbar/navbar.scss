@@ -10,7 +10,6 @@ Navbar
 
 .jh-navbar {
     z-index: 11;
-    background-color: white;
     padding: 0.2em 1em;
     .profile-image {
         margin: -10px 0px;
@@ -126,4 +125,13 @@ Custom solocked
     /deep/ a {
         margin-right: 15px;
     }
+}
+
+.inverted {
+    .logo-img {
+        background: url('../../../content/images/icon-white.svg') no-repeat center center !important;
+        background-size: contain !important;
+    }
+
+    color: white;
 }

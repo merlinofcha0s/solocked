@@ -21,10 +21,10 @@ h4 {
     color: $solocked-primary-color;
 }
 
-h1 *,
-h2 *,
-h3 *,
-h4 * {
+.title > span,
+.title > span,
+.title > span,
+.title > span {
     font-weight: bold !important;
     color: $solocked-primary-color;
 }
@@ -268,8 +268,8 @@ ui bootstrap tweaks
  Custom solocked layout
 ========================================================================== */
 
-.background-offline {
-    background-color: $solocked-secondary-color;
+.background-register {
+    background: $linear-gradient;
 }
 
 .width-max {

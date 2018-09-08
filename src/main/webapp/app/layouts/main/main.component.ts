@@ -14,7 +14,7 @@ import { AccountsDBService } from 'app/entities/accounts-db';
     styleUrls: ['./main.component.scss']
 })
 export class JhiMainComponent implements OnInit {
-    isLoginPage: boolean;
+    isRegisterPage: boolean;
     schema = {
         '@context': 'http://schema.org',
         '@type': 'Application',
@@ -40,7 +40,7 @@ export class JhiMainComponent implements OnInit {
         this.initEventRouter();
         this.initTrackingAndChat();
         this.detectEdge();
-
+        this.backgroundBodyManagement();
         this.principal.identity(true).then(account => this.principal.initDefaultLanguage(account));
     }
 
@@ -48,7 +48,8 @@ export class JhiMainComponent implements OnInit {
         this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
                 this.jhiLanguageHelper.updateTitle(this.getPageTitle(this.router.routerState.snapshot.root));
-                this.isLoginPage = event.url === '/';
+                this.isRegisterPage = event.url === '/register';
+                this.backgroundBodyManagement();
                 this.cacheDB();
             }
         });
@@ -127,6 +128,14 @@ export class JhiMainComponent implements OnInit {
     private cacheDB() {
         if (this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
             this.accountsService.getAccountsList();
+        }
+    }
+
+    backgroundBodyManagement() {
+        if (this.isRegisterPage) {
+            this.renderer.addClass(document.body, 'background-register');
+        } else {
+            this.renderer.removeClass(document.body, 'background-register');
         }
     }
 }

@@ -33,12 +33,12 @@
         },
         "chooseplan": {
             "free": {
-                "title": "Free",
+                "title": "SoLocked for Free",
                 "highlight1": "10 accounts",
-                "price": "0€"
+                "price": "Free"
             },
             "premiumyear":{
-                "title": "Premium",
+                "title": "SoLocked for one year",
                 "highlight1": "1000 accounts",
                 "highlight2": "Billed yearly",
                 "price": "20€",
@@ -46,7 +46,7 @@
                 "onetime": "for one year"
             },
             "premiummonth":{
-                "title": "Premium",
+                "title": "SoLocked for one month",
                 "highlight1": "1000 accounts",
                 "highlight2": "Billed monthly",
                 "price": "2€",
