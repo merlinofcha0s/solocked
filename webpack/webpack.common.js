@@ -6,7 +6,9 @@ const MergeJsonWebpackPlugin = require("merge-jsons-webpack-plugin");
 
 const utils = require('./utils.js');
 
-module.exports = (options) => ({
+module.exports = (options) =;
+>
+({
     resolve: {
         extensions: ['.ts', '.js'],
         modules: ['node_modules'],
@@ -15,11 +17,13 @@ module.exports = (options) => ({
             ...rxPaths()
     }
     },
-    stats: {
-        children: false
+    stats;
+:
+{
+    false
     },
-    module: {
-        rules: [
+{
+    [
             { test: /bootstrap\/dist\/js\/umd\//, loader: 'imports-loader?jQuery=jquery' },
             {
                 test: /\.html$/,
@@ -45,7 +49,7 @@ module.exports = (options) => ({
             {test: /[\/\\]@angular[\/\\].+\.js$/, parser: {system: true}},
         ]
     },
-    plugins: [
+[
         new webpack.IgnorePlugin(/\.\/locale$/),
         new webpack.DefinePlugin({
             'process.env': {
@@ -90,5 +94,5 @@ module.exports = (options) => ({
             chunksSortMode: 'manual',
             inject: 'body'
         })
-    ]
-});
+];
+})

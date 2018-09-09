@@ -279,10 +279,10 @@ public class PaymentResourceIntTest {
             .andExpect(jsonPath("$.[*].planType").value(hasItem(DEFAULT_PLAN_TYPE.toString())))
             .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.booleanValue())))
             .andExpect(jsonPath("$.[*].validUntil").value(hasItem(DEFAULT_VALID_UNTIL.toString())))
-            .andExpect(jsonPath("$.[*].lastPaymentId").value(hasItem(DEFAULT_LAST_PAYMENT_ID.toString())))
+            .andExpect(jsonPath("$.[*].lastPaymentId").value(hasItem(DEFAULT_LAST_PAYMENT_ID)))
             .andExpect(jsonPath("$.[*].recurring").value(hasItem(DEFAULT_RECURRING.booleanValue())))
-            .andExpect(jsonPath("$.[*].billingPlanId").value(hasItem(DEFAULT_BILLING_PLAN_ID.toString())))
-            .andExpect(jsonPath("$.[*].tokenRecurring").value(hasItem(DEFAULT_TOKEN_RECURRING.toString())));
+            .andExpect(jsonPath("$.[*].billingPlanId").value(hasItem(DEFAULT_BILLING_PLAN_ID)))
+            .andExpect(jsonPath("$.[*].tokenRecurring").value(hasItem(DEFAULT_TOKEN_RECURRING)));
     }
 
 
@@ -302,10 +302,10 @@ public class PaymentResourceIntTest {
             .andExpect(jsonPath("$.planType").value(DEFAULT_PLAN_TYPE.toString()))
             .andExpect(jsonPath("$.paid").value(DEFAULT_PAID.booleanValue()))
             .andExpect(jsonPath("$.validUntil").value(DEFAULT_VALID_UNTIL.toString()))
-            .andExpect(jsonPath("$.lastPaymentId").value(DEFAULT_LAST_PAYMENT_ID.toString()))
+            .andExpect(jsonPath("$.lastPaymentId").value(DEFAULT_LAST_PAYMENT_ID))
             .andExpect(jsonPath("$.recurring").value(DEFAULT_RECURRING.booleanValue()))
-            .andExpect(jsonPath("$.billingPlanId").value(DEFAULT_BILLING_PLAN_ID.toString()))
-            .andExpect(jsonPath("$.tokenRecurring").value(DEFAULT_TOKEN_RECURRING.toString()));
+            .andExpect(jsonPath("$.billingPlanId").value(DEFAULT_BILLING_PLAN_ID))
+            .andExpect(jsonPath("$.tokenRecurring").value(DEFAULT_TOKEN_RECURRING));
     }
     @Test
     @Transactional
