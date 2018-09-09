@@ -9,8 +9,9 @@ $height-footer-payment: 90px;
 .no-payment {
     width: 100%;
     height: $height-footer-payment;
-    bottom: 0px;
-    left: 0px;
+    bottom: 0;
+    left: 0;
+    right: 0;
     position: fixed;
     z-index: 10;
     color: white;
