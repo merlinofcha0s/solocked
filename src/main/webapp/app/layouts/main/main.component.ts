@@ -14,7 +14,7 @@ import { AccountsDBService } from 'app/entities/accounts-db';
     styleUrls: ['./main.component.scss']
 })
 export class JhiMainComponent implements OnInit {
-    isLoginPage: boolean;
+    isRegisterPage: boolean;
     schema = {
         '@context': 'http://schema.org',
         '@type': 'Application',
@@ -40,7 +40,7 @@ export class JhiMainComponent implements OnInit {
         this.initEventRouter();
         this.initTrackingAndChat();
         this.detectEdge();
-
+        this.backgroundBodyManagement();
         this.principal.identity(true).then(account => this.principal.initDefaultLanguage(account));
     }
 
@@ -48,7 +48,7 @@ export class JhiMainComponent implements OnInit {
         this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
                 this.jhiLanguageHelper.updateTitle(this.getPageTitle(this.router.routerState.snapshot.root));
-                this.isLoginPage = event.url === '/';
+                this.isRegisterPage = event.url === '/register';
                 this.backgroundBodyManagement();
                 this.cacheDB();
             }
@@ -98,15 +98,14 @@ export class JhiMainComponent implements OnInit {
             if (inTest || this.inProduction) {
                 const livezillaScript = document.createElement('script');
                 livezillaScript.type = 'text/javascript';
-                livezillaScript.id = '31202250e6742ed22a4e18316a5c66c0';
-                livezillaScript.src = 'https://support.solocked.com/script.php?id=31202250e6742ed22a4e18316a5c66c0';
+                livezillaScript.id = '2e41582019ee1eae4f223abddca4d665';
+                livezillaScript.src = 'https://support.solocked.com/script.php?id=2e41582019ee1eae4f223abddca4d665';
                 document.getElementsByTagName('head')[0].appendChild(livezillaScript);
             }
         });
     }
 
     /* tslint:enable */
-
     detectEdge() {
         // Get IE or Edge browser version
         const version = this.isEdge();
@@ -126,17 +125,17 @@ export class JhiMainComponent implements OnInit {
         return false;
     }
 
-    backgroundBodyManagement() {
-        if (this.isLoginPage) {
-            this.renderer.addClass(document.body, 'background-offline');
-        } else {
-            this.renderer.removeClass(document.body, 'background-offline');
-        }
-    }
-
     private cacheDB() {
         if (this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
             this.accountsService.getAccountsList();
+        }
+    }
+
+    backgroundBodyManagement() {
+        if (this.isRegisterPage) {
+            this.renderer.addClass(document.body, 'background-register');
+        } else {
+            this.renderer.removeClass(document.body, 'background-register');
         }
     }
 }

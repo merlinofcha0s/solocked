@@ -4,25 +4,6 @@
     margin-left: 10px;
 }
 
-.loginInput {
-    width: 70%;
-    /deep/ .mat-input-element {
-        color: $primary-color-home !important;
-    }
-
-    /deep/ .mat-form-field-label {
-        color: $primary-color-home !important;
-    }
-
-    /deep/ .mat-focused .mat-form-field-label {
-        color: $primary-color-home !important;
-    }
-
-    /deep/ .mat-form-field-underline {
-        background-color: $primary-color-home !important;
-    }
-}
-
 .spinnerLogin {
     margin-right: 15px;
 }

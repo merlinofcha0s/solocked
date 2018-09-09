@@ -9,12 +9,13 @@
             <div [hidden]="!okMessage">
                 <div class="alert alert-success" jhiTranslate="{{okMessage}}"></div>
             </div>
-
+            <div [hidden]="!error403" class="alert alert-danger" jhiTranslate="error.http.403">You are not authorized to
+                access this page.
+            </div>
             <div class="d-flex align-items-center w-100">
                 <button mat-raised-button color="primary" id="action" style="margin-right: auto; margin-left: auto;"
                         class="default-validation-button" [routerLink]="[action]" >{{ actionLabel | translate }}</button>
             </div>
-            <div [hidden]="!error403" class="alert alert-danger" jhiTranslate="error.http.403">You are not authorized to access this page.</div>
         </div>
         <div class="col-md-3"></div>
     </div>

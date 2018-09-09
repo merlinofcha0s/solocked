@@ -18,6 +18,15 @@ h2,
 h3,
 h4 {
     font-weight: bold !important;
+    color: $solocked-primary-color;
+}
+
+.title > span,
+.title > span,
+.title > span,
+.title > span {
+    font-weight: bold !important;
+    color: $solocked-primary-color;
 }
 
 h1 {
@@ -259,8 +268,8 @@ ui bootstrap tweaks
  Custom solocked layout
 ========================================================================== */
 
-.background-offline {
-    background-color: $solocked-secondary-color;
+.background-register {
+    background: $linear-gradient;
 }
 
 .width-max {
@@ -284,7 +293,7 @@ ui bootstrap tweaks
     width: 300px;
     padding-top: 30px;
     padding-bottom: 30px;
-    height: 100px;
+    height: 70px;
     font-size: 20px !important;
     font-weight: bold !important;
     border-radius: 50px;
@@ -298,6 +307,10 @@ ui bootstrap tweaks
     text-decoration: underline !important;
 }
 
+.cancel-inverted {
+    color: white !important;
+}
+
 .header-bar {
     font-size: 17px !important;
     margin-left: 7px;
@@ -305,19 +318,23 @@ ui bootstrap tweaks
     font-weight: lighter;
 }
 
-//Prevent chrome for highliting in blue when clicking
+//Prevent chrome for highlighting in blue when clicking
 :focus {
     outline: none !important;
 }
 
 .button-home {
     border-radius: 50px !important;
-    border: 1px $primary-color-home solid !important;
-    color: $primary-color-home !important;
-    height: 50px !important;
+    border: 1px $solocked-primary-color solid !important;
+    color: $solocked-primary-color !important;
+    height: 45px;
 }
 
 .icon-button-home {
     margin-left: 12px;
     font-size: 20px;
+}
+
+.title-SL {
+    color: $solocked-primary-color;
 }

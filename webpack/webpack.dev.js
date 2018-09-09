@@ -13,7 +13,9 @@ const commonConfig = require('./webpack.common.js');
 
 const ENV = 'development';
 
-module.exports = (options) => webpackMerge(commonConfig({env: ENV}), {
+module.exports = (options) =;
+>
+webpackMerge(commonConfig({env: ENV}), {
     devtool: 'eval-source-map',
     devServer: {
         contentBase: './target/www',
@@ -57,7 +59,12 @@ module.exports = (options) => webpackMerge(commonConfig({env: ENV}), {
             test: /\.ts$/,
             use: [
                 {loader: 'angular2-template-loader'},
-                {loader: 'cache-loader'},
+                {
+                    loader: 'cache-loader',
+                    options: {
+                        cacheDirectory: path.resolve('target/cache-loader')
+                    }
+                },
                 {
                     loader: 'thread-loader',
                     options: {

@@ -183,6 +183,7 @@ public class UserServiceIntTest {
             .isTrue();
     }
 
+
     @Test
     @Transactional
     public void testRemoveNotActivatedUsers() {

@@ -1,7 +1,49 @@
+@import './../../../content/scss/custom-variables';
+
+$primary-color: white;
+
 .buttonRegistration {
     margin-right: 10px;
 }
 
+.buttonRegistration:not([disabled]) {
+    background-image: none;
+    background-color: $primary-color !important;
+    color: $solocked-primary-color !important;
+}
+
+.buttonRegistration:disabled {
+    background-image: none;
+    background-color: #dfdfdf !important;
+    color: $solocked-primary-color !important;
+}
+
 .registerInput {
     width: 100%;
+
+    /deep/ .mat-form-field-placeholder,
+    /deep/ .mat-input-element,
+    /deep/ .mat-focused .mat-form-field-placeholder,
+    /deep/ .mat-form-field-label {
+        color: $primary-color !important;
+    }
+
+    /deep/ .mat-form-field-underline {
+        background-color: $primary-color !important;
+    }
+}
+
+.register {
+    .title-register {
+        color: $primary-color;
+    }
+}
+
+/deep/ jhi-password-strength-bar,
+/deep/ mat-error {
+    color: $primary-color !important;
+}
+
+.inverted-loading-message {
+    color: $primary-color;
 }

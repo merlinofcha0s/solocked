@@ -5,6 +5,7 @@ import { JhiEventManager } from 'ng-jhipster';
 import { Meta } from '@angular/platform-browser';
 import { LoginModalService, Principal } from 'app/core';
 import { ProfileService } from '../layouts/profiles/profile.service';
+import { VERSION } from 'app/app.constants';
 
 @Component({
     selector: 'jhi-home',
@@ -15,6 +16,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     account: Account;
     modalRef: NgbModalRef;
     inProduction: boolean;
+    version: string;
 
     constructor(
         private principal: Principal,
@@ -22,7 +24,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         private eventManager: JhiEventManager,
         private meta: Meta,
         private profileService: ProfileService
-    ) {}
+    ) {
+        this.version = VERSION ? 'v' + VERSION : '';
+    }
 
     ngOnInit() {
         this.principal.identity().then(account => {

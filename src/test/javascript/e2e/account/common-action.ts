@@ -39,6 +39,7 @@ export class CommonAction {
     }
 
     logout() {
+        browser.driver.sleep(1000);
         browser.wait(ExpectedConditions.presenceOf(this.navbar.account));
         this.navbar.account.click();
         browser.driver.sleep(1000);

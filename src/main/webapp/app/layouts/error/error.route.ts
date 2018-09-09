@@ -17,7 +17,9 @@ export const errorRoute: Routes = [
         data: {
             authorities: [],
             pageTitle: 'error.title',
-            error403: true
+            error403: true,
+            actionLabel: 'error.payment.signup.actionlabel',
+            action: '/'
         }
     },
     {

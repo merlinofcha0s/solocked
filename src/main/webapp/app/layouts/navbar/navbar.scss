@@ -6,14 +6,11 @@ Navbar
 
 .navbar-version {
     font-size: 10px;
-    color: $loginColor;
 }
 
 .jh-navbar {
     z-index: 11;
-    background-color: white;
     padding: 0.2em 1em;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.08);
     .profile-image {
         margin: -10px 0px;
         height: 40px;
@@ -62,11 +59,6 @@ Navbar
 .navbar-title {
     display: inline-block;
     vertical-align: middle;
-    color: $loginColor;
-}
-
-.nav-link {
-    color: $loginColor;
 }
 
 /* ==========================================================================
@@ -78,11 +70,10 @@ Logo styles
         .logo-img {
             height: 45px;
             width: 70px;
-            //display: inline-block;
+            display: inline-block;
             vertical-align: middle;
-            background: url('../../../content/images/lock.svg') no-repeat center center;
+            background: url('../../../content/images/icon.svg') no-repeat center center;
             background-size: contain;
-            display: none;
         }
     }
 }
@@ -95,10 +86,6 @@ Custom solocked
     border: solid $solocked-primary-color 2px;
     background-image: linear-gradient(to bottom right, #ffffff, #ffffff) !important;
     box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.24), 0 0px 0px 0 rgba(0, 0, 0, 0.12) !important;
-}
-
-.home {
-    color: $loginColor;
 }
 
 .search {
@@ -121,7 +108,7 @@ Custom solocked
 }
 
 .background-login {
-    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
     background-color: $solocked-secondary-color;
 }
 
@@ -132,4 +119,19 @@ Custom solocked
 
 .mat-icon-menu-solocked {
     margin-right: 3px;
+}
+
+.infos-button {
+    /deep/ a {
+        margin-right: 15px;
+    }
+}
+
+.inverted {
+    .logo-img {
+        background: url('../../../content/images/icon-white.svg') no-repeat center center !important;
+        background-size: contain !important;
+    }
+
+    color: white;
 }

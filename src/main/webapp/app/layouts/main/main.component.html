@@ -1,15 +1,13 @@
 <ngx-json-ld [json]="schema" *ngIf="inProduction"></ngx-json-ld>
-<div class="container-fluid main-container" (click)="resetAutolockTime()">
+<div class="h-100" (click)="resetAutolockTime()">
     <jhi-page-ribbon></jhi-page-ribbon>
     <div>
         <router-outlet name="navbar"></router-outlet>
     </div>
-    <div class="solocked-container">
-        <div class="pt-3">
-            <jhi-breadcrumb></jhi-breadcrumb>
-            <router-outlet></router-outlet>
-            <router-outlet name="popup"></router-outlet>
-        </div>
+    <div class="container-fluid" style="min-height: 100%; padding-top: 100px;">
+        <jhi-breadcrumb></jhi-breadcrumb>
+        <router-outlet></router-outlet>
+        <router-outlet name="popup"></router-outlet>
     </div>
      <jhi-footer></jhi-footer>
 </div>

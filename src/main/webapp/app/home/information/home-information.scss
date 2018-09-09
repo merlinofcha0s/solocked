@@ -1,86 +1,17 @@
 @import './../../../content/scss/custom-variables';
 
-.understand {
-    color: $primary-color-home;
-    text-decoration: underline;
+.dot {
+    background: $linear-gradient;
+    border-radius: 50%;
+    display: inline-block;
 }
 
-.accordion {
-    fa-icon {
-        margin-left: auto;
-        font-size: 15px;
-    }
+.dot-regular {
+    height: 50px;
+    width: 50px;
 }
 
-.registerContainer {
-    margin-top: 30px;
-    .registerButton {
-        border-radius: 50px;
-        padding-top: 30px;
-        padding-bottom: 30px;
-        width: 300px;
-        font-size: 20px;
-        border: 1px $primary-color-home solid;
-        background-color: white;
-        color: $solocked-primary-color;
-    }
-    .registerButton:hover {
-        text-decoration: none;
-    }
-}
-
-.radius-top {
-    border-radius: 10px 10px 0px 0px;
-}
-
-.radius-bottom {
-    border-radius: 0px 0px 10px 10px;
-}
-
-.home-infos {
-    width: 90%;
-    height: 350px;
-    opacity: 0.75;
-    border-radius: 15px;
-    position: relative;
-}
-
-.background-infos {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    opacity: 0.75;
-    z-index: -1;
-    border-radius: 15px;
-    background: no-repeat center/cover url('../../../content/images/home/home-infos.jpg');
-}
-
-.top-infos {
-    margin-left: auto;
-    border-radius: 0 15px 0 0;
-    padding: 15px;
-    color: #d74800;
-    font-weight: bold;
-    font-size: 1.5rem;
-    background-color: #fbeed7;
-    span {
-        height: 100%;
-    }
-}
-
-.left-infos {
-    padding: 10px;
-    //width: 35%;
-    min-height: 50%;
-    background-color: #2d4bb4;
-    color: white;
-    font-size: 0.9rem;
-    border-radius: 0 0 0 15px;
-
-    div {
-        min-height: 80%;
-        margin-top: 10px;
-    }
+.dot-xl {
+    height: 70px;
+    width: 70px;
 }

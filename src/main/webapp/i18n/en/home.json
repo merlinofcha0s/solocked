@@ -19,8 +19,10 @@
         },
         "like": "If you like JHipster, don't forget to give us a star on",
         "github": "GitHub",
+        "content-1": "SoLocked is a web application whose purpose is to <strong> keep and let you manage </strong> the information about <strong>your accounts in one place</strong>.",
+        "content-2": "SoLocked safe can only be accessed by <strong>YOU</strong>. Nobody including us can access your data.",
         "informations":{
-            "title": "New user?",
+            "title": "Keep safe all your accounts information in one place.",
             "what":{
                 "title": " What is SoLocked?",
                 "content": "SoLocked is a web application whose purpose is to keep and let you manage the information about your accounts in one place."

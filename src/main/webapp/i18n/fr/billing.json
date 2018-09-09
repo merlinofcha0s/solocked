@@ -33,25 +33,26 @@
         },
         "chooseplan": {
             "free": {
-                "title": "Gratuit",
-                "highlight1": "10 comptes",
-                "price": "0€"
+                "title": "SoLocked - gratuit",
+                "nbAccounts": "10",
+                "highlight1": "comptes",
+                "price": "Gratuit"
             },
             "premiumyear":{
-                "title": "Premium",
-                "highlight1": "1000 comptes",
+                "title": "SoLocked - un an",
+                "nbAccounts": "1000",
+                "highlight1": "comptes",
                 "highlight2": "Facturation annuel",
                 "price": "20€",
-                "frequency": "par an",
-                "onetime": "pour un an"
+                "frequency": "/ an"
             },
             "premiummonth":{
-                "title": "Premium",
-                "highlight1": "1000 comptes",
+                "title": "SoLocked - un mois",
+                "nbAccounts": "1000",
+                "highlight1": "comptes",
                 "highlight2": "Facturation mensuel",
                 "price": "2€",
-                "frequency": "par mois",
-                "onetime": "pour un mois"
+                "frequency": "/ mois"
             }
         },
         "plantype": {

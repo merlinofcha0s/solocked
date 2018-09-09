@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="91px" height="57px" viewBox="0 0 91 57" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>Fill 1 Copy</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="101.999998%" y2="100.999999%" id="linearGradient-1">
+            <stop stop-color="#3023AE" offset="0%"></stop>
+            <stop stop-color="#C86DD7" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Home-page-public" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Landing" transform="translate(-688.000000, -268.000000)" fill="url(#linearGradient-1)">
+            <path
+                d="M744.874722,268 C736.354178,268 729.017561,272.754156 725.11831,279.700809 C724.14633,279.527582 723.1528,279.399777 722.125278,279.399777 C714.671357,279.399777 708.400252,284.220953 706.07883,290.900641 C705.74047,290.87793 705.41233,290.799555 705.062639,290.799555 C695.642096,290.799555 688,298.459598 688,307.899777 C688,317.34107 695.642096,325 705.062639,325 L761.937361,325 C771.356793,325 779,317.34107 779,307.899777 C779,300.429438 774.18942,294.139398 767.524414,291.812863 C767.535744,291.467523 767.624167,291.144895 767.624167,290.799555 C767.624167,278.209234 757.438482,268 744.874722,268 Z"
+                id="Fill-1-Copy"
+                transform="translate(733.500000, 296.500000) scale(-1, 1) translate(-733.500000, -296.500000) "></path>
+        </g>
+    </g>
+</svg>

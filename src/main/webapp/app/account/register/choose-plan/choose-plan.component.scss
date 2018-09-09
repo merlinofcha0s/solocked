@@ -1,18 +1,12 @@
 @import './../../../../content/scss/custom-variables';
 
 .billing-card {
-    border: 1px solid $font-color-primary;
-    border-radius: 20px;
     width: 170px;
     cursor: pointer;
-    padding-bottom: 10px;
-    min-height: 200px;
+    padding: 12px;
 
     .billing-card-title {
-        text-align: center;
-        margin-top: 10px;
-        font-weight: bold;
-        margin-bottom: 5px;
+        font-size: 13px;
     }
 
     .separator {
@@ -22,20 +16,19 @@
 
     .content {
         font-size: 0.9rem;
-        margin-top: 10px;
     }
 
     .year-price {
         font-size: 1.6rem;
         font-weight: bold;
-        text-align: center;
+        color: $solocked-primary-color;
+        margin-right: 5px;
     }
 
     .month-price {
-        font-size: 1rem;
+        font-size: 0.8rem;
         font-weight: bold;
-        text-align: center;
-        margin-top: 15px;
+        transform: translate(0px, 7px);
     }
 }
 
@@ -47,6 +40,10 @@
     .separator {
         border-top: 1px solid white;
     }
+
+    .year-price {
+        color: white;
+    }
 }
 
 .hide-free-plan {
@@ -55,4 +52,10 @@
 
 .payment-icon {
     font-size: 40px;
+}
+
+.inverted {
+    fa-icon {
+        color: white;
+    }
 }

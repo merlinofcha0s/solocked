@@ -19,8 +19,10 @@
         },
         "like": "Si vous aimez JHipster, donnez nous une étoile sur",
         "github": "GitHub ",
+        "content-1": "SoLocked est une application qui permet de <strong>gérer vos informations de comptes</strong> (EDF, Orange, Facebook, Gmail, etc) de <strong>manière centralisée et sécurisée</strong>.",
+        "content-2": "Votre coffre fort SoLocked est accessible uniquement par vous. Personne ne pourra y avoir accès (nous compris). ",
         "informations":{
-            "title": "Nouvel utilisateur ?",
+            "title": "Garde vos informations de comptes dans un lieu sûr accessible de partout",
             "what":{
                 "title": "Qu'est ce que Solocked ?",
                 "content": "Solocked est une application qui vous permet de gérer toutes vos informations (EDF, Orange, Facebook,...) et de les avoir au même endroit."
