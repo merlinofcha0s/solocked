@@ -5,6 +5,7 @@ import 'file-saver/FileSaver.min.js';
 // Imports all fontawesome core and solid icons
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
+    faAlignJustify,
     faArrowLeft,
     faAsterisk,
     faBan,
@@ -12,74 +13,75 @@ import {
     faBell,
     faBook,
     faCalendarAlt,
+    faChartBar,
+    faCheckCircle,
+    faChevronLeft,
     faClock,
     faCloud,
+    faCog,
+    faCopy,
+    faCreditCard,
+    faEdit,
+    faExclamationCircle,
+    faExclamationTriangle,
+    faExternalLinkSquareAlt,
     faEye,
+    faEyeSlash,
+    faFile,
     faFlag,
     faHdd,
     faHeart,
     faHome,
+    faIdCard,
+    faKey,
     faList,
+    faLock,
+    faMoneyBillAlt,
     faPencilAlt,
     faPlus,
     faRoad,
     faSave,
     faSearch,
+    faServer,
     faSignInAlt,
     faSignOutAlt,
     faSort,
+    faSortDown,
+    faSortUp,
     faSync,
+    faSyncAlt,
     faTachometerAlt,
     faTasks,
     faThList,
     faTimes,
+    faTrash,
     faTrashAlt,
+    faUnlockAlt,
     faUser,
     faUserPlus,
-    faWrench,
-    faKey,
-    faUnlockAlt,
-    faUnlock,
-    faCopy,
-    faSyncAlt,
-    faEyeSlash,
-    faExternalLinkSquareAlt,
-    faAlignJustify,
-    faEdit,
-    faTrash,
-    faCreditCard,
-    faIdCard,
-    faCheckCircle,
-    faExclamationTriangle,
-    faChartBar,
-    faMoneyBillAlt,
-    faChevronLeft,
-    faFile,
-    faExclamationCircle,
-    faLock,
-    faServer,
-    faCog,
-    faUserSecret
+    faUserSecret,
+    faWrench
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
-    faCcPaypal,
-    faCcVisa,
+    faCcAmex,
     faCcDiscover,
     faCcMastercard,
-    faCcAmex,
-    faFirefox,
+    faCcPaypal,
+    faCcVisa,
     faChrome,
+    faFirefox,
     faOpera,
     faSafari,
-    faTwitter,
-    faKeycdn
+    faTwitter
 } from '@fortawesome/free-brands-svg-icons';
 import { faFrown } from '@fortawesome/free-regular-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
 library.add(faUser);
 library.add(faSort);
+library.add(faSortUp);
+library.add(faSortDown);
 library.add(faSync);
 library.add(faEye);
 library.add(faBan);

@@ -367,7 +367,7 @@ public class PaymentResourceIntTest {
         // Create the Payment
         PaymentDTO paymentDTO = paymentMapper.toDto(payment);
 
-        // If the entity doesn't have an ID, it will be created instead of just being updated
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException 
         restPaymentMockMvc.perform(put("/api/payments")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(paymentDTO)))
