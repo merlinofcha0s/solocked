@@ -30,7 +30,7 @@ export class Register {
                 accountCopy.salt = salt;
                 return accountCopy;
             })
-            .flatMap(accountCopy => this.crypto.creatingKey(account.password))
+            .flatMap(accountCopy2 => this.crypto.creatingKey(account.password))
             .flatMap(derivedCryptoKey => this.crypto.cryptingDB(initVector, newAccountsDB, derivedCryptoKey))
             .flatMap((accountDB: ArrayBuffer) =>
                 this.crypto.toBase64Promise(new Blob([new Uint8Array(accountDB)], { type: 'application/octet-stream' }))

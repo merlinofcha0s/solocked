@@ -84,7 +84,7 @@ export class JhiLoginModalComponent {
                 if (this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
                     this.router.navigate(['/user-management']);
                 } else {
-                    //Loading of the encrypted DB
+                    // Loading of the encrypted DB
                     Observable.fromPromise(this.cryptoService.creatingKey(this.password))
                         .flatMap(cryptoKey => this.cryptoService.putCryptoKeyInStorage(cryptoKey))
                         .flatMap(result => this.accountService.synchroDB())
@@ -94,8 +94,8 @@ export class JhiLoginModalComponent {
 
                     this.router.navigate(['/accounts']);
                 }
-                // // previousState was set in the authExpiredInterceptor before being redirected to login modal.
-                // // since login is succesful, go to stored previousState and clear previousState
+                // previousState was set in the authExpiredInterceptor before being redirected to login modal.
+                // since login is succesful, go to stored previousState and clear previousState
                 /*const redirect = this.stateStorageService.getUrl();
         if (redirect) {
             this.router.navigate([redirect]);

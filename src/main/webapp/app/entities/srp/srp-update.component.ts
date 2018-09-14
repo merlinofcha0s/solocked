@@ -15,6 +15,7 @@ import { IUser, UserService } from 'app/core';
 export class SrpUpdateComponent implements OnInit {
     isSaving: boolean;
     users: IUser[];
+    private _srp: ISrp;
 
     constructor(
         private dataUtils: JhiDataUtils,
@@ -23,8 +24,6 @@ export class SrpUpdateComponent implements OnInit {
         private userService: UserService,
         private activatedRoute: ActivatedRoute
     ) {}
-
-    private _srp: ISrp;
 
     get srp() {
         return this._srp;
