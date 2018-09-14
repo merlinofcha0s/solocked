@@ -5,7 +5,9 @@ import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
 import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.jwt.TokenProvider;
+import com.ninja.ninjaccount.security.srp.SRP6ServerSessionV2;
 import com.ninja.ninjaccount.service.AccountsDBService;
+import com.ninja.ninjaccount.service.SrpService;
 import com.ninja.ninjaccount.web.rest.errors.ExceptionTranslator;
 import com.ninja.ninjaccount.web.rest.vm.LoginVM;
 import org.junit.Before;
@@ -60,11 +62,17 @@ public class UserJWTControllerIntTest {
     @Autowired
     private ExceptionTranslator exceptionTranslator;
 
+    @Autowired
+    private SRP6ServerSessionV2 srp6ServerSessionV2;
+
+    @Autowired
+    private SrpService srpService;
+
     private MockMvc mockMvc;
 
     @Before
     public void setup() {
-        UserJWTController userJWTController = new UserJWTController(tokenProvider, authenticationManager, accountsDBService);
+        UserJWTController userJWTController = new UserJWTController(tokenProvider, authenticationManager, accountsDBService, srpService, srp6ServerSessionV2);
         this.mockMvc = MockMvcBuilders.standaloneSetup(userJWTController)
             .setControllerAdvice(exceptionTranslator)
             .build();

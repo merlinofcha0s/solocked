@@ -9,6 +9,7 @@
                 "main": "Entities",
                 "payment": "Payment",
                 "accountsDb": "Accounts DB",
+                "srp": "Srp",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

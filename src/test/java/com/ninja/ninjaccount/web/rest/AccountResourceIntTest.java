@@ -9,10 +9,7 @@ import com.ninja.ninjaccount.repository.AccountsDBRepository;
 import com.ninja.ninjaccount.repository.AuthorityRepository;
 import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
-import com.ninja.ninjaccount.service.AccountsDBService;
-import com.ninja.ninjaccount.service.MailService;
-import com.ninja.ninjaccount.service.PaymentService;
-import com.ninja.ninjaccount.service.UserService;
+import com.ninja.ninjaccount.service.*;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.PasswordChangeDTO;
 import com.ninja.ninjaccount.service.dto.UserDTO;
@@ -78,6 +75,9 @@ public class AccountResourceIntTest {
     private AccountsDBService accountsDBService;
 
     @Autowired
+    private SrpService srpService;
+
+    @Autowired
     private HttpMessageConverter<?>[] httpMessageConverters;
 
     @Autowired
@@ -101,10 +101,10 @@ public class AccountResourceIntTest {
         MockitoAnnotations.initMocks(this);
         doNothing().when(mockMailService).sendActivationEmail(any());
         AccountResource accountResource =
-            new AccountResource(userRepository, userService, mockMailService, accountsDBService, paymentService);
+            new AccountResource(userRepository, userService, mockMailService, accountsDBService, paymentService, srpService);
 
         AccountResource accountUserMockResource =
-            new AccountResource(userRepository, mockUserService, mockMailService, accountsDBService, paymentService);
+            new AccountResource(userRepository, mockUserService, mockMailService, accountsDBService, paymentService, srpService);
         this.restMvc = MockMvcBuilders.standaloneSetup(accountResource)
             .setMessageConverters(httpMessageConverters)
             .setControllerAdvice(exceptionTranslator)

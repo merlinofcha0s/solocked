@@ -4,9 +4,12 @@ import com.codahale.metrics.annotation.Timed;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ninja.ninjaccount.security.jwt.JWTConfigurer;
 import com.ninja.ninjaccount.security.jwt.TokenProvider;
+import com.ninja.ninjaccount.security.srp.SRP6ServerSessionV2;
 import com.ninja.ninjaccount.service.AccountsDBService;
-import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
+import com.ninja.ninjaccount.service.SrpService;
+import com.ninja.ninjaccount.service.dto.SrpDTO;
 import com.ninja.ninjaccount.web.rest.vm.LoginVM;
+import com.ninja.ninjaccount.web.rest.vm.SaltAndBVM;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.math.BigInteger;
+import java.util.Optional;
 
 /**
  * Controller to authenticate users.
@@ -34,21 +39,41 @@ public class UserJWTController {
 
     private final AccountsDBService accountsDBService;
 
-    public UserJWTController(TokenProvider tokenProvider, AuthenticationManager authenticationManager, AccountsDBService accountsDBService) {
+    private SrpService srpService;
+
+    private SRP6ServerSessionV2 session;
+
+    public UserJWTController(TokenProvider tokenProvider, AuthenticationManager authenticationManager,
+                             AccountsDBService accountsDBService, SrpService srpService, SRP6ServerSessionV2 session) {
         this.tokenProvider = tokenProvider;
         this.authenticationManager = authenticationManager;
         this.accountsDBService = accountsDBService;
+        this.srpService = srpService;
+        this.session = session;
     }
 
     @PostMapping(path = "/preauthenticate")
     @Timed
-    public ResponseEntity<AccountsDBDTO> preAuthorize(@RequestBody String login) {
-        AccountsDBDTO accountsDBDTO = accountsDBService.findByUsernameLogin(login.toLowerCase());
-        if (accountsDBDTO == null) {
+    public ResponseEntity<SaltAndBVM> preAuthorize(@RequestBody String login) {
+        Optional<SrpDTO> srpDTO = srpService.getByUsername(login);
+
+        if (srpDTO.isPresent()) {
+            String b = session.step1(login, new BigInteger(srpDTO.get().getSalt()),
+                new BigInteger(srpDTO.get().getVerifier(), 16));
+
+            SaltAndBVM saltAndBVM = new SaltAndBVM();
+            saltAndBVM.setSalt(srpDTO.get().getSalt());
+            saltAndBVM.setB(b);
+
+            return new ResponseEntity<>(saltAndBVM, HttpStatus.OK);
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<> (accountsDBDTO, HttpStatus.OK);
+//        AccountsDBDTO accountsDBDTO = accountsDBService.findByUsernameLogin(login.toLowerCase());
+//        if (accountsDBDTO == null) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        };
     }
 
     @PostMapping("/authenticate")

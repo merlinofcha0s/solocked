@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { JhiEventManager } from 'ng-jhipster';
-import { isUndefined } from 'util';
 import { LoginService } from 'app/core/login/login.service';
-import { Accounts } from 'app/shared/account/accounts.model';
 import { Principal } from 'app/core';
 import { AccountsDBService } from 'app/entities/accounts-db';
+import { CryptoService } from 'app/shared/crypto/crypto.service';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'jhi-login-modal',
@@ -26,6 +26,7 @@ export class JhiLoginModalComponent {
         private loginService: LoginService,
         private router: Router,
         private accountService: AccountsDBService,
+        private cryptoService: CryptoService,
         private principal: Principal
     ) {
         this.credentials = {};
@@ -43,54 +44,37 @@ export class JhiLoginModalComponent {
 
     login() {
         this.loading = true;
-        if (this.username === 'admin') {
-            this.loginJHI();
-        } else {
-            this.loginService.prelogin(this.username, this.password).subscribe(
-                (accounts: Accounts) => {
-                    if (accounts === null) {
-                        this.loading = false;
-                        this.authenticationError = true;
-                    } else {
-                        this.authenticationKey = accounts.authenticationKey;
-                        this.authenticationError = false;
-                        accounts.authenticationKey = '';
-                        this.accountService.saveOnBrowser(accounts);
-                        this.loginJHI();
-                    }
-                },
-                error => {
-                    this.authenticationError = true;
+        this.loginService.prelogin(this.username, this.password).subscribe(
+            (step2Result: any) => {
+                if (step2Result === null) {
                     this.loading = false;
+                    this.authenticationError = true;
+                } else {
+                    this.loginJHI(step2Result.a, step2Result.M1);
+                    // this.authenticationKey = accounts.authenticationKey;
+                    // this.authenticationError = false;
+                    // accounts.authenticationKey = '';
+                    // this.accountService.saveOnBrowser(accounts);
+                    // this.loginJHI();
                 }
-            );
-        }
+            },
+            error => {
+                this.authenticationError = true;
+                this.loading = false;
+            }
+        );
     }
 
-    loginJHI() {
+    loginJHI(a: string, m1: string) {
         this.loginService
             .login({
                 username: this.username,
-                // Difference between regular user and admin users
-                password: !isUndefined(this.authenticationKey) ? this.authenticationKey : this.password,
+                password: a + ':' + m1,
                 rememberMe: this.rememberMe
             })
             .then(() => {
                 this.loading = false;
                 this.authenticationError = false;
-                // this.activeModal.dismiss('login success');
-                if (
-                    this.router.url === '/register' ||
-                    /activate/.test(this.router.url) ||
-                    this.router.url === '/finishReset' ||
-                    this.router.url === '/requestReset'
-                ) {
-                    if (this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
-                        this.router.navigate(['/user-management']);
-                    } else {
-                        this.router.navigate(['/accounts']);
-                    }
-                }
 
                 this.eventManager.broadcast({
                     name: 'authenticationSuccess',
@@ -100,14 +84,22 @@ export class JhiLoginModalComponent {
                 if (this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
                     this.router.navigate(['/user-management']);
                 } else {
+                    //Loading of the encrypted DB
+                    Observable.fromPromise(this.cryptoService.creatingKey(this.password))
+                        .flatMap(cryptoKey => this.cryptoService.putCryptoKeyInStorage(cryptoKey))
+                        .flatMap(result => this.accountService.synchroDB())
+                        .subscribe(accounts => {
+                            this.accountService.saveOnBrowser(accounts);
+                        });
+
                     this.router.navigate(['/accounts']);
                 }
                 // // previousState was set in the authExpiredInterceptor before being redirected to login modal.
                 // // since login is succesful, go to stored previousState and clear previousState
                 /*const redirect = this.stateStorageService.getUrl();
-            if (redirect) {
-                this.router.navigate([redirect]);
-            }*/
+        if (redirect) {
+            this.router.navigate([redirect]);
+        }*/
             })
             .catch(() => {
                 this.authenticationError = true;

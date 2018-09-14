@@ -10,6 +10,8 @@ export interface IAccountsDB {
     userLogin?: string;
     userId?: number;
     operationAccountType?: OperationAccountType;
+    salt?: string;
+    verifier?: string;
 }
 
 export class AccountsDB implements IAccountsDB {
@@ -22,6 +24,8 @@ export class AccountsDB implements IAccountsDB {
         public sum?: string,
         public userLogin?: string,
         public userId?: number,
-        public operationAccountType?: OperationAccountType
+        public operationAccountType?: OperationAccountType,
+        public salt?: string,
+        public verifier?: string
     ) {}
 }

@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable, Observer } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { SERVER_API_URL } from '../../app.constants';
 import { AccountsDB, IAccountsDB } from '../../shared/model/accounts-db.model';
-import { BehaviorSubject } from 'rxjs';
 import { Accounts } from '../../shared/account/accounts.model';
 import { CryptoService } from '../../shared/crypto/crypto.service';
 import { createRequestOption } from '../../shared/util/request-util';
@@ -130,7 +129,7 @@ export class AccountsDBService {
                 accountDBDTO.databaseContentType = 'application/octet-stream';
                 accountDBDTO.initializationVector = initVector;
                 accountDBDTO.operationAccountType = accounts.operationAccountType;
-                return this.crypto.generateChecksum(accountDBDTO.database);
+                return this.crypto.generateHash(accountDBDTO.database);
             })
             .flatMap((sum: string) => {
                 accountDBDTO.sum = sum;
@@ -232,7 +231,7 @@ export class AccountsDBService {
 
     saveNewAccount(account: Account | Array<Account>): Observable<AccountsDB> {
         return this.synchroDB().flatMap((accounts: Accounts) => {
-            const initVector = this.crypto.getRandomNumber();
+            const initVector = this.crypto.getRandomNumber(10);
             if (account instanceof Account) {
                 // Sequence management
                 account.id = this.seqNextVal(this._dataStore.accounts);
@@ -253,7 +252,7 @@ export class AccountsDBService {
     }
 
     updateAccount(accountUpdated: Account) {
-        const initVector = this.crypto.getRandomNumber();
+        const initVector = this.crypto.getRandomNumber(10);
         this.synchroDB()
             .flatMap((accounts: Accounts) => {
                 for (let _i = 0; _i < accounts.accounts.length; _i++) {
@@ -284,7 +283,7 @@ export class AccountsDBService {
     }
 
     deleteAccount(accountId: number) {
-        const initVector = this.crypto.getRandomNumber();
+        const initVector = this.crypto.getRandomNumber(10);
         this.synchroDB()
             .flatMap((accounts: Accounts) => {
                 accounts.accounts = accounts.accounts.filter(account => account.id !== accountId);
@@ -334,7 +333,7 @@ export class AccountsDBService {
     }
 
     resetEntireDB() {
-        const initVector = this.crypto.getRandomNumber();
+        const initVector = this.crypto.getRandomNumber(10);
         this.synchroDB()
             .flatMap((accounts: Accounts) => {
                 accounts.accounts.splice(0, accounts.accounts.length);

@@ -22,6 +22,10 @@ public class ManagedUserVM extends UserDTO {
     @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
     private String authenticationKey;
 
+    private String verifier;
+
+    private String salt;
+
     public ManagedUserVM() {
         // Empty constructor needed for Jackson.
     }
@@ -49,6 +53,22 @@ public class ManagedUserVM extends UserDTO {
 
     public void setAuthenticationKey(String authenticationKey) {
         this.authenticationKey = authenticationKey;
+    }
+
+    public String getVerifier() {
+        return verifier;
+    }
+
+    public void setVerifier(String verifier) {
+        this.verifier = verifier;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     @Override

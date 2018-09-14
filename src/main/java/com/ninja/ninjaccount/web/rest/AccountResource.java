@@ -5,12 +5,9 @@ import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.security.SecurityUtils;
-import com.ninja.ninjaccount.service.AccountsDBService;
-import com.ninja.ninjaccount.service.MailService;
-import com.ninja.ninjaccount.service.PaymentService;
-import com.ninja.ninjaccount.service.UserService;
+import com.ninja.ninjaccount.service.*;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
-import com.ninja.ninjaccount.service.dto.PasswordChangeDTO;
+import com.ninja.ninjaccount.service.dto.SrpDTO;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.web.rest.errors.*;
 import com.ninja.ninjaccount.web.rest.vm.KeyAndPasswordVM;
@@ -47,11 +44,13 @@ public class AccountResource {
 
     private final PaymentService paymentService;
 
+    private SrpService srpService;
+
     private static final String CHECK_ERROR_MESSAGE = "Incorrect password";
 
     public AccountResource(UserRepository userRepository, UserService userService,
                            MailService mailService, AccountsDBService accountsDBService,
-                           PaymentService paymentService) {
+                           PaymentService paymentService, SrpService srpService) {
 
         this.userRepository = userRepository;
         this.userService = userService;
@@ -59,6 +58,7 @@ public class AccountResource {
         this.accountsDBService = accountsDBService;
         this.paymentService = paymentService;
 
+        this.srpService = srpService;
     }
 
     /**
@@ -129,7 +129,7 @@ public class AccountResource {
      *
      * @param userDTO the current user information
      * @throws EmailAlreadyUsedException 400 (Bad Request) if the email is already used
-     * @throws RuntimeException 500 (Internal Server Error) if the user login wasn't found
+     * @throws RuntimeException          500 (Internal Server Error) if the user login wasn't found
      */
     @PostMapping("/account")
     @Timed
@@ -183,7 +183,7 @@ public class AccountResource {
      *
      * @param keyAndPassword the generated key and the new password
      * @throws InvalidPasswordException 400 (Bad Request) if the password is incorrect
-     * @throws RuntimeException 500 (Internal Server Error) if the password could not be reset
+     * @throws RuntimeException         500 (Internal Server Error) if the password could not be reset
      */
     /*@PostMapping(path = "/account/reset_password/finish")*/
     @Timed
@@ -224,8 +224,17 @@ public class AccountResource {
             .ifPresent(u -> {
                 throw new EmailAlreadyUsedException();
             });
+
         User user = userService
-            .registerUser(managedUserVM, managedUserVM.getAuthenticationKey());
+            .registerUser(managedUserVM, managedUserVM.getVerifier());
+
+        SrpDTO srpDTO = new SrpDTO();
+        srpDTO.setSalt(managedUserVM.getSalt());
+        srpDTO.setVerifier(managedUserVM.getVerifier());
+        srpDTO.setUserId(user.getId());
+        srpDTO.setUserLogin(user.getLogin());
+        srpService.save(srpDTO);
+
         managedUserVM.getAccountsDB().setUserLogin(user.getLogin());
         managedUserVM.getAccountsDB().setUserId(user.getId());
         AccountsDBDTO accountsDBDTO = accountsDBService.checkSumAndSave(managedUserVM.getAccountsDB());
@@ -236,6 +245,33 @@ public class AccountResource {
         paymentService.createRegistrationPaymentForUser(user);
 
         mailService.sendActivationEmail(user);
+    }
+
+
+    @PostMapping(path = "/pre-register")
+    @ResponseStatus(HttpStatus.CREATED)
+    @Timed
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void preRegister(@Valid @RequestBody ManagedUserVM managedUserVM) {
+        userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase())
+            .ifPresent(u -> {
+                throw new LoginAlreadyUsedException();
+            });
+        userRepository.findOneByEmail(managedUserVM.getEmail().toLowerCase())
+            .ifPresent(u -> {
+                throw new EmailAlreadyUsedException();
+            });
+
+        User user = userService
+            .registerUser(managedUserVM, managedUserVM.getVerifier());
+
+        SrpDTO srpDTO = new SrpDTO();
+        srpDTO.setSalt(managedUserVM.getSalt());
+        srpDTO.setVerifier(managedUserVM.getVerifier());
+        srpDTO.setUserId(user.getId());
+        srpDTO.setUserLogin(user.getLogin());
+
+        srpService.save(srpDTO);
     }
 
     private static boolean checkPasswordLength(String password) {

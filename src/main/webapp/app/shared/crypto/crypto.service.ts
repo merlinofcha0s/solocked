@@ -134,9 +134,9 @@ export class CryptoService {
         );
     }
 
-    async generateChecksum(accountDBB64: string): Promise<string> {
+    async generateHash(input: string): Promise<string> {
         // encode as UTF-8
-        const msgBuffer = new TextEncoder('utf-8').encode(accountDBB64);
+        const msgBuffer = new TextEncoder('utf-8').encode(input);
         // hash the message
         const hashBuffer = await crypto.subtle.digest('SHA-512', msgBuffer);
         // convert ArrayBuffer to Array
@@ -166,15 +166,14 @@ export class CryptoService {
         return view.buffer;
     }
 
-    getRandomNumber(): string {
-        const array = new Uint32Array(10);
+    getRandomNumber(length: number): string {
+        const array = new Uint16Array(length);
         window.crypto.getRandomValues(array);
 
         let randomNumber = '';
         for (let i = 0; i < array.length; i++) {
             randomNumber += array[i] + '';
         }
-
         return randomNumber;
     }
 

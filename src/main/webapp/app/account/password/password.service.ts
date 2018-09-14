@@ -31,7 +31,7 @@ export class PasswordService {
                 })
                 .flatMap((newCryptoKey: CryptoKey) => this.crypto.putCryptoKeyInStorage(newCryptoKey))
                 .flatMap((success: boolean) => {
-                    const initVector = this.crypto.getRandomNumber();
+                    const initVector = this.crypto.getRandomNumber(10);
                     return this.accountsService.saveEncryptedDB(accountsSynchro, initVector);
                 });
         }

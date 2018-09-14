@@ -3,6 +3,7 @@ package com.ninja.ninjaccount.config;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.security.jwt.JWTConfigurer;
 import com.ninja.ninjaccount.security.jwt.TokenProvider;
+import com.ninja.ninjaccount.security.srp.SrpAuthenticationProvider;
 import io.github.jhipster.config.JHipsterConstants;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
@@ -37,7 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    private final UserDetailsService userDetailsService;
+//    private final UserDetailsService userDetailsService;
 
     private final TokenProvider tokenProvider;
 
@@ -47,23 +48,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final Environment env;
 
+    private SrpAuthenticationProvider srpAuthenticationProvider;
+
     public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder,
                                  UserDetailsService userDetailsService, TokenProvider tokenProvider, CorsFilter corsFilter, SecurityProblemSupport problemSupport,
-                                 Environment env) {
+                                 Environment env, SrpAuthenticationProvider srpAuthenticationProvider) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
-        this.userDetailsService = userDetailsService;
+//        this.userDetailsService = userDetailsService;
         this.tokenProvider = tokenProvider;
         this.corsFilter = corsFilter;
         this.problemSupport = problemSupport;
         this.env = env;
+        this.srpAuthenticationProvider = srpAuthenticationProvider;
     }
 
     @PostConstruct
     public void init() {
         try {
-            authenticationManagerBuilder
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
+            authenticationManagerBuilder.authenticationProvider(srpAuthenticationProvider);
+//                .userDetailsService(userDetailsService)
+//                .passwordEncoder(passwordEncoder());
         } catch (Exception e) {
             throw new BeanInitializationException("Security configuration failed", e);
         }
@@ -111,6 +115,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
             .authorizeRequests()
             .antMatchers("/api/register").permitAll()
+            .antMatchers("/api/pre-register").permitAll()
             .antMatchers("/api/init-one-time-payment").permitAll()
             .antMatchers("/api/complete-one-time-payment").permitAll()
             .antMatchers("/api/activate").permitAll()
