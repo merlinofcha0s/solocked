@@ -2,14 +2,18 @@ package com.ninja.ninjaccount.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.security.jwt.JWTConfigurer;
 import com.ninja.ninjaccount.security.jwt.TokenProvider;
 import com.ninja.ninjaccount.security.srp.SRP6ServerWorkflow;
 import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.SrpService;
+import com.ninja.ninjaccount.service.UserService;
 import com.ninja.ninjaccount.service.dto.SrpDTO;
 import com.ninja.ninjaccount.web.rest.vm.LoginVM;
 import com.ninja.ninjaccount.web.rest.vm.SaltAndBVM;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.Optional;
 
 /**
@@ -33,6 +38,8 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class UserJWTController {
 
+    private final Logger log = LoggerFactory.getLogger(UserJWTController.class);
+
     private final TokenProvider tokenProvider;
 
     private final AuthenticationManager authenticationManager;
@@ -41,24 +48,36 @@ public class UserJWTController {
 
     private SrpService srpService;
 
-    private SRP6ServerWorkflow session;
+    private SRP6ServerWorkflow workflow;
+
+    private UserService userService;
+
+    private SecureRandom secureRandom;
 
     public UserJWTController(TokenProvider tokenProvider, AuthenticationManager authenticationManager,
-                             AccountsDBService accountsDBService, SrpService srpService, SRP6ServerWorkflow session) {
+                             AccountsDBService accountsDBService, SrpService srpService, SRP6ServerWorkflow workflow,
+                             UserService userService) {
         this.tokenProvider = tokenProvider;
         this.authenticationManager = authenticationManager;
         this.accountsDBService = accountsDBService;
         this.srpService = srpService;
-        this.session = session;
+        this.workflow = workflow;
+        this.userService = userService;
+        this.secureRandom = new SecureRandom();
     }
 
     @PostMapping(path = "/preauthenticate")
     @Timed
     public ResponseEntity<SaltAndBVM> preAuthorize(@RequestBody String login) {
         Optional<SrpDTO> srpDTO = srpService.getByUsername(login);
+        Optional<User> user = userService.getUserWithAuthoritiesByLogin(login);
+
+        if (user.isPresent() && !srpDTO.isPresent()) {
+            srpService.generateSrpForAdmin(user.get());
+        }
 
         if (srpDTO.isPresent()) {
-            String b = session.step1(login, new BigInteger(srpDTO.get().getVerifier(), 16));
+            String b = workflow.step1(login, new BigInteger(srpDTO.get().getVerifier(), 16));
 
             SaltAndBVM saltAndBVM = new SaltAndBVM();
             saltAndBVM.setSalt(srpDTO.get().getSalt());

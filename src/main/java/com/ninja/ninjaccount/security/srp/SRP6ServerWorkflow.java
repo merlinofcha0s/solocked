@@ -1,7 +1,7 @@
 package com.ninja.ninjaccount.security.srp;
 
-import com.ninja.ninjaccount.service.SrpService;
 import com.ninja.ninjaccount.service.exceptions.SRP6Exception;
+import com.ninja.ninjaccount.service.util.SrpCacheService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,11 +24,12 @@ public class SRP6ServerWorkflow {
     @Value("${application.srp.k}")
     private String k;
     private CacheManager cacheManager;
-    private SrpService srpService;
 
-    public SRP6ServerWorkflow(CacheManager cacheManager, SrpService srpService) {
+    private SrpCacheService srpCacheService;
+
+    public SRP6ServerWorkflow(CacheManager cacheManager, SrpCacheService srpCacheService) {
         this.cacheManager = cacheManager;
-        this.srpService = srpService;
+        this.srpCacheService = srpCacheService;
         random = new SecureRandom();
     }
 
@@ -39,8 +40,8 @@ public class SRP6ServerWorkflow {
         //Generate public value
         BigInteger B = computePublicServerValue(N, g, new BigInteger(k, 16), v, b);
 
-        srpService.putbInCache(b.toString(16), login);
-        srpService.putBInCache(B.toString(16), login);
+        srpCacheService.putbInCache(b.toString(16), login);
+        srpCacheService.putBInCache(B.toString(16), login);
 
         return B.toString(16);
     }
@@ -190,5 +191,41 @@ public class SRP6ServerWorkflow {
 
         // check that value % N != 0
         return !value.mod(N).equals(BigInteger.ZERO);
+    }
+
+    public BigInteger computeX(String salt,
+                               String username,
+                               String password) {
+
+        String hashTmp = Sha512DigestUtils.shaHex(username + ":" + password);
+        String hash = Sha512DigestUtils.shaHex(salt + hashTmp);
+
+        return new BigInteger(hash, 16);
+    }
+
+    /**
+     * Generates a new verifier 'v' from the specified parameters.
+     *
+     * <p>The verifier is computed as v = g^x (mod N). If a custom
+     * {@link #setXRoutine 'x' computation routine} is set it will be used
+     * instead of the {@link SRP6Routines#computeX default one}.
+     *
+     * <p>Tip: To convert a string to a byte array you can use
+     * {@code String.getBytes()} or
+     * {@code String.getBytes(java.nio.charset.Charset)}. To convert a big
+     * integer to a byte array you can use {@code BigInteger.toByteArray()}.
+     *
+     * @param salt     The salt 's'. Must not be {@code null}.
+     * @param userID   The user identity 'I'. May be {@code null} if the
+     *                 default 'x' routine is used or the custom one
+     *                 ignores it.
+     * @param password The user password 'P'. Must not be {@code null}.
+     * @return The resulting verifier 'v'.
+     */
+    public BigInteger generateVerifier(String salt, String username, String password) {
+
+        BigInteger x = computeX(salt, username, password);
+
+        return g.modPow(x, N);
     }
 }

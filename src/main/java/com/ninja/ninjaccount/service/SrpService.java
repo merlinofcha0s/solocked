@@ -3,17 +3,20 @@ package com.ninja.ninjaccount.service;
 import com.ninja.ninjaccount.domain.Srp;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.SrpRepository;
+import com.ninja.ninjaccount.security.AuthoritiesConstants;
+import com.ninja.ninjaccount.security.srp.SRP6ServerWorkflow;
 import com.ninja.ninjaccount.service.dto.SrpDTO;
 import com.ninja.ninjaccount.service.mapper.SrpMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -29,9 +32,12 @@ public class SrpService {
 
     private final SrpMapper srpMapper;
 
-    public SrpService(SrpRepository srpRepository, SrpMapper srpMapper) {
+    private SRP6ServerWorkflow srp6ServerWorkflow;
+
+    public SrpService(SrpRepository srpRepository, SrpMapper srpMapper, SRP6ServerWorkflow srp6ServerWorkflow) {
         this.srpRepository = srpRepository;
         this.srpMapper = srpMapper;
+        this.srp6ServerWorkflow = srp6ServerWorkflow;
     }
 
     /**
@@ -98,15 +104,12 @@ public class SrpService {
         return save(srpDTO);
     }
 
-    @Cacheable(cacheNames = "b", key = "#login")
-    public String putbInCache(String b, String login) {
-        log.info("Caching b : " + b);
-        return b;
-    }
-
-    @Cacheable(cacheNames = "B", key = "#login")
-    public String putBInCache(String B, String login) {
-        log.info("Caching B : " + B);
-        return B;
+    public void generateSrpForAdmin(User user) {
+        boolean isAdmin = user.getAuthorities().stream().anyMatch(authority -> authority.getName().equals(AuthoritiesConstants.ADMIN));
+        if (isAdmin) {
+            String salt = UUID.randomUUID().toString().replace("-", "");
+            BigInteger verifier = srp6ServerWorkflow.generateVerifier(salt, user.getLogin(), "admin");
+            createSrp(salt, verifier.toString(16), user);
+        }
     }
 }
