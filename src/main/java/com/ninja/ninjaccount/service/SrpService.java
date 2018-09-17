@@ -100,7 +100,6 @@ public class SrpService {
         srpDTO.setVerifier(verifier);
         srpDTO.setUserId(user.getId());
         srpDTO.setUserLogin(user.getLogin());
-
         return save(srpDTO);
     }
 

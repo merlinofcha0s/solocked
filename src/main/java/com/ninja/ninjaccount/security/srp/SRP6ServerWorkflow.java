@@ -16,16 +16,17 @@ import java.security.SecureRandom;
 public class SRP6ServerWorkflow {
 
     private final Logger log = LoggerFactory.getLogger(SRP6ServerWorkflow.class);
+
     private final SecureRandom random;
+    private CacheManager cacheManager;
+    private SrpCacheService srpCacheService;
+
     @Value("${application.srp.N}")
     private BigInteger N;
     @Value("${application.srp.g}")
     private BigInteger g;
     @Value("${application.srp.k}")
     private String k;
-    private CacheManager cacheManager;
-
-    private SrpCacheService srpCacheService;
 
     public SRP6ServerWorkflow(CacheManager cacheManager, SrpCacheService srpCacheService) {
         this.cacheManager = cacheManager;
@@ -36,11 +37,12 @@ public class SRP6ServerWorkflow {
     public String step1(String login, BigInteger v) {
 
         //Generate private value
-        BigInteger b = generatePrivateValue(N, random);
+        BigInteger b = generatePrivateValue();
         //Generate public value
         BigInteger B = computePublicServerValue(N, g, new BigInteger(k, 16), v, b);
 
         srpCacheService.putbInCache(b.toString(16), login);
+        log.info("first b" + b.toString(16));
         srpCacheService.putBInCache(B.toString(16), login);
 
         return B.toString(16);
@@ -73,8 +75,10 @@ public class SRP6ServerWorkflow {
 
         // Compute the own client evidence message 'M1'
         String m1SHex = Sha512DigestUtils.shaHex((AHex + BHex + SHex));
-
         BigInteger M1S = new BigInteger(m1SHex, 16);
+
+        cacheManager.getCache("B").evict(login);
+        cacheManager.getCache("b").evict(login);
 
         log.info("A (HEX): " + AHex);
         log.info("A: " + A);
@@ -91,9 +95,6 @@ public class SRP6ServerWorkflow {
         log.info("uhash: " + uHex);
         log.info("u: " + u);
         log.info("S: " + SHex);
-
-        cacheManager.getCache("B").evict(login);
-        cacheManager.getCache("b").evict(login);
 
         if (!M1S.equals(M1)) {
             throw new SRP6Exception("Bad client credentials", SRP6Exception.CauseType.BAD_CREDENTIALS);
@@ -115,8 +116,7 @@ public class SRP6ServerWorkflow {
      * @param random Source of randomness. Must not be {@code null}.
      * @return The resulting client or server private value ('a' or 'b').
      */
-    public BigInteger generatePrivateValue(final BigInteger N,
-                                           final SecureRandom random) {
+    public BigInteger generatePrivateValue() {
 
         final int minBits = Math.max(256, N.bitLength());
 
