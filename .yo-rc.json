@@ -4,7 +4,7 @@
       "packageName": "com.ninja.ninjaccount",
       "nativeLanguage": "en"
     },
-    "jhipsterVersion": "5.0.2",
+      "jhipsterVersion": "5.2.1",
     "baseName": "ninjaccount",
     "packageName": "com.ninja.ninjaccount",
     "packageFolder": "com/ninja/ninjaccount",

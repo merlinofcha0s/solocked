@@ -4,7 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ninja.ninjaccount.security.jwt.JWTConfigurer;
 import com.ninja.ninjaccount.security.jwt.TokenProvider;
-import com.ninja.ninjaccount.security.srp.SRP6ServerSessionV2;
+import com.ninja.ninjaccount.security.srp.SRP6ServerWorkflow;
 import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.SrpService;
 import com.ninja.ninjaccount.service.dto.SrpDTO;
@@ -41,10 +41,10 @@ public class UserJWTController {
 
     private SrpService srpService;
 
-    private SRP6ServerSessionV2 session;
+    private SRP6ServerWorkflow session;
 
     public UserJWTController(TokenProvider tokenProvider, AuthenticationManager authenticationManager,
-                             AccountsDBService accountsDBService, SrpService srpService, SRP6ServerSessionV2 session) {
+                             AccountsDBService accountsDBService, SrpService srpService, SRP6ServerWorkflow session) {
         this.tokenProvider = tokenProvider;
         this.authenticationManager = authenticationManager;
         this.accountsDBService = accountsDBService;
@@ -58,8 +58,7 @@ public class UserJWTController {
         Optional<SrpDTO> srpDTO = srpService.getByUsername(login);
 
         if (srpDTO.isPresent()) {
-            String b = session.step1(login, new BigInteger(srpDTO.get().getSalt()),
-                new BigInteger(srpDTO.get().getVerifier(), 16));
+            String b = session.step1(login, new BigInteger(srpDTO.get().getVerifier(), 16));
 
             SaltAndBVM saltAndBVM = new SaltAndBVM();
             saltAndBVM.setSalt(srpDTO.get().getSalt());
@@ -69,11 +68,6 @@ public class UserJWTController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-//        AccountsDBDTO accountsDBDTO = accountsDBService.findByUsernameLogin(login.toLowerCase());
-//        if (accountsDBDTO == null) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        };
     }
 
     @PostMapping("/authenticate")

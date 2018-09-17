@@ -51,11 +51,6 @@ export class JhiLoginModalComponent {
                     this.authenticationError = true;
                 } else {
                     this.loginJHI(step2Result.a, step2Result.M1);
-                    // this.authenticationKey = accounts.authenticationKey;
-                    // this.authenticationError = false;
-                    // accounts.authenticationKey = '';
-                    // this.accountService.saveOnBrowser(accounts);
-                    // this.loginJHI();
                 }
             },
             error => {

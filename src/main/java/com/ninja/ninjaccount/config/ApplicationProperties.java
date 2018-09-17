@@ -13,6 +13,7 @@ public class ApplicationProperties {
 
     private final ApplicationProperties.Paypal paypal = new ApplicationProperties.Paypal();
     private final ApplicationProperties.Base base = new ApplicationProperties.Base();
+    private final ApplicationProperties.Srp srp = new ApplicationProperties.Srp();
 
     public ApplicationProperties() {
     }
@@ -65,11 +66,48 @@ public class ApplicationProperties {
         }
     }
 
+    public Srp getSrp() {
+        return srp;
+    }
+
     public Paypal getPaypal() {
         return paypal;
     }
 
     public Base getBase() {
         return base;
+    }
+
+    public static class Srp {
+        private String N;
+        private String g;
+        private String k;
+
+        public Srp() {
+        }
+
+        public String getN() {
+            return N;
+        }
+
+        public void setN(String n) {
+            N = n;
+        }
+
+        public String getG() {
+            return g;
+        }
+
+        public void setG(String g) {
+            this.g = g;
+        }
+
+        public String getK() {
+            return k;
+        }
+
+        public void setK(String k) {
+            this.k = k;
+        }
     }
 }

@@ -147,3 +147,7 @@ application:
         mode: ${PAYPAL_CLIENT_MODE}
     base:
         url: ${BASE_URL}
+    srp:
+        N: ${N}
+        g: ${g}
+        k: ${k}

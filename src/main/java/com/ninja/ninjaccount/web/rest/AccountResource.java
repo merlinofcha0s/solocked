@@ -7,7 +7,6 @@ import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.*;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
-import com.ninja.ninjaccount.service.dto.SrpDTO;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.web.rest.errors.*;
 import com.ninja.ninjaccount.web.rest.vm.KeyAndPasswordVM;
@@ -228,12 +227,7 @@ public class AccountResource {
         User user = userService
             .registerUser(managedUserVM, managedUserVM.getVerifier());
 
-        SrpDTO srpDTO = new SrpDTO();
-        srpDTO.setSalt(managedUserVM.getSalt());
-        srpDTO.setVerifier(managedUserVM.getVerifier());
-        srpDTO.setUserId(user.getId());
-        srpDTO.setUserLogin(user.getLogin());
-        srpService.save(srpDTO);
+        srpService.createSrp(managedUserVM.getSalt(), managedUserVM.getVerifier(), user);
 
         managedUserVM.getAccountsDB().setUserLogin(user.getLogin());
         managedUserVM.getAccountsDB().setUserId(user.getId());
@@ -245,33 +239,6 @@ public class AccountResource {
         paymentService.createRegistrationPaymentForUser(user);
 
         mailService.sendActivationEmail(user);
-    }
-
-
-    @PostMapping(path = "/pre-register")
-    @ResponseStatus(HttpStatus.CREATED)
-    @Timed
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void preRegister(@Valid @RequestBody ManagedUserVM managedUserVM) {
-        userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase())
-            .ifPresent(u -> {
-                throw new LoginAlreadyUsedException();
-            });
-        userRepository.findOneByEmail(managedUserVM.getEmail().toLowerCase())
-            .ifPresent(u -> {
-                throw new EmailAlreadyUsedException();
-            });
-
-        User user = userService
-            .registerUser(managedUserVM, managedUserVM.getVerifier());
-
-        SrpDTO srpDTO = new SrpDTO();
-        srpDTO.setSalt(managedUserVM.getSalt());
-        srpDTO.setVerifier(managedUserVM.getVerifier());
-        srpDTO.setUserId(user.getId());
-        srpDTO.setUserLogin(user.getLogin());
-
-        srpService.save(srpDTO);
     }
 
     private static boolean checkPasswordLength(String password) {

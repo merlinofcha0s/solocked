@@ -1,6 +1,7 @@
 package com.ninja.ninjaccount.service;
 
 import com.ninja.ninjaccount.domain.Srp;
+import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.SrpRepository;
 import com.ninja.ninjaccount.service.dto.SrpDTO;
 import com.ninja.ninjaccount.service.mapper.SrpMapper;
@@ -87,14 +88,24 @@ public class SrpService {
         return srpRepository.findByUserLogin(login).map(srpMapper::toDto);
     }
 
+    public SrpDTO createSrp(String salt, String verifier, User user) {
+        SrpDTO srpDTO = new SrpDTO();
+        srpDTO.setSalt(salt);
+        srpDTO.setVerifier(verifier);
+        srpDTO.setUserId(user.getId());
+        srpDTO.setUserLogin(user.getLogin());
+
+        return save(srpDTO);
+    }
+
     @Cacheable(cacheNames = "b", key = "#login")
-    public String setb(String b, String login) {
+    public String putbInCache(String b, String login) {
         log.info("Caching b : " + b);
         return b;
     }
 
     @Cacheable(cacheNames = "B", key = "#login")
-    public String setB(String B, String login) {
+    public String putBInCache(String B, String login) {
         log.info("Caching B : " + B);
         return B;
     }

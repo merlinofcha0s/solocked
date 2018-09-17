@@ -1,12 +1,10 @@
 package com.ninja.ninjaccount.web.rest;
 
-import com.nimbusds.srp6.SRP6CryptoParams;
-import com.nimbusds.srp6.SRP6Routines;
 import com.ninja.ninjaccount.NinjaccountApp;
 import com.ninja.ninjaccount.domain.Srp;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.SrpRepository;
-import com.ninja.ninjaccount.security.srp.SRP6ServerSessionV2;
+import com.ninja.ninjaccount.security.srp.SRP6ServerWorkflow;
 import com.ninja.ninjaccount.service.SrpService;
 import com.ninja.ninjaccount.service.dto.SrpDTO;
 import com.ninja.ninjaccount.service.mapper.SrpMapper;
@@ -18,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
@@ -30,15 +29,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.List;
 
 import static com.ninja.ninjaccount.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -68,6 +63,9 @@ public class SrpResourceIntTest {
     private SrpService srpService;
 
     @Autowired
+    private SRP6ServerWorkflow srp6ServerWorkflow;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -82,6 +80,15 @@ public class SrpResourceIntTest {
     private MockMvc restSrpMockMvc;
 
     private Srp srp;
+
+    @Value("${application.srp.N}")
+    private BigInteger N;
+
+    @Value("${application.srp.g}")
+    private BigInteger g;
+
+    @Value("${application.srp.k}")
+    private String kHex;
 
     /**
      * Create an entity for this test.
@@ -323,11 +330,8 @@ public class SrpResourceIntTest {
     @Test
     @Transactional
     public void testComputation() {
-//        BigInteger k = new BigInteger(SRP6ServerSessionV2.k, 16);
-        SRP6Routines srp6Routines = new SRP6Routines();
-        BigInteger k = srp6Routines.computeK(newMessageDigest(), SRP6ServerSessionV2.N, SRP6ServerSessionV2.g);
+        BigInteger k = new BigInteger(kHex, 16);
         log.info("k : " + k.toString(16));
-
 
         String username = "raiden";
         String password = "Lolmdr06";
@@ -336,7 +340,7 @@ public class SrpResourceIntTest {
         // GENERATE VERIFIER
         BigInteger x = new BigInteger(Sha512DigestUtils.shaHex(salt + Sha512DigestUtils.shaHex(username.toLowerCase() + ":" + password.toLowerCase())), 16);
         log.info("x : " + x.toString(16));
-        BigInteger v = SRP6ServerSessionV2.g.modPow(x, SRP6ServerSessionV2.N);
+        BigInteger v = g.modPow(x, N);
         log.info("v : " + v.toString(16));
         // END GENERATE VERIFIER
 
@@ -345,7 +349,7 @@ public class SrpResourceIntTest {
 //        BigInteger a = srp6Routines.generatePrivateValue(SRP6ServerSessionV2.N, new SecureRandom());
         BigInteger a = new BigInteger("4723706393432315314659520415851883571265009157807578292085238845331731373357745428594511043144635152291089278425918170997642115517296679585756521954574153201848656138851066888765168336578393049613211027580130826201838214309869519079490766662530992935006366677693201600099172596838675075974115416696997628019597811444626018460514923190742069666572473711097210734069640607804742963097389894919794597710063036290764146086596798028844113713536734201398786059752363967537706129857899411855142965191489696053234352382318493449610555766020376748125389616298577326062410436378853701697175698089651092579849203526281585856516");
         log.info("a : " + a);
-        BigInteger A = SRP6ServerSessionV2.g.modPow(a, SRP6ServerSessionV2.N);
+        BigInteger A = g.modPow(a, N);
         log.info("A : " + A.toString(16));
 
         //GENERATE STEP1 SERVER SIDE
@@ -353,7 +357,7 @@ public class SrpResourceIntTest {
         BigInteger b = new BigInteger("9806982195738868433391734761522531690090752541755344235033837318186659731436816612887336762808855858604508737906857203734702334260179477583615162669344173892578838542266682607653083491958829435846450426173068276319945548569227443507261704446745519001030292990293368574305483847270477859398855113728499454356921541003871210045484105919031482320188820272225746373119471826642218504436153651317511317447921941936905312089831291729604601117340848194132136995656590445760830085233246353360475254998919431200402688071343530565251725343327686524720020594558862136369720787649758161484332446864365653432035845674160820634107");
         log.info("b : " + b);
 
-        BigInteger B = SRP6ServerSessionV2.g.modPow(b, SRP6ServerSessionV2.N).add(v.multiply(k)).mod(SRP6ServerSessionV2.N);
+        BigInteger B = g.modPow(b, N).add(v.multiply(k)).mod(N);
         log.info("B (HEX) : " + B.toString(16));
         log.info("B : " + B.toString());
         // END GENERATE STEP1 SERVER SIDE
@@ -364,11 +368,11 @@ public class SrpResourceIntTest {
 
         BigInteger exp = uClient.multiply(x).add(a);
         log.info("exp : " + exp);
-        BigInteger tmp = SRP6ServerSessionV2.g.modPow(x, SRP6ServerSessionV2.N).multiply(k);
+        BigInteger tmp = g.modPow(x, N).multiply(k);
         log.info("tmp : " + tmp);
         BigInteger tmp2 = B.subtract(tmp);
         log.info("tmp2 : " + tmp2);
-        BigInteger premasterClientSecret = tmp2.modPow(exp, SRP6ServerSessionV2.N);
+        BigInteger premasterClientSecret = tmp2.modPow(exp, N);
         log.info("SC : " + premasterClientSecret.toString());
         log.info("SC : " + premasterClientSecret.toString(16));
 
@@ -379,7 +383,7 @@ public class SrpResourceIntTest {
         //END GENERATE STEP2 CLIENT SIDE
 
         //GENERATE STEP 2 SERVER SIDE
-        BigInteger premasterServerSecret = srp6Routines.computeSessionKey(SRP6ServerSessionV2.N, v, uClient, A, b);
+        BigInteger premasterServerSecret = srp6ServerWorkflow.computeSessionKey(N, v, uClient, A, b);
         log.info("SS : " + premasterServerSecret.toString(16));
         String M1ComputedServerHex = Sha512DigestUtils.shaHex(A.toString(16) + B.toString(16) + premasterServerSecret.toString(16));
         log.info("M1ComputedServerHex : " + M1ComputedServerHex);
@@ -393,63 +397,5 @@ public class SrpResourceIntTest {
         }
 
         //END CLIENT COMPUTATION
-    }
-
-
-    @Test
-    @Transactional
-    public void testv2() {
-        SRP6Routines srp6Routines = new SRP6Routines();
-        SecureRandom random = new SecureRandom();
-        BigInteger N = SRP6CryptoParams.N_2048;
-        BigInteger g = SRP6CryptoParams.g_common;
-
-        // password
-        byte[] P = "secret".getBytes();
-
-        // salt
-        byte[] s = new byte[16];
-        random.nextBytes(s);
-
-        // generate verifier
-        BigInteger x = srp6Routines.computeX(newMessageDigest(), s, P);
-        BigInteger v = srp6Routines.computeVerifier(N, g, x);
-        System.out.println("Verifier 'v': " + v.toString(16));
-
-        // generate client A
-        BigInteger a = srp6Routines.generatePrivateValue(N, random);
-        BigInteger A = srp6Routines.computePublicClientValue(N, g, a);
-        System.out.println("Client 'A': " + A.toString(16));
-
-        // generate server B
-        BigInteger b = srp6Routines.generatePrivateValue(N, random);
-        BigInteger k = srp6Routines.computeK(newMessageDigest(), N, g);
-        BigInteger B = srp6Routines.computePublicServerValue(N, g, k, v, b);
-        System.out.println("Server 'B': " + B.toString(16));
-
-        // calcuate client S
-        assertTrue("Invalid server B", srp6Routines.isValidPublicValue(N, B));
-
-        BigInteger u = srp6Routines.computeU(newMessageDigest(), N, A, B);
-        BigInteger S_c = srp6Routines.computeSessionKey(N, g, k, x, u, a, B);
-        System.out.println("SC: " + S_c.toString(16));
-
-        // calcuate server S
-        assertTrue("Invalid client A", srp6Routines.isValidPublicValue(N, A));
-
-        BigInteger S_s = srp6Routines.computeSessionKey(N, v, u, A, b);
-        System.out.println("SS: " + S_s.toString(16));
-
-        assertTrue("Auth failure: Session key mismatch", S_s.equals(S_c));
-    }
-
-    private MessageDigest newMessageDigest() {
-
-        try {
-            return MessageDigest.getInstance("SHA-512");
-
-        } catch (NoSuchAlgorithmException e) {
-            return null;
-        }
     }
 }
