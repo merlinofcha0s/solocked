@@ -9,6 +9,7 @@ import com.ninja.ninjaccount.repository.AccountsDBRepository;
 import com.ninja.ninjaccount.repository.AuthorityRepository;
 import com.ninja.ninjaccount.repository.UserRepository;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
+import com.ninja.ninjaccount.security.srp.SRP6ServerWorkflow;
 import com.ninja.ninjaccount.service.*;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
 import com.ninja.ninjaccount.service.dto.PasswordChangeDTO;
@@ -33,11 +34,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.time.Instant;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -85,6 +84,9 @@ public class AccountResourceIntTest {
 
     @Autowired
     private ExceptionTranslator exceptionTranslator;
+
+    @Autowired
+    private SRP6ServerWorkflow workflow;
 
     @Mock
     private UserService mockUserService;
@@ -194,6 +196,12 @@ public class AccountResourceIntTest {
         validUser.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
         validUser.setAccountsDB(accountsDBDTO);
         assertThat(userRepository.findOneByLogin("joe").isPresent()).isFalse();
+
+        String salt = UUID.randomUUID().toString().replace("-", "");
+        BigInteger verifier = workflow.generateVerifier(salt, "badguy", "password");
+
+        validUser.setVerifier(verifier.toString(16));
+        validUser.setSalt(salt);
 
         restMvc.perform(
             post("/api/register")
@@ -360,6 +368,15 @@ public class AccountResourceIntTest {
         duplicatedUser.setLastModifiedDate(validUser.getLastModifiedDate());
         duplicatedUser.setAuthorities(new HashSet<>(validUser.getAuthorities()));
 
+        String salt = UUID.randomUUID().toString().replace("-", "");
+        BigInteger verifier = workflow.generateVerifier(salt, "badguy", "password");
+
+        validUser.setVerifier(verifier.toString(16));
+        validUser.setSalt(salt);
+
+        duplicatedUser.setVerifier(verifier.toString(16));
+        duplicatedUser.setSalt(salt);
+
         // Good user
         restMvc.perform(
             post("/api/register")
@@ -403,11 +420,11 @@ public class AccountResourceIntTest {
 
         // Duplicate email, different login
         ManagedUserVM duplicatedUser = new ManagedUserVM();
-        duplicatedUser.setLogin( "johnjr");
-        duplicatedUser.setAuthenticationKey( validUser.getPassword());
-        duplicatedUser.setFirstName( validUser.getFirstName());
-        duplicatedUser.setLastName( validUser.getLastName());
-            duplicatedUser.setEmail(validUser.getEmail());
+        duplicatedUser.setLogin("johnjr");
+        duplicatedUser.setAuthenticationKey(validUser.getPassword());
+        duplicatedUser.setFirstName(validUser.getFirstName());
+        duplicatedUser.setLastName(validUser.getLastName());
+        duplicatedUser.setEmail(validUser.getEmail());
         duplicatedUser.setActivated(validUser.isActivated());
         duplicatedUser.setImageUrl(validUser.getImageUrl());
         duplicatedUser.setLangKey(validUser.getLangKey());
@@ -416,6 +433,15 @@ public class AccountResourceIntTest {
         duplicatedUser.setLastModifiedBy(validUser.getLastModifiedBy());
         duplicatedUser.setLastModifiedDate(validUser.getLastModifiedDate());
         duplicatedUser.setAuthorities(new HashSet<>(validUser.getAuthorities()));
+
+        String salt = UUID.randomUUID().toString().replace("-", "");
+        BigInteger verifier = workflow.generateVerifier(salt, "badguy", "password");
+
+        validUser.setVerifier(verifier.toString(16));
+        validUser.setSalt(salt);
+
+        duplicatedUser.setVerifier(verifier.toString(16));
+        duplicatedUser.setSalt(salt);
 
         // Good user
         restMvc.perform(
@@ -481,6 +507,12 @@ public class AccountResourceIntTest {
         validUser.setLangKey(Constants.DEFAULT_LANGUAGE);
         validUser.setAuthorities(Collections.singleton(AuthoritiesConstants.ADMIN));
         validUser.setAccountsDB(accountsDBDTO);
+
+        String salt = UUID.randomUUID().toString().replace("-", "");
+        BigInteger verifier = workflow.generateVerifier(salt, "badguy", "password");
+
+        validUser.setVerifier(verifier.toString(16));
+        validUser.setSalt(salt);
 
         restMvc.perform(
             post("/api/register")

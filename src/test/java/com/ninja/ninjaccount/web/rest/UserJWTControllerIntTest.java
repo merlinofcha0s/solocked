@@ -9,7 +9,9 @@ import com.ninja.ninjaccount.security.srp.SRP6ServerWorkflow;
 import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.service.SrpService;
 import com.ninja.ninjaccount.service.UserService;
+import com.ninja.ninjaccount.service.dto.SrpDTO;
 import com.ninja.ninjaccount.web.rest.errors.ExceptionTranslator;
+import com.ninja.ninjaccount.web.rest.util.SrpUtils;
 import com.ninja.ninjaccount.web.rest.vm.LoginVM;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +28,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -72,6 +75,9 @@ public class UserJWTControllerIntTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SrpUtils srpUtils;
+
     private MockMvc mockMvc;
 
     @Before
@@ -94,9 +100,19 @@ public class UserJWTControllerIntTest {
 
         userRepository.saveAndFlush(user);
 
+        SrpDTO srpDTO = srpUtils.generateSRPEntity(user, "test");
+
+        BigInteger a = srpUtils.generatePrivateValue();
+        BigInteger A = srpUtils.generateA(a);
+
+        String B = srp6ServerWorkflow.step1(user.getLogin(), new BigInteger(srpDTO.getVerifier(), 16));
+
+        BigInteger x = srp6ServerWorkflow.computeX(srpDTO.getSalt(), user.getLogin(), "test");
+        String M1 = srpUtils.generateM1(x, a, new BigInteger(B, 16), A);
+
         LoginVM login = new LoginVM();
         login.setUsername("user-jwt-controller");
-        login.setPassword("test");
+        login.setPassword(A.toString(16) + ":" + M1);
         mockMvc.perform(post("/api/authenticate")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(login)))
@@ -111,16 +127,25 @@ public class UserJWTControllerIntTest {
     @Transactional
     public void testAuthorizeWithRememberMe() throws Exception {
         User user = new User();
-        user.setLogin("user-jwt-controller-remember-me");
-        user.setEmail("user-jwt-controller-remember-me@example.com");
+        user.setLogin("user-jwt");
+        user.setEmail("user-jwt@example.com");
         user.setActivated(true);
         user.setPassword(passwordEncoder.encode("test"));
-
         userRepository.saveAndFlush(user);
 
+        SrpDTO srpDTO = srpUtils.generateSRPEntity(user, "test");
+
+        BigInteger a = srpUtils.generatePrivateValue();
+        BigInteger A = srpUtils.generateA(a);
+
+        String B = srp6ServerWorkflow.step1(user.getLogin(), new BigInteger(srpDTO.getVerifier(), 16));
+
+        BigInteger x = srp6ServerWorkflow.computeX(srpDTO.getSalt(), user.getLogin(), "test");
+        String M1 = srpUtils.generateM1(x, a, new BigInteger(B, 16), A);
+
         LoginVM login = new LoginVM();
-        login.setUsername("user-jwt-controller-remember-me");
-        login.setPassword("test");
+        login.setUsername("user-jwt");
+        login.setPassword(A.toString(16) + ":" + M1);
         login.setRememberMe(true);
         mockMvc.perform(post("/api/authenticate")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -148,6 +173,30 @@ public class UserJWTControllerIntTest {
 
     @Test
     @Transactional
+    public void testAuthorizeNotActivated() throws Exception {
+        User user = new User();
+        user.setLogin("user-jwt-not-activated");
+        user.setEmail("user-jwt-not-activated@example.com");
+        user.setActivated(false);
+        user.setPassword(passwordEncoder.encode("test"));
+        userRepository.saveAndFlush(user);
+
+        srpUtils.generateSRPEntity(user, "test");
+
+        LoginVM login = new LoginVM();
+        login.setUsername("user-jwt-not-activated");
+        login.setPassword("test");
+        login.setRememberMe(true);
+        mockMvc.perform(post("/api/authenticate")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(login)))
+            .andExpect(status().isUnauthorized())
+            .andExpect(jsonPath("$.id_token").doesNotExist())
+            .andExpect(header().doesNotExist("Authorization"));
+    }
+
+    @Test
+    @Transactional
     public void testPreAuthenticateSucceed() throws Exception {
         User user = new User();
         user.setLogin("user-jwt-controller-remember-me");
@@ -160,25 +209,22 @@ public class UserJWTControllerIntTest {
         String example = "This is an example";
         byte[] bytes = example.getBytes();
         String uuid = UUID.randomUUID().toString();
-
         accountsDBService.createNewAccountDB(bytes, uuid, user);
-        accountsDBRepository.flush();
+
+        srpUtils.generateSRPEntity(user, UUID.randomUUID().toString().replace("-", ""));
 
         LoginVM login = new LoginVM();
         login.setUsername("user-jwt-controller-remember-me");
-        login.setPassword("test");
         MockHttpServletResponse mockResponse = mockMvc.perform(post("/api/preauthenticate")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content("user-jwt-controller-remember-me"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.initializationVector").isString())
-            .andExpect(jsonPath("$.databaseContentType").isString())
-            .andExpect(jsonPath("$.userId").isNotEmpty())
+            .andExpect(jsonPath("$.b").isString())
+            .andExpect(jsonPath("$.salt").isString())
             .andReturn()
             .getResponse();
 
         assertThat(mockResponse.getContentType()).isEqualTo(MediaType.APPLICATION_JSON_UTF8_VALUE);
-        //assertThat(mockResponse.getHeader("ninja-iv")).isEqualTo(uuid);
         assertThat(mockResponse.getContentAsByteArray()).isNotNull();
     }
 

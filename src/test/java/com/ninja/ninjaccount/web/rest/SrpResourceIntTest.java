@@ -54,10 +54,8 @@ public class SrpResourceIntTest {
     @Autowired
     private SrpRepository srpRepository;
 
-
     @Autowired
     private SrpMapper srpMapper;
-
 
     @Autowired
     private SrpService srpService;
