@@ -1,5 +1,5 @@
-import { forwardRef, Inject, Injectable } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
+import { Injectable, NgZone } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
@@ -9,7 +9,7 @@ import { AccountsDBService } from 'app/entities/accounts-db';
 
 @Injectable({ providedIn: 'root' })
 export class AutolockService {
-    totalTime = 10;
+    totalTime = 600;
     remainingTime$: BehaviorSubject<number>;
     timer: Observable<number>;
     timerSubscription: Subscription;
@@ -20,7 +20,12 @@ export class AutolockService {
         remainingTime: number;
     };
 
-    constructor(private loginService: LoginService, private router: Router, private addAccountService: AccountsDBService) {
+    constructor(
+        private loginService: LoginService,
+        private router: Router,
+        private addAccountService: AccountsDBService,
+        private ngZone: NgZone
+    ) {
         this._dataStore = { remainingTime: this.totalTime };
         this.remainingTime$ = new BehaviorSubject<number>(this._dataStore.remainingTime);
 
@@ -43,24 +48,26 @@ export class AutolockService {
     }
 
     startTimer() {
-        this.timer = Observable.timer(100, 1000)
-            .map(i => this.totalTime - i)
-            .take(this.totalTime + 1);
+        this.ngZone.runOutsideAngular(() => {
+            this.timer = Observable.timer(100, 1000)
+                .map(i => this.totalTime - i)
+                .take(this.totalTime + 1);
 
-        this._dataStore.remainingTime = this.totalTime;
-        this.timerSubscription = this.timer.subscribe(
-            secondRemaining => {
-                this.remainingTime$.next(secondRemaining);
-            },
-            error => {},
-            () => {
-                if (this.router.url === '/accounts/add') {
-                    this.addAccountService.autoSaveCurrentAccount$.next('init');
-                } else {
-                    this.autoLogout();
+            this._dataStore.remainingTime = this.totalTime;
+            this.timerSubscription = this.timer.subscribe(
+                secondRemaining => {
+                    this.remainingTime$.next(secondRemaining);
+                },
+                error => {},
+                () => {
+                    if (this.router.url === '/accounts/add') {
+                        this.addAccountService.autoSaveCurrentAccount$.next('init');
+                    } else {
+                        this.autoLogout();
+                    }
                 }
-            }
-        );
+            );
+        });
     }
 
     private autoLogout() {

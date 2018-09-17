@@ -1,73 +1,69 @@
-import { browser, by, element, ElementFinder, ExpectedConditions } from 'protractor';
+import { browser, by, element, ElementFinder, ExpectedConditions as ec, ExpectedConditions } from 'protractor';
 
 export class CommonAction {
     registerPage: RegisterPage;
     homePage: HomePage;
     navbar: Navbar;
     myAccounts: MyAccounts;
+    countForAdmin: number;
 
     constructor() {
         this.registerPage = new RegisterPage();
         this.homePage = new HomePage();
         this.navbar = new Navbar();
         this.myAccounts = new MyAccounts();
+        this.countForAdmin = 0;
     }
 
-    registerUser(username: string, password: string, email: string) {
-        element(by.id('register')).click();
-        this.registerPage.loginInput.click();
-        this.registerPage.loginInput.sendKeys(username);
-        this.registerPage.emailInput.click();
-        this.registerPage.emailInput.sendKeys(email);
-        this.registerPage.passwordInput.click();
-        this.registerPage.passwordInput.sendKeys(password);
-        this.registerPage.confirmationPassword.click();
-        this.registerPage.confirmationPassword.sendKeys(password);
-        this.registerPage.freeAccount.click();
-        this.registerPage.validation.click();
-
-        browser.driver.sleep(2000);
+    async registerUser(username: string, password: string, email: string) {
+        await element(by.id('register')).click();
+        await this.registerPage.loginInput.click();
+        await this.registerPage.loginInput.sendKeys(username);
+        await this.registerPage.emailInput.click();
+        await this.registerPage.emailInput.sendKeys(email);
+        await this.registerPage.passwordInput.click();
+        await this.registerPage.passwordInput.sendKeys(password);
+        await this.registerPage.confirmationPassword.click();
+        await this.registerPage.confirmationPassword.sendKeys(password);
+        await this.registerPage.freeAccount.click();
+        await this.registerPage.validation.click();
+        await browser.sleep(1000);
     }
 
-    activateUser(username: string) {
-        this.login('admin', 'admin');
-        browser.driver.sleep(2000);
-        expect(browser.getTitle()).toBe('Users | SoLocked');
-
-        element(by.id(username + '-deactivation')).click();
-        this.logout();
+    async activateUser(username: string) {
+        if (this.countForAdmin === 0) {
+            await this.login('admin', 'admin');
+            this.countForAdmin++;
+        }
+        await this.login('admin', 'admin');
+        await browser.wait(ExpectedConditions.presenceOf(element(by.className('jh-create-entity'))));
+        let title = await browser.getTitle();
+        expect(title).toBe('Users | SoLocked');
+        await element(by.id(username + '-deactivation')).click();
+        await this.logout();
     }
 
-    logout() {
-        browser.driver.sleep(1000);
-        browser.wait(ExpectedConditions.presenceOf(this.navbar.account));
-        this.navbar.account.click();
-        browser.driver.sleep(1000);
-        browser.wait(ExpectedConditions.presenceOf(this.navbar.logout));
-        this.navbar.logout.click();
-        this.homePage.title.isPresent().then(value => {
-            expect(value).toBe(true);
-        });
+    async logout() {
+        await browser.wait(ExpectedConditions.presenceOf(this.navbar.account));
+        await this.navbar.account.click();
+        await browser.wait(ec.visibilityOf(this.navbar.logout));
+        await browser.sleep(500);
+        await this.navbar.logout.click();
+        await browser.wait(ec.visibilityOf(this.homePage.title), 5000);
     }
 
-    login(username: string, password: string, checkMyAccounts?: boolean) {
-        browser.get('/');
-        this.homePage.username.click();
-        this.homePage.username.sendKeys(username);
-        this.homePage.password.click();
-        this.homePage.password.sendKeys(password);
-        this.homePage.validate.click();
-        browser.waitForAngular();
-        // await browser.driver.sleep(2000);
+    async login(username: string, password: string, checkMyAccounts?: boolean) {
+        await browser.get('/');
+        await this.homePage.username.click();
+        await this.homePage.username.sendKeys(username);
+        await this.homePage.password.click();
+        await this.homePage.password.sendKeys(password);
+        await this.homePage.validate.click();
+
         if (checkMyAccounts) {
-            browser.driver.sleep(2000);
-            element
-                .all(by.id('title-accounts'))
-                .first()
-                .isPresent()
-                .then(value => {
-                    expect(value).toEqual(true);
-                });
+            await browser.waitForAngular();
+            let title = await element(by.id('title-accounts')).isPresent();
+            expect(title).toEqual(true);
         }
     }
 }

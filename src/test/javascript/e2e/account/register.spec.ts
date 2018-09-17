@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor';
+import { browser, by, element, ExpectedConditions } from 'protractor';
 import { CommonAction } from './common-action';
 
 describe('account', () => {
@@ -6,73 +6,35 @@ describe('account', () => {
 
     const password = 'Lolmdr06';
 
-    beforeEach(() => {
-        browser.get('/');
+    beforeEach(async () => {
+        await browser.get('/');
         registerHelper = new CommonAction();
-        browser.waitForAngular();
     });
 
-    it('should register successfuly', () => {
-        registerHelper.registerUser('test', password, 'test@test.com');
+    it('should register successfuly', async () => {
+        await registerHelper.registerUser('test', password, 'test@test.com');
 
-        element
-            .all(by.id('success'))
-            .first()
-            .isPresent()
-            .then(value => {
-                expect(value).toEqual(true);
-            });
-
-        element
-            .all(by.id('success'))
-            .first()
-            .isDisplayed()
-            .then(value => {
-                expect(value).toEqual(true);
-            });
+        await browser.wait(ExpectedConditions.presenceOf(element(by.id('success'))));
+        let success = await element(by.id('success'));
+        await success.isPresent();
+        await success.isDisplayed();
     });
 
-    it('should not register because email already exist', () => {
-        registerHelper.registerUser('test06', password, 'test@test.com');
+    it('should not register because email already exist', async () => {
+        await registerHelper.registerUser('test06', password, 'test@test.com');
 
-        browser.driver.sleep(2000);
-
-        element
-            .all(by.id('errorEmailExists'))
-            .first()
-            .isPresent()
-            .then(value => {
-                expect(value).toEqual(true);
-            });
-
-        element
-            .all(by.id('errorEmailExists'))
-            .first()
-            .isDisplayed()
-            .then(value => {
-                expect(value).toEqual(true);
-            });
+        await browser.wait(ExpectedConditions.presenceOf(element(by.id('errorEmailExists'))));
+        let errorEmailExists = await element(by.id('errorEmailExists'));
+        await errorEmailExists.isPresent();
+        await errorEmailExists.isDisplayed();
     });
 
-    it('should not register because username already exist', () => {
-        registerHelper.registerUser('test', password, 'test10@test.com');
+    it('should not register because username already exist', async () => {
+        await registerHelper.registerUser('test', password, 'test10@test.com');
 
-        browser.driver.sleep(2000);
-
-        element
-            .all(by.id('errorUserExists'))
-            .first()
-            .isPresent()
-            .then(value => {
-                expect(value).toEqual(true);
-            });
-
-        element
-            .all(by.id('errorUserExists'))
-            .first()
-            .isDisplayed()
-            .then(value => {
-                expect(value).toEqual(true);
-            });
+        await browser.wait(ExpectedConditions.presenceOf(element(by.id('errorUserExists'))));
+        let errorUserExists = await element(by.id('errorUserExists'));
+        await errorUserExists.isPresent();
+        await errorUserExists.isDisplayed();
     });
 });

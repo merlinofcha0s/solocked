@@ -197,7 +197,7 @@ public class SRP6ServerWorkflow {
                                String username,
                                String password) {
 
-        String hashTmp = Sha512DigestUtils.shaHex(username + ":" + password);
+        String hashTmp = Sha512DigestUtils.shaHex(username.toLowerCase() + ":" + password);
         String hash = Sha512DigestUtils.shaHex(salt + hashTmp);
 
         return new BigInteger(hash, 16);

@@ -10,7 +10,7 @@ export class SrpService {
     constructor(private cryptoService: CryptoService) {}
 
     async generateX(username: string, salt: string, password: string): Promise<string> {
-        const hashTmp = await this.cryptoService.generateHash(username.toLowerCase() + ':' + password.toLowerCase());
+        const hashTmp = await this.cryptoService.generateHash(username.toLowerCase() + ':' + password);
         return await this.cryptoService.generateHash(salt + hashTmp);
     }
 
