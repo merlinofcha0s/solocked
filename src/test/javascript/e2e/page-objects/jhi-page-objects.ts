@@ -2,7 +2,7 @@ import { by, element, ElementFinder } from 'protractor';
 
 export class NavBarPage {
     entityMenu = element(by.id('entity-menu'));
-    accountMenu = element(by.id('account-menu'));
+    accountMenu = element(by.id('account'));
     adminMenu: ElementFinder;
     signIn = element(by.id('login'));
     register = element(by.css('[routerLink="register"]'));
@@ -98,7 +98,7 @@ export class NavBarPage {
 export class SignInPage {
     username = element(by.id('username'));
     password = element(by.id('password'));
-    loginButton = element(by.css('button[type=submit]'));
+    loginButton = element(by.id('login'));
 
     async setUserName(username) {
         await this.username.sendKeys(username);

@@ -5,8 +5,10 @@ exports.config = {
     allScriptsTimeout: 20000,
 
     specs: [
+        './e2e/account/starting.spec.ts',
         './e2e/account/*.spec.ts',
-        './e2e/connected/*.spec.ts'
+        './e2e/connected/*.spec.ts',
+        './e2e/admin/*.spec.ts'
         /* jhipster-needle-add-protractor-tests - JHipster will add protractors tests here */
     ],
 

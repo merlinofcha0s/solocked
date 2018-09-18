@@ -31,10 +31,6 @@ export class CommonAction {
     }
 
     async activateUser(username: string) {
-        if (this.countForAdmin === 0) {
-            await this.login('admin', 'admin');
-            this.countForAdmin++;
-        }
         await this.login('admin', 'admin');
         await browser.wait(ExpectedConditions.presenceOf(element(by.className('jh-create-entity'))));
         let title = await browser.getTitle();
