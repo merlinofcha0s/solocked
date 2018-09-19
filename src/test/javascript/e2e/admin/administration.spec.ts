@@ -17,7 +17,7 @@ describe('administration', () => {
     });
 
     beforeEach(async () => {
-        await browser.sleep(1000);
+        await browser.sleep(2000);
         await navBarPage.clickOnAdminMenu();
     });
 
