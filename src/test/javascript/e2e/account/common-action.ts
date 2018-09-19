@@ -27,7 +27,7 @@ export class CommonAction {
         await this.registerPage.confirmationPassword.sendKeys(password);
         await this.registerPage.freeAccount.click();
         await this.registerPage.validation.click();
-        await browser.sleep(1000);
+        await browser.sleep(2000);
     }
 
     async activateUser(username: string) {
