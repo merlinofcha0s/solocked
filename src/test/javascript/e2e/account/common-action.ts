@@ -33,7 +33,7 @@ export class CommonAction {
     async activateUser(username: string) {
         await this.login('admin', 'admin');
         await browser.wait(ExpectedConditions.presenceOf(element(by.className('jh-create-entity'))));
-        let title = await browser.getTitle();
+        const title = await browser.getTitle();
         expect(title).toBe('Users | SoLocked');
         await element(by.id(username + '-deactivation')).click();
         await this.logout();
@@ -58,7 +58,7 @@ export class CommonAction {
 
         if (checkMyAccounts) {
             await browser.waitForAngular();
-            let title = await element(by.id('title-accounts')).isPresent();
+            const title = await element(by.id('title-accounts')).isPresent();
             expect(title).toEqual(true);
         }
     }

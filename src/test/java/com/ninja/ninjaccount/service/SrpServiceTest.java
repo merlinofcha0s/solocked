@@ -1,7 +1,12 @@
 package com.ninja.ninjaccount.service;
 
 import com.ninja.ninjaccount.NinjaccountApp;
+import com.ninja.ninjaccount.data.SrpData;
+import com.ninja.ninjaccount.data.UserData;
+import com.ninja.ninjaccount.domain.Srp;
+import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.security.srp.SRP6ServerWorkflow;
+import com.ninja.ninjaccount.service.dto.SrpDTO;
 import com.ninja.ninjaccount.service.exceptions.SRP6Exception;
 import com.ninja.ninjaccount.web.rest.util.SrpUtils;
 import org.junit.Test;
@@ -12,10 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.token.Sha512DigestUtils;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -44,6 +52,37 @@ public class SrpServiceTest {
 
     @Value("${application.srp.k}")
     private String kHex;
+
+    @Autowired
+    private UserData userData;
+
+    @Autowired
+    private SrpData srpData;
+
+    @Test
+    @Transactional
+    @WithMockUser("johndoe")
+    public void tesUpdateSrpConnectedUser() {
+        User user = userData.createUserJohnDoe();
+        Srp oldSrp = srpData.createSrp("test", "bbbbbbb", user);
+
+        String salt = "212158454523131";
+        BigInteger v = serverWorkflow.generateVerifier(salt, user.getLogin(), user.getPassword());
+
+        SrpDTO updatedSrpDTO = new SrpDTO();
+        updatedSrpDTO.setVerifier(v.toString(16));
+        updatedSrpDTO.setSalt(salt);
+
+        srpService.saveForConnectedUser(updatedSrpDTO);
+
+        List<SrpDTO> all = srpService.findAll();
+
+        Optional<SrpDTO> first = all.stream().findFirst();
+
+        assertThat(all.size()).isEqualTo(1);
+        assertThat(first.get().getSalt()).isEqualTo(salt);
+        assertThat(first.get().getVerifier()).isEqualTo(v.toString(16));
+    }
 
     @Test
     @Transactional

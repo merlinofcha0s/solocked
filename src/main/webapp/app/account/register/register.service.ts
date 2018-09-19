@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CryptoService } from 'app/shared/crypto/crypto.service';
 import { AccountsDBService } from 'app/entities/accounts-db';
-import { SrpService } from 'app/shared/crypto/srp.service';
 import { AccountsDB } from 'app/shared/model/accounts-db.model';
+import { SrpService } from 'app/entities/srp';
 
 @Injectable({ providedIn: 'root' })
 export class Register {

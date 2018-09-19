@@ -1,6 +1,7 @@
 package com.ninja.ninjaccount.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.service.SrpService;
 import com.ninja.ninjaccount.service.dto.SrpDTO;
 import com.ninja.ninjaccount.web.rest.errors.BadRequestAlertException;
@@ -9,6 +10,7 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -41,6 +43,7 @@ public class SrpResource {
      */
     @PostMapping("/srps")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<SrpDTO> createSrp(@Valid @RequestBody SrpDTO srpDTO) throws URISyntaxException {
         log.debug("REST request to save Srp : {}", srpDTO);
         if (srpDTO.getId() != null) {
@@ -63,6 +66,7 @@ public class SrpResource {
      */
     @PutMapping("/srps")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<SrpDTO> updateSrp(@Valid @RequestBody SrpDTO srpDTO) throws URISyntaxException {
         log.debug("REST request to update Srp : {}", srpDTO);
         if (srpDTO.getId() == null) {
@@ -74,6 +78,16 @@ public class SrpResource {
             .body(result);
     }
 
+    @PutMapping("/srps-user")
+    @Timed
+    public ResponseEntity<Object> updateSrpUser(@Valid @RequestBody SrpDTO srpDTO) throws URISyntaxException {
+        Optional<SrpDTO> result = srpService.saveForConnectedUser(srpDTO);
+
+        return result.map(srpUpdated -> ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, srpUpdated.getId().toString()))
+            .build()).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     /**
      * GET  /srps : get all the srps.
      *
@@ -81,6 +95,7 @@ public class SrpResource {
      */
     @GetMapping("/srps")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public List<SrpDTO> getAllSrps() {
         log.debug("REST request to get all Srps");
         return srpService.findAll();
@@ -94,6 +109,7 @@ public class SrpResource {
      */
     @GetMapping("/srps/{id}")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<SrpDTO> getSrp(@PathVariable Long id) {
         log.debug("REST request to get Srp : {}", id);
         Optional<SrpDTO> srpDTO = srpService.findOne(id);
@@ -108,6 +124,7 @@ public class SrpResource {
      */
     @DeleteMapping("/srps/{id}")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Void> deleteSrp(@PathVariable Long id) {
         log.debug("REST request to delete Srp : {}", id);
         srpService.delete(id);

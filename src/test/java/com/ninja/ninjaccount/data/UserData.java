@@ -2,8 +2,8 @@ package com.ninja.ninjaccount.data;
 
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.UserRepository;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,10 +12,13 @@ public class UserData {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public User createUserJohnDoe(){
         User userJohn = new User();
         userJohn.setLogin("johndoe");
-        userJohn.setPassword(RandomStringUtils.random(60));
+        userJohn.setPassword(passwordEncoder.encode("test"));
         userJohn.setActivated(true);
         userJohn.setEmail("johndoe@localhost");
         userJohn.setFirstName("john");

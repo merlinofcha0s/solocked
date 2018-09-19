@@ -19,7 +19,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -38,8 +37,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-//    private final UserDetailsService userDetailsService;
-
     private final TokenProvider tokenProvider;
 
     private final CorsFilter corsFilter;
@@ -50,11 +47,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private SrpAuthenticationProvider srpAuthenticationProvider;
 
-    public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder,
-                                 UserDetailsService userDetailsService, TokenProvider tokenProvider, CorsFilter corsFilter, SecurityProblemSupport problemSupport,
+    public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder, TokenProvider tokenProvider, CorsFilter corsFilter, SecurityProblemSupport problemSupport,
                                  Environment env, SrpAuthenticationProvider srpAuthenticationProvider) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
-//        this.userDetailsService = userDetailsService;
         this.tokenProvider = tokenProvider;
         this.corsFilter = corsFilter;
         this.problemSupport = problemSupport;
@@ -66,8 +61,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void init() {
         try {
             authenticationManagerBuilder.authenticationProvider(srpAuthenticationProvider);
-//                .userDetailsService(userDetailsService)
-//                .passwordEncoder(passwordEncoder());
         } catch (Exception e) {
             throw new BeanInitializationException("Security configuration failed", e);
         }

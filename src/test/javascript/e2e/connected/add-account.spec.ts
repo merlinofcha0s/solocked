@@ -32,10 +32,10 @@ describe('Adding account', function() {
         await element(by.css("*[id='searchField']")).click();
         await element(by.css("*[id='searchField']")).sendKeys('Drop');
 
-        let nameElement = await element(by.id('name'));
+        const nameElement = await element(by.id('name'));
         expect(nameElement.getText()).toEqual(name);
 
-        let usernameElement = await element(by.id('username'));
+        const usernameElement = await element(by.id('username'));
         expect(usernameElement.getText()).toEqual(username);
 
         await registerHelper.logout();

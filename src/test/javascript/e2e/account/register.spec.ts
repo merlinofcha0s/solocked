@@ -15,7 +15,7 @@ describe('account', () => {
         await registerHelper.registerUser('test', password, 'test@test.com');
 
         await browser.wait(ExpectedConditions.presenceOf(element(by.id('success'))));
-        let success = await element(by.id('success'));
+        const success = await element(by.id('success'));
         await success.isPresent();
         await success.isDisplayed();
     });
@@ -24,7 +24,7 @@ describe('account', () => {
         await registerHelper.registerUser('test06', password, 'test@test.com');
 
         await browser.wait(ExpectedConditions.presenceOf(element(by.id('errorEmailExists'))));
-        let errorEmailExists = await element(by.id('errorEmailExists'));
+        const errorEmailExists = await element(by.id('errorEmailExists'));
         await errorEmailExists.isPresent();
         await errorEmailExists.isDisplayed();
     });
@@ -33,7 +33,7 @@ describe('account', () => {
         await registerHelper.registerUser('test', password, 'test10@test.com');
 
         await browser.wait(ExpectedConditions.presenceOf(element(by.id('errorUserExists'))));
-        let errorUserExists = await element(by.id('errorUserExists'));
+        const errorUserExists = await element(by.id('errorUserExists'));
         await errorUserExists.isPresent();
         await errorUserExists.isDisplayed();
     });

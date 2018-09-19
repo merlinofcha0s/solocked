@@ -4,11 +4,13 @@ import com.ninja.ninjaccount.domain.Srp;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.SrpRepository;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
+import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.security.srp.SRP6ServerWorkflow;
 import com.ninja.ninjaccount.service.dto.SrpDTO;
 import com.ninja.ninjaccount.service.mapper.SrpMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,10 +36,13 @@ public class SrpService {
 
     private SRP6ServerWorkflow srp6ServerWorkflow;
 
-    public SrpService(SrpRepository srpRepository, SrpMapper srpMapper, SRP6ServerWorkflow srp6ServerWorkflow) {
+    private UserService userService;
+
+    public SrpService(SrpRepository srpRepository, SrpMapper srpMapper, SRP6ServerWorkflow srp6ServerWorkflow, @Lazy UserService userService) {
         this.srpRepository = srpRepository;
         this.srpMapper = srpMapper;
         this.srp6ServerWorkflow = srp6ServerWorkflow;
+        this.userService = userService;
     }
 
     /**
@@ -51,6 +56,30 @@ public class SrpService {
         Srp srp = srpMapper.toEntity(srpDTO);
         srp = srpRepository.save(srp);
         return srpMapper.toDto(srp);
+    }
+
+    /**
+     * Save a srp.
+     *
+     * @param srpDTO the entity to save
+     * @return the persisted entity
+     */
+    public Optional<SrpDTO> saveForConnectedUser(SrpDTO srpDTO) {
+        log.debug("Request to save Srp : {}", srpDTO);
+
+        Optional<String> loginOpt = SecurityUtils.getCurrentUserLogin();
+        if (loginOpt.isPresent()) {
+            Optional<User> userConnected = userService.getUserWithAuthoritiesByLogin(loginOpt.get());
+            Optional<Srp> srpToUpdate = srpRepository.findByUserLogin(loginOpt.get());
+            if (userConnected.isPresent() && srpToUpdate.isPresent()) {
+                Srp srp = srpToUpdate.get();
+                srp.setVerifier(srpDTO.getVerifier());
+                srp.setSalt(srpDTO.getSalt());
+                srp = srpRepository.save(srp);
+                srpDTO = srpMapper.toDto(srp);
+            }
+        }
+        return Optional.ofNullable(srpDTO);
     }
 
     /**

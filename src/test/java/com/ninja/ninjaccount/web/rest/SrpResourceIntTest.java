@@ -1,6 +1,8 @@
 package com.ninja.ninjaccount.web.rest;
 
 import com.ninja.ninjaccount.NinjaccountApp;
+import com.ninja.ninjaccount.data.SrpData;
+import com.ninja.ninjaccount.data.UserData;
 import com.ninja.ninjaccount.domain.Srp;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.SrpRepository;
@@ -19,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -73,6 +76,12 @@ public class SrpResourceIntTest {
     private MockMvc restSrpMockMvc;
 
     private Srp srp;
+
+    @Autowired
+    private UserData userData;
+
+    @Autowired
+    private SrpData srpData;
 
     /**
      * Create an entity for this test.
@@ -226,6 +235,33 @@ public class SrpResourceIntTest {
         restSrpMockMvc.perform(put("/api/srps")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(srpDTO)))
+            .andExpect(status().isOk());
+
+        // Validate the Srp in the database
+        List<Srp> srpList = srpRepository.findAll();
+        assertThat(srpList).hasSize(databaseSizeBeforeUpdate);
+        Srp testSrp = srpList.get(srpList.size() - 1);
+        assertThat(testSrp.getSalt()).isEqualTo(UPDATED_SALT);
+        assertThat(testSrp.getVerifier()).isEqualTo(UPDATED_VERIFIER);
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser("johndoe")
+    public void updateSrpForConnectedUser() throws Exception {
+        // Initialize the database
+        User userJohnDoe = userData.createUserJohnDoe();
+        Srp oldSrp = srpData.createSrp(DEFAULT_SALT, DEFAULT_VERIFIER, userJohnDoe);
+
+        int databaseSizeBeforeUpdate = srpRepository.findAll().size();
+
+        SrpDTO updatedSrpDTO = new SrpDTO();
+        updatedSrpDTO.setVerifier(UPDATED_VERIFIER);
+        updatedSrpDTO.setSalt(UPDATED_SALT);
+
+        restSrpMockMvc.perform(put("/api/srps-user")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedSrpDTO)))
             .andExpect(status().isOk());
 
         // Validate the Srp in the database
