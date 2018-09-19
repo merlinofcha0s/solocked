@@ -53,11 +53,19 @@ export class AccountsDBService {
     }
 
     create(accountsDB: IAccountsDB): Observable<EntityResponseType> {
-        return this.http.post<IAccountsDB>(this.resourceUrl, accountsDB, { observe: 'response' });
+        accountsDB.operationAccountType = OperationAccountType.CREATE;
+        return Observable.fromPromise(this.crypto.generateHash(accountsDB.database)).flatMap(hash => {
+            accountsDB.sum = hash;
+            return this.http.post<IAccountsDB>(this.resourceUrl, accountsDB, { observe: 'response' });
+        });
     }
 
     update(accountsDB: IAccountsDB): Observable<EntityResponseType> {
-        return this.http.put<IAccountsDB>(this.resourceUrl, accountsDB, { observe: 'response' });
+        accountsDB.operationAccountType = OperationAccountType.UPDATE;
+        return Observable.fromPromise(this.crypto.generateHash(accountsDB.database)).flatMap(hash => {
+            accountsDB.sum = hash;
+            return this.http.put<IAccountsDB>(this.resourceUrl, accountsDB, { observe: 'response' });
+        });
     }
 
     find(id: number): Observable<EntityResponseType> {

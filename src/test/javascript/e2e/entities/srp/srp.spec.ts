@@ -1,19 +1,21 @@
 import { browser, ExpectedConditions as ec } from 'protractor';
-import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
+import { NavBarPage } from '../../page-objects/jhi-page-objects';
 
 import { SrpComponentsPage, SrpUpdatePage } from './srp.page-object';
+import { CommonAction } from '../../account/common-action';
 
 describe('Srp e2e test', () => {
     let navBarPage: NavBarPage;
-    let signInPage: SignInPage;
     let srpUpdatePage: SrpUpdatePage;
     let srpComponentsPage: SrpComponentsPage;
+    let registerHelper: CommonAction;
 
     beforeAll(async () => {
         await browser.get('/');
         navBarPage = new NavBarPage();
-        signInPage = await navBarPage.getSignInPage();
-        await signInPage.autoSignInUsing('admin', 'admin');
+        registerHelper = new CommonAction();
+        await registerHelper.login('admin', 'admin', false);
+        await browser.sleep(500);
         await browser.wait(ec.visibilityOf(navBarPage.entityMenu), 5000);
     });
 
@@ -30,7 +32,7 @@ describe('Srp e2e test', () => {
         await srpUpdatePage.cancel();
     });
 
-    /* it('should create and save Srps', async () => {
+    it('should create and save Srps', async () => {
         await srpComponentsPage.clickOnCreateButton();
         await srpUpdatePage.setSaltInput('salt');
         expect(await srpUpdatePage.getSaltInput()).toMatch('salt');
@@ -39,9 +41,9 @@ describe('Srp e2e test', () => {
         await srpUpdatePage.userSelectLastOption();
         await srpUpdatePage.save();
         expect(await srpUpdatePage.getSaveButton().isPresent()).toBeFalsy();
-    });*/
+    });
 
     afterAll(async () => {
-        await navBarPage.autoSignOut();
+        await registerHelper.logout();
     });
 });

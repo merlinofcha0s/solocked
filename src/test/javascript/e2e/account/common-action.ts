@@ -57,7 +57,7 @@ export class CommonAction {
         await this.homePage.validate.click();
 
         if (checkMyAccounts) {
-            await browser.waitForAngular();
+            await browser.wait(ec.visibilityOf(element(by.id('title-accounts'))), 5000);
             const title = await element(by.id('title-accounts')).isPresent();
             expect(title).toEqual(true);
         }
@@ -127,14 +127,25 @@ export class HomePage {
 
 export class Navbar {
     private _account = element(by.id('account'));
+    private _changePassword = element(by.id('changePassword'));
     private _logout = element(by.id('logout'));
 
     get account(): ElementFinder {
         return this._account;
     }
 
+    get changePassword(): ElementFinder {
+        return this._changePassword;
+    }
+
     get logout(): ElementFinder {
         return this._logout;
+    }
+
+    async clickOnAccountMenu() {
+        await browser.wait(ExpectedConditions.presenceOf(this.account));
+        await this.account.click();
+        await browser.sleep(500);
     }
 }
 

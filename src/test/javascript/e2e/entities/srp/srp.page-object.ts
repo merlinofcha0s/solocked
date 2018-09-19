@@ -44,7 +44,7 @@ export class SrpUpdatePage {
     async userSelectLastOption() {
         await this.userSelect
             .all(by.tagName('option'))
-            .last()
+            .get(1)
             .click();
     }
 

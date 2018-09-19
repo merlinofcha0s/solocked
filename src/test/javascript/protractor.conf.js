@@ -8,14 +8,15 @@ exports.config = {
         './e2e/account/starting.spec.ts',
         './e2e/account/*.spec.ts',
         './e2e/connected/*.spec.ts',
-        './e2e/admin/*.spec.ts'
+        './e2e/admin/*.spec.ts',
+        './e2e/entities/**/*.spec.ts'
         /* jhipster-needle-add-protractor-tests - JHipster will add protractors tests here */
     ],
 
     capabilities: {
         browserName: 'chrome',
         chromeOptions: {
-            args: ["--headless", "--disable-gpu", "--window-size=1280,800"]
+            args: ["--disable-gpu", "--window-size=1280,800"]
         }
     },
 

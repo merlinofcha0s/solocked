@@ -153,7 +153,8 @@
              </button>
                 <mat-menu #account="matMenu">
                     <a *ngSwitchCase="true" routerLink="settings" routerLinkActive="active" mat-menu-item>{{ 'settings.title' | translate }}</a>
-                    <a *ngSwitchCase="true" routerLink="password" routerLinkActive="active" mat-menu-item>{{ 'global.menu.account.password' | translate }}</a>
+                    <a id="changePassword" *ngSwitchCase="true" routerLink="password" routerLinkActive="active"
+                       mat-menu-item>{{ 'global.menu.account.password' | translate }}</a>
                     <a *ngSwitchCase="true" routerLink="import" jhiCheckBilling routerLinkActive="active" mat-menu-item>{{'global.menu.account.import'
                         | translate }}</a>
                     <a id="subscription" *ngSwitchCase="true" routerLink="billing" routerLinkActive="active"

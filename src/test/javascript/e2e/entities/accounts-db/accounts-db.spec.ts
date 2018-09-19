@@ -1,12 +1,13 @@
 import { browser, ExpectedConditions as ec } from 'protractor';
-import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
+import { NavBarPage } from '../../page-objects/jhi-page-objects';
 
 import { AccountsDBComponentsPage, AccountsDBUpdatePage } from './accounts-db.page-object';
 import * as path from 'path';
+import { CommonAction } from '../../account/common-action';
 
 describe('AccountsDB e2e test', () => {
     let navBarPage: NavBarPage;
-    let signInPage: SignInPage;
+    let registerHelper: CommonAction;
     let accountsDBUpdatePage: AccountsDBUpdatePage;
     let accountsDBComponentsPage: AccountsDBComponentsPage;
     const fileToUpload = '../../../../../main/webapp/content/images/logo-jhipster.png';
@@ -15,8 +16,9 @@ describe('AccountsDB e2e test', () => {
     beforeAll(async () => {
         await browser.get('/');
         navBarPage = new NavBarPage();
-        signInPage = await navBarPage.getSignInPage();
-        await signInPage.autoSignInUsing('admin', 'admin');
+        registerHelper = new CommonAction();
+        await registerHelper.login('admin', 'admin', false);
+        await browser.sleep(500);
         await browser.wait(ec.visibilityOf(navBarPage.entityMenu), 5000);
     });
 
@@ -48,6 +50,6 @@ describe('AccountsDB e2e test', () => {
     });
 
     afterAll(async () => {
-        await navBarPage.autoSignOut();
+        await registerHelper.logout();
     });
 });
