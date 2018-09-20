@@ -11,8 +11,11 @@
                 </mat-autocomplete>
             </mat-form-field>
             <fa-icon [icon]="['fas', 'search']" class="ml-2 search" (click)="onHomePageSearch(searchControl.value)"></fa-icon>
-            <fa-icon [icon]="['fas', 'times']" class="ml-2 cross" [class.hide]="searchControl.value.length == 0" (click)="clearSearch()"></fa-icon>
-            <span class="ml-2 placeholder-cross"  [class.hide]="searchControl.value.length != 0"></span>
+            <fa-icon [icon]="['fas', 'times']" class="ml-2 cross"
+                     [class.hide]="searchControl.value == null || searchControl.value.length == 0"
+                     (click)="clearSearch()"></fa-icon>
+            <span class="ml-2 placeholder-cross"
+                  [class.hide]="searchControl.value == null || searchControl.value.length != 0"></span>
         </div>
     </form>
 </div>

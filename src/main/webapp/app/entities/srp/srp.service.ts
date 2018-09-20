@@ -49,7 +49,7 @@ export class SrpService {
         return this.http.put<ISrp>(`${this.resourceUrl}-user`, srp, { observe: 'response' });
     }
 
-    step2(username: string, password: string, salt: string, B16: string): Observable<any> {
+    step2(username: string, password: string, salt10: string, B16: string): Observable<any> {
         const N10 = bigInt(N, 10);
         const B10 = bigInt(B16, 16);
 
@@ -62,7 +62,7 @@ export class SrpService {
 
         const ZERO = bigInt.zero;
 
-        return Observable.fromPromise(this.generateX(username, salt, password))
+        return Observable.fromPromise(this.generateX(username, salt10, password))
             .map(x => {
                 // Compute A (Client public / private value)
                 if (B10.mod(N).equals(ZERO)) {
@@ -100,17 +100,17 @@ export class SrpService {
                     M110 = M110.substring(1);
                 }
 
-                console.log('js A10:' + A10.toString());
-                console.log('js A16:' + A16);
-                console.log('js B16 :' + B16);
-                console.log('js B:' + B10.toString());
-                console.log('js u10:' + u10.toString());
-                console.log('js S :' + s10.toString());
-                console.log('js S (HEX):' + s10.toString(16));
-                console.log('js X10:' + X10.toString(16));
-                console.log('js M1:' + M110);
+                // console.log('js A10:' + A10.toString());
+                // console.log('js A16:' + A16);
+                // console.log('js B16 :' + B16);
+                // console.log('js B:' + B10.toString());
+                // console.log('js u10:' + u10.toString());
+                // console.log('js S :' + s10.toString());
+                // console.log('js S (HEX):' + s10.toString(16));
+                // console.log('js X10:' + X10.toString(16));
+                // console.log('js M1:' + M110);
 
-                return Observable.of({ a: A16, M1: M110 });
+                return Observable.of({ a: A16, M1: M110, salt: salt10 });
             });
     }
 

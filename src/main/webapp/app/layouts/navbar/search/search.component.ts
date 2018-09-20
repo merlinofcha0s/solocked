@@ -75,6 +75,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.searchForm = this.fb.group({
             searchControl: this.searchControl
         });
+        this.searchControl.setValue('');
     }
 
     onAccountSelected(matAutocompleteSelectedEvent: MatAutocompleteSelectedEvent) {

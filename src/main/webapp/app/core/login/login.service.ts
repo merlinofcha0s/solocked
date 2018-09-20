@@ -7,6 +7,7 @@ import { Principal } from '../auth/principal.service';
 import { AuthServerProvider } from '../auth/auth-jwt.service';
 import { SaltAndBDTO } from 'app/shared/login/SaltAndBDTO';
 import { SrpService } from 'app/entities/srp';
+import { CryptoService } from 'app/shared/crypto/crypto.service';
 
 @Injectable({ providedIn: 'root' })
 export class LoginService {
@@ -15,7 +16,8 @@ export class LoginService {
         private principal: Principal,
         private authServerProvider: AuthServerProvider,
         private http: HttpClient,
-        private srpService: SrpService
+        private srpService: SrpService,
+        private cryptoService: CryptoService
     ) {}
 
     prelogin(username, password): Observable<any> {
@@ -33,14 +35,18 @@ export class LoginService {
         return new Promise((resolve, reject) => {
             this.authServerProvider.login(credentials).subscribe(
                 data => {
-                    this.principal.identity(true).then(account => {
-                        // After the login the language will be changed to
-                        // the language selected by the user during his registration
-                        if (account !== null) {
-                            this.languageService.changeLanguage(account.langKey);
-                        }
-                        resolve(data);
-                    });
+                    // Create and store the key
+                    Observable.fromPromise(this.cryptoService.creatingKey(credentials.salt, credentials.passwordForDecrypt))
+                        .flatMap(cryptoKey => this.cryptoService.putCryptoKeyInStorage(cryptoKey))
+                        .flatMap(recKey => this.principal.identity(true))
+                        .subscribe(account => {
+                            // After the login the language will be changed to
+                            // the language selected by the user during his registration
+                            if (account !== null) {
+                                this.languageService.changeLanguage(account.langKey);
+                            }
+                            resolve(data);
+                        });
                     return cb();
                 },
                 err => {

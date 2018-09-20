@@ -14,10 +14,11 @@ export class CryptoService {
     /**
      * Create the key from the password
      * Secure the password by deriving it
-     * @param input The raw password
+     * @param password The raw password
+     * @param salt The salt
      */
-    async creatingKey(input: string): Promise<CryptoKey> {
-        const passwordArrayBuffer = new TextEncoder('utf-8').encode(input);
+    async creatingKey(salt: string, password: string): Promise<CryptoKey> {
+        const passwordArrayBuffer = new TextEncoder('utf-8').encode(salt + password);
         // Importing the raw input from the password field to a Cryptokey
         const passwordKey = await this.importKey(passwordArrayBuffer, ['deriveBits', 'deriveKey'], false, 'PBKDF2');
         // Key derivation from the password to a CryptoKey for securing the password

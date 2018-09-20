@@ -27,7 +27,7 @@ export class PasswordService {
         if (this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
             return this.updateSRP(newSalt, newPassword);
         } else {
-            return this.updateSRP(newSalt, newPassword).flatMap(srp => this.updatePasswordDB(accountsSynchro, newPassword));
+            return this.updateSRP(newSalt, newPassword).flatMap(srp => this.updatePasswordDB(accountsSynchro, newPassword, newSalt));
         }
     }
 
@@ -40,13 +40,13 @@ export class PasswordService {
             });
     }
 
-    private updatePasswordDB(accountsSynchro: Accounts, newPassword: string) {
+    private updatePasswordDB(accountsSynchro: Accounts, newPassword: string, salt: string) {
         return this.accountsService
             .synchroDB()
             .flatMap((accounts: Accounts) => {
                 accountsSynchro = accounts;
                 accountsSynchro.operationAccountType = OperationAccountType.UPDATE;
-                return this.crypto.creatingKey(newPassword);
+                return this.crypto.creatingKey(salt, newPassword);
             })
             .flatMap((newCryptoKey: CryptoKey) => this.crypto.putCryptoKeyInStorage(newCryptoKey))
             .flatMap((success: boolean) => {

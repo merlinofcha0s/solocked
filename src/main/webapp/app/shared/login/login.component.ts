@@ -5,7 +5,6 @@ import { LoginService } from 'app/core/login/login.service';
 import { Principal } from 'app/core';
 import { AccountsDBService } from 'app/entities/accounts-db';
 import { CryptoService } from 'app/shared/crypto/crypto.service';
-import { Observable } from 'rxjs';
 
 @Component({
     selector: 'jhi-login-modal',
@@ -50,7 +49,7 @@ export class JhiLoginModalComponent {
                     this.loading = false;
                     this.authenticationError = true;
                 } else {
-                    this.loginJHI(step2Result.a, step2Result.M1);
+                    this.loginJHI(step2Result.a, step2Result.M1, step2Result.salt);
                 }
             },
             error => {
@@ -60,12 +59,14 @@ export class JhiLoginModalComponent {
         );
     }
 
-    loginJHI(a: string, m1: string) {
+    loginJHI(a: string, m1: string, salt10: string) {
         this.loginService
             .login({
                 username: this.username,
                 password: a + ':' + m1,
-                rememberMe: this.rememberMe
+                rememberMe: this.rememberMe,
+                salt: salt10,
+                passwordForDecrypt: this.password
             })
             .then(() => {
                 this.loading = false;
@@ -79,14 +80,6 @@ export class JhiLoginModalComponent {
                 if (this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
                     this.router.navigate(['/user-management']);
                 } else {
-                    // Loading of the encrypted DB
-                    Observable.fromPromise(this.cryptoService.creatingKey(this.password))
-                        .flatMap(cryptoKey => this.cryptoService.putCryptoKeyInStorage(cryptoKey))
-                        .flatMap(result => this.accountService.synchroDB())
-                        .subscribe(accounts => {
-                            this.accountService.saveOnBrowser(accounts);
-                        });
-
                     this.router.navigate(['/accounts']);
                 }
                 // previousState was set in the authExpiredInterceptor before being redirected to login modal.
