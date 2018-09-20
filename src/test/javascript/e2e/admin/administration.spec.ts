@@ -1,4 +1,4 @@
-import { browser, by, element } from 'protractor';
+import { browser, by, element, ExpectedConditions as ec } from 'protractor';
 
 import { NavBarPage, SignInPage } from '../page-objects/jhi-page-objects';
 import { CommonAction } from '../account/common-action';
@@ -17,14 +17,12 @@ describe('administration', () => {
     });
 
     beforeEach(async () => {
-        await browser.sleep(2000);
+        await browser.wait(ec.visibilityOf(navBarPage.adminMenu), 5000);
         await navBarPage.clickOnAdminMenu();
     });
 
     it('should load user management', async () => {
-        await browser.sleep(2000);
         await navBarPage.clickOnAdmin('user-management');
-        await browser.sleep(2000);
         const expect1 = /userManagement.home.title/;
         const value1 = await element(by.id('user-management-page-heading')).getAttribute('jhiTranslate');
         expect(value1).toMatch(expect1);
@@ -66,6 +64,6 @@ describe('administration', () => {
     });
 
     afterAll(async () => {
-        await navBarPage.autoSignOut();
+        await registerHelper.logout();
     });
 });
