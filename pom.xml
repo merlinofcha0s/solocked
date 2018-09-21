@@ -688,11 +688,11 @@
         </profile>
         <profile>
             <id>webpack</id>
-            <activation>
-                <file>
-                    <missing>${basedir}/target/www/app/main.bundle.js</missing>
-                </file>
-            </activation>
+            <!--<activation>-->
+            <!--<file>-->
+            <!--<missing>${basedir}/target/www/app/main.bundle.js</missing>-->
+            <!--</file>-->
+            <!--</activation>-->
             <dependencies>
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
