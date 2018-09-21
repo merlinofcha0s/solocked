@@ -17,7 +17,7 @@ describe('account', () => {
         await browser.wait(ExpectedConditions.presenceOf(element(by.id('success'))));
         const success = await element(by.id('success'));
         await success.isPresent();
-        await browser.wait(ExpectedConditions.visibilityOf(success));
+        await browser.wait(ExpectedConditions.visibilityOf(success), 10000);
     });
 
     it('should not register because email already exist', async () => {

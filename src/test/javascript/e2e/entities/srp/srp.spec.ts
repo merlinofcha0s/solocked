@@ -16,7 +16,7 @@ describe('Srp e2e test', () => {
         registerHelper = new CommonAction();
         await registerHelper.login('admin', 'admin', false);
         await browser.sleep(500);
-        await browser.wait(ec.visibilityOf(navBarPage.entityMenu), 5000);
+        await browser.wait(ec.visibilityOf(navBarPage.entityMenu), 10000);
     });
 
     it('should load Srps', async () => {

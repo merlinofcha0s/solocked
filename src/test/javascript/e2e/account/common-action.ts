@@ -42,10 +42,10 @@ export class CommonAction {
     async logout() {
         await browser.wait(ExpectedConditions.presenceOf(this.navbar.account));
         await this.navbar.account.click();
-        await browser.wait(ec.visibilityOf(this.navbar.logout));
+        await browser.wait(ec.visibilityOf(this.navbar.logout), 10000);
         await browser.sleep(500);
         await this.navbar.logout.click();
-        await browser.wait(ec.visibilityOf(this.homePage.title), 5000);
+        await browser.wait(ec.visibilityOf(this.homePage.title), 10000);
     }
 
     async login(username: string, password: string, checkMyAccounts?: boolean) {
@@ -57,7 +57,7 @@ export class CommonAction {
         await this.homePage.validate.click();
 
         if (checkMyAccounts) {
-            await browser.wait(ec.visibilityOf(element(by.id('title-accounts'))), 5000);
+            await browser.wait(ec.visibilityOf(element(by.id('title-accounts'))), 10000);
             const title = await element(by.id('title-accounts')).isPresent();
             expect(title).toEqual(true);
         }

@@ -23,7 +23,7 @@ describe('password', () => {
     it('should change password successfuly', async () => {
         const newPassword = 'LolMdr07';
 
-        await browser.wait(ec.visibilityOf(passwordHelper.title), 5000);
+        await browser.wait(ec.visibilityOf(passwordHelper.title), 10000);
         await passwordHelper.clickOnPassword();
         await passwordHelper.password.sendKeys(newPassword);
         await passwordHelper.clickOnConfirmPassword();
@@ -31,7 +31,7 @@ describe('password', () => {
 
         await passwordHelper.clickOnValidate();
 
-        await browser.wait(ec.visibilityOf(registerHelper.homePage.title), 5000);
+        await browser.wait(ec.visibilityOf(registerHelper.homePage.title), 10000);
         await registerHelper.login('test02-change', newPassword, true);
         await registerHelper.logout();
     });

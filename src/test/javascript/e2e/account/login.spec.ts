@@ -27,7 +27,7 @@ describe('account', () => {
     it('Should display error message when bad password', async () => {
         await registerHelper.login('test02', badPassword);
         const card = await element(by.className('card-warning text-white ng-star-inserted'));
-        await browser.wait(ExpectedConditions.visibilityOf(card));
+        await browser.wait(ExpectedConditions.visibilityOf(card), 10000);
         await card.isDisplayed();
     });
 });

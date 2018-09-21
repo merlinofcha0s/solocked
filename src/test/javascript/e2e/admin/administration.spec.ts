@@ -17,7 +17,7 @@ describe('administration', () => {
     });
 
     beforeEach(async () => {
-        await browser.wait(ec.visibilityOf(navBarPage.adminMenu), 5000);
+        await browser.wait(ec.visibilityOf(navBarPage.adminMenu), 10000);
         await navBarPage.clickOnAdminMenu();
     });
 
