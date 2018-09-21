@@ -1,0 +1,59 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-srp-heading" jhiTranslate="ninjaccountApp.srp.home.createOrEditLabel">Create or edit a Srp</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!srp.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="srp.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ninjaccountApp.srp.salt" for="field_salt">Salt</label>
+                    <input type="text" class="form-control" name="salt" id="field_salt"
+                        [(ngModel)]="srp.salt" required/>
+                    <div [hidden]="!(editForm.controls.salt?.dirty && editForm.controls.salt?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.salt?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ninjaccountApp.srp.verifier" for="field_verifier">Verifier</label>
+                    <textarea class="form-control" name="verifier" id="field_verifier"
+                        [(ngModel)]="srp.verifier" required></textarea>
+                    <div [hidden]="!(editForm.controls.verifier?.dirty && editForm.controls.verifier?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.verifier?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ninjaccountApp.srp.user" for="field_user">User</label>
+                    <select class="form-control" id="field_user" name="user" [(ngModel)]="srp.userId"  required>
+                        <option *ngIf="!editForm.value.user" [ngValue]="null" selected></option>
+                        <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.user?.dirty && editForm.controls.user?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.user?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

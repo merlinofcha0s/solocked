@@ -1,0 +1,70 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "payment"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "subscriptionDate",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "price",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "planType",
+            "fieldType": "PlanType",
+            "fieldValues": "FREE, PREMIUMYEAR, PREMIUMMONTH",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "paid",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "validUntil",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "lastPaymentId",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "recurring",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "billingPlanId",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "tokenRecurring",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170919063205",
+    "dto": "mapstruct",
+    "service": "serviceClass",
+    "entityTableName": "payment",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}

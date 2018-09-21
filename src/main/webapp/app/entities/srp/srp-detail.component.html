@@ -1,0 +1,35 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="srp">
+            <h2><span jhiTranslate="ninjaccountApp.srp.detail.title">Srp</span> {{srp.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="ninjaccountApp.srp.salt">Salt</span></dt>
+                <dd>
+                    <span>{{srp.salt}}</span>
+                </dd>
+                <dt><span jhiTranslate="ninjaccountApp.srp.verifier">Verifier</span></dt>
+                <dd>
+                    <span>{{srp.verifier}}</span>
+                </dd>
+                <dt><span jhiTranslate="ninjaccountApp.srp.user">User</span></dt>
+                <dd>
+                    {{srp.userLogin}}
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/srp', srp.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
