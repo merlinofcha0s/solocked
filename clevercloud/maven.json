@@ -4,6 +4,6 @@
     "goal": "-Pprod package -DskipTests"
   },
   "deploy": {
-	"jarName": "./target/ninjaccount-0.13.0.war"
+      "jarName": "./target/ninjaccount-0.13.1.war"
   }
 }
