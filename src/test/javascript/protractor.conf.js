@@ -4,10 +4,10 @@ exports.config = {
 
     specs: [
         './e2e/account/starting.spec.ts',
-        './e2e/account/*.spec.ts',
-        './e2e/connected/*.spec.ts',
-        './e2e/admin/*.spec.ts',
-        './e2e/entities/**/*.spec.ts'
+        //'./e2e/account/*.spec.ts',
+        //'./e2e/connected/*.spec.ts',
+        //'./e2e/admin/*.spec.ts',
+        //'./e2e/entities/**/*.spec.ts'
         /* jhipster-needle-add-protractor-tests - JHipster will add protractors tests here */
     ],
 
@@ -27,7 +27,11 @@ exports.config = {
     SELENIUM_PROMISE_MANAGER: false,
 
     mochaOpts: {
-        reporter: 'spec',
+        // reporter: 'spec',
+        reporter: 'xunit',
+        reporterOptions: {
+            output: './target/test-results/e2e/TESTS-results.xml'
+        },
         slow: 3000,
         ui: 'bdd',
         timeout: 720000

@@ -73,7 +73,7 @@ node {
                 reportFiles: 'report.html',
                 reportName: "E2E Report"
             ])
-            junit '**/target/reports/e2e/junitresults-*.xml'
+            junit '**/target/test-results/e2e/TESTS-results.xml'
         }
     }
 }
