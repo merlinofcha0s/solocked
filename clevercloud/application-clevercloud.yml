@@ -14,6 +14,15 @@ jhipster:
     mail:
         from: ${MAILGUN_MAIL_FROM}
         base-url: ${BASE_URL}
+    security:
+        authentication:
+            jwt:
+                # This token must be encoded using Base64 (you can type `echo 'secret-key'|base64` on your command line)
+                # As this is the PRODUCTION configuration, you MUST change the default key, and store it securely:
+                # - In the JHipster Registry (which includes a Spring Cloud Config server)
+                # - In a separate `application-prod.yml` file, in the same folder as your executable WAR file
+                # - In the `JHIPSTER_SECURITY_AUTHENTICATION_JWT_SECRET` environment variable
+                base64-secret: ${JHIPSTER_SECURITY_AUTHENTICATION_JWT_SECRET}
 
 application:
     paypal:
@@ -26,13 +35,3 @@ application:
         N: ${N}
         g: ${g}
         k: ${k}
-
-security:
-    authentication:
-        jwt:
-            # This token must be encoded using Base64 (you can type `echo 'secret-key'|base64` on your command line)
-            # As this is the PRODUCTION configuration, you MUST change the default key, and store it securely:
-            # - In the JHipster Registry (which includes a Spring Cloud Config server)
-            # - In a separate `application-prod.yml` file, in the same folder as your executable WAR file
-            # - In the `JHIPSTER_SECURITY_AUTHENTICATION_JWT_SECRET` environment variable
-            base64-secret: ${JHIPSTER_SECURITY_AUTHENTICATION_JWT_SECRET}
