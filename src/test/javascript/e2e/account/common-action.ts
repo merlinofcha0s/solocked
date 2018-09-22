@@ -1,5 +1,7 @@
 import { browser, by, element, ElementFinder, ExpectedConditions as ec, ExpectedConditions } from 'protractor';
 
+const expect = chai.expect;
+
 export class CommonAction {
     registerPage: RegisterPage;
     homePage: HomePage;
@@ -34,7 +36,7 @@ export class CommonAction {
         await this.login('admin', 'admin');
         await browser.wait(ExpectedConditions.presenceOf(element(by.className('jh-create-entity'))));
         const title = await browser.getTitle();
-        expect(title).toBe('Users | SoLocked');
+        expect(title).to.eq('Users | SoLocked');
         await element(by.id(username + '-deactivation')).click();
         await this.logout();
     }
@@ -59,7 +61,7 @@ export class CommonAction {
         if (checkMyAccounts) {
             await browser.wait(ec.visibilityOf(element(by.id('title-accounts'))), 10000);
             const title = await element(by.id('title-accounts')).isPresent();
-            expect(title).toEqual(true);
+            expect(title).to.eq(true);
         }
     }
 }

@@ -11,9 +11,8 @@ import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.service.util.RandomUtil;
-import com.ninja.ninjaccount.service.util.RandomUtil;
-import com.ninja.ninjaccount.web.rest.errors.*;
-
+import com.ninja.ninjaccount.web.rest.errors.EmailAlreadyUsedException;
+import com.ninja.ninjaccount.web.rest.errors.LoginAlreadyUsedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;

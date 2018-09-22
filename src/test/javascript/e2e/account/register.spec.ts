@@ -1,6 +1,8 @@
 import { browser, by, element, ExpectedConditions } from 'protractor';
 import { CommonAction } from './common-action';
 
+const expect = chai.expect;
+
 describe('account', () => {
     let registerHelper: CommonAction;
 

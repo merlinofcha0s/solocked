@@ -1,10 +1,12 @@
 import { browser, by, element, ExpectedConditions } from 'protractor';
 import { CommonAction } from '../account/common-action';
 
+const expect = chai.expect;
+
 describe('Adding account', function() {
     let registerHelper: CommonAction;
 
-    beforeAll(async () => {
+    before(async () => {
         await browser.get('/');
         registerHelper = new CommonAction();
     });
@@ -32,11 +34,11 @@ describe('Adding account', function() {
         await element(by.css("*[id='searchField']")).click();
         await element(by.css("*[id='searchField']")).sendKeys('Drop');
 
-        const nameElement = await element(by.id('name'));
-        expect(nameElement.getText()).toEqual(name);
+        const nameElement = await element(by.id('name')).getText();
+        expect(nameElement).to.eq(name);
 
-        const usernameElement = await element(by.id('username'));
-        expect(usernameElement.getText()).toEqual(username);
+        const usernameElement = await element(by.id('username')).getText();
+        expect(usernameElement).to.eq(username);
 
         await registerHelper.logout();
     });

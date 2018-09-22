@@ -3,7 +3,7 @@ package com.ninja.ninjaccount.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ninja.ninjaccount.domain.User;
-import com.ninja.ninjaccount.security.jwt.JWTConfigurer;
+import com.ninja.ninjaccount.security.jwt.JWTFilter;
 import com.ninja.ninjaccount.security.jwt.TokenProvider;
 import com.ninja.ninjaccount.security.srp.SRP6ServerWorkflow;
 import com.ninja.ninjaccount.service.AccountsDBService;
@@ -14,12 +14,6 @@ import com.ninja.ninjaccount.web.rest.vm.LoginVM;
 import com.ninja.ninjaccount.web.rest.vm.SaltAndBVM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-
-import com.codahale.metrics.annotation.Timed;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

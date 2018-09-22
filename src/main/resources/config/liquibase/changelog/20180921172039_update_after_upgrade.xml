@@ -2,14 +2,6 @@
 <databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-    <changeSet author="raide (generated)" id="1537550457492-4">
-        <dropUniqueConstraint constraintName="jhi_social_user_connection_user_id_provider_id_provider_use_key"
-                              tableName="jhi_social_user_connection"/>
-    </changeSet>
-    <changeSet author="raide (generated)" id="1537550457492-5">
-        <dropUniqueConstraint constraintName="jhi_social_user_connection_user_id_provider_id_rank_key"
-                              tableName="jhi_social_user_connection"/>
-    </changeSet>
     <changeSet author="raide (generated)" id="1537550457492-6">
         <dropTable tableName="jhi_social_user_connection"/>
     </changeSet>

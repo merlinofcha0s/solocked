@@ -21,14 +21,14 @@ $primary-color: white;
 .registerInput {
     width: 100%;
 
-    /deep/ .mat-form-field-placeholder,
-    /deep/ .mat-input-element,
-    /deep/ .mat-focused .mat-form-field-placeholder,
-    /deep/ .mat-form-field-label {
+    >>> .mat-form-field-placeholder,
+    >>> .mat-input-element,
+    >>> .mat-focused .mat-form-field-placeholder,
+    >>> .mat-form-field-label {
         color: $primary-color !important;
     }
 
-    /deep/ .mat-form-field-underline {
+    >>> .mat-form-field-underline {
         background-color: $primary-color !important;
     }
 }
@@ -39,8 +39,8 @@ $primary-color: white;
     }
 }
 
-/deep/ jhi-password-strength-bar,
-/deep/ mat-error {
+>>> jhi-password-strength-bar,
+>>> .mat-error {
     color: $primary-color !important;
 }
 

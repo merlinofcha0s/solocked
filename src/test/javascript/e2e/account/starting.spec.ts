@@ -11,6 +11,5 @@ describe('admin preparation', () => {
 
     it('Should prepare the admin account', async () => {
         await registerHelper.login('admin', 'admin', false);
-        await browser.sleep(3000);
     });
 });
