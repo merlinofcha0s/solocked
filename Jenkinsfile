@@ -65,14 +65,6 @@ node {
             throw err
         } finally {
             sh "docker-compose -f src/main/docker/app-integration-test.yml down"
-            publishHTML (target: [
-                allowMissing: false,
-                alwaysLinkToLastBuild: false,
-                keepAll: true,
-                reportDir: 'target/reports/e2e/screenshots',
-                reportFiles: 'report.html',
-                reportName: "E2E Report"
-            ])
             junit '**/target/test-results/e2e/TESTS-results.xml'
         }
     }
