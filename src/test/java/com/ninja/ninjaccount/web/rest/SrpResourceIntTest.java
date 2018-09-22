@@ -191,7 +191,6 @@ public class SrpResourceIntTest {
             .andExpect(jsonPath("$.[*].verifier").value(hasItem(DEFAULT_VERIFIER.toString())));
     }
 
-
     @Test
     @Transactional
     public void getSrp() throws Exception {
@@ -280,7 +279,7 @@ public class SrpResourceIntTest {
         // Create the Srp
         SrpDTO srpDTO = srpMapper.toDto(srp);
 
-        // If the entity doesn't have an ID, it will throw BadRequestAlertException 
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restSrpMockMvc.perform(put("/api/srps")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(srpDTO)))

@@ -77,10 +77,8 @@ public class PaymentResourceIntTest {
     @Autowired
     private PaymentRepository paymentRepository;
 
-
     @Autowired
     private PaymentMapper paymentMapper;
-
 
     @Autowired
     private PaymentService paymentService;
@@ -285,7 +283,6 @@ public class PaymentResourceIntTest {
             .andExpect(jsonPath("$.[*].tokenRecurring").value(hasItem(DEFAULT_TOKEN_RECURRING)));
     }
 
-
     @Test
     @Transactional
     public void getPayment() throws Exception {
@@ -307,6 +304,7 @@ public class PaymentResourceIntTest {
             .andExpect(jsonPath("$.billingPlanId").value(DEFAULT_BILLING_PLAN_ID))
             .andExpect(jsonPath("$.tokenRecurring").value(DEFAULT_TOKEN_RECURRING));
     }
+
     @Test
     @Transactional
     public void getNonExistingPayment() throws Exception {
@@ -367,7 +365,7 @@ public class PaymentResourceIntTest {
         // Create the Payment
         PaymentDTO paymentDTO = paymentMapper.toDto(payment);
 
-        // If the entity doesn't have an ID, it will throw BadRequestAlertException 
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restPaymentMockMvc.perform(put("/api/payments")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(paymentDTO)))

@@ -13,6 +13,7 @@ import com.ninja.ninjaccount.service.dto.SrpDTO;
 import com.ninja.ninjaccount.web.rest.errors.ExceptionTranslator;
 import com.ninja.ninjaccount.web.rest.util.SrpUtils;
 import com.ninja.ninjaccount.web.rest.vm.LoginVM;
+import com.ninja.ninjaccount.web.rest.vm.LoginVM;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

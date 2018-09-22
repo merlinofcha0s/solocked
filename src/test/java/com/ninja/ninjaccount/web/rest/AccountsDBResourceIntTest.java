@@ -62,7 +62,7 @@ public class AccountsDBResourceIntTest {
     private static final String UPDATED_INITIALIZATION_VECTOR = "BBBBBBBBBB";
 
     private static final byte[] DEFAULT_DATABASE = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_DATABASE = TestUtil.createByteArray(2, "1");
+    private static final byte[] UPDATED_DATABASE = TestUtil.createByteArray(1, "1");
     private static final String DEFAULT_DATABASE_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_DATABASE_CONTENT_TYPE = "image/png";
 
@@ -75,9 +75,9 @@ public class AccountsDBResourceIntTest {
     @Autowired
     private AccountsDBRepository accountsDBRepository;
 
-
     @Autowired
     private AccountsDBMapper accountsDBMapper;
+
 
 
     @Autowired
@@ -250,7 +250,6 @@ public class AccountsDBResourceIntTest {
             .andExpect(jsonPath("$.[*].sum").value(hasItem(DEFAULT_SUM)));
     }
 
-
     @Test
     @Transactional
     public void getAccountsDB() throws Exception {
@@ -268,6 +267,7 @@ public class AccountsDBResourceIntTest {
             .andExpect(jsonPath("$.nbAccounts").value(DEFAULT_NB_ACCOUNTS))
             .andExpect(jsonPath("$.sum").value(DEFAULT_SUM));
     }
+
     @Test
     @Transactional
     public void getNonExistingAccountsDB() throws Exception {
@@ -322,7 +322,7 @@ public class AccountsDBResourceIntTest {
         AccountsDBDTO accountsDBDTO = accountsDBMapper.toDto(accountsDB);
         accountsDBDTO.setOperationAccountType(OperationAccountType.CREATE);
 
-        // If the entity doesn't have an ID, it will throw BadRequestAlertException 
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restAccountsDBMockMvc.perform(put("/api/accounts-dbs")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(accountsDBDTO)))

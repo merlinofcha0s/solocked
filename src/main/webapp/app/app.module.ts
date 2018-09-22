@@ -30,6 +30,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '../../../../node_modules/@angular/common/locales/fr';
 import { LOCALE } from 'app/shared/constants/session-storage.constants';
+import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
@@ -101,4 +103,8 @@ registerLocaleData(localeFr, 'fr');
     entryComponents: [WarnBrowserComponent],
     bootstrap: [JhiMainComponent]
 })
-export class NinjaccountAppModule {}
+export class NinjaccountAppModule {
+    constructor(private dpConfig: NgbDatepickerConfig) {
+        this.dpConfig.minDate = { year: moment().year() - 100, month: 1, day: 1 };
+    }
+}

@@ -3,6 +3,7 @@ package com.ninja.ninjaccount.web.rest;
 import com.ninja.ninjaccount.NinjaccountApp;
 import com.ninja.ninjaccount.config.Constants;
 import com.ninja.ninjaccount.domain.AccountsDB;
+import com.ninja.ninjaccount.config.Constants;
 import com.ninja.ninjaccount.domain.Authority;
 import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.repository.AccountsDBRepository;
@@ -12,6 +13,8 @@ import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.security.srp.SRP6ServerWorkflow;
 import com.ninja.ninjaccount.service.*;
 import com.ninja.ninjaccount.service.dto.AccountsDBDTO;
+import com.ninja.ninjaccount.service.MailService;
+import com.ninja.ninjaccount.service.UserService;
 import com.ninja.ninjaccount.service.dto.PasswordChangeDTO;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import com.ninja.ninjaccount.web.rest.errors.ExceptionTranslator;
@@ -35,6 +38,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
+
 import java.time.Instant;
 import java.util.*;
 
@@ -185,17 +189,18 @@ public class AccountResourceIntTest {
         accountsDBDTO.setDatabaseContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         accountsDBDTO.setNbAccounts(0);
         ManagedUserVM validUser = new ManagedUserVM();
-        validUser.setLogin("joe");
+        validUser.setLogin("test-register-valid");
         validUser.setAuthenticationKey("password");
-        validUser.setFirstName("Joe");
-        validUser.setLastName("Shmoe");
-        validUser.setEmail("joe@example.com");
+        validUser.setPassword("password");
+        validUser.setFirstName("Alice");
+        validUser.setLastName("Test");
         validUser.setActivated(true);
+        validUser.setEmail("test-register-valid@example.com");
         validUser.setImageUrl("http://placehold.it/50x50");
         validUser.setLangKey(Constants.DEFAULT_LANGUAGE);
         validUser.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
         validUser.setAccountsDB(accountsDBDTO);
-        assertThat(userRepository.findOneByLogin("joe").isPresent()).isFalse();
+        assertThat(userRepository.findOneByLogin("test-register-valid").isPresent()).isFalse();
 
         String salt = UUID.randomUUID().toString().replace("-", "");
         BigInteger verifier = workflow.generateVerifier(salt, "badguy", "password");
@@ -209,8 +214,9 @@ public class AccountResourceIntTest {
                 .content(TestUtil.convertObjectToJsonBytes(validUser)))
             .andExpect(status().isCreated());
 
-        Optional<User> alice = userRepository.findOneByLogin("joe");
+        assertThat(userRepository.findOneByLogin("test-register-valid").isPresent()).isTrue();
 
+        Optional<User> alice = userRepository.findOneByLogin("test-register-valid");
         assertThat(alice.isPresent()).isTrue();
         Optional<AccountsDB> accountsDB = accountsDBRepository.findOneByUser(alice.get());
         assertThat(accountsDB.isPresent()).isTrue();
@@ -368,6 +374,7 @@ public class AccountResourceIntTest {
         duplicatedUser.setLastModifiedDate(validUser.getLastModifiedDate());
         duplicatedUser.setAuthorities(new HashSet<>(validUser.getAuthorities()));
 
+        // First user
         String salt = UUID.randomUUID().toString().replace("-", "");
         BigInteger verifier = workflow.generateVerifier(salt, "badguy", "password");
 
@@ -384,15 +391,24 @@ public class AccountResourceIntTest {
                 .content(TestUtil.convertObjectToJsonBytes(validUser)))
             .andExpect(status().isCreated());
 
-        // Duplicate login
+        // Second (non activated) user
+        restMvc.perform(
+            post("/api/register")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(duplicatedUser)))
+            .andExpect(status().isCreated());
+
+        Optional<User> testUser = userRepository.findOneByEmailIgnoreCase("alice2@example.com");
+        assertThat(testUser.isPresent()).isTrue();
+        testUser.get().setActivated(true);
+        userRepository.save(testUser.get());
+
+        // Second (already activated) user
         restMvc.perform(
             post("/api/register")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(duplicatedUser)))
             .andExpect(status().is4xxClientError());
-
-        Optional<User> userDup = userRepository.findOneByEmailIgnoreCase("alicejr@example.com");
-        assertThat(userDup.isPresent()).isFalse();
     }
 
     @Test
@@ -406,83 +422,101 @@ public class AccountResourceIntTest {
         accountsDBDTO.setDatabaseContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         accountsDBDTO.setNbAccounts(0);
 
-        ManagedUserVM validUser = new ManagedUserVM();
-        validUser.setLogin("john");
-        validUser.setAuthenticationKey("password");
-        validUser.setFirstName("John");
-        validUser.setLastName("Doe");
-        validUser.setEmail("john@example.com");
-        validUser.setActivated(true);
-        validUser.setImageUrl("http://placehold.it/50x50");
-        validUser.setLangKey(Constants.DEFAULT_LANGUAGE);
-        validUser.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
-        validUser.setAccountsDB(accountsDBDTO);
+        ManagedUserVM firstUser = new ManagedUserVM();
+        firstUser.setLogin("john");
+        firstUser.setAuthenticationKey("password");
+        firstUser.setFirstName("John");
+        firstUser.setLastName("Doe");
+        firstUser.setEmail("john@example.com");
+        firstUser.setActivated(true);
+        firstUser.setImageUrl("http://placehold.it/50x50");
+        firstUser.setLangKey(Constants.DEFAULT_LANGUAGE);
+        firstUser.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        firstUser.setAccountsDB(accountsDBDTO);
 
         // Duplicate email, different login
-        ManagedUserVM duplicatedUser = new ManagedUserVM();
-        duplicatedUser.setLogin("johnjr");
-        duplicatedUser.setAuthenticationKey(validUser.getPassword());
-        duplicatedUser.setFirstName(validUser.getFirstName());
-        duplicatedUser.setLastName(validUser.getLastName());
-        duplicatedUser.setEmail(validUser.getEmail());
-        duplicatedUser.setActivated(validUser.isActivated());
-        duplicatedUser.setImageUrl(validUser.getImageUrl());
-        duplicatedUser.setLangKey(validUser.getLangKey());
-        duplicatedUser.setCreatedBy(validUser.getCreatedBy());
-        duplicatedUser.setCreatedDate(validUser.getCreatedDate());
-        duplicatedUser.setLastModifiedBy(validUser.getLastModifiedBy());
-        duplicatedUser.setLastModifiedDate(validUser.getLastModifiedDate());
-        duplicatedUser.setAuthorities(new HashSet<>(validUser.getAuthorities()));
+        ManagedUserVM secondUser = new ManagedUserVM();
+        secondUser.setLogin("johnjr");
+        secondUser.setPassword(firstUser.getPassword());
+        secondUser.setFirstName(firstUser.getFirstName());
+        secondUser.setLastName(firstUser.getLastName());
+        secondUser.setEmail(firstUser.getEmail());
+        secondUser.setActivated(firstUser.isActivated());
+        secondUser.setImageUrl(firstUser.getImageUrl());
+        secondUser.setLangKey(firstUser.getLangKey());
+        secondUser.setCreatedBy(firstUser.getCreatedBy());
+        secondUser.setCreatedDate(firstUser.getCreatedDate());
+        secondUser.setLastModifiedBy(firstUser.getLastModifiedBy());
+        secondUser.setLastModifiedDate(firstUser.getLastModifiedDate());
+        secondUser.setAuthorities(new HashSet<>(firstUser.getAuthorities()));
+
 
         String salt = UUID.randomUUID().toString().replace("-", "");
         BigInteger verifier = workflow.generateVerifier(salt, "badguy", "password");
 
-        validUser.setVerifier(verifier.toString(16));
-        validUser.setSalt(salt);
+        firstUser.setVerifier(verifier.toString(16));
+        firstUser.setSalt(salt);
 
-        duplicatedUser.setVerifier(verifier.toString(16));
-        duplicatedUser.setSalt(salt);
+        secondUser.setVerifier(verifier.toString(16));
+        secondUser.setSalt(salt);
 
         // Good user
         restMvc.perform(
             post("/api/register")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(validUser)))
+                .content(TestUtil.convertObjectToJsonBytes(firstUser)))
             .andExpect(status().isCreated());
 
-        // Duplicate email
+        Optional<User> testUser1 = userRepository.findOneByLogin("test-register-duplicate-email");
+        assertThat(testUser1.isPresent()).isTrue();
+
+        // Register second (non activated) user
         restMvc.perform(
             post("/api/register")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(duplicatedUser)))
-            .andExpect(status().is4xxClientError());
+                .content(TestUtil.convertObjectToJsonBytes(secondUser)))
+            .andExpect(status().isCreated());
+
+        Optional<User> testUser2 = userRepository.findOneByLogin("test-register-duplicate-email");
+        assertThat(testUser2.isPresent()).isFalse();
+
+        Optional<User> testUser3 = userRepository.findOneByLogin("test-register-duplicate-email-2");
+        assertThat(testUser3.isPresent()).isTrue();
 
         // Duplicate email - with uppercase email address
         ManagedUserVM userWithUpperCaseEmail = new ManagedUserVM();
-        userWithUpperCaseEmail.setId(validUser.getId());
-        userWithUpperCaseEmail.setLogin("johnjr");
-        userWithUpperCaseEmail.setPassword(validUser.getPassword());
-        userWithUpperCaseEmail.setFirstName(validUser.getFirstName());
-        userWithUpperCaseEmail.setLastName(validUser.getLastName());
-        userWithUpperCaseEmail.setEmail(validUser.getEmail().toUpperCase());
-        userWithUpperCaseEmail.setActivated(validUser.isActivated());
-        userWithUpperCaseEmail.setImageUrl(validUser.getImageUrl());
-        userWithUpperCaseEmail.setLangKey(validUser.getLangKey());
-        userWithUpperCaseEmail.setCreatedBy(validUser.getCreatedBy());
-        userWithUpperCaseEmail.setCreatedDate(validUser.getCreatedDate());
-        userWithUpperCaseEmail.setLastModifiedBy(validUser.getLastModifiedBy());
-        userWithUpperCaseEmail.setLastModifiedDate(validUser.getLastModifiedDate());
-        userWithUpperCaseEmail.setAuthorities(new HashSet<>(validUser.getAuthorities()));
+        userWithUpperCaseEmail.setId(firstUser.getId());
+        userWithUpperCaseEmail.setLogin("test-register-duplicate-email-3");
+        userWithUpperCaseEmail.setPassword(firstUser.getPassword());
+        userWithUpperCaseEmail.setFirstName(firstUser.getFirstName());
+        userWithUpperCaseEmail.setLastName(firstUser.getLastName());
+        userWithUpperCaseEmail.setEmail("TEST-register-duplicate-email@example.com");
+        userWithUpperCaseEmail.setImageUrl(firstUser.getImageUrl());
+        userWithUpperCaseEmail.setLangKey(firstUser.getLangKey());
+        userWithUpperCaseEmail.setAuthorities(new HashSet<>(firstUser.getAuthorities()));
         userWithUpperCaseEmail.setAccountsDB(accountsDBDTO);
+        userWithUpperCaseEmail.setActivated(firstUser.isActivated());
 
+        // Register third (not activated) user
         restMvc.perform(
             post("/api/register")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(userWithUpperCaseEmail)))
-            .andExpect(status().is4xxClientError());
+            .andExpect(status().isCreated());
 
-        Optional<User> userDup = userRepository.findOneByLogin("johnjr");
-        assertThat(userDup.isPresent()).isFalse();
+        Optional<User> testUser4 = userRepository.findOneByLogin("test-register-duplicate-email-3");
+        assertThat(testUser4.isPresent()).isTrue();
+        assertThat(testUser4.get().getEmail()).isEqualTo("test-register-duplicate-email@example.com");
+
+        testUser4.get().setActivated(true);
+        userService.updateUser((new UserDTO(testUser4.get())));
+
+        // Register 4th (already activated) user
+        restMvc.perform(
+            post("/api/register")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(secondUser)))
+            .andExpect(status().is4xxClientError());
     }
 
     @Test
@@ -712,8 +746,9 @@ public class AccountResourceIntTest {
         user.setEmail("change-password-wrong-existing-password@example.com");
         userRepository.saveAndFlush(user);
 
-        restMvc.perform(post("/api/account/change-password").contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO("1" + currentPassword, "new password"))))
+        restMvc.perform(post("/api/account/change-password")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO("1"+currentPassword, "new password"))))
             .andExpect(status().isBadRequest());
 
         User updatedUser = userRepository.findOneByLogin("change-password-wrong-existing-password").orElse(null);
@@ -732,8 +767,9 @@ public class AccountResourceIntTest {
         user.setEmail("change-password@example.com");
         userRepository.saveAndFlush(user);
 
-        restMvc.perform(post("/api/account/change-password").contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content("new password"))
+        restMvc.perform(post("/api/account/change-password")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword, "new password"))))
             .andExpect(status().isOk());
 
         User updatedUser = userRepository.findOneByLogin("change-password").orElse(null);
@@ -751,7 +787,8 @@ public class AccountResourceIntTest {
         user.setEmail("change-password-too-small@example.com");
         userRepository.saveAndFlush(user);
 
-        restMvc.perform(post("/api/account/change-password").contentType(TestUtil.APPLICATION_JSON_UTF8)
+        restMvc.perform(post("/api/account/change-password")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword, "new"))))
             .andExpect(status().isBadRequest());
 
@@ -770,7 +807,8 @@ public class AccountResourceIntTest {
         user.setEmail("change-password-too-long@example.com");
         userRepository.saveAndFlush(user);
 
-        restMvc.perform(post("/api/account/change-password").contentType(TestUtil.APPLICATION_JSON_UTF8)
+        restMvc.perform(post("/api/account/change-password")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword, RandomStringUtils.random(101)))))
             .andExpect(status().isBadRequest());
 
