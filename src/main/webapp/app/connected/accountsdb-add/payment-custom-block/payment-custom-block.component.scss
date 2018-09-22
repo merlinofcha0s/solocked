@@ -9,11 +9,11 @@ $border-radius-payment: 10px !important;
     padding: 20px !important;
 }
 
->>> .mat-expansion-panel-body {
+::ng-deep .mat-expansion-panel-body {
     overflow: initial !important;
 }
 
->>> .mat-expansion-panel-header-title {
+::ng-deep .mat-expansion-panel-header-title {
     color: $font-color-primary;
 }
 
@@ -63,7 +63,7 @@ $border-radius-payment: 10px !important;
     width: 30px;
     height: 30px;
     margin-right: 7px;
-    >>> .mat-button-wrapper {
+    ::ng-deep .mat-button-wrapper {
         padding: 0px 0px !important;
         font-size: 20px;
         vertical-align: text-bottom;
@@ -121,7 +121,7 @@ $border-radius-payment: 10px !important;
     z-index: 2;
     overflow: unset;
 
-    >>> .mat-figure {
+    ::ng-deep .mat-figure {
         flex-direction: column;
     }
 }

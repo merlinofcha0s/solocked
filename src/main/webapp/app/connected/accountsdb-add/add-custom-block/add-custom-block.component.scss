@@ -27,15 +27,15 @@
         font-size: 45px;
     }
 
-    >>> .mat-button-toggle-label-content {
+    ::ng-deep .mat-button-toggle-label-content {
         margin-top: 8px;
     }
 
-    >>> .mat-button-toggle-button {
+    ::ng-deep .mat-button-toggle-button {
         width: 100%;
     }
 
-    >>> label {
+    ::ng-deep label {
         cursor: pointer;
         width: 100%;
         text-align: center;
@@ -52,7 +52,7 @@
     opacity: 0.5;
 }
 
->>> .mat-button-toggle-checked {
+::ng-deep .mat-button-toggle-checked {
     background-color: $font-color-primary !important;
     color: white !important;
 }

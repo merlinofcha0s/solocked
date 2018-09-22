@@ -14,33 +14,29 @@ $primary-color: white;
 
 .buttonRegistration:disabled {
     background-image: none;
-    background-color: #dfdfdf !important;
-    color: $solocked-primary-color !important;
 }
 
 .registerInput {
     width: 100%;
 
-    >>> .mat-form-field-placeholder,
-    >>> .mat-input-element,
-    >>> .mat-focused .mat-form-field-placeholder,
-    >>> .mat-form-field-label {
+    ::ng-deep .mat-form-field-placeholder,
+    ::ng-deep .mat-input-element,
+    ::ng-deep .mat-focused .mat-form-field-placeholder,
+    ::ng-deep .mat-form-field-label {
         color: $primary-color !important;
     }
 
-    >>> .mat-form-field-underline {
+    ::ng-deep .mat-form-field-underline {
         background-color: $primary-color !important;
     }
 }
 
-.register {
-    .title-register {
-        color: $primary-color;
-    }
+.title-register {
+    color: $primary-color !important;
 }
 
->>> jhi-password-strength-bar,
->>> .mat-error {
+::ng-deep jhi-password-strength-bar,
+::ng-deep .mat-error {
     color: $primary-color !important;
 }
 
