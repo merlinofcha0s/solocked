@@ -7,7 +7,6 @@ const expect = chai.expect;
 
 describe('administration', () => {
     let navBarPage: NavBarPage;
-    let signInPage: SignInPage;
     let registerHelper: CommonAction;
 
     before(async () => {

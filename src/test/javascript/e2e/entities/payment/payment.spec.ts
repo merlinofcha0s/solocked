@@ -12,7 +12,6 @@ describe('Payment e2e test', () => {
     let registerHelper: CommonAction;
     let paymentUpdatePage: PaymentUpdatePage;
     let paymentComponentsPage: PaymentComponentsPage;
-    let paymentDeleteDialog: PaymentDeleteDialog;
 
     before(async () => {
         await browser.get('/');
