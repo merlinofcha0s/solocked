@@ -43,3 +43,12 @@ $primary-color: white;
 .inverted-loading-message {
     color: $primary-color;
 }
+
+.cgu {
+    color: white !important;
+    text-align: center;
+    a {
+        text-decoration: underline;
+        color: white !important;
+    }
+}

@@ -9,7 +9,9 @@
             "buttonPayed": "Inscription et paiement",
             "loading": "Génération de votre clé, veuillez patienter",
             "loadingpayment": "Redirection vers la page de paiement",
-            "waitingcompletepayment": "Finalisation de votre commande"
+            "waitingcompletepayment": "Finalisation de votre commande",
+            "cgu": "En cliquant sur le bouton \"{{ signUpLabel }}\", vous acceptez nos ",
+            "cgulink": "conditions générales d'utilisation"
         },
         "messages": {
             "validate": {

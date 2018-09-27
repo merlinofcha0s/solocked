@@ -146,7 +146,7 @@
     },
     "footer": {
         "copyright": {
-            "copyright-1": "© 2018 SoLocked. Tous droits réservés.",
+            "copyright-1": "<a href=\"/#/cgu\"> CGU</a> | © 2018 SoLocked. Tous droits réservés.",
             "copyright-2": "Tous les textes, éléments graphiques, fichiers audio, code, matériels téléchargeables, et autres travaux présent sur ce site sont sous le copyright de SoLocked."
         }
     },
