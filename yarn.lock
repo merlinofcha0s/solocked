@@ -543,6 +543,12 @@ angular2-template-loader@0.6.2:
   dependencies:
     loader-utils "^0.2.15"
 
+angulartics2@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/angulartics2/-/angulartics2-6.3.0.tgz#85107238fe021e1e1e5cb492c5979aed829a1240"
+  dependencies:
+    tslib "^1.9.0"
+
 ansi-cyan@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/ansi-cyan/-/ansi-cyan-0.1.1.tgz#538ae528af8982f28ae30d86f2f17456d2609873"

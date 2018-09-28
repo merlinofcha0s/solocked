@@ -7,6 +7,9 @@ import { ProfileService } from '../../layouts/profiles/profile.service';
 import { MatDialog } from '@angular/material';
 import { WarnBrowserComponent } from 'app/layouts/main/warn-browser/warn-browser.component';
 import { AccountsDBService } from 'app/entities/accounts-db';
+import { Angulartics2Piwik } from 'angulartics2/piwik';
+
+declare var _paq: any;
 
 @Component({
     selector: 'jhi-main',
@@ -33,15 +36,17 @@ export class JhiMainComponent implements OnInit {
         private profileService: ProfileService,
         private dialog: MatDialog,
         private renderer: Renderer2,
-        private accountsService: AccountsDBService
+        private accountsService: AccountsDBService,
+        private angulartics2Piwik: Angulartics2Piwik
     ) {}
 
     ngOnInit() {
         this.initEventRouter();
-        this.initTrackingAndChat();
         this.detectEdge();
         this.backgroundBodyManagement();
         this.principal.identity(true).then(account => this.principal.initDefaultLanguage(account));
+        // _paq.push(['rememberConsentGiven'])
+        // _paq.push(['forgetConsentGiven']);
     }
 
     initEventRouter() {
@@ -69,43 +74,6 @@ export class JhiMainComponent implements OnInit {
         }
     }
 
-    /* tslint:disable */
-    initTrackingAndChat() {
-        this.profileService.getProfileInfo().then(profileInfo => {
-            this.inProduction = profileInfo.inProduction;
-            const inTest = profileInfo.inTest;
-            if (inTest) {
-                // document.write('<script type="text/javascript">// ProductionAnalyticsCodeHere</script>');
-            } else if (!inTest && this.inProduction) {
-                const matomoScript = document.createElement('script');
-                matomoScript.type = 'text/javascript';
-                matomoScript.innerHTML =
-                    'var _paq = _paq || [];\n' +
-                    '  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */\n' +
-                    "  _paq.push(['trackPageView']);\n" +
-                    "  _paq.push(['enableLinkTracking']);\n" +
-                    '  (function() {\n' +
-                    '    let u="//piwik.solocked.com/";\n' +
-                    "    _paq.push(['setTrackerUrl', u+'piwik.php']);\n" +
-                    "    _paq.push(['setSiteId', '1']);\n" +
-                    "    let d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];\n" +
-                    "    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);\n" +
-                    '  })();';
-
-                document.getElementsByTagName('head')[0].appendChild(matomoScript);
-            }
-
-            if (inTest || this.inProduction) {
-                const livezillaScript = document.createElement('script');
-                livezillaScript.type = 'text/javascript';
-                livezillaScript.id = '2e41582019ee1eae4f223abddca4d665';
-                livezillaScript.src = 'https://support.solocked.com/script.php?id=2e41582019ee1eae4f223abddca4d665';
-                document.getElementsByTagName('head')[0].appendChild(livezillaScript);
-            }
-        });
-    }
-
-    /* tslint:enable */
     detectEdge() {
         // Get IE or Edge browser version
         const version = this.isEdge();
