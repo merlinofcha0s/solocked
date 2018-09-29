@@ -1,15 +1,13 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 
 import { JhiLanguageHelper, Principal } from 'app/core';
 import { AutolockService } from 'app/layouts/navbar/autologout/autolock.service';
 import { ProfileService } from '../../layouts/profiles/profile.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSidenav } from '@angular/material';
 import { WarnBrowserComponent } from 'app/layouts/main/warn-browser/warn-browser.component';
 import { AccountsDBService } from 'app/entities/accounts-db';
 import { Angulartics2Piwik } from 'angulartics2/piwik';
-
-declare var _paq: any;
 
 @Component({
     selector: 'jhi-main',
@@ -17,6 +15,9 @@ declare var _paq: any;
     styleUrls: ['./main.component.scss']
 })
 export class JhiMainComponent implements OnInit {
+    @ViewChild('sidenav') sidenav: MatSidenav;
+    sideNavOpened: boolean;
+
     isRegisterPage: boolean;
     schema = {
         '@context': 'http://schema.org',
@@ -43,10 +44,14 @@ export class JhiMainComponent implements OnInit {
     ngOnInit() {
         this.initEventRouter();
         this.detectEdge();
-        this.backgroundBodyManagement();
+        this.loadProfile();
         this.principal.identity(true).then(account => this.principal.initDefaultLanguage(account));
-        // _paq.push(['rememberConsentGiven'])
-        // _paq.push(['forgetConsentGiven']);
+    }
+
+    loadProfile() {
+        this.profileService.getProfileInfo().then(profileInfo => {
+            this.inProduction = profileInfo.inProduction;
+        });
     }
 
     initEventRouter() {
@@ -54,7 +59,6 @@ export class JhiMainComponent implements OnInit {
             if (event instanceof NavigationEnd) {
                 this.jhiLanguageHelper.updateTitle(this.getPageTitle(this.router.routerState.snapshot.root));
                 this.isRegisterPage = event.url === '/register';
-                this.backgroundBodyManagement();
                 this.cacheDB();
             }
         });
@@ -99,11 +103,11 @@ export class JhiMainComponent implements OnInit {
         }
     }
 
-    backgroundBodyManagement() {
-        if (this.isRegisterPage) {
-            this.renderer.addClass(document.body, 'background-register');
-        } else {
-            this.renderer.removeClass(document.body, 'background-register');
-        }
+    onCloseSideNav() {
+        this.sidenav.close();
+    }
+
+    onOpenSideNav() {
+        this.sidenav.open();
     }
 }

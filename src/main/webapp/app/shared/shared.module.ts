@@ -25,7 +25,9 @@ import {
     MatSnackBarModule,
     MatTabsModule,
     MatTooltipModule,
-    ShowOnDirtyErrorStateMatcher
+    MatSidenavModule,
+    ShowOnDirtyErrorStateMatcher,
+    MatSlideToggleModule
 } from '@angular/material';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PasswordMatchValidatorDirective } from './auth/password-match.directive';
@@ -70,6 +72,8 @@ import { ChoosePlanComponent } from 'app/account/register/choose-plan/choose-pla
         MatRadioModule,
         MatListModule,
         MatIconModule,
+        MatSlideToggleModule,
+        MatSidenavModule,
         ScrollToModule.forRoot()
     ],
     declarations: [
@@ -121,6 +125,8 @@ import { ChoosePlanComponent } from 'app/account/register/choose-plan/choose-pla
         CheckBillingDirective,
         MatListModule,
         MatIconModule,
+        MatSidenavModule,
+        MatSlideToggleModule,
         ScrollDirective,
         InfosButtonComponent,
         ChoosePlanComponent

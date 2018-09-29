@@ -2,6 +2,7 @@
 /* tslint:disable */
 import '../content/scss/vendor.scss';
 import 'file-saver/FileSaver.min.js';
+import 'hammerjs/hammer.min.js';
 // Imports all fontawesome core and solid icons
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {

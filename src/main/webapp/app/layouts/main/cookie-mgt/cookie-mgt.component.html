@@ -1,0 +1,63 @@
+<div class="row p-4">
+    <div class="col-12">
+        <h3>This app uses cookies.</h3>
+        <p class="mt-3 mb-3">
+            Solocked is designed for <strong>maximum privacy</strong> from scratch.
+        </p>
+        <p>
+            We listen to the <strong>DO NOT TRACK</strong> signal of your browser.
+            Your data are <strong>NEVER</strong> transmitted to a third party tool who is not hosted by ourselves.
+            There are two kinds of cookies on the app : <strong>Matomo</strong> and <strong>Livezilla</strong> (see
+            below for more explanation).
+        </p>
+        <p>
+            In both case data (Matomo or Livezilla) are <strong>anonymized</strong> before the transmission.
+        </p>
+        <button class="mb-3" mat-raised-button color="primary" (click)="onAcceptSettings()">{{ buttonLabel }}</button>
+        <button mat-button (click)="onNoSettings()">Thanks but no</button>
+        <mat-card class="mt-3 mb-3">
+            <mat-card-header class="w-100">
+                <mat-card-title>
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <h4>Matomo</h4>
+                        <mat-slide-toggle class="ml-2" [color]="'primary'" [(ngModel)]="isMatomoActivated"
+                                          (change)="onChangeSlide()">Activate
+                        </mat-slide-toggle>
+                    </div>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p>
+                    The cookies for the tracker that help us to understand how you use Solocked.
+                    If you consent, it will help us a lot because we will have some real data about your habits in the
+                    app.
+                </p>
+            </mat-card-content>
+            <mat-card-actions>
+                <a mat-button target="_blank" href="https://matomo.org/">Website of Matomo</a>
+            </mat-card-actions>
+        </mat-card>
+
+        <mat-card class="mt-3 mb-3">
+            <mat-card-header class="w-100">
+                <mat-card-title>
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <h4>Livezilla</h4>
+                        <mat-slide-toggle class="ml-2" [color]="'primary'" [(ngModel)]="isLivezillaActivated"
+                                          (change)="onChangeSlide()">Activate
+                        </mat-slide-toggle>
+                    </div>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p>
+                    The cookies for the support app for helping our users through Message or Live chat (Livezilla)
+                    If you consent you will have access to our support in case you need it.
+                </p>
+            </mat-card-content>
+            <mat-card-actions>
+                <a mat-button target="_blank" href="https://www.livezilla.net/home/en/">Website of Livezilla</a>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>

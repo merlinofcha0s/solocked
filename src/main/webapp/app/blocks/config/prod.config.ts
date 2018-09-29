@@ -1,6 +1,8 @@
 import { enableProdMode } from '@angular/core';
 import { DEBUG_INFO_ENABLED } from 'app/app.constants';
 
+declare var ssc: any;
+
 export function ProdConfig() {
     // disable debug data on prod profile to improve performance
     if (!DEBUG_INFO_ENABLED) {
@@ -15,7 +17,7 @@ export function initMatomo() {
     matomoScript.type = 'text/javascript';
     matomoScript.innerHTML =
         'var _paq = _paq || [];\n' +
-        " _paq.push(['requireConsent']);\n" +
+        "  _paq.push(['requireConsent']);\n" +
         "  _paq.push(['enableLinkTracking']);\n" +
         '  (function() {\n' +
         '    let u="//piwik.solocked.com/";\n' +
@@ -31,7 +33,7 @@ export function initMatomo() {
 export function initLivezilla() {
     const livezillaScript = document.createElement('script');
     livezillaScript.type = 'text/javascript';
-    livezillaScript.id = '2e41582019ee1eae4f223abddca4d665';
-    livezillaScript.src = 'https://support.solocked.com/script.php?id=2e41582019ee1eae4f223abddca4d665';
+    livezillaScript.id = '6ae2139652f33ef6a074dc241e169b76';
+    livezillaScript.src = 'https://support.solocked.com/script.php?id=6ae2139652f33ef6a074dc241e169b76';
     document.getElementsByTagName('head')[0].appendChild(livezillaScript);
 }

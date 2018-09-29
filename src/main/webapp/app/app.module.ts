@@ -34,6 +34,7 @@ import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2Piwik } from 'angulartics2/piwik';
+import { CookieMgtComponent } from 'app/layouts/main/cookie-mgt/cookie-mgt.component';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
@@ -67,7 +68,8 @@ registerLocaleData(localeFr, 'fr');
         SearchComponent,
         SafeStateComponent,
         WarnBrowserComponent,
-        BreadcrumbComponent
+        BreadcrumbComponent,
+        CookieMgtComponent
     ],
     providers: [
         PaginationConfig,
