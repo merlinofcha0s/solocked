@@ -55,6 +55,10 @@ export class JhiLoginModalComponent {
             error => {
                 this.authenticationError = true;
                 this.loading = false;
+
+                if (error.status == 404) {
+                    this.loginService.migrationToSRP(this.username, this.password);
+                }
             }
         );
     }

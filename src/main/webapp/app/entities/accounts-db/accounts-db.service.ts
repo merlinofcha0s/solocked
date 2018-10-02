@@ -81,6 +81,10 @@ export class AccountsDBService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
+    getAccountDBByLogin(login: string): Observable<EntityResponseType> {
+        return this.http.post<IAccountsDB>('accounts-dbs/by-login', login, { observe: 'response' });
+    }
+
     /**
      * Convert a AccountsDB to a JSON which can be sent to the server.
      */

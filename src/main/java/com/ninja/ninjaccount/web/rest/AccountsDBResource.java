@@ -220,4 +220,15 @@ public class AccountsDBResource {
         }
         return actualCount;
     }
+
+    /**
+     * GET  /accounts-dbs/get-actual-max-account : get the actual and max numbers of accounts
+     *
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @PostMapping("/accounts-dbs/by-login")
+    @Timed
+    public AccountsDBDTO getAccountDBByLogin(@RequestBody String login) {
+        return accountsDBService.findByUsernameLogin(login);
+    }
 }
