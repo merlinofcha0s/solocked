@@ -3,8 +3,7 @@ import { Router } from '@angular/router';
 import { JhiEventManager } from 'ng-jhipster';
 import { LoginService } from 'app/core/login/login.service';
 import { Principal } from 'app/core';
-import { AccountsDBService } from 'app/entities/accounts-db';
-import { CryptoService } from 'app/shared/crypto/crypto.service';
+import { SrpService } from 'app/entities/srp';
 
 @Component({
     selector: 'jhi-login-modal',
@@ -24,9 +23,8 @@ export class JhiLoginModalComponent {
         private eventManager: JhiEventManager,
         private loginService: LoginService,
         private router: Router,
-        private accountService: AccountsDBService,
-        private cryptoService: CryptoService,
-        private principal: Principal
+        private principal: Principal,
+        private srpService: SrpService
     ) {
         this.credentials = {};
     }
@@ -56,8 +54,11 @@ export class JhiLoginModalComponent {
                 this.authenticationError = true;
                 this.loading = false;
 
-                if (error.status == 404) {
-                    this.loginService.migrationToSRP(this.username, this.password);
+                if (error.status === 417) {
+                    this.authenticationError = false;
+                    this.srpService.migrationToSRP(this.username, this.password).subscribe(() => {
+                        this.login();
+                    });
                 }
             }
         );

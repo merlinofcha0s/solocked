@@ -107,6 +107,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
             .authorizeRequests()
+            .antMatchers("/api/accounts-dbs/by-login").permitAll()
+            .antMatchers("/api/srps/migrate-srp").permitAll()
             .antMatchers("/api/register").permitAll()
             .antMatchers("/api/pre-register").permitAll()
             .antMatchers("/api/init-one-time-payment").permitAll()

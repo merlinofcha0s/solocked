@@ -6,6 +6,7 @@ import com.ninja.ninjaccount.service.SrpService;
 import com.ninja.ninjaccount.service.dto.SrpDTO;
 import com.ninja.ninjaccount.web.rest.errors.BadRequestAlertException;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
+import com.ninja.ninjaccount.web.rest.vm.SaltAndBVM;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,5 +130,12 @@ public class SrpResource {
         log.debug("REST request to delete Srp : {}", id);
         srpService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    @PostMapping("/srps/migrate-srp")
+    @Timed
+    public ResponseEntity<SrpDTO> migrateToSRP(@RequestBody SaltAndBVM saltAndBVM) {
+        srpService.migrateSRP(saltAndBVM);
+        return ResponseEntity.ok().build();
     }
 }

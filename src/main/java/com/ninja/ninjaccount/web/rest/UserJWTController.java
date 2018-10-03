@@ -73,10 +73,15 @@ public class UserJWTController {
         Optional<User> user = userService.getUserWithAuthoritiesByLogin(login);
 
         if (user.isPresent() && !srpDTO.isPresent()) {
-            srpService.generateSrpForAdmin(user.get());
+            boolean isAdmin = srpService.generateSrpForAdmin(user.get());
+            if (isAdmin) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            } else {
+                return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+            }
         }
 
-        if (srpDTO.isPresent()) {
+        if (user.isPresent()) {
             String b = workflow.step1(login, new BigInteger(srpDTO.get().getVerifier(), 16));
 
             SaltAndBVM saltAndBVM = new SaltAndBVM();

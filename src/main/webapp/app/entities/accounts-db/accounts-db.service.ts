@@ -82,7 +82,7 @@ export class AccountsDBService {
     }
 
     getAccountDBByLogin(login: string): Observable<EntityResponseType> {
-        return this.http.post<IAccountsDB>('accounts-dbs/by-login', login, { observe: 'response' });
+        return this.http.post<IAccountsDB>(`${this.resourceUrl}/by-login`, login, { observe: 'response' });
     }
 
     /**
@@ -384,6 +384,20 @@ export class AccountsDBService {
             })
             .flatMap((decryptedDB: ArrayBuffer) => {
                 return Observable.of(this.crypto.arrayBufferToAccounts(decryptedDB));
+            });
+    }
+
+    public updatePasswordDB(accountsSynchro: Accounts, newPassword: string, salt: string) {
+        return this.synchroDB()
+            .flatMap((accounts: Accounts) => {
+                accountsSynchro = accounts;
+                accountsSynchro.operationAccountType = OperationAccountType.UPDATE;
+                return this.crypto.creatingKey('', newPassword);
+            })
+            .flatMap((newCryptoKey: CryptoKey) => this.crypto.putCryptoKeyInStorage(newCryptoKey))
+            .flatMap((success: boolean) => {
+                const initVector = this.crypto.getRandomNumber(10);
+                return this.saveEncryptedDB(accountsSynchro, initVector);
             });
     }
 }

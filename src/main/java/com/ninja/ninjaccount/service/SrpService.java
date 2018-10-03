@@ -8,9 +8,11 @@ import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.security.srp.SRP6ServerWorkflow;
 import com.ninja.ninjaccount.service.dto.SrpDTO;
 import com.ninja.ninjaccount.service.mapper.SrpMapper;
+import com.ninja.ninjaccount.web.rest.vm.SaltAndBVM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,11 +40,16 @@ public class SrpService {
 
     private UserService userService;
 
-    public SrpService(SrpRepository srpRepository, SrpMapper srpMapper, SRP6ServerWorkflow srp6ServerWorkflow, @Lazy UserService userService) {
+    private PasswordEncoder passwordEncoder;
+
+    public SrpService(SrpRepository srpRepository, SrpMapper srpMapper, SRP6ServerWorkflow srp6ServerWorkflow,
+                      @Lazy UserService userService,
+                      @Lazy PasswordEncoder passwordEncoder) {
         this.srpRepository = srpRepository;
         this.srpMapper = srpMapper;
         this.srp6ServerWorkflow = srp6ServerWorkflow;
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -132,12 +139,32 @@ public class SrpService {
         return save(srpDTO);
     }
 
-    public void generateSrpForAdmin(User user) {
+    public boolean generateSrpForAdmin(User user) {
         boolean isAdmin = user.getAuthorities().stream().anyMatch(authority -> authority.getName().equals(AuthoritiesConstants.ADMIN));
         if (isAdmin) {
             String salt = UUID.randomUUID().toString().replace("-", "");
             BigInteger verifier = srp6ServerWorkflow.generateVerifier(salt, user.getLogin(), "admin");
             createSrp(salt, verifier.toString(16), user);
         }
+        return isAdmin;
+    }
+
+    public Boolean migrateSRP(SaltAndBVM saltAndBVM) {
+        boolean migrationOk = false;
+        Optional<User> userToMigrateOption = userService.getUserWithAuthoritiesByLogin(saltAndBVM.getLogin());
+
+        if (userToMigrateOption.isPresent()) {
+            User user = userToMigrateOption.get();
+            String password = user.getPassword();
+            boolean checkpw = passwordEncoder.matches(saltAndBVM.getToken(), password);
+            if (checkpw) {
+                createSrp(saltAndBVM.getSalt(), saltAndBVM.getB(), user);
+                migrationOk = true;
+            } else {
+                migrationOk = false;
+            }
+        }
+
+        return migrationOk;
     }
 }

@@ -9,8 +9,6 @@ import { SaltAndBDTO } from 'app/shared/login/SaltAndBDTO';
 import { SrpService } from 'app/entities/srp';
 import { CryptoService } from 'app/shared/crypto/crypto.service';
 import { AccountsDBService } from 'app/entities/accounts-db';
-import { AccountsDB } from 'app/shared/model/accounts-db.model';
-import { Accounts } from 'app/shared/account/accounts.model';
 
 @Injectable({ providedIn: 'root' })
 export class LoginService {
@@ -40,7 +38,7 @@ export class LoginService {
             this.authServerProvider.login(credentials).subscribe(
                 data => {
                     // Create and store the key
-                    Observable.fromPromise(this.cryptoService.creatingKey(credentials.salt, credentials.passwordForDecrypt))
+                    Observable.fromPromise(this.cryptoService.creatingKey('', credentials.passwordForDecrypt))
                         .flatMap(cryptoKey => this.cryptoService.putCryptoKeyInStorage(cryptoKey))
                         .flatMap(recKey => this.principal.identity(true))
                         .subscribe(account => {
@@ -69,27 +67,5 @@ export class LoginService {
     logout() {
         this.authServerProvider.logout().subscribe();
         this.principal.authenticate(null);
-    }
-
-    migrationToSRP(login: string, password: string) {
-        // let accountDBOld;
-        // let token;
-        // let salt;
-        // this.accountService.getAccountDBByLogin(login)
-        //     .map(accountsDB => accountsDB.body)
-        //     .flatMap(accountDB => {
-        //         accountDBOld = accountDB;
-        //         return Observable.fromPromise(this.cryptoService.creatingKey('', password));
-        //     })
-        //     .flatMap(cryptoKey => this.cryptoService.putCryptoKeyInStorage(cryptoKey))
-        //     .flatMap(() => this.accountService.decryptWithKeyInStorage(accountDBOld))
-        //     .map((accounts: Accounts) => {
-        //         token = accounts.authenticationKey;
-        //         salt = this.cryptoService.getRandomNumber(16);
-        //         return Observable.fromPromise(this.srpService.generateVerifier(login, salt, password))
-        //     })
-        //     .flatMap(verifier => {
-        //         //Call genre de register
-        //     });
     }
 }

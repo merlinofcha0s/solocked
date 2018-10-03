@@ -4,11 +4,14 @@ import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
-import { ISrp } from 'app/shared/model/srp.model';
+import { ISrp, Srp } from 'app/shared/model/srp.model';
 import * as bigInt from 'big-integer';
 import { BigInteger } from 'big-integer';
 import { g, k, N } from 'app/shared/crypto/srp.constant';
 import { CryptoService } from 'app/shared/crypto/crypto.service';
+import { Accounts } from 'app/shared/account/accounts.model';
+import { AccountsDBService } from 'app/entities/accounts-db';
+import { Principal } from 'app/core';
 
 type EntityResponseType = HttpResponse<ISrp>;
 type EntityArrayResponseType = HttpResponse<ISrp[]>;
@@ -17,7 +20,12 @@ type EntityArrayResponseType = HttpResponse<ISrp[]>;
 export class SrpService {
     private resourceUrl = SERVER_API_URL + 'api/srps';
 
-    constructor(private http: HttpClient, private cryptoService: CryptoService) {}
+    constructor(
+        private http: HttpClient,
+        private cryptoService: CryptoService,
+        private accountService: AccountsDBService,
+        private principal: Principal
+    ) {}
 
     create(srp: ISrp): Observable<EntityResponseType> {
         return this.http.post<ISrp>(this.resourceUrl, srp, { observe: 'response' });
@@ -38,6 +46,10 @@ export class SrpService {
 
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    }
+
+    migrateSrp(saltAndBVM: any): Observable<HttpResponse<any>> {
+        return this.http.post(`${this.resourceUrl}/migrate-srp`, saltAndBVM, { observe: 'response' });
     }
 
     async generateX(username: string, salt: string, password: string): Promise<string> {
@@ -127,5 +139,38 @@ export class SrpService {
         const v = bigInt(g, 10).modPow(hash, N);
 
         return v.toString(16);
+    }
+
+    migrationToSRP(login: string, password: string): Observable<any> {
+        let accountDBOld;
+        let token;
+        let salt;
+        return this.accountService
+            .getAccountDBByLogin(login)
+            .map(accountsDB => accountsDB.body)
+            .flatMap(accountDB => {
+                accountDBOld = accountDB;
+                return Observable.fromPromise(this.cryptoService.creatingKey('', password));
+            })
+            .flatMap(cryptoKey => this.cryptoService.putCryptoKeyInStorage(cryptoKey))
+            .flatMap(() => this.accountService.decryptWithKeyInStorage(accountDBOld))
+            .flatMap((accounts: Accounts) => {
+                token = accounts.authenticationKey;
+                salt = this.cryptoService.getRandomNumber(16);
+                return Observable.fromPromise(this.generateVerifier(login, salt, password));
+            })
+            .flatMap(verifier => {
+                const saltAndBVM = { b: verifier, salt: salt, token: token, login: login };
+                return this.migrateSrp(saltAndBVM);
+            });
+    }
+
+    public updateSRP(newSalt: string, newPassword) {
+        return Observable.fromPromise(this.principal.identity())
+            .flatMap(userIdentity => this.generateVerifier(userIdentity.login, newSalt, newPassword))
+            .flatMap(verifier => {
+                const srp = new Srp(null, newSalt, verifier, null, null);
+                return this.updateForConnectedUser(srp);
+            });
     }
 }
