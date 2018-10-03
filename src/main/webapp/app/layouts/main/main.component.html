@@ -1,6 +1,6 @@
 <ngx-json-ld [json]="schema" *ngIf="inProduction"></ngx-json-ld>
 
-<mat-sidenav-container [class.background-register]="isRegisterPage">
+<mat-sidenav-container [class.background-register]="isRegisterPage" class="h-100">
     <mat-sidenav *ngIf="inProduction" #sidenav mode="over" [(opened)]="sideNavOpened" position="end" autoFocus="false"
                  disableClose>
         <jhi-cookie-mgt (onCloseSideNav)="onCloseSideNav();" (onOpenSideNav)="onOpenSideNav();"></jhi-cookie-mgt>

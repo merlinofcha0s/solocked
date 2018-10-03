@@ -55,6 +55,7 @@ export class JhiLoginModalComponent {
                 this.loading = false;
 
                 if (error.status === 417) {
+                    this.loading = true;
                     this.authenticationError = false;
                     this.srpService.migrationToSRP(this.username, this.password).subscribe(() => {
                         this.login();
