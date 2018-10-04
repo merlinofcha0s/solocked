@@ -70,14 +70,14 @@ export class CookieMgtComponent implements OnInit {
     }
 
     activateMatomo() {
-        if (_paq !== undefined) {
+        if (typeof _paq !== 'undefined') {
             // 720h = 1 month
             _paq.push(['rememberConsentGiven', 720]);
         }
     }
 
     deactivateMatomo() {
-        if (_paq !== undefined) {
+        if (typeof _paq !== 'undefined') {
             _paq.push(['forgetConsentGiven']);
         }
     }
