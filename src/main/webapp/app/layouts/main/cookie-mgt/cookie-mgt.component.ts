@@ -1,5 +1,4 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { initLivezilla, ProdConfig } from 'app/blocks/config/prod.config';
 import { CookieService } from 'ngx-cookie';
 
 declare var _paq: any;
@@ -43,23 +42,24 @@ export class CookieMgtComponent implements OnInit {
     }
 
     onAcceptSettings() {
-        if (!this.isLivezillaActivated && !this.isMatomoActivated) {
-            this.activateMatomo();
-            this.activateLivezilla();
-        } else {
-            if (this.isMatomoActivated) {
+        if (typeof _paq !== 'undefined') {
+            if (!this.isLivezillaActivated && !this.isMatomoActivated) {
                 this.activateMatomo();
-            } else {
-                this.deactivateMatomo();
-            }
-
-            if (this.isLivezillaActivated) {
                 this.activateLivezilla();
             } else {
-                this.deactivateLivezilla();
+                if (this.isMatomoActivated) {
+                    this.activateMatomo();
+                } else {
+                    this.deactivateMatomo();
+                }
+
+                if (this.isLivezillaActivated) {
+                    this.activateLivezilla();
+                } else {
+                    this.deactivateLivezilla();
+                }
             }
         }
-
         this.onCloseSideNav.emit(true);
     }
 

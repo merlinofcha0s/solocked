@@ -8,6 +8,7 @@ import { MatDialog, MatSidenav } from '@angular/material';
 import { WarnBrowserComponent } from 'app/layouts/main/warn-browser/warn-browser.component';
 import { AccountsDBService } from 'app/entities/accounts-db';
 import { Angulartics2Piwik } from 'angulartics2/piwik';
+import { JhiEventManager } from 'ng-jhipster';
 
 @Component({
     selector: 'jhi-main',
@@ -38,13 +39,15 @@ export class JhiMainComponent implements OnInit {
         private dialog: MatDialog,
         private renderer: Renderer2,
         private accountsService: AccountsDBService,
-        private angulartics2Piwik: Angulartics2Piwik
+        private angulartics2Piwik: Angulartics2Piwik,
+        private eventManager: JhiEventManager
     ) {}
 
     ngOnInit() {
         this.initEventRouter();
         this.detectEdge();
         this.loadProfile();
+        this.handleOpenSideNav();
         this.principal.identity(true).then(account => this.principal.initDefaultLanguage(account));
     }
 
@@ -109,5 +112,11 @@ export class JhiMainComponent implements OnInit {
 
     onOpenSideNav() {
         this.sidenav.open();
+    }
+
+    handleOpenSideNav() {
+        this.eventManager.subscribe('openSideNav', () => {
+            this.onOpenSideNav();
+        });
     }
 }

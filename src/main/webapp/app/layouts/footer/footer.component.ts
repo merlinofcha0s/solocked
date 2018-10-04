@@ -4,6 +4,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { PaymentWarning } from 'app/entities/payment/payment-warning.model';
 import { PaymentService } from 'app/entities/payment';
 import { Principal } from 'app/core';
+import { JhiEventManager } from 'ng-jhipster';
 
 @Component({
     selector: 'jhi-footer',
@@ -16,7 +17,12 @@ export class FooterComponent implements OnInit, OnDestroy {
     displayPaymentIssue: boolean;
     invertColor: boolean;
 
-    constructor(private paymentService: PaymentService, private router: Router, private principal: Principal) {
+    constructor(
+        private paymentService: PaymentService,
+        private router: Router,
+        private principal: Principal,
+        private eventManager: JhiEventManager
+    ) {
         this.displayPaymentIssue = false;
     }
 
@@ -50,5 +56,12 @@ export class FooterComponent implements OnInit, OnDestroy {
 
     isAuthenticatedAndNotAdmin(): boolean {
         return this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN']);
+    }
+
+    openCookieManagement() {
+        this.eventManager.broadcast({
+            name: 'openSideNav',
+            content: 'Open side nav cookie management'
+        });
     }
 }

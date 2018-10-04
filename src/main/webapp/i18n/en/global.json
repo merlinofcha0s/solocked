@@ -147,7 +147,9 @@
     },
     "footer": {
         "copyright": {
-            "copyright-1": "<a href=\"/#/cgu\">Terms and conditions</a> | © 2018 SoLocked. All right reserved.",
+            "linkCookie": "Cookie management",
+            "linkCgu": "Terms and conditions",
+            "copyright-1": "© 2018 SoLocked. All right reserved.",
             "copyright-2": "All text, graphics, audio files, code, downloadable material, and other works on this web site are the copyrighted works of SoLocked."
         }
     },
