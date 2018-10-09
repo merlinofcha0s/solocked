@@ -6,10 +6,11 @@ workbox.clientsClaim();
 workbox.precaching.precacheAndRoute(self.__precacheManifest);
 
 
-self.addEventListener('message', function (event) {
+
+self.addEventListener('message', function(event){
     console.log("SW Received Message: " + event.data);
     var model = JSON.parse(event.data);
-    switch (model.state) {
+    switch(model.state) {
         case 'start':
             startTimer();
             break;
@@ -20,14 +21,14 @@ self.addEventListener('message', function (event) {
 });
 
 
-function send_message_to_client(client, msg) {
-    return new Promise(function (resolve, reject) {
+function send_message_to_client(client, msg){
+    return new Promise(function(resolve, reject){
         var msg_chan = new MessageChannel();
 
-        msg_chan.port1.onmessage = function (event) {
-            if (event.data.error) {
+        msg_chan.port1.onmessage = function(event){
+            if(event.data.error){
                 reject(event.data.error);
-            } else {
+            }else{
                 resolve(event.data);
             }
         };
@@ -36,23 +37,19 @@ function send_message_to_client(client, msg) {
     });
 }
 
-function send_message_to_all_clients(msg) {
+function send_message_to_all_clients(msg){
     console.log('Call all client');
-    clients.matchAll().then(clients = > {
-        clients.forEach(client = > {
-        send_message_to_client(client, msg).then(m = > console.log("SW Received Message: " + m)
-)
-    ;
-})
-    ;
-})
-    ;
+    clients.matchAll().then(clients => {
+        clients.forEach(client => {
+        send_message_to_client(client, msg).then(m => console.log("SW Received Message: "+m));
+});
+});
 }
 
-function startTimer() {
+function startTimer(){
     console.log('Timer start in service worker');
     var counter = 10;
-    var autolockCountDown = setInterval(() = > {
+    var autolockCountDown = setInterval(() => {
         console.log(counter);
     counter--;
     var autolockModelCount = {
@@ -70,13 +67,10 @@ function startTimer() {
         send_message_to_all_clients(data);
         clearInterval(autolockCountDown);
     }
-},
-    1000
-)
-    ;
+}, 1000);
 }
 
-function resetTimer() {
+function resetTimer(){
     for (var i = 0; i < 100; i++) {
         console.log('clear : ' + i);
         clearInterval(i);
