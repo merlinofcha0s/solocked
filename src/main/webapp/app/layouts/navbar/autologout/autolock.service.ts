@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { isUndefined } from 'util';
 import { LoginService } from '../../../core/login/login.service';
 import { AccountsDBService } from 'app/entities/accounts-db';
+import { ServiceWorkerService } from 'app/shared/sw/service-worker.service';
+import { SwModel } from 'app/layouts/navbar/autologout/sw.model';
 
 @Injectable({ providedIn: 'root' })
 export class AutolockService {
@@ -24,7 +26,7 @@ export class AutolockService {
         private loginService: LoginService,
         private router: Router,
         private addAccountService: AccountsDBService,
-        private ngZone: NgZone
+        private swService: ServiceWorkerService
     ) {
         this._dataStore = { remainingTime: this.totalTime };
         this.remainingTime$ = new BehaviorSubject<number>(this._dataStore.remainingTime);
@@ -45,29 +47,40 @@ export class AutolockService {
                 this.autoLogout();
             }
         });
+
+        this.swService.swReceiver$.subscribe((autolockModel: SwModel) => {
+            switch (autolockModel.state) {
+                case 'countdown':
+                    this.remainingTime$.next(Number(autolockModel.data));
+                    break;
+                case 'logout':
+                    this.autoLogout();
+            }
+        });
     }
 
     startTimer() {
-        this.ngZone.runOutsideAngular(() => {
-            this.timer = Observable.timer(100, 1000)
-                .map(i => this.totalTime - i)
-                .take(this.totalTime + 1);
-
-            this._dataStore.remainingTime = this.totalTime;
-            this.timerSubscription = this.timer.subscribe(
-                secondRemaining => {
-                    this.remainingTime$.next(secondRemaining);
-                },
-                error => {},
-                () => {
-                    if (this.router.url === '/accounts/add') {
-                        this.addAccountService.autoSaveCurrentAccount$.next('init');
-                    } else {
-                        this.autoLogout();
-                    }
-                }
-            );
-        });
+        this.swService.sendMessageToAutolock(new SwModel('start'));
+        // this.ngZone.runOutsideAngular(() => {
+        //     this.timer = Observable.timer(100, 1000)
+        //         .map(i => this.totalTime - i)
+        //         .take(this.totalTime + 1);
+        //
+        //     this._dataStore.remainingTime = this.totalTime;
+        //     this.timerSubscription = this.timer.subscribe(
+        //         secondRemaining => {
+        //             this.remainingTime$.next(secondRemaining);
+        //         },
+        //         error => {},
+        //         () => {
+        //             if (this.router.url === '/accounts/add') {
+        //                 this.addAccountService.autoSaveCurrentAccount$.next('init');
+        //             } else {
+        //                 this.autoLogout();
+        //             }
+        //         }
+        //     );
+        // });
     }
 
     private autoLogout() {
@@ -76,8 +89,6 @@ export class AutolockService {
     }
 
     resetTimer() {
-        this.timerSubscription.unsubscribe();
-        // Restart the timer
-        this.startTimer();
+        this.swService.sendMessageToAutolock(new SwModel('reset'));
     }
 }
