@@ -13,10 +13,7 @@ export class ServiceWorkerService {
 
     initHandlerReceiveEventFromSW() {
         if ('serviceWorker' in navigator) {
-            console.log('Handler registered');
             navigator.serviceWorker.addEventListener('message', event => {
-                console.log('receiver: ' + event.data);
-
                 this.swReceiver$.next(JSON.parse(event.data));
             });
         }
@@ -24,7 +21,6 @@ export class ServiceWorkerService {
 
     sendMessageToSW(msg: string): void {
         if ('serviceWorker' in navigator) {
-            console.log('angular send message : ' + msg);
             navigator.serviceWorker.controller.postMessage(msg);
         }
     }

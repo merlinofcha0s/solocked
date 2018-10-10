@@ -11,11 +11,10 @@ import { SwModel } from 'app/layouts/navbar/autologout/sw.model';
 
 @Injectable({ providedIn: 'root' })
 export class AutolockService {
-    totalTime = 600;
+    totalTime = 100;
     remainingTime$: BehaviorSubject<number>;
-    timer: Observable<number>;
     timerSubscription: Subscription;
-
+    autoSaveWaiting: boolean;
     isOnAddAccountPage: boolean;
 
     private _dataStore: {
@@ -84,8 +83,14 @@ export class AutolockService {
     }
 
     private autoLogout() {
-        this.loginService.logout();
-        this.router.navigate(['']);
+        if (this.router.url === '/accounts/add' && !this.autoSaveWaiting) {
+            this.autoSaveWaiting = true;
+            this.addAccountService.autoSaveCurrentAccount$.next('init');
+        } else {
+            this.autoSaveWaiting = false;
+            this.loginService.logout();
+            this.router.navigate(['']);
+        }
     }
 
     resetTimer() {
