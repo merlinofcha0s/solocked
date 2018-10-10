@@ -1,23 +1,19 @@
-// Create Workbox service worker instance
 workbox.skipWaiting();
 workbox.clientsClaim();
 
-// Placeholder array which is populated automatically by workboxBuild.injectManifest()
 workbox.precaching.precacheAndRoute(self.__precacheManifest);
-
 
 self.addEventListener('message', function(event){
     var model = JSON.parse(event.data);
     switch(model.state) {
-        case 'start':
-            startTimer();
+        case 'start-autolock':
+            startAutolockTimer();
             break;
-        case 'reset':
-            resetTimer();
+        case 'reset-autolock':
+            resetAutolockTimer();
             break;
     }
 });
-
 
 function sendMessageToClient(client, msg){
     return new Promise(function(resolve, reject){
@@ -43,14 +39,14 @@ function sendMessageToAllClients(msg){
     });
 }
 
-function startTimer(){
+function startAutolockTimer(){
     var counter = 100;
     var autolockCountDown = setInterval(() => {
 
-    var autolockModelCount = {
-        "state": "countdown",
-        "data": counter
-    };
+        var autolockModelCount = {
+            "state": "countdown",
+            "data": counter
+        };
     var dataCount = JSON.stringify(autolockModelCount);
     sendMessageToAllClients(dataCount);
     if (counter === 0) {
@@ -65,9 +61,9 @@ function startTimer(){
 }, 1000);
 }
 
-function resetTimer(){
+function resetAutolockTimer(){
     for (var i = 0; i < 100; i++) {
         clearInterval(i);
     }
-    startTimer();
+    startAutolockTimer();
 }

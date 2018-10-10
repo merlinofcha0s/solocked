@@ -27,8 +27,11 @@ describe('Adding account', function() {
         await element(by.css("*[id='password']")).sendKeys('looolmdr');
         await element(by.css("*[id='password']")).click();
 
-        await browser.executeScript('window.scrollTo(0,1000);');
-        await element(by.css("*[id='addEditAccount']")).click();
+        // await browser.executeScript('window.scrollTo(0,2000);');
+
+        const validate = await element(by.css("*[id='addEditAccount']"));
+        await browser.executeScript('arguments[0].scrollIntoView();', validate.getWebElement());
+        await validate.click();
 
         await browser.wait(ExpectedConditions.presenceOf(element(by.id('searchField'))));
         await element(by.css("*[id='searchField']")).click();

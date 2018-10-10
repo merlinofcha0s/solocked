@@ -19,17 +19,22 @@ export class CommonAction {
 
     async registerUser(username: string, password: string, email: string) {
         await element(by.id('register')).click();
+        await browser.sleep(500);
         await this.registerPage.loginInput.click();
         await this.registerPage.loginInput.sendKeys(username);
+        await browser.sleep(200);
         await this.registerPage.emailInput.click();
         await this.registerPage.emailInput.sendKeys(email);
+        await browser.sleep(200);
         await this.registerPage.passwordInput.click();
         await this.registerPage.passwordInput.sendKeys(password);
+        await browser.sleep(200);
         await this.registerPage.confirmationPassword.click();
         await this.registerPage.confirmationPassword.sendKeys(password);
+        await browser.sleep(200);
         await this.registerPage.freeAccount.click();
         await this.registerPage.validation.click();
-        await browser.sleep(2000);
+        await browser.sleep(1000);
     }
 
     async activateUser(username: string) {

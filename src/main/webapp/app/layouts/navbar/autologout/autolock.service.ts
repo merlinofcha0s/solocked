@@ -59,27 +59,7 @@ export class AutolockService {
     }
 
     startTimer() {
-        this.swService.sendMessageToAutolock(new SwModel('start'));
-        // this.ngZone.runOutsideAngular(() => {
-        //     this.timer = Observable.timer(100, 1000)
-        //         .map(i => this.totalTime - i)
-        //         .take(this.totalTime + 1);
-        //
-        //     this._dataStore.remainingTime = this.totalTime;
-        //     this.timerSubscription = this.timer.subscribe(
-        //         secondRemaining => {
-        //             this.remainingTime$.next(secondRemaining);
-        //         },
-        //         error => {},
-        //         () => {
-        //             if (this.router.url === '/accounts/add') {
-        //                 this.addAccountService.autoSaveCurrentAccount$.next('init');
-        //             } else {
-        //                 this.autoLogout();
-        //             }
-        //         }
-        //     );
-        // });
+        this.swService.sendMessageToAutolock(new SwModel('start-autolock'));
     }
 
     private autoLogout() {
@@ -94,6 +74,6 @@ export class AutolockService {
     }
 
     resetTimer() {
-        this.swService.sendMessageToAutolock(new SwModel('reset'));
+        this.swService.sendMessageToAutolock(new SwModel('reset-autolock'));
     }
 }

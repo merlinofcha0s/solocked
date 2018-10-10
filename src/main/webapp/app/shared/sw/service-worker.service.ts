@@ -9,6 +9,7 @@ export class ServiceWorkerService {
     constructor() {
         this.swReceiver$ = new BehaviorSubject<SwModel>(new SwModel(''));
         this.initHandlerReceiveEventFromSW();
+        this.initHandlerRefreshForNewSWVersion();
     }
 
     initHandlerReceiveEventFromSW() {
@@ -27,5 +28,16 @@ export class ServiceWorkerService {
 
     sendMessageToAutolock(autolockModel: SwModel) {
         this.sendMessageToSW(JSON.stringify(autolockModel));
+    }
+
+    initHandlerRefreshForNewSWVersion() {
+        let refreshing;
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                if (refreshing) return;
+                refreshing = true;
+                window.location.reload();
+            });
+        }
     }
 }
