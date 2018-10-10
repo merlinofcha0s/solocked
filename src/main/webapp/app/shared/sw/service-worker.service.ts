@@ -26,7 +26,7 @@ export class ServiceWorkerService {
         }
     }
 
-    sendMessageToAutolock(autolockModel: SwModel) {
+    sendMessageToSwByObject(autolockModel: SwModel) {
         this.sendMessageToSW(JSON.stringify(autolockModel));
     }
 

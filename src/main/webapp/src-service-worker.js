@@ -40,7 +40,7 @@ function sendMessageToAllClients(msg){
 }
 
 function startAutolockTimer(){
-    var counter = 100;
+    var counter = 600;
     var autolockCountDown = setInterval(() => {
 
         var autolockModelCount = {

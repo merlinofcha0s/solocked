@@ -11,7 +11,7 @@ import { SwModel } from 'app/layouts/navbar/autologout/sw.model';
 
 @Injectable({ providedIn: 'root' })
 export class AutolockService {
-    totalTime = 100;
+    totalTime = 600;
     remainingTime$: BehaviorSubject<number>;
     timerSubscription: Subscription;
     autoSaveWaiting: boolean;
@@ -59,7 +59,7 @@ export class AutolockService {
     }
 
     startTimer() {
-        this.swService.sendMessageToAutolock(new SwModel('start-autolock'));
+        this.swService.sendMessageToSwByObject(new SwModel('start-autolock'));
     }
 
     private autoLogout() {
@@ -74,6 +74,6 @@ export class AutolockService {
     }
 
     resetTimer() {
-        this.swService.sendMessageToAutolock(new SwModel('reset-autolock'));
+        this.swService.sendMessageToSwByObject(new SwModel('reset-autolock'));
     }
 }
