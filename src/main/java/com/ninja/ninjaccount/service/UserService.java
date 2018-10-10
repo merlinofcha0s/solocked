@@ -289,8 +289,7 @@ public class UserService {
             .findAllByActivatedIsFalseAndCreatedDateBefore(Instant.now().minus(3, ChronoUnit.DAYS))
             .forEach(user -> {
                 log.debug("Deleting not activated user {}", user.getLogin());
-                userRepository.delete(user);
-                this.clearUserCaches(user);
+                destroyUserAccount(user);
             });
     }
 
@@ -311,8 +310,7 @@ public class UserService {
         paymentService.cancelRecurringPaymentWorkflow(user.getLogin());
         paymentRepository.deletePaymentByUserLogin(user.getLogin());
         deleteUser(user.getLogin());
-        cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLogin());
-        cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).evict(user.getEmail());
+        this.clearUserCaches(user);
         return true;
     }
 
