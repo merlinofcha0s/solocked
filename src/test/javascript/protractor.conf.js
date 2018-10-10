@@ -14,7 +14,7 @@ exports.config = {
     capabilities: {
         browserName: 'chrome',
         chromeOptions: {
-            args: ["--disable-gpu", "--window-size=1280,800"]
+            args: ["--headless", "--disable-gpu", "--window-size=1280,800"]
         }
     },
 
@@ -27,11 +27,11 @@ exports.config = {
     SELENIUM_PROMISE_MANAGER: false,
 
     mochaOpts: {
-        reporter: 'spec',
-        // reporter: 'xunit',
-        // reporterOptions: {
-        //     output: './target/test-results/e2e/TESTS-results.xml'
-        // },
+        // reporter: 'spec',
+        reporter: 'xunit',
+        reporterOptions: {
+            output: './target/test-results/e2e/TESTS-results.xml'
+        },
         slow: 3000,
         ui: 'bdd',
         timeout: 720000
