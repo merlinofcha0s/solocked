@@ -1,40 +1,62 @@
-<div *ngIf="authenticationError" id="errorMessage" class="card-warning text-white"
-     jhiTranslate="login.messages.error.authentication">
-    <strong>Failed to sign in!</strong> <span>Please check your credentials and try again.</span>
+<div class="row mb-4 align-items-center justify-content-between">
+    <div class="col-12 col-md-3">
+        <img class="w-50" src="../../../content/images/home/cloud1.svg"/>
+    </div>
+    <div class="col-12 col-md-6 d-flex align-items-center flex-column">
+        <img width="90" src="../../../content/images/icon.svg"/>
+        <div id="title" class="title-app">SoLocked</div>
+        <div class="version">{{ version }}</div>
+    </div>
+    <div class="col-12 col-md-3">
+        <img class="w-100" src="../../../content/images/home/cloud1.svg"/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div *ngIf="authenticationError" id="errorMessage" class="card-warning text-white"
+             jhiTranslate="login.messages.error.authentication">
+            <strong>Failed to sign in!</strong> <span>Please check your credentials and try again.</span>
+        </div>
+    </div>
+</div>
+
+<div class="row flex-column align-items-center">
+    <div class="col-12 col-md-2 col-lg-1"></div>
+    <div class="col-12 col-md-8 col-lg-10">
+        <h4 class="mb-3 w-100 text-center title" jhiTranslate="login.title"></h4>
+        <form class="form w-100" role="form" (ngSubmit)="login()">
+            <div class="d-flex flex-column align-items-center">
+                <mat-form-field class="w-100">
+                    <input type="text" matInput name="username" id="username"
+                           placeholder="{{'global.form.username' | translate}}"
+                           [(ngModel)]="username" jhiAutofocus>
+                </mat-form-field>
+                <mat-form-field class="w-100">
+                    <input matInput type="password" name="password" id="password"
+                           placeholder="{{'login.form.password' | translate}}"
+                           [(ngModel)]="password">
+                </mat-form-field>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" id="login" class="button-home" mat-button [disabled]="loading">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <fa-icon [icon]="['fas', 'lock']" class="icon-button-home"></fa-icon>
+                        <span>{{'login.form.button' | translate}}</span>
+                    </div>
+                </button>
+            </div>
+            <div class="d-flex justify-content-center mt-4 mb-4 align-items-center" *ngIf="loading">
+                <mat-spinner class="spinnerLogin" color="primary" diameter="50" mode="indeterminate"></mat-spinner>
+                <div jhiTranslate="login.form.loading">Unlocking your safe, please wait...</div>
+            </div>
+            <div class="placeholder-loading" *ngIf="!loading"></div>
+        </form>
+    </div>
+    <div class="col-12 col-md-2 col-lg-1"></div>
 </div>
 <div class="d-flex flex-column align-items-center">
-    <h4 class="mb-3 w-100" jhiTranslate="login.title"></h4>
-    <form class="form w-100" role="form" (ngSubmit)="login()">
-        <div class="d-flex flex-column align-items-center">
-            <mat-form-field class="w-100">
-                <input type="text" matInput name="username" id="username"
-                       placeholder="{{'global.form.username' | translate}}"
-                       [(ngModel)]="username" jhiAutofocus>
-            </mat-form-field>
-            <mat-form-field class="w-100">
-                <input matInput type="password" name="password" id="password"
-                       placeholder="{{'login.form.password' | translate}}"
-                       [(ngModel)]="password">
-            </mat-form-field>
-        </div>
-        <div class="d-flex justify-content-end">
-            <button type="submit" id="login" class="button-home" mat-button>
-                <div class="d-flex justify-content-center align-items-center">
-                    <span>{{'login.form.button' | translate}}</span>
-                    <fa-icon [icon]="['fas', 'key']" class="icon-button-home"></fa-icon>
-                </div>
-            </button>
-        </div>
-        <div class="d-flex justify-content-center mt-4 mb-4 align-items-center" *ngIf="loading">
-            <mat-spinner class="spinnerLogin" color="primary" diameter="50" mode="indeterminate"></mat-spinner>
-            <div jhiTranslate="login.form.loading">Unlocking your safe, please wait...</div>
-        </div>
-        <div class="placeholder-loading" *ngIf="!loading"></div>
-    </form>
-    <div class="col-md-2"></div>
-</div>
-<div class="d-flex flex-column align-items-center">
-    <div class="mb-3" jhiTranslate="global.messages.info.register.noaccount">Don't have an account yet ?</div>
+    <div class="mb-3 text-register" style="" jhiTranslate="global.messages.info.register.noaccount">Don't have an account yet ?</div>
     <button type="button" mat-raised-button color="primary" (click)="register()" id="register"
             class="default-validation-button">
         {{'global.messages.info.register.link' | translate}}

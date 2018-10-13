@@ -9,10 +9,25 @@
 }
 
 .icon-button-home {
-    margin-left: 12px;
+    margin-right: 12px;
     font-size: 24px;
 }
 
 .placeholder-loading {
     height: 75px;
+}
+
+.title-app {
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.version {
+    font-size: 12px;
+}
+
+.text-register {
+    font-weight: bold;
+    font-size: 20px;
+    color: $solocked-primary-color;
 }

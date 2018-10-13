@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="173px" height="120px" viewBox="0 0 173 120" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M121.639533,96 L30.5820258,96 C13.7239215,96 0,82.2295814 0,65.3216744 C0,48.628093 13.3321487,35.0243721 29.8875194,34.6493023 C35.775984,14.1395349 54.3970661,0 75.8021097,0 C93.5624787,0 109.536126,9.6267907 117.905819,25.2785116 C119.134561,25.1356279 120.387047,25.0701395 121.639533,25.0701395 C141.139136,25.0701395 157,40.9778605 157,60.5350698 C157,80.0922791 141.139136,96 121.639533,96" id="path-1"></path>
+        <filter x="-15.3%" y="-16.7%" width="130.6%" height="150.0%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="8" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="4" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.24 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feGaussianBlur stdDeviation="4" in="shadowOffsetOuter2" result="shadowBlurOuter2"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.12 0" type="matrix" in="shadowBlurOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="SignUp" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Sign-Up" transform="translate(-1090.000000, -394.000000)">
+            <g id="Group-3" transform="translate(1098.000000, 402.000000)">
+                <g id="Fill-1">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use fill="#FAFAFA" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

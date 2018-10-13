@@ -4,6 +4,7 @@ import { JhiEventManager } from 'ng-jhipster';
 import { LoginService } from 'app/core/login/login.service';
 import { Principal } from 'app/core';
 import { SrpService } from 'app/entities/srp';
+import { VERSION } from 'app/app.constants';
 
 @Component({
     selector: 'jhi-login-modal',
@@ -18,6 +19,7 @@ export class JhiLoginModalComponent {
     username: string;
     credentials: any;
     loading: boolean;
+    version: string;
 
     constructor(
         private eventManager: JhiEventManager,
@@ -27,6 +29,7 @@ export class JhiLoginModalComponent {
         private srpService: SrpService
     ) {
         this.credentials = {};
+        this.version = VERSION ? 'v' + VERSION : '';
     }
 
     cancel() {

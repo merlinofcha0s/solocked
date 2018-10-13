@@ -22,6 +22,8 @@ import {
     faCog,
     faCopy,
     faCreditCard,
+    faDatabase,
+    faDesktop,
     faEdit,
     faExclamationCircle,
     faExclamationTriangle,
@@ -150,5 +152,8 @@ library.add(faTwitter);
 library.add(faServer);
 library.add(faCog);
 library.add(faUserSecret);
+library.add(faHeart);
+library.add(faDatabase);
+library.add(faDesktop);
 
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here

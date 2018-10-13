@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarouselConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { Meta } from '@angular/platform-browser';
@@ -10,20 +10,23 @@ import { VERSION } from 'app/app.constants';
 @Component({
     selector: 'jhi-home',
     templateUrl: './home.component.html',
-    styleUrls: ['home.scss']
+    styleUrls: ['home.scss'],
+    providers: [NgbCarouselConfig]
 })
 export class HomeComponent implements OnInit, OnDestroy {
     account: Account;
     modalRef: NgbModalRef;
     inProduction: boolean;
     version: string;
+    images = [1, 2, 3].map(() => `https://picsum.photos/900/500?random&t=${Math.random()}`);
 
     constructor(
         private principal: Principal,
         private loginModalService: LoginModalService,
         private eventManager: JhiEventManager,
         private meta: Meta,
-        private profileService: ProfileService
+        private profileService: ProfileService,
+        private config: NgbCarouselConfig
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
     }

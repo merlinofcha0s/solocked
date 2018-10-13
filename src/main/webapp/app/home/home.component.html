@@ -1,65 +1,125 @@
-<div class="row">
-    <div class="col-1"></div>
-    <div class="col-5 d-flex align-items-center">
-        <img width="70" src="../../content/images/icon.svg"/>
-        <div class="ml-2">
-            <div id="title" class="title-app">SoLocked</div>
-            <div class="version">{{ version }}</div>
-        </div>
-    </div>
-    <div class="col-6 d-flex" style="padding-right: 0;">
-        <img style="margin-left: auto;" src="../../content/images/home/cloud2.svg"/>
-    </div>
-</div>
-
 <div class="row mt-4 ml-lg-3 mr-lg-3">
     <div class="col-12 col-md-12 col-lg-6">
         <jhi-home-information></jhi-home-information>
     </div>
-    <div class="col-lg-1 hidden-md">
-        <img width="70" src="../../content/images/home/cloud1.svg"/>
-    </div>
-    <div class="col-12 col-md-12 col-lg-5 mt-sm-3 mt-md-0 mb-sm-3 order-first order-lg-last">
+    <div class="col-12 col-md-12 col-lg-6 mt-sm-3 mt-md-0 mb-sm-3 order-first order-lg-last">
         <jhi-login-modal></jhi-login-modal>
     </div>
 </div>
 
-<div class="row pl-lg-3 pr-lg-3 what-solocked mt-3" id="what-is-solocked">
-    <div class="col-lg-6 " style="padding-top: 80px;">
-        <h2>What is SoLocked?</h2>
-    </div>
-</div>
-
-<div class="row ml-lg-3 mr-lg-3" style="height: 740px;" id="what-i-cando">
+<div class="row flex-column pl-lg-3 pr-lg-3 what-solocked mt-3" style="height: 740px;" id="what-is-solocked">
     <div class="col-lg-12" style="padding-top: 80px;">
-        <h2 class="title-SL">What I can do?</h2>
-        <div class="d-flex justify-content-around pb-3">
-            <mat-card class="p-4" style="transform: translate(0px, 144px);">Store your payments / credit cards
-            </mat-card>
-            <mat-card class="p-4">Store credentials for all your websites</mat-card>
-            <mat-card class="p-4" style="transform: translate(0px, 110px);">Check if your passwords have leaked
-            </mat-card>
-        </div>
-        <div class="d-flex justify-content-center h-50">
-            <img src="../../content/images/home/icon-purple.svg"/>
-        </div>
-        <div class="d-flex justify-content-around">
-            <mat-card class="p-4" style="transform: translate(68px, -120px);">Store every informations you want through
-                customs fields
-            </mat-card>
-            <mat-card class="p-4" style="transform: translate(120px, 0px);">Have a password manager? You can import your
-                Lastpass, 1Password, Keepass, Dashlane data.
-            </mat-card>
-            <mat-card class="p-4" style="transform: translate(0px, -180px);">Access all your informations in a clean and
-                nice UI
-            </mat-card>
-        </div>
+        <h2>Made with love <fa-icon [icon]="['fas', 'heart']" class="ml-3" style=" color: red;"></fa-icon></h2>
+        <ngb-carousel *ngIf="images" [showNavigationArrows]="true" class="h-75">
+            <ng-template ngbSlide class="w-100">
+                <div class="row ml-3 mr-3">
+                    <div class="col-lg-6"  style="margin-top: 100px;">
+                        <h3 style="margin-bottom: 40px;">Client side encryption</h3>
+                        <div class="d-flex align-items-center mb-3">
+                            <fa-icon [icon]="['fas', 'database']" class="first-slide-icon"></fa-icon>
+                            <div>Your data are encrypted before it ever leaves the browser. We don't store your password on our server.
+                                That means that we can't decrypt your data. Ever
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <fa-icon [icon]="['fas', 'lock']" class="first-slide-icon"></fa-icon>
+                            <div>We use AES 256 with the Web Crypto API : The standard encryption mechanism provided by the browser.</div>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <fa-icon [icon]="['fas', 'desktop']" class="first-slide-icon" style="font-size: 30px;"></fa-icon>
+                            <div>The decryption of your data only occurs on the browser side. So the only place where your data is in the clear is on your device.</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="d-flex justify-content-center">
+                            <img style="transform: translate(0px, 100px);" width="150px" src="../../content/images/home/cloud1-white.svg"/>
+                            <img width="300px" src="../../content/images/home/cloud1-white.svg"/>
+                            <img style="position: absolute; transform: translate(0px, 20px);" width="80px" src="../../content/images/home/icon-purple.svg"/>
+                            <img style="transform: translate(0px, 150px);" width="150px" src="../../content/images/home/cloud1-white.svg"/>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-carousel>
     </div>
 </div>
 
-<div class="row pl-lg-3 pr-lg-3 what-solocked mt-3" id="what-about-security">
-    <div class="col-lg-6 " style="padding-top: 80px;">
-        <h2>What about security?</h2>
+<div class="row pl-lg-3 pr-lg-3 pb-5 what-i-cando" id="what-i-cando">
+    <div class="what-i-cando-background"></div>
+    <div class="col-12 col-md-8" style="padding-top: 80px;">
+        <h2 class="title-SL">What I can do ?</h2>
+        <div class="d-flex align-items-center main-point-container">
+            <div class="mr-4 main-bullet bullet"></div>
+            <div class="main-point">Store credentials for all your websites</div>
+        </div>
+        <div class="d-flex align-items-center mb-3">
+            <div class="mr-4 normal-bullet bullet"></div>
+            <div>Store your payments / credit cards</div>
+        </div>
+        <div class="d-flex align-items-center mb-3">
+            <div class="mr-4 bullet normal-bullet"></div>
+            <div>Check if your passwords have leaked</div>
+        </div>
+        <div class="d-flex align-items-center mb-3">
+            <div class="mr-4 bullet normal-bullet"></div>
+            <div>Store every informations you want through customs fields</div>
+        </div>
+        <div class="d-flex align-items-center mb-3">
+            <div class="mr-4 bullet normal-bullet"></div>
+            <div>Have a password manager? You can import your Lastpass, 1Password, Keepass, Dashlane data.</div>
+        </div>
+        <div class="d-flex align-items-center mb-3">
+            <div class="mr-4 bullet normal-bullet"></div>
+            <div>Access all your informations in a clean and nice UI</div>
+        </div>
+    </div>
+    <div class="col-12 col-md-4"></div>
+</div>
+<div class="row pl-lg-3 pr-lg-3 what-solocked pt-3 behind-solocked"  id="behind-solocked">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-lg-6" style="padding-top: 80px;">
+                <h2>Behind Solocked</h2>
+                <div class="d-flex justify-content-end">
+                    <div class="d-flex flex-column align-items-center text-center w-50" style="margin-top: 70px;">
+                        <img width="120px" src="../../content/images/home/cyril.jpg" class="picture"/>
+                        <div class="name">Cyril Casaucau</div>
+                        <div class="tag-line">Founder, Lead Architect & Security evangelist</div>
+                        <div class="content">Passionate geek. Java, Typescript, Spring, JHipster, Angular. All the cool stuff ! 😍</div>
+                    </div>
+                </div>
+                <img style="position: absolute; transform: translate(0px, 0px);" width="150px" src="../../content/images/home/cloud1-white.svg"/>
+            </div>
+            <div class="col-lg-6" style="padding-top: 80px;">
+                <img style="position: absolute; transform: translate(300px, 0px);" width="150px" src="../../content/images/home/cloud1-white.svg"/>
+                <h2>&nbsp;</h2>
+                <div class="d-flex flex-column align-items-center">
+                    <div class="d-flex justify-content-start">
+                        <div class="d-flex flex-column align-items-center text-center w-50" style="margin-top: 70px;">
+                            <img width="120px" src="../../content/images/home/fady.jpg" class="picture"/>
+                            <div class="name">Fady Sarrat</div>
+                            <div class="tag-line">Associate, Ux Designer & Innovation specialist</div>
+                            <div class="content">Lorem ipsum aderum lolum Lorem ipsum aderum lolum Lorem ipsum aderum lolum</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="row">-->
+            <!--<div class="col-lg-2"></div>-->
+            <!--<div class="col-lg-8">-->
+                <!--<h5>Latest news</h5>-->
+
+            <!--</div>-->
+            <!--<div class="col-lg-2"></div>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+            <!--<div class="col-lg-2"></div>-->
+            <!--<div class="col-lg-8">-->
+                <!--<h5>Latest tweet</h5>-->
+
+            <!--</div>-->
+            <!--<div class="col-lg-2"></div>-->
+        <!--</div>-->
     </div>
 </div>
-
