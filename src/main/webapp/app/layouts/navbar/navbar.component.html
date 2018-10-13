@@ -134,11 +134,6 @@
                      <span jhiTranslate="global.addAccount"></span>
                  </a>
              </li>
-            <li *ngIf="homePageMode" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-                class="d-flex justify-content-center align-items-center">
-                <a href="https://status.solocked.com" target="_blank" id="status" mat-button>{{'home.status' |
-                    translate}}</a>
-            </li>
             <li *ngIf="languages && !isAuthenticated()" class="d-flex justify-content-center align-items-center">
                 <button *ngIf="languages.length > 1" mat-button [matMenuTriggerFor]="languagesMenu">{{
                     'global.menu.language' | translate }}

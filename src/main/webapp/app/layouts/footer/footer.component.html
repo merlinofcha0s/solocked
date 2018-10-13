@@ -1,10 +1,33 @@
-<div class="row pt-3 pb-3 mr-0 ml-0" [class.invert]="invertColor">
-    <div class="col-12 col-lg-12 d-flex justify-content-center align-items-center flex-column copyright">
-        <div class="d-flex align-items-center">
+<div class="row pt-3  mr-0 ml-0" [class.invert]="invertColor">
+    <div class="col-4 col-lg-4 d-flex justify-content-center">
+        <div class="d-flex flex-column justify-content-center">
+            <a href="#" target="_blank">Blog</a>
+            <a href="https://status.solocked.com" target="_blank">{{'home.status' | translate}}</a>
             <a routerLink="/cgu">{{ 'footer.copyright.linkCgu' | translate }}</a>
-            <div class="ml-1 mr-1">|</div>
             <a href="#" (click)="openCookieManagement()"> {{ 'footer.copyright.linkCookie' | translate }}</a>
         </div>
+    </div>
+    <div class="col-4 col-lg-4">
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <a style="color: #29487d;" href="#" target="_blank" class="mr-4">
+                <fa-icon [icon]="['fab', 'facebook']" size="2x"></fa-icon>
+            </a>
+            <a style="color: #1da1f2;" href="https://twitter.com/Sol0cked" target="_blank">
+                <fa-icon [icon]="['fab', 'twitter']" size="2x"></fa-icon>
+            </a>
+        </div>
+    </div>
+    <div class="col-4 col-lg-4">
+        <div class="col-12 col-md-6 d-flex align-items-center flex-column">
+            <img width="60" src="../../../content/images/icon.svg"/>
+            <div id="title" class="title-app">SoLocked</div>
+            <div class="tagline mb-1">Your digital safe</div>
+            <div class="version">{{ version }}</div>
+        </div>
+    </div>
+</div>
+<div class="row pb-3 mr-0 ml-0" [class.invert]="invertColor">
+    <div class="col-12 d-flex justify-content-center align-items-center flex-column copyright">
         <div jhiTranslate="footer.copyright.copyright-1">© 2018 SoLocked. All right reserved.</div>
         <div jhiTranslate="footer.copyright.copyright-2">All text, graphics, audio files, code, downloadable
             material, and other works on this web site are the copyrighted works of SoLocked

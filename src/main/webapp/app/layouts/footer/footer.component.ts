@@ -5,6 +5,7 @@ import { PaymentWarning } from 'app/entities/payment/payment-warning.model';
 import { PaymentService } from 'app/entities/payment';
 import { Principal } from 'app/core';
 import { JhiEventManager } from 'ng-jhipster';
+import { VERSION } from 'app/app.constants';
 
 @Component({
     selector: 'jhi-footer',
@@ -16,6 +17,7 @@ export class FooterComponent implements OnInit, OnDestroy {
     paymentSub: Subscription;
     displayPaymentIssue: boolean;
     invertColor: boolean;
+    version: string;
 
     constructor(
         private paymentService: PaymentService,
@@ -24,6 +26,7 @@ export class FooterComponent implements OnInit, OnDestroy {
         private eventManager: JhiEventManager
     ) {
         this.displayPaymentIssue = false;
+        this.version = VERSION ? 'v' + VERSION : '';
     }
 
     ngOnInit(): void {

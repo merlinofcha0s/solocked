@@ -73,6 +73,7 @@ import {
     faCcPaypal,
     faCcVisa,
     faChrome,
+    faFacebook,
     faFirefox,
     faOpera,
     faSafari,
@@ -155,5 +156,6 @@ library.add(faUserSecret);
 library.add(faHeart);
 library.add(faDatabase);
 library.add(faDesktop);
+library.add(faFacebook);
 
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here
