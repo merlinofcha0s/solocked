@@ -48,6 +48,7 @@ export class JhiMainComponent implements OnInit {
         this.detectEdge();
         this.loadProfile();
         this.handleOpenSideNav();
+        this.angulartics2Piwik.startTracking();
         this.principal.identity(true).then(account => this.principal.initDefaultLanguage(account));
     }
 

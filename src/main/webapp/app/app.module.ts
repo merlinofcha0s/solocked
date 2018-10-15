@@ -32,9 +32,8 @@ import localeFr from '../../../../node_modules/@angular/common/locales/fr';
 import { LOCALE } from 'app/shared/constants/session-storage.constants';
 import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
-import { Angulartics2Module } from 'angulartics2';
-import { Angulartics2Piwik } from 'angulartics2/piwik';
 import { CookieMgtComponent } from 'app/layouts/main/cookie-mgt/cookie-mgt.component';
+import { Angulartics2Module } from 'angulartics2';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
@@ -54,7 +53,7 @@ registerLocaleData(localeFr, 'fr');
         NinjaccountEntityModule,
         NinjaccountConnectedModule,
         NgxJsonLdModule,
-        Angulartics2Module.forRoot([Angulartics2Piwik])
+        Angulartics2Module.forRoot()
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [
