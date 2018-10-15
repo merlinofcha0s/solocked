@@ -1,8 +1,6 @@
 import { enableProdMode } from '@angular/core';
 import { DEBUG_INFO_ENABLED } from 'app/app.constants';
 
-declare var ssc: any;
-
 export function ProdConfig() {
     // disable debug data on prod profile to improve performance
     if (!DEBUG_INFO_ENABLED) {
@@ -17,6 +15,7 @@ export function initMatomo() {
     matomoScript.type = 'text/javascript';
     matomoScript.innerHTML =
         'var _paq = _paq || [];\n' +
+        "  _paq.push(['trackPageView']); \n" +
         "  _paq.push(['requireConsent']);\n" +
         "  _paq.push(['enableLinkTracking']);\n" +
         '  (function() {\n' +
