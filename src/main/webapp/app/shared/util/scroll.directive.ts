@@ -32,6 +32,7 @@ export class ScrollDirective {
     }
 
     protected windowScrollEvent($event: Event) {
+        console.log('scroll');
         const target = <Document>$event.target;
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
         const isReachingTop = scrollTop < this.topOffset;
@@ -41,6 +42,7 @@ export class ScrollDirective {
     }
 
     protected elementScrollEvent($event: Event) {
+        console.log('scroll');
         const target = <HTMLElement>$event.target;
         const scrollPosition = target.scrollHeight - target.scrollTop;
         const offsetHeight = target.offsetHeight;

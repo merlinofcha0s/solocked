@@ -15,3 +15,15 @@
     height: 70px;
     width: 70px;
 }
+
+.information-background {
+    background: linear-gradient(to bottom right, rgba(207, 101, 225, 0.7), rgba(49, 32, 206, 0.9)),
+        url('../../../content/images/home/accounting-achievement-aerial-1043506.jpg') no-repeat center center;
+    background-size: cover;
+    position: absolute;
+    top: -100px;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 116%;
+}
