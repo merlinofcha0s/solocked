@@ -15,7 +15,6 @@ export function initMatomo() {
     matomoScript.type = 'text/javascript';
     matomoScript.innerHTML =
         'var _paq = _paq || [];\n' +
-        "  _paq.push(['trackPageView']); \n" +
         "  _paq.push(['requireConsent']);\n" +
         "  _paq.push(['enableLinkTracking']);\n" +
         '  (function() {\n' +
