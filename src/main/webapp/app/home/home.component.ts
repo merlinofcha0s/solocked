@@ -6,6 +6,7 @@ import { Meta } from '@angular/platform-browser';
 import { LoginModalService, Principal } from 'app/core';
 import { ProfileService } from '../layouts/profiles/profile.service';
 import { VERSION } from 'app/app.constants';
+import { SocialService } from 'app/shared/social/social.service';
 
 @Component({
     selector: 'jhi-home',
@@ -18,7 +19,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     modalRef: NgbModalRef;
     inProduction: boolean;
     version: string;
-    images = [1, 2, 3].map(() => `https://picsum.photos/900/500?random&t=${Math.random()}`);
+    tweet: any;
 
     constructor(
         private principal: Principal,
@@ -26,9 +27,11 @@ export class HomeComponent implements OnInit, OnDestroy {
         private eventManager: JhiEventManager,
         private meta: Meta,
         private profileService: ProfileService,
-        private config: NgbCarouselConfig
+        private config: NgbCarouselConfig,
+        private socialService: SocialService
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
+        this.getLatestTweet();
     }
 
     ngOnInit() {
@@ -64,5 +67,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     login() {
         this.modalRef = this.loginModalService.open();
+    }
+
+    getLatestTweet() {
+        this.socialService.getLatestTweet().subscribe(tweet => {
+            this.tweet = tweet;
+        });
     }
 }

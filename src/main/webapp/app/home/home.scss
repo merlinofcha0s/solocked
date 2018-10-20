@@ -8,9 +8,38 @@ Main page styles
     text-decoration: underline;
 }
 
+.home {
+    width: auto;
+}
+
 .what-solocked {
     background: $linear-gradient;
     color: white;
+
+    .title-made {
+        color: red;
+    }
+
+    .margin-block {
+        margin-top: 100px;
+    }
+
+    .title-slide {
+        margin-bottom: 40px;
+    }
+
+    .cloud-slide-1 {
+        transform: translate(0px, 100px);
+    }
+
+    .icon-slide-1 {
+        position: absolute;
+        transform: translate(0px, 20px);
+    }
+
+    .cloud-slide-3 {
+        transform: translate(0px, 150px);
+    }
 }
 
 .first-slide-icon {
@@ -33,6 +62,10 @@ Main page styles
 .what-i-cando {
     position: relative;
     color: $solocked-primary-color;
+
+    .content {
+        padding-top: 80px;
+    }
 
     .main-point-container {
         margin-top: 70px;
@@ -77,6 +110,57 @@ Main page styles
 
     .content {
         margin-top: 25px;
+        font-size: 13px;
+    }
+
+    .margin-block-title {
+        margin-top: 80px;
+    }
+
+    .margin-block-presentation {
+        margin-top: 70px;
+    }
+
+    .cloud-presentation-1 {
+        position: absolute;
+        transform: translate(-100px, 30px);
+    }
+
+    .cloud-presentation-2 {
+        position: absolute;
+        transform: translate(300px, 0px);
+    }
+
+    .tweet-block {
+        margin-bottom: 50px;
+    }
+}
+
+.news-card {
+    border-radius: 10px;
+
+    ::ng-deep .mat-card-header-text {
+        margin: 0 0 !important;
+    }
+
+    ::ng-deep .mat-card-header .mat-card-subtitle:not(:first-child) {
+        margin-top: 0 !important;
+    }
+
+    .line-breaker {
+        white-space: pre-line;
+    }
+
+    .action-tweet {
+        color: #c9d6dc;
+        font-size: 15px;
+    }
+
+    .tweet-content {
+        font-size: 18px;
+    }
+
+    .subtitle {
         font-size: 13px;
     }
 }

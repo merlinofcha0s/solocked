@@ -17,13 +17,26 @@
 }
 
 .information-background {
-    background: linear-gradient(to bottom right, rgba(207, 101, 225, 0.7), rgba(49, 32, 206, 0.9)),
+    background: linear-gradient(to bottom right, rgba(208, 101, 226, 0.7), rgba(48, 32, 202, 0.9)),
         url('../../../content/images/home/accounting-achievement-aerial-1043506.jpg') no-repeat center center;
     background-size: cover;
     position: absolute;
-    top: -100px;
     left: 0;
     z-index: -1;
     width: 100%;
     height: 116%;
+}
+
+// Small devices (landscape phones, 576px and up)
+@media only screen and (min-width: 576px) {
+    .information-background {
+        top: 0px;
+    }
+}
+
+// Medium devices (tablets, 768px and up)
+@media only screen and (min-width: 768px) {
+    .information-background {
+        top: -100px;
+    }
 }

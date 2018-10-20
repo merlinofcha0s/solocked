@@ -1,20 +1,22 @@
-<div class="row">
-    <div class="col-12 col-md-12 col-lg-6 pr-0 pl-0">
+<div class="row home">
+    <div class="col-12 col-md-12 col-lg-6 pr-0 pl-0 mt-4 mt-md-0">
         <jhi-home-information></jhi-home-information>
     </div>
-    <div class="col-12 col-md-12 col-lg-6 mt-sm-3 mt-md-0 mb-sm-3 order-first order-lg-last">
+    <div class="col-12 col-md-12 col-lg-6 mt-sm-
+    3 mt-md-0 mb-sm-3 order-first order-lg-last">
         <jhi-login-modal></jhi-login-modal>
     </div>
 </div>
 
-<div class="row flex-column pl-lg-3 pr-lg-3 what-solocked" style="height: 740px;" id="what-is-solocked">
-    <div class="col-lg-12" style="padding-top: 80px;">
-        <h2>Made with love <fa-icon [icon]="['fas', 'heart']" class="ml-3" style=" color: red;"></fa-icon></h2>
-        <ngb-carousel *ngIf="images" [showNavigationArrows]="true" class="h-75">
+<div class="row flex-column pl-lg-3 pr-lg-3 what-solocked" id="what-is-solocked">
+    <div class="col-md-12 pt-3 pt-md-5">
+        <h2>Made with love <fa-icon [icon]="['fas', 'heart']" class="ml-3 title-made"></fa-icon></h2>
+        <ngb-carousel [showNavigationIndicators]="true" [showNavigationArrows]="false" >
             <ng-template ngbSlide class="w-100">
-                <div class="row ml-3 mr-3">
-                    <div class="col-lg-6"  style="margin-top: 100px;">
-                        <h3 style="margin-bottom: 40px;">Client side encryption</h3>
+                <div class="row ml-3 mr-3 pb-5">
+                    <div class="col-12 col-md-6 pt-3 pt-md-0">
+                        <div class="d-none d-md-block margin-block"></div>
+                        <h3  class="title-slide">Client side encryption</h3>
                         <div class="d-flex align-items-center mb-3">
                             <fa-icon [icon]="['fas', 'database']" class="first-slide-icon"></fa-icon>
                             <div>Your data are encrypted before it ever leaves the browser. We don't store your password on our server.
@@ -30,12 +32,12 @@
                             <div>The decryption of your data only occurs on the browser side. So the only place where your data is in the clear is on your device.</div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-12 col-md-6 d-none d-md-block">
                         <div class="d-flex justify-content-center">
-                            <img style="transform: translate(0px, 100px);" width="150px" src="../../content/images/home/cloud1-white.svg"/>
-                            <img width="300px" src="../../content/images/home/cloud1-white.svg"/>
-                            <img style="position: absolute; transform: translate(0px, 20px);" width="80px" src="../../content/images/home/icon-purple.svg"/>
-                            <img style="transform: translate(0px, 150px);" width="150px" src="../../content/images/home/cloud1-white.svg"/>
+                            <img class="cloud-slide-1" width="150px" src="../../content/images/home/cloud1-white.svg"/>
+                            <img  width="300px" src="../../content/images/home/cloud1-white.svg"/>
+                            <img class="icon-slide-1" width="80px" src="../../content/images/home/icon-purple.svg"/>
+                            <img class="cloud-slide-3" width="150px" src="../../content/images/home/cloud1-white.svg"/>
                         </div>
                     </div>
                 </div>
@@ -46,7 +48,7 @@
 
 <div class="row pl-lg-3 pr-lg-3 pb-5 what-i-cando" id="what-i-cando">
     <div class="what-i-cando-background"></div>
-    <div class="col-12 col-md-8" style="padding-top: 80px;">
+    <div class="col-12 col-md-8 content">
         <h2 class="title-SL">What I can do ?</h2>
         <div class="d-flex align-items-center main-point-container">
             <div class="mr-4 main-bullet bullet"></div>
@@ -78,24 +80,31 @@
 <div class="row pl-lg-3 pr-lg-3 what-solocked pt-3 behind-solocked"  id="behind-solocked">
     <div class="col-12">
         <div class="row">
-            <div class="col-lg-6" style="padding-top: 80px;">
+            <div class="col-12">
+                <div class="d-none d-md-block margin-block-title"></div>
                 <h2>Behind Solocked</h2>
-                <div class="d-flex justify-content-end">
-                    <div class="d-flex flex-column align-items-center text-center w-50" style="margin-top: 70px;">
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-12 col-lg-2"></div>
+            <div class="col-12 col-lg-4 mt-1">
+                <div class="d-flex justify-content-center justify-content-lg-end">
+                    <div class="d-flex flex-column align-items-center text-center mt-4">
+                        <div class="d-none d-md-block margin-block-presentation"></div>
                         <img width="120px" src="../../content/images/home/cyril.jpg" class="picture"/>
                         <div class="name">Cyril Casaucau</div>
                         <div class="tag-line">Founder, Lead Architect & Security evangelist</div>
                         <div class="content">Passionate geek. Java, Typescript, Spring, JHipster, Angular. All the cool stuff ! 😍</div>
                     </div>
                 </div>
-                <img style="position: absolute; transform: translate(0px, 0px);" width="150px" src="../../content/images/home/cloud1-white.svg"/>
+                <img class="cloud-presentation-1" width="150px" src="../../content/images/home/cloud1-white.svg"/>
             </div>
-            <div class="col-lg-6" style="padding-top: 80px;">
-                <img style="position: absolute; transform: translate(300px, 0px);" width="150px" src="../../content/images/home/cloud1-white.svg"/>
-                <h2>&nbsp;</h2>
+            <div class="col-lg-4 mt-1">
+                <img class="d-none d-lg-block cloud-presentation-2" width="150px" src="../../content/images/home/cloud1-white.svg"/>
                 <div class="d-flex flex-column align-items-center">
-                    <div class="d-flex justify-content-start">
-                        <div class="d-flex flex-column align-items-center text-center w-50" style="margin-top: 70px;">
+                    <div class="d-flex justify-content-center justify-content-lg-start">
+                        <div class="d-flex flex-column align-items-center text-center mt-4">
+                            <div class="d-none d-md-block margin-block-presentation"></div>
                             <img width="120px" src="../../content/images/home/fady.jpg" class="picture"/>
                             <div class="name">Fady Sarrat</div>
                             <div class="tag-line">Associate, Ux Designer & Innovation specialist</div>
@@ -104,22 +113,45 @@
                     </div>
                 </div>
             </div>
+            <div class="col-12 col-lg-2"></div>
         </div>
-        <!--<div class="row">-->
-            <!--<div class="col-lg-2"></div>-->
-            <!--<div class="col-lg-8">-->
-                <!--<h5>Latest news</h5>-->
-
-            <!--</div>-->
-            <!--<div class="col-lg-2"></div>-->
-        <!--</div>-->
-        <!--<div class="row">-->
-            <!--<div class="col-lg-2"></div>-->
-            <!--<div class="col-lg-8">-->
-                <!--<h5>Latest tweet</h5>-->
-
-            <!--</div>-->
-            <!--<div class="col-lg-2"></div>-->
-        <!--</div>-->
+        <div *ngIf="tweet" class="row tweet-block">
+            <div class="col-12 col-lg-3"></div>
+            <div class="col-12 col-lg-6">
+                <h5>Latest tweet</h5>
+                <mat-card class="mt-2 news-card">
+                    <mat-card-header>
+                        <div class="row">
+                            <div class="col-12 d-flex align-items-center">
+                                <mat-card-title class="d-flex mr-2 align-items-center">
+                                    <img src="{{ tweet.profileImageUrl }}" class="mr-1"/>
+                                    <a href="https://twitter.com/{{ tweet.fromUser }}" target="_blank">{{ tweet.fromUser }}</a>
+                                </mat-card-title>
+                                <mat-card-subtitle class="subtitle">
+                                    <span>@{{ tweet.fromUser }}</span> -
+                                    <span>{{ tweet.createdAt | date:'short'}}</span>
+                                </mat-card-subtitle>
+                            </div>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p class="line-breaker tweet-content">
+                            {{ tweet.text }}
+                        </p>
+                    </mat-card-content>
+                    <mat-card-actions class="d-flex align-content-center action-tweet">
+                        <div class="d-flex align-content-center ml-3">
+                            <fa-icon [icon]="['fas', 'retweet']" size="lg" class="mr-2"></fa-icon>
+                            <span>{{ tweet.retweetCount }}</span>
+                        </div>
+                        <div class="d-flex align-content-center ml-4">
+                            <fa-icon [icon]="['fas', 'heart']" size="lg" class="mr-2"></fa-icon>
+                            <span>{{ tweet.favoriteCount }}</span>
+                        </div>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+            <div class="col-12 col-lg-3"></div>
+        </div>
     </div>
 </div>

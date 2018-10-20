@@ -20,6 +20,7 @@ import {
     faClock,
     faCloud,
     faCog,
+    faComment,
     faCopy,
     faCreditCard,
     faDatabase,
@@ -42,6 +43,7 @@ import {
     faMoneyBillAlt,
     faPencilAlt,
     faPlus,
+    faRetweet,
     faRoad,
     faSave,
     faSearch,
@@ -157,5 +159,7 @@ library.add(faHeart);
 library.add(faDatabase);
 library.add(faDesktop);
 library.add(faFacebook);
+library.add(faComment);
+library.add(faRetweet);
 
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here
