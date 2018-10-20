@@ -34,7 +34,9 @@ export class ServiceWorkerService {
         let refreshing;
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.addEventListener('controllerchange', () => {
-                if (refreshing) return;
+                if (refreshing) {
+                    return;
+                }
                 refreshing = true;
                 window.location.reload();
             });

@@ -160,7 +160,7 @@ export class SrpService {
                 return Observable.fromPromise(this.generateVerifier(login, salt, password));
             })
             .flatMap(verifier => {
-                const saltAndBVM = { b: verifier, salt: salt, token: token, login: login };
+                const saltAndBVM = { b: verifier, salt, token, login };
                 return this.migrateSrp(saltAndBVM);
             });
     }
