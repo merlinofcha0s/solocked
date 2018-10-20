@@ -54,11 +54,19 @@ spring:
             enabled: false
     thymeleaf:
         mode: HTML
+    social:
+        twitter:
+            appId: anappid
+            appSecret: anappsecret
 
 
 server:
     port: 10344
     address: localhost
+twitter:
+    access:
+       token: atoken
+       tokenSecret: asecret
 
 info:
     project:
