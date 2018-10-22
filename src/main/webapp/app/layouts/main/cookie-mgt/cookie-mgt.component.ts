@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
+import { TranslateService } from '@ngx-translate/core';
 
 declare var _paq: any;
 declare var LiveZilla: any;
@@ -18,7 +19,7 @@ export class CookieMgtComponent implements OnInit {
     @Output() onOpenSideNav = new EventEmitter<boolean>();
     @Output() onCloseSideNav = new EventEmitter<boolean>();
 
-    constructor(private cookieService: CookieService) {}
+    constructor(private cookieService: CookieService, private translateService: TranslateService) {}
 
     ngOnInit(): void {
         this.buttonLabel = 'Accept Recommended settings';
@@ -29,15 +30,22 @@ export class CookieMgtComponent implements OnInit {
         if (mtmConsent === undefined && mtmConsentRemoved === undefined) {
             setTimeout(() => {
                 this.onOpenSideNav.emit(true);
+                this.translateService.get('home.cookieMgt.yesRecommend').subscribe(value => {
+                    this.buttonLabel = value;
+                });
             }, 2000);
         }
     }
 
     onChangeSlide() {
         if (this.isLivezillaActivated || this.isMatomoActivated) {
-            this.buttonLabel = 'Accept your settings';
+            this.translateService.get('home.cookieMgt.yes').subscribe(value => {
+                this.buttonLabel = value;
+            });
         } else {
-            this.buttonLabel = 'Accept Recommended settings';
+            this.translateService.get('home.cookieMgt.yesRecommend').subscribe(value => {
+                this.buttonLabel = value;
+            });
         }
     }
 

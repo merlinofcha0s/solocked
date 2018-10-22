@@ -9,7 +9,8 @@
 
 <div class="row flex-column pl-lg-3 pr-lg-3 what-solocked" id="what-is-solocked">
     <div class="col-md-12 pt-3 pt-md-5">
-        <h2>Made with love
+        <h2>
+            <span jhiTranslate="home.informations.button-1">Made with love</span>
             <fa-icon [icon]="['fas', 'heart']" class="ml-3 title-made"></fa-icon>
         </h2>
         <ngb-carousel [showNavigationIndicators]="true" [showNavigationArrows]="false">
@@ -17,24 +18,24 @@
                 <div class="row ml-3 mr-3 pb-5">
                     <div class="col-12 col-md-6 pt-3 pt-md-0">
                         <div class="d-none d-md-block margin-block"></div>
-                        <h3 class="title-slide">Client side encryption</h3>
+                        <h3 class="title-slide" jhiTranslate="home.firstPart.slide1.title">Client side encryption</h3>
                         <div class="d-flex align-items-center mb-3">
                             <fa-icon [icon]="['fas', 'database']" class="first-slide-icon"></fa-icon>
-                            <div>Your data are encrypted before it ever leaves the browser. We don't store your password
+                            <div jhiTranslate="home.firstPart.slide1.firstParagraph">Your data are encrypted before it ever leaves the browser. We don't store your password
                                 on our server.
                                 That means that we can't decrypt your data. Ever
                             </div>
                         </div>
                         <div class="d-flex align-items-center mb-3">
                             <fa-icon [icon]="['fas', 'lock']" class="first-slide-icon"></fa-icon>
-                            <div>We use AES 256 with the Web Crypto API : The standard encryption mechanism provided by
+                            <div jhiTranslate="home.firstPart.slide1.secondParagraph">We use AES 256 with the Web Crypto API : The standard encryption mechanism provided by
                                 the browser.
                             </div>
                         </div>
                         <div class="d-flex align-items-center mb-3">
                             <fa-icon [icon]="['fas', 'desktop']" class="first-slide-icon"
                                      style="font-size: 30px;"></fa-icon>
-                            <div>The decryption of your data only occurs on the browser side. So the only place where
+                            <div jhiTranslate="home.firstPart.slide1.thirdParagraph">The decryption of your data only occurs on the browser side. So the only place where
                                 your data is in the clear is on your device.
                             </div>
                         </div>
@@ -56,30 +57,30 @@
 <div class="row pl-lg-3 pr-lg-3 pb-5 what-i-cando" id="what-i-cando">
     <div class="what-i-cando-background"></div>
     <div class="col-12 col-md-8 content">
-        <h2 class="title-SL">What I can do ?</h2>
+        <h2 class="title-SL" jhiTranslate="home.informations.button-2">What I can do ?</h2>
         <div class="d-flex align-items-center main-point-container">
             <div class="mr-4 main-bullet bullet"></div>
-            <div class="main-point">Store credentials for all your websites</div>
+            <div class="main-point" jhiTranslate="home.secondPart.first">Store credentials for all your websites</div>
         </div>
         <div class="d-flex align-items-center mb-3">
             <div class="mr-4 normal-bullet bullet"></div>
-            <div>Store your payments / credit cards</div>
+            <div jhiTranslate="home.secondPart.second">Store your payments / credit cards</div>
         </div>
         <div class="d-flex align-items-center mb-3">
             <div class="mr-4 bullet normal-bullet"></div>
-            <div>Check if your passwords have leaked</div>
+            <div jhiTranslate="home.secondPart.third">Check if your passwords have leaked</div>
         </div>
         <div class="d-flex align-items-center mb-3">
             <div class="mr-4 bullet normal-bullet"></div>
-            <div>Store every informations you want through customs fields</div>
+            <div jhiTranslate="home.secondPart.fourth">Store every informations you want through customs fields</div>
         </div>
         <div class="d-flex align-items-center mb-3">
             <div class="mr-4 bullet normal-bullet"></div>
-            <div>Have a password manager? You can import your Lastpass, 1Password, Keepass, Dashlane data.</div>
+            <div jhiTranslate="home.secondPart.fifth">Have a password manager? You can import your Lastpass, 1Password, Keepass, Dashlane data.</div>
         </div>
         <div class="d-flex align-items-center mb-3">
             <div class="mr-4 bullet normal-bullet"></div>
-            <div>Access all your informations in a clean and nice UI</div>
+            <div jhiTranslate="home.secondPart.sixth">Access all your informations in a clean and nice UI</div>
         </div>
     </div>
     <div class="col-12 col-md-4"></div>
@@ -89,7 +90,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="d-none d-md-block margin-block-title"></div>
-                <h2>Behind Solocked</h2>
+                <h2 jhiTranslate="home.informations.button-3">Behind Solocked</h2>
             </div>
         </div>
         <div class="row mb-5">
@@ -100,8 +101,8 @@
                         <div class="d-none d-md-block margin-block-presentation"></div>
                         <img width="120px" src="../../content/images/home/cyril.jpg" class="picture"/>
                         <div class="name">Cyril Casaucau</div>
-                        <div class="tag-line">Founder, Lead Architect & Security evangelist</div>
-                        <div class="content">Passionate geek. Java, Typescript, Spring, JHipster, Angular. All the cool
+                        <div class="tag-line" jhiTranslate="home.thirdPart.profile1.tagline">Founder, Lead Architect & Security evangelist</div>
+                        <div class="content" jhiTranslate="home.thirdPart.profile1.content">Passionate geek. Java, Typescript, Spring, JHipster, Angular. All the cool
                             stuff ! 😍
                         </div>
                     </div>
@@ -117,8 +118,8 @@
                             <div class="d-none d-md-block margin-block-presentation"></div>
                             <img width="120px" src="../../content/images/home/fady.jpg" class="picture"/>
                             <div class="name">Fady Sarrat</div>
-                            <div class="tag-line">Associate, Ux Designer & Innovation specialist</div>
-                            <div class="content">Lorem ipsum aderum lolum Lorem ipsum aderum lolum Lorem ipsum aderum
+                            <div class="tag-line" jhiTranslate="home.thirdPart.profile2.tagline">Associate, Ux Designer & Innovation specialist</div>
+                            <div class="content" jhiTranslate="home.thirdPart.profile2.content">Lorem ipsum aderum lolum Lorem ipsum aderum lolum Lorem ipsum aderum
                                 lolum
                             </div>
                         </div>
@@ -130,15 +131,14 @@
         <div *ngIf="tweet" class="row tweet-block">
             <div class="col-12 col-lg-3"></div>
             <div class="col-12 col-lg-6">
-                <h5>Latest tweet</h5>
+                <h5 jhiTranslate="home.thirdPart.twitter.title">Latest tweet</h5>
                 <mat-card class="mt-2 news-card">
                     <mat-card-header>
                         <div class="row">
                             <div class="col-12 d-flex align-items-center">
                                 <mat-card-title class="d-flex mr-2 align-items-center">
                                     <img src="{{ tweet.profileImageUrl }}" class="mr-1"/>
-                                    <a href="https://twitter.com/{{ tweet.fromUser }}" target="_blank">{{ tweet.fromUser
-                                        }}</a>
+                                    <a href="https://twitter.com/{{ tweet.fromUser }}" target="_blank">{{ tweet.fromUser }}</a>
                                 </mat-card-title>
                                 <mat-card-subtitle class="subtitle">
                                     <span>@{{ tweet.fromUser }}</span> -

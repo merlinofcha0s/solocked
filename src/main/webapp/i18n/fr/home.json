@@ -2,6 +2,7 @@
     "home": {
         "title": "Accueil",
         "subtitle": "Tous vos comptes au même endroit",
+        "tagline": "Votre coffre fort numérique",
         "text": "Lorem ipsum",
         "more": "Plus d'informations",
         "twitter": "Suivez nous",
@@ -22,17 +23,56 @@
         "content-1": "SoLocked est une application qui permet de <strong>gérer vos informations de comptes</strong> (EDF, Orange, Facebook, Gmail, etc) de <strong>manière centralisée et sécurisée</strong>.",
         "informations":{
             "title": "Garde vos informations de comptes dans un lieu sûr accessible de partout",
-            "what":{
-                "title": "Qu'est ce que Solocked ?",
-                "content": "Solocked est une application qui vous permet de gérer toutes vos informations (EDF, Orange, Facebook,...) et de les avoir au même endroit."
+            "button-1": "Fait avec amour",
+            "button-2": "Que faire avec SoLocked",
+            "button-3": "Derrière SoLocked"
+        },
+        "firstPart": {
+            "slide1": {
+                "title": "Chiffrement dans le navigateur",
+                "firstParagraph": "Vos données sont chiffrées avant de quitter le navigateur. Nous ne stockons pas votre mot de passe maitre sur notre serveur. Ce qui veut dire que nous ne pouvons et ne pourrons jamais déchiffrer vos données",
+                "secondParagraph": "Nous utilisons l'algorithme de chiffrement AES 256 avec l'API Web Crypto : Le méchanisme de chiffrement standard fourni par le navigateur.",
+                "thirdParagraph": "SoLocked déchiffre les données uniquement dans le navigateur. Ce qui veut dire que le seul endroit où vos données sont en clair est sur votre périphérique."
+            }
+        },
+        "secondPart": {
+            "first": "Stockez vos accès pour tous vos sites web.",
+            "second": "Stockez vos paiements ainsi que vos informations de carte de crédit.",
+            "third": "Vérification que les mots de passe que vous utilisez n'ont pas fuités.",
+            "fourth": "Stockez toutes les informations dont vous avez besoin au quotidien grâce à nos champs personalisables.",
+            "fifth": "Vous avez déjà un gestionnaire de mots de passe ? Vous pouvez importer vos comptes Lastpass, 1Password, Keepass et Dashlane.",
+            "sixth": "Accéder à vos informations à travers une interface agréable et facile à utiliser."
+        },
+        "thirdPart": {
+            "profile1": {
+                "tagline": "Fondateur, Architecte et Evangeliste en sécurité",
+                "content": "Geek passioné par les nouvelles technologies et le code 😍"
             },
-            "why":{
-                "title":"Pourquoi SoLocked?",
-                "content": "Nous pensons qu'il est essentiel d'avoir un moyen rapide, efficace et sécurisé permettant d'accéder à vos données à tout instant"
+            "profile2": {
+                "tagline": "Associé, Ux Designer et spécialiste en innovation",
+                "content": "Lorem ipsum aderum lolum Lorem ipsum aderum lolum Lorem ipsum aderum lolum"
             },
-            "whatAbout": {
-                "title": "Solocked est il sécurisé ?",
-                "content": "Zero Knowledge.” “Auto logout.” You keep your big bad password safe AND you do not leave your safe open. Want more? Click on read more"
+            "twitter": {
+                "title": "Dernier tweet"
+            }
+        },
+        "cookieMgt": {
+            "title": "Cette application utilise des cookies",
+            "subtitle": "Solocked a été pensée dés le début pour protéger votre vie privée.",
+            "paragraph1": "L'application écoute le signal DO NOT TRACK de votre navigateur. Vos données ne sont <strong>JAMAIS</strong> transmises à un outils tiers qui n'est pas hébergé par nos soins. Il y a deux types de cookies dans SoLocked : <strong>Matomo</strong> et <strong>Livezilla</strong> (Voir ci dessous pour plus d'informations).",
+            "paragraph2": "Dans les deux cas, vos données de navigation (Matomo ou Livezilla) sont anonymisées avant d'être transmises.",
+            "no": "Non merci",
+            "yesRecommend": "Accepter",
+            "yes": "Accepter vos paramétres",
+            "matomo": {
+                "activate": "Activer",
+                "content": "Ce cookie nous aide à comprendre comment vous utilisez SoLocked. Si vous acceptez, cela va nous permettre d'avoir de vraies données d'utilisations concernant vos habitudes dans l'application. Nous pourrons donc améliorer l'application en conséquence",
+                "website": "Site web de Matomo"
+            },
+            "livezilla": {
+                "activate": "Activer",
+                "content": "Ce cookie fait partie de l'application de support aux utilisateurs, cela nous permet d'avoir des données plus précises dans le but de pouvoir vous aider le plus efficacement possible.",
+                "website": "Site web de Livezilla"
             }
         }
     },

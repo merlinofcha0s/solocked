@@ -1,15 +1,18 @@
 <a class="button-home button-info" mat-button [ngx-scroll-to]="'#what-is-solocked'">
     <div class="d-flex justify-content-center align-items-center h-100">
-        <span>Made with love <fa-icon [icon]="['fas', 'heart']" class="ml-3" style=" color: red;"></fa-icon></span>
+        <span>
+            <span jhiTranslate="home.informations.button-1">Made with love </span>
+            <fa-icon [icon]="['fas', 'heart']" class="ml-3 heart"></fa-icon>
+        </span>
     </div>
 </a>
 <a class="button-home button-info" mat-button [ngx-scroll-to]="'#what-i-cando'">
     <div class="d-flex justify-content-center align-items-center h-100">
-        <span>What I can do ?</span>
+        <span jhiTranslate="home.informations.button-2">What I can do ?</span>
     </div>
 </a>
 <a class="button-home button-info" mat-button [ngx-scroll-to]="'#behind-solocked'">
     <div class="d-flex justify-content-center align-items-center h-100">
-        <span>Behind SoLocked</span>
+        <span jhiTranslate="home.informations.button-3">Behind SoLocked</span>
     </div>
 </a>

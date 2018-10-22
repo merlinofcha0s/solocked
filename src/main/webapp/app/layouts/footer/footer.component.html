@@ -1,7 +1,7 @@
 <div class="row pt-3  mr-0 ml-0" [class.invert]="invertColor">
     <div class="col-12 col-lg-4 d-flex justify-content-center mb-3 mb-lg-0">
         <div class="d-flex flex-column justify-content-center text-center text-lg-left">
-            <a class="mb-2" href="#" target="_blank">Blog</a>
+            <a class="mb-2" href="https://medium.com/@Sol0cked" target="_blank">Blog</a>
             <a class="mb-2" href="https://status.solocked.com" target="_blank">{{'home.status' | translate}}</a>
             <a class="mb-2" routerLink="/cgu">{{ 'footer.copyright.linkCgu' | translate }}</a>
             <a class="mb-2" href="#" (click)="openCookieManagement()"> {{ 'footer.copyright.linkCookie' | translate }}</a>
@@ -18,10 +18,10 @@
         </div>
     </div>
     <div class="col-12 col-lg-4 mb-3 mb-lg-0">
-        <div class="col-12 col-md-6 d-flex align-items-center flex-column">
+        <div class="d-flex align-items-center flex-column">
             <img width="60" src="../../../content/images/icon.svg"/>
             <div id="title" class="title-app">SoLocked</div>
-            <div class="tagline mb-1">Your digital safe</div>
+            <div class="tagline mb-1" jhiTranslate="home.tagline">Your digital safe</div>
             <div class="version">{{ version }}</div>
         </div>
     </div>
