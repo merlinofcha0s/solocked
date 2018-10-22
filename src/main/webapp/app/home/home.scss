@@ -40,6 +40,20 @@ Main page styles
     .cloud-slide-3 {
         transform: translate(0px, 150px);
     }
+
+    // Small devices (landscape phones, 576px and up)
+    @media only screen and (max-width: 576px) {
+        .slide-content {
+            height: 320px;
+        }
+    }
+
+    // Medium devices (tablets, 768px and up)
+    @media only screen and (min-width: 768px) {
+        .slide-content {
+            height: 461px;
+        }
+    }
 }
 
 .first-slide-icon {

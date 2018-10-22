@@ -33,6 +33,25 @@
                 "firstParagraph": "Your data are encrypted before it ever leaves the browser. We don't store your password on our server. That means that we can't decrypt your data. Ever.",
                 "secondParagraph": "We use AES 256 with the Web Crypto API : The standard encryption mechanism provided by the browser.",
                 "thirdParagraph": "The decryption of your data only occurs on the browser side. So the only place where your data is in the clear is on your device."
+            },
+            "slide2": {
+                "title": "Made in France",
+                "firstParagraph": "Server based in France: No patriot act.",
+                "secondParagraph": "Hosted by <a class='text-white underline' href='https://www.clever-cloud.com' target='_blank'>Clever Cloud</a> : Awesome French Platform As A Service.",
+                "thirdParagraph": "Using also <a class='text-white underline' href='https://www.ovh.com' target='_blank'>OVH</a> a French hosting platform."
+            },
+            "slide3": {
+                "title": "Open source driven",
+                "firstParagraph": "We use only open source library",
+                "secondParagraph": "Based on <a class='text-white underline' href='https://www.jhipster.tech/' target='_blank'>JHipster</a> : Amazing opensource generator with an awesome community.",
+                "thirdParagraph": "<a class='text-white underline' href='https://sonarcloud.io/dashboard?id=io.github.jhipster.sample%3Ajhipster-sample-application' target='_blank'>Security report</a> of the Jhipster sample app.",
+                "fourthParagraph": "We will publish the security report for SoLocked very soon."
+            },
+            "slide4": {
+                "title": "Password not transiting",
+                "firstParagraph": "We use SRP (<a class='text-white underline' href='https://fr.wikipedia.org/wiki/Secure_Remote_Password' target='_blank'>Secure remote password</a>) : It means that our server don’t need to know the password of our users to authenticate them.",
+                "secondParagraph": "Therefore the password never leaves your computer.",
+                "thirdParagraph": "More information <a class='text-white underline' href='https://protonmail.com/blog/encrypted_email_authentication/' target='_blank'>here</a>."
             }
         },
         "secondPart": {

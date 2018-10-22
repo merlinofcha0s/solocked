@@ -33,6 +33,25 @@
                 "firstParagraph": "Vos données sont chiffrées avant de quitter le navigateur. Nous ne stockons pas votre mot de passe maitre sur notre serveur. Ce qui veut dire que nous ne pouvons et ne pourrons jamais déchiffrer vos données",
                 "secondParagraph": "Nous utilisons l'algorithme de chiffrement AES 256 avec l'API Web Crypto : Le méchanisme de chiffrement standard fourni par le navigateur.",
                 "thirdParagraph": "SoLocked déchiffre les données uniquement dans le navigateur. Ce qui veut dire que le seul endroit où vos données sont en clair est sur votre périphérique."
+            },
+            "slide2": {
+                "title": "Made in France",
+                "firstParagraph": "Nos serveurs sont basés en France: Pas de 'patriot act'.",
+                "secondParagraph": "Nous hébergeons SoLocked via <a class='text-white underline' href='https://www.clever-cloud.com' target='_blank'>Clever Cloud</a> : Une 'Platform As A Service' géniale",
+                "thirdParagraph": "Nous utilisons également <a class='text-white underline' href='https://www.ovh.com' target='_blank'>OVH</a> : Un hébergeur Francais."
+            },
+            "slide3": {
+                "title": "Open source driven",
+                "firstParagraph": "Nous utilisons uniquement des librairies open source",
+                "secondParagraph": "Basé sur <a class='text-white underline' href='https://www.jhipster.tech/' target='_blank'>JHipster</a> : Un générateur absolument génial accompagné d'une incroyable communauté.",
+                "thirdParagraph": "<a class='text-white underline' href='https://sonarcloud.io/dashboard?id=io.github.jhipster.sample%3Ajhipster-sample-application' target='_blank'>Rapport de sécurité</a> de l'application de test JHipster.",
+                "fourthParagraph": "Nous publierons le rapport de sécurité de Solocked très prochainement."
+            },
+            "slide4": {
+                "title": "Votre mot de passe maître ne transitent jamais",
+                "firstParagraph": "Nous utilisons la norme SRP (<a class='text-white underline' href='https://fr.wikipedia.org/wiki/Secure_Remote_Password' target='_blank'>Secure remote password</a>) : Ce qui veut dire que notre serveur n'a pas besoin de connaitre le mot de passe de nos utilisateurs pour les authentifier.",
+                "secondParagraph": "Votre mot de passe ne quitte jamais le navigateur",
+                "thirdParagraph": "Pour plus d'informations <a class='text-white underline' href='https://protonmail.com/blog/encrypted_email_authentication/' target='_blank'>here</a>."
             }
         },
         "secondPart": {
