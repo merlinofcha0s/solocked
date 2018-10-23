@@ -91,10 +91,14 @@ export class CookieMgtComponent implements OnInit {
     }
 
     activateLivezilla() {
-        LiveZilla.OptInCookies();
+        if (typeof LiveZilla !== 'undefined') {
+            LiveZilla.OptInCookies();
+        }
     }
 
     deactivateLivezilla() {
-        LiveZilla.OptOutCookies();
+        if (typeof LiveZilla !== 'undefined') {
+            LiveZilla.OptOutCookies();
+        }
     }
 }

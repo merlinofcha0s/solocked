@@ -20,10 +20,10 @@ describe('account', () => {
 
     it('Should login and logout successfuly', async () => {
         await registerHelper.registerUser('test02', password, 'test02@lol.com');
-        // await registerHelper.activateUser('test02');
-        //
-        // await registerHelper.login('test02', password, true);
-        // await registerHelper.logout();
+        await registerHelper.activateUser('test02');
+
+        await registerHelper.login('test02', password, true);
+        await registerHelper.logout();
     });
 
     it('Should display error message when bad password', async () => {

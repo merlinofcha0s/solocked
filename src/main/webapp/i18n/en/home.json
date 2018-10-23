@@ -73,7 +73,8 @@
                 "content": "Lorem ipsum aderum lolum Lorem ipsum aderum lolum Lorem ipsum aderum lolum"
             },
             "twitter": {
-                "title": "Latest tweet"
+                "title": "Latest tweet",
+                "error": "Error occured when fetching latest tweet."
             }
         },
         "cookieMgt": {

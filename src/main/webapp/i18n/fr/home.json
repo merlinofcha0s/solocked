@@ -72,7 +72,8 @@
                 "content": "Lorem ipsum aderum lolum Lorem ipsum aderum lolum Lorem ipsum aderum lolum"
             },
             "twitter": {
-                "title": "Dernier tweet"
+                "title": "Dernier tweet",
+                "error": "Erreur lors de la récupération du dernier tweet."
             }
         },
         "cookieMgt": {

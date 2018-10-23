@@ -195,11 +195,11 @@
             </div>
             <div class="col-12 col-lg-2"></div>
         </div>
-        <div *ngIf="tweet" class="row tweet-block">
+        <div class="row tweet-block">
             <div class="col-12 col-lg-3"></div>
             <div class="col-12 col-lg-6">
                 <h5 jhiTranslate="home.thirdPart.twitter.title">Latest tweet</h5>
-                <mat-card class="mt-2 news-card">
+                <mat-card *ngIf="tweet" class="mt-2 news-card">
                     <mat-card-header>
                         <div class="row">
                             <div class="col-12 d-flex align-items-center">
@@ -229,6 +229,13 @@
                             <span>{{ tweet.favoriteCount }}</span>
                         </div>
                     </mat-card-actions>
+                </mat-card>
+                <mat-card *ngIf="!tweet" class="mt-2 news-card">
+                    <mat-card-content>
+                        <p class="line-breaker tweet-content" jhiTranslate="home.thirdPart.twitter.error">
+                            Error occured when fetching latest tweet.
+                        </p>
+                    </mat-card-content>
                 </mat-card>
             </div>
             <div class="col-12 col-lg-3"></div>
