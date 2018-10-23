@@ -34,7 +34,7 @@ exports.config = {
         },
         slow: 3000,
         ui: 'bdd',
-        timeout: 720000
+        timeout: 200000
     },
 
     beforeLaunch: function () {
