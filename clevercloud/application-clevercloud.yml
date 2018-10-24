@@ -9,6 +9,15 @@ spring:
     mail:
         username: ${MAILGUN_LOGIN}
         password: ${MAILGUN_PASSWORD}
+    social:
+        twitter:
+            appId: ${TWITTER_APPID}
+            appSecret: ${TWITTER_APPSECRET}
+
+twitter:
+    access:
+        token: ${TWITTER_TOKEN}
+        tokenSecret: ${TWITTER_TOKEN_SECRET}
 
 jhipster:
     mail:
@@ -22,7 +31,7 @@ jhipster:
                 # - In the JHipster Registry (which includes a Spring Cloud Config server)
                 # - In a separate `application-prod.yml` file, in the same folder as your executable WAR file
                 # - In the `JHIPSTER_SECURITY_AUTHENTICATION_JWT_SECRET` environment variable
-                base64-secret: ${JHIPSTER_SECURITY_AUTHENTICATION_JWT_SECRET}
+                base64-secret: ${SECURITY_AUTHENTICATION_JWT_SECRET}
 
 application:
     paypal:
