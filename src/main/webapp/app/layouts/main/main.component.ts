@@ -60,7 +60,7 @@ export class JhiMainComponent implements OnInit {
         this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
                 this.jhiLanguageHelper.updateTitle(this.getPageTitle(this.router.routerState.snapshot.root));
-                this.isRegisterPage = event.url === '/register';
+                this.isRegisterPage = event.url.indexOf('/register') !== -1;
                 this.cacheDB();
             }
         });

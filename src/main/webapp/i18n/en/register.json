@@ -1,11 +1,11 @@
 {
     "register": {
-        "titleHeader": "Sign up",
-        "title": "Sign up",
+        "titleHeader": "Create your safe",
+        "title": "Create your safe",
         "form": {
             "button": "Sign up",
-            "buttonFree": "Sign up for free",
-            "buttonPayed": "Sign up and pay",
+            "buttonFree": "Create for free",
+            "buttonPayed": "Create and pay",
             "loading": "Generating your key, please wait ",
             "loadingpayment": "Redirecting to the payment page",
             "cancel": "Cancel",

@@ -29,7 +29,7 @@ export class FooterComponent implements OnInit, OnDestroy {
 
         this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
-                this.invertColor = event.url === '/register';
+                this.invertColor = event.url.indexOf('/register') !== -1;
                 if (event.url === '/') {
                     this.displayPaymentIssue = false;
                 }

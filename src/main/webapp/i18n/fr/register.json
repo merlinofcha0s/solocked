@@ -1,12 +1,12 @@
 {
     "register": {
-        "titleHeader": "Inscription",
-        "title": "Inscription",
+        "titleHeader": "Créer votre coffre fort",
+        "title": "Créer votre coffre fort",
         "form": {
-            "button": "Créer un compte",
+            "button": "Créer un coffre",
             "cancel": "Annuler",
-            "buttonFree": "Inscription gratuite",
-            "buttonPayed": "Inscription et paiement",
+            "buttonFree": "Création gratuite",
+            "buttonPayed": "Création et paiement",
             "loading": "Génération de votre clé, veuillez patienter",
             "loadingpayment": "Redirection vers la page de paiement",
             "waitingcompletepayment": "Finalisation de votre commande",
