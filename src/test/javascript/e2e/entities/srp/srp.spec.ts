@@ -64,6 +64,7 @@ describe('Srp e2e test', () => {
     });*/
 
     after(async () => {
+        await browser.sleep(500);
         await registerHelper.logout();
     });
 });

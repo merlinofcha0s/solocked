@@ -34,8 +34,7 @@ describe('password', () => {
         await passwordHelper.confirmPassword.sendKeys(newPassword);
         await browser.sleep(500);
         await passwordHelper.clickOnValidate();
-        await browser.sleep(500);
-        await browser.wait(ec.visibilityOf(registerHelper.homePage.title), 10000);
+        await browser.wait(ec.presenceOf(registerHelper.homePage.title), 10000);
         await registerHelper.login('test02-change', newPassword, true);
         await browser.sleep(500);
         await registerHelper.logout();
