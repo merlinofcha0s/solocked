@@ -21,7 +21,7 @@
         "like": "Si vous aimez JHipster, donnez nous une étoile sur",
         "github": "GitHub ",
         "content-1": "SoLocked est une application qui permet de <strong>gérer vos informations de comptes</strong> (EDF, Orange, Facebook, Gmail, etc) de <strong>manière centralisée et sécurisée</strong>.",
-        "informations":{
+        "informations": {
             "title": "Garde vos informations de comptes dans un lieu sûr accessible de partout",
             "button-1": "Fait avec passion",
             "button-2": "Que faire avec SoLocked",
@@ -77,12 +77,13 @@
             }
         },
         "cookieMgt": {
-            "title": "Cette application utilise des cookies",
+            "title": "Paramètres cookies",
+            "tagline": "Cette application utilise des cookies",
             "subtitle": "Solocked a été pensée dés le début pour protéger votre vie privée.",
             "paragraph1": "L'application écoute le signal DO NOT TRACK de votre navigateur. Vos données ne sont <strong>JAMAIS</strong> transmises à un outils tiers qui n'est pas hébergé par nos soins. Il y a deux types de cookies dans SoLocked : <strong>Matomo</strong> et <strong>Livezilla</strong> (Voir ci dessous pour plus d'informations).",
             "paragraph2": "Dans les deux cas, vos données de navigation (Matomo ou Livezilla) sont anonymisées avant d'être transmises.",
             "no": "Non merci",
-            "yesRecommend": "Accepter",
+            "yesRecommend": "Accepter paramètres recommandés",
             "yes": "Accepter vos paramétres",
             "matomo": {
                 "activate": "Activer",
@@ -93,7 +94,11 @@
                 "activate": "Activer",
                 "content": "Ce cookie fait partie de l'application de support aux utilisateurs, cela nous permet d'avoir des données plus précises dans le but de pouvoir vous aider le plus efficacement possible.",
                 "website": "Site web de Livezilla"
-            }
+            },
+            "confirmation": "Paramètrages vie privée enregistrés avec succés"
+        },
+        "cookiepopup": {
+            "content": "Pour nous aider à améliorer SoLocked et pour une expérience optimale, veuillez utiliser les paramètres recommandés."
         }
     },
     "warn-egde": {

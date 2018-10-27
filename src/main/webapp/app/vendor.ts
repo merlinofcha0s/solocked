@@ -21,6 +21,7 @@ import {
     faCloud,
     faCog,
     faComment,
+    faCookie,
     faCopy,
     faCreditCard,
     faDatabase,
@@ -161,5 +162,6 @@ library.add(faDesktop);
 library.add(faFacebook);
 library.add(faComment);
 library.add(faRetweet);
+library.add(faCookie);
 
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here

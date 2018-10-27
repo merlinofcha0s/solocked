@@ -19,12 +19,7 @@ export class FooterComponent implements OnInit, OnDestroy {
     invertColor: boolean;
     version: string;
 
-    constructor(
-        private paymentService: PaymentService,
-        private router: Router,
-        private principal: Principal,
-        private eventManager: JhiEventManager
-    ) {
+    constructor(private paymentService: PaymentService, private router: Router, private principal: Principal) {
         this.displayPaymentIssue = false;
         this.version = VERSION ? 'v' + VERSION : '';
     }
@@ -59,12 +54,5 @@ export class FooterComponent implements OnInit, OnDestroy {
 
     isAuthenticatedAndNotAdmin(): boolean {
         return this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN']);
-    }
-
-    openCookieManagement() {
-        this.eventManager.broadcast({
-            name: 'openSideNav',
-            content: 'Open side nav cookie management'
-        });
     }
 }

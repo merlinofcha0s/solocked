@@ -34,6 +34,7 @@ import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { CookieMgtComponent } from 'app/layouts/main/cookie-mgt/cookie-mgt.component';
 import { Angulartics2Module } from 'angulartics2';
+import { CookiePopupComponent } from 'app/layouts/main/cookie-mgt/cookie-popup.component';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
@@ -68,7 +69,8 @@ registerLocaleData(localeFr, 'fr');
         SafeStateComponent,
         WarnBrowserComponent,
         BreadcrumbComponent,
-        CookieMgtComponent
+        CookieMgtComponent,
+        CookiePopupComponent
     ],
     providers: [
         PaginationConfig,
@@ -104,7 +106,7 @@ registerLocaleData(localeFr, 'fr');
             deps: [LocalStorageService]
         }
     ],
-    entryComponents: [WarnBrowserComponent],
+    entryComponents: [WarnBrowserComponent, CookiePopupComponent],
     bootstrap: [JhiMainComponent]
 })
 export class NinjaccountAppModule {

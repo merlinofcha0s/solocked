@@ -1,0 +1,14 @@
+<h2 mat-dialog-title class="d-flex align-content-center justify-content-center">
+    {{ "home.cookieMgt.title" | translate }}
+    <fa-icon [icon]="['fas', 'cookie']" size="2x" class="ml-2"></fa-icon>
+</h2>
+<mat-dialog-content class="d-flex flex-column justify-content-center align-content-center text-center">
+    <p jhiTranslate="home.cookiepopup.content">
+        Pour nous aider a améliorer SoLocked et pour une expérience optimal, veuillez utiliser les paramètres recommendés.
+    </p>
+</mat-dialog-content>
+<mat-dialog-actions class="d-flex justify-content-center align-content-center flex-column">
+    <button class="mb-2" mat-raised-button color="primary" (click)="onAcceptSettings()" mat-dialog-close>{{ 'home.cookieMgt.yesRecommend' | translate }}</button>
+    <button class="mb-2" mat-button mat-dialog-close (click)="onNoSettings()" >{{ 'home.cookieMgt.no' | translate }}</button>
+    <button mat-button mat-dialog-close routerLink="/cookies">Accéder aux paramètres</button>
+</mat-dialog-actions>

@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
-import { TranslateService } from '@ngx-translate/core';
-
-declare var _paq: any;
-declare var LiveZilla: any;
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { CookieMgtService } from 'app/layouts/main/cookie-mgt/cookie-mgt.service';
+import { SnackUtilService } from 'app/shared/snack/snack-util.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'jhi-cookie-mgt',
@@ -16,25 +16,27 @@ export class CookieMgtComponent implements OnInit {
 
     buttonLabel: string;
 
-    @Output() onOpenSideNav = new EventEmitter<boolean>();
-    @Output() onCloseSideNav = new EventEmitter<boolean>();
-
-    constructor(private cookieService: CookieService, private translateService: TranslateService) {}
+    constructor(
+        private cookieService: CookieService,
+        private translateService: TranslateService,
+        private cookieMgtService: CookieMgtService,
+        private snackUtilsService: SnackUtilService,
+        private router: Router
+    ) {}
 
     ngOnInit(): void {
-        this.buttonLabel = 'Accept Recommended settings';
+        this.initLabelButtonAccept();
+    }
 
-        const mtmConsent = this.cookieService.get('mtm_consent');
-        const mtmConsentRemoved = this.cookieService.get('mtm_consent_removed');
-
-        if (mtmConsent === undefined && mtmConsentRemoved === undefined) {
-            setTimeout(() => {
-                this.onOpenSideNav.emit(true);
-                this.translateService.get('home.cookieMgt.yesRecommend').subscribe(value => {
-                    this.buttonLabel = value;
-                });
-            }, 2000);
-        }
+    private initLabelButtonAccept() {
+        this.translateService.get('home.cookieMgt.yesRecommend').subscribe(value => {
+            this.buttonLabel = value;
+        });
+        this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+            this.translateService.get('home.cookieMgt.yesRecommend').subscribe(value => {
+                this.buttonLabel = value;
+            });
+        });
     }
 
     onChangeSlide() {
@@ -50,55 +52,17 @@ export class CookieMgtComponent implements OnInit {
     }
 
     onAcceptSettings() {
-        if (typeof _paq !== 'undefined') {
-            if (!this.isLivezillaActivated && !this.isMatomoActivated) {
-                this.activateMatomo();
-                this.activateLivezilla();
-            } else {
-                if (this.isMatomoActivated) {
-                    this.activateMatomo();
-                } else {
-                    this.deactivateMatomo();
-                }
-
-                if (this.isLivezillaActivated) {
-                    this.activateLivezilla();
-                } else {
-                    this.deactivateLivezilla();
-                }
-            }
-        }
-        this.onCloseSideNav.emit(true);
+        this.cookieMgtService.acceptSettings(this.isLivezillaActivated, this.isMatomoActivated);
+        this.validatePrivacyChoice();
     }
 
     onNoSettings() {
-        this.deactivateMatomo();
-        this.deactivateLivezilla();
-        this.onCloseSideNav.emit(true);
+        this.cookieMgtService.noSettings();
+        this.validatePrivacyChoice();
     }
 
-    activateMatomo() {
-        if (typeof _paq !== 'undefined') {
-            // 720h = 1 month
-            _paq.push(['rememberConsentGiven', 720]);
-        }
-    }
-
-    deactivateMatomo() {
-        if (typeof _paq !== 'undefined') {
-            _paq.push(['forgetConsentGiven']);
-        }
-    }
-
-    activateLivezilla() {
-        if (typeof LiveZilla !== 'undefined') {
-            LiveZilla.OptInCookies();
-        }
-    }
-
-    deactivateLivezilla() {
-        if (typeof LiveZilla !== 'undefined') {
-            LiveZilla.OptOutCookies();
-        }
+    private validatePrivacyChoice() {
+        this.snackUtilsService.openSnackBar('home.cookieMgt.confirmation', 3000, 'check-circle');
+        this.router.navigate(['/']);
     }
 }

@@ -1,6 +1,8 @@
-<div class="row p-4">
-    <div class="col-12">
-        <h3 jhiTranslate="home.cookieMgt.title">This app uses cookies.</h3>
+<div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6">
+        <h2 jhiTranslate="home.cookieMgt.title"></h2>
+        <h4 jhiTranslate="home.cookieMgt.tagline">This app uses cookies.</h4>
         <p class="mt-3 mb-3" jhiTranslate="home.cookieMgt.subtitle">
             Solocked is designed for <strong>maximum privacy</strong> from scratch.
         </p>
@@ -13,8 +15,10 @@
         <p jhiTranslate="home.cookieMgt.paragraph2">
             In both case data (Matomo or Livezilla) are <strong>anonymized</strong> before the transmission.
         </p>
-        <button class="mb-3" mat-raised-button color="primary" (click)="onAcceptSettings()">{{ buttonLabel }}</button>
-        <button mat-button (click)="onNoSettings()" >{{ 'home.cookieMgt.no' | translate }}</button>
+        <div class="d-flex justify-content-center align-items-center align-content-center">
+            <button class="mr-2" mat-raised-button color="primary" (click)="onAcceptSettings()">{{ buttonLabel }}</button>
+            <button mat-button (click)="onNoSettings()" >{{ 'home.cookieMgt.no' | translate }}</button>
+        </div>
         <mat-card class="mt-3 mb-3">
             <mat-card-header class="w-100">
                 <mat-card-title>
@@ -62,4 +66,5 @@
             </mat-card-actions>
         </mat-card>
     </div>
+    <div class="col-lg-3"></div>
 </div>

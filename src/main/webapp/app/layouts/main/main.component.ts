@@ -4,11 +4,12 @@ import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { JhiLanguageHelper, Principal } from 'app/core';
 import { AutolockService } from 'app/layouts/navbar/autologout/autolock.service';
 import { ProfileService } from '../../layouts/profiles/profile.service';
-import { MatDialog, MatSidenav } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { WarnBrowserComponent } from 'app/layouts/main/warn-browser/warn-browser.component';
 import { AccountsDBService } from 'app/entities/accounts-db';
 import { Angulartics2Piwik } from 'angulartics2/piwik';
-import { JhiEventManager } from 'ng-jhipster';
+import { CookieService } from 'ngx-cookie';
+import { CookiePopupComponent } from 'app/layouts/main/cookie-mgt/cookie-popup.component';
 
 @Component({
     selector: 'jhi-main',
@@ -16,9 +17,6 @@ import { JhiEventManager } from 'ng-jhipster';
     styleUrls: ['./main.component.scss']
 })
 export class JhiMainComponent implements OnInit {
-    @ViewChild('sidenav') sidenav: MatSidenav;
-    sideNavOpened: boolean;
-
     isRegisterPage: boolean;
     schema = {
         '@context': 'http://schema.org',
@@ -40,16 +38,16 @@ export class JhiMainComponent implements OnInit {
         private renderer: Renderer2,
         private accountsService: AccountsDBService,
         private angulartics2Piwik: Angulartics2Piwik,
-        private eventManager: JhiEventManager
+        private cookieService: CookieService
     ) {}
 
     ngOnInit() {
         this.initEventRouter();
         this.detectEdge();
         this.loadProfile();
-        this.handleOpenSideNav();
         this.angulartics2Piwik.startTracking();
         this.principal.identity(true).then(account => this.principal.initDefaultLanguage(account));
+        this.initCookiePopup();
     }
 
     loadProfile() {
@@ -107,17 +105,17 @@ export class JhiMainComponent implements OnInit {
         }
     }
 
-    onCloseSideNav() {
-        this.sidenav.close();
-    }
+    initCookiePopup() {
+        const mtmConsent = this.cookieService.get('mtm_consent');
+        const mtmConsentRemoved = this.cookieService.get('mtm_consent_removed');
 
-    onOpenSideNav() {
-        this.sidenav.open();
-    }
-
-    handleOpenSideNav() {
-        this.eventManager.subscribe('openSideNav', () => {
-            this.onOpenSideNav();
-        });
+        if (mtmConsent === undefined && mtmConsentRemoved === undefined && this.inProduction) {
+            setTimeout(() => {
+                this.dialog.open(CookiePopupComponent, {
+                    width: '600px',
+                    disableClose: true
+                });
+            }, 3000);
+        }
     }
 }

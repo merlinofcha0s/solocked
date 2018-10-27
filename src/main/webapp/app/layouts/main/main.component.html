@@ -1,23 +1,14 @@
 <ngx-json-ld [json]="schema" *ngIf="inProduction"></ngx-json-ld>
 
-<mat-sidenav-container [class.background-register]="isRegisterPage" class="h-100">
-    <mat-sidenav #sidenav mode="over" [(opened)]="sideNavOpened" position="end" autoFocus="false"
-                 disableClose>
-        <jhi-cookie-mgt (onCloseSideNav)="onCloseSideNav();" (onOpenSideNav)="onOpenSideNav();"></jhi-cookie-mgt>
-    </mat-sidenav>
-
-    <mat-sidenav-content>
-        <div class="h-100" (click)="resetAutolockTime()">
-            <jhi-page-ribbon></jhi-page-ribbon>
-            <div>
-                <router-outlet name="navbar"></router-outlet>
-            </div>
-            <div class="container-fluid" style="min-height: 100%; padding-top: 100px;">
-                <jhi-breadcrumb></jhi-breadcrumb>
-                <router-outlet></router-outlet>
-                <router-outlet name="popup"></router-outlet>
-            </div>
-            <jhi-footer></jhi-footer>
-        </div>
-    </mat-sidenav-content>
-</mat-sidenav-container>
+<div [class.background-register]="isRegisterPage" [class.h-100]="!isRegisterPage" (click)="resetAutolockTime()">
+    <jhi-page-ribbon></jhi-page-ribbon>
+    <div>
+        <router-outlet name="navbar"></router-outlet>
+    </div>
+    <div class="container-fluid" style="min-height: 100%; padding-top: 100px;">
+        <jhi-breadcrumb></jhi-breadcrumb>
+        <router-outlet></router-outlet>
+        <router-outlet name="popup"></router-outlet>
+    </div>
+    <jhi-footer></jhi-footer>
+</div>
