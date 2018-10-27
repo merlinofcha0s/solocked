@@ -47,12 +47,12 @@ export class JhiMainComponent implements OnInit {
         this.loadProfile();
         this.angulartics2Piwik.startTracking();
         this.principal.identity(true).then(account => this.principal.initDefaultLanguage(account));
-        this.initCookiePopup();
     }
 
     loadProfile() {
         this.profileService.getProfileInfo().then(profileInfo => {
             this.inProduction = profileInfo.inProduction;
+            this.initCookiePopup();
         });
     }
 
