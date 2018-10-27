@@ -200,20 +200,16 @@
             <div class="col-12 col-lg-6">
                 <h5 jhiTranslate="home.thirdPart.twitter.title">Latest tweet</h5>
                 <mat-card *ngIf="tweet" class="mt-2 news-card">
-                    <mat-card-header>
-                        <div class="row">
-                            <div class="col-12 d-flex align-items-center">
-                                <mat-card-title class="d-flex mr-2 align-items-center">
-                                    <img src="{{ tweet.profileImageUrl }}" class="mr-1"/>
-                                    <a href="https://twitter.com/{{ tweet.fromUser }}" target="_blank">{{ tweet.fromUser }}</a>
-                                </mat-card-title>
-                                <mat-card-subtitle class="subtitle">
-                                    <span>@{{ tweet.fromUser }}</span> -
-                                    <span>{{ tweet.createdAt | date:'short'}}</span>
-                                </mat-card-subtitle>
-                            </div>
-                        </div>
-                    </mat-card-header>
+                    <div class="d-flex align-items-center">
+                        <mat-card-title class="d-flex mr-2 align-items-center">
+                            <img src="{{ tweet.profileImageUrl }}" class="mr-1"/>
+                            <a href="https://twitter.com/{{ tweet.fromUser }}" target="_blank">{{ tweet.fromUser }}</a>
+                        </mat-card-title>
+                        <mat-card-subtitle class="subtitle">
+                            <span>@{{ tweet.fromUser }}</span> -
+                            <span>{{ tweet.createdAt | date:'short'}}</span>
+                        </mat-card-subtitle>
+                    </div>
                     <mat-card-content>
                         <p class="line-breaker tweet-content">
                             {{ tweet.text }}

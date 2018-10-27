@@ -23,7 +23,7 @@
         "content-1": "SoLocked est une application qui permet de <strong>gérer vos informations de comptes</strong> (EDF, Orange, Facebook, Gmail, etc) de <strong>manière centralisée et sécurisée</strong>.",
         "informations":{
             "title": "Garde vos informations de comptes dans un lieu sûr accessible de partout",
-            "button-1": "Fait avec amour",
+            "button-1": "Fait avec passion",
             "button-2": "Que faire avec SoLocked",
             "button-3": "Derrière SoLocked"
         },
@@ -65,11 +65,11 @@
         "thirdPart": {
             "profile1": {
                 "tagline": "Fondateur, Architecte et Evangeliste en sécurité",
-                "content": "Geek passioné par les nouvelles technologies et le code 😍"
+                "content": "Geek passioné par les nouvelles technologies, le code et la sécurité 😍"
             },
             "profile2": {
                 "tagline": "Associé, Ux Designer et spécialiste en innovation",
-                "content": "Lorem ipsum aderum lolum Lorem ipsum aderum lolum Lorem ipsum aderum lolum"
+                "content": "Durant ces 6 dernières années, Je me suis concentré sur les interfaces homme-machine liées à l'innovation et aux nouvelles technologies. D'une part creatif et de l'autre technique, J'ai acquis des compétences en UX (Expérience utilisateur) pour des applications et des produits digitaux. J'ai un master en interaction homme/machine"
             },
             "twitter": {
                 "title": "Dernier tweet",
