@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'jhi-infos-button',
@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
     styleUrls: ['infos-buttons.scss']
 })
 export class InfosButtonComponent {
+    @Input() isInNavbar: boolean;
+
     constructor() {}
 }

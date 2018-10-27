@@ -1,18 +1,26 @@
-<a class="button-home button-info" mat-button [ngx-scroll-to]="'#what-is-solocked'">
-    <div class="d-flex justify-content-center align-items-center h-100">
-        <span>
-            <span jhiTranslate="home.informations.button-1">Made with love </span>
-            <fa-icon [icon]="['fas', 'heart']" class="ml-3 heart"></fa-icon>
-        </span>
+<div class="row" [class.mb-2]="!isInNavbar">
+    <div class="col-12 col-md-4 d-flex justify-content-center mb-2 mb-md-0 ">
+        <a class="button-home button-info w-100" mat-button [ngx-scroll-to]="'#what-is-solocked'">
+            <div class="d-flex justify-content-center align-items-center h-100">
+                <span>
+                    <span jhiTranslate="home.informations.button-1">Made with love </span>
+                    <fa-icon [icon]="['fas', 'heart']" class="ml-3 heart"></fa-icon>
+                </span>
+            </div>
+        </a>
     </div>
-</a>
-<a class="button-home button-info" mat-button [ngx-scroll-to]="'#what-i-cando'">
-    <div class="d-flex justify-content-center align-items-center h-100">
-        <span jhiTranslate="home.informations.button-2">What I can do ?</span>
+    <div class="col-12 col-md-4 d-flex justify-content-center mb-2 mb-md-0 ">
+        <a class="button-home button-info w-100" mat-button [ngx-scroll-to]="'#what-i-cando'">
+            <div class="d-flex justify-content-center align-items-center h-100">
+                <span jhiTranslate="home.informations.button-2">What I can do ?</span>
+            </div>
+        </a>
     </div>
-</a>
-<a class="button-home button-info" mat-button [ngx-scroll-to]="'#behind-solocked'">
-    <div class="d-flex justify-content-center align-items-center h-100">
-        <span jhiTranslate="home.informations.button-3">Behind SoLocked</span>
+    <div class="col-12 col-md-4 d-flex justify-content-center mb-2 mb-md-0">
+        <a class="button-home button-info w-100" mat-button [ngx-scroll-to]="'#behind-solocked'">
+            <div class="d-flex justify-content-center align-items-center h-100">
+                <span jhiTranslate="home.informations.button-3">Behind SoLocked</span>
+            </div>
+        </a>
     </div>
-</a>
+</div>

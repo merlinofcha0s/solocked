@@ -51,7 +51,7 @@
                 "title": "Votre mot de passe maître ne transitent jamais",
                 "firstParagraph": "Nous utilisons la norme SRP (<a class='text-white underline' href='https://fr.wikipedia.org/wiki/Secure_Remote_Password' target='_blank'>Secure remote password</a>) : Ce qui veut dire que notre serveur n'a pas besoin de connaitre le mot de passe de nos utilisateurs pour les authentifier.",
                 "secondParagraph": "Votre mot de passe ne quitte jamais le navigateur",
-                "thirdParagraph": "Pour plus d'informations <a class='text-white underline' href='https://protonmail.com/blog/encrypted_email_authentication/' target='_blank'>here</a>."
+                "thirdParagraph": "Plus d'informations <a class='text-white underline' href='https://protonmail.com/blog/encrypted_email_authentication/' target='_blank'>ici</a>."
             }
         },
         "secondPart": {

@@ -63,7 +63,7 @@
                 },
                 "register": {
                     "noaccount": "OU",
-                    "link": "Créer un compte gratuit"
+                    "link": "Créer un coffre gratuit"
                 }
             },
             "error": {

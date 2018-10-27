@@ -11,10 +11,12 @@
             <span class="logo-img"></span>
         </a>
     </div>
-    <div>
-        <jhi-infos-button *ngIf="activateStickyMenu == 'true' && homePageMode" class="infos-button"></jhi-infos-button>
-    </div>
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
+        <ul class="navbar-nav">
+            <li>
+                <jhi-infos-button [isInNavbar]="true" *ngIf="activateStickyMenu == 'true' && homePageMode" class="infos-button"></jhi-infos-button>
+            </li>
+        </ul>
         <ul class="navbar-nav ml-auto">
             <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
             <li *jhiHasAnyAuthority="'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">

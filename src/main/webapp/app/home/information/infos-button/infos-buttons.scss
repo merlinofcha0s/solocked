@@ -1,9 +1,11 @@
+@import './../../../../content/scss/custom-variables';
+
 .button-info {
     font-size: 13px;
     height: 35px;
     text-decoration: none;
     border-radius: 50px !important;
-    border: 1px white solid !important;
+    border: 1px $solocked-primary-color solid !important;
     background: white;
 }
 

@@ -63,7 +63,7 @@
                 },
                 "register": {
                     "noaccount": "OR",
-                    "link": "Create a free account"
+                    "link": "Create a free safe"
                 }
             },
             "error": {
