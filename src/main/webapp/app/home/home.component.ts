@@ -72,6 +72,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     getLatestTweet() {
         this.socialService.getLatestTweet().subscribe(tweet => {
             this.tweet = tweet;
+            tweet.profileImageUrl = tweet.profileImageUrl.replace('http', 'https');
         });
     }
 }
