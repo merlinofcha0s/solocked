@@ -1,0 +1,24 @@
+
+{
+    "ninjaccountApp": {
+        "srp" : {
+            "home": {
+                "title": "Srps",
+                "createLabel": "Create a new Srp",
+                "createOrEditLabel": "Create or edit a Srp"
+            },
+            "created": "A new Srp is created with identifier {{ param }}",
+            "updated": "A Srp is updated with identifier {{ param }}",
+            "deleted": "A Srp is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Srp {{ id }}?"
+            },
+            "detail": {
+                "title": "Srp"
+            },
+            "salt": "Salt",
+            "verifier": "Verifier",
+            "user": "User"
+        }
+    }
+}
