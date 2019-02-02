@@ -11,7 +11,7 @@ import { IAccountsDB } from 'app/shared/model/accounts-db.model';
 export class AccountsDBDetailComponent implements OnInit {
     accountsDB: IAccountsDB;
 
-    constructor(private dataUtils: JhiDataUtils, private activatedRoute: ActivatedRoute) {}
+    constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ accountsDB }) => {

@@ -1,7 +1,6 @@
-
 {
     "ninjaccountApp": {
-        "srp" : {
+        "srp": {
             "home": {
                 "title": "Srps",
                 "createLabel": "Create a new Srp",

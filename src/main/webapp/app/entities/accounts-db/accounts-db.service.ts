@@ -11,9 +11,9 @@ type EntityArrayResponseType = HttpResponse<IAccountsDB[]>;
 
 @Injectable({ providedIn: 'root' })
 export class AccountsDBService {
-    private resourceUrl = SERVER_API_URL + 'api/accounts-dbs';
+    public resourceUrl = SERVER_API_URL + 'api/accounts-dbs';
 
-    constructor(private http: HttpClient) {}
+    constructor(protected http: HttpClient) {}
 
     create(accountsDB: IAccountsDB): Observable<EntityResponseType> {
         return this.http.post<IAccountsDB>(this.resourceUrl, accountsDB, { observe: 'response' });

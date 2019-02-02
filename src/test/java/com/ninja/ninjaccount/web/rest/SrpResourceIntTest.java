@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
+import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -55,7 +56,7 @@ public class SrpResourceIntTest {
 
     @Autowired
     private SrpMapper srpMapper;
-    
+
     @Autowired
     private SrpService srpService;
 
@@ -71,6 +72,9 @@ public class SrpResourceIntTest {
     @Autowired
     private EntityManager em;
 
+    @Autowired
+    private Validator validator;
+
     private MockMvc restSrpMockMvc;
 
     private Srp srp;
@@ -83,7 +87,8 @@ public class SrpResourceIntTest {
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter).build();
+            .setMessageConverters(jacksonMessageConverter)
+            .setValidator(validator).build();
     }
 
     /**
@@ -263,7 +268,7 @@ public class SrpResourceIntTest {
 
         int databaseSizeBeforeDelete = srpRepository.findAll().size();
 
-        // Get the srp
+        // Delete the srp
         restSrpMockMvc.perform(delete("/api/srps/{id}", srp.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());

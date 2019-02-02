@@ -1,6 +1,4 @@
 package com.ninja.ninjaccount.web.rest;
-
-import com.codahale.metrics.annotation.Timed;
 import com.ninja.ninjaccount.service.SrpService;
 import com.ninja.ninjaccount.web.rest.errors.BadRequestAlertException;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
@@ -43,7 +41,6 @@ public class SrpResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/srps")
-    @Timed
     public ResponseEntity<SrpDTO> createSrp(@Valid @RequestBody SrpDTO srpDTO) throws URISyntaxException {
         log.debug("REST request to save Srp : {}", srpDTO);
         if (srpDTO.getId() != null) {
@@ -65,7 +62,6 @@ public class SrpResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/srps")
-    @Timed
     public ResponseEntity<SrpDTO> updateSrp(@Valid @RequestBody SrpDTO srpDTO) throws URISyntaxException {
         log.debug("REST request to update Srp : {}", srpDTO);
         if (srpDTO.getId() == null) {
@@ -83,7 +79,6 @@ public class SrpResource {
      * @return the ResponseEntity with status 200 (OK) and the list of srps in body
      */
     @GetMapping("/srps")
-    @Timed
     public List<SrpDTO> getAllSrps() {
         log.debug("REST request to get all Srps");
         return srpService.findAll();
@@ -96,7 +91,6 @@ public class SrpResource {
      * @return the ResponseEntity with status 200 (OK) and with body the srpDTO, or with status 404 (Not Found)
      */
     @GetMapping("/srps/{id}")
-    @Timed
     public ResponseEntity<SrpDTO> getSrp(@PathVariable Long id) {
         log.debug("REST request to get Srp : {}", id);
         Optional<SrpDTO> srpDTO = srpService.findOne(id);
@@ -110,7 +104,6 @@ public class SrpResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/srps/{id}")
-    @Timed
     public ResponseEntity<Void> deleteSrp(@PathVariable Long id) {
         log.debug("REST request to delete Srp : {}", id);
         srpService.delete(id);

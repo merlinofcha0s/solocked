@@ -1,7 +1,6 @@
-
 {
     "ninjaccountApp": {
-        "payment" : {
+        "payment": {
             "home": {
                 "title": "Payments",
                 "createLabel": "Créer un nouveau Payment",

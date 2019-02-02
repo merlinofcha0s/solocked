@@ -14,9 +14,9 @@ type EntityArrayResponseType = HttpResponse<IPayment[]>;
 
 @Injectable({ providedIn: 'root' })
 export class PaymentService {
-    private resourceUrl = SERVER_API_URL + 'api/payments';
+    public resourceUrl = SERVER_API_URL + 'api/payments';
 
-    constructor(private http: HttpClient) {}
+    constructor(protected http: HttpClient) {}
 
     create(payment: IPayment): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(payment);
@@ -49,7 +49,7 @@ export class PaymentService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
-    private convertDateFromClient(payment: IPayment): IPayment {
+    protected convertDateFromClient(payment: IPayment): IPayment {
         const copy: IPayment = Object.assign({}, payment, {
             subscriptionDate:
                 payment.subscriptionDate != null && payment.subscriptionDate.isValid()
@@ -60,17 +60,21 @@ export class PaymentService {
         return copy;
     }
 
-    private convertDateFromServer(res: EntityResponseType): EntityResponseType {
-        res.body.subscriptionDate = res.body.subscriptionDate != null ? moment(res.body.subscriptionDate) : null;
-        res.body.validUntil = res.body.validUntil != null ? moment(res.body.validUntil) : null;
+    protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
+        if (res.body) {
+            res.body.subscriptionDate = res.body.subscriptionDate != null ? moment(res.body.subscriptionDate) : null;
+            res.body.validUntil = res.body.validUntil != null ? moment(res.body.validUntil) : null;
+        }
         return res;
     }
 
-    private convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
-        res.body.forEach((payment: IPayment) => {
-            payment.subscriptionDate = payment.subscriptionDate != null ? moment(payment.subscriptionDate) : null;
-            payment.validUntil = payment.validUntil != null ? moment(payment.validUntil) : null;
-        });
+    protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
+        if (res.body) {
+            res.body.forEach((payment: IPayment) => {
+                payment.subscriptionDate = payment.subscriptionDate != null ? moment(payment.subscriptionDate) : null;
+                payment.validUntil = payment.validUntil != null ? moment(payment.validUntil) : null;
+            });
+        }
         return res;
     }
 }

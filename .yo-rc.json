@@ -4,7 +4,7 @@
       "packageName": "com.ninja.ninjaccount",
       "nativeLanguage": "en"
     },
-    "jhipsterVersion": "5.3.4",
+    "jhipsterVersion": "5.8.1",
     "baseName": "ninjaccount",
     "packageName": "com.ninja.ninjaccount",
     "packageFolder": "com/ninja/ninjaccount",
@@ -37,7 +37,10 @@
       "fr"
     ],
     "cacheProvider": "hazelcast",
-    "enableHibernateCache": true
+    "enableHibernateCache": true,
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": []
   },
   "generator-jhipster-clevercloud": {
     "promptValues": {

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { AccountsDB } from 'app/shared/model/accounts-db.model';
 import { AccountsDBService } from './accounts-db.service';
 import { AccountsDBComponent } from './accounts-db.component';
@@ -16,10 +16,13 @@ import { IAccountsDB } from 'app/shared/model/accounts-db.model';
 export class AccountsDBResolve implements Resolve<IAccountsDB> {
     constructor(private service: AccountsDBService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IAccountsDB> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
-            return this.service.find(id).pipe(map((accountsDB: HttpResponse<AccountsDB>) => accountsDB.body));
+            return this.service.find(id).pipe(
+                filter((response: HttpResponse<AccountsDB>) => response.ok),
+                map((accountsDB: HttpResponse<AccountsDB>) => accountsDB.body)
+            );
         }
         return of(new AccountsDB());
     }
@@ -27,7 +30,7 @@ export class AccountsDBResolve implements Resolve<IAccountsDB> {
 
 export const accountsDBRoute: Routes = [
     {
-        path: 'accounts-db',
+        path: '',
         component: AccountsDBComponent,
         data: {
             authorities: ['ROLE_USER'],
@@ -36,7 +39,7 @@ export const accountsDBRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'accounts-db/:id/view',
+        path: ':id/view',
         component: AccountsDBDetailComponent,
         resolve: {
             accountsDB: AccountsDBResolve
@@ -48,7 +51,7 @@ export const accountsDBRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'accounts-db/new',
+        path: 'new',
         component: AccountsDBUpdateComponent,
         resolve: {
             accountsDB: AccountsDBResolve
@@ -60,7 +63,7 @@ export const accountsDBRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'accounts-db/:id/edit',
+        path: ':id/edit',
         component: AccountsDBUpdateComponent,
         resolve: {
             accountsDB: AccountsDBResolve
@@ -75,7 +78,7 @@ export const accountsDBRoute: Routes = [
 
 export const accountsDBPopupRoute: Routes = [
     {
-        path: 'accounts-db/:id/delete',
+        path: ':id/delete',
         component: AccountsDBDeletePopupComponent,
         resolve: {
             accountsDB: AccountsDBResolve

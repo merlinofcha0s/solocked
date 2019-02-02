@@ -1,5 +1,5 @@
 /* tslint:disable no-unused-expression */
-import { browser, ExpectedConditions as ec } from 'protractor';
+import { browser, ExpectedConditions as ec, promise } from 'protractor';
 import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
 
 import { SrpComponentsPage, SrpDeleteDialog, SrpUpdatePage } from './srp.page-object';
@@ -24,6 +24,7 @@ describe('Srp e2e test', () => {
     it('should load Srps', async () => {
         await navBarPage.goToEntity('srp');
         srpComponentsPage = new SrpComponentsPage();
+        await browser.wait(ec.visibilityOf(srpComponentsPage.title), 5000);
         expect(await srpComponentsPage.getTitle()).to.eq('ninjaccountApp.srp.home.title');
     });
 
@@ -38,11 +39,13 @@ describe('Srp e2e test', () => {
         const nbButtonsBeforeCreate = await srpComponentsPage.countDeleteButtons();
 
         await srpComponentsPage.clickOnCreateButton();
-        await srpUpdatePage.setSaltInput('salt');
+        await promise.all([
+            srpUpdatePage.setSaltInput('salt'),
+            srpUpdatePage.setVerifierInput('verifier'),
+            srpUpdatePage.userSelectLastOption(),
+        ]);
         expect(await srpUpdatePage.getSaltInput()).to.eq('salt');
-        await srpUpdatePage.setVerifierInput('verifier');
         expect(await srpUpdatePage.getVerifierInput()).to.eq('verifier');
-        await srpUpdatePage.userSelectLastOption();
         await srpUpdatePage.save();
         expect(await srpUpdatePage.getSaveButton().isPresent()).to.be.false;
 

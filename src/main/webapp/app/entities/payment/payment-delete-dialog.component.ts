@@ -14,7 +14,7 @@ import { PaymentService } from './payment.service';
 export class PaymentDeleteDialogComponent {
     payment: IPayment;
 
-    constructor(private paymentService: PaymentService, public activeModal: NgbActiveModal, private eventManager: JhiEventManager) {}
+    constructor(protected paymentService: PaymentService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
     clear() {
         this.activeModal.dismiss('cancel');
@@ -36,9 +36,9 @@ export class PaymentDeleteDialogComponent {
     template: ''
 })
 export class PaymentDeletePopupComponent implements OnInit, OnDestroy {
-    private ngbModalRef: NgbModalRef;
+    protected ngbModalRef: NgbModalRef;
 
-    constructor(private activatedRoute: ActivatedRoute, private router: Router, private modalService: NgbModal) {}
+    constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ payment }) => {
@@ -47,11 +47,11 @@ export class PaymentDeletePopupComponent implements OnInit, OnDestroy {
                 this.ngbModalRef.componentInstance.payment = payment;
                 this.ngbModalRef.result.then(
                     result => {
-                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+                        this.router.navigate(['/payment', { outlets: { popup: null } }]);
                         this.ngbModalRef = null;
                     },
                     reason => {
-                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+                        this.router.navigate(['/payment', { outlets: { popup: null } }]);
                         this.ngbModalRef = null;
                     }
                 );

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
-
 import { IAccountsDB } from 'app/shared/model/accounts-db.model';
 import { AccountsDBService } from './accounts-db.service';
 import { IUser, UserService } from 'app/core';
@@ -13,17 +13,17 @@ import { IUser, UserService } from 'app/core';
     templateUrl: './accounts-db-update.component.html'
 })
 export class AccountsDBUpdateComponent implements OnInit {
-    private _accountsDB: IAccountsDB;
+    accountsDB: IAccountsDB;
     isSaving: boolean;
 
     users: IUser[];
 
     constructor(
-        private dataUtils: JhiDataUtils,
-        private jhiAlertService: JhiAlertService,
-        private accountsDBService: AccountsDBService,
-        private userService: UserService,
-        private activatedRoute: ActivatedRoute
+        protected dataUtils: JhiDataUtils,
+        protected jhiAlertService: JhiAlertService,
+        protected accountsDBService: AccountsDBService,
+        protected userService: UserService,
+        protected activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
@@ -31,12 +31,13 @@ export class AccountsDBUpdateComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ accountsDB }) => {
             this.accountsDB = accountsDB;
         });
-        this.userService.query().subscribe(
-            (res: HttpResponse<IUser[]>) => {
-                this.users = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
+        this.userService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IUser[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IUser[]>) => response.body)
+            )
+            .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     byteSize(field) {
@@ -64,31 +65,24 @@ export class AccountsDBUpdateComponent implements OnInit {
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<HttpResponse<IAccountsDB>>) {
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<IAccountsDB>>) {
         result.subscribe((res: HttpResponse<IAccountsDB>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
     }
 
-    private onSaveSuccess() {
+    protected onSaveSuccess() {
         this.isSaving = false;
         this.previousState();
     }
 
-    private onSaveError() {
+    protected onSaveError() {
         this.isSaving = false;
     }
 
-    private onError(errorMessage: string) {
+    protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 
     trackUserById(index: number, item: IUser) {
         return item.id;
-    }
-    get accountsDB() {
-        return this._accountsDB;
-    }
-
-    set accountsDB(accountsDB: IAccountsDB) {
-        this._accountsDB = accountsDB;
     }
 }

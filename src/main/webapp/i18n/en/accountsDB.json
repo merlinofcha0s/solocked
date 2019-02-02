@@ -1,7 +1,6 @@
-
 {
     "ninjaccountApp": {
-        "accountsDB" : {
+        "accountsDB": {
             "home": {
                 "title": "Accounts DBS",
                 "createLabel": "Create a new Accounts DB",

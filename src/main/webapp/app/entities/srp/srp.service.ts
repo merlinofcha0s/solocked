@@ -11,9 +11,9 @@ type EntityArrayResponseType = HttpResponse<ISrp[]>;
 
 @Injectable({ providedIn: 'root' })
 export class SrpService {
-    private resourceUrl = SERVER_API_URL + 'api/srps';
+    public resourceUrl = SERVER_API_URL + 'api/srps';
 
-    constructor(private http: HttpClient) {}
+    constructor(protected http: HttpClient) {}
 
     create(srp: ISrp): Observable<EntityResponseType> {
         return this.http.post<ISrp>(this.resourceUrl, srp, { observe: 'response' });

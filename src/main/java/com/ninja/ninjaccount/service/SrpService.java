@@ -79,7 +79,6 @@ public class SrpService {
      * @param id the id of the entity
      */
     public void delete(Long id) {
-        log.debug("Request to delete Srp : {}", id);
-        srpRepository.deleteById(id);
+        log.debug("Request to delete Srp : {}", id);        srpRepository.deleteById(id);
     }
 }

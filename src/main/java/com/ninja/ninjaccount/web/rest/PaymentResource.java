@@ -1,6 +1,4 @@
 package com.ninja.ninjaccount.web.rest;
-
-import com.codahale.metrics.annotation.Timed;
 import com.ninja.ninjaccount.service.PaymentService;
 import com.ninja.ninjaccount.web.rest.errors.BadRequestAlertException;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
@@ -43,7 +41,6 @@ public class PaymentResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/payments")
-    @Timed
     public ResponseEntity<PaymentDTO> createPayment(@Valid @RequestBody PaymentDTO paymentDTO) throws URISyntaxException {
         log.debug("REST request to save Payment : {}", paymentDTO);
         if (paymentDTO.getId() != null) {
@@ -65,7 +62,6 @@ public class PaymentResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/payments")
-    @Timed
     public ResponseEntity<PaymentDTO> updatePayment(@Valid @RequestBody PaymentDTO paymentDTO) throws URISyntaxException {
         log.debug("REST request to update Payment : {}", paymentDTO);
         if (paymentDTO.getId() == null) {
@@ -83,7 +79,6 @@ public class PaymentResource {
      * @return the ResponseEntity with status 200 (OK) and the list of payments in body
      */
     @GetMapping("/payments")
-    @Timed
     public List<PaymentDTO> getAllPayments() {
         log.debug("REST request to get all Payments");
         return paymentService.findAll();
@@ -96,7 +91,6 @@ public class PaymentResource {
      * @return the ResponseEntity with status 200 (OK) and with body the paymentDTO, or with status 404 (Not Found)
      */
     @GetMapping("/payments/{id}")
-    @Timed
     public ResponseEntity<PaymentDTO> getPayment(@PathVariable Long id) {
         log.debug("REST request to get Payment : {}", id);
         Optional<PaymentDTO> paymentDTO = paymentService.findOne(id);
@@ -110,7 +104,6 @@ public class PaymentResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/payments/{id}")
-    @Timed
     public ResponseEntity<Void> deletePayment(@PathVariable Long id) {
         log.debug("REST request to delete Payment : {}", id);
         paymentService.delete(id);

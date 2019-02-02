@@ -12,4 +12,10 @@ import { NinjaccountSharedLibsModule, NinjaccountSharedCommonModule, JhiLoginMod
     exports: [NinjaccountSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class NinjaccountSharedModule {}
+export class NinjaccountSharedModule {
+    static forRoot() {
+        return {
+            ngModule: NinjaccountSharedModule
+        };
+    }
+}

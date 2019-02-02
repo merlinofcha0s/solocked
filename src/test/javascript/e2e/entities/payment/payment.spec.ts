@@ -1,5 +1,5 @@
 /* tslint:disable no-unused-expression */
-import { browser, ExpectedConditions as ec } from 'protractor';
+import { browser, ExpectedConditions as ec, promise } from 'protractor';
 import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
 
 import { PaymentComponentsPage, PaymentDeleteDialog, PaymentUpdatePage } from './payment.page-object';
@@ -24,6 +24,7 @@ describe('Payment e2e test', () => {
     it('should load Payments', async () => {
         await navBarPage.goToEntity('payment');
         paymentComponentsPage = new PaymentComponentsPage();
+        await browser.wait(ec.visibilityOf(paymentComponentsPage.title), 5000);
         expect(await paymentComponentsPage.getTitle()).to.eq('ninjaccountApp.payment.home.title');
     });
 
@@ -38,11 +39,18 @@ describe('Payment e2e test', () => {
         const nbButtonsBeforeCreate = await paymentComponentsPage.countDeleteButtons();
 
         await paymentComponentsPage.clickOnCreateButton();
-        await paymentUpdatePage.setSubscriptionDateInput('2000-12-31');
+        await promise.all([
+            paymentUpdatePage.setSubscriptionDateInput('2000-12-31'),
+            paymentUpdatePage.setPriceInput('5'),
+            paymentUpdatePage.planTypeSelectLastOption(),
+            paymentUpdatePage.setValidUntilInput('2000-12-31'),
+            paymentUpdatePage.setLastPaymentIdInput('lastPaymentId'),
+            paymentUpdatePage.setBillingPlanIdInput('billingPlanId'),
+            paymentUpdatePage.setTokenRecurringInput('tokenRecurring'),
+            paymentUpdatePage.userSelectLastOption()
+        ]);
         expect(await paymentUpdatePage.getSubscriptionDateInput()).to.eq('2000-12-31');
-        await paymentUpdatePage.setPriceInput('5');
         expect(await paymentUpdatePage.getPriceInput()).to.eq('5');
-        await paymentUpdatePage.planTypeSelectLastOption();
         const selectedPaid = paymentUpdatePage.getPaidInput();
         if (await selectedPaid.isSelected()) {
             await paymentUpdatePage.getPaidInput().click();
@@ -51,9 +59,7 @@ describe('Payment e2e test', () => {
             await paymentUpdatePage.getPaidInput().click();
             expect(await paymentUpdatePage.getPaidInput().isSelected()).to.be.true;
         }
-        await paymentUpdatePage.setValidUntilInput('2000-12-31');
         expect(await paymentUpdatePage.getValidUntilInput()).to.eq('2000-12-31');
-        await paymentUpdatePage.setLastPaymentIdInput('lastPaymentId');
         expect(await paymentUpdatePage.getLastPaymentIdInput()).to.eq('lastPaymentId');
         const selectedRecurring = paymentUpdatePage.getRecurringInput();
         if (await selectedRecurring.isSelected()) {
@@ -63,11 +69,8 @@ describe('Payment e2e test', () => {
             await paymentUpdatePage.getRecurringInput().click();
             expect(await paymentUpdatePage.getRecurringInput().isSelected()).to.be.true;
         }
-        await paymentUpdatePage.setBillingPlanIdInput('billingPlanId');
         expect(await paymentUpdatePage.getBillingPlanIdInput()).to.eq('billingPlanId');
-        await paymentUpdatePage.setTokenRecurringInput('tokenRecurring');
         expect(await paymentUpdatePage.getTokenRecurringInput()).to.eq('tokenRecurring');
-        await paymentUpdatePage.userSelectLastOption();
         await paymentUpdatePage.save();
         expect(await paymentUpdatePage.getSaveButton().isPresent()).to.be.false;
 

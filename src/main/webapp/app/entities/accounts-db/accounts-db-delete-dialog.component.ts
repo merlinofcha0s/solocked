@@ -14,7 +14,11 @@ import { AccountsDBService } from './accounts-db.service';
 export class AccountsDBDeleteDialogComponent {
     accountsDB: IAccountsDB;
 
-    constructor(private accountsDBService: AccountsDBService, public activeModal: NgbActiveModal, private eventManager: JhiEventManager) {}
+    constructor(
+        protected accountsDBService: AccountsDBService,
+        public activeModal: NgbActiveModal,
+        protected eventManager: JhiEventManager
+    ) {}
 
     clear() {
         this.activeModal.dismiss('cancel');
@@ -36,9 +40,9 @@ export class AccountsDBDeleteDialogComponent {
     template: ''
 })
 export class AccountsDBDeletePopupComponent implements OnInit, OnDestroy {
-    private ngbModalRef: NgbModalRef;
+    protected ngbModalRef: NgbModalRef;
 
-    constructor(private activatedRoute: ActivatedRoute, private router: Router, private modalService: NgbModal) {}
+    constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ accountsDB }) => {
@@ -47,11 +51,11 @@ export class AccountsDBDeletePopupComponent implements OnInit, OnDestroy {
                 this.ngbModalRef.componentInstance.accountsDB = accountsDB;
                 this.ngbModalRef.result.then(
                     result => {
-                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+                        this.router.navigate(['/accounts-db', { outlets: { popup: null } }]);
                         this.ngbModalRef = null;
                     },
                     reason => {
-                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+                        this.router.navigate(['/accounts-db', { outlets: { popup: null } }]);
                         this.ngbModalRef = null;
                     }
                 );

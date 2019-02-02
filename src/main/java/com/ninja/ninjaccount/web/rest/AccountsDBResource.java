@@ -1,6 +1,4 @@
 package com.ninja.ninjaccount.web.rest;
-
-import com.codahale.metrics.annotation.Timed;
 import com.ninja.ninjaccount.service.AccountsDBService;
 import com.ninja.ninjaccount.web.rest.errors.BadRequestAlertException;
 import com.ninja.ninjaccount.web.rest.util.HeaderUtil;
@@ -43,7 +41,6 @@ public class AccountsDBResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/accounts-dbs")
-    @Timed
     public ResponseEntity<AccountsDBDTO> createAccountsDB(@Valid @RequestBody AccountsDBDTO accountsDBDTO) throws URISyntaxException {
         log.debug("REST request to save AccountsDB : {}", accountsDBDTO);
         if (accountsDBDTO.getId() != null) {
@@ -65,7 +62,6 @@ public class AccountsDBResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/accounts-dbs")
-    @Timed
     public ResponseEntity<AccountsDBDTO> updateAccountsDB(@Valid @RequestBody AccountsDBDTO accountsDBDTO) throws URISyntaxException {
         log.debug("REST request to update AccountsDB : {}", accountsDBDTO);
         if (accountsDBDTO.getId() == null) {
@@ -83,7 +79,6 @@ public class AccountsDBResource {
      * @return the ResponseEntity with status 200 (OK) and the list of accountsDBS in body
      */
     @GetMapping("/accounts-dbs")
-    @Timed
     public List<AccountsDBDTO> getAllAccountsDBS() {
         log.debug("REST request to get all AccountsDBS");
         return accountsDBService.findAll();
@@ -96,7 +91,6 @@ public class AccountsDBResource {
      * @return the ResponseEntity with status 200 (OK) and with body the accountsDBDTO, or with status 404 (Not Found)
      */
     @GetMapping("/accounts-dbs/{id}")
-    @Timed
     public ResponseEntity<AccountsDBDTO> getAccountsDB(@PathVariable Long id) {
         log.debug("REST request to get AccountsDB : {}", id);
         Optional<AccountsDBDTO> accountsDBDTO = accountsDBService.findOne(id);
@@ -110,7 +104,6 @@ public class AccountsDBResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/accounts-dbs/{id}")
-    @Timed
     public ResponseEntity<Void> deleteAccountsDB(@PathVariable Long id) {
         log.debug("REST request to delete AccountsDB : {}", id);
         accountsDBService.delete(id);

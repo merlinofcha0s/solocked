@@ -42,7 +42,7 @@
                         This field is required.
                         </small>
                         <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.nbAccounts?.errors?.min" jhiTranslate="entity.validation.min" translateValues="{ min: 0 }">
+                            [hidden]="!editForm.controls.nbAccounts?.errors?.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: 0 }">
                             This field should be at least 0.
                         </small>
                         <small class="form-text text-danger"
