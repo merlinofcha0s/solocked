@@ -3,8 +3,7 @@ import { Subscription } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
 import { PaymentWarning } from 'app/entities/payment/payment-warning.model';
 import { PaymentService } from 'app/entities/payment';
-import { Principal } from 'app/core';
-import { JhiEventManager } from 'ng-jhipster';
+import { AccountService } from 'app/core';
 import { VERSION } from 'app/app.constants';
 
 @Component({
@@ -19,7 +18,7 @@ export class FooterComponent implements OnInit, OnDestroy {
     invertColor: boolean;
     version: string;
 
-    constructor(private paymentService: PaymentService, private router: Router, private principal: Principal) {
+    constructor(private paymentService: PaymentService, private router: Router, private accountService: AccountService) {
         this.displayPaymentIssue = false;
         this.version = VERSION ? 'v' + VERSION : '';
     }
@@ -53,6 +52,6 @@ export class FooterComponent implements OnInit, OnDestroy {
     }
 
     isAuthenticatedAndNotAdmin(): boolean {
-        return this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN']);
+        return this.accountService.isAuthenticated() && !this.accountService.hasAnyAuthority(['ROLE_ADMIN']);
     }
 }

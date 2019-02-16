@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { SessionStorageService } from 'ngx-webstorage';
@@ -11,6 +10,7 @@ import { LAST_SEARCH } from 'app/shared/constants/session-storage.constants';
 import { Account } from 'app/shared/account/account.model';
 import { AccountsHomeRouteName } from 'app/connected';
 import { AccountsDBService } from 'app/entities/accounts-db';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'jhi-search',
@@ -58,15 +58,17 @@ export class SearchComponent implements OnInit, OnDestroy {
     initAccounts() {
         this.accountsSub = this.accountsService.accounts$.subscribe(accounts => {
             this.accounts = accounts;
-            this.filteredAccounts = this.searchControl.valueChanges.map(value => {
-                // Means that it's an account : it happened when the user click on an item on the autocomplete
-                // So we extract the name of the account
-                if (value instanceof Object === false) {
-                    this.sessionStorage.store(LAST_SEARCH, value);
-                }
+            this.filteredAccounts = this.searchControl.valueChanges.pipe(
+                map(value => {
+                    // Means that it's an account : it happened when the user click on an item on the autocomplete
+                    // So we extract the name of the account
+                    if (value instanceof Object === false) {
+                        this.sessionStorage.store(LAST_SEARCH, value);
+                    }
 
-                return value ? this.searchService.filter(value, this.accounts) : [];
-            });
+                    return value ? this.searchService.filter(value, this.accounts) : [];
+                })
+            );
         });
     }
 

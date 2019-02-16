@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { JhiEventManager } from 'ng-jhipster';
 import { LoginService } from 'app/core/login/login.service';
-import { Principal } from 'app/core';
 import { SrpService } from 'app/entities/srp';
 import { VERSION } from 'app/app.constants';
+import { AccountService } from 'app/core';
 
 @Component({
     selector: 'jhi-login-modal',
@@ -25,8 +25,8 @@ export class JhiLoginModalComponent {
         private eventManager: JhiEventManager,
         private loginService: LoginService,
         private router: Router,
-        private principal: Principal,
-        private srpService: SrpService
+        private srpService: SrpService,
+        private accountService: AccountService
     ) {
         this.credentials = {};
         this.version = VERSION ? 'v' + VERSION : '';
@@ -86,17 +86,18 @@ export class JhiLoginModalComponent {
                     content: 'Sending Authentication Success'
                 });
 
-                if (this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
-                    this.router.navigate(['/user-management']);
+                if (this.accountService.hasAnyAuthority(['ROLE_ADMIN'])) {
+                    this.router.navigate(['admin/user-management']);
                 } else {
                     this.router.navigate(['/accounts']);
                 }
                 // previousState was set in the authExpiredInterceptor before being redirected to login modal.
-                // since login is succesful, go to stored previousState and clear previousState
-                /*const redirect = this.stateStorageService.getUrl();
-        if (redirect) {
-            this.router.navigate([redirect]);
-        }*/
+                // since login is successful, go to stored previousState and clear previousState
+                // const redirect = this.stateStorageService.getUrl();
+                // if (redirect) {
+                //     this.stateStorageService.storeUrl(null);
+                //     this.router.navigate([redirect]);
+                // }
             })
             .catch(() => {
                 this.authenticationError = true;

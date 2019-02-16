@@ -14,7 +14,9 @@ exports.config = {
     capabilities: {
         browserName: 'chrome',
         chromeOptions: {
-            args: ["--headless", "--disable-gpu", "--window-size=1280,800"]
+            args: process.env.JHI_E2E_HEADLESS
+                ? [ "--headless", "--disable-gpu", "--window-size=800,600" ]
+                : [ "--disable-gpu", "--window-size=800,600" ]
         }
     },
 
@@ -51,6 +53,8 @@ exports.config = {
         const chai = require('chai');
         const chaiAsPromised = require('chai-as-promised');
         chai.use(chaiAsPromised);
+        const chaiString = require('chai-string');
+        chai.use(chaiString);
         // @ts-ignore
         global.chai = chai;
     },

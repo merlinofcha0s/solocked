@@ -5,6 +5,8 @@ import { CryptoService } from 'app/shared/crypto/crypto.service';
 import { AccountsDBService } from 'app/entities/accounts-db';
 import { AccountsDB } from 'app/shared/model/accounts-db.model';
 import { SrpService } from 'app/entities/srp';
+import { fromPromise } from 'rxjs/internal-compatibility';
+import { flatMap, map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class Register {
@@ -23,19 +25,19 @@ export class Register {
 
         const accountCopy = Object.assign({}, account);
         const accountDBDTO = new AccountsDB();
-        return Observable.fromPromise(this.srpService.generateVerifier(accountCopy.login, salt, accountCopy.password))
-            .map(verifier => {
+        return fromPromise(this.srpService.generateVerifier(accountCopy.login, salt, accountCopy.password)).pipe(
+            map(verifier => {
                 accountCopy.password = null;
                 accountCopy.verifier = verifier;
                 accountCopy.salt = salt;
                 return accountCopy;
-            })
-            .flatMap(accountOut => this.crypto.creatingKey('', account.password))
-            .flatMap(derivedCryptoKey => this.crypto.cryptingDB(initVector, newAccountsDB, derivedCryptoKey))
-            .flatMap((accountDB: ArrayBuffer) =>
+            }),
+            flatMap(accountOut => this.crypto.creatingKey('', account.password)),
+            flatMap(derivedCryptoKey => this.crypto.cryptingDB(initVector, newAccountsDB, derivedCryptoKey)),
+            flatMap((accountDB: ArrayBuffer) =>
                 this.crypto.toBase64Promise(new Blob([new Uint8Array(accountDB)], { type: 'application/octet-stream' }))
-            )
-            .flatMap((accountDBbase64: string) => {
+            ),
+            flatMap((accountDBbase64: string) => {
                 accountDBDTO.database = accountDBbase64;
                 accountDBDTO.databaseContentType = 'application/octet-stream';
                 accountDBDTO.initializationVector = initVector;
@@ -43,10 +45,11 @@ export class Register {
                 accountCopy.authenticationKey = newAccountsDB.authenticationKey;
                 accountCopy.accountsDB = accountDBDTO;
                 return this.crypto.generateHash(accountDBDTO.database);
-            })
-            .flatMap(sum => {
+            }),
+            flatMap(sum => {
                 accountDBDTO.sum = sum;
                 return this.http.post('api/register', accountCopy, { observe: 'response' });
-            });
+            })
+        );
     }
 }

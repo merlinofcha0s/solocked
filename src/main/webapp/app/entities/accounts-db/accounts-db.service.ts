@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { SERVER_API_URL } from '../../app.constants';
 import { AccountsDB, IAccountsDB } from '../../shared/model/accounts-db.model';
@@ -14,13 +14,15 @@ import { OperationAccountType } from 'app/shared/account/operation-account-type.
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { SnackUtilService } from 'app/shared/snack/snack-util.service';
+import { fromPromise } from 'rxjs/internal-compatibility';
+import { flatMap, map } from 'rxjs/operators';
 
 type EntityResponseType = HttpResponse<IAccountsDB>;
 type EntityArrayResponseType = HttpResponse<IAccountsDB[]>;
 
 @Injectable({ providedIn: 'root' })
 export class AccountsDBService {
-    private resourceUrl = SERVER_API_URL + 'api/accounts-dbs';
+    public resourceUrl = SERVER_API_URL + 'api/accounts-dbs';
 
     actualAndMaxNumber$: BehaviorSubject<any>;
     accounts$: BehaviorSubject<Array<Account>>;
@@ -54,18 +56,22 @@ export class AccountsDBService {
 
     create(accountsDB: IAccountsDB): Observable<EntityResponseType> {
         accountsDB.operationAccountType = OperationAccountType.CREATE;
-        return Observable.fromPromise(this.crypto.generateHash(accountsDB.database)).flatMap(hash => {
-            accountsDB.sum = hash;
-            return this.http.post<IAccountsDB>(this.resourceUrl, accountsDB, { observe: 'response' });
-        });
+        return fromPromise(this.crypto.generateHash(accountsDB.database)).pipe(
+            flatMap(hash => {
+                accountsDB.sum = hash;
+                return this.http.post<IAccountsDB>(this.resourceUrl, accountsDB, { observe: 'response' });
+            })
+        );
     }
 
     update(accountsDB: IAccountsDB): Observable<EntityResponseType> {
         accountsDB.operationAccountType = OperationAccountType.UPDATE;
-        return Observable.fromPromise(this.crypto.generateHash(accountsDB.database)).flatMap(hash => {
-            accountsDB.sum = hash;
-            return this.http.put<IAccountsDB>(this.resourceUrl, accountsDB, { observe: 'response' });
-        });
+        return fromPromise(this.crypto.generateHash(accountsDB.database)).pipe(
+            flatMap(hash => {
+                accountsDB.sum = hash;
+                return this.http.put<IAccountsDB>(this.resourceUrl, accountsDB, { observe: 'response' });
+            })
+        );
     }
 
     find(id: number): Observable<EntityResponseType> {
@@ -95,21 +101,21 @@ export class AccountsDBService {
 
     updateDBUserConnected(accountsDB: AccountsDB): Observable<AccountsDB> {
         const copy = this.convert(accountsDB);
-        return this.http
-            .put<IAccountsDB>(`${this.resourceUrl}/updateDbUserConnected`, copy, { observe: 'response' })
-            .map((res: EntityResponseType) => {
+        return this.http.put<IAccountsDB>(`${this.resourceUrl}/updateDbUserConnected`, copy, { observe: 'response' }).pipe(
+            map((res: EntityResponseType) => {
                 if (res.ok) {
                     return res.body;
                 } else {
                     // return Observable.throw(res.statusText);
                 }
-            });
+            })
+        );
     }
 
     getActualMaxAccount() {
         this.http
             .get(SERVER_API_URL + 'api/accounts-dbs/get-actual-max-account', { observe: 'response' })
-            .map((res: EntityResponseType) => res.body)
+            .pipe(map((res: EntityResponseType) => res.body))
             .subscribe((actualAndMax: any) => {
                 this._dataStore.actualNunberAccount = actualAndMax.first;
                 this._dataStore.maxNumberAccount = actualAndMax.second;
@@ -120,47 +126,50 @@ export class AccountsDBService {
     updateActualNumberAccount(newActualNumberAccount: number): Observable<EntityResponseType> {
         return this.http
             .post<IAccountsDB>(`${this.resourceUrl}/update-actual-number-account`, newActualNumberAccount, { observe: 'response' })
-            .map((res: EntityResponseType) => {
-                const actualAndMax: any = {};
-                actualAndMax.first = newActualNumberAccount;
-                actualAndMax.second = this._dataStore.maxNumberAccount;
+            .pipe(
+                map((res: EntityResponseType) => {
+                    const actualAndMax: any = {};
+                    actualAndMax.first = newActualNumberAccount;
+                    actualAndMax.second = this._dataStore.maxNumberAccount;
 
-                this.actualAndMaxNumber$.next(actualAndMax);
-                return res;
-            });
+                    this.actualAndMaxNumber$.next(actualAndMax);
+                    return res;
+                })
+            );
     }
 
     saveEncryptedDB(accounts: Accounts, initVector: string): Observable<AccountsDB> {
         const accountDBDTO = new AccountsDB();
-        return this.encryptWithKeyInStorage(accounts, initVector)
-            .flatMap((accountDB: ArrayBuffer) =>
+        return this.encryptWithKeyInStorage(accounts, initVector).pipe(
+            flatMap((accountDB: ArrayBuffer) =>
                 this.crypto.toBase64Promise(new Blob([new Uint8Array(accountDB)], { type: 'application/octet-stream' }))
-            )
-            .flatMap((accountDBbase64: string) => {
+            ),
+            flatMap((accountDBbase64: string) => {
                 accountDBDTO.database = accountDBbase64;
                 accountDBDTO.databaseContentType = 'application/octet-stream';
                 accountDBDTO.initializationVector = initVector;
                 accountDBDTO.operationAccountType = accounts.operationAccountType;
                 return this.crypto.generateHash(accountDBDTO.database);
-            })
-            .flatMap((sum: string) => {
+            }),
+            flatMap((sum: string) => {
                 accountDBDTO.sum = sum;
                 return this.updateDBUserConnected(accountDBDTO);
-            });
+            })
+        );
     }
 
     encryptWithKeyInStorage(accounts: Accounts, initVector: string): Observable<ArrayBuffer> {
         return this.crypto
             .getCryptoKeyInStorage()
-            .flatMap((cryptoKey: CryptoKey) => this.crypto.cryptingDB(initVector, accounts, cryptoKey));
+            .pipe(flatMap((cryptoKey: CryptoKey) => this.crypto.cryptingDB(initVector, accounts, cryptoKey)));
     }
 
     getDbUserConnected(): Observable<AccountsDB> {
-        return this.http
-            .get<IAccountsDB>(`${this.resourceUrl}/getDbUserConnected`, { observe: 'response' })
-            .map((res: EntityResponseType) => {
+        return this.http.get<IAccountsDB>(`${this.resourceUrl}/getDbUserConnected`, { observe: 'response' }).pipe(
+            map((res: EntityResponseType) => {
                 return res.body;
-            });
+            })
+        );
     }
 
     getAccount(id: number) {
@@ -242,42 +251,46 @@ export class AccountsDBService {
     }
 
     saveNewAccount(account: Account | Array<Account>): Observable<AccountsDB> {
-        return this.synchroDB().flatMap((accounts: Accounts) => {
-            const initVector = this.crypto.getRandomNumber(10);
-            if (account instanceof Account) {
-                // Sequence management
-                account.id = this.seqNextVal(this._dataStore.accounts);
-                // Adding new account
-                accounts.accounts.push(account);
-            } else {
-                for (const newAccount of account) {
-                    newAccount.id = this.seqNextVal(this._dataStore.accounts);
-                    this._dataStore.accounts.accounts.push(newAccount);
-                    this.sortAccountByName();
-                    accounts.accounts.push(newAccount);
+        return this.synchroDB().pipe(
+            flatMap((accounts: Accounts) => {
+                const initVector = this.crypto.getRandomNumber(10);
+                if (account instanceof Account) {
+                    // Sequence management
+                    account.id = this.seqNextVal(this._dataStore.accounts);
+                    // Adding new account
+                    accounts.accounts.push(account);
+                } else {
+                    for (const newAccount of account) {
+                        newAccount.id = this.seqNextVal(this._dataStore.accounts);
+                        this._dataStore.accounts.accounts.push(newAccount);
+                        this.sortAccountByName();
+                        accounts.accounts.push(newAccount);
+                    }
                 }
-            }
-            this.saveOnBrowser(accounts);
-            accounts.operationAccountType = OperationAccountType.CREATE;
-            return this.saveEncryptedDB(accounts, initVector);
-        });
+                this.saveOnBrowser(accounts);
+                accounts.operationAccountType = OperationAccountType.CREATE;
+                return this.saveEncryptedDB(accounts, initVector);
+            })
+        );
     }
 
     updateAccount(accountUpdated: Account) {
         const initVector = this.crypto.getRandomNumber(10);
         this.synchroDB()
-            .flatMap((accounts: Accounts) => {
-                for (let _i = 0; _i < accounts.accounts.length; _i++) {
-                    const account = accounts.accounts[_i];
-                    if (account.id === accountUpdated.id) {
-                        this.copyAccount(accounts.accounts[_i], accountUpdated);
-                        this.copyAccount(this._dataStore.accounts.accounts[_i], accountUpdated);
+            .pipe(
+                flatMap((accounts: Accounts) => {
+                    for (let _i = 0; _i < accounts.accounts.length; _i++) {
+                        const account = accounts.accounts[_i];
+                        if (account.id === accountUpdated.id) {
+                            this.copyAccount(accounts.accounts[_i], accountUpdated);
+                            this.copyAccount(this._dataStore.accounts.accounts[_i], accountUpdated);
+                        }
                     }
-                }
-                this.saveOnBrowser(accounts);
-                accounts.operationAccountType = OperationAccountType.UPDATE;
-                return this.saveEncryptedDB(accounts, initVector);
-            })
+                    this.saveOnBrowser(accounts);
+                    accounts.operationAccountType = OperationAccountType.UPDATE;
+                    return this.saveEncryptedDB(accounts, initVector);
+                })
+            )
             .subscribe(
                 (accountDB: AccountsDB) => {
                     this.sortAccountByName();
@@ -297,12 +310,14 @@ export class AccountsDBService {
     deleteAccount(accountId: number) {
         const initVector = this.crypto.getRandomNumber(10);
         this.synchroDB()
-            .flatMap((accounts: Accounts) => {
-                accounts.accounts = accounts.accounts.filter(account => account.id !== accountId);
-                this.deleteLocalAccount(accountId);
-                accounts.operationAccountType = OperationAccountType.DELETE;
-                return this.saveEncryptedDB(accounts, initVector);
-            })
+            .pipe(
+                flatMap((accounts: Accounts) => {
+                    accounts.accounts = accounts.accounts.filter(account => account.id !== accountId);
+                    this.deleteLocalAccount(accountId);
+                    accounts.operationAccountType = OperationAccountType.DELETE;
+                    return this.saveEncryptedDB(accounts, initVector);
+                })
+            )
             .subscribe(
                 (accountDB: AccountsDB) => {
                     this.accounts$.next(this._dataStore.accounts.accounts);
@@ -347,12 +362,14 @@ export class AccountsDBService {
     resetEntireDB() {
         const initVector = this.crypto.getRandomNumber(10);
         this.synchroDB()
-            .flatMap((accounts: Accounts) => {
-                accounts.accounts.splice(0, accounts.accounts.length);
-                accounts.operationAccountType = OperationAccountType.DELETE_ALL;
-                this._dataStore.accounts = accounts;
-                return this.saveEncryptedDB(accounts, initVector);
-            })
+            .pipe(
+                flatMap((accounts: Accounts) => {
+                    accounts.accounts.splice(0, accounts.accounts.length);
+                    accounts.operationAccountType = OperationAccountType.DELETE_ALL;
+                    this._dataStore.accounts = accounts;
+                    return this.saveEncryptedDB(accounts, initVector);
+                })
+            )
             .subscribe(
                 (accountDB: AccountsDB) => {
                     this.getActualMaxAccount();
@@ -366,38 +383,41 @@ export class AccountsDBService {
     }
 
     synchroDB(): Observable<Accounts> {
-        return this.getDbUserConnected()
-            .flatMap((accountDbDto: AccountsDB) => this.decryptWithKeyInStorage(accountDbDto))
-            .flatMap((accounts: Accounts) => Observable.of(accounts));
+        return this.getDbUserConnected().pipe(
+            flatMap((accountDbDto: AccountsDB) => this.decryptWithKeyInStorage(accountDbDto)),
+            flatMap((accounts: Accounts) => of(accounts))
+        );
     }
 
     decryptWithKeyInStorage(accountDbDto: AccountsDB): Observable<Accounts> {
         let accountDBArrayBufferOut = null;
-        return Observable.of(this.crypto.b64toBlob(accountDbDto.database, 'application/octet-stream', 2048))
-            .flatMap((accountDBBlob: Blob) => this.crypto.blobToArrayBuffer(accountDBBlob))
-            .flatMap(accountDBArrayBuffer => {
+        return of(this.crypto.b64toBlob(accountDbDto.database, 'application/octet-stream', 2048)).pipe(
+            flatMap((accountDBBlob: Blob) => this.crypto.blobToArrayBuffer(accountDBBlob)),
+            flatMap(accountDBArrayBuffer => {
                 accountDBArrayBufferOut = accountDBArrayBuffer;
                 return this.crypto.getCryptoKeyInStorage();
-            })
-            .flatMap((cryptoKey: CryptoKey) => {
+            }),
+            flatMap((cryptoKey: CryptoKey) => {
                 return this.crypto.decrypt(accountDbDto.initializationVector, cryptoKey, accountDBArrayBufferOut);
+            }),
+            flatMap((decryptedDB: ArrayBuffer) => {
+                return of(this.crypto.arrayBufferToAccounts(decryptedDB));
             })
-            .flatMap((decryptedDB: ArrayBuffer) => {
-                return Observable.of(this.crypto.arrayBufferToAccounts(decryptedDB));
-            });
+        );
     }
 
     public updatePasswordDB(accountsSynchro: Accounts, newPassword: string, salt: string) {
-        return this.synchroDB()
-            .flatMap((accounts: Accounts) => {
+        return this.synchroDB().pipe(
+            flatMap((accounts: Accounts) => {
                 accountsSynchro = accounts;
                 accountsSynchro.operationAccountType = OperationAccountType.UPDATE;
                 return this.crypto.creatingKey('', newPassword);
-            })
-            .flatMap((newCryptoKey: CryptoKey) => this.crypto.putCryptoKeyInStorage(newCryptoKey))
-            .flatMap((success: boolean) => {
+            }),
+            flatMap((newCryptoKey: CryptoKey) => this.crypto.putCryptoKeyInStorage(newCryptoKey)),
+            flatMap((success: boolean) => {
                 const initVector = this.crypto.getRandomNumber(10);
                 return this.saveEncryptedDB(accountsSynchro, initVector);
-            });
+            })
+        );
     }
 }

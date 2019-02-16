@@ -37,16 +37,19 @@ spring:
     devtools:
         restart:
             enabled: true
+            additional-exclude: .h2.server.properties
         livereload:
             enabled: false # we use Webpack dev server + BrowserSync for livereload
     jackson:
-        serialization.indent_output: true
+        serialization:
+            indent-output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:h2:file:./target/h2db/db/ninjaccount;DB_CLOSE_DELAY=-1
         username: ninjaccount
         password:
         hikari:
+            poolName: Hikari
             auto-commit: false
     h2:
         console:
@@ -130,10 +133,8 @@ jhipster:
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: ninjaccount@localhost
         base-url: http://127.0.0.1:8080
-    metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
-        jmx:
-            enabled: true
-        logs: # Reports Dropwizard metrics in the logs
+    metrics:
+        logs: # Reports metrics in the logs
             enabled: false
             report-frequency: 60 # in seconds
     logging:

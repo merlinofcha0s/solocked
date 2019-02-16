@@ -2,23 +2,26 @@ import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { ISrp, Srp } from 'app/shared/model/srp.model';
+import { Observable, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { SrpService } from './srp.service';
 import { SrpComponent } from './srp.component';
 import { SrpDetailComponent } from './srp-detail.component';
 import { SrpUpdateComponent } from './srp-update.component';
 import { SrpDeletePopupComponent } from './srp-delete-dialog.component';
+import { ISrp, Srp } from 'app/shared/model/srp.model';
 
 @Injectable({ providedIn: 'root' })
 export class SrpResolve implements Resolve<ISrp> {
     constructor(private service: SrpService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ISrp> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
-            return this.service.find(id).pipe(map((srp: HttpResponse<Srp>) => srp.body));
+            return this.service.find(id).pipe(
+                filter((response: HttpResponse<Srp>) => response.ok),
+                map((srp: HttpResponse<Srp>) => srp.body)
+            );
         }
         return of(new Srp());
     }
@@ -26,7 +29,7 @@ export class SrpResolve implements Resolve<ISrp> {
 
 export const srpRoute: Routes = [
     {
-        path: 'srp',
+        path: '',
         component: SrpComponent,
         data: {
             authorities: ['ROLE_USER'],
@@ -35,7 +38,7 @@ export const srpRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'srp/:id/view',
+        path: ':id/view',
         component: SrpDetailComponent,
         resolve: {
             srp: SrpResolve
@@ -47,7 +50,7 @@ export const srpRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'srp/new',
+        path: 'new',
         component: SrpUpdateComponent,
         resolve: {
             srp: SrpResolve
@@ -59,7 +62,7 @@ export const srpRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'srp/:id/edit',
+        path: ':id/edit',
         component: SrpUpdateComponent,
         resolve: {
             srp: SrpResolve
@@ -74,7 +77,7 @@ export const srpRoute: Routes = [
 
 export const srpPopupRoute: Routes = [
     {
-        path: 'srp/:id/delete',
+        path: ':id/delete',
         component: SrpDeletePopupComponent,
         resolve: {
             srp: SrpResolve

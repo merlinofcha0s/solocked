@@ -44,5 +44,16 @@ export const errorRoute: Routes = [
             actionLabel: 'error.payment.billing.actionlabel',
             action: '/accounts'
         }
+    },
+    {
+        path: '404',
+        component: ErrorComponent,
+        data: {
+            authorities: [],
+            pageTitle: 'error.title',
+            actionLabel: 'error.payment.billing.actionlabel',
+            action: '',
+            error404: true
+        }
     }
 ];

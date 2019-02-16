@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subscription } from 'rxjs/Subscription';
 import { AutolockService } from 'app/layouts/navbar/autologout/autolock.service';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
     selector: 'jhi-autolock',
@@ -24,7 +23,7 @@ export class AutolockComponent implements OnInit, OnDestroy {
             const minutes = Math.floor(secondRemaining / 60);
             const seconds = secondRemaining - minutes * 60;
             this.remainingTime = minutes + ':' + (seconds < 10 ? '0' + seconds : seconds);
-            this.progressTimeValue = secondRemaining / this.autolockService.totalTime * 100;
+            this.progressTimeValue = (secondRemaining / this.autolockService.totalTime) * 100;
         });
         this.autolockService.startTimer();
     }

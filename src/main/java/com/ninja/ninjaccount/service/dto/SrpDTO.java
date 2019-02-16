@@ -19,6 +19,7 @@ public class SrpDTO implements Serializable {
     @Lob
     private String verifier;
 
+
     private Long userId;
 
     private String userLogin;

@@ -1,6 +1,6 @@
 {
     "ninjaccountApp": {
-        "PlanType" : {
+        "PlanType": {
             "null": "",
             "FREE": "FREE",
             "PREMIUMYEAR": "PREMIUMYEAR",

@@ -4,6 +4,7 @@
         "http": {
             "400": "Bad request.",
             "403": "You are not authorized to access this page.",
+            "404": "The page does not exist.",
             "405": "The HTTP verb you used is not supported for this URL.",
             "500": "Internal server error."
         },
@@ -13,12 +14,11 @@
             "title": "Cancel or problem with the payment process.",
             "content": "The payment was not processed! <br/> You were not charged. <br/> You may try again",
             "okMessage": "We created a free account for you, please check your email to login.",
-            "signup":{
+            "signup": {
                 "actionlabel": "Sign in"
             },
-            "billing":{
+            "billing": {
                 "actionlabel": "Back to your safe"
-
             }
         }
     }

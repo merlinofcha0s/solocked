@@ -3,8 +3,8 @@ package com.ninja.ninjaccount.service.dto;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
 
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.time.LocalDate;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -35,6 +35,7 @@ public class PaymentDTO implements Serializable {
     private String billingPlanId;
 
     private String tokenRecurring;
+
 
     private Long userId;
 

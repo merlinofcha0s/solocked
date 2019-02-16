@@ -1,6 +1,5 @@
 package com.ninja.ninjaccount.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.service.SrpService;
 import com.ninja.ninjaccount.service.dto.SrpDTO;
@@ -43,7 +42,6 @@ public class SrpResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/srps")
-    @Timed
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<SrpDTO> createSrp(@Valid @RequestBody SrpDTO srpDTO) throws URISyntaxException {
         log.debug("REST request to save Srp : {}", srpDTO);
@@ -66,7 +64,6 @@ public class SrpResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/srps")
-    @Timed
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<SrpDTO> updateSrp(@Valid @RequestBody SrpDTO srpDTO) throws URISyntaxException {
         log.debug("REST request to update Srp : {}", srpDTO);
@@ -80,7 +77,6 @@ public class SrpResource {
     }
 
     @PutMapping("/srps-user")
-    @Timed
     public ResponseEntity<Object> updateSrpUser(@Valid @RequestBody SrpDTO srpDTO) throws URISyntaxException {
         Optional<SrpDTO> result = srpService.saveForConnectedUser(srpDTO);
 
@@ -95,7 +91,6 @@ public class SrpResource {
      * @return the ResponseEntity with status 200 (OK) and the list of srps in body
      */
     @GetMapping("/srps")
-    @Timed
     @Secured(AuthoritiesConstants.ADMIN)
     public List<SrpDTO> getAllSrps() {
         log.debug("REST request to get all Srps");
@@ -109,7 +104,6 @@ public class SrpResource {
      * @return the ResponseEntity with status 200 (OK) and with body the srpDTO, or with status 404 (Not Found)
      */
     @GetMapping("/srps/{id}")
-    @Timed
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<SrpDTO> getSrp(@PathVariable Long id) {
         log.debug("REST request to get Srp : {}", id);
@@ -124,7 +118,6 @@ public class SrpResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/srps/{id}")
-    @Timed
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Void> deleteSrp(@PathVariable Long id) {
         log.debug("REST request to delete Srp : {}", id);
@@ -133,7 +126,6 @@ public class SrpResource {
     }
 
     @PostMapping("/srps/migrate-srp")
-    @Timed
     public ResponseEntity<SrpDTO> migrateToSRP(@RequestBody SaltAndBVM saltAndBVM) {
         srpService.migrateSRP(saltAndBVM);
         return ResponseEntity.ok().build();

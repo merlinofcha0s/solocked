@@ -18,13 +18,14 @@ public class AccountsDBDTO implements Serializable {
 
     @Lob
     private byte[] database;
-    private String databaseContentType;
 
+    private String databaseContentType;
     @NotNull
     @Min(value = 0)
     private Integer nbAccounts;
 
     private String sum;
+
 
     private Long userId;
 

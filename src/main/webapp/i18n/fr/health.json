@@ -1,7 +1,7 @@
 {
     "health": {
         "title": "Diagnostics",
-        "refresh.button": "Rafraichir",
+        "refresh.button": "Rafraîchir",
         "stacktrace": "Stacktrace",
         "details": {
             "details": "Détails",
@@ -17,10 +17,10 @@
         },
         "table": {
             "service": "Nom du service",
-            "status": "Etat"
+            "status": "État"
         },
         "status": {
-            "UNKNOWN": "UNKNOWN",
+            "UNKNOWN": "INCONNU",
             "UP": "DISPONIBLE",
             "DOWN": "HORS SERVICE"
         }

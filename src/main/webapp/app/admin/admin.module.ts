@@ -11,15 +11,12 @@ import {
     JhiHealthCheckComponent,
     JhiHealthModalComponent,
     JhiMetricsMonitoringComponent,
-    JhiMetricsMonitoringModalComponent,
     LogsComponent,
     UserMgmtComponent,
     UserMgmtDeleteDialogComponent,
     UserMgmtDetailComponent,
     UserMgmtUpdateComponent
 } from './';
-/* jhipster-needle-add-admin-module-import - JHipster will add admin modules imports here */
-
 /* jhipster-needle-add-admin-module-import - JHipster will add admin modules imports here */
 
 @NgModule({
@@ -39,10 +36,10 @@ import {
         JhiHealthCheckComponent,
         JhiHealthModalComponent,
         JhiDocsComponent,
-        JhiMetricsMonitoringComponent,
-        JhiMetricsMonitoringModalComponent
+        JhiMetricsMonitoringComponent
     ],
-    entryComponents: [UserMgmtDeleteDialogComponent, JhiHealthModalComponent, JhiMetricsMonitoringModalComponent],
+    providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
+    entryComponents: [UserMgmtDeleteDialogComponent, JhiHealthModalComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class NinjaccountAdminModule {

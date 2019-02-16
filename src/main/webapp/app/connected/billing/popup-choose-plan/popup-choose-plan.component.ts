@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 import { DOCUMENT } from '@angular/common';
 import { Payment, PlanType } from 'app/shared/model/payment.model';
 import { PaymentService } from 'app/entities/payment';
-import { Principal } from 'app/core';
+import { AccountService } from 'app/core';
 
 @Component({
     selector: 'jhi-choose-plan-popup',
@@ -19,7 +19,6 @@ export class PopupChoosePlanComponent implements OnInit, OnDestroy {
     constructor(
         @Inject(MAT_DIALOG_DATA) private data: any,
         private paymentService: PaymentService,
-        private principal: Principal,
         @Inject(DOCUMENT) private document: any
     ) {
         this.currentPayment = this.data.currentPayment;

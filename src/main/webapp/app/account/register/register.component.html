@@ -134,7 +134,7 @@
                 </div>
 
                 <div class="mb-3 mt-3 cgu">
-                    <span  jhiTranslate="register.form.cgu" translateValues="{signUpLabel: '{{signUpLabel | translate}}'}"> En cliquant sur le bouton "{{ signUpLabel | translate}}", vous acceptez</span>
+                    <span  jhiTranslate="register.form.cgu" [translateValues]="{signUpLabel: signUpLabel | translate}"> En cliquant sur le bouton "{{ signUpLabel | translate}}", vous acceptez</span>
                     <a [routerLink]="['/cgu']" target="_blank" jhiTranslate="register.form.cgulink"> nos conditions générales d'utilisation</a>
                 </div>
                 <div class="alert alert-danger" *ngIf="error" jhiTranslate="register.messages.error.fail">

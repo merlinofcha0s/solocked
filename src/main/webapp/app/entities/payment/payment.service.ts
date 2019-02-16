@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { map } from 'rxjs/operators';
@@ -8,20 +8,19 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IPayment, Payment, PlanType } from 'app/shared/model/payment.model';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { PaymentWarning } from 'app/entities/payment/payment-warning.model';
 import { JhiDateUtils } from 'ng-jhipster';
-import { Principal } from '../../core/auth/principal.service';
 import { ReturnPayment } from 'app/account/register/dto/return-payment.model';
 import { InitPayment } from 'app/account/register/dto/init-payment.model';
 import { CompletePayment } from 'app/account/register/dto/complete-payment.model';
+import { AccountService } from 'app/core';
 
 type EntityResponseType = HttpResponse<IPayment>;
 type EntityArrayResponseType = HttpResponse<IPayment[]>;
 
 @Injectable({ providedIn: 'root' })
 export class PaymentService {
-    private resourceUrl = SERVER_API_URL + 'api/payments';
+    public resourceUrl = SERVER_API_URL + 'api/payments';
 
     payment$: BehaviorSubject<Payment>;
     paymentWarning$: BehaviorSubject<PaymentWarning>;
@@ -31,7 +30,7 @@ export class PaymentService {
         paymentWarning: PaymentWarning;
     };
 
-    constructor(private http: HttpClient, private dateUtils: JhiDateUtils, private principal: Principal) {
+    constructor(private http: HttpClient, private dateUtils: JhiDateUtils, private accountService: AccountService) {
         this._dataStore = {
             payment: new Payment(),
             paymentWarning: new PaymentWarning(false, true, true, '', false)
@@ -71,7 +70,7 @@ export class PaymentService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
-    private convertDateFromClient(payment: IPayment): IPayment {
+    protected convertDateFromClient(payment: IPayment): IPayment {
         const copy: IPayment = Object.assign({}, payment, {
             subscriptionDate:
                 payment.subscriptionDate != null && payment.subscriptionDate.isValid()
@@ -82,17 +81,21 @@ export class PaymentService {
         return copy;
     }
 
-    private convertDateFromServer(res: EntityResponseType): EntityResponseType {
-        res.body.subscriptionDate = res.body.subscriptionDate != null ? moment(res.body.subscriptionDate) : null;
-        res.body.validUntil = res.body.validUntil != null ? moment(res.body.validUntil) : null;
+    protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
+        if (res.body) {
+            res.body.subscriptionDate = res.body.subscriptionDate != null ? moment(res.body.subscriptionDate) : null;
+            res.body.validUntil = res.body.validUntil != null ? moment(res.body.validUntil) : null;
+        }
         return res;
     }
 
-    private convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
-        res.body.forEach((payment: IPayment) => {
-            payment.subscriptionDate = payment.subscriptionDate != null ? moment(payment.subscriptionDate) : null;
-            payment.validUntil = payment.validUntil != null ? moment(payment.validUntil) : null;
-        });
+    protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
+        if (res.body) {
+            res.body.forEach((payment: IPayment) => {
+                payment.subscriptionDate = payment.subscriptionDate != null ? moment(payment.subscriptionDate) : null;
+                payment.validUntil = payment.validUntil != null ? moment(payment.validUntil) : null;
+            });
+        }
         return res;
     }
 
@@ -146,7 +149,7 @@ export class PaymentService {
     }
 
     isAuthenticatedAndNotAdmin(): boolean {
-        return this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN']);
+        return this.accountService.isAuthenticated() && !this.accountService.hasAnyAuthority(['ROLE_ADMIN']);
     }
 
     clean(): void {

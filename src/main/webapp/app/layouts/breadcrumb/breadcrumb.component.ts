@@ -3,9 +3,10 @@ import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Breadcrumb } from 'app/layouts/breadcrumb/breadcrumb.model';
-import { Principal } from 'app/core';
+import { AccountService } from 'app/core';
 import { AccountsHomeRouteName } from 'app/connected';
 import { Observable } from 'rxjs';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 @Component({
     selector: 'jhi-breadcrumb',
@@ -22,14 +23,16 @@ import { Observable } from 'rxjs';
 export class BreadcrumbComponent implements OnInit {
     breadcrumbSteps: Array<Breadcrumb>;
 
-    constructor(private router: Router, private translateService: TranslateService, private principal: Principal) {
+    constructor(private router: Router, private translateService: TranslateService, private accountService: AccountService) {
         this.breadcrumbSteps = [];
     }
 
     ngOnInit() {
         this.router.events
-            .filter(event => event instanceof NavigationEnd)
-            .distinctUntilChanged()
+            .pipe(
+                filter(event => event instanceof NavigationEnd),
+                distinctUntilChanged()
+            )
             .subscribe((event: NavigationEnd) => {
                 if (this.breadcrumbSteps.length === 0 && event.url !== AccountsHomeRouteName) {
                     // You come from a page reload, or directly accessing a deep page
@@ -83,15 +86,15 @@ export class BreadcrumbComponent implements OnInit {
     }
 
     isAuthenticated() {
-        return this.principal.isAuthenticated();
+        return this.accountService.isAuthenticated();
     }
 
     hasAnyAuthorityDirect(authorities: string[]): boolean {
-        return this.principal.hasAnyAuthorityDirect(authorities);
+        return this.accountService.hasAnyAuthority(authorities);
     }
 
     createNewStep(url: string, routeSnapshot: ActivatedRouteSnapshot): Observable<Breadcrumb> {
         const labelKey = this.getPageTitle(routeSnapshot);
-        return this.translateService.get(labelKey).map(title => new Breadcrumb(title, url));
+        return this.translateService.get(labelKey).pipe(map(title => new Breadcrumb(title, url)));
     }
 }

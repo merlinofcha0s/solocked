@@ -12,6 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE, PAYPAL_COMMUNICATION_PROBLEM_TYPE } from 'app/shared';
 import { isUndefined } from 'util';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { flatMap } from 'rxjs/operators';
 
 @Component({
     selector: 'jhi-register',
@@ -97,10 +98,12 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     saveWithPayment() {
         this.registerService
             .save(this.registerAccount)
-            .flatMap(() => {
-                this.loadingLabel = 'register.form.loadingpayment';
-                return this.paymentService.initOneTimePaymentWorkflow(this.registerAccount.planType, this.registerAccount.login);
-            })
+            .pipe(
+                flatMap(() => {
+                    this.loadingLabel = 'register.form.loadingpayment';
+                    return this.paymentService.initOneTimePaymentWorkflow(this.registerAccount.planType, this.registerAccount.login);
+                })
+            )
             .subscribe(
                 response => {
                     this.document.location.href = response.body.returnUrl;

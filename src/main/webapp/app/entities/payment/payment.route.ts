@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { IPayment, Payment } from 'app/shared/model/payment.model';
 import { PaymentService } from './payment.service';
 import { PaymentComponent } from './payment.component';
@@ -15,10 +15,13 @@ import { PaymentDeletePopupComponent } from './payment-delete-dialog.component';
 export class PaymentResolve implements Resolve<IPayment> {
     constructor(private service: PaymentService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IPayment> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
-            return this.service.find(id).pipe(map((payment: HttpResponse<Payment>) => payment.body));
+            return this.service.find(id).pipe(
+                filter((response: HttpResponse<Payment>) => response.ok),
+                map((payment: HttpResponse<Payment>) => payment.body)
+            );
         }
         return of(new Payment());
     }
@@ -26,7 +29,7 @@ export class PaymentResolve implements Resolve<IPayment> {
 
 export const paymentRoute: Routes = [
     {
-        path: 'payment',
+        path: '',
         component: PaymentComponent,
         data: {
             authorities: ['ROLE_USER'],
@@ -35,7 +38,7 @@ export const paymentRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'payment/:id/view',
+        path: ':id/view',
         component: PaymentDetailComponent,
         resolve: {
             payment: PaymentResolve
@@ -47,7 +50,7 @@ export const paymentRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'payment/new',
+        path: 'new',
         component: PaymentUpdateComponent,
         resolve: {
             payment: PaymentResolve
@@ -59,7 +62,7 @@ export const paymentRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'payment/:id/edit',
+        path: ':id/edit',
         component: PaymentUpdateComponent,
         resolve: {
             payment: PaymentResolve
@@ -74,7 +77,7 @@ export const paymentRoute: Routes = [
 
 export const paymentPopupRoute: Routes = [
     {
-        path: 'payment/:id/delete',
+        path: ':id/delete',
         component: PaymentDeletePopupComponent,
         resolve: {
             payment: PaymentResolve

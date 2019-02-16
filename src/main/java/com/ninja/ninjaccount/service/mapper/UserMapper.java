@@ -5,6 +5,7 @@ import com.ninja.ninjaccount.domain.User;
 import com.ninja.ninjaccount.service.dto.UserDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -19,14 +20,21 @@ import java.util.stream.Collectors;
 @Service
 public class UserMapper {
 
-    public UserDTO userToUserDTO(User user) {
-        return new UserDTO(user);
-    }
-
     public List<UserDTO> usersToUserDTOs(List<User> users) {
         return users.stream()
             .filter(Objects::nonNull)
             .map(this::userToUserDTO)
+            .collect(Collectors.toList());
+    }
+
+    public UserDTO userToUserDTO(User user) {
+        return new UserDTO(user);
+    }
+
+    public List<User> userDTOsToUsers(List<UserDTO> userDTOs) {
+        return userDTOs.stream()
+            .filter(Objects::nonNull)
+            .map(this::userDTOToUser)
             .collect(Collectors.toList());
     }
 
@@ -44,18 +52,24 @@ public class UserMapper {
             user.setActivated(userDTO.isActivated());
             user.setLangKey(userDTO.getLangKey());
             Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
-            if (authorities != null) {
-                user.setAuthorities(authorities);
-            }
+            user.setAuthorities(authorities);
             return user;
         }
     }
 
-    public List<User> userDTOsToUsers(List<UserDTO> userDTOs) {
-        return userDTOs.stream()
-            .filter(Objects::nonNull)
-            .map(this::userDTOToUser)
-            .collect(Collectors.toList());
+
+    private Set<Authority> authoritiesFromStrings(Set<String> authoritiesAsString) {
+        Set<Authority> authorities = new HashSet<>();
+
+        if(authoritiesAsString != null){
+            authorities = authoritiesAsString.stream().map(string -> {
+                Authority auth = new Authority();
+                auth.setName(string);
+                return auth;
+            }).collect(Collectors.toSet());
+        }
+
+        return authorities;
     }
 
     public User userFromId(Long id) {
@@ -65,13 +79,5 @@ public class UserMapper {
         User user = new User();
         user.setId(id);
         return user;
-    }
-
-    public Set<Authority> authoritiesFromStrings(Set<String> strings) {
-        return strings.stream().map(string -> {
-            Authority auth = new Authority();
-            auth.setName(string);
-            return auth;
-        }).collect(Collectors.toSet());
     }
 }

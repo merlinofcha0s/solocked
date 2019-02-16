@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
-
 import { ISrp } from 'app/shared/model/srp.model';
 import { SrpService } from './srp.service';
 import { IUser, UserService } from 'app/core';
@@ -13,37 +13,31 @@ import { IUser, UserService } from 'app/core';
     templateUrl: './srp-update.component.html'
 })
 export class SrpUpdateComponent implements OnInit {
+    srp: ISrp;
     isSaving: boolean;
+
     users: IUser[];
-    private _srp: ISrp;
 
     constructor(
-        private dataUtils: JhiDataUtils,
-        private jhiAlertService: JhiAlertService,
-        private srpService: SrpService,
-        private userService: UserService,
-        private activatedRoute: ActivatedRoute
+        protected dataUtils: JhiDataUtils,
+        protected jhiAlertService: JhiAlertService,
+        protected srpService: SrpService,
+        protected userService: UserService,
+        protected activatedRoute: ActivatedRoute
     ) {}
-
-    get srp() {
-        return this._srp;
-    }
-
-    set srp(srp: ISrp) {
-        this._srp = srp;
-    }
 
     ngOnInit() {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ srp }) => {
             this.srp = srp;
         });
-        this.userService.query().subscribe(
-            (res: HttpResponse<IUser[]>) => {
-                this.users = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
+        this.userService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IUser[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IUser[]>) => response.body)
+            )
+            .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     byteSize(field) {
@@ -71,24 +65,24 @@ export class SrpUpdateComponent implements OnInit {
         }
     }
 
-    trackUserById(index: number, item: IUser) {
-        return item.id;
-    }
-
-    private subscribeToSaveResponse(result: Observable<HttpResponse<ISrp>>) {
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<ISrp>>) {
         result.subscribe((res: HttpResponse<ISrp>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
     }
 
-    private onSaveSuccess() {
+    protected onSaveSuccess() {
         this.isSaving = false;
         this.previousState();
     }
 
-    private onSaveError() {
+    protected onSaveError() {
         this.isSaving = false;
     }
 
-    private onError(errorMessage: string) {
+    protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    trackUserById(index: number, item: IUser) {
+        return item.id;
     }
 }

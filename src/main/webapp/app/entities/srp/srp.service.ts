@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
@@ -11,20 +11,22 @@ import { g, k, N } from 'app/shared/crypto/srp.constant';
 import { CryptoService } from 'app/shared/crypto/crypto.service';
 import { Accounts } from 'app/shared/account/accounts.model';
 import { AccountsDBService } from 'app/entities/accounts-db';
-import { Principal } from 'app/core';
+import { AccountService } from 'app/core';
+import { fromPromise } from 'rxjs/internal-compatibility';
+import { flatMap, map } from 'rxjs/operators';
 
 type EntityResponseType = HttpResponse<ISrp>;
 type EntityArrayResponseType = HttpResponse<ISrp[]>;
 
 @Injectable({ providedIn: 'root' })
 export class SrpService {
-    private resourceUrl = SERVER_API_URL + 'api/srps';
+    public resourceUrl = SERVER_API_URL + 'api/srps';
 
     constructor(
         private http: HttpClient,
         private cryptoService: CryptoService,
-        private accountService: AccountsDBService,
-        private principal: Principal
+        private accountsService: AccountsDBService,
+        private accountService: AccountService
     ) {}
 
     create(srp: ISrp): Observable<EntityResponseType> {
@@ -74,8 +76,8 @@ export class SrpService {
 
         const ZERO = bigInt.zero;
 
-        return Observable.fromPromise(this.generateX(username, salt10, password))
-            .map(x => {
+        return fromPromise(this.generateX(username, salt10, password)).pipe(
+            map(x => {
                 // Compute A (Client public / private value)
                 if (B10.mod(N).equals(ZERO)) {
                     throw new Error("SRP6Exception bad server public value 'B10' as B10 == 0 (mod N)");
@@ -88,16 +90,16 @@ export class SrpService {
                 A16 = A10.toString(16);
                 return '';
                 // Computing U
-            })
-            .flatMap(result => this.cryptoService.generateHash(A16 + B16))
-            .map(hash => {
+            }),
+            flatMap(result => this.cryptoService.generateHash(A16 + B16)),
+            map(hash => {
                 u10 = bigInt(hash, 16);
                 if (ZERO.equals(u10)) {
                     throw new Error("SRP6Exception bad shared public value 'u10' as u10==0");
                 }
                 return '';
-            })
-            .map(result => {
+            }),
+            map(result => {
                 // Compute Client Session key
                 const exp = u10.multiply(X10).add(a10);
                 const tmp = bigInt(g)
@@ -105,9 +107,9 @@ export class SrpService {
                     .multiply(bigInt(k, 16));
                 s10 = this.euclideanModPow(B10.subtract(tmp), exp, N10);
                 return '';
-            })
-            .flatMap(value => this.cryptoService.generateHash(A16 + B16 + s10.toString(16)))
-            .map(M110 => {
+            }),
+            flatMap(value => this.cryptoService.generateHash(A16 + B16 + s10.toString(16))),
+            map(M110 => {
                 while (M110.substring(0, 1) === '0') {
                     M110 = M110.substring(1);
                 }
@@ -122,8 +124,9 @@ export class SrpService {
                 // console.log('js X10:' + X10.toString(16));
                 // console.log('js M1:' + M110);
 
-                return Observable.of({ a: A16, M1: M110, salt: salt10 });
-            });
+                return of({ a: A16, M1: M110, salt: salt10 });
+            })
+        );
     }
 
     euclideanModPow(a: BigInteger, b: BigInteger, mod: BigInteger) {
@@ -145,32 +148,33 @@ export class SrpService {
         let accountDBOld;
         let token;
         let salt;
-        return this.accountService
-            .getAccountDBByLogin(login)
-            .map(accountsDB => accountsDB.body)
-            .flatMap(accountDB => {
+        return this.accountsService.getAccountDBByLogin(login).pipe(
+            map(accountsDB => accountsDB.body),
+            flatMap(accountDB => {
                 accountDBOld = accountDB;
-                return Observable.fromPromise(this.cryptoService.creatingKey('', password));
-            })
-            .flatMap(cryptoKey => this.cryptoService.putCryptoKeyInStorage(cryptoKey))
-            .flatMap(() => this.accountService.decryptWithKeyInStorage(accountDBOld))
-            .flatMap((accounts: Accounts) => {
+                return fromPromise(this.cryptoService.creatingKey('', password));
+            }),
+            flatMap(cryptoKey => this.cryptoService.putCryptoKeyInStorage(cryptoKey)),
+            flatMap(() => this.accountsService.decryptWithKeyInStorage(accountDBOld)),
+            flatMap((accounts: Accounts) => {
                 token = accounts.authenticationKey;
                 salt = this.cryptoService.getRandomNumber(16);
-                return Observable.fromPromise(this.generateVerifier(login, salt, password));
-            })
-            .flatMap(verifier => {
+                return fromPromise(this.generateVerifier(login, salt, password));
+            }),
+            flatMap(verifier => {
                 const saltAndBVM = { b: verifier, salt, token, login };
                 return this.migrateSrp(saltAndBVM);
-            });
+            })
+        );
     }
 
     public updateSRP(newSalt: string, newPassword) {
-        return Observable.fromPromise(this.principal.identity())
-            .flatMap(userIdentity => this.generateVerifier(userIdentity.login, newSalt, newPassword))
-            .flatMap(verifier => {
+        return fromPromise(this.accountService.identity()).pipe(
+            flatMap(userIdentity => this.generateVerifier(userIdentity.login, newSalt, newPassword)),
+            flatMap(verifier => {
                 const srp = new Srp(null, newSalt, verifier, null, null);
                 return this.updateForConnectedUser(srp);
-            });
+            })
+        );
     }
 }

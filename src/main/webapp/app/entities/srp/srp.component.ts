@@ -4,8 +4,9 @@ import { Subscription } from 'rxjs';
 import { JhiAlertService, JhiDataUtils, JhiEventManager } from 'ng-jhipster';
 
 import { ISrp } from 'app/shared/model/srp.model';
-import { Principal } from 'app/core';
+import { AccountService } from 'app/core';
 import { SrpService } from './srp.service';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
     selector: 'jhi-srp',
@@ -17,25 +18,31 @@ export class SrpComponent implements OnInit, OnDestroy {
     eventSubscriber: Subscription;
 
     constructor(
-        private srpService: SrpService,
-        private jhiAlertService: JhiAlertService,
-        private dataUtils: JhiDataUtils,
-        private eventManager: JhiEventManager,
-        private principal: Principal
+        protected srpService: SrpService,
+        protected jhiAlertService: JhiAlertService,
+        protected dataUtils: JhiDataUtils,
+        protected eventManager: JhiEventManager,
+        protected accountService: AccountService
     ) {}
 
     loadAll() {
-        this.srpService.query().subscribe(
-            (res: HttpResponse<ISrp[]>) => {
-                this.srps = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
+        this.srpService
+            .query()
+            .pipe(
+                filter((res: HttpResponse<ISrp[]>) => res.ok),
+                map((res: HttpResponse<ISrp[]>) => res.body)
+            )
+            .subscribe(
+                (res: ISrp[]) => {
+                    this.srps = res;
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     ngOnInit() {
         this.loadAll();
-        this.principal.identity().then(account => {
+        this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
         this.registerChangeInSrps();
@@ -61,7 +68,7 @@ export class SrpComponent implements OnInit, OnDestroy {
         this.eventSubscriber = this.eventManager.subscribe('srpListModification', response => this.loadAll());
     }
 
-    private onError(errorMessage: string) {
+    protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 }

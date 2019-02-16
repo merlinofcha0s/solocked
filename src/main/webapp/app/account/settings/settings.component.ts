@@ -4,16 +4,15 @@ import { JhiLanguageService } from 'ng-jhipster';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 
-import { Subscription } from 'rxjs/Subscription';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ResetAllAccountsComponent } from 'app/account/settings/reset-all-accounts/reset-all-accounts.component';
-import { AccountService, JhiLanguageHelper, Principal } from 'app/core';
+import { AccountService, JhiLanguageHelper } from 'app/core';
 import { AccountsDBService } from 'app/entities/accounts-db';
 import { SnackUtilService } from 'app/shared/snack/snack-util.service';
 import { ExportAllAccountsComponent } from 'app/account/settings/export-all-accounts/export-all-accounts.component';
 import { DeleteAllAccountsComponent } from 'app/account/settings/delete-all-accounts/delete-all-accounts.component';
 import { LOCALE } from 'app/shared/constants/session-storage.constants';
 import { LocalStorageService } from 'ngx-webstorage';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
     selector: 'jhi-settings',
@@ -42,8 +41,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     actualAndMaxNumber$: BehaviorSubject<any>;
 
     constructor(
-        private account: AccountService,
-        private principal: Principal,
+        private accountService: AccountService,
         private languageService: JhiLanguageService,
         private languageHelper: JhiLanguageHelper,
         private snackBar: MatSnackBar,
@@ -57,7 +55,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.principal.identity().then(account => {
+        this.accountService.identity().then(account => {
             this.settingsAccount = this.copyAccount(account);
         });
         this.languageHelper.getAll().then(languages => {
@@ -72,12 +70,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     save() {
         this.loading = true;
-        this.account.save(this.settingsAccount).subscribe(
+        this.accountService.save(this.settingsAccount).subscribe(
             () => {
                 this.error = null;
                 this.loading = false;
                 this.success = 'OK';
-                this.principal.identity(true).then(account => {
+                this.accountService.identity(true).then(account => {
                     this.settingsAccount = this.copyAccount(account);
                 });
                 this.languageService.getCurrent().then(current => {
@@ -104,7 +102,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.actualMaxSubscription = this.actualAndMaxNumber$.subscribe(actualAndMax => {
             this.actual = actualAndMax.first;
             this.max = actualAndMax.second;
-            this.actualPercentage = this.actual / this.max * 100;
+            this.actualPercentage = (this.actual / this.max) * 100;
 
             if (this.actual === this.max) {
                 this.colorActualAccount = 'warn';

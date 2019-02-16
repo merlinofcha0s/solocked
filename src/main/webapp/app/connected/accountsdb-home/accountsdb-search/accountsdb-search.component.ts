@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SessionStorageService } from 'ngx-webstorage';
 import { isUndefined } from 'util';
-import { Subscription } from 'rxjs/Subscription';
 import { LAST_SEARCH } from 'app/shared/constants/session-storage.constants';
 import { AccountsDBService } from 'app/entities/accounts-db';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'jhi-accountsdb-search',
@@ -22,6 +22,8 @@ export class AccountsdbSearchComponent implements OnInit, OnDestroy {
     searchControl: FormControl;
 
     totalNumberAccount: number;
+
+    param = { nbResult: '{{nbResults}}' };
 
     constructor(private fb: FormBuilder, private sessionStorage: SessionStorageService, private accountsService: AccountsDBService) {}
 
@@ -48,6 +50,7 @@ export class AccountsdbSearchComponent implements OnInit, OnDestroy {
         });
 
         this.accountsSub = this.accountsService.accounts$.subscribe(accounts => {
+            console.log(accounts.length);
             this.totalNumberAccount = accounts.length;
         });
     }

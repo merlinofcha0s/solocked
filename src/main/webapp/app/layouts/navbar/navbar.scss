@@ -1,5 +1,8 @@
 @import './../../../content/scss/custom-variables';
 
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
 /* ==========================================================================
 Navbar
 ========================================================================== */
@@ -20,17 +23,15 @@ Navbar
     .dropdown-item.active,
     .dropdown-item.active:focus,
     .dropdown-item.active:hover {
-        background-color: #353d47;
+        background-color: $dark;
     }
-    .dropdown-toggle::after {
-        margin-left: 0.15em;
-    }
+
     ul.navbar-nav {
-        padding: 0.5em;
         .nav-item {
-            margin-left: 1.5rem;
+            margin-left: 0.5em;
         }
     }
+
     a.nav-link {
         font-weight: 400;
     }
@@ -42,23 +43,6 @@ Navbar
             color: $solocked-secondary-color;
         }
     }
-}
-
-@media screen and (min-width: 768px) {
-    .jh-navbar-toggler {
-        display: none;
-    }
-}
-
-@media screen and (max-width: 992px) {
-    .jh-logo-container {
-        width: 100%;
-    }
-}
-
-.navbar-title {
-    display: inline-block;
-    vertical-align: middle;
 }
 
 /* ==========================================================================

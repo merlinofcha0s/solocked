@@ -10,7 +10,7 @@ import { IPayment } from 'app/shared/model/payment.model';
 export class PaymentDetailComponent implements OnInit {
     payment: IPayment;
 
-    constructor(private activatedRoute: ActivatedRoute) {}
+    constructor(protected activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ payment }) => {

@@ -5,8 +5,8 @@ import { Account } from '../../shared/account/account.model';
 import { SnackUtilService } from '../../shared/snack/snack-util.service';
 import { AccountsDBService } from '../../entities/accounts-db';
 import { Custom } from '../../shared/account/custom-account.model';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subscription } from 'rxjs/Subscription';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { concatMap, flatMap } from 'rxjs/operators';
 
 @Component({
     selector: 'jhi-import',
@@ -25,7 +25,8 @@ export class ImportComponent implements OnInit, OnDestroy {
     private newAccounts: Array<Account>;
 
     private lastPassHeader = 'url,username,password,extra,name,grouping,fav';
-    private onePasswordHeader = 'ainfo,autosubmit,custom,email,master-password,notesPlain,password,scope,secret key,section:r7xrdwk6iz6totkcjlrvnmo524,' +
+    private onePasswordHeader =
+        'ainfo,autosubmit,custom,email,master-password,notesPlain,password,scope,secret key,section:r7xrdwk6iz6totkcjlrvnmo524,' +
         'section:Section_p44bcbwngagpmb4qm2svcwxpku,tags,title,urls,username,uuid';
     private csvHeader = 'Id,Name,Number,Username,Password,Notes,Fields,Tags,Url';
     private keepassHeader = '"Account","Login Name","Password","Web Site","Comments"';
@@ -76,8 +77,10 @@ export class ImportComponent implements OnInit, OnDestroy {
         if (this.importTypeValue === this.importTypeValueGuess) {
             const nbActualAccount = this.accountsDBService.getAccountsListInstant().length;
             this.actualAndMaxNumberOnSubmitSub = this.actualAndMaxNumber$
-                .concatMap(actualAndMax => this.accountsDBService.saveNewAccount(this.newAccounts))
-                .flatMap(account => this.accountsDBService.updateActualNumberAccount(nbActualAccount + this.newAccounts.length))
+                .pipe(
+                    concatMap(actualAndMax => this.accountsDBService.saveNewAccount(this.newAccounts)),
+                    flatMap(account => this.accountsDBService.updateActualNumberAccount(nbActualAccount + this.newAccounts.length))
+                )
                 .subscribe(response => {
                     this.snackUtil.openSnackBar('import.success', 5000, 'check-circle', { nbImportedAccount: this.newAccounts.length });
                     this.loading = false;
@@ -97,7 +100,7 @@ export class ImportComponent implements OnInit, OnDestroy {
             const file = event.target.files[0];
             reader.readAsText(file);
             reader.onload = () => {
-                this.prepareImport(reader.result);
+                this.prepareImport(reader.result.toString());
             };
         }
     }

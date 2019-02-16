@@ -1,9 +1,8 @@
 /* tslint:disable no-unused-expression */
 import { browser, ExpectedConditions as ec } from 'protractor';
-import { NavBarPage } from '../../page-objects/jhi-page-objects';
-
 import { PaymentComponentsPage, PaymentDeleteDialog, PaymentUpdatePage } from './payment.page-object';
 import { CommonAction } from '../../account/common-action';
+import { NavBarPage } from '../../page-objects/jhi-page-objects';
 
 const expect = chai.expect;
 
@@ -25,6 +24,7 @@ describe('Payment e2e test', () => {
     it('should load Payments', async () => {
         await navBarPage.goToEntity('payment');
         paymentComponentsPage = new PaymentComponentsPage();
+        await browser.wait(ec.visibilityOf(paymentComponentsPage.title), 5000);
         expect(await paymentComponentsPage.getTitle()).to.eq('ninjaccountApp.payment.home.title');
     });
 

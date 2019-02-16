@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar, MatSnackBarConfig } from '@angular/material';
-import { Subscription } from 'rxjs/Subscription';
 import { isUndefined } from 'util';
-import { Principal, UserService } from 'app/core';
+import { AccountService, UserService } from 'app/core';
 import { LoginService } from '../../../core/login/login.service';
 import { Router } from '@angular/router';
 import { SnackComponent } from 'app/shared/snack/snack.component';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'jhi-delete-all-accounts',
@@ -25,7 +25,7 @@ export class DeleteAllAccountsComponent implements OnInit, OnDestroy {
         private dialogRef: MatDialogRef<DeleteAllAccountsComponent>,
         private router: Router,
         private snackBar: MatSnackBar,
-        private principal: Principal
+        private accountService: AccountService
     ) {}
 
     ngOnInit() {
@@ -41,7 +41,7 @@ export class DeleteAllAccountsComponent implements OnInit, OnDestroy {
     }
 
     onDeleteAll() {
-        this.principal.identity().then(account => {
+        this.accountService.identity().then(account => {
             if (account.login === this.username) {
                 this.deleteAccountSubscription = this.userService.destroyEntireUser().subscribe(success => {
                     if (success) {

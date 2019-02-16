@@ -1,34 +1,34 @@
-import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
-import { JhiLanguageService } from 'ng-jhipster';
 
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Principal } from '../auth/principal.service';
 import { AuthServerProvider } from '../auth/auth-jwt.service';
 import { SaltAndBDTO } from 'app/shared/login/SaltAndBDTO';
 import { SrpService } from 'app/entities/srp';
 import { CryptoService } from 'app/shared/crypto/crypto.service';
-import { AccountsDBService } from 'app/entities/accounts-db';
+import { JhiLanguageService } from 'ng-jhipster';
+import { Observable, of } from 'rxjs';
+import { fromPromise } from 'rxjs/internal-compatibility';
+import { flatMap, map } from 'rxjs/operators';
+import { AccountService } from 'app/core';
 
 @Injectable({ providedIn: 'root' })
 export class LoginService {
     constructor(
         private languageService: JhiLanguageService,
-        private principal: Principal,
         private authServerProvider: AuthServerProvider,
         private http: HttpClient,
         private srpService: SrpService,
         private cryptoService: CryptoService,
-        private accountService: AccountsDBService
+        private accountService: AccountService
     ) {}
 
     prelogin(username, password): Observable<any> {
-        return this.http
-            .post('api/preauthenticate', username, { observe: 'response' })
-            .map((res: HttpResponse<SaltAndBDTO>) => res.body)
-            .flatMap((saltAndB: SaltAndBDTO) => this.srpService.step2(username, password, saltAndB.salt, saltAndB.b))
-            .map(result => result.value)
-            .flatMap(values => Observable.of(values));
+        return this.http.post('api/preauthenticate', username, { observe: 'response' }).pipe(
+            map((res: HttpResponse<SaltAndBDTO>) => res.body),
+            flatMap((saltAndB: SaltAndBDTO) => this.srpService.step2(username, password, saltAndB.salt, saltAndB.b)),
+            map(result => result.value),
+            flatMap(values => of(values))
+        );
     }
 
     login(credentials, callback?) {
@@ -38,9 +38,11 @@ export class LoginService {
             this.authServerProvider.login(credentials).subscribe(
                 data => {
                     // Create and store the key
-                    Observable.fromPromise(this.cryptoService.creatingKey('', credentials.passwordForDecrypt))
-                        .flatMap(cryptoKey => this.cryptoService.putCryptoKeyInStorage(cryptoKey))
-                        .flatMap(recKey => this.principal.identity(true))
+                    fromPromise(this.cryptoService.creatingKey('', credentials.passwordForDecrypt))
+                        .pipe(
+                            flatMap(cryptoKey => this.cryptoService.putCryptoKeyInStorage(cryptoKey)),
+                            flatMap(recKey => this.accountService.identity(true))
+                        )
                         .subscribe(account => {
                             // After the login the language will be changed to
                             // the language selected by the user during his registration
@@ -66,6 +68,6 @@ export class LoginService {
 
     logout() {
         this.authServerProvider.logout().subscribe();
-        this.principal.authenticate(null);
+        this.accountService.authenticate(null);
     }
 }

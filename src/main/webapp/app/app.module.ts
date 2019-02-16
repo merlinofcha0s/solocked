@@ -3,11 +3,11 @@ import './vendor.ts';
 import { Injector, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { LocalStorageService, Ng2Webstorage, SessionStorageService } from 'ngx-webstorage';
-import { JhiEventManager } from 'ng-jhipster';
+import { Ng2Webstorage } from 'ngx-webstorage';
+import { NgJhipsterModule } from 'ng-jhipster';
 
 import { NinjaccountSharedModule } from 'app/shared';
-import { NinjaccountCoreModule, Principal } from 'app/core';
+import { NinjaccountCoreModule } from 'app/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NinjaccountAppRoutingModule } from 'app/app-routing.module';
 import { NinjaccountAccountModule } from 'app/account/account.module';
@@ -47,7 +47,14 @@ registerLocaleData(localeFr, 'fr');
         BrowserAnimationsModule,
         NinjaccountAppRoutingModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
-        NinjaccountSharedModule,
+        NgJhipsterModule.forRoot({
+            // set below to true to make alerts look like toast
+            alertAsToast: false,
+            alertTimeout: 5000,
+            i18nEnabled: true,
+            defaultI18nLang: 'en'
+        }),
+        NinjaccountSharedModule.forRoot(),
         NinjaccountCoreModule,
         NinjaccountHomeModule,
         NinjaccountAccountModule,
@@ -77,33 +84,22 @@ registerLocaleData(localeFr, 'fr');
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,
-            multi: true,
-            deps: [LocalStorageService, SessionStorageService]
+            multi: true
         },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthExpiredInterceptor,
-            multi: true,
-            deps: [Injector]
+            multi: true
         },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: ErrorHandlerInterceptor,
-            multi: true,
-            deps: [JhiEventManager]
+            multi: true
         },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: NotificationInterceptor,
-            multi: true,
-            deps: [Injector]
-        },
-        {
-            provide: LOCALE_ID,
-            useFactory: (localStorage: LocalStorageService) => {
-                return localStorage.retrieve(LOCALE);
-            },
-            deps: [LocalStorageService]
+            multi: true
         }
     ],
     entryComponents: [WarnBrowserComponent, CookiePopupComponent],

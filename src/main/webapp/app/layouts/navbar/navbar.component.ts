@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiLanguageService } from 'ng-jhipster';
+import { SessionStorageService } from 'ngx-webstorage';
 
 import { VERSION } from 'app/app.constants';
-import { JhiLanguageHelper, LoginModalService, Principal } from 'app/core';
+import { AccountService, JhiLanguageHelper, LoginModalService } from 'app/core';
 import { ProfileService } from '../../layouts/profiles/profile.service';
 import { LoginService } from '../../core/login/login.service';
 import { ScrollEvent } from 'app/shared/util/scroll.directive';
@@ -72,7 +73,8 @@ export class NavbarComponent implements OnInit {
         private loginService: LoginService,
         private languageService: JhiLanguageService,
         private languageHelper: JhiLanguageHelper,
-        private principal: Principal,
+        private sessionStorage: SessionStorageService,
+        private accountService: AccountService,
         private loginModalService: LoginModalService,
         private profileService: ProfileService,
         private router: Router
@@ -111,11 +113,12 @@ export class NavbarComponent implements OnInit {
     }
 
     changeLanguage(languageKey: string) {
+        this.sessionStorage.store('locale', languageKey);
         this.languageService.changeLanguage(languageKey);
     }
 
     onClickTitleHeader() {
-        if (this.principal.isAuthenticated()) {
+        if (this.accountService.isAuthenticated()) {
             this.router.navigate(['/accounts']);
         } else {
             this.router.navigate(['/']);
@@ -129,7 +132,7 @@ export class NavbarComponent implements OnInit {
     }
 
     isAuthenticated() {
-        return this.principal.isAuthenticated();
+        return this.accountService.isAuthenticated();
     }
 
     //
@@ -148,11 +151,11 @@ export class NavbarComponent implements OnInit {
     }
 
     getImageUrl() {
-        return this.isAuthenticated() ? this.principal.getImageUrl() : null;
+        return this.isAuthenticated() ? this.accountService.getImageUrl() : null;
     }
 
     hasAnyAuthorityDirect(authorities: string[]): boolean {
-        return this.principal.hasAnyAuthorityDirect(authorities);
+        return this.accountService.hasAnyAuthority(authorities);
     }
 
     public handleScroll(event: ScrollEvent) {

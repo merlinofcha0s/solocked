@@ -133,4 +133,10 @@ import { ChoosePlanComponent } from 'app/account/register/choose-plan/choose-pla
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class NinjaccountSharedModule {}
+export class NinjaccountSharedModule {
+    static forRoot() {
+        return {
+            ngModule: NinjaccountSharedModule
+        };
+    }
+}

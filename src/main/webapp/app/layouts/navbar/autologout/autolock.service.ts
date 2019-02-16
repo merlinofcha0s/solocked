@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subscription } from 'rxjs/Subscription';
 import { isUndefined } from 'util';
 import { LoginService } from '../../../core/login/login.service';
 import { AccountsDBService } from 'app/entities/accounts-db';
 import { ServiceWorkerService } from 'app/shared/sw/service-worker.service';
 import { SwModel } from 'app/layouts/navbar/autologout/sw.model';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AutolockService {

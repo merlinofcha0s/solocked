@@ -3,7 +3,7 @@ import { NgbCarouselConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { Meta } from '@angular/platform-browser';
-import { LoginModalService, Principal } from 'app/core';
+import { AccountService, LoginModalService } from 'app/core';
 import { ProfileService } from '../layouts/profiles/profile.service';
 import { VERSION } from 'app/app.constants';
 import { SocialService } from 'app/shared/social/social.service';
@@ -22,20 +22,20 @@ export class HomeComponent implements OnInit, OnDestroy {
     tweet: any;
 
     constructor(
-        private principal: Principal,
         private loginModalService: LoginModalService,
         private eventManager: JhiEventManager,
         private meta: Meta,
         private profileService: ProfileService,
         private config: NgbCarouselConfig,
-        private socialService: SocialService
+        private socialService: SocialService,
+        private accountService: AccountService
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
         this.getLatestTweet();
     }
 
     ngOnInit() {
-        this.principal.identity().then(account => {
+        this.accountService.identity().then((account: Account) => {
             this.account = account;
         });
         this.registerAuthenticationSuccess();
@@ -55,14 +55,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     registerAuthenticationSuccess() {
         this.eventManager.subscribe('authenticationSuccess', message => {
-            this.principal.identity().then(account => {
+            this.accountService.identity().then(account => {
                 this.account = account;
             });
         });
     }
 
     isAuthenticated() {
-        return this.principal.isAuthenticated();
+        return this.accountService.isAuthenticated();
     }
 
     login() {

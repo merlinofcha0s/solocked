@@ -5,10 +5,11 @@ import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IUser } from 'app/core';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-    private resourceUrl = SERVER_API_URL + 'api/users';
+    public resourceUrl = SERVER_API_URL + 'api/users';
 
     constructor(private http: HttpClient) {}
 
@@ -40,6 +41,6 @@ export class UserService {
     destroyEntireUser(): Observable<boolean> {
         return this.http
             .delete(`${this.resourceUrl}/destroy-user-account`, { observe: 'response' })
-            .map((res: HttpResponse<boolean>) => res.body);
+            .pipe(map((res: HttpResponse<boolean>) => res.body));
     }
 }

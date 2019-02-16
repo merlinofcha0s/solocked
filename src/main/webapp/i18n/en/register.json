@@ -9,7 +9,9 @@
             "loading": "Generating your key, please wait ",
             "loadingpayment": "Redirecting to the payment page",
             "cancel": "Cancel",
-            "waitingcompletepayment": "Finalizing your order"
+            "waitingcompletepayment": "Finalizing your order",
+            "cgu": "By clicking on the button \"{{ signUpLabel }}\", you accept our ",
+            "cgulink": "general conditions of use"
         },
         "messages": {
             "validate": {

@@ -1,14 +1,11 @@
-import {Directive, ElementRef, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/delay';
-import 'rxjs/add/operator/do';
-import {Subscription} from 'rxjs/Subscription';
+import { Directive, ElementRef, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { fromEvent, Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Directive({
     selector: '[jhiClickOutside]'
 })
-
 export class ClickOutsideDirective implements OnInit, OnDestroy {
     private listening: boolean;
     private globalClick: Subscription;
@@ -21,12 +18,14 @@ export class ClickOutsideDirective implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.globalClick = Observable
-            .fromEvent(document, 'click')
-            .delay(1)
-            .do(() => {
-                this.listening = true;
-            }).subscribe((event: MouseEvent) => {
+        this.globalClick = fromEvent(document, 'click')
+            .pipe(
+                delay(1),
+                tap(() => {
+                    this.listening = true;
+                })
+            )
+            .subscribe((event: MouseEvent) => {
                 this.onGlobalClick(event);
             });
     }
@@ -39,12 +38,12 @@ export class ClickOutsideDirective implements OnInit, OnDestroy {
         if (event instanceof MouseEvent && this.listening === true) {
             if (this.isDescendant(this._elRef.nativeElement, event.target) === true) {
                 this.clickOutside.emit({
-                    target: (event.target || null),
+                    target: event.target || null,
                     value: false
                 });
             } else {
                 this.clickOutside.emit({
-                    target: (event.target || null),
+                    target: event.target || null,
                     value: true
                 });
             }

@@ -11,11 +11,11 @@
         <mat-hint align="start">
             <div *ngIf="searchControl.value && searchControl.value.length > 1
             && nbResults >= 1" jhiTranslate="global.menu.result"
-                 translateValues="{nbResult: '{{nbResults}}', plural: '{{ nbResults == 1 ? '' : 's'  }}'}"></div>
+                 [translateValues]="{nbResult: nbResults, plural: nbResults == 1 ? '' : 's' }"></div>
         </mat-hint>
         <mat-hint align="end" (click)="onClickAllAccounts()">
-            <div class="display-all" jhiTranslate="global.menu.accountTotal" translateValues="{nbtotal : '{{totalNumberAccount}}',
-             plural: '{{totalNumberAccount <= 1 ? '' : 's' }}'}">{{totalNumberAccount}}</div>
+            <div class="display-all" jhiTranslate="global.menu.accountTotal" [translateValues]="{nbtotal : totalNumberAccount,
+             plural: totalNumberAccount <= 1 ? '' : 's' }">{{totalNumberAccount}}</div>
         </mat-hint>
     </mat-form-field>
 </form>

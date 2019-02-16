@@ -16,6 +16,8 @@
                 <button mat-raised-button color="primary" id="action" style="margin-right: auto; margin-left: auto;"
                         class="default-validation-button" [routerLink]="[action]" >{{ actionLabel | translate }}</button>
             </div>
+            <div [hidden]="!error404" class="alert alert-danger" jhiTranslate="error.http.404">The page asked was not found.
+            </div>
         </div>
         <div class="col-md-3"></div>
     </div>

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../core/login/login.service';
 import { Router } from '@angular/router';
 import { PasswordService } from 'app/account';
-import { Principal } from 'app/core';
+import { AccountService } from 'app/core';
 
 @Component({
     selector: 'jhi-password',
@@ -24,15 +24,15 @@ export class PasswordComponent implements OnInit {
 
     constructor(
         private passwordService: PasswordService,
-        private principal: Principal,
         private loginService: LoginService,
-        private router: Router
+        private router: Router,
+        private accountService: AccountService
     ) {
         this.loading = false;
     }
 
     ngOnInit() {
-        this.principal.identity().then(account => {
+        this.accountService.identity().then(account => {
             this.account = account;
         });
     }

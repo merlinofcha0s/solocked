@@ -1,6 +1,5 @@
 package com.ninja.ninjaccount.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
 import com.ninja.ninjaccount.domain.enumeration.PlanType;
 import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.PaymentService;
@@ -50,7 +49,6 @@ public class PaymentResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/payments")
-    @Timed
     public ResponseEntity<PaymentDTO> createPayment(@Valid @RequestBody PaymentDTO paymentDTO) throws URISyntaxException {
         log.debug("REST request to save Payment : {}", paymentDTO);
         if (paymentDTO.getId() != null) {
@@ -72,7 +70,6 @@ public class PaymentResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/payments")
-    @Timed
     public ResponseEntity<PaymentDTO> updatePayment(@Valid @RequestBody PaymentDTO paymentDTO) throws URISyntaxException {
         log.debug("REST request to update Payment : {}", paymentDTO);
         if (paymentDTO.getId() == null) {
@@ -90,7 +87,6 @@ public class PaymentResource {
      * @return the ResponseEntity with status 200 (OK) and the list of payments in body
      */
     @GetMapping("/payments")
-    @Timed
     public List<PaymentDTO> getAllPayments() {
         log.debug("REST request to get all Payments");
         return paymentService.findAll();
@@ -103,7 +99,6 @@ public class PaymentResource {
      * @return the ResponseEntity with status 200 (OK) and with body the paymentDTO, or with status 404 (Not Found)
      */
     @GetMapping("/payments/{id}")
-    @Timed
     public ResponseEntity<PaymentDTO> getPayment(@PathVariable Long id) {
         log.debug("REST request to get Payment : {}", id);
         Optional<PaymentDTO> paymentDTO = paymentService.findOne(id);
@@ -117,7 +112,6 @@ public class PaymentResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/payments/{id}")
-    @Timed
     public ResponseEntity<Void> deletePayment(@PathVariable Long id) {
         log.debug("REST request to delete Payment : {}", id);
         paymentService.delete(id);
@@ -130,7 +124,6 @@ public class PaymentResource {
      * @return the ResponseEntity with status 200 (OK) and with body the paymentDTO, or with status 404 (Not Found)
      */
     @GetMapping("/payments-by-login")
-    @Timed
     public ResponseEntity<PaymentDTO> getPaymentByLogin() {
         PaymentDTO paymentDTO = null;
         Optional<String> login = SecurityUtils.getCurrentUserLogin();
@@ -145,7 +138,6 @@ public class PaymentResource {
     }
 
     @PostMapping("/init-one-time-payment")
-    @Timed
     public ResponseEntity<ReturnPaymentDTO> initPaymentOneTimeWorkflow(@Valid @RequestBody InitPaymentDTO initPaymentDTO) {
 
         Optional<ReturnPaymentDTO> results = paymentService.initOneTimePaymentWorkflow(PlanType.valueOf(initPaymentDTO.getPlanType().toString()), initPaymentDTO.getLogin());
@@ -158,7 +150,6 @@ public class PaymentResource {
     }
 
     @PostMapping("/complete-one-time-payment")
-    @Timed
     public ResponseEntity<ReturnPaymentDTO> completeOneTimePaymentWorkflow(@Valid @RequestBody CompletePaymentDTO completePaymentDTO) {
 
         Optional<ReturnPaymentDTO> results = paymentService.completeOneTimePaymentWorkflow(completePaymentDTO);
@@ -171,7 +162,6 @@ public class PaymentResource {
     }
 
     @PostMapping("/init-recurring-payment")
-    @Timed
     public ResponseEntity<ReturnPaymentDTO> initRecurringPaymentWorkflow(@Valid @RequestBody InitPaymentDTO initPaymentDTO) {
         Optional<String> loginOpt = SecurityUtils.getCurrentUserLogin();
         Optional<ReturnPaymentDTO> results = loginOpt
@@ -185,7 +175,6 @@ public class PaymentResource {
     }
 
     @PostMapping("/complete-recurring-payment")
-    @Timed
     public ResponseEntity<ReturnPaymentDTO> completeRecurringPaymentWorkflow(@Valid @RequestBody CompletePaymentDTO completePaymentDTO) {
 
         Optional<ReturnPaymentDTO> results = paymentService.completeRecurringPaymentWorkflow(completePaymentDTO);
@@ -206,7 +195,6 @@ public class PaymentResource {
     }
 
     @PostMapping("/cancel-recurring-payment")
-    @Timed
     public ResponseEntity<ReturnPaymentDTO> cancelRecurringPaymentWorkflow() {
         Optional<String> login = SecurityUtils.getCurrentUserLogin();
         if (login.isPresent()) {

@@ -36,7 +36,7 @@
                 "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
             },
             "language": "Language",
-            "search" : "Search...",
+            "search": "Search...",
             "result": "{{nbResult}} result{{plural}}",
             "accountTotal": "Total: {{nbtotal}} account{{plural}}"
         },
@@ -96,7 +96,7 @@
             "id": "ID"
         },
         "ribbon": {
-            "dev":"Development"
+            "dev": "Development"
         },
         "item-count": "Showing {{first}} - {{second}} of {{total}} items.",
         "addAccount": "Add account"
@@ -153,12 +153,12 @@
             "copyright-2": "All text, graphics, audio files, code, downloadable material, and other works on this web site are the copyrighted works of SoLocked."
         }
     },
-    "autolock":{
-        "name" : "Autolock",
+    "autolock": {
+        "name": "Autolock",
         "in": "in"
     },
-    "safe":{
-        "title" : "Your safe",
+    "safe": {
+        "title": "Your safe",
         "state": "is open"
     }
 }

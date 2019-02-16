@@ -1,6 +1,5 @@
 package com.ninja.ninjaccount.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
 import com.ninja.ninjaccount.service.social.TwitterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +33,6 @@ public class SocialResource {
      * @throws RuntimeException 404 (Not Found) no tweets was available
      */
     @GetMapping("/get-latest-tweet")
-    @Timed
     public ResponseEntity<Tweet> getLatestTweet() {
         Optional<Tweet> latestTweet = twitterService.getLatestTweet();
 

@@ -1,9 +1,11 @@
 import { SessionStorageService } from 'ngx-webstorage';
 import { JhiDataUtils } from 'ng-jhipster';
-import { Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 import { Accounts } from 'app/shared/account/accounts.model';
 import { KEY } from 'app/shared/constants/session-storage.constants';
+import { Observable, of } from 'rxjs';
+import { fromPromise } from 'rxjs/internal-compatibility';
+import { flatMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class CryptoService {
@@ -18,7 +20,7 @@ export class CryptoService {
      * @param salt The salt
      */
     async creatingKey(salt: string, password: string): Promise<CryptoKey> {
-        const passwordArrayBuffer = new TextEncoder('utf-8').encode(salt + password);
+        const passwordArrayBuffer = new TextEncoder().encode(salt + password);
         // Importing the raw input from the password field to a Cryptokey
         const passwordKey = await this.importKey(passwordArrayBuffer, ['deriveBits', 'deriveKey'], false, 'PBKDF2');
         // Key derivation from the password to a CryptoKey for securing the password
@@ -34,7 +36,7 @@ export class CryptoService {
      */
     async importKey(password: Uint8Array, right: Array<string>, exportable: boolean, cryptingAlgorithm: string): Promise<CryptoKey> {
         try {
-            return await crypto.subtle.importKey('raw', password, { name: cryptingAlgorithm }, exportable, right);
+            return await crypto.subtle.importKey('raw', password, cryptingAlgorithm, exportable, right);
         } catch (e) {
             console.log(e);
         }
@@ -75,11 +77,11 @@ export class CryptoService {
      */
     async cryptingDB(initializationVector: string, accounts: Accounts, key: CryptoKey): Promise<ArrayBuffer> {
         // Encode the IV to arraybuffer
-        const initVectorArrayBuffer = new TextEncoder('UTF-8').encode(initializationVector);
+        const initVectorArrayBuffer = new TextEncoder().encode(initializationVector);
 
         const accountsJSON = JSON.stringify(accounts);
         // Encode the account JSON to array buffer
-        const accountsJSONArrayBuffer = new TextEncoder('UTF-8').encode(accountsJSON);
+        const accountsJSONArrayBuffer = new TextEncoder().encode(accountsJSON);
 
         const encryptedData = await this.encrypt(initVectorArrayBuffer, key, accountsJSONArrayBuffer.buffer);
 
@@ -103,7 +105,7 @@ export class CryptoService {
     }
 
     async decrypt(initializationVector: string, key: CryptoKey, encryptedData: ArrayBuffer): Promise<ArrayBuffer> {
-        const initVectorArrayBuffer = new TextEncoder('UTF-8').encode(initializationVector);
+        const initVectorArrayBuffer = new TextEncoder().encode(initializationVector);
         try {
             return await crypto.subtle.decrypt(
                 {
@@ -119,25 +121,26 @@ export class CryptoService {
     }
 
     putCryptoKeyInStorage(key: CryptoKey): Observable<Boolean> {
-        return Observable.fromPromise(crypto.subtle.exportKey('raw', key))
-            .flatMap(rawKey => this.toBase64Promise(new Blob([new Uint8Array(rawKey)], { type: 'application/octet-stream' })))
-            .flatMap(base64Key => {
+        return fromPromise(crypto.subtle.exportKey('raw', key)).pipe(
+            flatMap(rawKey => this.toBase64Promise(new Blob([new Uint8Array(rawKey)], { type: 'application/octet-stream' }))),
+            flatMap(base64Key => {
                 this.sessionStorage.store(KEY, base64Key);
-                return Observable.of(true);
-            });
+                return of(true);
+            })
+        );
     }
 
     getCryptoKeyInStorage(): Observable<CryptoKey> {
         const keyB64 = this.sessionStorage.retrieve(KEY);
         const keyBlob = this.b64toBlob(keyB64, 'application/octet-stream', 2048);
-        return this.blobToArrayBuffer(keyBlob).flatMap(keyArrayBuffer =>
-            this.importKey(new Uint8Array(keyArrayBuffer), ['encrypt', 'decrypt'], true, this.cryptingAlgorithm)
+        return this.blobToArrayBuffer(keyBlob).pipe(
+            flatMap(keyArrayBuffer => this.importKey(new Uint8Array(keyArrayBuffer), ['encrypt', 'decrypt'], true, this.cryptingAlgorithm))
         );
     }
 
     async generateHash(input: string): Promise<string> {
         // encode as UTF-8
-        const msgBuffer = new TextEncoder('utf-8').encode(input);
+        const msgBuffer = new TextEncoder().encode(input);
         // hash the message
         const hashBuffer = await crypto.subtle.digest('SHA-512', msgBuffer);
         // convert ArrayBuffer to Array

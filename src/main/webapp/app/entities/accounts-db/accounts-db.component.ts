@@ -2,9 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { JhiAlertService, JhiDataUtils, JhiEventManager } from 'ng-jhipster';
+import { filter, map } from 'rxjs/operators';
 
 import { IAccountsDB } from 'app/shared/model/accounts-db.model';
-import { Principal } from 'app/core';
+import { AccountService } from 'app/core';
 import { AccountsDBService } from './accounts-db.service';
 
 @Component({
@@ -17,25 +18,31 @@ export class AccountsDBComponent implements OnInit, OnDestroy {
     eventSubscriber: Subscription;
 
     constructor(
-        private accountsDBService: AccountsDBService,
-        private jhiAlertService: JhiAlertService,
-        private dataUtils: JhiDataUtils,
-        private eventManager: JhiEventManager,
-        private principal: Principal
+        protected accountsDBService: AccountsDBService,
+        protected jhiAlertService: JhiAlertService,
+        protected dataUtils: JhiDataUtils,
+        protected eventManager: JhiEventManager,
+        protected accountService: AccountService
     ) {}
 
     loadAll() {
-        this.accountsDBService.query().subscribe(
-            (res: HttpResponse<IAccountsDB[]>) => {
-                this.accountsDBS = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
+        this.accountsDBService
+            .query()
+            .pipe(
+                filter((res: HttpResponse<IAccountsDB[]>) => res.ok),
+                map((res: HttpResponse<IAccountsDB[]>) => res.body)
+            )
+            .subscribe(
+                (res: IAccountsDB[]) => {
+                    this.accountsDBS = res;
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     ngOnInit() {
         this.loadAll();
-        this.principal.identity().then(account => {
+        this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
         this.registerChangeInAccountsDBS();
@@ -61,7 +68,7 @@ export class AccountsDBComponent implements OnInit, OnDestroy {
         this.eventSubscriber = this.eventManager.subscribe('accountsDBListModification', response => this.loadAll());
     }
 
-    private onError(errorMessage: string) {
+    protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 }

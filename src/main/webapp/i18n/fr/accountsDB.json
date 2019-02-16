@@ -1,7 +1,6 @@
-
 {
     "ninjaccountApp": {
-        "accountsDB" : {
+        "accountsDB": {
             "home": {
                 "title": "AccountsDBS",
                 "createLabel": "Créer un nouveau Accounts DB",
@@ -132,7 +131,7 @@
                     "title": "Supprimer les paiements",
                     "snack": "Paiements supprimés !"
                 },
-                "calcul":{
+                "calcul": {
                     "average": "Moyenne",
                     "total": "Total"
                 }

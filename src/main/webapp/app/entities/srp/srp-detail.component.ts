@@ -11,7 +11,7 @@ import { ISrp } from 'app/shared/model/srp.model';
 export class SrpDetailComponent implements OnInit {
     srp: ISrp;
 
-    constructor(private dataUtils: JhiDataUtils, private activatedRoute: ActivatedRoute) {}
+    constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ srp }) => {

@@ -11,16 +11,14 @@ describe('Component Tests', () => {
         let fixture: ComponentFixture<JhiMetricsMonitoringComponent>;
         let service: JhiMetricsService;
 
-        beforeEach(
-            async(() => {
-                TestBed.configureTestingModule({
-                    imports: [NinjaccountTestModule],
-                    declarations: [JhiMetricsMonitoringComponent]
-                })
-                    .overrideTemplate(JhiMetricsMonitoringComponent, '')
-                    .compileComponents();
+        beforeEach(async(() => {
+            TestBed.configureTestingModule({
+                imports: [NinjaccountTestModule],
+                declarations: [JhiMetricsMonitoringComponent]
             })
-        );
+                .overrideTemplate(JhiMetricsMonitoringComponent, '')
+                .compileComponents();
+        }));
 
         beforeEach(() => {
             fixture = TestBed.createComponent(JhiMetricsMonitoringComponent);
@@ -50,15 +48,6 @@ describe('Component Tests', () => {
 
                 // THEN
                 expect(service.getMetrics).toHaveBeenCalled();
-                expect(comp.servicesStats).toEqual({ service: 'test' });
-                expect(comp.cachesStats).toEqual({ jcache: { name: 17, value: 2 } });
-            });
-        });
-
-        describe('isNan', () => {
-            it('should return if a variable is NaN', () => {
-                expect(comp.filterNaN(1)).toBe(1);
-                expect(comp.filterNaN('test')).toBe(0);
             });
         });
     });

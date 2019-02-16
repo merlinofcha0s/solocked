@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { isUndefined } from 'util';
 import { DeleteDialogComponent } from 'app/connected/accountsdb-add/payment-custom-block/delete-payment-line/delete-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'jhi-custom-fields',

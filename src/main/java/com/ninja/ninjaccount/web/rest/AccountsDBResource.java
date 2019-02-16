@@ -1,6 +1,5 @@
 package com.ninja.ninjaccount.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
 import com.ninja.ninjaccount.security.AuthoritiesConstants;
 import com.ninja.ninjaccount.security.SecurityUtils;
 import com.ninja.ninjaccount.service.AccountsDBService;
@@ -51,7 +50,6 @@ public class AccountsDBResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/accounts-dbs")
-    @Timed
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<AccountsDBDTO> createAccountsDB(@Valid @RequestBody AccountsDBDTO accountsDBDTO) throws URISyntaxException {
         log.debug("REST request to save AccountsDB : {}", accountsDBDTO);
@@ -87,7 +85,6 @@ public class AccountsDBResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/accounts-dbs")
-    @Timed
     public ResponseEntity<AccountsDBDTO> updateAccountsDB(@Valid @RequestBody AccountsDBDTO accountsDBDTO) throws URISyntaxException {
         log.debug("REST request to update AccountsDB : {}", accountsDBDTO);
         if (accountsDBDTO.getId() == null) {
@@ -105,7 +102,6 @@ public class AccountsDBResource {
      * @return the ResponseEntity with status 200 (OK) and the list of accountsDBS in body
      */
     @GetMapping("/accounts-dbs")
-    @Timed
     public List<AccountsDBDTO> getAllAccountsDBS() {
         log.debug("REST request to get all AccountsDBS");
         return accountsDBService.findAll();
@@ -118,7 +114,6 @@ public class AccountsDBResource {
      * @return the ResponseEntity with status 200 (OK) and with body the accountsDBDTO, or with status 404 (Not Found)
      */
     @GetMapping("/accounts-dbs/{id}")
-    @Timed
     public ResponseEntity<AccountsDBDTO> getAccountsDB(@PathVariable Long id) {
         log.debug("REST request to get AccountsDB : {}", id);
         Optional<AccountsDBDTO> accountsDBDTO = accountsDBService.findOne(id);
@@ -132,7 +127,6 @@ public class AccountsDBResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/accounts-dbs/{id}")
-    @Timed
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Void> deleteAccountsDB(@PathVariable Long id) {
         log.debug("REST request to delete AccountsDB : {}", id);
@@ -146,7 +140,6 @@ public class AccountsDBResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @GetMapping("/accounts-dbs/getDbUserConnected")
-    @Timed
     public ResponseEntity<AccountsDBDTO> getAccountDBUserConnected() {
         AccountsDBDTO accountsDBDTO = null;
 
@@ -171,7 +164,6 @@ public class AccountsDBResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/accounts-dbs/updateDbUserConnected")
-    @Timed
     public ResponseEntity<AccountsDBDTO> updateAccountsDBForUserConnected(@RequestBody AccountsDBDTO accountsDBDTO) {
         try {
             AccountsDBDTO result = accountsDBService.updateAccountDBForUserConnected(accountsDBDTO);
@@ -193,7 +185,6 @@ public class AccountsDBResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @GetMapping("/accounts-dbs/get-actual-max-account")
-    @Timed
     public ResponseEntity<Pair<Integer, Integer>> getActualAndMaxAccount() {
         Pair<Integer, Integer> actualAndMax = null;
         Optional<String> login = SecurityUtils.getCurrentUserLogin();
@@ -211,7 +202,6 @@ public class AccountsDBResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @PostMapping("/accounts-dbs/update-actual-number-account")
-    @Timed
     public Integer updateActualNumberAccount(@RequestBody Integer newActualCount) {
         Optional<String> login = SecurityUtils.getCurrentUserLogin();
         int actualCount = 0;
@@ -227,7 +217,6 @@ public class AccountsDBResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @PostMapping("/accounts-dbs/by-login")
-    @Timed
     public AccountsDBDTO getAccountDBByLogin(@RequestBody String login) {
         return accountsDBService.findByUsernameLogin(login);
     }

@@ -1,5 +1,3 @@
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subscription } from 'rxjs/Rx';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -17,6 +15,7 @@ import { AccountsdbDeleteComponent } from 'app/connected/accountsdb-delete/accou
 import { Account } from 'app/shared/account/account.model';
 import { Payment } from 'app/shared/account/payment-block.model';
 import { AccountsDB } from 'app/shared/model/accounts-db.model';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
     selector: 'jhi-accountsdb-add',

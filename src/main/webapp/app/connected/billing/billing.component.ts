@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { PopupChoosePlanComponent } from './popup-choose-plan/popup-choose-plan.component';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -13,6 +12,7 @@ import { WaiterComponent } from 'app/shared/waiter/waiter.component';
 import { PaymentService } from 'app/entities/payment';
 import { SnackUtilService } from 'app/shared/snack/snack-util.service';
 import { AccountsDBService } from 'app/entities/accounts-db';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'jhi-billing',

@@ -1,7 +1,7 @@
-import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 
-import { JhiLanguageHelper, Principal } from 'app/core';
+import { AccountService, JhiLanguageHelper } from 'app/core';
 import { AutolockService } from 'app/layouts/navbar/autologout/autolock.service';
 import { ProfileService } from '../../layouts/profiles/profile.service';
 import { MatDialog } from '@angular/material';
@@ -10,6 +10,7 @@ import { AccountsDBService } from 'app/entities/accounts-db';
 import { Angulartics2Piwik } from 'angulartics2/piwik';
 import { CookieService } from 'ngx-cookie';
 import { CookiePopupComponent } from 'app/layouts/main/cookie-mgt/cookie-popup.component';
+import { NavigationError } from '@angular/router';
 
 @Component({
     selector: 'jhi-main',
@@ -31,14 +32,14 @@ export class JhiMainComponent implements OnInit {
     constructor(
         private jhiLanguageHelper: JhiLanguageHelper,
         private router: Router,
-        private principal: Principal,
         private autolockService: AutolockService,
         private profileService: ProfileService,
         private dialog: MatDialog,
         private renderer: Renderer2,
         private accountsService: AccountsDBService,
         private angulartics2Piwik: Angulartics2Piwik,
-        private cookieService: CookieService
+        private cookieService: CookieService,
+        private accountService: AccountService
     ) {}
 
     ngOnInit() {
@@ -46,7 +47,6 @@ export class JhiMainComponent implements OnInit {
         this.detectEdge();
         this.loadProfile();
         this.angulartics2Piwik.startTracking();
-        this.principal.identity(true).then(account => this.principal.initDefaultLanguage(account));
     }
 
     loadProfile() {
@@ -63,6 +63,9 @@ export class JhiMainComponent implements OnInit {
                 this.isRegisterPage = event.url.indexOf('/register') !== -1;
                 this.cacheDB();
             }
+            if (event instanceof NavigationError && event.error.status === 404) {
+                this.router.navigate(['/404']);
+            }
         });
     }
 
@@ -75,7 +78,7 @@ export class JhiMainComponent implements OnInit {
     }
 
     resetAutolockTime() {
-        if (this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
+        if (this.accountService.isAuthenticated() && !this.accountService.hasAnyAuthority(['ROLE_ADMIN'])) {
             this.autolockService.resetTimer();
         }
     }
@@ -100,7 +103,7 @@ export class JhiMainComponent implements OnInit {
     }
 
     private cacheDB() {
-        if (this.principal.isAuthenticated() && !this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN'])) {
+        if (this.accountService.isAuthenticated() && !this.accountService.hasAnyAuthority(['ROLE_ADMIN'])) {
             this.accountsService.getAccountsList();
         }
     }
