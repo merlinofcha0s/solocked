@@ -35,7 +35,10 @@
         "enableHibernateCache": true,
         "entitySuffix": "",
         "dtoSuffix": "DTO",
-        "otherModules": []
+        "otherModules": [],
+        "appsFolders": ["ninjaccount"],
+        "directoryPath": "../",
+        "monitoring": "no"
     },
     "generator-jhipster-clevercloud": {
         "promptValues": {

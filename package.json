@@ -29,7 +29,7 @@
         "@nicky-lenaers/ngx-scroll-to": "^1.1.1",
         "file-saver": "^1.3.3",
         "hammerjs": "^2.0.8",
-        "ngx-clipboard": "11.1.7",
+        "ngx-clipboard": "11.1.9",
         "angulartics2": "^7.0.0",
         "big-integer": "^1.6.36",
         "ngx-json-ld": "^0.3.1",
