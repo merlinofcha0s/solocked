@@ -6,6 +6,10 @@ SoLocked is your personal digital safe. keep and manage the information about yo
 
 This application was generated using JHipster 5.8.1, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v5.8.1](https://www.jhipster.tech/documentation-archive/v5.8.1).
 
+## Docker image
+
+Prebuilt Docker images are available here : [Prebuilt docker image]
+
 ## Development
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
@@ -185,3 +189,4 @@ To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`)
 [protractor]: https://angular.github.io/protractor/
 [leaflet]: http://leafletjs.com/
 [definitelytyped]: http://definitelytyped.org/
+[prebuilt docker image]: https://hub.docker.com/r/merlinofcha0s/solocked/tags
