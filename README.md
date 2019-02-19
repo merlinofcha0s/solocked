@@ -1,4 +1,8 @@
-# ninjaccount
+# Solocked
+
+Store and access your sensitive informations in one app.
+
+SoLocked is your personal digital safe. keep and manage the information about your accounts secured and encrypted
 
 This application was generated using JHipster 5.8.1, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v5.8.1](https://www.jhipster.tech/documentation-archive/v5.8.1).
 
@@ -154,6 +158,8 @@ To achieve this, first build a docker image of your app by running:
 Then run:
 
     docker-compose -f src/main/docker/app.yml up -d
+
+Feel free to edit all the constant in this file.
 
 For more information refer to [Using Docker and Docker-Compose][], this page also contains information on the docker-compose sub-generator (`jhipster docker-compose`), which is able to generate docker configurations for one or several JHipster applications.
 
