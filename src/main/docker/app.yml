@@ -4,20 +4,29 @@ services:
         image: ninjaccount
         environment:
             - _JAVA_OPTIONS=-Xmx512m -Xms256m
-            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - SPRING_PROFILES_ACTIVE=prod,swagger,tls
             - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
             - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
             - SPRING_DATASOURCE_URL=jdbc:postgresql://ninjaccount-postgresql:5432/ninjaccount
             - JHIPSTER_SLEEP=30 # gives time for the JHipster Registry to boot before the application
+            - MAILGUN_LOGIN=test@test.mailgun.com
+            - MAILGUN_PASSWORD=test
+            - TWITTER_APPID=appid
+            - TWITTER_APPSECRET=appsecret
+            - TWITTER_TOKEN=testtoken
+            - TWITTER_TOKEN_SECRET=secret
+            - MAILGUN_MAIL_FROM=test@test.com
+            - BASE_URL=localhost
+            - SECURITY_AUTHENTICATION_JWT_SECRET=M3M2djl5JEImRSlIK01iUWVUaFdtWnE0dDd3IXolQypGLUphTmNSZlVqWG4ycjV1OHgvQT9EKEcrS2JQZVNnVgo=
+            - PAYPAL_CLIENT_ID=appid
+            - PAYPAL_CLIENT_SECRET=appsecret
+            - PAYPAL_CLIENT_MODE=sandbox
+            - N=371949491252987591588430018079860143324639948739964955565041895678949627631777172309351724867251660222667523455600462077533637786075156084976276252563470142928647141583277795643137990945855133898151422013797691184904531144022023133025835015454149700951383595002006509971089667057528575032857085261418581221501533181756904126895371179887057982157526753584412114884915900715272990760544112834697790649635972248141405752319498251193105160079762362062642921403239389964881700689739594340306908799330409244576756422154625145924493248010100526638486918295423167748304826988956303951164388657075460965629589524010360122
+            - g=2
+            - k=8d42a1ff6042ab9daacfd79cf7f60cd11a5dcd39378de417c4d2d63ce829529516d9d1df84aa3544c3863d74a3a0157aa1e7385d2c1c8f37b9eab7abdb32ae34
         ports:
             - 8080:8080
     ninjaccount-postgresql:
         extends:
             file: postgresql.yml
             service: ninjaccount-postgresql
-    jhipster-registry:
-        extends:
-            file: jhipster-registry.yml
-            service: jhipster-registry
-        environment:
-            - SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_LOCATIONS=file:./central-config/docker-config/
